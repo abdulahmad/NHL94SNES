@@ -1,5 +1,7 @@
 # NHL '94 (SNES)
 
+> **Work in progress:** this disassembly is unfinished and unpolished, and is being actively worked on. Expect labels, file layout and docs to change.
+
 **AI agent: start with [START_HERE.md](START_HERE.md).**
 
 Bitwise rebuild of NHL '94 for the Super Nintendo, assembled with asar 1.91. The full build is byte-identical to the retail ROM
