@@ -2,7 +2,7 @@
 
 > **Work in progress:** this disassembly is unfinished and unpolished, and is being actively worked on. Expect labels, file layout and docs to change.
 
-Current status:
+## 🚧 Current Status
 
 - McMarkis has done a cleanup pass.
 - Remaining: aligning it with the 93 Genesis, 94 Genesis and 93 SNES cleanups, extracting all the data, naming data properly, and labeling music, frame lists and animations.
