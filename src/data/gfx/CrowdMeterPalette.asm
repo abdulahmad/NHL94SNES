@@ -1,8 +1,7 @@
 ; The crowd meter colours and the rink palette
 
 CrowdMeterPalette:		; ShowCrowdMeter loads the first 16 colours into palette 7
-	dw $0000,$0000,$0160,$016B,$000B,$6318,$03E0,$03FF
-	dw $001F,$7C1F,$7C1F,$7C1F,$7C1F,$7C1F,$7C1F,$7C1F
+	incbin "../../../Extracted/data/gfx/Pals/CrowdMeterPalette.pal"
 	; colours 16-127: no reader found
 	dw $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
 	dw $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
@@ -20,19 +19,4 @@ CrowdMeterPalette:		; ShowCrowdMeter loads the first 16 colours into palette 7
 	dw $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
 RinkPalette:		; the 128 rink colours (BG palettes 0-7): setupice copies them to palbuffer and palbuffer+$100;
 		; SetTeamColors then puts the team colours in palettes 2 and 3 (renders the rink map IceRinkMap)
-	dw $7F98,$7FBD,$7FBA,$6F7B,$0000,$5AD6,$35AD,$2529
-	dw $5ADB,$4A5F,$353B,$6E4D,$12DB,$7ED2,$1084,$7F72
-	dw $7F98,$6F7B,$4A52,$2529,$1084,$025B,$01B6,$0000
-	dw $4884,$3400,$0124,$0080,$0136,$000D,$35B6,$112D
-	dw $7F98,$0240,$2640,$3640,$4A40,$5A40,$6E40,$7E40
-	dw $02C0,$12C0,$26C0,$36C0,$4AC0,$5AC0,$6EC0,$7EC0
-	dw $7F98,$0360,$2760,$3760,$4B60,$5B60,$6F60,$7F60
-	dw $03E0,$13E0,$27E0,$37E0,$4BE0,$5BE0,$6FE0,$7FE0
-	dw $7F98,$0360,$037B,$001B,$0000,$0000,$0000,$0000
-	dw $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
-	dw $6733,$2529,$5AD6,$2529,$5EF7,$2154,$0A99,$762D
-	dw $36BF,$2532,$3239,$6F31,$3670,$31D6,$4212,$41D7
-	dw $03EC,$6318,$4E73,$2529,$4E73,$11F5,$1E55,$2529
-	dw $3D6B,$3529,$1167,$6293,$1D36,$2952,$1DFC,$3617
-	dw $7F98,$0000,$0000,$0000,$0000,$0000,$0000,$0000
-	dw $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	incbin "../../../Extracted/data/gfx/Pals/RinkPalette.pal"

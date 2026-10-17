@@ -4,4 +4,4 @@ CardDimitriYushkevich:		; a player photo: 6 x 6 linear 4bpp tiles packed for Dec
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80
-	incbin "../../../Extracted/data/gfx/CardDimitriYushkevich.lin.huf":5..531
+	incbin "../../../Extracted/data/gfx/PlayerCards/CardDimitriYushkevich.lin.huf":5..531

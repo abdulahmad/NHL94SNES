@@ -1,15 +1,14 @@
-; Colours for one team.
+; The Edmonton logo colours, then 5 team block palettes (16 colours each).
 
 LogoPaletteEDM:		; the 16 colours of the Edmonton logo (TeamLogoSprites and the centre ice logo)
-	dw DMA_OAM,$01FF,$809A,$8014,$7FFF,$EB5A,$5294,$BDEF
-	dw $A94A,$1084,$F2D6,$F16B,$7000,$5800,$4000,$2800
-	dw $5AD6,$8DF2,$9213,$1A77,$1EB8,$A2DA,$A71C,$2F5E
-	dw $2F5E,$271C,$22DA,$9EB8,$9A77,$1655,$1213,$0DF2
-	dw $0000,$6F7B,$000A,$000E,$0012,$0017,$001B,$001F
-	dw $640C,$580B,$5009,$4408,$3C06,$3005,$2803,$031A
-	dw $0000,$6F7B,$2800,$3800,$4800,$5800,$6C00,$7C00
-	dw $001F,$001B,$0018,$0014,$0011,$000D,$000A,$031A
-	dw $0000,$6F7B,$008B,$80AF,$80F3,$8117,$013B,$017F
-	dw $5EF7,$D6B5,$CE73,$4631,$3DEF,$B5AD,$AD6B,$031A
-	dw $0000,$6F7B,$01AF,$81F1,$8254,$02B7,$8319,$037C
-	dw $001C,$0019,$0015,$0012,$000F,$000B,$0008,$031A
+	incbin "../../../Extracted/data/gfx/Pals/LogoPaletteEDM.pal"
+TeamBlockPaletteUnused:	; TeamBlockPalettes entry 28: no team 28 reaches the team block code (teams are 0-27)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteUnused.pal"
+TeamBlockPaletteWPG:	; the Winnipeg team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteWPG.pal"
+TeamBlockPaletteWSH:	; the Washington team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteWSH.pal"
+TeamBlockPaletteASE:	; the all-stars East (Wales) team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteASE.pal"
+TeamBlockPaletteVAN:	; the Vancouver team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteVAN.pal"

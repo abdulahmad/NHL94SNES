@@ -16,6 +16,7 @@ Commands:
   tiles IN [-o PNG]                   tile sheet of 4bpp tiles (--offset, --count, --columns, --pal, --palrow)
   map MAP --tiles TILES [-o PNG]      render BG map words with their tiles (--width, --map-offset, --tiles-offset, --pal)
   sprites IN [-o PNG]                 sheet of the frames of a sprite set as DrawSprite draws them (--pal, --pal-table)
+  pal IN [IN ...] [-o PNG]            colour swatches: one line of 16 per palette row, the files one after another
 
 Map words: vflip 15, hflip 14, priority 13, palette 12-10, tile 9-0. Tiles: 4bpp planar, 32 bytes per 8x8 tile, or with
 --linear 4bpp linear (two pixels per byte), which $9B85C2 converts to planar (the team centre ice logos).
@@ -31,6 +32,7 @@ Examples:
   python3 tools/snesgfx.py tiles src/data/gfx/IceRink.chr.lz --columns 32 -o rinktiles.png
   python3 tools/snesgfx.py map '$92E053:6' --tiles '$818000' --width 48 -o rink.png    (6-byte header: width, height, ...)
   python3 tools/snesgfx.py sprites '$81ABDE' --pal-table 9C8497 -o logos.png
+  python3 tools/snesgfx.py pal Extracted/data/gfx/Pals/BOSh.pal Extracted/data/gfx/Pals/BOSv.pal -o bos.png
   python3 tools/snesgfx.py sprites '$828000' --rom --count 64 --columns 8 --cell 64 --origin-x 32 --origin-y 48 -o frames.png
 """
 import argparse
@@ -446,6 +448,23 @@ def cmd_map(a):
     print('%d x %d tiles -> %s' % (width, height, a.output))
 
 
+def cmd_pal(a):
+    rows = []
+    for spec in a.input:
+        data = load(spec)
+        cols = [snes_rgb(data[i] | data[i + 1] << 8) for i in range(0, len(data) - 1, 2)]
+        rows += [cols[i:i + 16] for i in range(0, len(cols), 16)]
+    w, cell = 16, a.cell
+    px = []
+    for row in rows:
+        line = []
+        for c in row + [(0, 0, 0)] * (w - len(row)):
+            line += [c] * cell
+        px += [line] * cell
+    write_png(a.output, w * cell, len(rows) * cell, px, 1)
+    print('%d palette rows -> %s' % (len(rows), a.output))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest='cmd', required=True)
@@ -502,6 +521,12 @@ def main():
     p.add_argument('--origin-y', type=num, default=8, help='y of the frame origin in its cell')
     p.add_argument('--scale', type=num, default=2)
     p.set_defaults(func=cmd_sprites)
+
+    p = sub.add_parser('pal', help='colour swatches of palette files (BGR555 words)')
+    p.add_argument('input', nargs='+', help='palette IN[:OFFSET]: a .pal file, a packed .pal.lz ... or $ADDR')
+    p.add_argument('-o', '--output', default='pal.png')
+    p.add_argument('--cell', type=num, default=16, help='pixels per colour')
+    p.set_defaults(func=cmd_pal)
 
     a = ap.parse_args()
     a.func(a)

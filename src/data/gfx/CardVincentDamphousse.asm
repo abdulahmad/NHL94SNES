@@ -4,4 +4,4 @@ CardVincentDamphousse:		; a player photo: 6 x 6 linear 4bpp tiles packed for Dec
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80
-	incbin "../../../Extracted/data/gfx/CardVincentDamphousse.lin.huf":5..629
+	incbin "../../../Extracted/data/gfx/PlayerCards/CardVincentDamphousse.lin.huf":5..629

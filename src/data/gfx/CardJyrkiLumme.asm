@@ -4,4 +4,4 @@ CardJyrkiLumme:		; a player photo: 6 x 6 linear 4bpp tiles packed for Decompress
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80
-	incbin "../../../Extracted/data/gfx/CardJyrkiLumme.lin.huf":5..538
+	incbin "../../../Extracted/data/gfx/PlayerCards/CardJyrkiLumme.lin.huf":5..538

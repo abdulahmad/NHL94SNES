@@ -1,5 +1,4 @@
 ; Colours for one team.
 
 PhotoPaletteSTL:	; the 16 colours of the St. Louis player photos (the photo palette table)
-	dw $7C1F,$4EFE,$C6BD,$BE7B,$3239,$29F8,$9DB6,$9575
-	dw $0D33,$0911,$04EF,$808A,$8027,$739C,$D800,$02B8
+	incbin "../../../Extracted/data/gfx/Pals/PhotoPaletteSTL.pal"

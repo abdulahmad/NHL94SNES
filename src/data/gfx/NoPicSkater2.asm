@@ -4,4 +4,4 @@ NoPicSkater2:		; a player photo: 6 x 6 linear 4bpp tiles packed for DecompressHu
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80
-	incbin "../../../Extracted/data/gfx/NoPicSkater2.lin.huf":5..418
+	incbin "../../../Extracted/data/gfx/PlayerCards/NoPicSkater2.lin.huf":5..418

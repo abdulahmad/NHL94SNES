@@ -4,5 +4,5 @@ CardBackPalette:		; packed for DecompressLZ: unpacked, BGR555 colours. A screen 
 			;   its first 16 colours into colours $40-$4F
 	db $10,$FB
 	db $00,$01,$00
-	incbin "../../../Extracted/data/gfx/CardBackPalette.pal.lz":5..45
+	incbin "../../../Extracted/data/gfx/Pals/CardBackPalette.pal.lz":5..45
 	db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF

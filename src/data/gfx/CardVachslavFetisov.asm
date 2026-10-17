@@ -4,4 +4,4 @@ CardVachslavFetisov:		; a player photo: 6 x 6 linear 4bpp tiles packed for Decom
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80
-	incbin "../../../Extracted/data/gfx/CardVachslavFetisov.lin.huf":5..612
+	incbin "../../../Extracted/data/gfx/PlayerCards/CardVachslavFetisov.lin.huf":5..612

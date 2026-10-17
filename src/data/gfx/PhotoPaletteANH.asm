@@ -1,21 +1,20 @@
-; Colours for one team.
+; The Anaheim player photo colours, then 8 team block palettes (16 colours each).
 
 PhotoPaletteANH:	; the 16 colours of the Anaheim player photos (the photo palette table)
-	dw $7C1F,$4EFE,$C6BD,$BE7B,$3239,$29F8,$9DB6,$9575
-	dw $0D33,$0911,$04EF,$808A,$8027,$3E20,$0000,$77BD
-	dw $0000,$6F7B,$0100,$0140,$0180,$81E0,$8220,$0260
-	dw $6500,$58E0,$CCC0,$C0A0,$B880,$AC60,$2060,$031A
-	dw $0000,$6F7B,$1800,$2400,$3400,$4000,$5000,$6000
-	dw $00DF,$80BB,$8098,$8094,$8071,$004D,$004A,$031A
-	dw $0000,$6F7B,$2400,$3000,$3C00,$4C00,$5800,$6400
-	dw $017B,$0159,$0136,$0114,$00F1,$80CF,$80AD,$831A
-	dw $0000,$6F7B,$0000,$0421,$0C63,$14A5,$9CE7,$A529
-	dw $02A0,$8260,$0200,$01C0,$8180,$8120,$00E0,$831A
-	dw $0000,$6F7B,$0421,$0842,$1084,$94A5,$9CE7,$A529
-	dw $019F,$817C,$015A,$0137,$0114,$00F2,$80CF,$831A
-	dw $0000,$6F7B,$0421,$0842,$1084,$94A5,$9CE7,$A529
-	dw $001B,$0018,$0016,$0013,$0010,$000E,$000B,$031A
-	dw $0000,$6F7B,$35AD,$BDEF,$C631,$4A52,$5294,$DAD6
-	dw $801F,$001C,$0019,$0016,$0013,$0010,$000D,$031A
-	dw $0000,$6F7B,$01F2,$8254,$02B7,$833A,$039C,$83FF
-	dw $815D,$013A,$0118,$00F5,$80D2,$80AF,$808D,$831A
+	incbin "../../../Extracted/data/gfx/Pals/PhotoPaletteANH.pal"
+TeamBlockPaletteHFD:	; the Hartford team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteHFD.pal"
+TeamBlockPaletteFLA:	; the Florida team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteFLA.pal"
+TeamBlockPaletteEDM:	; the Edmonton team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteEDM.pal"
+TeamBlockPaletteDAL:	; the Dallas team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteDAL.pal"
+TeamBlockPaletteASW:	; the all-stars West (Campbell) team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteASW.pal"
+TeamBlockPaletteCHI:	; the Chicago team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteCHI.pal"
+TeamBlockPaletteDET:	; the Detroit team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteDET.pal"
+TeamBlockPaletteCGY:	; the Calgary team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteCGY.pal"

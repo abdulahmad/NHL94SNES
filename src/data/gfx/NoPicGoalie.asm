@@ -4,4 +4,4 @@ NoPicGoalie:		; a player photo: 6 x 6 linear 4bpp tiles packed for DecompressHuf
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80
-	incbin "../../../Extracted/data/gfx/NoPicGoalie.lin.huf":5..548
+	incbin "../../../Extracted/data/gfx/PlayerCards/NoPicGoalie.lin.huf":5..548
