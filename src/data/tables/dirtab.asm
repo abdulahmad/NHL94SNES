@@ -1,4 +1,6 @@
+runspeed = 200		; acc speed equate for the table below
+
 ; x, y speed for each direction
 dirtab:
-	dw $0000,$00C8,$008D,$008D,$00C8,$0000,$008D,$FF73
-	dw $0000,$FF38,$FF73,$FF73,$FF38,$0000,$FF73,$008D
+	dw 0,runspeed,runspeed*1000/1414,runspeed*1000/1414,runspeed,0,runspeed*1000/1414,-runspeed*1000/1414
+	dw 0,-runspeed,-runspeed*1000/1414,-runspeed*1000/1414,-runspeed,0,-runspeed*1000/1414,runspeed*1000/1414
