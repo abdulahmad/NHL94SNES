@@ -19,7 +19,7 @@ assdefd:
 	lda.w playerpad,x
 	bpl .1
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .1x
 	and.w #$FFFD
 	sta.w pflags,x
@@ -81,7 +81,7 @@ assdefd:
 	bmi .7
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #$0010
+	bit.w #tmfoffside
 	bne .7
 	lda.w puckc
 	bmi .6

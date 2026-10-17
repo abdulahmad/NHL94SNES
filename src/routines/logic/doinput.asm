@@ -144,7 +144,7 @@ doinput:
 	bne .14
 .1xxxxxx:
 	lda.w sflags
-	bit.w #$0004
+	bit.w #sfspdir
 	bne .t1x
 	bit.w #$0008
 	bne .t2x

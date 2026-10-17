@@ -13,13 +13,13 @@ Goal:
 	lda.w pucky
 	bpl .t1
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	beq .in
 	bra .t2
 
 .t1:
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	beq .t2
 	bra .in
 
@@ -47,7 +47,7 @@ Goal:
 	sta.b a2
 .1x:
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	beq .2x
 	lda.b a1
 	sta.b a2

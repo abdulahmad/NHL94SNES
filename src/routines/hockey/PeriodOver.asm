@@ -35,7 +35,7 @@ PeriodOver:
 	jsl.l MusicStart
 .5:
 	lda.w gmode
-	eor.w #$0002
+	eor.w #gmdir
 	sta.w gmode
 	ldy.w #$0000
 .loopx:

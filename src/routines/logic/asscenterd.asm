@@ -19,7 +19,7 @@ asscenterd:
 	lda.w playerpad,x
 	bpl .1
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .1x
 	and.w #$FFFD
 	sta.w pflags,x

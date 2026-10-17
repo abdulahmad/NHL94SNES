@@ -1,7 +1,7 @@
 ; Assignment: the player skates to the penalty box
 asspenalty:
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	bne .t1
 	jmp.w .2
 

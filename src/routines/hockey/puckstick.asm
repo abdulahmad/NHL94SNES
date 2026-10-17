@@ -4,7 +4,7 @@ puckstick:
 	lda.w position,y
 	bne .2
 	lda.w gmode
-	bit.w #$0010
+	bit.w #gmhl
 	beq .2
 .1:
 	rtl

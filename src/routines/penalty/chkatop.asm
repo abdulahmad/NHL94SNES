@@ -13,7 +13,7 @@ chkatop:
 	bpl .rtl
 .1:
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	beq .2
 	lda.b d1
 	eor.w #$0002

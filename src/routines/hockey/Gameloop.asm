@@ -46,7 +46,7 @@ Gameloop:
 	stx.w oldvcount
 	jsl.l ReadPads
 	lda.w sflags
-	bit.w #$0001
+	bit.w #sfpz
 	bne .4
 	lda.w gmclock
 	bne .4
@@ -102,7 +102,7 @@ Gameloop:
 	jsl.l DoGameFrame
 	jsl.l demoread
 	lda.w sflags
-	bit.w #$0001
+	bit.w #sfpz
 	bne .2xx
 	lda.w mp5warning
 	beq .3

@@ -10,7 +10,7 @@ assfaceoffpl:
 	bit.w #$0100
 	beq .t3
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .1xx
 	and.w #$FFFD
 	sta.w pflags,x

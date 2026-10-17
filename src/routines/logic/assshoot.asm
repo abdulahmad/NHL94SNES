@@ -1,7 +1,7 @@
 ; Assignment: computer shooting: wind up, then shoot
 assshoot:
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .t2
 	and.w #$FFFD
 	sta.w pflags,x
