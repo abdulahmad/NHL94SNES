@@ -21,7 +21,7 @@ asspenalty:
 	lda.b r2
 	sta.b d1
 	sta.w temp4,x
-	lda.w #$0088
+	lda.w #sideline
 	sta.w temp3,x
 	stz.w temp1,x
 	lda.w pflags,x
@@ -113,7 +113,7 @@ asspenalty:
 .7:
 	lda.w temp4,x
 	sta.w Ypos,x
-	lda.w #$0088
+	lda.w #sideline
 	sta.w Xpos,x
 	lda.w #$0002
 	sta.w facedir,x

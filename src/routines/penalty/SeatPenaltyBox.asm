@@ -13,7 +13,7 @@ SeatPenaltyBox:
 	jsl.l PenBoxSpot
 	lda.b r2
 	sta.w Ypos,x
-	lda.w #$0088
+	lda.w #sideline
 	sta.w Xpos,x
 	jsl.l assdopen
 .1:
