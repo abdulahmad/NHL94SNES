@@ -1,7 +1,7 @@
 ; Save this frame into the replay buffer
 updatereplay:
 	lda.w gmode
-	bit.w #$0010
+	bit.w #gmhl
 	bne .1
 	lda.w replaydelay
 	beq .5

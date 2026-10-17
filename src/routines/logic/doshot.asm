@@ -102,7 +102,7 @@ doshot:
 .5:
 	sta.b d3
 	lda.w gmode
-	bit.w #$0010
+	bit.w #gmhl
 	beq .t1
 	jmp.w .6
 

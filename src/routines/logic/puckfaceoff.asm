@@ -13,7 +13,7 @@ puckfaceoff:
 	sta.w puckc
 	jsl.l pucknorm_move
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	bne .t1x
 .1x:
 	jmp.w .9

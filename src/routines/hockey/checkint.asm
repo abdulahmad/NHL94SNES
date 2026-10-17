@@ -53,7 +53,7 @@ checkint:
 	cmp.w #$0002
 	bcs .rtl
 	lda.w gmode
-	bit.w #$0010
+	bit.w #gmhl
 	bne .rtl
 	lda.w goalieflags,y
 	and.w #$0004

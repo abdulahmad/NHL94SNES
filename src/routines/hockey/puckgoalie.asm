@@ -1,7 +1,7 @@
 ; The puck hits goalie a2: a save or not, by his save ratings
 puckgoalie:
 	lda.w gmode
-	bit.w #$0010
+	bit.w #gmhl
 	beq .t1
 	jmp.w .7
 

@@ -40,7 +40,7 @@ assscore:
 	sta.w nopuck,x
 .1x2:
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .3
 	and.w #$FFFD
 	sta.w pflags,x

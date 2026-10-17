@@ -1,7 +1,7 @@
 ; Assignment: waiting for a pass
 asspassrec:
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .3
 	and.w #$FFFD
 	ora.w #$0001

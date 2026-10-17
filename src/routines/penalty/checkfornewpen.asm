@@ -20,7 +20,7 @@ checkfornewpen:
 
 .t2:
 	lda.w gmode
-	bit.w #$0004
+	bit.w #gmpen
 	bne .3
 	dec.b a0
 	dec.b a0

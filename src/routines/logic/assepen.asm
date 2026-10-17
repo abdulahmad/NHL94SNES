@@ -1,7 +1,7 @@
 ; Assignment: the player leaves the penalty box and comes onto the ice
 assepen:
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	bne .t1
 	jmp.w .t2
 

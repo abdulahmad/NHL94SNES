@@ -5,7 +5,7 @@ checkwindow:
 	lda.w xc1
 	sta.b d3
 	lda.w sflags
-	bit.w #$0040
+	bit.w #sfslock
 	bne .3
 	ldx.w #$001C
 	lda.w puckc

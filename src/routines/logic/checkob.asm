@@ -1,7 +1,7 @@
 ; Show the little warning referee when a teammate is over the blue line
 checkob:
 	lda.w gmode
-	bit.w #$0020
+	bit.w #gmoffs
 	bne .t2
 	jmp.w .5
 

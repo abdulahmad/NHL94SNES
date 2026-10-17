@@ -233,7 +233,7 @@ setupice_reset:
 	jsl.l InitSortObjects
 	jsl.l nullrtl
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	beq .1
 	ldx.w #$0016
 .loop:

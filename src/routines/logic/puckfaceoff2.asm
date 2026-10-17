@@ -1,7 +1,7 @@
 ; Assignment: the face off and the setup for play
 puckfaceoff2:
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	bne .t2
 	jmp.w .18
 
@@ -659,7 +659,7 @@ puckfaceoff2:
 	lda.w tmline+2
 	sta.b d1
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	bne .2xxxxx
 	lda.w tmline
 	sta.b d1
@@ -709,7 +709,7 @@ puckfaceoff2:
 	lda.w #$0007
 	sta.l fofdata
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	bne .5xx
 	lda.w #$8800
 	sta.l fofdata2+2

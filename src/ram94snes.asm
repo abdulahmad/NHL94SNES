@@ -193,7 +193,7 @@ gmoffs = $0020		; offsides on
 gmhl = $0010		; highlight mode
 gmdir = $0002		; 0 = home team goes up
 pfna = $0002		; new assignment
-tmfoffside = $0010	; team flagged offsides
+tmfoside = $0010	; team flagged offsides
 cbut = $0080		; shoot / check button in d2
 blueline = $58		; puck y past which a team can be offside
 sideline = $88		; distance from center to side boards

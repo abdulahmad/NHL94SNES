@@ -23,7 +23,7 @@ ClrHor:
 	sta.w Oldrow
 	jsl.l SprSort
 	lda.w sflags
-	bit.w #$0001
+	bit.w #sfpz
 	bne .2
 	jsl.l ClearTextMap
 	stz.w textdirtylo

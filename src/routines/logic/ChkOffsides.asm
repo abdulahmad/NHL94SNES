@@ -33,7 +33,7 @@ ChkOffsides:
 ChkOffsides_blue:
 	jsl.l StartBreakaway
 	lda.w gmode
-	bit.w #$0020
+	bit.w #gmoffs
 	bne .t2
 	jmp.w ChkOffsides_rtl
 
@@ -41,7 +41,7 @@ ChkOffsides_blue:
 	lda.w #$005E
 	sta.b d0
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	beq .1
 	lda.b a2
 	ldy.b a1
@@ -78,7 +78,7 @@ ChkOffsides_loop:
 	bpl ChkOffsides_next
 	ldy.b a2
 	lda.w tmflags,y
-	ora.w #$0010
+	ora.w #tmfoside
 	sta.w tmflags,y
 ChkOffsides_rtl:
 	rtl
@@ -111,7 +111,7 @@ ChkOffsides_other:
 .3:
 	jsl.l StartBreakaway
 	lda.w gmode
-	bit.w #$0020
+	bit.w #gmoffs
 	bne .t1x
 	jmp.w ChkOffsides_rtl
 
@@ -121,7 +121,7 @@ ChkOffsides_other:
 	sbc.w #$000A
 	sta.b d0
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	bne .1
 	lda.b a2
 	ldy.b a1
@@ -158,7 +158,7 @@ ChkOffsides_other:
 	bmi .t1xx
 	ldy.b a2
 	lda.w tmflags,y
-	ora.w #$0010
+	ora.w #tmfoside
 	sta.w tmflags,y
 	rtl
 

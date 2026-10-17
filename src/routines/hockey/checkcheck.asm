@@ -123,7 +123,7 @@ org $9EA001
 	cmp.w #$0001
 	bcs .t1x
 	lda.w gmode
-	bit.w #$0010
+	bit.w #gmhl
 	bne .t1x
 	lda.w seed+1
 	and.w #$0002
@@ -141,7 +141,7 @@ org $9EA001
 	cmp.w #$0001
 	bcs .1xx
 	lda.w gmode
-	bit.w #$0010
+	bit.w #gmhl
 	bne .1xx
 	lda.w seed+1
 	and.w #$0002

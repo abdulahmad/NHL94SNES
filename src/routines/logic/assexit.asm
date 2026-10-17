@@ -17,6 +17,6 @@ assexit:
 	plx
 	sta.w asscur,x
 	lda.w pflags,x
-	ora.w #$0002
+	ora.w #pfna
 	sta.w pflags,x
 	rtl

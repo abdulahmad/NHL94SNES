@@ -43,7 +43,7 @@ assgoalie:
 .4:
 	jsl.l check4bench
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .5
 	and.w #$FFFD
 	sta.w pflags,x

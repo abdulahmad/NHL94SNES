@@ -16,7 +16,7 @@ asspuckc:
 	lda.w gmclock
 	bne .2
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .1x
 	and.w #$FFFD
 	sta.w pflags,x

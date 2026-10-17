@@ -62,7 +62,7 @@ chk4pass:
 	sta.b d1
 .1x:
 	lda.w gmode
-	bit.w #$0020
+	bit.w #gmoffs
 	beq .2x
 	lda.b d0
 	sec

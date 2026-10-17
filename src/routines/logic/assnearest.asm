@@ -1,7 +1,7 @@
 ; Assignment: the player nearest the puck who does not have it
 assnearest:
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .1
 	and.w #$FFFD
 	sta.w pflags,x

@@ -61,7 +61,7 @@ noturn0:
 	lda.w #SPAskate
 	sta.b d1
 	lda.w pflags,x
-	bit.w #$0004
+	bit.w #pf2inj
 	beq .1x2
 	ldy.w #$0001
 	lda.w #SPAstumble

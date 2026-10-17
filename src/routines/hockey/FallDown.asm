@@ -261,7 +261,7 @@ FallDown:
 	cpy.b d0
 	bne .22
 	lda.w gmode
-	bit.w #$0010
+	bit.w #gmhl
 	bne .23
 	lda.l OptPlayMode
 	cmp.w #$0004
