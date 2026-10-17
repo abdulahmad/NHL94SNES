@@ -24,7 +24,7 @@ a2offsides:
 .1:
 	ldy.b a0
 	lda.w tmflags,y
-	bit.w #tmfoffside
+	bit.w #tmfoside
 	beq .rtl
 	lda.w gmode
 	bit.w #gmhl

@@ -81,7 +81,7 @@ assdefd:
 	bmi .7
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #tmfoffside
+	bit.w #tmfoside
 	bne .7
 	lda.w puckc
 	bmi .6

@@ -78,7 +78,7 @@ ChkOffsides_loop:
 	bpl ChkOffsides_next
 	ldy.b a2
 	lda.w tmflags,y
-	ora.w #tmfoffside
+	ora.w #tmfoside
 	sta.w tmflags,y
 ChkOffsides_rtl:
 	rtl
@@ -158,7 +158,7 @@ ChkOffsides_other:
 	bmi .t1xx
 	ldy.b a2
 	lda.w tmflags,y
-	ora.w #tmfoffside
+	ora.w #tmfoside
 	sta.w tmflags,y
 	rtl
 

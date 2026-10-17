@@ -2,7 +2,7 @@
 ClearOffsidesIfAllPlayers:
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #tmfoffside
+	bit.w #tmfoside
 	bne .t1
 	jmp.w ChkOffsides_rtl
 

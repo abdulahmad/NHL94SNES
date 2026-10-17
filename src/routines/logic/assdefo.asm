@@ -90,7 +90,7 @@ assdefo:
 	sta.b d0
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #tmfoffside
+	bit.w #tmfoside
 	bne .10
 	lda.w pucky
 	sta.b d2

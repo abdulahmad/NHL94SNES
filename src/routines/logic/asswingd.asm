@@ -64,7 +64,7 @@ asswingd:
 	beq .6
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #tmfoffside
+	bit.w #tmfoside
 	bne .6
 	lda.b d2
 	sec
@@ -94,7 +94,7 @@ asswingd:
 	beq .6
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #tmfoffside
+	bit.w #tmfoside
 	bne .6
 	lda.b d2
 	sec

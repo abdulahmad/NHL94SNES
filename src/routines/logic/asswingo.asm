@@ -91,7 +91,7 @@ asswingo:
 	bmi .5
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #tmfoffside
+	bit.w #tmfoside
 	bne .5
 	asl.b d2
 	lda.b d3
