@@ -1,4 +1,5 @@
-; Line editor: pick a player for the cursor slot from the list (attribute pages, up / down); A = the player, negative when cancelled
+; Line editor: pick a player for the cursor slot from the list (attribute pages, up / down); A = the player,
+; negative when cancelled
 SelectLinePlayer:
 	lda.b a1+2
 	pha

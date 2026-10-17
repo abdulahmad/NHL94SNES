@@ -267,7 +267,7 @@ PlayoffScreen:
 	sta.b p0
 	lda.w #(palbuffer+$60)>>16
 	sta.b p1+2
-	lda.w #palbuffer+$60		; palette 3
+	lda.w #palbuffer+$60			; palette 3
 	sta.b p1
 	ldx.w #$0020
 	jsl.l MemCopy

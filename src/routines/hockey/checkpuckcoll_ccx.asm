@@ -160,7 +160,7 @@ checkpuckcoll_ccx:
 	bpl .6
 	jsl.l puckgoalie
 	bra .6
-.8:		; index * 2 / 3, rounded (words)
+.8:									; index * 2 / 3, rounded (words)
 	dw 0,1,1,2,3,3,4,5,5,6,7,7,8,9,9,10
 	dw 11,11,12,13,13,14,15,15,16,17,17,18,19,19,20,21
 	dw 21,22,23,23,24,25,25,26,27,27,28,29,29,30,31,31

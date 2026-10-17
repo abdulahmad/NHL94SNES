@@ -1,5 +1,6 @@
 ; start filling OAMDrawBuf after the reserved entries; free the tiles of frames not drawn
-SpriteFrameStart:	; start filling OAMDrawBuf after the reserved entries; free the tiles of frames not drawn
+SpriteFrameStart:					;start filling OAMDrawBuf after the reserved entries; free the tiles of
+									;frames not drawn
 			;   since the last call
 	phb
 	lda.w #$7E7E

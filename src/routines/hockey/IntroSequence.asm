@@ -1,4 +1,5 @@
-; The power-on sequence before the title: its own sample set (SPCIntroUpload) and song, a mode 7 picture with its frame hook, until it ends or a button
+; The power-on sequence before the title: its own sample set (SPCIntroUpload) and song, a mode 7 picture with
+; its frame hook, until it ends or a button
 IntroSequence:
 	stz.w brightness
 	jsl.l forceblack
@@ -202,7 +203,7 @@ IntroSequence:
 	asl a
 	tax
 	jmp (.5,x)
-.5:		; jump table for jmp (.5,x)
+.5:									; jump table for jmp (.5,x)
 	dw .6,.7,.8,.9,.10,.11,.12
 	dw .13,.14,.15,.16,.17,.18,.19
 .6:
@@ -683,7 +684,7 @@ IntroSequence:
 	cpy.w #$0020
 	bmi .loopxxxxx
 	rts
-.framehook:		; the frame hook of this sequence
+.framehook:							; the frame hook of this sequence
 	rep #$30
 	lda.b introHookFlags
 	bit.w #$0080

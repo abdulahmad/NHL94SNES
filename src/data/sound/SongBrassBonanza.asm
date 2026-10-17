@@ -3,7 +3,7 @@
 ; 94G song $40 at the same TeamSongs slots: HFD 0, HFD 5, DefaultSongs.
 ; Title (the forum list of the 94G songs): Brass Bonanza.
 
-SongBrassBonanza:		; header, track offsets (a zero ends them), padding, then the tracks
+SongBrassBonanza:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongBrassBonanza,.right-SongBrassBonanza,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

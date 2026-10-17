@@ -1,4 +1,5 @@
-; d0 / d1 = the vector from goalie X to the puck; when he is behind his goal line ($108) and the puck is in front, d1 = +-1 so he faces out
+; d0 / d1 = the vector from goalie X to the puck; when he is behind his goal line ($108) and the puck is in
+; front, d1 = +-1 so he faces out
 GoaliePuckVector:
 	phk
 	plb

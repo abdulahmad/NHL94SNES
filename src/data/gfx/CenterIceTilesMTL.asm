@@ -1,6 +1,7 @@
 ; Centre-ice logo tiles: linear 4bpp, packed for DecompressHuffman.
 
-CenterIceTilesMTL:	; the Montreal centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 11 of
+CenterIceTilesMTL:					;the Montreal centre ice logo: linear 4bpp tiles packed for
+									;DecompressHuffman (team 11 of
 			;   the centre ice table in bank $9C)
 	db $30,$FB
 	db $00,$03,$40

@@ -1,4 +1,5 @@
-; The player card strengths of skater $1D9B: the best three of eleven rating columns into $1E79-$1E83 (AddStrength)
+; The player card strengths of skater $1D9B: the best three of eleven rating columns into $1E79-$1E83
+; (AddStrength)
 FindSkaterStrengths:
 	lda.w #$FFFF
 	sta.w strengths

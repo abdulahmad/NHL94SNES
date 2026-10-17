@@ -1,4 +1,5 @@
-; Unpack the home team's centre ice logo tiles (CenterIceTable) to VRAM after the rink tiles, then BuildRinkMap
+; Unpack the home team's centre ice logo tiles (CenterIceTable) to VRAM after the rink tiles, then
+; BuildRinkMap
 LoadCenterIce:
 	lda.w HomeTeam
 	asl a

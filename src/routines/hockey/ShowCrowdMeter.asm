@@ -490,7 +490,7 @@ ShowCrowdMeter:
 	rtl
 .9:
 	db $EF,$E7,$E3,$E0
-.10:		; records of a byte and a pointer into .9; $00 ends them
+.10:								; records of a byte and a pointer into .9; $00 ends them
 	db $0C : dw .9+3
 	db $06 : dw .9+2
 	db $1C : dw .9+1

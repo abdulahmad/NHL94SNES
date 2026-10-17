@@ -1,5 +1,5 @@
 ; Game Setup setting names
-GameSetupNames:		; Game Setup setting names
+GameSetupNames:						; Game Setup setting names
 	%String("Play Mode")
 	%String("Home")
 	%String("Visitor")

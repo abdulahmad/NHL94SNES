@@ -24,7 +24,7 @@ Div32U:
 	dex
 	bne .loop
 	rtl
-	sep #$20		; not reached
+	sep #$20						; not reached
 .hi0:
 	lda.b r1+1
 	beq Div32U_ByteDivisor

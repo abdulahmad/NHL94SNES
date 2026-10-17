@@ -3,7 +3,7 @@
 ; 94G song $30 at the same TeamSongs slots: BOS 2.
 ; Title (the forum list of the 94G songs): Go Team Go [E-flat].
 
-SongGoTeamGoEFlat:		; header, track offsets (a zero ends them), padding, then the tracks
+SongGoTeamGoEFlat:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$60,$01,$00,$00,$00,$02,$00
 	dw .left-SongGoTeamGoEFlat,.right-SongGoTeamGoEFlat,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

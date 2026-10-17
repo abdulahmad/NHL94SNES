@@ -35,17 +35,18 @@ ScoutingHDMA:
 	sta.w HDMAEN
 	rep #$20
 	rtl
-.1:		; WH0-WH3 values (window 1 left, right, window 2 left, right) for .2
+.1:									; WH0-WH3 values (window 1 left, right, window 2 left, right) for .2
 	db $FF,$00,$FF,$00
 	db $0C,$B3,$FF,$00
-.2:		; indirect HDMA table: line count, then the address of the values in this bank; $00 ends it
+.2:									;indirect HDMA table: line count, then the address of the values in this
+									;bank; $00 ends it
 	db $68 : dw .1
 	db $58 : dw .1+4
 	db $14 : dw .1
 	db $00
-.3:		; COLDATA values for .4
+.3:									; COLDATA values for .4
 	db $E7,$E0
-.4:		; indirect HDMA table, as .2
+.4:									; indirect HDMA table, as .2
 	db $6E : dw .3+1
 	db $4C : dw .3
 	db $14 : dw .3+1

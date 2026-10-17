@@ -1,4 +1,5 @@
-; Put every player in the penalty box (negative position) at his box spot: Y = PenBoxSpot, X = $88 (the sideline), then assdopen
+; Put every player in the penalty box (negative position) at his box spot: Y = PenBoxSpot, X = $88 (the
+; sideline), then assdopen
 SeatPenaltyBox:
 	lda.w penshot
 	ora.w PenShotActive

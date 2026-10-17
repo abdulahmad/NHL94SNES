@@ -3,7 +3,7 @@
 ; 94G songs $3A, $3D, $45 at the same TeamSongs slots: CHI 1, DET 2, LA 2.
 ; Title (the forum list of the 94G songs): Las Chiapanecas {Mexican Hat Dance} (94G has it in C, F and G).
 
-SongMexicanHatDance:		; header, track offsets (a zero ends them), padding, then the tracks
+SongMexicanHatDance:				; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongMexicanHatDance,.right-SongMexicanHatDance,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

@@ -257,7 +257,8 @@ InProgress:
 .t1xx:
 	jsl.l SetPA
 	bra InProgress_coin
-; InProgress: the penalties are over (chkprogress_find found none): clear gmpen, puck faceoff assignment, then InProgress_coin
+; InProgress: the penalties are over (chkprogress_find found none): clear gmpen, puck faceoff assignment, then
+; InProgress_coin
 InProgress_exit:
 	lda.w #$0004
 	trb.w gmode

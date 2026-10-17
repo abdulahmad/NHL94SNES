@@ -3,7 +3,8 @@ vtoa:
 	lda.b d0
 	ora.b d1
 	beq .nodir
-	stz.b d7+2		; the octant index (94G builds it in d2): sign bits, then the two ratio bits
+	stz.b d7+2						;the octant index (94G builds it in d2): sign
+	;bits, then the two ratio bits
 	lda.b d0
 	bpl .0
 	eor.w #$FFFF

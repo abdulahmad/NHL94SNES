@@ -1,5 +1,6 @@
 ; resize handle A's block to X bytes: in place when it can, else in a new block
-SetHandleSize:		; resize handle A's block to X bytes: in place when it can, else in a new block
+SetHandleSize:						;resize handle A's block to X bytes: in place when it can, else in a new
+									;block
 	cmp.w #$2000
 	bcc .bad
 	cmp.w #$2100
@@ -247,7 +248,7 @@ SetHandleSize:		; resize handle A's block to X bytes: in place when it can, else
 	tax
 	lda.b r3+2
 	phb
-	jsl.l $000010		; mvn written to $10-$13 above, then rtl
+	jsl.l $000010					; mvn written to $10-$13 above, then rtl
 	plb
 	lda.b r2
 	jsl.l DisposeHandle

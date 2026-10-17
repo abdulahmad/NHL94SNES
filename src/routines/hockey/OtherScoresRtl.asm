@@ -2,7 +2,8 @@
 OtherScoresRtl:
 	rtl
 
-.waitirq:		; unused: wait for the stats scroll IRQ to set $1DCD, as ScrollGameStatsDown
+.waitirq:							;unused: wait for the stats scroll IRQ to set
+									;$1DCD, as ScrollGameStatsDown
 	lda.w #$0000
 	sta.w scrollirqdone
 .loop:

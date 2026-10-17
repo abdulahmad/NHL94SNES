@@ -3,7 +3,7 @@
 ; 94G song $42 at the same TeamSongs slots: HFD 1, HFD 3, DefaultSongs.
 ; Title (the forum list of the 94G songs): William Tell Overture.
 
-SongWilliamTell:		; header, track offsets (a zero ends them), padding, then the tracks
+SongWilliamTell:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$82,$01,$00,$00,$00,$02,$00
 	dw .left-SongWilliamTell,.right-SongWilliamTell,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

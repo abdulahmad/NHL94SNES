@@ -1,4 +1,5 @@
-; Set up the scouting report screen: fade out, the logo sprites, fonts, background map and palettes, PPU registers and a clear text map
+; Set up the scouting report screen: fade out, the logo sprites, fonts, background map and palettes, PPU
+; registers and a clear text map
 LoadScoutingScreen:
 	jsl.l FadeOut
 	lda.w #TeamLogoSprites>>16

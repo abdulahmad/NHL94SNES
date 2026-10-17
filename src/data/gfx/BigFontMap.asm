@@ -1,6 +1,6 @@
 ; The big font map (76 x 2): printbig reads it through BigFontIndex, as 93S BigFontMap
 
-BigFontMap:		; a map, not packed: width, height and a word, then the map words (76 x 2)
+BigFontMap:							; a map, not packed: width, height and a word, then the map words (76 x 2)
 	dw $004C,$0002,$0308
 	dw $0001,$0002,$0003,$0004,$0005,$0006,$0007,$0002
 	dw $0003,$0008,$0003,$0008,$0009,$000A,$000B,$000C

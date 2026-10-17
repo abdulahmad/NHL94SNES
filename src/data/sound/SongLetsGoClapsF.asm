@@ -3,7 +3,7 @@
 ; 94G song $61 at the same TeamSongs slots: SJ 2.
 ; Title (the forum list of the 94G songs): Let's Go Claps [F].
 
-SongLetsGoClapsF:		; header, track offsets (a zero ends them), padding, then the tracks
+SongLetsGoClapsF:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$03,$00
 	dw .left-SongLetsGoClapsF,.right-SongLetsGoClapsF,.claps-SongLetsGoClapsF,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

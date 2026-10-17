@@ -1,4 +1,5 @@
-; The overall rating of player d0 of team a2 from the attribute mask $B7, with the hot / cold table when $7E35F2 is set
+; The overall rating of player d0 of team a2 from the attribute mask $B7, with the hot / cold table when
+; $7E35F2 is set
 CalcAttrib:
 	lda.b d0
 	asl a

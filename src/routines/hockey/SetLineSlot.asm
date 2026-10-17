@@ -1,4 +1,5 @@
-; Put player $1D8F in the cursor slot of the selected line; if he is already in another slot of that line, the old occupant moves there (swap)
+; Put player $1D8F in the cursor slot of the selected line; if he is already in another slot of that line, the
+; old occupant moves there (swap)
 SetLineSlot:
 	sta.w lineplayer
 	lda.w SelectedPlayerIdx

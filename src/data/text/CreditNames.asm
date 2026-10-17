@@ -1,4 +1,4 @@
-CreditNames:		; the names under each credit title, each list ended by $0000
+CreditNames:						; the names under each credit title, each list ended by $0000
 	dw .1,$0000
 	dw .2,.3,.4,$0000
 	dw .5,.6,.7,$0000

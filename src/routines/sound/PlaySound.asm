@@ -1,4 +1,5 @@
-; Play sound A at once on the sound effect voices (the QueueSound set up without the replay record or the already-playing test)
+; Play sound A at once on the sound effect voices (the QueueSound set up without the replay record or the
+; already-playing test)
 PlaySound:
 	phx
 	phy
@@ -63,7 +64,7 @@ PlaySoundEntry:
 	plx
 	rtl
 
-.stop:		; unused: release the voices playing sound A
+.stop:								; unused: release the voices playing sound A
 	phx
 	phy
 	phb

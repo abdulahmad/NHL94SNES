@@ -3,7 +3,7 @@
 ; 94G song $66, in RandomSongs as here in DefaultSongs.
 ; Title (the forum list of the 94G songs): Tarantella Napoletana [Cm] / O'Malley's Steps [F].
 
-SongTarantella:		; header, track offsets (a zero ends them), padding, then the tracks
+SongTarantella:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$A0,$01,$00,$00,$00,$02,$00
 	dw .left-SongTarantella,.right-SongTarantella,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

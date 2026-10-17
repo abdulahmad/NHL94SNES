@@ -333,7 +333,8 @@ TitleScreen:
 .4x:
 	plp
 	rts
-.framehook:		; frame hook: a press ends the title (titleskip), then the display registers and .irq1
+.framehook:							;frame hook: a press ends the title (titleskip), then the display
+									;registers and .irq1
 	lda.w JoyPad
 	bit.w TitleSkipMask
 	beq .5x
@@ -368,7 +369,7 @@ TitleScreen:
 	sta.w HTIMEL
 	jsr.w .6
 	rtl
-.irq1:		; IRQ hook: the WH3 window edge, then .irq2
+.irq1:								; IRQ hook: the WH3 window edge, then .irq2
 	sep #$20
 	lda.w TitleWH3Low
 	sta.w WH3
@@ -382,7 +383,7 @@ TitleScreen:
 	lda.w #$00A0
 	sta.w HTIMEL
 	rtl
-.irq2:		; IRQ hook: the mode 7 matrix and scroll for the lower band, then .irq3
+.irq2:								; IRQ hook: the mode 7 matrix and scroll for the lower band, then .irq3
 	sep #$20
 	lda.b #$07
 	sta.w BGMODE
@@ -427,7 +428,7 @@ TitleScreen:
 	lda.w #$0000
 	sta.w HTIMEL
 	rtl
-.irq3:		; IRQ hook: BG1 on the main screen (TM)
+.irq3:								; IRQ hook: BG1 on the main screen (TM)
 	sep #$20
 	lda.b #$11
 	sta.w TM

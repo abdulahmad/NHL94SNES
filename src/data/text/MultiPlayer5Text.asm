@@ -1,5 +1,5 @@
 ; MultiPlayer 5 warnings: controller socket, Super Scope, and mouse
-MultiPlayer5Text:		; the MultiPlayer 5 messages
+MultiPlayer5Text:					; the MultiPlayer 5 messages
 	%String("The MultiPlayer 5")
 MP5MustConnect:
 	%String("must be connected")

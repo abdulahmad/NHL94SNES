@@ -461,7 +461,7 @@ ReplayMode:
 	lda.w #$0010
 	sta.w PadControlObj+$C
 	jmp.w .10
-.14:		; x and y steps (words) for eight directions
+.14:								; x and y steps (words) for eight directions
 	dw $0000,$0002, $0002,$0002, $0002,$0000, $0002,$FFFE
 	dw $0000,$FFFE, $FFFE,$FFFE, $FFFE,$0000, $FFFE,$0002
 .16:

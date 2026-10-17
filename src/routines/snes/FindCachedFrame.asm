@@ -11,7 +11,8 @@ FindCachedFrame:
 	inx
 	dey
 	bne FindCachedFrame
-LoadFrameTiles:		; allocate VRAM for the frame at [p0], queue the DMA of its tiles and add a tile cache entry
+LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its tiles and add a
+									;tile cache entry
 	ldy.w FrameCacheCount
 	cpy.w #$0080
 	beq .t3

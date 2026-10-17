@@ -1,4 +1,4 @@
-CreditTitles:		; the credit titles in order; $0000 ends the list
+CreditTitles:						; the credit titles in order; $0000 ends the list
 	dw .1,.2,.3,.4,.5,.6
 	dw .7,.8,.9,.10,.11,.12
 	dw .13,.14,.15,.16,.17

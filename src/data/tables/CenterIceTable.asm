@@ -1,5 +1,6 @@
 ; per team: a long pointer to the centre ice logo tiles, then one to its map
-CenterIceTable:		; per team: a long pointer to the centre ice logo tiles, then one to its map
+CenterIceTable:						;per team: a long pointer to the centre ice logo tiles, then one to its
+									;map
 	dd CenterIceTilesANH,CenterIceMapANH
 	dd CenterIceTilesBOS,CenterIceMapBOS
 	dd CenterIceTilesBUF,CenterIceMapBUF

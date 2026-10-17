@@ -1,5 +1,5 @@
 ; byte pair data at Y (after its header) to WRAM
-DecompressPairs:	; byte pair data at Y (after its header) to WRAM
+DecompressPairs:					; byte pair data at Y (after its header) to WRAM
 	iny
 	iny
 	lda.w #$0000

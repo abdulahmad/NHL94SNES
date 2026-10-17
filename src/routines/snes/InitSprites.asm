@@ -1,5 +1,6 @@
 ; A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block area of sprite VRAM;
-InitSprites:		; A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block area of sprite VRAM;
+InitSprites:						;A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block area of
+									;sprite VRAM;
 		;   empties the tile allocators, then ends an empty frame
 	sta.w SpriteVRAM
 	phb

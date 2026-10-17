@@ -1,4 +1,4 @@
-RosterLineNames:		; the line names: a word (2 + the text), then the text
+RosterLineNames:					; the line names: a word (2 + the text), then the text
 	%String("  Goalies   }")
 	%String("{Scoring  1 }")
 	%String("{Scoring  2 }")

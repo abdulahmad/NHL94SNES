@@ -1,4 +1,5 @@
-; For each of the 16 objects: puckdist2 (about (dx^2 + dy^2) / 4), puckdist (ApproxLength) and puckdir (vtoa) to the puck
+; For each of the 16 objects: puckdist2 (about (dx^2 + dy^2) / 4), puckdist (ApproxLength) and puckdir (vtoa)
+; to the puck
 CalcPuckDistances:
 	ldx.w #$0000
 .loop:

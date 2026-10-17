@@ -1,4 +1,5 @@
-; A = a random word: the sum of two 16-bit shift-register generators ($0792 and $0794, seeded $A5A5 / $B4B4 when 0)
+; A = a random word: the sum of two 16-bit shift-register generators ($0792 and $0794, seeded $A5A5 / $B4B4
+; when 0)
 RandomWord:
 	lda.w seed
 	beq .3

@@ -1,4 +1,5 @@
-; Set up the player card screen: fade out, the logo sprites, fonts, card graphics, map and palettes, clear text maps, sprites on
+; Set up the player card screen: fade out, the logo sprites, fonts, card graphics, map and palettes, clear
+; text maps, sprites on
 LoadPlayerCardScreen:
 	jsl.l FadeOut
 	lda.w #TeamLogoSprites>>16

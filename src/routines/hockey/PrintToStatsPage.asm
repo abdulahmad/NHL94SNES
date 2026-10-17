@@ -1,4 +1,5 @@
-; Print string [a1] at printx / printy into the stats page buffer ($7F2780, 32 wide) through the SmallFontMap character map
+; Print string [a1] at printx / printy into the stats page buffer ($7F2780, 32 wide) through the SmallFontMap
+; character map
 PrintToStatsPage:
 	phx
 	lda.w #$0020

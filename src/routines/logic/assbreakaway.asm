@@ -138,7 +138,7 @@ assbreakaway:
 	sta.w SPAcnt,x
 	jsl.l doshot
 	rtl
-.nocallback:		; the skateto callback that does nothing
+.nocallback:						; the skateto callback that does nothing
 	rtl
 .9:
 	lda.w sopathpoint

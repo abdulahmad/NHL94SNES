@@ -3,7 +3,7 @@
 ; 94G song $63 at the same TeamSongs slots: SJ 3.
 ; Title (the forum list of the 94G songs): Blue Danube Waltz [C].
 
-SongBlueDanube:		; header, track offsets (a zero ends them), padding, then the tracks
+SongBlueDanube:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$03,$00
 	dw .left-SongBlueDanube,.right-SongBlueDanube,.claps-SongBlueDanube,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

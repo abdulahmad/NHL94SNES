@@ -1,4 +1,5 @@
-; $1638 = 1 when the puck carrier is in the attacking zone half with no opposing skater (not the goalie) between him and the goal, else 0
+; $1638 = 1 when the puck carrier is in the attacking zone half with no opposing skater (not the goalie)
+; between him and the goal, else 0
 CheckBreakaway:
 	stz.w IsBreakaway
 	lda.w puckc

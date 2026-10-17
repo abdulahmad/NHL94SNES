@@ -3,7 +3,7 @@
 ; 94G song $6A at the same TeamSongs slots: TB 0.
 ; Title (the forum list of the 94G songs): Here We Go [F].
 
-SongHereWeGoF:		; header, track offsets (a zero ends them), padding, then the tracks
+SongHereWeGoF:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$82,$01,$00,$00,$00,$03,$00
 	dw .left-SongHereWeGoF,.right-SongHereWeGoF,.claps-SongHereWeGoF,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

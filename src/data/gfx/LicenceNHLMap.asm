@@ -1,6 +1,8 @@
-; Mode 7 byte map (10 x 12) of the NHL shield over LicenceTiles; TitleScreen puts it at column 60, row 60 (the first zoom)
+; Mode 7 byte map (10 x 12) of the NHL shield over LicenceTiles; TitleScreen puts it at column 60, row 60 (the
+; first zoom)
 
-LicenceNHLMap:		; three words (10, 12, 16), then a 10 x 12 byte map, one row per line; TitleScreen copies it
+LicenceNHLMap:						;three words (10, 12, 16), then a 10 x 12 byte map, one row per line;
+									;TitleScreen copies it
 			;   to the mode 7 map (Mode7MapToVRAM), then LicenceNHLPAMap (bank $87) over it
 	dw 10,12,16
 	db $00,$01,$02,$03,$04,$05,$06,$07,$08,$00

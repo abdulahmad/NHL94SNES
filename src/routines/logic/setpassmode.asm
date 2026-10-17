@@ -1,4 +1,5 @@
-; Set the pass direction from player X's facing (passdir, sflags sfspdir), unless he is the goalie holding the puck behind the net
+; Set the pass direction from player X's facing (passdir, sflags sfspdir), unless he is the goalie holding the
+; puck behind the net
 setpassmode:
 	lda.w position,x
 	bne .2

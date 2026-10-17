@@ -3,7 +3,7 @@
 ; 94G song $43 at the same TeamSongs slots: LA 0, LA 1.
 ; Title (the forum list of the 94G songs): O'Malley's Steps [C].
 
-SongOMalleysStepsC:		; header, track offsets (a zero ends them), padding, then the tracks
+SongOMalleysStepsC:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongOMalleysStepsC,.right-SongOMalleysStepsC,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

@@ -1,4 +1,6 @@
-; Set a penalty shot pending for shooter BA_Sktr_SCnum: penshot = 1, the shooting team BA_Team (and its count tmPenShots), the shooter number (BA_Skater_Offset); the faceoff spot is saved (psfoxsave / psfoysave) and cleared
+; Set a penalty shot pending for shooter BA_Sktr_SCnum: penshot = 1, the shooting team BA_Team (and its count
+; tmPenShots), the shooter number (BA_Skater_Offset); the faceoff spot is saved (psfoxsave / psfoysave) and
+; cleared
 StartPenaltyShot:
 	lda.w penshot
 	bne .2

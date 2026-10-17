@@ -1,4 +1,5 @@
-; Draw the place name of team d1 (TeamPlaceNames), or string [a1] when d1 is negative, as letter sprites at X / Y
+; Draw the place name of team d1 (TeamPlaceNames), or string [a1] when d1 is negative, as letter sprites at X
+; / Y
 PrintTeamSprites:
 	phb
 	phk
@@ -161,7 +162,7 @@ PrintTeamSprites_go:
 	phx
 	txa
 	clc
-	adc.w #SPFbigfont-1		; DrawSprite index (frame - 1) of the letter
+	adc.w #SPFbigfont-1				; DrawSprite index (frame - 1) of the letter
 	sta.b r0
 	lda.l horblocks
 	bne .t1xxxxx

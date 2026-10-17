@@ -1,4 +1,5 @@
-; When player d0 has the puck and no pad: give him the next pad of his team in turn ($0AFD), if that team has pads ($19D0)
+; When player d0 has the puck and no pad: give him the next pad of his team in turn ($0AFD), if that team has
+; pads ($19D0)
 PuckCarrierPad:
 	ldy.b d0
 	lda.w playerpad,y

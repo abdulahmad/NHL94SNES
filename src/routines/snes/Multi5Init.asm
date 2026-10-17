@@ -1,5 +1,5 @@
 ; check for the multitap, then clear the multitap pads and state
-Multi5Init:		; check for the multitap, then clear the multitap pads and state
+Multi5Init:							; check for the multitap, then clear the multitap pads and state
 	jsl.l Multi5ConnectCheck
 	lda.w #$000F
 	sta.w JoyPad+4

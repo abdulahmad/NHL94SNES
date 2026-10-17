@@ -31,7 +31,8 @@ setsortcords:
 	pla
 	jsl.l DrawSprite
 	bra .10
-.1:		; read with an index from 1, as .2 and .3: DrawSprite index (frame - 1) of the first bench frame
+.1:									;read with an index from 1, as .2 and .3: DrawSprite index (frame - 1) of
+									;the first bench frame
 	dw SPFbench-1,SPFbench-1,SPFbench+6-1,SPFbench+6-1
 .2:
 	dw $FF31,$FFB9,$FF31,$FFB9
@@ -123,7 +124,7 @@ setsortcords:
 	bcc .8
 	cmp.w #SPFcupover+8
 	bcs .8
-	adc.w #SPFcupover-SPFcup-1	; DrawSprite index of the cup over SPFcup+n
+	adc.w #SPFcupover-SPFcup-1		; DrawSprite index of the cup over SPFcup+n
 	sta.b r0
 	lda.w sprattr
 	and.w #$F000

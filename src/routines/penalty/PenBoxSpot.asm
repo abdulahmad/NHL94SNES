@@ -1,4 +1,5 @@
-; $08 = the penalty box y spot for player X: +-11 by team times (his team's players in the box (PBnum nibble, at most 2) + 3)
+; $08 = the penalty box y spot for player X: +-11 by team times (his team's players in the box (PBnum nibble,
+; at most 2) + 3)
 PenBoxSpot:
 	lda.w #$000B
 	sta.b d0

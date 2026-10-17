@@ -1,4 +1,5 @@
-; Game setup screen tiles: blankchar = $200, smallfontchars = $201, clear their VRAM, unpack the font (SmallFontTiles), then Framercset after it and scorechars 4 tiles further
+; Game setup screen tiles: blankchar = $200, smallfontchars = $201, clear their VRAM, unpack the font
+; (SmallFontTiles), then Framercset after it and scorechars 4 tiles further
 InitSetupChars:
 	lda.w #$0200
 	sta.l blankchar

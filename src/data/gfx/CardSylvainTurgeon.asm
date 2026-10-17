@@ -1,6 +1,7 @@
 ; Player photo: Sylvain Turgeon (PlayerPhotoTable OTT 9)
 
-CardSylvainTurgeon:		; a player photo: 6 x 6 linear 4bpp tiles packed for DecompressHuffman, one entry of the photo table
+CardSylvainTurgeon:					;a player photo: 6 x 6 linear 4bpp tiles packed for DecompressHuffman, one
+									;entry of the photo table
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80

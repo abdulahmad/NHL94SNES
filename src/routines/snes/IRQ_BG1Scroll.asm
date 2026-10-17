@@ -12,7 +12,7 @@ IRQ_BG1Scroll:
 	sta.w VTIMEL
 	rtl
 
-.t1:		; IRQ hook: BG1 vertical scroll $FFFF, then IRQ_BG1Scroll is the next hook
+.t1:								; IRQ hook: BG1 vertical scroll $FFFF, then IRQ_BG1Scroll is the next hook
 	sep #$20
 	lda.b #$FF
 	sta.w BG1VOFS

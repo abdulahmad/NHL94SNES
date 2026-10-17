@@ -1,4 +1,5 @@
-; For each of the 5 pads: padchange = the buttons that changed, padnew = those newly pressed, then padlast = the buttons held
+; For each of the 5 pads: padchange = the buttons that changed, padnew = those newly pressed, then padlast =
+; the buttons held
 GetNewPresses:
 	lda.w JoyPad
 	eor.w padlast

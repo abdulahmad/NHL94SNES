@@ -1,4 +1,5 @@
-; Clear each team's offsides flag once it is back onside; when the puck crosses a blue line into the zone with an attacker past it, flag that team offsides
+; Clear each team's offsides flag once it is back onside; when the puck crosses a blue line into the zone with
+; an attacker past it, flag that team offsides
 ChkOffsides:
 	stz.b a1
 	lda.w #$0002

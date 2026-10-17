@@ -1,4 +1,5 @@
-; UpdateCrowdMeter into CurCrowdMeter; 110 dB or more sets CrowdLoud, and falling under 105 dB then calls LowerHotColdTable and clears it
+; UpdateCrowdMeter into CurCrowdMeter; 110 dB or more sets CrowdLoud, and falling under 105 dB then calls
+; LowerHotColdTable and clears it
 CheckCrowdMeter:
 	lda.b d0
 	pha

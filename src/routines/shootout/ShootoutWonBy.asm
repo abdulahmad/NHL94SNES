@@ -1,5 +1,5 @@
 ; "<team> Wins!" once the shootout is decided
-ShootoutWonBy:		; "<team> Wins!" once the shootout is decided
+ShootoutWonBy:						; "<team> Wins!" once the shootout is decided
 	lda.w shootoutmode
 	bne .t1
 	jmp.w .3

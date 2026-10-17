@@ -1,5 +1,5 @@
 ; sound effects: word offsets from here, then the effects (48 bytes each)
-MenuSfxTable:		; sound effects: word offsets from here, then the effects (48 bytes each)
+MenuSfxTable:						; sound effects: word offsets from here, then the effects (48 bytes each)
 	dw $0070,$00A0,$00D0,$0100,$0130,$0160,$0190,$01C0
 	dw $01F0,$0220,$0250,$0280,$02B0,$02E0,$0310,$0340
 	dw $0370,$03A0,$03D0,$0400,$0430,$0460,$0490,$04C0

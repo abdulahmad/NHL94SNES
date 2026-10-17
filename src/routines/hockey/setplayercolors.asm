@@ -10,7 +10,8 @@ setplayercolors:
 	jsl.l DMAToCGRAM
 	rtl
 
-; Set both teams' uniform colours in palbuffer (HomeUniformPalettes / AwayUniformPalettes) and the shared colours
+; Set both teams' uniform colours in palbuffer (HomeUniformPalettes / AwayUniformPalettes) and the shared
+; colours
 SetTeamColors:
 	phx
 	phy

@@ -1,4 +1,5 @@
-; Print the selected line name and attribute column ($0D47, wrapping) and each player of the line with GetNameandAttrib
+; Print the selected line name and attribute column ($0D47, wrapping) and each player of the line with
+; GetNameandAttrib
 ShowRosterLine:
 	lda.b a1+2
 	pha
@@ -184,5 +185,6 @@ org $9DA000
 	bpl .3
 RosterRtl:
 	rtl
-RosterGoalieList:	; the roster players shown on the goalie page (with RosterGoalieMarks): 1-4, the goalies come first
+RosterGoalieList:					;the roster players shown on the goalie page (with RosterGoalieMarks):
+									;1-4, the goalies come first
 	db $01,$02,$03,$04

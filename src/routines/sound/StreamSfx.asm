@@ -1,4 +1,5 @@
-; Ask for streamed sound effect A (1-6): stop the one playing if it differs (StopSound), then streamsfx = A, streamstate = 0
+; Ask for streamed sound effect A (1-6): stop the one playing if it differs (StopSound), then streamsfx = A,
+; streamstate = 0
 StreamSfx:
 	sep #$20
 	dec.w SoundLock

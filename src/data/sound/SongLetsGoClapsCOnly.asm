@@ -3,7 +3,7 @@
 ; 94G song $4C at the same TeamSongs slots: MTL 5.
 ; Title (the forum list of the 94G songs): Let's Go Claps [C only].
 
-SongLetsGoClapsCOnly:		; header, track offsets (a zero ends them), padding, then the tracks
+SongLetsGoClapsCOnly:				; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$7E,$01,$00,$00,$00,$02,$00
 	dw .left-SongLetsGoClapsCOnly,.right-SongLetsGoClapsCOnly,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

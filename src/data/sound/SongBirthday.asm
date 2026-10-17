@@ -3,7 +3,7 @@
 ; 94G songs $37, $44 at the same TeamSongs slots: CGY 1, CGY 3, LA 3.
 ; Title (the forum list of the 94G songs): You Say It's Your Birthday (94G also has one with claps).
 
-SongBirthday:		; header, track offsets (a zero ends them), padding, then the tracks
+SongBirthday:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$9A,$01,$00,$00,$00,$03,$00
 	dw .left-SongBirthday,.right-SongBirthday,.claps-SongBirthday,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

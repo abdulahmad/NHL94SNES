@@ -1,4 +1,4 @@
-TeamPlaceNames:		; word pointers to the team places, then the places ($00 ends each)
+TeamPlaceNames:						; word pointers to the team places, then the places ($00 ends each)
 	dw .ANH,.BOS,.BUF,.CGY,.CHI,.DAL,.DET
 	dw .EDM,.FLA,.HFD,.LA,.MTL,.NJ,.NYI
 	dw .NYR,.OTW,.PHI,.PIT,.QUE,.SJ,.STL

@@ -3,7 +3,7 @@
 ; 94G song $55 at the same TeamSongs slots: NYR 1.
 ; Title (the forum list of the 94G songs): Charge [C] {Slower}.
 
-SongChargeSlow:		; header, track offsets (a zero ends them), padding, then the tracks
+SongChargeSlow:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongChargeSlow,.right-SongChargeSlow,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

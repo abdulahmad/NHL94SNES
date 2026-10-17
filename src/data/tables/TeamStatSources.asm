@@ -1,4 +1,5 @@
-; Per stat of TeamStatNames: a kind word, then the RAM word of the home and away team ($FFFF = none); $FFFF ends them
+; Per stat of TeamStatNames: a kind word, then the RAM word of the home and away team ($FFFF = none); $FFFF
+; ends them
 TeamStatSources:
 	dw $0010,tmscore,$FFFF
 	dw $0010,tmshots,$FFFF

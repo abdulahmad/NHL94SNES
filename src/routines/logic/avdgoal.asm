@@ -252,7 +252,7 @@ avdgoal:
 	lda.w #$FFCA
 	sta.b d0
 	rts
-.26:		; jump table for jsr (.26,x)
+.26:								; jump table for jsr (.26,x)
 	dw .7,.11,.18,.15,.21,$0000,.19
 	dw $0000,.24,.25,$0000,$0000,.22
 .27:
@@ -513,7 +513,7 @@ avdgoal:
 	lda.w #$FFDA
 	sta.b d0
 	rts
-.47:		; jump table for jsr (.47,x)
+.47:								; jump table for jsr (.47,x)
 	dw .30,.34,.40,.37,.43,$0000,.41
 	dw $0000,.45,.46,$0000,$0000,.44
 .48:

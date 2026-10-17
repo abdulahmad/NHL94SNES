@@ -3,7 +3,7 @@
 ; 94G song $60 at the same TeamSongs slots: SJ 1.
 ; Title (the forum list of the 94G songs): Jaws Theme.
 
-SongJaws:		; header, track offsets (a zero ends them), padding, then the tracks
+SongJaws:							; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongJaws,.right-SongJaws,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

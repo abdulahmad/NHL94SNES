@@ -3,7 +3,7 @@
 ; 94G song $6B at the same TeamSongs slots: TB 1, TB 2.
 ; Title (the forum list of the 94G songs): Cavalry Charge [C].
 
-SongCavalryCharge:		; header, track offsets (a zero ends them), padding, then the tracks
+SongCavalryCharge:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongCavalryCharge,.right-SongCavalryCharge,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

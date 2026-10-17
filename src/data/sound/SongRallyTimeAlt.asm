@@ -3,7 +3,7 @@
 ; 94G song $73 at the same TeamSongs slots: WSH 1.
 ; Title (the forum list of the 94G songs): Rally Time [F] {Alternate}.
 
-SongRallyTimeAlt:		; header, track offsets (a zero ends them), padding, then the tracks
+SongRallyTimeAlt:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$03,$00
 	dw .left-SongRallyTimeAlt,.right-SongRallyTimeAlt,.claps-SongRallyTimeAlt,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

@@ -1,5 +1,5 @@
 ; per team (TeamList order) 26 long pointers to packed player photos
-PlayerPhotoTable:	; per team (TeamList order) 26 long pointers to packed player photos
+PlayerPhotoTable:					; per team (TeamList order) 26 long pointers to packed player photos
 	dd CardGuyHebert,NoPicGoalie,NoPicSkater1,CardTroyLoney,NoPicSkater2,CardTerryYake,NoPicSkater3	; Anaheim
 	dd CardAnatoliSemenov,NoPicSkater1,NoPicSkater3,NoPicSkater2,CardAlexeiKasatonov,NoPicSkater3,CardRandyLadouceur
 	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1

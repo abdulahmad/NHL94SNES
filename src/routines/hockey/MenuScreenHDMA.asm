@@ -36,17 +36,18 @@ org $9DE002
 	sta.w HDMAEN
 	rep #$20
 	rtl
-.1:		; WH0-WH3 values for .2
+.1:									; WH0-WH3 values for .2
 	db $FF,$00,$FF,$00
 	db $40,$BF,$FF,$00
-.2:		; indirect HDMA table: line count, then the address of the values in this bank; $00 ends it
+.2:									;indirect HDMA table: line count, then the address of the values in this
+									;bank; $00 ends it
 	db $10 : dw .1
 	db $20 : dw .1+4
 	db $14 : dw .1
 	db $00
-.3:		; COLDATA values for .4
+.3:									; COLDATA values for .4
 	db $EF,$E7,$E3,$E0
-.4:		; indirect HDMA table, as .2
+.4:									; indirect HDMA table, as .2
 	db $0C : dw .3+3
 	db $06 : dw .3+2
 	db $1C : dw .3+1

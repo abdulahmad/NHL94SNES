@@ -3,7 +3,7 @@
 ; 94G song $64 at the same TeamSongs slots: SJ 4.
 ; Title (the forum list of the 94G songs): Buildup / Charge [F only].
 
-SongBuildupChargeF:		; header, track offsets (a zero ends them), padding, then the tracks
+SongBuildupChargeF:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongBuildupChargeF,.right-SongBuildupChargeF,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

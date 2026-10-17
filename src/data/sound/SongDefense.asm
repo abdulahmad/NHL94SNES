@@ -1,9 +1,10 @@
-; A song: a header (the second byte is the tempo), the offsets of its tracks, then each track
-; in a TRAK chunk (size byte, tag, track name, then the note stream the music player reads).
-; 94G song $5A at the same TeamSongs slots: BOS 4, BUF 4, CHI 4, DAL 4, DET 4, EDM 4, HFD 4, LA 4, MTL 4, NJ 4, NYI 4, NYR 4, OTW 4, PHI 4, PIT 4, QUE 4, STL 4, TB 4, TOR 4, VAN 4, WSH 4, WPG 4.
-; Title (the forum list of the 94G songs): Defense [C].
+; A song: a header (the second byte is the tempo), the offsets of its tracks, then each track in a TRAK chunk
+; (size byte, tag, track name, then the note stream the music player reads). 94G song $5A at the same
+; TeamSongs slots: BOS 4, BUF 4, CHI 4, DAL 4, DET 4, EDM 4, HFD 4, LA 4, MTL 4, NJ 4, NYI 4, NYR 4, OTW 4,
+; PHI 4, PIT 4, QUE 4, STL 4, TB 4, TOR 4, VAN 4, WSH 4, WPG 4. Title (the forum list of the 94G songs):
+; Defense [C].
 
-SongDefense:		; header, track offsets (a zero ends them), padding, then the tracks
+SongDefense:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongDefense,.right-SongDefense,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

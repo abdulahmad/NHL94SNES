@@ -1,5 +1,5 @@
 ; X / A (8-bit) into A, X signed
-DivX8S:		; X / A (8-bit) into A, X signed
+DivX8S:								; X / A (8-bit) into A, X signed
 	cpx.w #$0000
 	bpl DivX8U
 	phy

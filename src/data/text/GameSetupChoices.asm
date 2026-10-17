@@ -1,5 +1,5 @@
 ; Game Setup option texts
-GameSetupChoices:		; Game Setup option texts: a word (2 + the text), then the text
+GameSetupChoices:					; Game Setup option texts: a word (2 + the text), then the text
 	%String("Regular Season")
 	%String("Cont. Playoffs")
 	%String("New Playoffs  ")

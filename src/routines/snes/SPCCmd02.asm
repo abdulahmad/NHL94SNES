@@ -1,4 +1,5 @@
-; sound driver command $02 (the sample count and the free sound RAM pointer); returns its answers in A (a byte) and X
+; sound driver command $02 (the sample count and the free sound RAM pointer); returns its answers in A (a
+; byte) and X
 SPCCmd02:
 	sep #$20
 .wait:

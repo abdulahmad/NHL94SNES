@@ -1,5 +1,5 @@
 ; free bytes of both heaps in X:A
-HeapFree:		; free bytes of both heaps in X:A
+HeapFree:							; free bytes of both heaps in X:A
 	stz.b r3
 	stz.b r3+2
 	stz.b p0

@@ -3,7 +3,7 @@
 ; 94G song $67 at the same TeamSongs slots: STL 0, STL 3.
 ; Title (the forum list of the 94G songs): When the Saints Go Marching In [C].
 
-SongSaintsGoMarchingIn:		; header, track offsets (a zero ends them), padding, then the tracks
+SongSaintsGoMarchingIn:				; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongSaintsGoMarchingIn,.right-SongSaintsGoMarchingIn,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

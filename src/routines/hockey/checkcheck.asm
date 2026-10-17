@@ -163,5 +163,5 @@ org $9EA001
 	jsl.l AddPenalty
 .2x:
 	jmp.w FallDown
-.4:		; check animation by direction (93S .list, with a 94 animation first)
+.4:									; check animation by direction (93S .list, with a 94 animation first)
 	dw SPAcrosscheck&$FFFF,SPAshoulderchkr&$FFFF,SPAhipchkr&$FFFF,SPAhipchkr&$FFFF,SPAhipchkr&$FFFF,SPAhipchkl&$FFFF,SPAhipchkl&$FFFF,SPAshoulderchkl&$FFFF
