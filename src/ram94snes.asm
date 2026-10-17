@@ -196,6 +196,7 @@ pfna = $0002		; new assignment
 tmfoffside = $0010	; team flagged offsides
 cbut = $0080		; shoot / check button in d2
 blueline = $58		; puck y past which a team can be offside
+sideline = $88		; distance from center to side boards
 PenOffsides = $12	; offsides penalty number
 PenIcing = $0C		; icing penalty number
 PenGoal = $0E		; goal

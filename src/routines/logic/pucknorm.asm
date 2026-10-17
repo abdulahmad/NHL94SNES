@@ -186,9 +186,9 @@ pucknorm_move:
 	jsl.l Mul16XS
 	adc.w puckx
 	sta.b d0
-	cmp.w #$0088
+	cmp.w #sideline
 	bmi .2x
-	lda.w #$0088
+	lda.w #sideline
 	sta.b d0
 .2x:
 	lda.b d0

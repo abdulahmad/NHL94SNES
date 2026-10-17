@@ -530,9 +530,9 @@ updateplayers:
 	sta.w Xpos+$1E
 .1xxxxxxxxxx:
 	lda.w puckx
-	cmp.w #$0088
+	cmp.w #sideline
 	bmi .2xxxxxx
-	lda.w #$0088
+	lda.w #sideline
 	sta.w puckx
 	ldx.w frame+$1C
 	cpx.w #SPFpuck

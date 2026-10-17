@@ -474,7 +474,7 @@ assgoalie:
 	bmi .1xxxxxxxx
 	cmp.w #$002D
 	bpl .1xxxxxxxx
-	lda.w #$0088
+	lda.w #sideline
 	sta.b d0
 	lda.w Xpos,x
 	bpl .1xxxxxxxx

@@ -490,10 +490,10 @@ ReplayMode:
 .1xxxxxxxxxx:
 	lda.w #$FF78
 .2xxxxxxxx:
-	cmp.w #$0088
+	cmp.w #sideline
 	bmi .4xxxxx
 .3xxxxxx:
-	lda.w #$0088
+	lda.w #sideline
 .4xxxxx:
 	sta.w Xpos+$20
 	lda.w pucky

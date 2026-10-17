@@ -140,9 +140,9 @@ doshot:
 	lsr.b d0
 .2x:
 	lda.b d0
-	cmp.w #$0088
+	cmp.w #sideline
 	bcc .3x
-	lda.w #$0088
+	lda.w #sideline
 	sta.b d0
 .3x:
 	pha
