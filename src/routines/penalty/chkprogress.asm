@@ -106,7 +106,8 @@ chkprogress:
 	cpx.w #$0010
 	bne .loopx
 	ldx.b xsave
-; chkprogress: look for any penalty left in PenBuf (93S .find); InProgress when there is one, else InProgress_exit
+; chkprogress: look for any penalty left in PenBuf (93S .find); InProgress when there is one, else
+; InProgress_exit
 chkprogress_find:
 	lda.w #PenBuf>>16
 	sta.b a0+2

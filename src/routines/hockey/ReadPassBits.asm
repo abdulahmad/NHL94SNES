@@ -83,7 +83,7 @@ ReadPassBits:
 	sta.l postarts
 .rtl:
 	rtl
-.sd:		;d0 = passbits mod d0, added to the checksum d7
+.sd:								;d0 = passbits mod d0, added to the checksum d7
 	jsl.l SuperDiv
 	lda.b d7
 	clc

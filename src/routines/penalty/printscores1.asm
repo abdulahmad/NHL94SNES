@@ -1,4 +1,5 @@
-; Draw the scoreboard: the period and score boxes on the vertical rink, or the period, teams and scores on the horizontal rink
+; Draw the scoreboard: the period and score boxes on the vertical rink, or the period, teams and scores on the
+; horizontal rink
 printscores1:
 	lda.b d0
 	pha

@@ -1,4 +1,5 @@
-; Each frame: stream the sample block of streamsfx (.7) to the sound CPU (SPCStreamStart / SPCStreamNext), then play it (QueueSound from StreamSfxSounds)
+; Each frame: stream the sample block of streamsfx (.7) to the sound CPU (SPCStreamStart / SPCStreamNext),
+; then play it (QueueSound from StreamSfxSounds)
 UpdateStreamSfx:
 	rep #$30
 	lda.w SoundLock
@@ -99,6 +100,7 @@ UpdateStreamSfx:
 	sta.l streamstate
 .1x:
 	rtl
-.7:		; long pointers to the blocks for the sound CPU that the code above streams in
+.7:									;long pointers to the blocks for the sound CPU that the code above streams
+									;in
 	dd StreamSamplePeriodEnd,StreamSampleGoal,StreamSampleBigHit
 	dd StreamSampleSave,StreamSamplePuckBody,StreamSampleOverGlass

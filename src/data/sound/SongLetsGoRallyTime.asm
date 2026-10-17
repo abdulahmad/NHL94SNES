@@ -3,7 +3,7 @@
 ; 94G song $5B at the same TeamSongs slots: PIT 1.
 ; Title (the forum list of the 94G songs): Let's Go / Rally Time [G].
 
-SongLetsGoRallyTime:		; header, track offsets (a zero ends them), padding, then the tracks
+SongLetsGoRallyTime:				; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$92,$01,$00,$00,$00,$02,$00
 	dw .left-SongLetsGoRallyTime,.right-SongLetsGoRallyTime,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

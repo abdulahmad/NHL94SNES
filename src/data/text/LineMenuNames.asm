@@ -1,5 +1,6 @@
 ; Line names on the line menu
-LineMenuNames:		; the line names: each entry is a word (the bytes to the next entry), then its text
+LineMenuNames:						;the line names: each entry is a word (the bytes to the next entry), then
+									;its text
 	%String("    Goalies   ]")
 	%String("   Scoring 1  ]")
 	%String("[  Scoring 2  ]")

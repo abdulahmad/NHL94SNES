@@ -4,8 +4,8 @@ Div_Overflow:
 	lda.w #$7FFF
 	sta.b r0
 	rtl
-	sep #$20		; not reached
-Div32U_ByteDivisor:		; $08-$0A / $04 (8-bit) with the hardware divider, high byte first
+	sep #$20						; not reached
+Div32U_ByteDivisor:					; $08-$0A / $04 (8-bit) with the hardware divider, high byte first
 	lda.b r2+2
 	beq Div16x8U_Go
 	cmp.b r1

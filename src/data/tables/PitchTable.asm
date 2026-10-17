@@ -1,5 +1,5 @@
 ; sound driver pitch of each semitone, from the lowest octave up
-PitchTable:		; sound driver pitch of each semitone, from the lowest octave up
+PitchTable:							; sound driver pitch of each semitone, from the lowest octave up
 	dw $0020,$0021,$0023,$0026,$0028,$002A,$002D,$002F,$0032,$0035,$0039,$003C
 	dw $0040,$0043,$0047,$004C,$0050,$0055,$005A,$005F,$0065,$006B,$0072,$0078
 	dw $0080,$0087,$008F,$0098,$00A1,$00AA,$00B5,$00BF,$00CB,$00D7,$00E4,$00F1

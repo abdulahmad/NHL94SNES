@@ -1,4 +1,5 @@
-PregameText:		; the text of the pre-game screen, each string ending in $0D: the team places, then what Ron
+PregameText:						;the text of the pre-game screen, each string ending in $0D: the team
+									;places, then what Ron
 			;   Barr says, with % codes where the routine in bank $9E that prints it puts names and numbers
 	db "Anahiem",$0D
 	db "Boston",$0D

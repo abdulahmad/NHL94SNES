@@ -1,6 +1,8 @@
-; The title sprite set (DrawTitleSprite, unpacked to $7F5000): the N, H and L letters in three steps and the licence screen sprites
+; The title sprite set (DrawTitleSprite, unpacked to $7F5000): the N, H and L letters in three steps and the
+; licence screen sprites
 
-TitleSprites:		; a sprite set packed for DecompressHuffman: the N, H and L letters in three steps each, the NHL
+TitleSprites:						;a sprite set packed for DecompressHuffman: the N, H and L letters in
+									;three steps each, the NHL
 			;   shield, the NHLPA logo and the licence line of an opening screen
 	db $30,$FB
 	db $00,$29,$AF

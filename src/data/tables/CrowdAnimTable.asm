@@ -1,5 +1,5 @@
-; Crowd sprite objects: a word pointer to each object's entry (showcrowd reads it per object); each entry is a header,
-; then word pointers to its own frame lists ($FFFF ends a list)
+; Crowd sprite objects: a word pointer to each object's entry (showcrowd reads it per object); each entry is a
+; header, then word pointers to its own frame lists ($FFFF ends a list)
 CrowdAnimTable:
 	dw .1,.2,.3,.4,.5,.6
 	dw .7,.8,.9,.10,.11,.12

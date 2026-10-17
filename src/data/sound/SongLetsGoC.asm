@@ -3,7 +3,7 @@
 ; 94G song $41 at the same TeamSongs slots: HFD 2.
 ; Title (the forum list of the 94G songs): Let's Go [C].
 
-SongLetsGoC:		; header, track offsets (a zero ends them), padding, then the tracks
+SongLetsGoC:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$82,$01,$00,$00,$00,$02,$00
 	dw .left-SongLetsGoC,.right-SongLetsGoC,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

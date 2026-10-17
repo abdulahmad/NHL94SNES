@@ -1,4 +1,5 @@
-; Title: count $07D6 down, moving the window edges WH1 ($0BCB) and WH3 ($0BCF) each step (TitleDelay), then close them ($FF)
+; Title: count $07D6 down, moving the window edges WH1 ($0BCB) and WH3 ($0BCF) each step (TitleDelay), then
+; close them ($FF)
 TitleWindowWipe:
 	lda.w BG1HScroll
 .loop:

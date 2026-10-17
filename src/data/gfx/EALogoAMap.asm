@@ -1,6 +1,7 @@
 ; Mode 7 byte map (18 x 10) of the EA logo A, pasted into EALogoMap after EALogoEMap
 
-EALogoAMap:		; an 18 x 10 map of bytes, not packed (width, height, , then a byte per entry), read by
+EALogoAMap:							;an 18 x 10 map of bytes, not packed (width, height, , then a byte per
+									;entry), read by
 			;   a routine in bank $9F
 	db $12,$00,$0A,$00,$10,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	db $00,$05,$06,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

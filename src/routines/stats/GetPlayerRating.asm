@@ -1,4 +1,5 @@
-; d0 = rating column d1 (AttribMenuSkater / AttribMenuGoalie) of player $1D9B of team a2 through CalcAttrib, with the hot / cold adjustment
+; d0 = rating column d1 (AttribMenuSkater / AttribMenuGoalie) of player $1D9B of team a2 through CalcAttrib,
+; with the hot / cold adjustment
 GetPlayerRating:
 	stx.b xsave
 	ldx.w #$0000

@@ -251,5 +251,5 @@ doplayeracc:
 
 .t1xx:
 	rtl
-.10:		; steps for eight directions
+.10:								; steps for eight directions
 	dw $0000,$0011,$0011,$0011,$0000,$FFEF,$FFEF,$FFEF

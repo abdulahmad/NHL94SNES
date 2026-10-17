@@ -1,5 +1,6 @@
 ; join free blocks and move unlocked blocks down over them, fixing their handles
-HeapCompactBank:		; join free blocks and move unlocked blocks down over them, fixing their handles
+HeapCompactBank:					;join free blocks and move unlocked blocks down over them, fixing their
+									;handles
 	iny
 	iny
 	lda.b [p0],y
@@ -170,4 +171,4 @@ HeapCompactBank:		; join free blocks and move unlocked blocks down over them, fi
 	iny
 	iny
 	jmp.w .free
-	rts		; not reached
+	rts								; not reached

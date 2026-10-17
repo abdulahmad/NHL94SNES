@@ -1,4 +1,5 @@
-; The player select screen after the game setup: each pad moves its icon under the visitors or home team ($1C84-$1C8C), start goes on
+; The player select screen after the game setup: each pad moves its icon under the visitors or home team
+; ($1C84-$1C8C), start goes on
 PlayerSelect:
 	stz.w cont1team
 	stz.w cont2team
@@ -505,7 +506,7 @@ PlayerSelect:
 	tya
 	lsr a
 	clc
-	adc.w #SPFpad+1-1		; DrawSprite index (frame - 1) of the controller's star
+	adc.w #SPFpad+1-1				; DrawSprite index (frame - 1) of the controller's star
 	sta.b r0
 	lda.b d1+2
 	asl a
@@ -527,7 +528,7 @@ PlayerSelect:
 	tya
 	lsr a
 	clc
-	adc.w #SPFsmallfont+1-1	; DrawSprite index (frame - 1) of the controller number
+	adc.w #SPFsmallfont+1-1			; DrawSprite index (frame - 1) of the controller number
 	sta.b r0
 	lda.b d1+2
 	asl a

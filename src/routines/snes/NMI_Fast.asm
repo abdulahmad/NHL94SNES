@@ -31,5 +31,5 @@ NMI_Fast:
 .1:
 	ldx.b #$80
 	phx
-	pea.w NMI_HookReturn-1		; rtl from the hook lands on the next line
+	pea.w NMI_HookReturn-1			; rtl from the hook lands on the next line
 	jml [$078C]

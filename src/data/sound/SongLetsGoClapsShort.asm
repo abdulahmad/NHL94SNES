@@ -3,7 +3,7 @@
 ; 94G song $6E at the same TeamSongs slots: VAN 0.
 ; Title (the forum list of the 94G songs): Let's Go Claps [C] {Shorter}.
 
-SongLetsGoClapsShort:		; header, track offsets (a zero ends them), padding, then the tracks
+SongLetsGoClapsShort:				; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongLetsGoClapsShort,.right-SongLetsGoClapsShort,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

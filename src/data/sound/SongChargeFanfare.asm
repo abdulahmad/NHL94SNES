@@ -3,7 +3,7 @@
 ; 94G song $70 at the same TeamSongs slots: VAN 2.
 ; Title (the forum list of the 94G songs): Charge Fanfare [C].
 
-SongChargeFanfare:		; header, track offsets (a zero ends them), padding, then the tracks
+SongChargeFanfare:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongChargeFanfare,.right-SongChargeFanfare,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

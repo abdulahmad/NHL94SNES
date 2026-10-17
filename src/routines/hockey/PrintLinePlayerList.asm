@@ -1,4 +1,5 @@
-; Line editor player list: each row a player name and the attribute (GetNameandAttrib), the selected row highlighted
+; Line editor player list: each row a player name and the attribute (GetNameandAttrib), the selected row
+; highlighted
 PrintLinePlayerList:
 	lda.b a1+2
 	pha

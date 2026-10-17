@@ -1,5 +1,5 @@
 ; Team stat names used when penalties are off
-TeamStatNamesNoPen:		; stat names, the second list
+TeamStatNamesNoPen:					; stat names, the second list
 	%String("    Score    ")
 	%String("    Shots    ")
 	%String("Shooting Pct.")

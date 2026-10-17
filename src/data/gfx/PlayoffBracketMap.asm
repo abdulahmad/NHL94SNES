@@ -1,6 +1,7 @@
 ; The bracket graphics: 23 rows of 12 map words; PlayoffScreen copies column n, as 93S PlayoffBracketMap
 
-PlayoffBracketMap:		; a map, not packed: width, height and a word, then the map words (12 x 23), which a routine in
+PlayoffBracketMap:					;a map, not packed: width, height and a word, then the map words (12 x
+									;23), which a routine in
 			;   bank $9D copies column by column into a map buffer
 	dw $000C,$0017,$0308
 	dw $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000

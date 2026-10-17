@@ -3,7 +3,7 @@
 ; 94G songs $31, $3F, $4A, $54 at the same TeamSongs slots: BOS 0, BOS 5, DAL 0, EDM 1, EDM 2, NYR 0.
 ; Title (the forum list of the 94G songs): Here We Go (94G has it in E-flat, C, G and C slower).
 
-SongHereWeGo:		; header, track offsets (a zero ends them), padding, then the tracks
+SongHereWeGo:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$82,$01,$00,$00,$00,$02,$00
 	dw .left-SongHereWeGo,.right-SongHereWeGo,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

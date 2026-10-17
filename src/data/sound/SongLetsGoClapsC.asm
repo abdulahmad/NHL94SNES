@@ -3,7 +3,7 @@
 ; 94G song $5D at the same TeamSongs slots: QUE 0, QUE 2.
 ; Title (the forum list of the 94G songs): Let's Go Claps [C].
 
-SongLetsGoClapsC:		; header, track offsets (a zero ends them), padding, then the tracks
+SongLetsGoClapsC:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$80,$01,$00,$00,$00,$02,$00
 	dw .left-SongLetsGoClapsC,.right-SongLetsGoClapsC,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

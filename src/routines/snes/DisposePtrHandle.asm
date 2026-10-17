@@ -1,5 +1,5 @@
 ; free handle A unless it is a heap block
-DisposePtrHandle:		; free handle A unless it is a heap block
+DisposePtrHandle:					; free handle A unless it is a heap block
 	cmp.w #$2000
 	bcc .exit
 	cmp.w #$2100

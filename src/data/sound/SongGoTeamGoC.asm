@@ -4,7 +4,7 @@
 ; 94G song $46 at the same TeamSongs slots: LA 5.
 ; Title (the forum list of the 94G songs): Go Team Go [C].
 
-SongGoTeamGoC:		; header, track offsets (a zero ends them), padding, then the tracks
+SongGoTeamGoC:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$6A,$01,$00,$00,$00,$02,$00
 	dw .left-SongGoTeamGoC,.right-SongGoTeamGoC,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

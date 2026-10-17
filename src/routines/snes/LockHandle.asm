@@ -1,5 +1,5 @@
 ; set the locked bit of handle A's block
-LockHandle:		; set the locked bit of handle A's block
+LockHandle:							; set the locked bit of handle A's block
 	pha
 	cmp.w #$2000
 	bcc .exit

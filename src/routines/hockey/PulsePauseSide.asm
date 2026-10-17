@@ -1,4 +1,5 @@
-; Pulse the palette colour of the pausing pad's side ($7F76DE or $7F76FE, PulseColour), the other side white; both white with no side
+; Pulse the palette colour of the pausing pad's side ($7F76DE or $7F76FE, PulseColour), the other side white;
+; both white with no side
 PulsePauseSide:
 	lda.l notdemo
 	beq .2

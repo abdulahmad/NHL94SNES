@@ -1,4 +1,5 @@
-; Random team pairs for the 8 other games ($7E3528 / $7E3538), none of them HomeTeam or VisTeam and no team twice (bit sets $B3 / d3)
+; Random team pairs for the 8 other games ($7E3528 / $7E3538), none of them HomeTeam or VisTeam and no team
+; twice (bit sets $B3 / d3)
 InitializeGameStructures:
 	lda.w #$FFFF
 	sta.l gamenum

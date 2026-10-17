@@ -1,5 +1,6 @@
 ; Skater rating columns on the line screen
-SkaterAttribColumns:		; the player rating names: a word (2 + the text), the text, then two words; $FFFF ends them
+SkaterAttribColumns:				;the player rating names: a word (2 + the text), the text, then two words;
+									;$FFFF ends them
 	%String("      Status]")
 	dw $0000,$0000
 	%String("    [Overall]")

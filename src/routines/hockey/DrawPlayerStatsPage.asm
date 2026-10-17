@@ -1,4 +1,5 @@
-; Player stats: print the header and send the header rows and the visible rows of the stats page buffer (scroll $1DB9) to VRAM
+; Player stats: print the header and send the header rows and the visible rows of the stats page buffer
+; (scroll $1DB9) to VRAM
 DrawPlayerStatsPage:
 	lda.b d1
 	pha

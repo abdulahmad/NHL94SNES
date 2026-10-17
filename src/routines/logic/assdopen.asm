@@ -15,12 +15,12 @@ assdopen:
 	sta.w position,x
 	lda.w sfhormode
 	bne .t1
-	lda.w #SPFPen+8		; sitting in the box (vertical rink)
+	lda.w #SPFPen+8					; sitting in the box (vertical rink)
 	sta.w frame,x
 	bra .2
 
 .t1:
-	lda.w #SPFPen+7		; sitting in the box (horizontal rink)
+	lda.w #SPFPen+7					; sitting in the box (horizontal rink)
 	sta.w frame,x
 .2:
 	rtl

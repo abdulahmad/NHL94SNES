@@ -1,4 +1,4 @@
-runspeed = 200		; acc speed equate for the table below
+runspeed = 200						; acc speed equate for the table below
 
 ; x, y speed for each direction
 dirtab:

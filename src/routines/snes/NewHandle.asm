@@ -1,4 +1,5 @@
-; a block of X bytes; A bit 14 = locked; Y = $7E or $7F for that bank only, else either. Returns the handle, 0 if no room
+; a block of X bytes; A bit 14 = locked; Y = $7E or $7F for that bank only, else either. Returns the handle, 0
+; if no room
 NewHandle:
 	stx.b r3
 	and.w #$4000

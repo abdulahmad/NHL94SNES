@@ -1,4 +1,5 @@
-; Upload the menu sample set (MenuSampleList, sound table MenuSfxTable) and mark $1D68 = 2, unless it is loaded
+; Upload the menu sample set (MenuSampleList, sound table MenuSfxTable) and mark $1D68 = 2, unless it is
+; loaded
 SPCMenuUpload:
 	stz.w cursong
 	lda.w sndbank

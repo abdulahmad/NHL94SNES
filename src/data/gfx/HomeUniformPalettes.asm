@@ -1,6 +1,7 @@
 ; The uniform colours of every team, 16 per team in team order: Extracted/data/gfx/Pals/<team>h.pal (as 94G).
 
-HomeUniformPalettes:	; 16 colours per team, indexed by the home team : the sprite colours of the home players
+HomeUniformPalettes:				;16 colours per team, indexed by the home team : the sprite colours of the
+									;home players
 			;   (white jerseys)
 	incbin "../../../Extracted/data/gfx/Pals/ANHh.pal"	; Anaheim
 	incbin "../../../Extracted/data/gfx/Pals/BOSh.pal"	; Boston

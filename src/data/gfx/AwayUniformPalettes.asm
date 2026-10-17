@@ -1,6 +1,7 @@
 ; The uniform colours of every team, 16 per team in team order: Extracted/data/gfx/Pals/<team>v.pal (as 94G).
 
-AwayUniformPalettes:	; 16 colours per team, indexed by the away team : the sprite colours of the away players
+AwayUniformPalettes:				;16 colours per team, indexed by the away team : the sprite colours of the
+									;away players
 			;   (dark jerseys)
 	incbin "../../../Extracted/data/gfx/Pals/ANHv.pal"	; Anaheim
 	incbin "../../../Extracted/data/gfx/Pals/BOSv.pal"	; Boston

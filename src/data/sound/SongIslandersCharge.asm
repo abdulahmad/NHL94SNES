@@ -3,7 +3,7 @@
 ; 94G song $49 at the same TeamSongs slots: NYI 3, NYI 5, DefaultSongs.
 ; Title (the forum list of the 94G songs): ?Islanders? / Charge [B-flat].
 
-SongIslandersCharge:		; header, track offsets (a zero ends them), padding, then the tracks
+SongIslandersCharge:				; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongIslandersCharge,.right-SongIslandersCharge,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

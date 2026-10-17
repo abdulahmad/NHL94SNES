@@ -3,7 +3,7 @@
 ; 94G song $6C at the same TeamSongs slots: TOR 0, TOR 1.
 ; Title (the forum list of the 94G songs): O'Malley's Steps [C] {Slower}.
 
-SongOMalleysStepsSlow:		; header, track offsets (a zero ends them), padding, then the tracks
+SongOMalleysStepsSlow:				; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongOMalleysStepsSlow,.right-SongOMalleysStepsSlow,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

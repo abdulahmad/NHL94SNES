@@ -1,4 +1,6 @@
-; Assignment $14: the puck carrier dumps the puck in: shoot when close in (CompShoot), else lift it (puckflip) toward the target DumpInTarget picked (over the blue line, a corner or the front of the net) and let go of it
+; Assignment $14: the puck carrier dumps the puck in: shoot when close in (CompShoot), else lift it (puckflip)
+; toward the target DumpInTarget picked (over the blue line, a corner or the front of the net) and let go of
+; it
 assdumpin:
 	cpx.w puckc
 	bne .t2
@@ -159,11 +161,11 @@ assdumpin:
 	lsr a
 	sta.w lastplayer
 	jmp.w dopass_swing
-.6:		; by target: the x spread (plus the rating term)
+.6:									; by target: the x spread (plus the rating term)
 	dw 25,25,25,25,20,25,25,25,25,25,20,25
-.7:		; by target: the y spread
+.7:									; by target: the y spread
 	dw 20,25,25,70,20,70,20,25,25,70,20,70
-.8:		; by target: x
+.8:									; by target: x
 	dw 0,-80,80,-80,0,80,0,80,-80,-80,0,80
-.ytab:		; by target: y (toward the goal; the second half for the other end)
+.ytab:								; by target: y (toward the goal; the second half for the other end)
 	dw -105,-115,-115,-180,-215,-180,105,115,115,180,215,180

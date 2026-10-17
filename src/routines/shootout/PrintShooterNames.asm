@@ -1,5 +1,6 @@
 ; Shootout shooters: the shooters' names
-PrintShooterNames:		; print the goalie and shooter rows, the row at the cursor ($1DB9) in another palette
+PrintShooterNames:					;print the goalie and shooter rows, the row at the cursor ($1DB9) in
+									;another palette
 	lda.b a1+2
 	pha
 	lda.b a1

@@ -1,7 +1,8 @@
-; The menu song (Opening before the game setup, and the period breaks outside the late playoff rounds): header, track offsets, then the tracks
-; in a TRAK chunk (size byte, tag, track name, then the note stream the music player reads).
+; The menu song (Opening before the game setup, and the period breaks outside the late playoff rounds):
+; header, track offsets, then the tracks in a TRAK chunk (size byte, tag, track name, then the note stream the
+; music player reads).
 
-MenuSong:		; header, track offsets (a zero ends them), padding, then the tracks
+MenuSong:							; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$9B,$01,$00,$00,$00,$0E,$00
 	dw .CHUG_39-MenuSong,.dist_38-MenuSong,.crshbkwd_cow_4_35-MenuSong,.crash_15-MenuSong,.timp_22-MenuSong,.bsec_R_17_apower_43_M-MenuSong,.bsec_L_16_apower_42_R-MenuSong,.bsec_M_40_apower_41_L-MenuSong,.BASS-MenuSong,.drums-MenuSong,.ohat_32-MenuSong,.dist_L_36-MenuSong,.dist_R_37-MenuSong,.orch-MenuSong,$0000
 	db $00,$00,$00,$00

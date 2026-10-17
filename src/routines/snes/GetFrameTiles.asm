@@ -60,7 +60,7 @@ GetFrameTiles:
 	bne .5
 	bra .2
 
-.drawat:		; unused entry (no caller in the ROM): DrawSprite with the frame at [p0]
+.drawat:							; unused entry (no caller in the ROM): DrawSprite with the frame at [p0]
 	sta.b r3
 	stx.b r5
 	sty.b r5+2

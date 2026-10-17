@@ -1,4 +1,5 @@
-; While $19CE is not 0: lower four hot / cold bytes of each of 52 entries ($1A12, 12 bytes apart) by 2, and count $19CE down
+; While $19CE is not 0: lower four hot / cold bytes of each of 52 entries ($1A12, 12 bytes apart) by 2, and
+; count $19CE down
 LowerHotColdTable:
 	lda.w HotColdRaised
 	beq .rtl

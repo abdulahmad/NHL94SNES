@@ -1,5 +1,5 @@
 ; move the unused entries off screen, swap the OAM buffers and set OAMReady
-SpriteFrameEnd:		; move the unused entries off screen, swap the OAM buffers and set OAMReady
+SpriteFrameEnd:						;move the unused entries off screen, swap the OAM buffers and set OAMReady
 	phb
 	pea.w $7E7E
 	plb

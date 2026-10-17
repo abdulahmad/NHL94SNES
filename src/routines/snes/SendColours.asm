@@ -1,5 +1,5 @@
 ; send the 256 colours of the colour buffer with DMAToCGRAM
-SendColours:		; send the 256 colours of the colour buffer with DMAToCGRAM
+SendColours:						; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.w #$007F
 	sta.b p0+2
 	lda.w #$7500

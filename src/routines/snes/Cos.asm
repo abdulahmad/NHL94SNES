@@ -2,7 +2,7 @@
 Cos:
 	clc
 	adc.w #$0100
-Sin:		; sin A into A; 1024 steps a circle, $0100 = 1
+Sin:								; sin A into A; 1024 steps a circle, $0100 = 1
 	phx
 	and.w #$03FF
 	cmp.w #$0200

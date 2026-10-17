@@ -3,7 +3,7 @@
 ; 94G song $4E at the same TeamSongs slots: MTL 1.
 ; Title (the forum list of the 94G songs): Gypsy Spain [E].
 
-SongGypsySpainE:		; header, track offsets (a zero ends them), padding, then the tracks
+SongGypsySpainE:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongGypsySpainE,.right-SongGypsySpainE,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

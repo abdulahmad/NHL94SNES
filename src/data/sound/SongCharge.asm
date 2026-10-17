@@ -4,7 +4,7 @@
 ; 94G songs $48, $4B at the same TeamSongs slots: DAL 1, DAL 2, NYI 1.
 ; Title (the forum list of the 94G songs): Charge (94G: B-flat only, and C).
 
-SongCharge:		; header, track offsets (a zero ends them), padding, then the tracks
+SongCharge:							; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongCharge,.right-SongCharge,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

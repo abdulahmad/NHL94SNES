@@ -1,6 +1,7 @@
 ; Player photo: Brian Leetch (PlayerPhotoTable NYR 15; ASE 19)
 
-CardBrianLeetch:		; a player photo: 6 x 6 linear 4bpp tiles packed for DecompressHuffman, one entry of the photo table
+CardBrianLeetch:					;a player photo: 6 x 6 linear 4bpp tiles packed for DecompressHuffman, one
+									;entry of the photo table
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80

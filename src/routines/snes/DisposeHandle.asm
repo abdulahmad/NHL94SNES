@@ -1,5 +1,5 @@
 ; free handle A and its block, joined with free neighbours
-DisposeHandle:		; free handle A and its block, joined with free neighbours
+DisposeHandle:						; free handle A and its block, joined with free neighbours
 	cmp.w #$2000
 	bcc .exit
 	cmp.w #$2100

@@ -47,7 +47,7 @@ PlayShootout:
 	sta.l OptLine
 	rtl
 
-.t1:		; a shootout turn of team $91: the shooter of this round from its list
+.t1:								; a shootout turn of team $91: the shooter of this round from its list
 	stz.w shootoutstop
 	stz.w shootoutturnover
 	lda.b a2

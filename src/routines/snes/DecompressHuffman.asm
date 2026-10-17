@@ -109,7 +109,7 @@ DecompressHuffman:
 	sta.b HuffSpan
 	ldx.b r0
 	bra .8
-.4:		; lookup table entries for a code of each length, plus 1
+.4:									; lookup table entries for a code of each length, plus 1
 	db $81,$41,$21,$11,$09,$05,$03,$02
 .5:
 	lda.b HuffLenIdx
@@ -160,7 +160,7 @@ DecompressHuffman:
 	asl a
 	tax
 	rep #$20
-	lda.l .10-$10,x	; by the longest code length, from 9 bits up
+	lda.l .10-$10,x					; by the longest code length, from 9 bits up
 	sta.w HuffLongVec
 	ldy.b p1+2
 	sty.w WMADDH
@@ -1025,7 +1025,7 @@ org $80C001
 	inc.b p0
 	ldx.b #$10
 	bra .4xxxx
-.151:		; bases of the variable-length numbers in the bit stream
+.151:								; bases of the variable-length numbers in the bit stream
 	dw $0000,$0004,$000C,$001C,$003C,$007C,$00FC,$01FC,$03FC
 	dw $07FC,$0FFC,$1FFC,$3FFC,$7FFC,$FFFC,$FFFC,$FFFC
 .152:

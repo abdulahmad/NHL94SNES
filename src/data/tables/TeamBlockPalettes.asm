@@ -1,5 +1,5 @@
-; Per team (0-27): a long pointer to the 16 colours of its team block (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen);
-; entry 28 is never read
+; Per team (0-27): a long pointer to the 16 colours of its team block (DrawTeamBlocks, DrawSelectTeam,
+; PlayoffScreen); entry 28 is never read
 TeamBlockPalettes:
 	dd TeamBlockPaletteANH,TeamBlockPaletteBOS,TeamBlockPaletteBUF,TeamBlockPaletteCGY
 	dd TeamBlockPaletteCHI,TeamBlockPaletteDAL,TeamBlockPaletteDET,TeamBlockPaletteEDM

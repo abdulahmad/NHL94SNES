@@ -1,4 +1,5 @@
-; Draw string [p0] in the big proportional font: letter tiles into $7E4EF4 from tile $7E3466, centred in $24 pixels from printx, with the jmlvector hook placing each letter on the map
+; Draw string [p0] in the big proportional font: letter tiles into $7E4EF4 from tile $7E3466, centred in $24
+; pixels from printx, with the jmlvector hook placing each letter on the map
 RenderBigText:
 	phb
 	phk
@@ -270,7 +271,8 @@ RenderBigText:
 	dec.b r0
 	bne .loopx
 	rts
-; jmlvector letter hook of PlayoffScreen: put letter tile $7E3466 (two rows) at printx / printy of the $7EC67C map
+; jmlvector letter hook of PlayoffScreen: put letter tile $7E3466 (two rows) at printx / printy of the $7EC67C
+; map
 BigLetterPlayoff:
 	lda.w printy
 	asl a
@@ -290,7 +292,8 @@ BigLetterPlayoff:
 	inc a
 	sta.l screenmap2+$106,x
 	rtl
-; jmlvector letter hook of DrawSelectTeam: put letter tile $7E3466 (two rows) at printx / printy of the $7EA67C map
+; jmlvector letter hook of DrawSelectTeam: put letter tile $7E3466 (two rows) at printx / printy of the
+; $7EA67C map
 BigLetterSelect:
 	lda.w printy
 	asl a

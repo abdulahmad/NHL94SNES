@@ -1,4 +1,5 @@
-; The cold start after Reset_Fast: password and default options, the title screen, then a fresh start (Restart)
+; The cold start after Reset_Fast: password and default options, the title screen, then a fresh start
+; (Restart)
 Opening:
 	rep #$30
 	jsl.l Multi5Init

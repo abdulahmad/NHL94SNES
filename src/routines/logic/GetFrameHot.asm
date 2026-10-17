@@ -1,4 +1,5 @@
-; d0 / d1 = the stick hot spot of object A's current frame, read from its SpriteFrames entry (bytes $12-$15), x / y flipped by the attribute and rotated in horizontal mode
+; d0 / d1 = the stick hot spot of object A's current frame, read from its SpriteFrames entry (bytes $12-$15),
+; x / y flipped by the attribute and rotated in horizontal mode
 GetFrameHot:
 	phx
 	tay

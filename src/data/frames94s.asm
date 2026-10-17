@@ -1,8 +1,8 @@
 ; The sprite animations. SPA holds the address of one. Each animation: eight words, the frame list for each
-; direction, a word of attributes (bit 0 = the animation loops), then the frame lists: pairs of (SPF frame (ram94snes.asm),
-; time in frames), times in decimal; a negative time marks the last pair. A direction may point at the next animation
-; instead of a list. Then $FF fill to the end of the bank.
-SPAList:		; the animations (SPA): SPA 0 is no animation
+; direction, a word of attributes (bit 0 = the animation loops), then the frame lists: pairs of (SPF frame
+; (ram94snes.asm), time in frames), times in decimal; a negative time marks the last pair. A direction may
+; point at the next animation instead of a list. Then $FF fill to the end of the bank.
+SPAList:							; the animations (SPA): SPA 0 is no animation
 	dw 0
 SPAgready:
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
@@ -114,12 +114,13 @@ SPAgskate:
 .d5:	dw SPFGoalie+100,10,SPFGoalie+101,10,SPFGoalie+102,10,SPFGoalie+103,-15
 .d6:	dw SPFGoalie+104,10,SPFGoalie+105,10,SPFGoalie+106,10,SPFGoalie+107,-15
 .d7:	dw SPFGoalie+108,10,SPFGoalie+109,10,SPFGoalie+110,10,SPFGoalie+111,-15
-SPAgwallright:		; the goalie's SPAwallright: asseben gives it to a goalie leaving the bench
+SPAgwallright:						;the goalie's SPAwallright: asseben gives it to a goalie leaving the bench
 	dw .d0,.d0,.d0,.d3,.d3,.d3,.d3,SPAgwallleft
 	dw 0
 .d0:	dw SPFgwall,8,SPFgwall+1,8,SPFgwall+2,8,SPFgwall+3,-8
 .d3:	dw SPFgwall+3,8,SPFgwall+2,8,SPFgwall+1,8,SPFgwall,-8
-SPAgwallleft:		; the goalie's SPAwallleft: assbench gives it to a goalie going to the bench
+SPAgwallleft:						;the goalie's SPAwallleft: assbench gives it to a goalie going to the
+									;bench
 	dw .d0,.d0,.d0,.d3,.d3,.d3,.d3,SPAgdive
 	dw 0
 .d0:	dw SPFgwall+3,8,SPFgwall+2,8,SPFgwall+1,8,SPFgwall,-8
@@ -135,7 +136,8 @@ SPAgdive:
 .d5:	dw SPFgdive+10,8,SPFgdive+11,48,SPFgdive+10,-8
 .d6:	dw SPFgdive+12,8,SPFgdive+13,48,SPFgdive+12,-8
 .d7:	dw SPFgdive+14,8,SPFgdive+15,48,SPFgdive+14,-8
-SPAgpoke:		; assgoalie: the controlled goalie's X button, the CPU goalie at random when an opponent has the puck near
+SPAgpoke:							;assgoalie: the controlled goalie's X button, the CPU goalie at random
+									;when an opponent has the puck near
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFgpoke,4,SPFgpoke+1,15,SPFgpoke,-6
@@ -146,7 +148,7 @@ SPAgpoke:		; assgoalie: the controlled goalie's X button, the CPU goalie at rand
 .d5:	dw SPFgpoke+10,4,SPFgpoke+11,15,SPFgpoke+10,-6
 .d6:	dw SPFgpoke+12,4,SPFgpoke+13,15,SPFgpoke+12,-6
 .d7:	dw SPFgpoke+14,4,SPFgpoke+15,15,SPFgpoke+14,-6
-SPAgcover2:		; SPAgcover's frames held 20, not 90; nothing sets it
+SPAgcover2:							; SPAgcover's frames held 20, not 90; nothing sets it
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFgcover,6,SPFgcover+1,6,SPFgcover+2,20,SPFgcover+1,6,SPFgcover,6,SPFgready,-8
@@ -157,7 +159,8 @@ SPAgcover2:		; SPAgcover's frames held 20, not 90; nothing sets it
 .d5:	dw SPFgcover+15,6,SPFgcover+16,6,SPFgcover+17,20,SPFgcover+16,6,SPFgcover+15,6,SPFgready+10,-8
 .d6:	dw SPFgcover+18,6,SPFgcover+19,6,SPFgcover+20,20,SPFgcover+19,6,SPFgcover+18,6,SPFgready+12,-8
 .d7:	dw SPFgcover+21,6,SPFgcover+22,6,SPFgcover+23,20,SPFgcover+22,6,SPFgcover+21,6,SPFgready+14,-8
-SPAgcover:		; assgoalie: the goalie drops on the puck for 90 frames when an opponent is near it
+SPAgcover:							;assgoalie: the goalie drops on the puck for 90 frames when an opponent is
+									;near it
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFgcover,6,SPFgcover+1,6,SPFgcover+2,90,SPFgcover+1,6,SPFgcover,6,SPFgready,-4
@@ -168,7 +171,7 @@ SPAgcover:		; assgoalie: the goalie drops on the puck for 90 frames when an oppo
 .d5:	dw SPFgcover+15,6,SPFgcover+16,6,SPFgcover+17,90,SPFgcover+16,6,SPFgcover+15,6,SPFgready+10,-4
 .d6:	dw SPFgcover+18,6,SPFgcover+19,6,SPFgcover+20,90,SPFgcover+19,6,SPFgcover+18,6,SPFgready+12,-4
 .d7:	dw SPFgcover+21,6,SPFgcover+22,6,SPFgcover+23,90,SPFgcover+22,6,SPFgcover+21,6,SPFgready+14,-4
-SPAgbutterfly:		; GoalieSaveList 8: a slow shot straight at the goalie
+SPAgbutterfly:						; GoalieSaveList 8: a slow shot straight at the goalie
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFgbutterfly,6,SPFgbutterfly+1,6,SPFgbutterfly+2,20,SPFgready,-4
@@ -179,7 +182,7 @@ SPAgbutterfly:		; GoalieSaveList 8: a slow shot straight at the goalie
 .d5:	dw SPFgbutterfly+15,6,SPFgbutterfly+16,6,SPFgbutterfly+17,20,SPFgready+10,-4
 .d6:	dw SPFgbutterfly+18,6,SPFgbutterfly+19,6,SPFgbutterfly+20,20,SPFgready+12,-4
 .d7:	dw SPFgbutterfly+21,6,SPFgbutterfly+22,6,SPFgbutterfly+23,20,SPFgready+14,-4
-SPAgsprawll:		; GoalieSaveList 7: a shot from a wide angle, to the left
+SPAgsprawll:						; GoalieSaveList 7: a shot from a wide angle, to the left
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFgsprawll,4,SPFgsprawll+1,4,SPFgsprawll+2,20,SPFgready,-4
@@ -190,7 +193,7 @@ SPAgsprawll:		; GoalieSaveList 7: a shot from a wide angle, to the left
 .d5:	dw SPFgsprawll+15,4,SPFgsprawll+16,4,SPFgsprawll+17,20,SPFgready+10,-4
 .d6:	dw SPFgsprawll+18,4,SPFgsprawll+19,4,SPFgsprawll+20,20,SPFgready+12,-4
 .d7:	dw SPFgsprawll+21,4,SPFgsprawll+22,4,SPFgsprawll+23,20,SPFgready+14,-4
-SPAgsprawlr:		; GoalieSaveList 6: a shot from a wide angle, to the right
+SPAgsprawlr:						; GoalieSaveList 6: a shot from a wide angle, to the right
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFgsprawlr,4,SPFgsprawlr+1,4,SPFgsprawlr+2,20,SPFgready,-4
@@ -378,7 +381,8 @@ SPAskateback:
 .d5:	dw SPFskateb+15,8,SPFskateb+16,8,SPFskateb+15,8,SPFskateb+17,-8
 .d6:	dw SPFskateb+18,8,SPFskateb+19,8,SPFskateb+18,8,SPFskateb+20,-8
 .d7:	dw SPFskateb+21,8,SPFskateb+22,8,SPFskateb+21,8,SPFskateb+23,-8
-SPAcrosscheck:		; checkcheck: the check straight ahead, away from the crease (94G SPAcrosscheck)
+SPAcrosscheck:						;checkcheck: the check straight ahead, away from the crease (94G
+									;SPAcrosscheck)
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFcrosscheck,1,SPFcrosscheck+1,10,SPFcrosscheck,-8
@@ -683,18 +687,18 @@ SPAbenchcheckl:
 .d2:	dw SPFbenchcheck+7,10,SPFbenchcheck+8,10,SPFbenchcheck+9,10,SPFbenchcheck+9,90,SPFbenchcheck+20,-20
 .d4:	dw SPFbenchcheck+12,10,SPFbenchcheck+13,10,SPFbenchcheck+14,10,SPFbenchcheck+14,90,SPFbenchcheck+20,-20
 .d6:	dw SPFbenchcheck+17,10,SPFbenchcheck+18,10,SPFbenchcheck+19,10,SPFbenchcheck+19,90,SPFbenchcheck+20,-20
-SPAunused1:		; nothing sets it (updateanim only compares SPA with its address)
+SPAunused1:							; nothing sets it (updateanim only compares SPA with its address)
 	dw .d0,.d0,.d0,.d0,.d0,.d0,.d6,.d6
 	dw 0
 .d0:	dw SPFskateb+6,6,SPFunused,6,SPFunused+1,15,SPFunused+2,6,SPFunused,6,SPFskatewp+10,-6
 .d6:	dw SPFskateb+18,6,SPFunused+3,6,SPFunused+4,15,SPFunused+5,6,SPFunused+3,6,SPFskatewp+30,-6
-SPAunused2:		; nothing sets it
+SPAunused2:							; nothing sets it
 	dw .d0,.d0,.d0,.d0,.d0,.d0,.d6,.d6
 	dw 0
 .d0:	dw SPFskateb+6,6,SPFunused,15,SPFunused+6,15,SPFunused+7,15,SPFunused+8,15,SPFunused+7,15,SPFunused+8,15,SPFunused,10
 	dw SPFskateb+9,-6
 .d6:	dw SPFskateb+18,6,SPFunused+3,15,SPFunused+9,15,SPFunused+10,15,SPFunused+9,15,SPFunused+10,15,SPFunused+3,10,SPFskateb+18,-6
-SPAunused3:		; nothing sets it
+SPAunused3:							; nothing sets it
 	dw .d0,.d0,.d0,.d0,.d0,.d0,.d0,.d0
 	dw 0
 .d0:	dw SPFskateb+12,-52

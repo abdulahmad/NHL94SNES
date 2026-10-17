@@ -1,4 +1,5 @@
-; Player stats: print the column name, sort the player order ($1DFB) by stat column $1DF9 (ComparePlayerStats), then FillPlayerStatsPage
+; Player stats: print the column name, sort the player order ($1DFB) by stat column $1DF9
+; (ComparePlayerStats), then FillPlayerStatsPage
 SortPlayerStats:
 	lda.w statcolumn
 	sta.b d0

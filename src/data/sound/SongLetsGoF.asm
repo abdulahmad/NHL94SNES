@@ -3,7 +3,7 @@
 ; 94G songs $50, $53 at the same TeamSongs slots: NJ 0, NJ 2, NYR 2.
 ; Title (the forum list of the 94G songs): Let's Go [F] (94G also has a shorter one).
 
-SongLetsGoF:		; header, track offsets (a zero ends them), padding, then the tracks
+SongLetsGoF:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$03,$00
 	dw .left-SongLetsGoF,.right-SongLetsGoF,.claps-SongLetsGoF,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

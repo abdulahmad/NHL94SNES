@@ -139,7 +139,8 @@ DrawSpritePieces:
 	plb
 	rtl
 
-.cacheat:		; unused entry (no caller in the ROM): make sure the tiles of the frame at [p0] are in VRAM; A = its tile cache entry, negative if no room
+.cacheat:							;unused entry (no caller in the ROM): make sure the tiles of the frame at
+									;[p0] are in VRAM; A = its tile cache entry, negative if no room
 	phx
 	phy
 	phb
@@ -148,7 +149,8 @@ DrawSpritePieces:
 	plb
 	jmp.w .7
 
-.cacheframe:		; unused entry (no caller in the ROM): the same for frame A of the sprite set at [p1]
+.cacheframe:						;unused entry (no caller in the ROM): the same for frame A of the sprite
+									;set at [p1]
 	phx
 	phy
 	sta.w DrawFrameNum

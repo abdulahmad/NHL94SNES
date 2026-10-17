@@ -1,4 +1,5 @@
-; Print strings: a length word, then position / control bytes and the text. Txt names come from the text, Pos names (position only) from the routine that prints them
+; Print strings: a length word, then position / control bytes and the text. Txt names come from the text, Pos
+; names (position only) from the routine that prints them
 DrawEditLinesTitlePos:
 	dw $0005 : db $BF,$0B,$07
 ClearEditLinesMenuPos:

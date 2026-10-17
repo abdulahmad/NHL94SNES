@@ -1,4 +1,5 @@
-; A = -1 when the player hit (a2) is the puck carrier on a breakaway (no penalty shot under way): a penalty shot instead of the penalty; else 0
+; A = -1 when the player hit (a2) is the puck carrier on a breakaway (no penalty shot under way): a penalty
+; shot instead of the penalty; else 0
 PenShotChk:
 	lda.w gmode
 	bit.w #$0010

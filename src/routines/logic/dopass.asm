@@ -125,7 +125,8 @@ dopass:
 	jsl.l RandomWord
 	and.w #$0FFF
 	sta.w puckvz
-; dopass once the puck velocity is set: a goalie never passes back toward his net, then the pass animation (SPAgswing / SPApassf); assdumpin ends here too
+; dopass once the puck velocity is set: a goalie never passes back toward his net, then the pass animation
+; (SPAgswing / SPApassf); assdumpin ends here too
 dopass_swing:
 	lda.w position,x
 	bne .2
@@ -212,7 +213,8 @@ dopass_count:
 	tax
 	lda.l SPAonetimerf,x
 	tax
-	lda.l SPAonetimerf&$FF0000,x	; the first frame of SPAonetimerf in that direction: GetHot below takes its hot spot
+	lda.l SPAonetimerf&$FF0000,x	;the first frame of SPAonetimerf in that direction:
+	;GetHot below takes its hot spot
 	ldx.b a3
 	ldy.b a0
 	sta.w frame,y

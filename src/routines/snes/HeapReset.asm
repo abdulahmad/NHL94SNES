@@ -1,5 +1,5 @@
 ; HeapInit at the same starts
-HeapReset:		; HeapInit at the same starts
+HeapReset:							; HeapInit at the same starts
 	pha
 	phx
 	phy

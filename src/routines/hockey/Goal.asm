@@ -1,4 +1,5 @@
-; The puck is in the goal: the siren, the score, the log, the scoreboard and the celebration (shootout goals through EndPenaltyShot)
+; The puck is in the goal: the siren, the score, the log, the scoreboard and the celebration (shootout goals
+; through EndPenaltyShot)
 Goal:
 	lda.w gmclock
 	beq .t3

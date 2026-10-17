@@ -3,7 +3,7 @@
 ; 94G song $76 at the same TeamSongs slots: OTW 2, WPG 2.
 ; Title (the forum list of the 94G songs): Gypsy Spain [E] / Charge [F-sharp].
 
-SongGypsySpainCharge:		; header, track offsets (a zero ends them), padding, then the tracks
+SongGypsySpainCharge:				; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
 	dw .left-SongGypsySpainCharge,.right-SongGypsySpainCharge,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

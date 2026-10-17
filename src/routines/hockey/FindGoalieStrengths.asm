@@ -1,4 +1,5 @@
-; The player card strengths of goalie $1D9B: the best three goalie rating columns into $1E79-$1E83 (AddStrength)
+; The player card strengths of goalie $1D9B: the best three goalie rating columns into $1E79-$1E83
+; (AddStrength)
 FindGoalieStrengths:
 	lda.w #$FFFF
 	sta.w strengths

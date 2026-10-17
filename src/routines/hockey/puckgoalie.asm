@@ -73,7 +73,7 @@ puckgoalie:
 .4:
 	lda.w frame,y
 	sec
-	sbc.w #SPFgdive		; goalie dive frames SPFgdive..+15
+	sbc.w #SPFgdive					; goalie dive frames SPFgdive..+15
 	cmp.w #$0010
 	bcs .t2
 	lda.w puckz

@@ -1,6 +1,7 @@
 ; Centre-ice logo tiles: linear 4bpp, packed for DecompressHuffman.
 
-CenterIceTilesQUE:	; the Quebec centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 18 of
+CenterIceTilesQUE:					;the Quebec centre ice logo: linear 4bpp tiles packed for
+									;DecompressHuffman (team 18 of
 			;   the centre ice table in bank $9C)
 	db $30,$FB
 	db $00,$03,$40

@@ -1,4 +1,5 @@
-; A * B (high byte of C) / 128 into A (8-bit); bit 6 of $07E2 set: shift-and-add loop instead of the mode 7 multiplier
+; A * B (high byte of C) / 128 into A (8-bit); bit 6 of $07E2 set: shift-and-add loop instead of the mode 7
+; multiplier
 MulFrac8:
 	bit.w Mode7InUse
 	bvc .hw

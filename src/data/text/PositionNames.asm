@@ -1,4 +1,4 @@
-PositionNames:		; position names
+PositionNames:						; position names
 	%String("LD")
 	%String("RD")
 	%String("LW")

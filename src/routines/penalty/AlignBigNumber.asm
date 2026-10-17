@@ -1,4 +1,5 @@
-; Move printx left by the width of String [a1] in the big font after its first character (one column for a 1, else two), so printbig ends it at the old printx
+; Move printx left by the width of String [a1] in the big font after its first character (one column for a 1,
+; else two), so printbig ends it at the old printx
 AlignBigNumber:
 	ldy.w #$0002
 .loop:

@@ -1,6 +1,7 @@
 ; The ref window maps for the horizontal rink (7 x 136), as 93S RefsMapHor (PushRef)
 
-RefsMapHor:		; a map, not packed: width, height and a word, then the map words (7 x 136); read
+RefsMapHor:							;a map, not packed: width, height and a word, then the map words (7 x
+									;136); read
 	dw $0007,$0088,$0308
 	dw $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
 	dw $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000

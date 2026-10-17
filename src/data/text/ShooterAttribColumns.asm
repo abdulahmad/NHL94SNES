@@ -1,5 +1,6 @@
 ; Rating columns of the shooter list
-ShooterAttribColumns:		; rating columns of the shooter list: title, then a mask word and a value word; $FFFF ends it
+ShooterAttribColumns:				;rating columns of the shooter list: title, then a mask word and a value
+									;word; $FFFF ends it
 	%String("      Status]")
 	dw $0000,$0000
 	%String("    [Overall]")

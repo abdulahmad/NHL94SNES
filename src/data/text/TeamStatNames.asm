@@ -1,5 +1,5 @@
 ; Team stat names, including the power-play and penalty rows
-TeamStatNames:		; stat names: a word (2 + the text), then the text
+TeamStatNames:						; stat names: a word (2 + the text), then the text
 	%String("    Score    ")
 	%String("    Shots    ")
 	%String("Shooting Pct.")

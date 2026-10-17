@@ -3,7 +3,7 @@
 ; 94G song $4D at the same TeamSongs slots: MTL 3.
 ; Title (the forum list of the 94G songs): Halte la Les Canadiens sont la.
 
-SongHalteLa:		; header, track offsets (a zero ends them), padding, then the tracks
+SongHalteLa:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$82,$01,$00,$00,$00,$02,$00
 	dw .left-SongHalteLa,.right-SongHalteLa,$0000
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00

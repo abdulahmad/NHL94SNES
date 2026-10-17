@@ -1,6 +1,6 @@
 ; Centre-ice logo map: width, height and a word, then the map words.
 
-CenterIceMapNHL:	; width, height and a word, then the map words, one row per line
+CenterIceMapNHL:					; width, height and a word, then the map words, one row per line
 	dw $0006,$0004,$0308
 	dw $0401,$0402,$0403,$0404,$0405,$0406
 	dw $0407,$0408,$0409,$040A,$040B,$040C

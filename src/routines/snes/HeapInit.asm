@@ -1,6 +1,7 @@
-; The heap. Each bank holds a chain of blocks from HeapStart7E / HeapStart7F up to $FFF8. A block is a header of words
-; (size, flags, next, previous) and its data. Flags 0 = free, bit 15 = used, bit 14 = locked (compaction does not move it).
-; Callers keep handles: HandleTable entries that point at the data, so blocks can move.
+; The heap. Each bank holds a chain of blocks from HeapStart7E / HeapStart7F up to $FFF8. A block is a header
+; of words (size, flags, next, previous) and its data. Flags 0 = free, bit 15 = used, bit 14 = locked
+; (compaction does not move it). Callers keep handles: HandleTable entries that point at the data, so blocks
+; can move.
 ; start the heaps at X in bank $7E (at least $E68C) and Y in bank $7F: one free block each, all handles free
 HeapInit:
 	cpx.w #$E68C

@@ -1,5 +1,5 @@
 ; release every voice
-SoundVoicesOff:		; release every voice
+SoundVoicesOff:						; release every voice
 	php
 	sep #$30
 	dec.w SoundLock

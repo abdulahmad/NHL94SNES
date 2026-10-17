@@ -1,5 +1,5 @@
 ; stop the song: release its voices and clear its tracks
-MusicStop:		; stop the song: release its voices and clear its tracks
+MusicStop:							; stop the song: release its voices and clear its tracks
 	php
 	sep #$30
 	lda.b #$FF

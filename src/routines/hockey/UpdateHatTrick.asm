@@ -1,4 +1,5 @@
-; While $7E3448 is set (not in horizontal mode or a replay): launch and move the ten hat trick sprites on random arcs and draw them
+; While $7E3448 is set (not in horizontal mode or a replay): launch and move the ten hat trick sprites on
+; random arcs and draw them
 UpdateHatTrick:
 	lda.w sfhormode
 	bne .rtl
@@ -120,7 +121,7 @@ UpdateHatTrick:
 	clc
 	adc.l hatstep,x
 	clc
-	adc.w #SPFhat-1-1		; DrawSprite index (frame - 1); the step counts from 1
+	adc.w #SPFhat-1-1				; DrawSprite index (frame - 1); the step counts from 1
 	sta.b r0
 	lda.w #SpriteFrames>>16
 	sta.b p1+2
