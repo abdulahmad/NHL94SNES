@@ -4,4 +4,4 @@ CardJoeNieuwendyk:		; a player photo: 6 x 6 linear 4bpp tiles packed for Decompr
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80
-	incbin "../../../Extracted/data/gfx/CardJoeNieuwendyk.lin.huf":5..548
+	incbin "../../../Extracted/data/gfx/PlayerCards/CardJoeNieuwendyk.lin.huf":5..548

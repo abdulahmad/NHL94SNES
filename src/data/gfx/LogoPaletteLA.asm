@@ -1,23 +1,22 @@
-; Colours for one team.
+; The Los Angeles logo colours, then 9 team block palettes (16 colours each).
 
 LogoPaletteLA:		; the 16 colours of the Los Angeles logo (TeamLogoSprites and the centre ice logo)
-	dw $0000,$0000,$0421,$1084,$98C6,$A108,$2D6B,$35AD
-	dw $BDEF,$C631,$5294,$DAD6,$E318,$6F7B,$77BD,$FFFF
-	dw $0000,$6F7B,$34C0,$BCE0,$C920,$5540,$6180,$EDA0
-	dw $DAD6,$D294,$CE73,$4631,RDNMI,$39CE,$B5AD,$831A
-	dw $0000,$6F7B,$01B0,$8213,$0296,$8319,$037C,$03FF
-	dw $A529,$1CE7,$98C6,$9084,$8C63,$0421,$0000,$031A
-	dw $0000,$6F7B,$0000,$0421,$0C63,$14A5,$9CE7,$A529
-	dw $015E,$013B,$00F8,$80D5,$8092,$806F,$002C,$031A
-	dw $0000,$6F7B,$0000,$0421,$0C63,$14A5,$9CE7,$A529
-	dw $0018,$0015,$0013,$0010,$000D,$000B,$0008,$031A
-	dw $0000,$6F7B,$000A,$000D,$0011,$0015,$0019,$001D
-	dw $7000,$6400,$5800,$4C00,$4000,$3400,$2800,$031A
-	dw $0000,$6F7B,$2040,$2C60,$3CA0,$C8C0,$D8E0,$E520
-	dw $017E,$015C,$0139,$0117,$00F5,$80D2,$80D0,$831A
-	dw $0000,$6F7B,$0000,$0421,$0C63,$14A5,$9CE7,$A529
-	dw $001D,$001A,$0017,$0013,$0010,$000D,$000A,$031A
-	dw $0000,$6F7B,$000A,$000D,$0011,$0014,$0017,$001B
-	dw $6C00,$6000,$5400,$4800,$3C00,$3000,$2800,$031A
-	dw $0000,$6F7B,$0000,$0421,$0C63,$14A5,$9CE7,$A529
-	dw $4A52,RDNMI,$39CE,$B18C,$AD6B,$2529,$1CE7,$831A
+	incbin "../../../Extracted/data/gfx/Pals/LogoPaletteLA.pal"
+TeamBlockPaletteQUE:	; the Quebec team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteQUE.pal"
+TeamBlockPalettePIT:	; the Pittsburgh team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPalettePIT.pal"
+TeamBlockPalettePHI:	; the Philadelphia team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPalettePHI.pal"
+TeamBlockPaletteOTW:	; the Ottawa team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteOTW.pal"
+TeamBlockPaletteNYR:	; the NY Rangers team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteNYR.pal"
+TeamBlockPaletteNYI:	; the NY Islanders team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteNYI.pal"
+TeamBlockPaletteNJ:	; the New Jersey team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteNJ.pal"
+TeamBlockPaletteMTL:	; the Montreal team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteMTL.pal"
+TeamBlockPaletteLA:	; the Los Angeles team block colours (TeamBlockPalettes)
+	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteLA.pal"

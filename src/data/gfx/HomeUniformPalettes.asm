@@ -1,61 +1,32 @@
-; Colours for one team.
+; The uniform colours of every team, 16 per team in team order: Extracted/data/gfx/Pals/<team>h.pal (as 94G).
 
 HomeUniformPalettes:	; 16 colours per team, indexed by the home team : the sprite colours of the home players
 			;   (white jerseys)
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$2980,$77BD,$4258
-	dw $0000,$2980,$6F7B,$56B5,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6739,$0000,$77BD,$0000,$77BD,$77BD,$4258
-	dw $0299,$0299,BG2SC,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$2C00,$77BD,$6080,$4258
-	dw $6080,$6080,$031B,$5294,$77BD,$031F,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0010,$77BD,$0139,$4258
-	dw $02DA,$02DA,$0139,$5294,$77BD,$0139,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$77BD,$77BD,$4258
-	dw $0000,$001B,$77BD,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$77BD,$77BD,$4258
-	dw $0200,$01E0,$1084,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$001B,$0010,$77BD,$77BD,$4258
-	dw $001B,$77BD,$001B,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$3000,$77BD,$5100,$4258
-	dw $5100,$0139,$77BD,$5294,$77BD,$0139,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$3060,$77BD,$00B9,$4258
-	dw $0254,$0254,$00B9,$56B5,$77BD,$0254,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$2400,$77BD,$77BD,$4258
-	dw $5005,$02A4,$4A52,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$77BD,$77BD,$4258
-	dw $3DEF,$4A52,BG2SC,$56B5,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$3000,$77BD,$001A,$4258
-	dw $4000,$77BD,$001A,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$77BD,$001C,$4258
-	dw $0C63,$0C63,$001C,$5294,$77BD,$0C63,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$2C00,$77BD,$77BD,$4258
-	dw $4400,$0137,$77BD,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$000D,$77BD,$5000,$4258
-	dw $5000,$5000,$0018,$5294,$77BD,$0018,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$77BD,$77BD,$4258
-	dw $0017,$0017,$14A5,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$77BD,$017B,$4258
-	dw $017B,$017B,$1CE7,$5294,$77BD,$1CE7,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$77BD,$1EFF,$4258
-	dw $1CE7,$1CE7,$1EFF,$5294,$77BD,$1CE7,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$38C2,$77BD,$77BD,$4258
-	dw $5185,$77BD,$5185,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$77BD,$77BD,$4258
-	dw $1CE7,$5A43,$4E73,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$2C00,$77BD,$77BD,$4258
-	dw $02FB,$02DA,$7C63,$5294,$77BD,$77BD,$15D3,$5A49
-	dw $7FF2,$6F7B,$0000,$77BD,$0000,$77BD,$1CE7,$4258
-	dw $1CE7
-	dw $77BD,$5C00,$5294,$77BD,$1CE7,$15D3,$5A49,$7FF2
-	dw $6F7B,$0000,$77BD,$2C00,$77BD,$77BD,$4258,$5800
-	dw $5800,$77BD,$5294,$77BD,$77BD,$15D3,$5A49,$7FF2
-	dw $6F7B,$0000,$77BD,$0000,$77BD,$77BD,$4258,$001A
-	dw WH3,$035A,$5294,$77BD,$77BD,$15D3,$5A49,$7FF2
-	dw $6F7B,$0000,$77BD,$3000,$77BD,$001A,$4258,$001A
-	dw $77BD,$0017,$5294,$77BD,$77BD,$15D3,$5A49,$7FF2
-	dw $6F7B,$0000,$77BD,$000F,$77BD,$77BD,$4258,$5409
-	dw $77BD,$5400,$5294,$77BD,$77BD,$15D3,$5A49,$7FF2
-	dw $6F7B,$0000,$77BD,$0000,$77BD,$14A5,$4258,$011B
-	dw $011B,$14A5,$5294,$77BD,$011B,$15D3,$5A49,$7FF2
-	dw $6F7B,$0000,$77BD,$0000,$77BD,$14A5,$4258,$011B
-	dw $011B,$14A5,$5294,$77BD,$011B,$15D3,$5A49
+	incbin "../../../Extracted/data/gfx/Pals/ANHh.pal"	; Anaheim
+	incbin "../../../Extracted/data/gfx/Pals/BOSh.pal"	; Boston
+	incbin "../../../Extracted/data/gfx/Pals/BUFh.pal"	; Buffalo
+	incbin "../../../Extracted/data/gfx/Pals/CGYh.pal"	; Calgary
+	incbin "../../../Extracted/data/gfx/Pals/CHIh.pal"	; Chicago
+	incbin "../../../Extracted/data/gfx/Pals/DALh.pal"	; Dallas
+	incbin "../../../Extracted/data/gfx/Pals/DETh.pal"	; Detroit
+	incbin "../../../Extracted/data/gfx/Pals/EDMh.pal"	; Edmonton
+	incbin "../../../Extracted/data/gfx/Pals/FLAh.pal"	; Florida
+	incbin "../../../Extracted/data/gfx/Pals/HFDh.pal"	; Hartford
+	incbin "../../../Extracted/data/gfx/Pals/LAh.pal"	; Los Angeles
+	incbin "../../../Extracted/data/gfx/Pals/MTLh.pal"	; Montreal
+	incbin "../../../Extracted/data/gfx/Pals/NJh.pal"	; New Jersey
+	incbin "../../../Extracted/data/gfx/Pals/NYIh.pal"	; NY Islanders
+	incbin "../../../Extracted/data/gfx/Pals/NYRh.pal"	; NY Rangers
+	incbin "../../../Extracted/data/gfx/Pals/OTWh.pal"	; Ottawa
+	incbin "../../../Extracted/data/gfx/Pals/PHIh.pal"	; Philadelphia
+	incbin "../../../Extracted/data/gfx/Pals/PITh.pal"	; Pittsburgh
+	incbin "../../../Extracted/data/gfx/Pals/QUEh.pal"	; Quebec
+	incbin "../../../Extracted/data/gfx/Pals/SJh.pal"	; San Jose
+	incbin "../../../Extracted/data/gfx/Pals/STLh.pal"	; St. Louis
+	incbin "../../../Extracted/data/gfx/Pals/TBh.pal"	; Tampa Bay
+	incbin "../../../Extracted/data/gfx/Pals/TORh.pal"	; Toronto
+	incbin "../../../Extracted/data/gfx/Pals/VANh.pal"	; Vancouver
+	incbin "../../../Extracted/data/gfx/Pals/WSHh.pal"	; Washington
+	incbin "../../../Extracted/data/gfx/Pals/WPGh.pal"	; Winnipeg
+	incbin "../../../Extracted/data/gfx/Pals/ASEh.pal"	; all-stars East (Wales)
+	incbin "../../../Extracted/data/gfx/Pals/ASWh.pal"	; all-stars West (Campbell)

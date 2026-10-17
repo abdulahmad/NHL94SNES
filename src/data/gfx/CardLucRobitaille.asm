@@ -4,4 +4,4 @@ CardLucRobitaille:		; a player photo: 6 x 6 linear 4bpp tiles packed for Decompr
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80
-	incbin "../../../Extracted/data/gfx/CardLucRobitaille.lin.huf":5..584
+	incbin "../../../Extracted/data/gfx/PlayerCards/CardLucRobitaille.lin.huf":5..584

@@ -2,4 +2,4 @@
 CrowdMeterFramePalette:
 	db $10,$FB
 	db $00,$01,$00
-	incbin "../../../Extracted/data/gfx/CrowdMeterFramePalette.lz":5..143
+	incbin "../../../Extracted/data/gfx/Pals/CrowdMeterFramePalette.pal.lz":5..143

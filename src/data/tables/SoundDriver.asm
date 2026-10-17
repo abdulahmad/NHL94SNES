@@ -1,8 +1,8 @@
 ; The sound CPU (SPC700) program, uploaded at reset by SPCIPLUpload (Reset_Fast) to sound RAM $0400 and started there.
 ; It clears sound RAM above itself, sets up the DSP and then serves commands: the CPU writes a command number to port 0
 ; (data in ports 1-3), the handler replies on port 0 and the main loop waits for the CPU to clear it. Samples go in a
-; directory at $0200 (start, loop point per sample) and in sound RAM from .samplearea up. The 65816 side is SPCCmd01-
-; SPCCmd0E, SPCUploadBlock, SPCDownload and the stream routines.
+; directory at $0200 (spcSampleDir: start, loop point per sample) and in sound RAM from .samplearea up. The 65816 side
+; is SPCCmd01-SPCCmd0E, SPCUploadBlock, SPCDownload and the stream routines.
 
 ; SPC700 I/O registers
 SPC_CONTROL = $F1
@@ -41,14 +41,17 @@ spcSampleCount = $00
 spcFreePtr = $03
 spcSendLen = $05
 spcUploadSample = $07
-spcUploadLoop = $09
+spcUploadUnused = $09	; set by $0F / $10 (the loop offset, then a count) but never read
 spcSendPtr = $0B
 spcFLG = $0D
 spcClearPtr = $0E
 spcClearPages = $10
 spcClearBytes = $11
+; the sample directory (4 bytes per sample: start, loop point; 96 samples), DSP_DIR page
+spcSampleDir = $0200
 
-SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM address, bytes; length 0 ends it
+SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM address, bytes; length 0 ends
+		;   it
 		;   with the start address
 	dw .end-.code,$0400
 .code:
@@ -74,28 +77,28 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b x,spcClearBytes
 	mov y,#$00
 	mov a,#$00
-.l0420:
+.clearfirst:		; clear the rest of the first page
 	mov.b (spcClearPtr)+y,a
 	inc y
 	dec x
-	bne .l0420
+	bne .clearfirst
 	inc.b spcClearPtr+1
 	mov.b spcClearPtr,a
 	mov y,#$00
 	mov.b x,spcClearPages
-.l042E:
+.clearpages:		; clear the whole pages
 	mov.b (spcClearPtr)+y,a
 	inc y
-	bne .l042E
+	bne .clearpages
 	inc.b spcClearPtr+1
 	dec x
-	bne .l042E
+	bne .clearpages
 	mov.b (spcClearPtr)+y,a
 	mov y,#$BF
-.l043C:
+.clearlast:		; clear $01-$BF of the last page ($FFC0 up is the IPL ROM)
 	mov.b (spcClearPtr)+y,a
 	dec y
-	bne .l043C
+	bne .clearlast
 	mov a,#$20
 	mov.b spcFLG,a
 	mov y,#DSP_FLG
@@ -120,7 +123,7 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b spcFreePtr,a
 	mov a,#.samplearea>>8
 	mov.b spcFreePtr+1,a
-	mov a,#$02
+	mov a,#spcSampleDir>>8
 	mov y,#DSP_DIR
 	mov.b SPC_DSPADDR,y
 	mov.b SPC_DSPDATA,a
@@ -169,19 +172,19 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	jmp .mainloop
 .reply:		; A = the reply on port 0; wait until the CPU clears port 0
 	mov.b SPC_PORT0,a
-.l04D2:
+.waitclear:
 	mov.b a,SPC_PORT0
-	bne .l04D2
+	bne .waitclear
 .mainloop:		; port 0 = 0, wait for a command number on port 0 (read twice), then jump to its handler
 	mov a,#$00
 	mov.b SPC_PORT0,a
-.l04DA:
+.waitcmd:
 	mov.b a,SPC_PORT0
-	beq .l04DA
+	beq .waitcmd
 	nop
 	nop
 	cmp.b a,SPC_PORT0
-	bne .l04DA
+	bne .waitcmd
 	asl a
 	mov x,a
 	jmp (.cmdtable+x)
@@ -189,8 +192,11 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	db $01,$02,$04,$08,$10,$20
 .cmdtable:		; jmp (.cmdtable+x) with x = command * 2, so its first word (the last two .bits) is no command
 	db $40,$80
-	dw .cmdReset,.cmdStatus,.cmdUpload,.cmdUnload,.cmdKeyOff,.cmdKeyOn,.cmdSetVoice,.cmdSetMaster,.cmdSetEcho,.cmdSetFIR,.cmdSetPitch,.cmdSetGain,.cmdKeyOffAll,.cmdSetVolume,.cmdStreamStart,.cmdStreamNext,.cmdDownload
-.cmdReset:		; $01: empty the sample area (no samples, the free pointer at .samplearea) and key off every voice; reply $01
+	dw .cmdReset,.cmdStatus,.cmdUpload,.cmdUnload,.cmdKeyOff,.cmdKeyOn
+	dw .cmdSetVoice,.cmdSetMaster,.cmdSetEcho,.cmdSetFIR,.cmdSetPitch,.cmdSetGain
+	dw .cmdKeyOffAll,.cmdSetVolume,.cmdStreamStart,.cmdStreamNext,.cmdDownload
+.cmdReset:		; $01: empty the sample area (no samples, the free pointer at .samplearea) and key off every
+		;   voice; reply $01
 	mov a,#$00
 	mov.b spcSampleCount,a
 	mov a,#.samplearea&$FF
@@ -208,74 +214,76 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_PORT1,a
 	mov a,#$02
 	mov.b SPC_PORT0,a
-.l0534:
+.statusack:		; wait for the CPU to change port 0
 	cmp.b a,SPC_PORT0
-	beq .l0534
+	beq .statusack
 	mov.b a,spcFreePtr
 	mov.b SPC_PORT1,a
 	mov.b a,spcFreePtr+1
 	mov.b SPC_PORT2,a
 	mov a,#$80
 	jmp .reply
-.cmdUpload:		; $03 (SPCUploadBlock): upload one sample into the next directory entry (start = the free pointer, loop = start + ports 2-3), the bytes
-		;   by port 2 with port 1 counting; the end becomes the next entry's start; reply $FF if the directory is full
+.cmdUpload:		; $03 (SPCUploadBlock): upload one sample into the next directory entry (start = the free
+		;   pointer, loop = start + ports 2-3), the bytes by port 2 with port 1 counting; the end becomes
+		;   the next entry's start; reply $FF if the directory is full
 	mov.b a,spcSampleCount
 	cmp a,#$60
-	beq .l0596
+	beq .refuse
 	asl a
 	asl a
 	mov x,a
 	mov.b a,spcFreePtr
-	mov $0200+x,a
+	mov spcSampleDir+x,a
 	clrc
 	adc.b a,SPC_PORT2
-	mov $0202+x,a
+	mov spcSampleDir+2+x,a
 	mov.b a,spcFreePtr+1
-	mov $0201+x,a
+	mov spcSampleDir+1+x,a
 	adc.b a,SPC_PORT3
-	mov $0203+x,a
+	mov spcSampleDir+3+x,a
 	mov x,#$00
 	mov y,#$00
 	mov.b SPC_PORT1,x
 	mov a,#$03
 	mov.b SPC_PORT0,a
 	inc x
-.l056E:
+.uploadbyte:		; port 1 = the count of the next byte: store port 2, echo the count
 	cmp.b x,SPC_PORT1
-	bne .l057E
+	bne .uploadidle
 	mov.b a,SPC_PORT2
 	mov.b (spcFreePtr)+y,a
 	mov.b SPC_PORT1,x
 	incw.b spcFreePtr
 	inc x
-	jmp .l056E
-.l057E:
+	jmp .uploadbyte
+.uploadidle:		; no new byte: go on until the CPU clears port 0 (the end of the sample)
 	mov.b a,SPC_PORT0
-	bne .l056E
+	bne .uploadbyte
 	mov.b a,spcSampleCount
 	asl a
 	asl a
 	mov x,a
 	mov.b a,spcFreePtr
-	mov $0204+x,a
+	mov spcSampleDir+4+x,a
 	mov.b a,spcFreePtr+1
-	mov $0205+x,a
+	mov spcSampleDir+5+x,a
 	inc.b spcSampleCount
 	jmp .mainloop
-.l0596:
+.refuse:		; reply $FF (the directory is full / empty)
 	mov a,#$FF
 	jmp .reply
-.cmdUnload:		; $04: drop the last sample (the free pointer goes back to its start); reply $04, $FF if there is none
+.cmdUnload:		; $04: drop the last sample (the free pointer goes back to its start); reply $04, $FF if there
+		;   is none
 	mov.b a,spcSampleCount
-	beq .l0596
+	beq .refuse
 	dec a
 	mov.b spcSampleCount,a
 	asl a
 	asl a
 	mov x,a
-	mov a,$0200+x
+	mov a,spcSampleDir+x
 	mov.b spcFreePtr,a
-	mov a,$0201+x
+	mov a,spcSampleDir+1+x
 	mov.b spcFreePtr+1,a
 	mov a,#$04
 	jmp .reply
@@ -314,7 +322,8 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_DSPDATA,a
 	mov a,#$06
 	jmp .reply
-.cmdSetVoice:		; $07: voice port 1: volume left / right = ports 2-3; then sample (SRCN), ADSR1, ADSR2 = ports 1-3, GAIN 0; reply $81
+.cmdSetVoice:		; $07: voice port 1: volume left / right = ports 2-3; then sample (SRCN), ADSR1, ADSR2 = ports
+		;   1-3, GAIN 0; reply $81
 	mov.b a,SPC_PORT1
 	asl a
 	asl a
@@ -331,9 +340,9 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	inc y
 	mov a,#$07
 	mov.b SPC_PORT0,a
-.l060B:
+.voiceack:		; wait for the CPU to change port 0
 	cmp.b a,SPC_PORT0
-	beq .l060B
+	beq .voiceack
 	inc y
 	inc y
 	mov.b a,SPC_PORT1
@@ -353,7 +362,8 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_DSPDATA,a
 	mov a,#$81
 	jmp .reply
-.cmdSetMaster:		; $08: main volume left / right, pitch modulation (PMON); then noise (NON), echo (EON), FLG = ports 1-3; reply $82
+.cmdSetMaster:		; $08: main volume left / right, pitch modulation (PMON); then noise (NON), echo (EON), FLG =
+		;   ports 1-3; reply $82
 	mov.b a,SPC_PORT1
 	mov y,#DSP_MVOLL
 	mov.b SPC_DSPADDR,y
@@ -368,9 +378,9 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_DSPDATA,a
 	mov a,#$08
 	mov.b SPC_PORT0,a
-.l064D:
+.masterack:		; wait for the CPU to change port 0
 	cmp.b a,SPC_PORT0
-	beq .l064D
+	beq .masterack
 	mov.b a,SPC_PORT1
 	mov y,#DSP_NON
 	mov.b SPC_DSPADDR,y
@@ -386,7 +396,8 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_DSPDATA,a
 	mov a,#$82
 	jmp .reply
-.cmdSetEcho:		; $09: echo volume left / right, echo feedback; then echo buffer (ESA), echo delay (EDL), FLG; reply $83
+.cmdSetEcho:		; $09: echo volume left / right, echo feedback; then echo buffer (ESA), echo delay (EDL), FLG;
+		;   reply $83
 	mov.b a,SPC_PORT1
 	mov y,#DSP_EVOLL
 	mov.b SPC_DSPADDR,y
@@ -401,9 +412,9 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_DSPDATA,a
 	mov a,#$09
 	mov.b SPC_PORT0,a
-.l068C:
+.echoack:		; wait for the CPU to change port 0
 	cmp.b a,SPC_PORT0
-	beq .l068C
+	beq .echoack
 	mov.b a,SPC_PORT1
 	mov y,#DSP_ESA
 	mov.b SPC_DSPADDR,y
@@ -434,9 +445,9 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_DSPDATA,a
 	mov a,#$0A
 	mov.b SPC_PORT0,a
-.l06CB:
+.firack:		; wait for the CPU to change port 0 (C3-C5 next)
 	cmp.b a,SPC_PORT0
-	beq .l06CB
+	beq .firack
 	mov.b a,SPC_PORT1
 	mov y,#DSP_C3
 	mov.b SPC_DSPADDR,y
@@ -451,9 +462,9 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_DSPDATA,a
 	mov a,#$84
 	mov.b SPC_PORT0,a
-.l06EB:
+.firack2:		; reply $84, wait for the CPU to change port 0 (C6-C7 next)
 	cmp.b a,SPC_PORT0
-	beq .l06EB
+	beq .firack2
 	mov.b a,SPC_PORT1
 	mov y,#DSP_C6
 	mov.b SPC_DSPADDR,y
@@ -525,46 +536,47 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_DSPDATA,a
 	mov a,#$0E
 	jmp .reply
-.cmdStreamStart:		; $0F (SPCStreamStart): start a sample upload in chunks: the next directory entry (start, loop = start + ports 2-3), then the first
-		;   chunk of bytes (port 2, port 1 counting); UploadSample keeps the entry for $10
+.cmdStreamStart:		; $0F (SPCStreamStart): start a sample upload in chunks: the next directory entry
+		;   (start, loop = start + ports 2-3), then the first chunk of bytes (port 2, port 1 counting);
+		;   spcUploadSample keeps the entry for $10
 	mov.b a,spcSampleCount
 	cmp a,#$60
-	beq .l07CE
+	beq .streamfull
 	mov.b spcUploadSample,a
 	asl a
 	asl a
 	mov x,a
 	mov.b a,spcFreePtr
-	mov $0200+x,a
+	mov spcSampleDir+x,a
 	clrc
 	adc.b a,SPC_PORT2
-	mov $0202+x,a
+	mov spcSampleDir+2+x,a
 	mov.b a,spcFreePtr+1
-	mov $0201+x,a
+	mov spcSampleDir+1+x,a
 	adc.b a,SPC_PORT3
-	mov $0203+x,a
+	mov spcSampleDir+3+x,a
 	mov.b a,SPC_PORT2
-	mov.b spcUploadLoop,a
+	mov.b spcUploadUnused,a
 	mov.b a,SPC_PORT3
-	mov.b spcUploadLoop+1,a
+	mov.b spcUploadUnused+1,a
 	mov x,#$00
 	mov y,#$00
 	mov.b SPC_PORT1,x
 	mov a,#$0F
 	mov.b SPC_PORT0,a
 	inc x
-.l0796:
+.streambyte:		; as .uploadbyte, counting the chunk in y
 	cmp.b x,SPC_PORT1
-	bne .l07A5
+	bne .streamidle
 	mov.b a,SPC_PORT2
 	mov.b (spcFreePtr)+y,a
 	mov.b SPC_PORT1,x
 	inc y
 	inc x
-	jmp .l0796
-.l07A5:
+	jmp .streambyte
+.streamidle:		; the end of the chunk: the free pointer += its length
 	mov.b a,SPC_PORT0
-	bne .l0796
+	bne .streambyte
 	mov a,y
 	clrc
 	adc.b a,spcFreePtr
@@ -574,18 +586,18 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b spcFreePtr+1,a
 	decw.b spcFreePtr
 	dec x
-	mov.b spcUploadLoop,x
+	mov.b spcUploadUnused,x
 	mov.b a,spcSampleCount
 	asl a
 	asl a
 	mov x,a
 	mov.b a,spcFreePtr
-	mov $0204+x,a
+	mov spcSampleDir+4+x,a
 	mov.b a,spcFreePtr+1
-	mov $0205+x,a
+	mov spcSampleDir+5+x,a
 	inc.b spcSampleCount
 	jmp .mainloop
-.l07CE:
+.streamfull:		; reply $FF (the directory is full)
 	mov a,#$FF
 	jmp .reply
 .cmdStreamNext:		; $10 (SPCStreamNext): the next chunk of the sample started by $0F
@@ -597,13 +609,13 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	nop
 	nop
 	nop
-.l07DF:
+.nextbyte:		; port 2 = the next byte, echo its count on port 1, until the CPU clears port 0
 	inc y
 	mov.b a,SPC_PORT2
 	mov.b SPC_PORT1,y
 	mov.b (spcFreePtr)+y,a
 	mov.b a,SPC_PORT0
-	bne .l07DF
+	bne .nextbyte
 	mov a,y
 	clrc
 	adc.b a,spcFreePtr
@@ -612,26 +624,27 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	adc a,#$00
 	mov.b spcFreePtr+1,a
 	dec x
-	mov.b spcUploadLoop,x
+	mov.b spcUploadUnused,x
 	mov.b a,spcUploadSample
 	asl a
 	asl a
 	mov x,a
 	mov.b a,spcFreePtr
-	mov $0204+x,a
+	mov spcSampleDir+4+x,a
 	mov.b a,spcFreePtr+1
-	mov $0205+x,a
+	mov spcSampleDir+5+x,a
 	jmp .mainloop
-.cmdDownload:		; $11 (SPCDownload): send sound RAM back: address = ports 2-3, then the length = ports 2-3; reply $86, then the bytes by port 2
+.cmdDownload:		; $11 (SPCDownload): send sound RAM back: address = ports 2-3, then the length = ports 2-3;
+		;   reply $86, then the bytes by port 2
 	mov.b a,SPC_PORT2
 	mov.b spcSendPtr,a
 	mov.b a,SPC_PORT3
 	mov.b spcSendPtr+1,a
 	mov a,#$11
 	mov.b SPC_PORT0,a
-.l0817:
+.downloadack:		; wait for the CPU to change port 0 (the length next)
 	cmp.b a,SPC_PORT0
-	beq .l0817
+	beq .downloadack
 	mov.b a,SPC_PORT2
 	mov.b spcSendLen,a
 	mov.b a,SPC_PORT3
@@ -640,22 +653,22 @@ SoundDriver:		; the sound CPU program as SPCIPLUpload blocks: length, sound RAM 
 	mov.b SPC_PORT1,a
 	mov a,#$86
 	mov.b SPC_PORT0,a
-.l082B:
+.downloadgo:		; reply $86, wait for the CPU to start the transfer
 	cmp.b a,SPC_PORT0
-	beq .l082B
+	beq .downloadgo
 	mov x,#$00
 	mov y,#$00
 	mov.b SPC_PORT1,x
-.l0835:
+.sendbyte:		; wait for the CPU to echo the count, then the next byte on port 2
 	cmp.b x,SPC_PORT1
-	bne .l0835
+	bne .sendbyte
 	mov.b a,(spcSendPtr)+y
 	mov.b SPC_PORT2,a
 	inc x
 	mov.b SPC_PORT1,x
 	incw.b spcSendPtr
 	decw.b spcSendLen
-	bne .l0835
+	bne .sendbyte
 	jmp .mainloop
 .samplearea:		; the end of the program: samples start here ($0849)
 	base off

@@ -188,7 +188,7 @@ User-approved policy is in `docs/cleanup_plan.md` (section **Unsure decisions**,
   name, first address, end exclusive; formats in `src/data/README.md`). Packed streams stay packed.
 - `src/macros/snes94.mac` holds the `String` macro (length word counting itself, then text) and the `Player` macro, as 93S.
   `src/inc/snes_regs.asm` (from 93S) and `src/ram94snes.asm` are included at the top of `src/nhl94snes.asm`.
-- Tools: `tools/snesgfx.py` (unpack, blocks, tiles, map, sprites renders), `tools/spriteframes.py` (writes the SpriteFrames
+- Tools: `tools/snesgfx.py` (unpack, blocks, tiles, map, sprites, pal renders), `tools/spriteframes.py` (writes the SpriteFrames
   source with the SPF group labels and the offset table), `tools/songwav.py` (plays the songs and samples to WAV), `tools/spc700dis.py` (disassembles sound CPU code in the asar syntax SoundDriver uses).
 
 ### Formats
@@ -207,7 +207,7 @@ User-approved policy is in `docs/cleanup_plan.md` (section **Unsure decisions**,
   end with other data after their frames (centre ice logos, player photos, songs).
 - Songs: header, track offsets, TRAK chunks (big-endian size word before each "TRAK" tag); the note stream is the
   sequencer's events $D9-$EA (StepTrack, ReadTrackEvent); `tools/songwav.py` plays them.
-- The sound CPU program (`SoundDriver`, src/data/tables/SoundDriver.asm) is SPC700 source (asar `arch spc700`, base $0400; DSP and I/O registers named): it clears sound RAM above itself, keeps a sample directory at $0200 and serves 17 commands ($01-$11: reset, status, upload / drop a sample, key on / off, voice volume / sample / ADSR / pitch / gain, main volume and echo setup, the echo filter, streamed uploads, reading sound RAM back), each answered on port 0. The 65816 senders are SPCCmd01-SPCCmd0E, SPCUploadBlock ($03), SPCStreamStart / SPCStreamNext ($0F / $10) and SPCDownload ($11).
+- The sound CPU program (`SoundDriver`, src/data/tables/SoundDriver.asm) is SPC700 source (asar `arch spc700`, base $0400; DSP and I/O registers, the driver variables and every label named; `spcUploadUnused` is written by $0F / $10 but never read): it clears sound RAM above itself, keeps a sample directory at $0200 and serves 17 commands ($01-$11: reset, status, upload / drop a sample, key on / off, voice volume / sample / ADSR / pitch / gain, main volume and echo setup, the echo filter, streamed uploads, reading sound RAM back), each answered on port 0. The 65816 senders are SPCCmd01-SPCCmd0E, SPCUploadBlock ($03), SPCStreamStart / SPCStreamNext ($0F / $10) and SPCDownload ($11).
 - Sound uploads: TitleSampleList, MenuSampleList and IntroSampleList (bank $80) are long pointer lists of blocks for
   SPCUploadBlock (big-endian sound RAM address and length, then the bytes); each block is one BRR sample. The SPC upload
   routines set SoundTable (MenuSfxTable, IntroSfxTable ...), call SoundInit and send every block of one list.
@@ -221,8 +221,15 @@ User-approved policy is in `docs/cleanup_plan.md` (section **Unsure decisions**,
   map). The tiles are linear 4bpp packed for DecompressHuffman (converted to planar by LinearToPlanar); BuildRinkMap pastes
   the map with palette 5. Teams 26 and 27 (the all-star teams) use CenterIceMapNHL with CenterIceTilesNHL (the NHL shield).
 - TeamLogoSprites ($81ABDE, Huffman): a sprite set drawn with DrawSprite (frame = team, palettes from LogoPaletteTable).
-- Player photos: PlayerPhotoTable ($9DCD53) has 28 rows of 26 long pointers to packed photos (6 x 6 tiles, LinearToPlanar),
-  read by DrawPlayerPicture and LoadMatchupPhotos as (team * 26 + slot) * 4; the entries after the rows point at the photo
+  Frames 26 / 27 are the all-star (Wales / Campbell) logos, 28 / 29 the NHL shield and the NHLPA logo (LogoPaletteNHL /
+  LogoPaletteNHLPA; DrawMatchupPictures on the password and other scores screens).
+- Palettes: every palette is a file in `Extracted/data/gfx/Pals/` (`.pal` raw BGR555, the packed ones `.pal.lz` ...), one
+  per label as 94G's Graphics/Pals; the uniform colours one per team with the 94G names (`BOSh.pal` home, `BOSv.pal`
+  away). The palette block at $9AEA5C-$9AF59C is 16-colour palettes back to back; the team block palettes (TeamBlockPalettes)
+  that sat inside the logo / photo labels are labels of their own (`TeamBlockPalette<team>`; entry 28 is never read:
+  `TeamBlockPaletteUnused`). `tools/snesgfx.py pal` draws palette files as swatches.
+- Player photos (extracted to `Extracted/data/gfx/PlayerCards/`, as 94G's PlayerCards): PlayerPhotoTable ($9DCD53) has
+  28 rows of 26 long pointers to packed photos (6 x 6 tiles, LinearToPlanar), read by DrawPlayerPicture and LoadMatchupPhotos as (team * 26 + slot) * 4; the entries after the rows point at the photo
   palettes, one per team. Players without their own photo share the NoPicSkater1-3 / NoPicGoalie pictures.
 - The licence screens: LicenceTiles with LicenceNHLMap / LicenceNHLPAMap (mode 7 byte maps, 10 x 12) for the two zooms.
 - The OAM high table masks: Reset_Fast copies OAMHighMasks ($80FF00) to OAMHiMasks ($7EE67C), which DrawSprite reads.

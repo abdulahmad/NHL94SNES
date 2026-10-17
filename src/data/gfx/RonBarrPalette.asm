@@ -3,4 +3,4 @@
 RonBarrPalette:		; colours packed for DecompressLZ, loaded into CGRAM by a screen setup
 	db $10,$FB
 	db $00,$01,$00
-	incbin "../../../Extracted/data/gfx/RonBarrPalette.pal.lz":5..44
+	incbin "../../../Extracted/data/gfx/Pals/RonBarrPalette.pal.lz":5..44

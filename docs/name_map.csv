@@ -6429,7 +6429,7 @@ $9DFEC2,SPAunused1,DATA8_9DFEC2,code,no code sets it (updateanim only compares S
 $9DFF04,SPAunused2,DATA8_9DFF04,code,"no code sets it; skater frames with the stick raised, longer than SPAunused1",src/data/frames94s.asm
 $9DFF5A,SPAunused3,DATA8_9DFF5A,code,no code sets it; one skater frame,src/data/frames94s.asm
 $9EDC94,UnusedSineTable,DATA8_9EDC94,code,"A sine of amplitude 10 over 8 steps (0,-7,-10,-7,0,7,10,7,0,-7); no code reads it (no operand in bank $9E points into it)",src/routines/snes/UnusedSineTable.asm
-$9AF15C,UnusedSetupSpritePalette,DATA8_9AF15C,code,"SetupScreen / LoadScoutingScreen send its first row (gold) to sprite palette 4, and no sprite on those screens is drawn in palette 4; rows 2-3 are the ANH / BUF team blocks (TeamBlockPalettes)",src/data/gfx/UnusedSetupSpritePalette.asm
+$9AF15C,UnusedSetupSpritePalette,DATA8_9AF15C,code,"SetupScreen / LoadScoutingScreen send it (gold) to sprite palette 4, and no sprite on those screens is drawn in palette 4; TeamBlockPaletteANH / BUF follow it",src/data/gfx/UnusedSetupSpritePalette.asm
 $828F40,SpriteFrame_skatewp_0,SpriteFrame0,93S,"frame 1 = SPFskatewp (40 frames, SpriteFrame_skatewp_0-39): skating with the puck, 5 per direction",src/data/gfx/SpriteFrames82.asm
 $82CBC8,SpriteFrame_skate_0,SpriteFrame40,93S,"frame 41 = SPFskate (40 frames, SpriteFrame_skate_0-39): skating, 5 per direction",src/data/gfx/SpriteFrames82.asm
 $838332,SpriteFrame_turnl_0,SpriteFrame80,93S,"frame 81 = SPFturnl (8 frames, SpriteFrame_turnl_0-7): turning left",src/data/gfx/SpriteFrames83.asm
@@ -7102,3 +7102,34 @@ $7E2F40,BlockRuns,,behavior,RAM; 16x16 block area of sprite VRAM (InitSprites: o
 $7E2FB9,BlockRunPrev,,behavior,RAM; previous run of each block run ($FF = none),src/ram94snes.asm
 $7E3032,TileRuns,,behavior,RAM; single 8x8 tile area (from SpriteBlockTiles to $200),src/ram94snes.asm
 $7E3093,TileRunPrev,,behavior,RAM; previous run of each tile run ($FF = none),src/ram94snes.asm
+$9AF17C,TeamBlockPaletteANH,,behavior,"the ANH team block colours: TeamBlockPalettes entry 0 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/UnusedSetupSpritePalette.asm
+$9AEF5C,TeamBlockPaletteBOS,,behavior,"the BOS team block colours: TeamBlockPalettes entry 1 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPalettePHI.asm
+$9AF19C,TeamBlockPaletteBUF,,behavior,"the BUF team block colours: TeamBlockPalettes entry 2 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/UnusedSetupSpritePalette.asm
+$9AF57C,TeamBlockPaletteCGY,,behavior,"the CGY team block colours: TeamBlockPalettes entry 3 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/PhotoPaletteANH.asm
+$9AF53C,TeamBlockPaletteCHI,,behavior,"the CHI team block colours: TeamBlockPalettes entry 4 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/PhotoPaletteANH.asm
+$9AF4FC,TeamBlockPaletteDAL,,behavior,"the DAL team block colours: TeamBlockPalettes entry 5 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/PhotoPaletteANH.asm
+$9AF55C,TeamBlockPaletteDET,,behavior,"the DET team block colours: TeamBlockPalettes entry 6 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/PhotoPaletteANH.asm
+$9AF4DC,TeamBlockPaletteEDM,,behavior,"the EDM team block colours: TeamBlockPalettes entry 7 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/PhotoPaletteANH.asm
+$9AF4BC,TeamBlockPaletteFLA,,behavior,"the FLA team block colours: TeamBlockPalettes entry 8 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/PhotoPaletteANH.asm
+$9AF49C,TeamBlockPaletteHFD,,behavior,"the HFD team block colours: TeamBlockPalettes entry 9 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/PhotoPaletteANH.asm
+$9AF45C,TeamBlockPaletteLA,,behavior,"the LA team block colours: TeamBlockPalettes entry 10 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteLA.asm
+$9AF43C,TeamBlockPaletteMTL,,behavior,"the MTL team block colours: TeamBlockPalettes entry 11 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteLA.asm
+$9AF41C,TeamBlockPaletteNJ,,behavior,"the NJ team block colours: TeamBlockPalettes entry 12 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteLA.asm
+$9AF3FC,TeamBlockPaletteNYI,,behavior,"the NYI team block colours: TeamBlockPalettes entry 13 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteLA.asm
+$9AF3DC,TeamBlockPaletteNYR,,behavior,"the NYR team block colours: TeamBlockPalettes entry 14 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteLA.asm
+$9AF3BC,TeamBlockPaletteOTW,,behavior,"the OTW team block colours: TeamBlockPalettes entry 15 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteLA.asm
+$9AF39C,TeamBlockPalettePHI,,behavior,"the PHI team block colours: TeamBlockPalettes entry 16 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteLA.asm
+$9AF37C,TeamBlockPalettePIT,,behavior,"the PIT team block colours: TeamBlockPalettes entry 17 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteLA.asm
+$9AF35C,TeamBlockPaletteQUE,,behavior,"the QUE team block colours: TeamBlockPalettes entry 18 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteLA.asm
+$9AF31C,TeamBlockPaletteSJ,,behavior,"the SJ team block colours: TeamBlockPalettes entry 19 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteHFD.asm
+$9AF2DC,TeamBlockPaletteSTL,,behavior,"the STL team block colours: TeamBlockPalettes entry 20 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteFLA.asm
+$9AF2BC,TeamBlockPaletteTB,,behavior,"the TB team block colours: TeamBlockPalettes entry 21 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteFLA.asm
+$9AF29C,TeamBlockPaletteTOR,,behavior,"the TOR team block colours: TeamBlockPalettes entry 22 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteFLA.asm
+$9AF25C,TeamBlockPaletteVAN,,behavior,"the VAN team block colours: TeamBlockPalettes entry 23 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteEDM.asm
+$9AF21C,TeamBlockPaletteWSH,,behavior,"the WSH team block colours: TeamBlockPalettes entry 24 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteEDM.asm
+$9AF1FC,TeamBlockPaletteWPG,,behavior,"the WPG team block colours: TeamBlockPalettes entry 25 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteEDM.asm
+$9AF23C,TeamBlockPaletteASE,,behavior,"the ASE team block colours: TeamBlockPalettes entry 26 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPaletteEDM.asm
+$9AF51C,TeamBlockPaletteASW,,behavior,"the ASW team block colours: TeamBlockPalettes entry 27 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/PhotoPaletteANH.asm
+$9AF1DC,TeamBlockPaletteUnused,,behavior,"TeamBlockPalettes entry 28; no team 28 reaches the team block code (teams are 0-27)",src/data/gfx/LogoPaletteEDM.asm
+$9AF0FC,LogoPaletteNHL,,behavior,"the NHL shield colours: LogoPaletteTable 28, TeamLogoSprites frame 28 (DrawMatchupPictures: the password and other scores screens)",src/data/gfx/LogoPaletteWPG.asm
+$9AF11C,LogoPaletteNHLPA,,behavior,"the NHLPA logo colours: LogoPaletteTable 29, TeamLogoSprites frame 29 (DrawMatchupPictures)",src/data/gfx/LogoPaletteWPG.asm

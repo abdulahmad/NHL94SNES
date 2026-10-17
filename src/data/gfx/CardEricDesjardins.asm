@@ -4,5 +4,5 @@ CardEricDesjardins:		; a player photo: 6 x 6 linear 4bpp tiles packed for Decomp
 			;   in bank $9D
 	db $30,$FB
 	db $00,$04,$80
-	incbin "../../../Extracted/data/gfx/CardEricDesjardins.lin.huf":5..568
+	incbin "../../../Extracted/data/gfx/PlayerCards/CardEricDesjardins.lin.huf":5..568
 	db $00

@@ -3,4 +3,4 @@
 MenuBackPalette:		; colours packed for DecompressLZ, loaded into CGRAM by screen setups
 	db $10,$FB
 	db $00,$01,$00
-	incbin "../../../Extracted/data/gfx/MenuBackPalette.pal.lz":5..71
+	incbin "../../../Extracted/data/gfx/Pals/MenuBackPalette.pal.lz":5..71

@@ -3,4 +3,4 @@
 PlayoffPalette:		; packed for DecompressLZ by a screen setup
 	db $10,$FB
 	db $00,$01,$00
-	incbin "../../../Extracted/data/gfx/PlayoffPalette.lz":5..89
+	incbin "../../../Extracted/data/gfx/Pals/PlayoffPalette.pal.lz":5..89
