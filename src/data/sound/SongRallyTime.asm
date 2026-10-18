@@ -1,7 +1,7 @@
-; A song: a header (the second byte is the tempo), the offsets of its tracks, then each track
-; in a TRAK chunk (size byte, tag, track name, then the note stream the music player reads).
-; 94G songs $33, $47, $77 at the same TeamSongs slots: BUF 1, BUF 2, NYI 0, NYI 2, OTW 0, WPG 0.
-; Title (the forum list of the 94G songs): Rally Time (94G: F, C and F longer).
+; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
+;
+; 94G songs $33, $47, $77 at the same TeamSongs slots: BUF 1, BUF 2, NYI 0, NYI 2, OTW 0, WPG 0. Title (the
+; forum list of the 94G songs): Rally Time (94G: F, C and F longer).
 
 SongRallyTime:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$87,$01,$00,$00,$00,$03,$00

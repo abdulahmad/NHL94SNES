@@ -1,9 +1,7 @@
-; A song MusicStart plays from the TeamSongs table: a header (the second byte is the tempo),
-; the offsets of its tracks, then each track in a TRAK chunk (size byte, tag, track name,
-; then the note stream the music player reads).
-; 94G songs $5F, $6F at the same TeamSongs slots: SJ 0, VAN 1.
-; Title (the forum list of the 94G songs): Buildup, then Charge (94G: Charge [C] for SJ, Buildup [D-flat] for
-; VAN; this one song has both).
+; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
+;
+; 94G songs $5F, $6F at the same TeamSongs slots: SJ 0, VAN 1. Title (the forum list of the 94G songs):
+; Buildup, then Charge (94G: Charge [C] for SJ, Buildup [D-flat] for VAN; this one song has both).
 
 SongBuildupCharge:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00

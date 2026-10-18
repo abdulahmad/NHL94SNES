@@ -1,8 +1,6 @@
-; A song MusicStart plays from the TeamSongs table: a header (the second byte is the tempo),
-; the offsets of its tracks, then each track in a TRAK chunk (size byte, tag, track name,
-; then the note stream the music player reads).
-; 94G song $46 at the same TeamSongs slots: LA 5.
-; Title (the forum list of the 94G songs): Go Team Go [C].
+; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
+;
+; 94G song $46 at the same TeamSongs slots: LA 5. Title (the forum list of the 94G songs): Go Team Go [C].
 
 SongGoTeamGoC:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$6A,$01,$00,$00,$00,$02,$00

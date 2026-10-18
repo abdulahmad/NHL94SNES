@@ -1,7 +1,7 @@
-; A song: a header (the second byte is the tempo), the offsets of its tracks, then each track
-; in a TRAK chunk (size byte, tag, track name, then the note stream the music player reads).
-; 94G song $5C at the same TeamSongs slots: PIT 3, PIT 5, DefaultSongs.
-; Title (the forum list of the 94G songs): What Do You Do With A Drunken Sailor?.
+; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
+;
+; 94G song $5C at the same TeamSongs slots: PIT 3, PIT 5, DefaultSongs. Title (the forum list of the 94G
+; songs): What Do You Do With A Drunken Sailor?.
 
 SongDrunkenSailor:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00

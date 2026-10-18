@@ -1,9 +1,8 @@
-; The sound CPU (SPC700) program, uploaded at reset by SPCIPLUpload (Reset_Fast) to sound RAM $0400 and
-; started there. It clears sound RAM above itself, sets up the DSP and then serves commands: the CPU writes a
-; command number to port 0 (data in ports 1-3), the handler replies on port 0 and the main loop waits for the
-; CPU to clear it. Samples go in a directory at $0200 (spcSampleDir: start, loop point per sample) and in
-; sound RAM from .samplearea up. The 65816 side is SPCCmd01-SPCCmd0E, SPCUploadBlock, SPCDownload and the
-; stream routines.
+; The sound CPU (SPC700) program, uploaded at reset by SPCIPLUpload (Reset_Fast) to sound RAM $0400. It clears
+; sound RAM above itself, sets up the DSP and serves commands the CPU writes to port 0 (data in ports 1-3).
+;
+; The handler replies on port 0 and the main loop waits for the CPU to clear it. Samples go in a directory at
+; $0200 (spcSampleDir: start, loop point) and in sound RAM from .samplearea up.
 
 ; SPC700 I/O registers
 SPC_CONTROL = $F1

@@ -1,7 +1,7 @@
-; A song: a header (the second byte is the tempo), the offsets of its tracks, then each track
-; in a TRAK chunk (size byte, tag, track name, then the note stream the music player reads).
-; 94G songs $37, $44 at the same TeamSongs slots: CGY 1, CGY 3, LA 3.
-; Title (the forum list of the 94G songs): You Say It's Your Birthday (94G also has one with claps).
+; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
+;
+; 94G songs $37, $44 at the same TeamSongs slots: CGY 1, CGY 3, LA 3. Title (the forum list of the 94G songs):
+; You Say It's Your Birthday (94G also has one with claps).
 
 SongBirthday:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$9A,$01,$00,$00,$00,$03,$00

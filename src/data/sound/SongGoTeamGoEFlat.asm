@@ -1,7 +1,7 @@
-; A song: a header (the second byte is the tempo), the offsets of its tracks, then each track
-; in a TRAK chunk (size byte, tag, track name, then the note stream the music player reads).
-; 94G song $30 at the same TeamSongs slots: BOS 2.
-; Title (the forum list of the 94G songs): Go Team Go [E-flat].
+; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
+;
+; 94G song $30 at the same TeamSongs slots: BOS 2. Title (the forum list of the 94G songs): Go Team Go
+; [E-flat].
 
 SongGoTeamGoEFlat:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$60,$01,$00,$00,$00,$02,$00

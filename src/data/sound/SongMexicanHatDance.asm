@@ -1,7 +1,7 @@
-; A song: a header (the second byte is the tempo), the offsets of its tracks, then each track
-; in a TRAK chunk (size byte, tag, track name, then the note stream the music player reads).
-; 94G songs $3A, $3D, $45 at the same TeamSongs slots: CHI 1, DET 2, LA 2.
-; Title (the forum list of the 94G songs): Las Chiapanecas {Mexican Hat Dance} (94G has it in C, F and G).
+; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
+;
+; 94G songs $3A, $3D, $45 at the same TeamSongs slots: CHI 1, DET 2, LA 2. Title (the forum list of the 94G
+; songs): Las Chiapanecas {Mexican Hat Dance} (94G has it in C, F and G).
 
 SongMexicanHatDance:				; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00
