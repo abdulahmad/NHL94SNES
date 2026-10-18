@@ -1,8 +1,9 @@
-; The sprite animations. SPA holds the address of one. Each animation: eight words, the frame list for each
-; direction, a word of attributes (bit 0 = the animation loops), then the frame lists: pairs of (SPF frame
-; (ram94snes.asm), time in frames), times in decimal; a negative time marks the last pair. A direction may
-; point at the next animation instead of a list. Then $FF fill to the end of the bank.
-SPAList:							; the animations (SPA): SPA 0 is no animation
+; The sprite animations. SPA holds the address of one. Each animation: eight words (the frame list for each
+; direction; a direction may point at the next animation instead), a word of attributes (bit 0 = loops),
+; then the frame lists: pairs of (SPF frame, time in decimal frames); a negative time ends one.
+;
+; Then $FF fill to the end of the bank.
+SPAlist:							; the animations (SPA): SPA 0 is no animation
 	dw 0
 SPAgready:
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7

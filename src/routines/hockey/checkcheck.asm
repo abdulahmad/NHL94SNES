@@ -128,7 +128,7 @@ org $9EA001
 	lda.w seed+1
 	and.w #$0002
 	clc
-	adc.w #$0018
+	adc.w #PenCharging
 	sta.b d0
 	jmp.w AddPenalty
 
@@ -146,7 +146,7 @@ org $9EA001
 	lda.w seed+1
 	and.w #$0002
 	clc
-	adc.w #$001C
+	adc.w #PenRoughing
 	sta.b d0
 	jsl.l AddPenalty
 .1xx:
@@ -158,7 +158,7 @@ org $9EA001
 	sty.w BA_Sktr_SCnum
 	lda.w playerpad,y
 	sta.w pspad
-	lda.w #$0024
+	lda.w #PenShot
 	sta.b d0
 	jsl.l AddPenalty
 .2x:

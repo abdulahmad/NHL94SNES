@@ -151,10 +151,10 @@ OOlist = $15C3						; 16 bytes: object order list, bottom of the screen last
 gameclock = $1632					; game clock seconds; gameclock+2 = jiffies
 
 ; Direct page the game logic uses as the 68k registers.
+;
 ; The engine's parameter / scratch registers at the bottom of the direct page, 4 bytes each like a0-a6 / d0-d7
-; (NAME+2 is the upper word or the bank). What each holds changes per routine: the divider and multiplier take
-; their operands in r0-r2, Decompress / MemCopy / the DMA and map routines take a source long pointer in p0
-; and a destination in p1, DrawSprite the frame in r0 and the sprite set in p1.
+; (NAME+2 is the upper word or the bank). What each holds changes per routine: r0-r2 the divider and
+; multiplier operands, p0 / p1 a source / destination long pointer (Decompress, MemCopy, DMA, map routines).
 r0 = $00
 r1 = $04
 r2 = $08
@@ -203,9 +203,32 @@ tmfoside = $0010					; team flagged offsides
 cbut = $0080						; shoot / check button in d2
 blueline = $58						; puck y past which a team can be offside
 sideline = $88						; distance from center to side boards
-PenOffsides = $12					; offsides penalty number
-PenIcing = $0C						; icing penalty number
-PenGoal = $0E						; goal
+; Penalty numbers (word offsets into PenaltyList) for AddPenalty
+PenEOP = $02
+PenEOG = $04
+PenOOP = $06
+PenGhold = $08
+PenWhistle = $0A
+PenIcing = $0C
+PenGoal = $0E
+PenNoText = $10
+PenOffsides = $12
+PenRoughing2 = $14
+PenNoText2 = $16
+PenCharging = $18
+PenSlashing = $1A
+PenRoughing = $1C
+PenCrossChk = $1E
+PenHooking = $20
+PenTripping = $22
+PenShot = $24
+PenInterference = $26
+PenHolding = $28
+PenFighting = $2A
+PenFighting2 = $2C
+PenInst = $2E
+PenDelay = $30
+PenNoText3 = $32
 
 gmpen = $0004						; penalty called, ref in progress
 sfpz = $0001						; pause mode
@@ -802,9 +825,8 @@ VoiceVibDir = $09FA					;0 = vibrato offset rising, $FFFF = falling (bit $09FA,x
 									;at the limit by instrument $2D ...
 
 ; $1C84-$1EC2: pad teams (94G cont1team-cont4team, a word per pad), pause options, the line editor, the stats
-; and card screens (curitem, listtop, listend, listcount, curplayer are shared: each screen uses them its own
-; way), ShowStars, the scouting report, the penalty shot and shootout (94G BA_ and sopath names), the pause
-; menu lists
+; and card screens (curitem, listtop, listend, listcount, curplayer are shared by them), ShowStars, the
+; scouting report, the penalty shot and shootout (94G BA_ and sopath names), the pause menu lists
 cont1team = $1C84					;Team on pad 1 (0 none, 1 home, 2 away); StartGame turns cont1team,x into
 									;$19F6,x = (team-1)*2, ...
 cont2team = $1C86					; Pad 2 team word of the cont1team array (93S/94G cont2team)

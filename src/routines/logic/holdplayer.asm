@@ -1,6 +1,6 @@
 ; Hold button: pick the nearest opponent in front of player X (distance plus facing), then Acheck hooks or
 ; holds him
-holdplayer:
+Holdplayer:
 	lda.w position,x
 	beq .rtl
 	lda.w pfalock,x

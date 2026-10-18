@@ -162,7 +162,7 @@ setoptions:
 	lda.b vcount
 	sta.w lastframevc
 	sta.w oldvcount
-	jsl.l Readjoy1
+	jsl.l ReadJoy1
 	dec.w repeatdelay
 	jsl.l ProcessInputWithRepeat
 	lda.b d1

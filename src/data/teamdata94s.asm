@@ -1,8 +1,8 @@
 ; The team database (bank $9C): TeamList points to each team record; team number = index (Anaheim 0 ...
-; Winnipeg 25, then the two all-star teams). A record starts with offsets to its parts (.0), then .sr (the
-; scouting report), .sodds, the eight lines (.ls: the player number at each position), the players (.pld, the
-; Player macro: name and 16 rating nibbles), and four Strings: city, abbreviation, nickname and arena. Then
-; playoffseats, the playoff tree seedings.
+; Winnipeg 25, then the two all-star teams). A record: offsets to its parts (.0), .sr (scouting report),
+;
+; .sodds, the eight lines (.ls), the players (.pld, Player macro: name and 16 rating nibbles), four Strings
+; (city, abbreviation, nickname, arena), then playoffseats.
 
 TeamList:							; a long pointer to each team record (team number = index)
 	dd Anaheim						; 0

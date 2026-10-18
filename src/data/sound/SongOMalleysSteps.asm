@@ -1,8 +1,8 @@
-; A song: a header (the second byte is the tempo), the offsets of its tracks, then each track in a TRAK chunk
-; (size byte, tag, track name, then the note stream the music player reads). 94G songs $3C, $4F, $71, $74, $75
-; at the same TeamSongs slots: DET 1, DET 5, MTL 0, MTL 2, OTW 1, WSH 0, WSH 2, WSH 5, WPG 1. Title (the forum
-; list of the 94G songs): O'Malley's Steps (94G has five versions: / Charge [C], [F], [F] {Alternate}, Charge
-; / O'Malley's Steps [F], [G] {Alternate}).
+; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
+;
+; 94G songs $3C, $4F, $71, $74, $75 at the same TeamSongs slots: DET 1, DET 5, MTL 0, MTL 2, OTW 1, WSH 0, WSH
+; 2, WSH 5, WPG 1. Title (the forum list of the 94G songs): O'Malley's Steps (94G has five versions: / Charge
+; [C], [F], [F] {Alternate}, Charge / O'Malley's Steps [F], [G] {Alternate}).
 
 SongOMalleysSteps:					; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$78,$01,$00,$00,$00,$02,$00

@@ -67,7 +67,7 @@ pucknorm_move:
 	lda.w Yvel,y
 	sta.w puckvy
 .4:
-	jsl.l puckIChk
+	jsl.l PuckIChk
 	jsl.l ChkOffsides
 	lda.w gmclock
 	bne .13
@@ -111,7 +111,7 @@ pucknorm_move:
 	lda.w pucky
 	cmp.w OldYpos+puckobj
 	bne .12
-	lda.w #$0006
+	lda.w #PenOOP
 	sta.b d0
 	dec.w temp2b+puckobj
 	bpl .13

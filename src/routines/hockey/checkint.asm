@@ -58,6 +58,6 @@ checkint:
 	lda.w goalieflags,y
 	and.w #$0004
 	bne .rtl
-	lda.w #$0026
+	lda.w #PenInterference
 	sta.b d0
 	jmp.w AddPenalty

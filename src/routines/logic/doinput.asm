@@ -93,7 +93,7 @@ doinput:
 .8:
 	jml.l lineinput
 .9:
-	jml.l holdplayer
+	jml.l Holdplayer
 .10:
 	jml.l findpc
 .11:

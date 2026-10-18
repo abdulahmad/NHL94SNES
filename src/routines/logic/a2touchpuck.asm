@@ -75,7 +75,7 @@ a2touchpuck:
 	asl a
 	sta.b a3
 	tax
-	lda.w #$000C
+	lda.w #PenIcing
 	sta.b d0
 	jsl.l AddPenalty
 	plx

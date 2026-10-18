@@ -14,7 +14,7 @@ Stop4Pen:
 	inc.b a0
 	inc.b a0
 	and.w #$00FF
-	cmp.w #$000E
+	cmp.w #PenGoal
 	beq .1
 	pha
 	lda.l ltx
@@ -22,13 +22,13 @@ Stop4Pen:
 	lda.l lty
 	sta.b d1
 	pla
-	cmp.w #$0006
+	cmp.w #PenOOP
 	beq .1
 	ldy.w puckx
 	sty.b d0
 	ldy.w pucky
 	sty.b d1
-	cmp.w #$000C
+	cmp.w #PenIcing
 	bne .1
 	dec.b a0
 	lda.b (a0)

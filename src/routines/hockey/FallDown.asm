@@ -337,7 +337,7 @@ FallDown:
 	jmp.w AddPenalty2
 
 .t1x:
-	lda.w #$0014
+	lda.w #PenRoughing2
 	sta.b d0
 	jsl.l AddPenalty2
 	jmp.w Stop4Pen

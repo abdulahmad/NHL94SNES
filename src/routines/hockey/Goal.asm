@@ -308,7 +308,7 @@ Goal:
 	ldy.b a2
 	ldx.w tmsort,y
 	stx.b a3
-	lda.w #$000E
+	lda.w #PenGoal
 	sta.b d0
 	jsl.l AddPenalty2
 	ldx.w #$001C

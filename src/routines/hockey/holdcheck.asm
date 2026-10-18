@@ -81,7 +81,7 @@ holdcheck:
 	sty.w BA_Sktr_SCnum
 	lda.w playerpad,y
 	sta.w pspad
-	lda.w #$0024
+	lda.w #PenShot
 	sta.b d0
 	jsl.l AddPenalty
 	bra .2
@@ -96,7 +96,7 @@ holdcheck:
 	lda.w SPA,x
 	cmp.w #SPAHold2
 	beq .1x
-	lda.w #$0020
+	lda.w #PenHooking
 	sta.b d0
 .1x:
 	jsl.l AddPenalty

@@ -1,7 +1,4 @@
-; More frames of SpriteFrames. A frame is the piece count, flags (bit 7: 16x16 tiles), tile
-; count, the box of its pixels (left, right, top, bottom; nothing reads it), the two transfer
-; sizes, the tile offset, the hot spot x / y (signed bytes, GetHot), the stick point x / y
-; (GetFrameHot), the pieces, then the tiles. Frame labels are SpriteFrame_<group>_<n>.
+; More frames of SpriteFrames (format at SpriteFrames82). Frame labels are SpriteFrame_<group>_<n>.
 
 SpriteFrame_Goalie_79:
 	db $05,$80

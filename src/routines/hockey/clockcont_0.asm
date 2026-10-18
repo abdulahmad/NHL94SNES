@@ -115,12 +115,12 @@ clockcont_0:
 	sbc.w #$0096
 	sta.w cheervc
 .1x:
-	lda.w #$0004
+	lda.w #PenEOG
 	sta.b d0
 	jsl.l AddPenalty2
 	lda.b p0
 	beq .rtl
-	lda.w #$0032
+	lda.w #PenNoText3
 	sta.b d0
 	jsl.l AddPenalty2
 .rtl:

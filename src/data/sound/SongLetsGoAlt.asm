@@ -1,7 +1,7 @@
-; A song: a header (the second byte is the tempo), the offsets of its tracks, then each track
-; in a TRAK chunk (size byte, tag, track name, then the note stream the music player reads).
-; 94G song $56 at the same TeamSongs slots: PHI 0, PHI 2.
-; Title (the forum list of the 94G songs): Let's Go [C] {Alternate}.
+; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
+;
+; 94G song $56 at the same TeamSongs slots: PHI 0, PHI 2. Title (the forum list of the 94G songs): Let's Go
+; [C] {Alternate}.
 
 SongLetsGoAlt:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$8C,$01,$00,$00,$00,$02,$00
