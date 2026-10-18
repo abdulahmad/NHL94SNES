@@ -149,7 +149,7 @@ PasswordRedraw:
 .loop:
 	jsl.l WaitFrame
 	jsl.l ReadPads
-	jsl.l Readjoy1
+	jsl.l ReadJoy1
 	jsl.l ProcessInputWithRepeat
 	lda.b d1
 	beq .loop

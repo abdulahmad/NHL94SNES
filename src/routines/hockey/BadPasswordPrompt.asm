@@ -64,7 +64,7 @@ BadPasswordPrompt:
 	jsl.l QueueTextDMA
 .loop2:
 	jsl.l ReadPads
-	jsl.l Readjoy1
+	jsl.l ReadJoy1
 	lda.b d3
 	beq .loop2
 	bit.w #$4000

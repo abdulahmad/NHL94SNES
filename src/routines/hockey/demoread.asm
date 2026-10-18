@@ -38,7 +38,7 @@ demoread:
 	ora.w cont4team
 	ora.w cont5team
 	bne .3
-	jsl.l Readjoy1
+	jsl.l ReadJoy1
 	lda.b d1
 	bit.w #$1000
 	beq .t1x

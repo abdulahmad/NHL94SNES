@@ -1,5 +1,5 @@
 ; Watch for icing: the loose puck crossing the far goal line
-puckIChk:
+PuckIChk:
 	lda.w iflags
 	bit.w #$0004
 	beq .1

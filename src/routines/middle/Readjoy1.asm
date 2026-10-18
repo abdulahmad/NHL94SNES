@@ -1,5 +1,5 @@
 ; Read pad 1: d0 = direction, d1 = new presses, d2 = changed buttons, d3 = buttons held
-Readjoy1:
+ReadJoy1:
 	lda.w JoyPad
 	sta.b d3
 	lda.w padchange
