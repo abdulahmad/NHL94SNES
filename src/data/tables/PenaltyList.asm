@@ -1,30 +1,30 @@
 ; The penalties and stoppages by penalty number: a word offset to each entry, then the entries (name and data)
 PenaltyList:
 	dw $0000
-	dw PenDataEOP-PenaltyList	;$2 period over
-	dw PenDataEOG-PenaltyList	;$4 game over
-	dw PenDataGhold-PenaltyList	;$6 face off
-	dw PenDataGhold-PenaltyList	;$8 face off
+	dw PenDataEOP-PenaltyList		;$2 period over
+	dw PenDataEOG-PenaltyList		;$4 game over
+	dw PenDataGhold-PenaltyList		;$6 face off
+	dw PenDataGhold-PenaltyList		;$8 face off
 	dw PenDatawhistle-PenaltyList	;$A whistle
-	dw PenDataice-PenaltyList	;$C icing
-	dw PenDataGoal-PenaltyList	;$E goal
+	dw PenDataice-PenaltyList		;$C icing
+	dw PenDataGoal-PenaltyList		;$E goal
 	dw PenDataNoText-PenaltyList	;$10 no text
 	dw PenDataoffsides-PenaltyList	;$12 offsides
 	dw PenDatarough2-PenaltyList	;$14 roughing, slow down time $0A
 	dw PenDataNoText2-PenaltyList	;$16 no text
 	dw PenDatacharge-PenaltyList	;$18
-	dw PenDataslash-PenaltyList	;$1A
-	dw PenDatarough-PenaltyList	;$1C
-	dw PenDatacross-PenaltyList	;$1E
-	dw PenDatahook-PenaltyList	;$20
-	dw PenDatatrip-PenaltyList	;$22
-	dw PenDataShot-PenaltyList	;$24 penalty shot
-	dw PenDataint-PenaltyList	;$26
-	dw PenDataHold-PenaltyList	;$28
-	dw PenDatafight-PenaltyList	;$2A
+	dw PenDataslash-PenaltyList		;$1A
+	dw PenDatarough-PenaltyList		;$1C
+	dw PenDatacross-PenaltyList		;$1E
+	dw PenDatahook-PenaltyList		;$20
+	dw PenDatatrip-PenaltyList		;$22
+	dw PenDataShot-PenaltyList		;$24 penalty shot
+	dw PenDataint-PenaltyList		;$26
+	dw PenDataHold-PenaltyList		;$28
+	dw PenDatafight-PenaltyList		;$2A
 	dw PenDatafight2-PenaltyList	;$2C
-	dw PenDataInst-PenaltyList	;$2E
-	dw PenDatadelay-PenaltyList	;$30 delay
+	dw PenDataInst-PenaltyList		;$2E
+	dw PenDatadelay-PenaltyList		;$30 delay
 	dw PenDataNoText3-PenaltyList	;$32 no text
 	dw $0000
 PenDataEOP:
