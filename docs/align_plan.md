@@ -50,7 +50,7 @@ Already in the right kind of place, keep:
 - `src/data/teamdata94s.asm` (the B/C/D coverage above).
 - `src/data/text/*.asm` for the nine tables that already use 93S names: AttribMenuSkater, AttribMenuGoalie, PositionNames, GameLabels, PasstoText, StatusTextTbl, HandedTextTbl, GoalBoxText, RosterLineNames. Also CreditTitles, CreditNames, TeamPlaceNames, PregameText.
 - `src/data/gfx/` and `src/data/sound/` binaries. Step 4 moves the binaries to `Extracted/` and leaves the asm.
-- `src/ram94snes.asm`, `src/inc/snes_regs.asm`, `src/macros/snes94.mac`.
+- `src/ram94s.asm`, `src/inc/snes_regs.asm`, `src/macros/snes94.mac`.
 
 Move, one area per commit, rebuild after each:
 

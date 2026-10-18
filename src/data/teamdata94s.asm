@@ -1,3 +1,7 @@
+; Team record offsets, as in 94G teamdata94.asm
+Playerdata	=	0					; offset of the player list in a team record
+GoalieOdds	=	10					; offset of the starting goalie weights in a team record
+
 ; The team database (bank $9C): TeamList points to each team record; team number = index (Anaheim 0 ...
 ; Winnipeg 25, then the two all-star teams). A record: offsets to its parts (.0), .sr (scouting report),
 ; .godds (starting goalie weights), the eight lines (.ls), the players (.pld, Player macro: name and 16

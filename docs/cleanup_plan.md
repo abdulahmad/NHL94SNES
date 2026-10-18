@@ -38,7 +38,7 @@ The named routine folders (`hockey`, `penalty`, `logic`, `video`, `middle`, `sho
 
 `SpriteFrameN` (976 labels, one per frame in `data/gfx/SpriteFrames8*.asm`) stays a numbered frame until a 93S `SPF` name or a 94G frame name is certain. Replacing the number with a guess would hide the frame index the animation tables use.
 
-Raw absolute operands (`lda.w $15D6` and the same shape) are not labels, and there are 16779 of them, 16142 in `routines/snes`. They are renamed only when `src/ram94snes.asm` or `src/inc/snes_regs.asm` already has that address, or when a 93S variable is the same role and the bytes stay the same. New equates go in `ram94snes.asm`.
+Raw absolute operands (`lda.w $15D6` and the same shape) are not labels, and there are 16779 of them, 16142 in `routines/snes`. They are renamed only when `src/ram94s.asm` or `src/inc/snes_regs.asm` already has that address, or when a 93S variable is the same role and the bytes stay the same. New equates go in `ram94s.asm`.
 
 History stays in `docs/name_map.csv`. New rows keep the existing columns (`address,name,auto_name,source,note,file`): `auto_name` is the old name, `name` is the new one, and `source` is `93S`, `94G` or `new`.
 

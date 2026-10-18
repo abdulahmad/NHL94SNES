@@ -5,7 +5,7 @@
 lorom
 
 incsrc "inc/snes_regs.asm"
-incsrc "ram94snes.asm"
+incsrc "ram94s.asm"
 incsrc "macros/snes94.mac"
 
 incsrc "banks/b80_engine.asm"
