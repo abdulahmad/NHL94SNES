@@ -203,6 +203,6 @@ checkgoalp:
 	lda.w gmclock
 	bne .9
 	pla
-	lda.w #$0008
+	lda.w #PenGhold
 	sta.b d0
 	jmp.w AddPenalty2

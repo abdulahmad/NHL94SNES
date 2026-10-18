@@ -7,7 +7,7 @@ AddPenalty:
 	lda.b d0
 	cmp.w #PenIcing
 	beq AddPenalty2
-	cmp.w #$0024
+	cmp.w #PenShot
 	beq AddPenalty2
 	lda.l OptPen
 	beq .rtl

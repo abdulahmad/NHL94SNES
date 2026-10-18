@@ -18,11 +18,11 @@ AddPenalty2:
 	lda.b a1+2
 	pha
 	lda.b d0
-	cmp.w #$000E
+	cmp.w #PenGoal
 	bne .1
 .1:
 	sec
-	sbc.w #$000E
+	sbc.w #PenGoal
 	bmi .3
 	lda.l crowdlevel
 	clc

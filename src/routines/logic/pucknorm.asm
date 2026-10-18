@@ -111,7 +111,7 @@ pucknorm_move:
 	lda.w pucky
 	cmp.w OldYpos+puckobj
 	bne .12
-	lda.w #$0006
+	lda.w #PenOOP
 	sta.b d0
 	dec.w temp2b+puckobj
 	bpl .13

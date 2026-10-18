@@ -170,7 +170,7 @@ assgoalie:
 	sbc.b d7
 	sta.w temp5,x
 	bpl .16
-	lda.w #$0008
+	lda.w #PenGhold
 	sta.b d0
 	jsl.l AddPenalty2
 .16:

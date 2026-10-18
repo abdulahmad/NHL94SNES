@@ -48,7 +48,7 @@ Bcheck:
 	sty.w BA_Sktr_SCnum
 	lda.w playerpad,y
 	sta.w pspad
-	lda.w #$0024
+	lda.w #PenShot
 	sta.b d0
 	jsl.l AddPenalty
 	bra .2
@@ -61,7 +61,7 @@ Bcheck:
 	lda.b d0
 	cmp.w #$0005
 	bcs .2
-	lda.w #$0022
+	lda.w #PenTripping
 	sta.b d0
 	jsl.l AddPenalty
 .2:

@@ -95,7 +95,7 @@ ShootoutWonBy:						; "<team> Wins!" once the shootout is decided
 	sta.b d1
 	ply
 	plx
-	lda.w #$0010
+	lda.w #PenNoText
 	sta.b d0
 .3:
 	jsl.l AddPenalty2
