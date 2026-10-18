@@ -6,7 +6,7 @@ GoalieCount:
 	sta.b tmp1
 	lda.w tmdata,y
 	sta.b tmp0
-	ldy.w #ScoreOdds
+	ldy.w #GoalieOdds
 	clc
 	adc.b [tmp0],y
 	sta.b tmp0

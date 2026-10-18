@@ -1,5 +1,5 @@
 ; SpriteFrames, the main sprite set DrawSprite uses: skaters, goalies, nets, puck, markers, bench, Zamboni,
-; two sprite fonts and the hat trick hats. Frame SPFgroup+n (ram94snes.asm) is SpriteFrame_group_n.
+; two sprite fonts and the hat trick hats. Frame SPFgroup+n (ram94s.asm) is SpriteFrame_group_n.
 ;
 ; The offset table (4 bytes per frame; the first offset ends it) is followed by this bank's frames. A frame:
 ; piece count, flags (bit 7: 16x16 tiles), tile count, pixel box (unused), two transfer sizes, tile offset,

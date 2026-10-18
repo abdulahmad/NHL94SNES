@@ -6,7 +6,7 @@ follow in order, contiguous, in the ROM half of each bank. A frame: piece count,
 tile count, the box of its pixels (left, right, top, bottom; nothing reads it), the byte counts of the two tile
 transfers, the offset of its tiles, the hot spot x / y (signed bytes, GetHot) and the stick point x / y (GetFrameHot),
 the pieces (x, y, tile and attribute word, size byte), then its tiles. Frame labels are SpriteFrame_<group>_<n>, from the
-SPF group equates in src/ram94snes.asm (frame numbers count from 1: frame SPFgroup+n). The source writes the header and pieces, and includes the
+SPF group equates in src/ram94s.asm (frame numbers count from 1: frame SPFgroup+n). The source writes the header and pieces, and includes the
 tiles from the bank's data asset src/data/gfx/SpriteFramesXX.bin (tools/extract.py ASSETS).
 
 Commands:
@@ -30,9 +30,9 @@ rom = open(ROM, 'rb').read()
 
 
 def spf_groups():
-    """[(first frame, group)] from the SPF equates in src/ram94snes.asm."""
+    """[(first frame, group)] from the SPF equates in src/ram94s.asm."""
     g = []
-    for l in open(os.path.join(ROOT, 'src', 'ram94snes.asm'), encoding='latin-1'):
+    for l in open(os.path.join(ROOT, 'src', 'ram94s.asm'), encoding='latin-1'):
         m = re.match(r'SPF(\w+) = (\d+)\b', l)
         if m:
             g.append((int(m[2]), m[1]))

@@ -1,4 +1,6 @@
 ; Work RAM of NHL '94 SNES. Equates only, no bytes; one name per address.
+; Like the 94G module files, data/teamdata94s.asm holds the team record offsets and data/frames94s.asm
+; the sprite frame (SPF) equates.
 JoyPad				=	$0776		; buttons held, a word per pad (5 pads)
 HeapStart7E			=	$07A0		; first block header of the bank $7E heap
 HeapStart7F			=	$07A2		; first block header of the bank $7F heap
@@ -190,8 +192,6 @@ textmap			=	$7E37F4			; the text map
 printfontset	=	$7E35A8			; tile base of the selected print font
 RemapOut		=	$0A0A			; sixteen words: the tile RemapTiles is building
 
-Playerdata	=	0					; offset of the player list in a team record
-ScoreOdds	=	10					; offset of the scouting odds in a team record
 puckobj		=	$1C					; object index of the puck
 puckx		=	Xpos+puckobj		; puck x position
 
@@ -325,72 +325,6 @@ benchframe			=	$0C29		;bench cheer frame: set * 8 + step, drawn by setsortcords;
 dumpinplayer		=	$0BA3		; the player dumping the puck in (assdumpin), -1 none
 dumpintarget		=	$0BA5		;assdumpin: the target index (DumpInTarget), a word offset into its x / y
 									;tables
-
-; Sprite frame (SPF) groups: the first SpriteFrames frame of each group, named as the 93S / 94G groups
-; (SPFskatewp to SPFhold match 93S frame for frame, then the 93S fight frames are gone). Frame numbers count
-; from 1; the frame label is SpriteFrame_<group>_<n> and DrawSprite takes the frame number - 1.
-SPFskatewp		=	1				; 40 frames: skating with the puck, 5 per direction
-SPFskate		=	41				; 40 frames: skating, 5 per direction
-SPFturnl		=	81				; 8 frames: turning left
-SPFturnr		=	89				; 8 frames: turning right
-SPFswing		=	97				; 48 frames: shot and pass swings, 6 per direction
-SPFstop			=	145				; 16 frames: stopping
-SPFskateb		=	161				; 24 frames: skating backwards
-SPFcelebrate	=	185				; 16 frames: celebrating a goal
-SPFpump			=	201				; 16 frames: fist pump
-SPFcup			=	217				; 8 frames: holding the cup
-SPFcupover		=	225				;8 frames: the cup alone: setsortcords draws SPFcupover+n in palette 0
-									;over SPFcup+n (new in 94S)
-SPFhipl			=	233				; 8 frames: hip check left
-SPFhipr			=	241				; 8 frames: hip check right
-SPFshoulderl	=	249				; 8 frames: shoulder check left
-SPFshoulderr	=	257				; 8 frames: shoulder check right
-SPFsweep		=	265				; 16 frames: sweep check
-SPFfallback		=	281				; 32 frames: falling back
-SPFfallfwd		=	313				; 32 frames: falling forward
-SPFduck			=	345				; 8 frames: ducking
-SPFhold			=	353				; 8 frames: holding
-SPFPen			=	361				;9 frames: over the boards (+0-+3 vertical, +4-+7 horizontal), then
-									;sitting: +7 horizontal and +8 vertical (assdopen)
-SPFgwall		=	370				;4 frames: the goalie over the boards (SPAgwallright, SPAgwallleft; new in
-									;94S)
-SPFarrow		=	374				; 15 frames: off-screen arrows, 3 per controller (setvideo)
-SPFpad			=	389				;6 frames: stars: +0 the puck carrier, +1-+5 the controllers (setffo,
-									;PlayerSelect)
-SPFreplay		=	395				;1 frame: the replay cursor: four corner marks round the player or point
-									;ReplayMode follows (setffo slot 6; confirmed in game)
-SPFpuck			=	396				; 11 frames: +0 the puck shadow, +1 the puck, then the flipping puck
-SPFgoal			=	407				; 2 frames: the two nets
-SPFSiren		=	409				; 14 frames: the goal light
-SPFfaceoff		=	423				; 10 frames: the big faceoff sprites (checkfo)
-SPFsmallfont	=	433				; 15 frames: 0-9, C, D, L, R, X (setffo, PlayerSelect)
-SPFzamboni		=	448				; 1 frame: the Zamboni (showzam)
-SPFflip			=	449				; 8 frames: flipping over
-SPFstumble		=	457				; 24 frames: stumbling
-SPFhook			=	481				; 16 frames: hooking
-SPFcatch		=	497				; 16 frames: catching a pass
-SPFbglass		=	513				; 5 frames: the glass breaking
-SPFcrosscheck	=	518				; 16 frames: cross check (SPAcrosscheck; new in 94S)
-SPFGoalie		=	534				; 112 frames: the goalie
-SPFgready		=	646				; 16 frames: the goalie ready, 2 per direction
-SPFgdive		=	662				; 16 frames: the goalie diving
-SPFgpoke		=	678				; 16 frames: the goalie poke check (new in 94S)
-SPFgcover		=	694				; 24 frames: the goalie covering the puck (new in 94S)
-SPFgbutterfly	=	718				; 24 frames: the goalie butterfly save (new in 94S)
-SPFgsprawll		=	742				; 24 frames: the goalie sprawling left (new in 94S)
-SPFgsprawlr		=	766				; 24 frames: the goalie sprawling right (new in 94S)
-SPFpump2		=	790				; 31 frames: the second fist pump (SPApump2; new in 94S)
-SPFunused		=	821				; 11 frames: used only by SPAunused1 and SPAunused2, which nothing sets
-SPFboardfront	=	832				; 16 frames: checked into the boards, from the front (new in 94S)
-SPFboardright	=	848				; 16 frames: checked into the boards, from the right (new in 94S)
-SPFboardback	=	864				; 16 frames: checked into the boards, from behind (new in 94S)
-SPFboardleft	=	880				; 16 frames: checked into the boards, from the left (new in 94S)
-SPFbenchcheck	=	896				;21 frames: checked into the bench (SPAbenchcheckr, SPAbenchcheckl; new in
-									;94S)
-SPFbench		=	917				; 12 frames: the players on the bench cheering, 6 per bench (setsortcords)
-SPFbigfont		=	929				; 38 frames: A-Z, ., (c), 0-9 (PrintTeamSprites)
-SPFhat			=	967				; 9 frames: hat trick hats, 3 kinds of 3 frames (UpdateHatTrick)
-SPFhatshadow	=	976				; 1 frame: the hat shadow (UpdateHatTrick)
 
 ; Game variables from $0CD5 to $0D55, in the order 93S has them (names from the 93S routines that use them the
 ; same way)
