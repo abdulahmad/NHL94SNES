@@ -1,9 +1,9 @@
 ; Bad password: wait for a button, then offer retry or exit
-BadPasswordPrompt:
+BadPasswordPrompt:					; called from PasswordRedraw
 	jsl.l DecodePW
 	lda.l postarts
 	bpl PasswordCursorRtl
-.loop:
+.loop:								; loop: if JoyPad bit $4000 set go to .loop, ...
 	lda.w JoyPad
 	bit.w #$4000
 	bne .loop
@@ -62,7 +62,7 @@ BadPasswordPrompt:
 	pla
 	sta.b a1+2
 	jsl.l QueueTextDMA
-.loop2:
+.loop2:								; loop: call ReadPads, call ReadJoy1, if d3 = 0 go to .loop2, ...
 	jsl.l ReadPads
 	jsl.l ReadJoy1
 	lda.b d3
@@ -96,7 +96,7 @@ BadPasswordPrompt:
 	jsl.l WaitNoButtons
 	jmp.w PasswordRedraw
 
-.t1:
+.t1:								; OptPlayMode = $0002, go to Restart
 	lda.w #$0002
 	sta.l OptPlayMode
 	jml.l Restart

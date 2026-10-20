@@ -1,8 +1,8 @@
 ; Yes or No exit prompt
-AskExitGame:
+AskExitGame:						; called from PauseExitGame
 	lda.w #$0000
 	sta.w curitem
-.1:
+.1:									; loop: call DrawExitPrompt, call SendTextMap, call WaitFrame, ...
 	jsl.l DrawExitPrompt
 	jsl.l SendTextMap
 	jsl.l WaitFrame
@@ -19,27 +19,27 @@ AskExitGame:
 	bne .t2
 	bra .1
 
-.t1:
+.t1:								; if a still >= 0 go to .t3, ...
 	lda.w curitem
 	dec a
 	bpl .t3
 	bra .1
 
-.t2:
+.t2:								; if minus go to .t3, ...
 	lda.w curitem
 	inc a
 	cmp.w #$0002
 	bmi .t3
 	bra .1
 
-.t3:
+.t3:								; curitem = A, go to .1
 	sta.w curitem
 	bra .1
 
-.t4:
+.t4:								; d1 bit $1000 set: curitem = $0000
 	lda.w #$0000
 	sta.w curitem
-.2:
+.2:									; call WaitButtonRelease, return
 	jsl.l WaitButtonRelease
 	lda.w curitem
 	rtl

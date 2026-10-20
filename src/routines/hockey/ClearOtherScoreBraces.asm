@@ -1,5 +1,5 @@
 ; Erase the braces around the visible other-scores rows.
-ClearOtherScoreBraces:
+ClearOtherScoreBraces:				; called from ScrollOtherScoresDown, ScrollOtherScoresUp
 	lda.w #$0004
 	sta.w printx
 	lda.w listtop

@@ -1,5 +1,5 @@
 ; Unpack IceRinkMap to $7FC800 and copy the home team's centre ice logo map (CenterIceTable+4) into its middle
-BuildRinkMap:
+BuildRinkMap:						; called from LoadCenterIce, ReloadRink
 	lda.w #IceRinkMap>>16
 	sta.b p0+2
 	lda.w #IceRinkMap
@@ -37,14 +37,14 @@ BuildRinkMap:
 	sec
 	sbc.w #$0060
 	sta.b p1
-.1:
+.1:									; p0 = p0 + $0004
 	lda.b p0
 	clc
 	adc.w #$0004
 	sta.b p0
-.loop:
+.loop:								; loop: falls through
 	ldx.w #$0000
-.loop2:
+.loop2:								; loop: [p1] = [p0] + centericechars + $1400, X + 1, X + 1, ...
 	lda.b [p0]
 	clc
 	adc.l centericechars

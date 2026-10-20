@@ -1,5 +1,5 @@
 ; Line editor: erase the menu area (32 x 17 from row 9)
-ClearEditLinesMenu:
+ClearEditLinesMenu:					; called from EditLinesMenu
 	lda.b a1+2
 	pha
 	lda.b a1

@@ -1,4 +1,4 @@
 ; Clear the message rows (ClearTextMapBottom)
-ClearMessageArea:
+ClearMessageArea:					; called from setoptions
 	jsl.l ClearTextMapBottom
 	rtl

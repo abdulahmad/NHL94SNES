@@ -1,6 +1,6 @@
 ; UpdateCrowdMeter into CurCrowdMeter; 110 dB or more sets CrowdLoud, and falling under 105 dB then calls
 ; LowerHotColdTable and clears it
-CheckCrowdMeter:
+CheckCrowdMeter:					; called from Gameloop
 	lda.b d0
 	pha
 	jsl.l UpdateCrowdMeter
@@ -14,12 +14,12 @@ CheckCrowdMeter:
 	sta.w CrowdLoud
 	bra .1
 
-.t1:
+.t1:								; if CrowdLoud = 0 go to .1, ...
 	lda.w CrowdLoud
 	beq .1
 	jsl.l LowerHotColdTable
 	stz.w CrowdLoud
-.1:
+.1:									; d0 = pulled value, return
 	pla
 	sta.b d0
 	rtl

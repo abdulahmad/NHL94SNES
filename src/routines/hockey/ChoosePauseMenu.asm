@@ -1,5 +1,5 @@
 ; Use the longer pause menu when this side still has a timeout, otherwise the standard menu.
-ChoosePauseMenu:
+ChoosePauseMenu:					; called from PauseMenu, PauseTimeout, SelectPauseController
 	ldx.w pausepad
 	bmi .t1
 	lda.w gmclock
@@ -17,17 +17,17 @@ ChoosePauseMenu:
 	sta.w pmenulist
 	bra .1
 
-.t1:
+.t1:								; pmenucount = $0010, pmenulist = $0000
 	lda.w #$0010
 	sta.w pmenucount
 	lda.w #$0000
 	sta.w pmenulist
-.1:
+.1:									; if carry clear go to .rtl, ...
 	lda.w psfirst
 	clc
 	adc.w #$0005
 	cmp.w pmenucount
 	bcc .rtl
 	dec.w psfirst
-.rtl:
+.rtl:								; return
 	rtl

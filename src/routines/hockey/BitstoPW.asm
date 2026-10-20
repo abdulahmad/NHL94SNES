@@ -1,7 +1,7 @@
 ; Turn the password bits into the password characters
-BitstoPW:
+BitstoPW:							; called from EncodePW
 	ldx.w #$000F
-.char:
+.char:								; loop: d0 = PWrange, call SuperDiv, PassWord,x = d0, ...
 	lda.w #PWrange
 	sta.b d0
 	jsl.l SuperDiv
