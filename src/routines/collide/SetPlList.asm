@@ -1,5 +1,5 @@
 ; Make the list of the players team a2 wants on the ice now
-SetPlList:
+SetPlList:							; called from setpersonel
 	lda.w #PlList>>16
 	sta.b a4+2
 	lda.w #PlList
@@ -26,12 +26,12 @@ SetPlList:
 	inc.b a0
 	bra .1
 
-.t1:
+.t1:								; penshot = 0: if tmgoalie,y >= 0 go to .1, ...
 	ldy.b a2
 	lda.w tmgoalie,y
 	bpl .1
 	inc.b a0
-.1:
+.1:									; call GetTeamLines, a1+2 = a3+2, a1 = a3, ...
 	lda.b a3+2
 	pha
 	lda.b a3
@@ -56,7 +56,7 @@ SetPlList:
 	lda.w tmap,y					; tmap: players on ice
 	sta.b d4						; slots to fill
 	bra .7
-.3:
+.3:									; loop: d4 still >= 0: d5 = [a0],y & $00FF, [a4],y = [a1],y, if d5 = 0...
 	ldy.b d4
 	lda.b [a0],y					; priority entry
 	and.w #$00FF
@@ -73,7 +73,7 @@ SetPlList:
 	lda.w BA_Skater_Offset
 	inc a
 	sta.b [a4],y
-.1x:
+.1x:								; Y + 1, Y + 1, Y + 1, ...
 	iny
 	iny
 	iny
@@ -93,18 +93,18 @@ SetPlList:
 	lda.w penshot
 	beq .2
 	inc.b d3
-.2:
+.2:									; [a4],y = d3
 	ldy.b d4						; slot
 	sep #$20						; 8-bit A
 	lda.b d3
 	sta.b [a4],y					; store it
 	rep #$20						; 16-bit A
-.7:
+.7:									; decrement d4, if d4 still >= 0 go to .3, ...
 	dec.b d4
 	bpl .3
 	lda.w #$0005
 	sta.b d4
-.4:
+.4:									; d3 = [a4],y & $00FF, if not zero go to .t1x, ...
 	ldy.b d4
 	lda.b [a4],y					; list entry
 	and.w #$00FF
@@ -112,19 +112,19 @@ SetPlList:
 	bne .t1x
 	jmp.w .5
 
-.t1x:
+.t1x:								; and #$00FF, if zero go to .1xx, ...
 	and.w #$00FF
 	bit.w #$0080
 	beq .1xx
 	ora.w #$FF00
-.1xx:
+.1xx:								; decrement a, asl a, d3 = A, ...
 	dec a							; player index
 	asl a
 	sta.b d3
 	lda.b a2
 	beq .2x
 	lda.w #$0034
-.2x:
+.2x:								; adc d3, if tmpdst,y = $FFFD go to .3x, ...
 	clc
 	adc.b d3						; plus the player index
 	tay
@@ -136,7 +136,7 @@ SetPlList:
 	lda.w tmpdst,y
 	bmi .5
 	beq .5
-.3x:
+.3x:								; call GetTeamLines, a1+2 = a3+2, a1 = a3, ...
 	lda.b a3+2
 	pha
 	lda.b a3
@@ -180,14 +180,14 @@ SetPlList:
 	sta.b d0
 	jsl.l TryAddPlayerToList		; try to add him
 	beq .loop
-.5:
+.5:									; decrement d4, if d4 counted below 0 go to .t1xx, ...
 	dec.b d4
 	bmi .t1xx
 	jmp.w .4
 
-.t1xx:
+.t1xx:								; d4 counted below 0: return
 	rtl
-.6:
+.6:									; call GetPlayerCount, d3 = d0
 	jsl.l GetPlayerCount			; GetPlayerCount
 	lda.b d0						; player count
 	sta.b d3

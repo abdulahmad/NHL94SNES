@@ -1,5 +1,5 @@
 ; A goalie and another player collide: the skater falls, and an interference penalty may be called
-checkint:
+checkint:							; called from checkplcoll
 	jsl.l .ci						; a2 goalie vs X
 	ldx.b a2						; swap a2 and a3
 	ldy.b a3
@@ -25,7 +25,7 @@ checkint:
 	sec
 	sbc.w #$001A					; minus 26
 	bmi .rtl
-.1:
+.1:									; if minus go to .rtl, ...
 	lda.w impact,x					; impact of X
 	sec
 	sbc.w #$0003					; minus 3

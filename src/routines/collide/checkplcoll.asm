@@ -1,17 +1,17 @@
 ; Check object X against the objects near it in y
-checkplcoll:
+checkplcoll:						; called from checkcoll
 	lda.w pflags,x
 	bit.w #$8000
 	bne .rtl
 	cpx.w #$0018
 	bcc .t2
-.rtl:
+.rtl:								; return
 	rtl
 
 .t2:								; X's index in the sorted list
 	lda.w OOlistpos,x				; d1 = position of X in OOlist
 	sta.b d1						; X's index in the sorted list
-.loop:
+.loop:								; loop: if d1 = $000F go to .t1, ...
 	ldy.b d1
 	cpy.w #$000F
 	beq .t1
@@ -40,15 +40,15 @@ checkplcoll:
 	cpy.w #$0018
 	bcs .1
 	jsl.l .t3
-.1:
+.1:									; increment d1, go to .loop
 	inc.b d1
 	bra .loop
 
-.t1:
+.t1:								; if OOlistpos,x = 0 go to .rtlx, ...
 	lda.w OOlistpos,x
 	beq .rtlx
 	sta.b d1
-.loopx:
+.loopx:								; loop: if plus go to .rtlx, ...
 	ldy.b d1
 	lda.w OOlist-1,y				; next object down the list
 	and.w #$00FF
@@ -75,13 +75,13 @@ checkplcoll:
 	cpy.w #$0018
 	bcs .1x
 	jsl.l .t3
-.1x:
+.1x:								; decrement d1, if d1 not yet 0 go to .loopx
 	dec.b d1
 	bne .loopx
-.rtlx:
+.rtlx:								; return
 	rtl
 
-.t3:
+.t3:								; subroutine: a2 = Y, d2 = Xpos,y - Xpos,x, d3 = Ypos,y - Ypos,x, ...
 	lda.b d0
 	pha
 	lda.b d1
@@ -111,7 +111,7 @@ checkplcoll:
 	bmi .t1x
 	jmp.w .10
 
-.t1x:
+.t1x:								; d0 = Xvel,x - Xvel,y, d1 = Yvel,x - Yvel,y, ora d1, ...
 	ldy.b a2
 	lda.w Xvel,x
 	sec
@@ -126,7 +126,7 @@ checkplcoll:
 	bne .t2x
 	jmp.w .10
 
-.t2x:
+.t2x:								; call Mul16x8S, d1+2 = r2+2, d1 = r2, ...
 	lda.b d1
 	pha
 	lda.b d0
@@ -152,7 +152,7 @@ checkplcoll:
 	bpl .t1xx
 	jmp.w .11
 
-.t1xx:
+.t1xx:								; if SPA,x < SPAHold2 go to .2, ...
 	lda.w SPA,x
 	cmp.w #SPAHold2
 	bcc .2
@@ -169,9 +169,9 @@ checkplcoll:
 	lda.w #$0000
 	sta.w pfalock,y
 	sta.w pf2aip,y
-.1x2:
+.1x2:								; falls through
 	ldy.b a2
-.2:
+.2:									; if SPA,y < SPAHold2 go to .4, ...
 	lda.w SPA,y
 	cmp.w #SPAHold2
 	bcc .4
@@ -188,9 +188,9 @@ checkplcoll:
 	bcs .3
 	stz.w pfalock,x
 	stz.w pf2aip,x
-.3:
+.3:									; falls through
 	ldx.b a3
-.4:
+.4:									; d1 = d1+1, if pfteam,x = pfteam,y go to .9, ...
 	lda.b d1+1
 	sta.b d1
 	lda.w pfteam,x
@@ -204,26 +204,26 @@ checkplcoll:
 	cmp.w #$0005
 	bcs .5
 	lda.w #$0005
-.5:
+.5:									; d4 = A, if SPA,x < SPAsweepchk go to .7, ...
 	sta.b d4
 	lda.w SPA,x
 	cmp.w #SPAsweepchk
 	bcc .7
 	cmp.w #$F343
 	bcs .7
-.6:
+.6:									; d4 = d4 / 2 + d4, go to .8
 	lda.b d4
 	lsr a
 	adc.b d4
 	sta.b d4
 	bra .8
-.7:
+.7:									; if SPA,y < SPAsweepchk go to .8, ...
 	lda.w SPA,y
 	cmp.w #SPAsweepchk
 	bcc .8
 	cmp.w #$F343
 	bcc .6
-.8:
+.8:									; impact,x = d4 + impact,x, impact,y = d4 + impact,y, impactp,y = X, ...
 	lda.b d4
 	clc
 	adc.w impact,x
@@ -243,9 +243,9 @@ checkplcoll:
 	beq .1xx
 	cpy.w puckc
 	bne .2x
-.1xx:
+.1xx:								; call CollisionSfx
 	jsl.l CollisionSfx
-.2x:
+.2x:								; call checkint, call checkcheck, d3 = pulled value, ...
 	lda.b d1
 	pha
 	lda.b d2
@@ -260,7 +260,7 @@ checkplcoll:
 	sta.b d2
 	pla
 	sta.b d1
-.9:
+.9:									; d4 = d1, d0 = pulled value, d1 = pulled value, ...
 	lda.b d1
 	sta.b d4
 	pla
@@ -271,7 +271,7 @@ checkplcoll:
 	bpl .t1xxx
 	jmp.w .10
 
-.t1xxx:
+.t1xxx:								; collflag >= 0: call Mul16x8S, d1+2 = r2+2, d1 = r2, ...
 	lda.b d2
 	ldx.b d1
 	jsl.l Mul16x8S
@@ -361,7 +361,7 @@ checkplcoll:
 	ldx.b a3
 	lda.w #$FFFF
 	sta.w collflag
-.10:
+.10:								; d5 = pulled value, d4 = pulled value, d3 = pulled value, ...
 	pla
 	sta.b d5
 	pla
@@ -377,7 +377,7 @@ checkplcoll:
 	pla
 	sta.b d0
 	rtl
-.11:
+.11:								; go to .10
 	pla
 	pla
 	bra .10

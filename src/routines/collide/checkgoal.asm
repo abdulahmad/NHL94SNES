@@ -1,15 +1,15 @@
 ; Collision with the goal: over the top, into the net, off a post or off the side
-checkgoal:
+checkgoal:							; called from checkwallcoll
 	cpx.w #$001C
 	beq .t3
 	jmp.w checkgoalp
 
-.t3:
+.t3:								; if puckc negative go to .1, ...
 	ldy.w puckc
 	bmi .1
 	lda.w position,y
 	beq .t1
-.1:
+.1:									; if puckz - $000D >= 0 go to .t1, ...
 	lda.w puckz
 	cmp.w #$000D
 	bpl .t1
@@ -47,7 +47,7 @@ checkgoal:
 	sta.w puckz
 	jmp.w .10
 
-.t1:
+.t1:								; return
 	rtl
 
 .t2:								;pfgoal of the puck = the carrier shot into his own goal
@@ -67,12 +67,12 @@ checkgoal:
 	sec
 	sbc.b d1
 	sta.b d1
-.1x:
+.1x:								; if d1 >= 0 go to .2, ...
 	lda.b d1
 	bpl .2
 	lda.w #$0001
 	sta.w pfgoal+puckobj
-.2:
+.2:									; d0 = $FF01, p0 = $FF01, d1 = Yfrac,x - OldYfrac,x, ...
 	lda.w #$FF01
 	sta.b d0
 	lda.w #$FF01
@@ -101,7 +101,7 @@ checkgoal:
 	sec
 	sbc.b d5
 	sta.b d5
-.3:
+.3:									; d5 = d5 + d3, r2 = d5 + d3, d3 = Xfrac,x - OldXfrac,x, ...
 	lda.b d5						; crossing depth
 	clc
 	adc.b d3
@@ -122,16 +122,16 @@ checkgoal:
 	lda.b d1
 	bit.w #$8000
 	beq .4
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.4:
+.4:									; r1 = A, if r2+2 bits $8000 clear go to .5, ...
 	sta.b r1
 	lda.b r2+2
 	bit.w #$8000
 	beq .5
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.5:
+.5:									; if carry set go to .6, ...
 	cmp.b r1
 	bcs .6
 	lda.b d1
@@ -149,9 +149,9 @@ checkgoal:
 	lda.b d2
 	cmp.w #$0017
 	bmi .9
-.6:
+.6:									; go to .11
 	jmp.w .11
-.7:
+.7:									; if puckvy - $0800 >= 0 go to .1xx, ...
 	lda.w puckvy
 	cmp.w #$0800
 	bpl .1xx
@@ -163,14 +163,14 @@ checkgoal:
 	sta.w puckvy
 	bra .1xx
 
-.t1x:
+.t1x:								; puckvy = $0800
 	lda.w #$0800
 	sta.w puckvy
-.1xx:
+.1xx:								; go to wallcoll
 	jmp.w wallcoll
-.8:
+.8:									; d2 - $FFEF >= 0: go to Goal
 	jmp.w Goal
-.9:
+.9:									; d2 - $0017 negative: d1 = 0, eor p0, if minus go to .7, ...
 	stz.b d1
 	lda.w pucky
 	eor.b p0
@@ -194,7 +194,7 @@ checkgoal:
 	lda.b d2
 	cmp.w #$FFEF
 	bpl .8
-.1xxx:
+.1xxx:								; call ChkShotStat, breakaway = 0, onetimer = 0, ...
 	jsl.l ChkShotStat
 	stz.w breakaway
 	stz.w onetimer
@@ -211,7 +211,7 @@ checkgoal:
 	adc.w #$0028
 	bmi .2x
 	sta.w CwdExciteLvl
-.2x:
+.2x:								; call RandomWord, and #$0FFF, d0 = A, ...
 	jsl.l RandomWord
 	and.w #$0FFF
 	sta.b d0
@@ -221,7 +221,7 @@ checkgoal:
 	sec
 	sbc.b d0
 	sta.b d0
-.3x:
+.3x:								; puckvy = d0, call RandomWord, and #$1FFF, ...
 	lda.b d0
 	sta.w puckvy
 	jsl.l RandomWord
@@ -235,16 +235,16 @@ checkgoal:
 	sbc.w #$1000
 	sta.w puckvz					; puck z velocity
 	jmp.w puckflip					; flip the puck
-.10:
+.10:								; if puckvz bits $8000 clear go to .1xxxx, ...
 	lda.w puckvz
 	bit.w #$8000
 	beq .1xxxx
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.1xxxx:
+.1xxxx:								; puckvz = A, return
 	sta.w puckvz
 	rtl
-.11:
+.11:								; if puckvx - $0800 >= 0 go to .2xx, ...
 	lda.w puckvx
 	cmp.w #$0800
 	bpl .2xx
@@ -256,10 +256,10 @@ checkgoal:
 	sta.w puckvx
 	bra .2xx
 
-.t1xx:
+.t1xx:								; puckvx = $0800
 	lda.w #$0800
 	sta.w puckvx
-.2xx:
+.2xx:								; d0 = 0, d1 = $00FF, d2 = puckx - OldXpos+puckobj, ...
 	stz.b d0
 	lda.w #$00FF
 	sta.b d1
@@ -270,5 +270,5 @@ checkgoal:
 	bmi .1xxxxx
 	lda.w #$FF01
 	sta.b d1
-.1xxxxx:
+.1xxxxx:							; go to wallcoll
 	jmp.w wallcoll

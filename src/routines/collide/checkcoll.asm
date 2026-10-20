@@ -1,5 +1,5 @@
 ; Move object X to its new x / y, checking wall and player collisions
-checkcoll:
+checkcoll:							; called from updateplayers
 	stz.w collflag
 	lda.w sfhormode
 	beq .1
@@ -7,7 +7,7 @@ checkcoll:
 	ldy.b d3
 	sty.b d2
 	sta.b d3
-.1:
+.1:									; if pfnc,x != 0 go to .3, ...
 	lda.w pfnc,x
 	bne .3
 	lda.b d3
@@ -42,7 +42,7 @@ checkcoll:
 	sta.w wcradiusx
 	sta.w wcradiusy
 	jsl.l checkwallcoll				; check the wall at the stick end
-.2:
+.2:									; d2 = pulled value, d3 = pulled value, if position,x negative go to .3...
 	pla
 	sta.b d2
 	pla
@@ -50,7 +50,7 @@ checkcoll:
 	lda.w position,x
 	bmi .3
 	jsl.l checkplcoll
-.3:
+.3:									; if collflag = 0 go to .t2, ...
 	lda.w collflag
 	beq .t2
 	jmp.w .t3
@@ -58,7 +58,7 @@ checkcoll:
 .t2:								; move up or down OOlist by y
 	lda.w OOlistpos,x				; move up/down OOlist by y
 	sta.b d1
-.loop:
+.loop:								; loop: if d1 = $000F go to .t1, ...
 	ldy.b d1
 	cpy.w #$000F
 	beq .t1
@@ -85,11 +85,11 @@ checkcoll:
 	inc.b d1						; next position
 	bra .loop
 
-.t1:
+.t1:								; if OOlistpos,x = 0 go to .1x, ...
 	lda.w OOlistpos,x
 	beq .1x
 	sta.b d1
-.loopx:
+.loopx:								; loop: d4 = OOlist-1,y & $00FF, if plus go to .1x, ...
 	ldy.b d1
 	lda.w OOlist-1,y				; object below
 	and.w #$00FF
@@ -112,7 +112,7 @@ checkcoll:
 	rep #$30						; 16-bit registers
 	dec.b d1						; previous position
 	bne .loopx
-.1x:
+.1x:								; Ylist,x = d3, return
 	lda.b d3						; new y
 	sta.w Ylist,x					; store it
 	rtl
@@ -125,5 +125,5 @@ checkcoll:
 	sta.w Xpos,x
 	lda.w OldYpos,x					; restore the old y
 	sta.w Ypos,x
-.rtl:
+.rtl:								; return
 	rtl

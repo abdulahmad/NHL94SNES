@@ -1,5 +1,5 @@
 ; Empty the penalty boxes and put every player on his own bench
-ResetBench:
+ResetBench:							; called from SetupTeamForIntermission, StartHL2, puckfaceoff2
 	stz.w PBnum						; no penalty boxes
 	lda.w #$0010					; home: +$10 per player
 	sta.b d1

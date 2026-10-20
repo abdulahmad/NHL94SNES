@@ -1,5 +1,5 @@
 ; Set player X's first assignment from his position
-Setplass:
+Setplass:							; called from assbench, check4bench, forcepldata, releasepl
 	lda.w position,x				; position
 	sta.b d0
 	bmi .t1
@@ -13,7 +13,7 @@ Setplass:
 	sta.b d0
 	jml.l assreplace
 
-.t1:
+.t1:								; return
 	rtl
-.1:
+.1:									; db $07,$02,$02,$03,$05,$03,$05
 	db $07,$02,$02,$03,$05,$03,$05
