@@ -1,5 +1,5 @@
 ; Play one period of a playoff game with random goals
-SetScore:
+SetScore:							; called from InitScores, UpdateScores
 	phx
 	ldx.b a0
 	lda.l gsper,x
@@ -7,7 +7,7 @@ SetScore:
 	bcc .t3
 	jmp.w .3
 
-.t3:
+.t3:								; gsper,x < $0004: if gsper,x != $0003 go to .t2, ...
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -35,9 +35,9 @@ SetScore:
 	sbc.l gss2,x
 	bit.w #$8000
 	beq .1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.1:
+.1:									; if carry set go to .2, ...
 	cmp.w #$0002
 	bcs .2
 	lda.w gsp
@@ -50,7 +50,7 @@ SetScore:
 	sta.l gss1,x
 	bra .2
 
-.t1:
+.t1:								; gsp != $0004: gsper,x = $0003, gsflags,x = gsflags,x | $0002, go to .2
 	lda.w #$0003
 	sta.l gsper,x
 	lda.l gsflags,x
@@ -58,7 +58,7 @@ SetScore:
 	sta.l gsflags,x
 	bra .2
 
-.t2:
+.t2:								; gsper,x != $0003: gsper,x = gsper,x + 1, d0 = gst1,x, d1 = gst2,x, ...
 	lda.l gsper,x
 	inc a
 	sta.l gsper,x
@@ -82,7 +82,7 @@ SetScore:
 	clc
 	adc.b d0
 	sta.l gss2,x
-.2:
+.2:									; a1+2 = pulled value, a1 = pulled value, a0+2 = pulled value, ...
 	pla
 	sta.b a1+2
 	pla
@@ -99,10 +99,10 @@ SetScore:
 	sta.b d0+2
 	pla
 	sta.b d0
-.3:
+.3:									; return
 	plx
 	rtl
-.4:
+.4:									; subroutine: asl d0, asl d0, a1 = TeamList, ...
 	asl.b d0
 	asl.b d0
 	lda.w #TeamList>>16
@@ -173,7 +173,7 @@ org $9FA001
 	lda.w #$0004
 	sta.b d0
 	jml.l WeightedRandomSelect
-.5:
+.5:									; dw $002B,$001E,$0017,$0004,$0027,$0020,$0018,$0005, dw $0023,$0021,$0...
 	dw $002B,$001E,$0017,$0004,$0027,$0020,$0018,$0005
 	dw $0023,$0021,$001A,$0006,$001E,$0022,$001E,$0006
 	dw $001A,$0024,$001E,$0008,$0016,$0025,$001F,$000A

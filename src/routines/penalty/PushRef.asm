@@ -36,7 +36,7 @@ PushRef:							; draws a referee frame
 	beq .1
 	lda.w #$0001					; any other frame
 	sta.l refwindow					; refwindow = 1
-.1:
+.1:									; call Mul8U, d0 = A, a0 = RefsMap, ...
 	lda.b d0						; frame offset
 	ldx.w #$0070					; times $70 (a frame: 8 rows of 7 words)
 	jsl.l Mul8U
@@ -118,7 +118,7 @@ PushRef:							; draws a referee frame
 	sta.w printx
 	lda.w #$000F					; row $0F
 	sta.w printy
-.1x:
+.1x:								; call eraser, tsb sflags, d0 = $FFFF, ...
 	jsl.l eraser					; erase it
 	lda.w #$0200					; referee window changed
 	tsb.w sflags

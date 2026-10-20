@@ -58,7 +58,7 @@ Intermission:						; the intermission screen
 	ora.w cont5team
 	bne .2							; some pad is used: keep pausepad
 	stz.w pausepad					; else pausepad = 0
-.2:
+.2:									; InIntermission = $0001
 	lda.w #$0001					; InIntermission = 1
 	sta.w InIntermission
 .loop2:								; redraw the screen

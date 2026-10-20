@@ -1,5 +1,5 @@
 ; Keep the face off spot away from the blue line for every called penalty
-limitfo:
+limitfo:							; called from Stop4Pen
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -20,7 +20,7 @@ limitfo:
 	sta.b a0+2
 	lda.w #PenBuf
 	sta.b a0
-.loop:
+.loop:								; loop: call .t2, increment a0, increment a0, ...
 	lda.b [a0]
 	jsl.l .t2
 	inc.b a0
@@ -45,7 +45,7 @@ limitfo:
 	sta.b d0
 	rtl
 
-.t2:
+.t2:								; subroutine: and #$00FF, if zero go to .3, ...
 	and.w #$00FF
 	cmp.w #$0034
 	beq .3
@@ -66,21 +66,21 @@ limitfo:
 	sta.l foy
 	bra .2
 
-.t1:
+.t1:								; pfgoal,y != 0: if d1 - foy >= 0 go to .3, ...
 	lda.b d1
 	cmp.l foy
 	bpl .3
 	lda.w #$0041
 	sta.l foy
-.2:
+.2:									; d0 = $0046, if fox >= 0 go to .1, ...
 	lda.w #$0046
 	sta.b d0
 	lda.l fox
 	bpl .1
 	lda.w #$FFBA
 	sta.b d0
-.1:
+.1:									; fox = d0
 	lda.b d0
 	sta.l fox
-.3:
+.3:									; return
 	rtl

@@ -1,11 +1,11 @@
 ; Stop play for a penalty: stop the clock, set the face off spot and blow the whistle
-Stop4Pen:
+Stop4Pen:							; called from FallDown, checkfornewpen, puckfaceoff
 	lda.w #$FFFF
 	tsb.w gmclock
 	beq .t1
 	jmp.w .6
 
-.t1:
+.t1:								; d0 = 0, d1 = 0, decrement a0, ...
 	stz.b d0
 	stz.b d1
 	dec.b a0
@@ -42,7 +42,7 @@ Stop4Pen:
 	beq .1
 	lda.w #$FDA8
 	sta.b d1
-.1:
+.1:									; tmp0 = d0, if minus go to .2, ...
 	lda.b d0
 	sta.b tmp0
 	sec
@@ -50,14 +50,14 @@ Stop4Pen:
 	bmi .2
 	lda.w #$0046
 	sta.b d0
-.2:
+.2:									; if plus go to .3, ...
 	lda.b d0
 	sec
 	sbc.w #$FFBA
 	bpl .3
 	lda.w #$FFBA
 	sta.b d0
-.3:
+.3:									; if minus go to .4, ...
 	lda.b d1
 	sec
 	sbc.w #$00A6
@@ -70,7 +70,7 @@ Stop4Pen:
 	bpl .4
 	lda.w #$FFBA
 	sta.b d0
-.4:
+.4:									; if plus go to .5, ...
 	lda.b d1
 	sec
 	sbc.w #$FF5A
@@ -83,24 +83,24 @@ Stop4Pen:
 	bpl .5
 	lda.w #$FFBA
 	sta.b d0
-.5:
+.5:									; fox = d0, foy = d1, call limitfo
 	lda.b d0
 	sta.l fox
 	lda.b d1
 	sta.l foy
 	jsl.l limitfo
-.6:
+.6:									; if carry clear go to .1x
 	lda.b vcount
 	sec
 	sbc.w sfxmutetime
 	cmp.w #$003C
 	bcc .1x
-.1x:
+.1x:								; if replaydelay != 0 go to .2x, ...
 	lda.w replaydelay
 	bne .2x
 	lda.w #$001E
 	sta.w replaydelay
-.2x:
+.2x:								; SfxVelocity = $7000, call QueueSound, Pencntdwn = 0, ...
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.w #$0015

@@ -1,13 +1,13 @@
 ; Look for a new penalty call and stop play when it should be called
-checkfornewpen:
+checkfornewpen:						; called from PenaltyManager
 	lda.w sfhormode
 	beq .t1
 	jmp.w .6
 
-.t1:
+.t1:								; sfhormode = 0: a0 = PenBuf
 	lda.w #PenBuf
 	sta.b a0
-.4:
+.4:									; loop: increment a0, increment a0, if zero go to .4, ...
 	lda.b (a0)
 	inc.b a0
 	inc.b a0
@@ -18,7 +18,7 @@ checkfornewpen:
 	bne .t2
 	jmp.w .6
 
-.t2:
+.t2:								; if gmode bit gmpen set go to .3, ...
 	lda.w gmode
 	bit.w #gmpen
 	bne .3
@@ -54,14 +54,14 @@ checkfornewpen:
 	bit.w #$0080
 	beq .1
 	ora.w #$FF00
-.1:
+.1:									; sbc #$0006, eor d0, if minus go to .7
 	sec
 	sbc.w #$0006
 	eor.b d0
 	bmi .7
-.2:
+.2:									; call Stop4Pen
 	jsl.l Stop4Pen
-.3:
+.3:									; decrement a0, (a0) = (a0) | $0080, increment a0, ...
 	dec.b a0
 	lda.b (a0)
 	tay
@@ -73,7 +73,7 @@ checkfornewpen:
 	beq .t1x
 	jmp.w .4
 
-.t1x:
+.t1x:								; decrement a0, decrement a0, increment a0, ...
 	dec.b a0
 	dec.b a0
 	lda.b (a0)
@@ -105,11 +105,11 @@ checkfornewpen:
 	bmi .5
 	lda.b d1
 	sta.w Pencntdwn
-.5:
+.5:									; go to .4
 	jmp.w .4
-.6:
+.6:									; return
 	rtl
-.7:
+.7:									; tsb gmode, if not zero go to .5, ...
 	lda.w #$0008
 	tsb.w gmode
 	bne .5
