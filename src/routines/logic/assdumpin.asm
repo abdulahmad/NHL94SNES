@@ -1,7 +1,7 @@
 ; Assignment $14: the puck carrier dumps the puck in: shoot when close in (CompShoot), else lift it (puckflip)
 ; toward the target DumpInTarget picked (over the blue line, a corner or the front of the net) and let go of
 ; it
-assdumpin:
+assdumpin:							; called from asstab
 	cpx.w puckc
 	bne .t2
 	lda.w pflags,x
@@ -18,16 +18,16 @@ assdumpin:
 	beq .t1
 	cmp.w #$0008
 	beq .t1
-.rtl:
+.rtl:								; return
 	rtl
 
-.t1:
+.t1:								; go to CompShoot
 	jmp.w CompShoot
 
-.t2:
+.t2:								; go to assexit
 	jmp.w assexit
 
-.t3:
+.t3:								; if passdir = facedir,x go to .t1x, ...
 	ldy.w #$0000
 	lda.w passdir
 	cmp.w facedir,x
@@ -48,22 +48,22 @@ assdumpin:
 	jsl.l AdjustFacingDirection
 	rtl
 
-.t1x:
+.t1x:								; if position,x != 0 go to .2
 	lda.w position,x
 	bne .2
-.1:
+.1:									; dumpintarget = Y * 2 + dumpintarget, passdir = facedir,x
 	tya
 	asl a
 	adc.w dumpintarget
 	sta.w dumpintarget
 	lda.w facedir,x
 	sta.w passdir
-.2:
+.2:									; call .t2x, go to assexit
 	jsl.l .t2x
 	jmp.w assexit
 
-.t2x:
-	phk
+.t2x:								; subroutine: d4 = $000F - passacc,x * 2, call randomd0s, adc .8,y, ...
+	phk								; data bank = program bank
 	plb
 	lda.w #$000F
 	sec
@@ -101,24 +101,24 @@ assdumpin:
 	jsl.l DivX8U
 	cmp.w #$0060
 	bcc .2x
-.1x:
+.1x:								; falls through
 	lda.w #$0060
-.2x:
+.2x:								; if position,x = 0 go to .t1xx, ...
 	ldx.b curobj
 	ldy.w position,x
 	beq .t1xx
 	cmp.w #$0010
 	bcs .4
-.3:
+.3:									; falls through
 	lda.w #$0010
-.4:
+.4:									; go to .5
 	bra .5
 
-.t1xx:
+.t1xx:								; position,x = 0: if carry set go to .5, ...
 	cmp.w #$0020
 	bcs .5
 	lda.w #$0020
-.5:
+.5:									; d3 = A, call Mul16x8XS, r1 = d2, ...
 	sta.b d3
 	ldx.b d0
 	jsl.l Mul16x8XS

@@ -1,6 +1,6 @@
 ; Framer with a nine-tile box (FramerNineTileMap: eight border tiles and a centre tile, no flips) from tile
 ; set $7E35BE
-FramerNineTile:
+FramerNineTile:						; called from ShowCrowdMeter
 	phx
 	phy
 	lda.l ninetilechars
@@ -17,10 +17,10 @@ FramerNineTile:
 	cmp.w textdirtylo
 	bcs .1
 	sta.w textdirtylo
-.1:
+.1:									; decrement d1, decrement d1
 	dec.b d1
 	dec.b d1
-.loop:
+.loop:								; loop: p0 = FramerNineTileMap+12, call FramerRow, decrement d1, ...
 	lda.w #FramerNineTileMap+12
 	sta.b p0
 	jsr.w FramerRow
@@ -36,7 +36,7 @@ FramerNineTile:
 	cmp.w textdirtyhi
 	bcc .2
 	sta.w textdirtyhi
-.2:
+.2:									; return
 	ply
 	plx
 	rtl

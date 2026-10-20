@@ -1,7 +1,7 @@
 ; Set a penalty shot pending for shooter BA_Sktr_SCnum: penshot = 1, the shooting team BA_Team (and its count
 ; tmPenShots), the shooter number (BA_Skater_Offset); the faceoff spot is saved (psfoxsave / psfoysave) and
 ; cleared
-StartPenaltyShot:
+StartPenaltyShot:					; called from InProgress, PlayShootout
 	lda.w penshot
 	bne .2
 	lda.w BA_Sktr_SCnum
@@ -12,10 +12,10 @@ StartPenaltyShot:
 	inc.w tmPenShots+2
 	bra .1
 
-.t1:
+.t1:								; BA_Sktr_SCnum - $000C negative: BA_Team = 0, increment tmPenShots
 	stz.w BA_Team
 	inc.w tmPenShots
-.1:
+.1:									; eor #$0002, tmap,y = $0001, tmap,y = $0001, ...
 	phy
 	lda.w BA_Team
 	eor.w #$0002
@@ -41,5 +41,5 @@ StartPenaltyShot:
 	sta.l fox
 	lda.w #$0000
 	sta.l foy
-.2:
+.2:									; return
 	rtl

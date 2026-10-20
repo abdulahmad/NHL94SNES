@@ -1,21 +1,21 @@
 ; L button with defense control on ($1C94): pad d4 takes the defenseman on the left of the screen (LD when the
 ; team shoots at the top goal, else RD), then PadTakePosition
-PadTakeLeftDefense:
+PadTakeLeftDefense:					; called from doinput
 	ldy.w #$0000
 	cpx.w #$000C
 	bcc .1
 	ldy.w #$0002
-.1:
+.1:									; if defcontrol,y != 0 go to .t1, ...
 	lda.w defcontrol,y
 	bne .t1
 	rtl
 
-.t1:
+.t1:								; defcontrol,y != 0: if pfgoal,x != 0 go to PadTakePosition, ...
 	lda.w #$0001
 	ldy.w pfgoal,x
 	bne PadTakePosition
 	lda.w #$0002
-PadTakePosition:
+PadTakePosition:					; called from PadTakeGoalie, PadTakeLeftDefense, PadTakeRightDefense, P...
 	sta.b d1
 	phx
 	ldy.b d4
@@ -24,10 +24,10 @@ PadTakePosition:
 	cmp.w #$0001
 	beq .1
 	ldx.w #$000C
-.1:
+.1:									; d0 = $0005
 	lda.w #$0005
 	sta.b d0
-.loop:
+.loop:								; loop: if position,x = d1 go to .t1, ...
 	lda.w position,x
 	cmp.b d1
 	beq .t1
@@ -37,7 +37,7 @@ PadTakePosition:
 	bpl .loop
 	bra .2
 
-.t1:
+.t1:								; position,x = d1: if playerpad,x >= 0 go to .2, ...
 	lda.w playerpad,x
 	bpl .2
 	lda.w pflags,x
@@ -48,6 +48,6 @@ PadTakePosition:
 	sta.w padinputdone,y
 	stx.b d0
 	jsl.l AssignPadPlayer
-.2:
+.2:									; return
 	plx
 	rtl

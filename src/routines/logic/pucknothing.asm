@@ -1,5 +1,5 @@
 ; The puck slides and stops spinning.
-pucknothing:
+pucknothing:						; called from asstab, pucknorm_move
 	lda.w SPAnum+puckobj			; current puck animation
 	cmp.w #$0008					; SPAnum 2*4..6*4: flip the face
 	bcc .k							; before the spin frames: skip
