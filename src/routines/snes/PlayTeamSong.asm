@@ -1,5 +1,5 @@
 ; Play song slot A of the home team (TeamSongs), or a random DefaultSongs song when it has none
-PlayTeamSong:
+PlayTeamSong:						; called from Gameloop, Goal, puckfaceoff2
 	phx
 	ldx.w MusicOn
 	bne .2
@@ -23,7 +23,7 @@ PlayTeamSong:
 	jsl.l MusicStart
 	bra .1
 
-.t1:
+.t1:								; TeamSongs+2,x negative: call randoma8, asl a, asl a, ...
 	lda.w #$0008
 	jsl.l randoma8
 	asl a
@@ -34,9 +34,9 @@ PlayTeamSong:
 	lda.l DefaultSongs+2,x
 	sta.b p0+2
 	jsl.l MusicStart
-.1:
+.1:									; cursong = pulled value
 	pla
 	sta.w cursong
-.2:
+.2:									; return
 	plx
 	rtl

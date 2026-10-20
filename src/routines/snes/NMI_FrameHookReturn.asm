@@ -1,6 +1,6 @@
 ; NMI after the frame hook: Multi5Bios, SoundUpdate and the sound stream (UpdateStreamSfx), then restore and
 ; rti
-NMI_FrameHookReturn:
+NMI_FrameHookReturn:				; called from NMI_Tick
 	sep #$30
 	jsl.l Multi5Bios
 	rep #$20

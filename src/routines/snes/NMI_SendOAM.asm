@@ -1,5 +1,5 @@
 ; NMI: send the sprite table to OAM when it is ready and there is time
-NMI_SendOAM:
+NMI_SendOAM:						; called from NMI_HookReturn
 	stx.b DMAQueueHead
 	rep #$20
 	lda.b DMABudget
@@ -22,7 +22,7 @@ NMI_SendOAM:
 	sep #$20
 	lda.b #$01
 	sta.w MDMAEN
-NMI_Tick:
+NMI_Tick:							; called from NMI_HookReturn, NMI_SendOAM
 	rep #$30
 	lda.l vcountfrac
 	clc
@@ -32,9 +32,9 @@ NMI_Tick:
 	adc.w #$0001
 	sta.b vcount
 	bcc .2
-.1:
+.1:									; increment vcount+2
 	inc.b vcount+2
-.2:
+.2:									; if fadestep = 0 go to .7, ...
 	lda.w fadestep
 	beq .7
 	bmi .4
@@ -48,13 +48,13 @@ NMI_Tick:
 	inc.w brightness
 	bra .7
 
-.t1:
+.t1:								; decrement fadestep, go to .7
 	dec.w fadestep
 	bra .7
-.3:
+.3:									; increment fadestep, go to .7
 	inc.w fadestep
 	bra .7
-.4:
+.4:									; if not zero go to .3, ...
 	cmp.w #$FFFF
 	bne .3
 	lda.w STAT77
@@ -62,20 +62,20 @@ NMI_Tick:
 	dec.w brightness
 	bmi .1x
 	bne .7
-.1x:
+.1x:								; brightness = 0, go to .6
 	stz.w brightness
 	bra .6
-.5:
+.5:									; brightness >= $000F: brightness = $000F
 	lda.w #$000F
 	sta.w brightness
-.6:
+.6:									; fadestep = 0
 	stz.w fadestep
-.7:
+.7:									; if FrameCountHold != 0 go to .1xx, ...
 	rep #$20
 	lda.w FrameCountHold
 	bne .1xx
 	inc.w FrameCount
-.1xx:
+.1xx:								; if FrameHookNext+1 = 0 go to .2x, ...
 	sep #$10
 	rep #$20
 	ldx.w FrameHookNext+1
@@ -85,7 +85,7 @@ NMI_Tick:
 	stz.w FrameHookNext
 	ldx.w FrameHookNext+2
 	stx.w FrameHook+2
-.2x:
+.2x:								; go to [$0789]
 	ldx.b #$80
 	phx
 	pea.w NMI_FrameHookReturn-1		; rtl from the hook lands on the next line

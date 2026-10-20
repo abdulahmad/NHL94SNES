@@ -1,5 +1,5 @@
 ; Copy map [p0] (width, height) into the map at [p1], column X, row Y, adding A to each entry
-PasteMap:
+PasteMap:							; called from DrawEditLinesBack, DrawMatchupPictures, DrawPlayerPicture...
 	sta.b r7+2
 	stx.b r5
 	tya
@@ -23,10 +23,10 @@ PasteMap:
 	clc
 	adc.w #$0006
 	sta.b p0
-.loop:
+.loop:								; loop: falls through
 	ldx.b r4
 	ldy.w #$0000
-.loop2:
+.loop2:								; loop: [p1],y = [p0],y + r7+2, Y + 1, Y + 1, ...
 	lda.b [p0],y
 	clc
 	adc.b r7+2

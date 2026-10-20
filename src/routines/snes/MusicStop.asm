@@ -8,14 +8,14 @@ MusicStop:							; stop the song: release its voices and clear its tracks
 	stz.w TrackCount
 	ldy.b #$07
 	ldx.b #$0E
-.loop:
+.loop:								; loop: if VoiceTrack,y >= $10 go to .1, ...
 	lda.w VoiceTrack,y
 	cmp.b #$10
 	bcs .1
 	lda.w VoiceState,y
 	beq .1
 	jsr.w StopVoice
-.1:
+.1:									; X - 1, X - 1, Y - 1, ...
 	dex
 	dex
 	dey
