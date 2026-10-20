@@ -1,13 +1,13 @@
 ; sound driver command $05 (key off voice X), X in APUIO1
-SPCCmd05:
+SPCCmd05:							; entry point, no direct callers found
 	sep #$30
-.wait:
+.wait:								; loop: if APUIO0 != 0 go to .wait, ...
 	lda.w APUIO0
 	bne .wait
 	stx.w APUIO1
 	lda.b #$05
 	sta.w APUIO0
-.ack:
+.ack:								; loop: if not zero go to .ack, ...
 	cmp.w APUIO0
 	bne .ack
 	stz.w APUIO0
