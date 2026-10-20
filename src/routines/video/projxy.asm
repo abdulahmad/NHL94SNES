@@ -1,11 +1,11 @@
 ; Project a rink position to screen coordinates
-projxy:
+projxy:								; called from setffo, setsortcords
 	lda.w sfhormode
 	beq .t1
 	lda.b d0
 	pha
 	lda.b d1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.b d0
 	pla
@@ -14,7 +14,7 @@ projxy:
 	sta.b d1
 	bra .1
 
-.t1:
+.t1:								; sfhormode = 0: d0 = d0 - Hpos, d1 = d1 - Vpos
 	lda.b d0
 	sec
 	sbc.w Hpos
@@ -23,7 +23,7 @@ projxy:
 	sec
 	sbc.w Vpos
 	sta.b d1
-.1:
+.1:									; if d0 - $FF6F negative go to .t1x, ...
 	lda.b d0
 	cmp.w #$FF6F
 	bmi .t1x
@@ -54,7 +54,7 @@ projxy:
 	sta.b d1
 	rtl
 
-.t1x:
+.t1x:								; d1 = $4E20, return
 	lda.w #$4E20
 	sta.b d1
 	rtl
