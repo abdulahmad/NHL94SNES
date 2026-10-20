@@ -1,9 +1,9 @@
 ; Draw the other-scores rows, or No Other Games when the list has one entry.
-DrawOtherScoresPage:
+DrawOtherScoresPage:				; called from OtherScoresNext, ScrollOtherScoresDown, ScrollOtherScores...
 	lda.w listend
 	cmp.w #$0001
 	bne .t1
-.1:
+.1:									; a1 = NoOtherGames, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -20,7 +20,7 @@ DrawOtherScoresPage:
 	jsl.l QueueTextDMA
 	bra .2
 
-.t1:
+.t1:								; listend != $0001: xba, lsr a, lsr a, ...
 	lda.w listtop
 	asl a
 	adc.w listtop
@@ -40,5 +40,5 @@ DrawOtherScoresPage:
 	tax
 	ldy.w #$0140
 	jsl.l DMAToVRAM
-.2:
+.2:									; return
 	rtl

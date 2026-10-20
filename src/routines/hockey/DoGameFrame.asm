@@ -1,5 +1,5 @@
 ; Run one frame of game logic
-DoGameFrame:
+DoGameFrame:						; called from Gameloop, StartHL2
 	jsl.l SpriteFrameStart
 	jsl.l UpdateBenchCheer
 	jsl.l periodicevents

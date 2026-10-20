@@ -1,6 +1,6 @@
 ; Player stats: print the header and send the header rows and the visible rows of the stats page buffer
 ; (scroll $1DB9) to VRAM
-DrawPlayerStatsPage:
+DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, ShowPlayerStats_...
 	lda.b d1
 	pha
 	lda.w statcolumn
@@ -30,7 +30,7 @@ DrawPlayerStatsPage:
 	jsl.l DMAToVRAM
 	bra .1
 
-.t1:
+.t1:								; statcolumn = 0: a1 = GoalieGaShPtgTxt, call print, a1 = pulled value...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -53,7 +53,7 @@ DrawPlayerStatsPage:
 	ldy.w #$00E0
 	ldx.w #$04C0
 	jsl.l DMAToVRAM
-.1:
+.1:									; xba, lsr a, adc #$2780, ...
 	lda.w curitem
 	xba
 	lsr a

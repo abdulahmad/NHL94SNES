@@ -1,5 +1,5 @@
 ; Horizontal rink: draw both team blocks (home at x $14, visitors at x 3, row 2) and send their palette rows
-DrawHorTeams:
+DrawHorTeams:						; called from setvideo
 	lda.w #$0001
 	sta.l horblocks
 	lda.b a2
@@ -33,7 +33,7 @@ DrawHorTeams:
 	lda.w #$FFFF
 	sta.l colourbuf+$1DE
 	sta.l colourbuf+$1FE
-.1:
+.1:									; p0+2 = $007F, p0 = $75C0, call DMAToCGRAM, ...
 	lda.w #$007F
 	sta.b p0+2
 	lda.w #$75C0
