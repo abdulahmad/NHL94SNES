@@ -1,5 +1,5 @@
 ; Shootout: the 6 starters of the home or away team as the shooter list
-InitShooters:
+InitShooters:						; called from PlayShootout
 	lda.w #$0000
 	sta.b a3+2
 	lda.w #homeshooters
@@ -10,7 +10,7 @@ InitShooters:
 	sta.b a3+2
 	lda.w #awayshooters
 	sta.b a3
-.0:
+.0:									; a1 = tmdata,y, a1 = tmdata,y + [a1],y, d0 = $0007, a1+2 = TeamList>>16
 	ldy.b a2
 	lda.w #TeamList>>16
 	sta.b a1+2
@@ -22,7 +22,7 @@ InitShooters:
 	sta.b a1
 	lda.w #$0007
 	sta.b d0
-.loop:
+.loop:								; loop: [a3] = [a1], increment a1, increment a3, ...
 	sep #$20
 	lda.b [a1]
 	sta.b [a3]

@@ -1,5 +1,5 @@
 ; Shootout shooters screen: clear the top, the frame, and the background map (MenuBackMap) in map 2
-DrawShootersBack:
+DrawShootersBack:					; called from ShootersBackground
 	lda.b a1+2
 	pha
 	lda.b a1

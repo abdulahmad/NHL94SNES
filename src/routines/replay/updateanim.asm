@@ -1,11 +1,11 @@
 ; Step object X's sprite animation, looping or ending it
-updateanim:
+updateanim:							; called from SetSPAUpdate, assbreakaway, puckfaceoff2, updateplayers
 	lda.w SPA,x
 	bne .2
 	stz.w pf2aip,x
 	stz.w pfalock,x
 	rtl
-.1:
+.1:									; sfhormode != 0: if carry set go to .3, ...
 	cpx.w #$0018
 	bcs .3
 	lda.w attribute,x
@@ -16,12 +16,12 @@ updateanim:
 	sbc.w facedir,x
 	bra .7
 
-.t1:
+.t1:								; attribute,x bits $0800 clear: go to .7
 	lda.w facedir,x
 	dec a
 	dec a
 	bra .7
-.2:
+.2:									; SPA,x != 0: a0 = A, a0+2 = $009D, d1 = [a0],y, ...
 	phy
 	sta.b a0
 	lda.w #$009D
@@ -31,7 +31,7 @@ updateanim:
 	sta.b d1
 	lda.w sfhormode
 	bne .1
-.3:
+.3:									; if SPA,x >= SPAbenchcheckr go to .t1x, ...
 	lda.w SPA,x
 	cmp.w #SPAbenchcheckr
 	bcs .t1x
@@ -43,9 +43,9 @@ updateanim:
 	sbc.w facedir,x
 	bra .7
 
-.t1x:
+.t1x:								; falls through
 	lda.w facedir,x
-.7:
+.7:									; and #$0007, asl a, a0 = [a0],y, ...
 	and.w #$0007
 	asl a
 	tay
@@ -80,28 +80,28 @@ updateanim:
 	bcs .1x
 	cmp.w #SPAbenchcheckr
 	bcs .6
-.1x:
+.1x:								; if d1 != 0 go to .2x, ...
 	lda.b d1
 	bne .2x
 	stz.w SPA,x
-.2x:
+.2x:								; Y + 1, Y + 1, if [a0],y bits $8000 clear go to .3x, ...
 	ldy.b d0
 	iny
 	iny
 	lda.b [a0],y
 	bit.w #$8000
 	beq .3x
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.3x:
+.3x:								; SPAcnt,x = A
 	sta.w SPAcnt,x
-.4:
+.4:									; frame,x = d2
 	lda.b d2
 	sta.w frame,x
-.5:
+.5:									; return
 	ply
 	rtl
-.6:
+.6:									; Xpos,x = $FF78, facedir,x = $0002, pfalock,x = $0002, ...
 	lda.w #$FF78
 	sta.w Xpos,x
 	lda.w #$0002

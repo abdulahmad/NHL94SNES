@@ -1,5 +1,5 @@
 ; d0 = the roster slot of team a2's player for matchup A (center, wings, defense, goalie)
-GetMatchupPlayer:
+GetMatchupPlayer:					; called from LoadMatchupPhotos, ShowMatchups, setoptions
 	tay
 	lda.w #$009D
 	sta.b a1+2
@@ -23,5 +23,5 @@ GetMatchupPlayer:
 	dec a
 	sta.b d0
 	rtl
-.1:
+.1:									; db $04,$03,$05,$01,$02,$00
 	db $04,$03,$05,$01,$02,$00
