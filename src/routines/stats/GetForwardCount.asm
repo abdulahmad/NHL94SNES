@@ -1,5 +1,8 @@
 ; d0 = forwards on team a2 (high nibble of team data byte 3 at +8)
-GetForwardCount:
+; Takes a2 = team offset, returns d0.
+;
+; Called from SelectLinePlayer and DrawPlayerCard.
+GetForwardCount:					; count the forwards of the team
 	ldy.b a2
 	lda.w #$009C
 	sta.b a3+2

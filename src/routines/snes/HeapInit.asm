@@ -3,11 +3,11 @@
 ; Callers keep handles (HandleTable entries pointing at the data), so unlocked blocks can move.
 ;
 ; start the heaps at X in bank $7E (at least $E68C) and Y in bank $7F: one free block each, all handles free
-HeapInit:
+HeapInit:							; set up both heaps; one free block each, all handles free
 	cpx.w #$E68C
 	bcs .base
 	ldx.w #$E68C
-.base:
+.base:								; start of the bank $7E heap kept
 	stx.w HeapStart7E
 	sty.w HeapStart7F
 	lda.w #$FFFF
@@ -31,7 +31,7 @@ HeapInit:
 	sta.l Ram7F,x
 	ldx.w #$00FE
 	lda.w #$0000
-.clear:
+.clear:								; clear the 64 handles
 	sta.l HandleTable,x
 	dex
 	dex

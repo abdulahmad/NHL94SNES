@@ -1,5 +1,9 @@
 ; Stop voice Y
-StopVoice:
+; Takes Y = voice, X = 2*voice. If the voice plays a streamed effect (its instrument is in the stream range)
+; the stream state is cleared. Then VoiceState = 0, VoiceTrack = $FF and a gain command is sent to the SPC.
+;
+; Called from UpdateSfxVoices, MusicStop, SoundVoicesOff, ReleaseVoice and StopSound.
+StopVoice:							; stop voice Y
 	rep #$20
 	lda.w VoiceInst,x
 	cmp.w #$E1C0
@@ -10,7 +14,7 @@ StopVoice:
 	sta.l streamstate
 	lda.w #$0000
 	sta.l streamsfx
-.1:
+.1:									; not a stream sound
 	sep #$30
 	lda.b #$00
 	sta.w VoiceState,y

@@ -1,3 +1,4 @@
 ; Does nothing
-nullrtl:
+; Called from setupice (empty hook).
+nullrtl:							; empty long routine
 	rtl

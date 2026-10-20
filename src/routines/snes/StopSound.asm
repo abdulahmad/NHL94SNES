@@ -1,5 +1,9 @@
 ; Stop every voice that plays sound A
-StopSound:
+; A = sound number. Looks up its instrument entry through SoundTable and calls StopVoice for each of the 8
+; voices whose VoiceInst is that entry. The sound code is locked meanwhile.
+;
+; Called from StreamSfx.
+StopSound:							; stop all voices playing sound A
 	phx
 	phy
 	phb
@@ -20,12 +24,12 @@ StopSound:
 	sta.b InstPtr
 	ldx.b #$00
 	txy
-.loop:
+.loop:								; each voice, X = 2*voice, Y = voice
 	lda.w VoiceInst,x
 	cmp.b InstPtr
-	bne .1
+	bne .1							; not this sound
 	jsr.w StopVoice
-.1:
+.1:									; next voice
 	inx
 	inx
 	iny

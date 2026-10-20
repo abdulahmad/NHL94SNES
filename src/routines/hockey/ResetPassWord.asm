@@ -1,13 +1,13 @@
 ; Blank the password
-ResetPassWord:
-	sep #$30
+ResetPassWord:						; no input; PassWord is filled
+	sep #$30						; 8-bit registers
 	lda.b #$00
-	sta.l PassWord
-	ldx.b #$0F
-	lda.b #$1E
-.loop:
+	sta.l PassWord					; first byte 0
+	ldx.b #$0F						; bytes 1 to 15
+	lda.b #$1E						; the blank character
+.loop:								; store the blank
 	sta.l PassWord,x
-	dex
-	bne .loop
-	rep #$30
+	dex								; down to byte 1
+	bne .loop						; loop
+	rep #$30						; 16-bit registers
 	rtl

@@ -3,6 +3,7 @@
 ; Takes a2 = team offset (tmsort index) and the wanted lines in PlList (built by SetPlList). Fills newpos and
 ; newpnum of the team's 6 sort objects; a player already on the ice keeps his object. Saves and restores
 ; d0-d5 and a0-a4 around the work. Returns X = a3, the last object of the team.
+; Called from puckfaceoff2 and chk4lc.
 setpersonel:						; put the wanted players of team a2 on the ice
 	stx.b xsave						; keep X
 	ldx.w #$0000
@@ -147,7 +148,7 @@ setpersonel:						; put the wanted players of team a2 on the ice
 	bit.w #$0080
 	beq .2xx
 	ora.w #$FF00
-.2xx:
+.2xx:								; sign extend the position
 	ldy.b a0
 	sta.w newpos,y					; new position
 	lda.b d5

@@ -2,7 +2,7 @@
 ; sound table IntroSfxTable), called from IntroSequence. It marks the same bank value as the game
 ; set, so a following SPCGameUpload or SPCTitleUpload skips its upload. Nothing happens when that value is
 ; already set
-SPCIntroUpload:
+SPCIntroUpload:						; upload the Intro sample set
 	stz.w cursong
 	lda.w sndbank					;the sample set loaded in the SPC
 	cmp.w #SoundBankGame
@@ -23,7 +23,7 @@ SPCIntroUpload:
 	sta.b SoundTable
 	jsl.l SoundInit					;reset the player on that table
 	ldx.w #$0000					;sample list offset
-.loop:
+.loop:								; send each sample of the list
 	lda.l IntroSampleList,x
 	sta.b p0						;long pointer to the sample
 	lda.l IntroSampleList+2,x
@@ -37,5 +37,5 @@ SPCIntroUpload:
 	inx
 	cpx.w #$0004					;one entry
 	bne .loop
-.rtl:
+.rtl:								; done
 	rtl

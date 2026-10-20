@@ -1,7 +1,7 @@
 ; Turn the title sample set into the menu set without a full upload: driver command 4 drops the last three
 ; uploaded samples, then the four samples of the menu set after its first 12 (SampleTimp, SampleDist,
 ; SamplePlayoffOrgan, SampleAPower) are sent and sndbank is SoundBankMenu. Called by TitleScreen
-SPCTitleToMenu:
+SPCTitleToMenu:						; change the title sample set into the menu set
 	stz.w cursong					;no team song plays
 	jsl.l SPCCmd04
 	jsl.l SPCCmd04

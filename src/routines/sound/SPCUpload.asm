@@ -1,6 +1,9 @@
 ; Sound driver command $03: send a sample of X bytes from [p0] to the sound CPU, with loop point Y (the next
 ; sample slot). Each byte goes through APUIO2 and is acknowledged on APUIO1
-SPCUpload:
+; Takes X = number of bytes, Y = loop point, p0 = long pointer to the sample. Returns with 16-bit A.
+;
+; Called from SPCUploadBlock.
+SPCUpload:							; send one sample to the sound CPU
 	sep #$20
 .wait:								;wait for the driver to be idle
 	lda.w APUIO0

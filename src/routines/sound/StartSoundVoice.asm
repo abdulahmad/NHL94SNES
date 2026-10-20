@@ -1,29 +1,36 @@
 ; Put sound entry $4E on a free voice (FindFreeVoice) with its pitch, volume and envelope (SeqCmd07)
-StartSoundVoice:
+; Takes X = 2*track, CurTrack, TrackInst,x = instrument entry (InstPtr), EventCode = note, EventData1 =
+; velocity, EventData2 = length. Finds a free voice with FindFreeVoice (nothing happens when none is
+; free, the track has no instrument or a length-less note of two special instruments is asked) and fills in
+; its track, priority, state, length, vibrato, gain, volumes and pitch (with the pitch bend) from the entry,
+; then SeqCmd07 sends them to the sound CPU. Returns with the voice in Y.
+;
+; Called from PlaySound and StepTrack.
+StartSoundVoice:					; start the note on a voice
 	php
 	rep #$20
-	lda.w TrackInst,x
-	beq .3
+	lda.w TrackInst,x				; instrument entry of the track
+	beq .3							; none: nothing to start
 	sta.b InstPtr
-	cmp.w #$DF80
+	cmp.w #$DF80					; two special instruments need a length
 	beq .1
 	cmp.w #$DFB0
 	bne .2
-.1:
+.1:									; these two need a positive length
 	lda.b EventData2
 	bmi .3
 	beq .3
-.2:
+.2:									; find a voice
 	sep #$30
 	jsr.w FindFreeVoice
 	stx.b CurVoice
 	txa
 	bpl .t1
-.3:
+.3:									; no voice: leave
 	plp
 	rts
 
-.t1:
+.t1:								; voice found: it plays this track
 	asl a
 	sta.w VoiceOfs
 	lda.b CurTrack
@@ -33,13 +40,13 @@ StartSoundVoice:
 	sta.w VoicePriority,x
 	ldy.b #$15
 	lda.b (InstPtr),y
-	bpl .t2
+	bpl .t2							; bit 7 of instrument byte $15 selects the voice state
 	lda.b #$02
 	bra .4
 
-.t2:
+.t2:								; bit 7 clear: state 1
 	lda.b #$01
-.4:
+.4:									; state 1 or 2
 	sta.w VoiceState,x
 	ldx.w VoiceOfs
 	rep #$20
@@ -49,9 +56,9 @@ StartSoundVoice:
 	lda.w #$002D
 	bra .5
 
-.t1x:
+.t1x:								; length from EventData2
 	lda.b EventData2
-.5:
+.5:									; length - 1
 	dec a
 	sta.w VoiceLength,x
 	stz.w VoiceAge,x
@@ -75,9 +82,9 @@ StartSoundVoice:
 	lda.w #$FFFF
 	bra .6
 
-.t1xx:
+.t1xx:								; vibrato direction word
 	lda.w #$0000
-.6:
+.6:									; set the vibrato direction
 	sta.w VoiceVibDir,x
 	ldy.b #$0A
 	lda.b (InstPtr),y
@@ -92,7 +99,7 @@ StartSoundVoice:
 	bne .1x
 	lda.b StartGain
 	sta.w recsfxvol
-.1x:
+.1x:								; remember the instrument
 	lda.b InstPtr
 	sta.w VoiceInst,x
 	sep #$20
@@ -109,7 +116,7 @@ StartSoundVoice:
 	sta.w VoiceVolR
 	jmp.w .7
 
-.t1xxx:
+.t1xxx:								; scaled velocity
 	asl a
 	sta.b EventData1
 	ldx.b CurVoice
@@ -124,7 +131,7 @@ StartSoundVoice:
 	lda.w TrackVolR,x
 	jsr.w MulFrac8
 	sta.w VoiceVolR
-.7:
+.7:									; music ducking
 	lda.w MusicDuck
 	beq .1xx
 	lda.b CurTrack
@@ -136,7 +143,7 @@ StartSoundVoice:
 	bpl .1xx
 	lsr.w VoiceVolR
 	lsr.w VoiceVolL
-.1xx:
+.1xx:								; note = event code + instrument transpose
 	ldy.b #$04
 	lda.b EventCode
 	clc
@@ -150,7 +157,7 @@ StartSoundVoice:
 	lda.b #$3F
 	clc
 	adc.b (InstPtr),y
-.2x:
+.2x:								; table index
 	asl a
 	tax
 	rep #$20
@@ -186,7 +193,7 @@ StartSoundVoice:
 	sta.b EventData1
 	bra .9
 
-.t2x:
+.t2x:								; bend down
 	lda.b EventCode
 	sec
 	sbc.w TrackBendRange,y
@@ -207,17 +214,17 @@ StartSoundVoice:
 	sta.b MulFracResult
 	bra .8
 
-.t1xxxx:
+.t1xxxx:							; scale the pitch difference
 	tay
 	rep #$20
 	lda.b EventData2
 	jsr.w MulFrac16
-.8:
+.8:									; base pitch - scaled difference
 	lda.b EventData1
 	sec
 	sbc.b MulFracResult
 	sta.b EventData1
-.9:
+.9:									; add the instrument tuning to get the voice pitch
 	rep #$20
 	ldy.b #$02
 	lda.b (InstPtr),y
@@ -234,7 +241,7 @@ StartSoundVoice:
 	bne .1xxx
 	lda.w VoicePitch,x
 	sta.w recsfxpitch
-.1xxx:
+.1xxx:								; send the voice to the sound CPU
 	sep #$20
 	jsr.w SeqCmd07
 	tya

@@ -1,72 +1,75 @@
 ; Assignment: the players taking the face off
-assfaceoffpl:
-	lda.w pfalock,x
+; Takes: X = player object. Called through asstab (assignment $17).
+; Sets the face off pull frame in fofdata2 (4 bytes further for the visitors) from the player's animation
+; and handedness; a computer player starts the face off swing animation (sometimes the reverse pull).
+assfaceoffpl:						; assignment: the two players taking the face off
+	lda.w pfalock,x					; animation locked?
 	beq .t1
-.1x:
-	jmp.w .t2
+.1x:								; unreferenced label
+	jmp.w .t2						; locked: return
 
-.t1:
-	lda.w sflags
+.t1:								; not locked: is the face off still on?
+	lda.w sflags					; bit $0100 of sflags: face off in progress
 	bit.w #$0100
-	beq .t3
+	beq .t3							; over: leave
 	lda.w pflags,x
 	bit.w #pfna
-	beq .1xx
-	and.w #$FFFD
+	beq .1xx						; new assignment?
+	and.w #$FFFD					; clear pfna
 	sta.w pflags,x
-	stz.w temp1,x
-.1xx:
+	stz.w temp1,x					; clear temp1
+.1xx:								; a0 = fofdata2 (home) or fofdata2+4 (visitors)
 	lda.w #fofdata2>>16
 	sta.b a0+2
 	lda.w #fofdata2
 	sta.b a0
-	lda.w pfteam,x
+	lda.w pfteam,x					; visitors?
 	beq .2
-	lda.w #$312E
+	lda.w #$312E					; visitors entry
 	sta.b a0
-.2:
+.2:									; frame = SPAnum/4 + 1
 	lda.w SPAnum,x
 	lsr a
 	lsr a
 	inc a
 	sta.b d0
-	lda.w handed,x
+	lda.w handed,x					; left handed: +3 (handed set = right handed)
 	bne .3
 	inc.b d0
 	inc.b d0
 	inc.b d0
-.3:
+.3:									; store the frame in the face off data
 	lda.b d0
 	sta.b [a0]
-	lda.w playerpad,x
+	lda.w playerpad,x				; human pad: the player pulls, return
 	bpl .t2
-	lda.w pf2aip,x
+	lda.w pf2aip,x					; set pf2aip, keep the old value
 	pha
 	lda.w #$0001
 	sta.w pf2aip,x
 	pla
-	cmp.w #$0000
+	cmp.w #$0000					; already swinging: return
 	bne .t2
-	lda.w #SPAfaceoff
+	lda.w #SPAfaceoff				; face off animation
 	sta.b d1
-	lda.w temp1+puckobj
+	lda.w temp1+puckobj				; puck temp1 above $10: sometimes the reverse pull
 	cmp.w #$0011
 	bcc .4
 	jsl.l RandomWord
-	and.w #$0007
+	and.w #$0007					; 1 in 8 gets the reverse animation
 	sta.b d0
-	beq .4
-	lda.w #SPAfaceoffr
+	beq .4							; 0: normal swing
+	lda.w #SPAfaceoffr				; reverse swing
 	sta.b d1
-.4:
+.4:									; swing started: mark it
 	lda.w #$0001
 	sta.w pf2aip,x
-	jml.l SetSPA
+	jml.l SetSPA					; start the animation
 
-.t2:
-	rtl
+.t2:								; return
+	rtl								; return
 
-.t3:
+.t3:								; face off over: no puck collision for 20 frames
 	lda.w #$0014
 	sta.w nopuck,x
-	jml.l assexit
+	jml.l assexit					; assignment over

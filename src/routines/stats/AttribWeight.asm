@@ -1,5 +1,9 @@
 ; The player's weight in pounds, from his weight rating
-AttribWeight:
+; Takes d0 = weight rating. Weight = 8 * rating + $8C pounds, printed with PushNumber followed by the
+; text AttribWeightPos.
+;
+; Called through attribjmp.
+AttribWeight:						; print the weight
 	lda.b d0
 	asl a
 	asl a

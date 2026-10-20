@@ -1,5 +1,11 @@
 ; Print with the big font (2 by 2 tiles per character)
-printbig:
+; Takes a1 = string like print. Each character is 2 by 2 tiles (BigFontIndex / BigFontMap), the top left at
+; printx / printy in textmap; lower case is turned into upper case, a space (and $40) draws a blank block.
+; BigFontIndex tells if the character is narrow (one tile wide, else it takes two and printx advances by 2).
+; d0, d1, d2 and X are preserved.
+;
+; Called from puckfaceoff2, printscores1, ShowGoalBox and ShootoutWonBy.
+printbig:							; print a string with the big font
 	phx
 	lda.b d0
 	pha
@@ -14,13 +20,13 @@ printbig:
 	lda.b d2+2
 	pha
 	ldy.w #$0002
-.7:
+.7:									; next byte of the string
 	tya
 	cmp.b [a1]
 	bne .t3
 	jmp.w .9
 
-.t3:
+.t3:								; not the end
 	lda.w printy
 	asl a
 	asl a
@@ -35,24 +41,24 @@ printbig:
 	beq .t1
 	jmp.w .8
 
-.t1:
+.t1:								; a control record when bit 7 is set
 	and.w #$00FF
 	bne .t2
 	jmp.w .5
 
-.t2:
+.t2:								; zero byte: skip it
 	cmp.w #$0061
 	bcc .1x
 	cmp.w #$007B
 	bcs .1x
 	adc.w #$FFE0
-.1x:
+.1x:								; 1 to 59 = character index minus $20
 	sec
 	sbc.w #$0020
 	bne .t1x
 	jmp.w .6
 
-.t1x:
+.t1x:								; d2 = 1: wide character
 	stz.b d2
 	inc.b d2
 	tax
@@ -61,13 +67,13 @@ printbig:
 	bit.w #$0080
 	beq .1xx
 	ora.w #$FF00
-.1xx:
+.1xx:								; negative index = narrow character
 	cmp.w #$0000
 	bpl .2
 	eor.w #$FFFF
 	inc a
 	stz.b d2
-.2:
+.2:									; d0 = table offset of the character
 	asl a
 	sta.b d0
 	tax
@@ -83,13 +89,13 @@ printbig:
 	cmp.w textdirtylo
 	bcs .3
 	sta.w textdirtylo
-.3:
+.3:									; first top row tile written
 	clc
 	adc.w #$0021
 	cmp.w textdirtyhi
 	bcc .4
 	sta.w textdirtyhi
-.4:
+.4:									; second row tile
 	ldx.b d0
 	lda.l BigFontMap+$9E,x
 	clc
@@ -117,12 +123,12 @@ printbig:
 	ldx.b d1
 	sta.l textmap+$42,x
 	inc.w printx
-.1:
+.1:									; advance the print position
 	inc.w printx
-.5:
+.5:									; next character
 	iny
 	jmp.w .7
-.6:
+.6:									; space: blank block
 	lda.l BigFontMap+$32
 	clc
 	adc.l BigFontChars
@@ -136,14 +142,14 @@ printbig:
 	cmp.w textdirtylo
 	bcs .1xxx
 	sta.w textdirtylo
-.1xxx:
+.1xxx:								; end of the dirty update
 	clc
 	adc.w #$0020
 	cmp.w textdirtyhi
 	bcc .1
 	sta.w textdirtyhi
 	bra .1
-.8:
+.8:									; control record: palette, font set, then position
 	eor.w #$FFFF
 	inc a
 	pha
@@ -190,7 +196,7 @@ printbig:
 	sta.w printy
 	iny
 	jmp.w .7
-.9:
+.9:									; end of string: restore registers
 	pla
 	sta.b d2+2
 	pla

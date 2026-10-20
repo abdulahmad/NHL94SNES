@@ -1,6 +1,6 @@
 ; Switch the sound driver to the title sample set (TitleSampleList, sound table MenuSfxTable), called from
 ; TitleScreen. It marks the same bank value as the game set. Nothing happens when that value is already set
-SPCTitleUpload:
+SPCTitleUpload:						; upload the Title sample set
 	stz.w cursong
 	lda.w sndbank					;the sample set loaded in the SPC
 	cmp.w #SoundBankGame
@@ -21,7 +21,7 @@ SPCTitleUpload:
 	sta.b SoundTable
 	jsl.l SoundInit					;reset the player on that table
 	ldx.w #$0000					;sample list offset
-.loop:
+.loop:								; send each sample of the list
 	lda.l TitleSampleList,x
 	sta.b p0						;long pointer to the sample
 	lda.l TitleSampleList+2,x
@@ -35,5 +35,5 @@ SPCTitleUpload:
 	inx
 	cpx.w #$003C					;15 entries of the list
 	bne .loop
-.rtl:
+.rtl:								; done
 	rtl

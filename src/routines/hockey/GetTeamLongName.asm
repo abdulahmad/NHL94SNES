@@ -1,10 +1,13 @@
 ; a1 = the full name of team A: its TeamList city, or LongNYIslanders / LongNYRangers for teams $0D / $0E
-GetTeamLongName:
-	cmp.w #$000D
+;
+; Called from setoptions, PrintOtherScoreTeam, PauseTimeout, ScoutVisName, ScoutHotTeam, ScoutHomeName,
+; TickerTeam and ShootoutWonBy.
+GetTeamLongName:					; a1 = full name of team A
+	cmp.w #$000D					; team $0D: NY Islanders long name
 	beq .t1
-	cmp.w #$000E
+	cmp.w #$000E					; team $0E: NY Rangers long name
 	beq .t2
-	asl a
+	asl a							; other teams: index * 4 into TeamList, then the city offset (word at +4)
 	asl a
 	tay
 	lda.w #TeamList>>16
@@ -19,17 +22,17 @@ GetTeamLongName:
 	sta.b a1
 	bra .1
 
-.t1:
+.t1:								; long name of the Islanders
 	lda.w #LongNYIslanders>>16
 	sta.b a1+2
 	lda.w #LongNYIslanders
 	sta.b a1
 	bra .1
 
-.t2:
+.t2:								; long name of the Rangers
 	lda.w #LongNYRangers>>16
 	sta.b a1+2
 	lda.w #LongNYRangers
 	sta.b a1
-.1:
+.1:									; return
 	rtl

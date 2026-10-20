@@ -1,5 +1,11 @@
 ; d0 = the direction (0-7, 8 = none) of the x / y distances d0 / d1.
-vtoa:
+;
+; Takes d0 = dx and d1 = dy. Returns d0 = direction 0-7, or 8 when both are 0. Uses the sign
+; of dx, the sign of dy and two slope tests (against twice the other axis) to build an index into
+; the direction table.
+;
+; Called from many routines, among them Bcheck, FallDown, doplayeracc, noturn0, skateto and checkcheck.
+vtoa:								; direction of the vector d0 / d1
 	lda.b d0						; vector
 	ora.b d1						; zero
 	beq .nodir						; no direction
@@ -33,7 +39,7 @@ vtoa:
 	bcc .3
 	lda.w #$0008					; set bit 3
 	tsb.b d7+2
-.3:
+.3:									; direction from the table
 	phx
 	ldx.b d7+2
 	lda.l .dt,x						; direction

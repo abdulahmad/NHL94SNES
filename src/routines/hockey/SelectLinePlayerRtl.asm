@@ -1,3 +1,3 @@
 ; The rtl SelectLinePlayer leaves through
-SelectLinePlayerRtl:
+SelectLinePlayerRtl:				; jumped to from SelectLinePlayer
 	rtl

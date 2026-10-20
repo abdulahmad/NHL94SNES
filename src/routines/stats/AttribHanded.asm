@@ -1,5 +1,9 @@
 ; Roster column: left or right handed
-AttribHanded:
+; Takes d0 = player attribute word. Bit 0 inverted selects the string of HandedTextTbl and
+; PrintStringFromList prints it (this is a jump, it returns to the caller).
+;
+; Called through attribjmp.
+AttribHanded:						; print left or right handed
 	lda.b d0
 	and.w #$0001
 	eor.w #$0001

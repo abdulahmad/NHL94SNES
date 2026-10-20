@@ -1,8 +1,8 @@
+; Clear the team stats (but the goalie choice) and both penalty box lists, then set up the teams
 ;
 ; Takes nothing, returns nothing. Called from ScoutingReport, SaveRegsStartHL2 and StartGame. Falls into
 ; setteams.
-; Clear the team stats (but the goalie choice) and both penalty box lists, then set up the teams
-ClearTeamStats:
+ClearTeamStats:						; clear the team stats and set up the teams
 	lda.w tmgoalie					; save both goalie choices
 	pha
 	lda.w tmgoalie+2

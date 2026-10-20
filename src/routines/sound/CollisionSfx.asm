@@ -1,5 +1,9 @@
 ; Play sound $0F with the velocity of the faster of players X and Y
-CollisionSfx:
+; Takes X and Y = the two players in the collision. The speed of each is the length of its Xvel/Yvel
+; (ApproxLength); the velocity of the faster one, doubled, is used for sound $0F via sfx.
+;
+; Called from checkplcoll and FallDown.
+CollisionSfx:						; play the collision sound
 	phy
 	ldy.w Xvel,x
 	lda.w Yvel,x
@@ -22,12 +26,12 @@ CollisionSfx:
 	sta.b p0+2
 	bra .1
 
-.t1:
+.t1:								; player Y is faster
 	lda.w Xvel,y
 	sta.b p0
 	lda.w Yvel,y
 	sta.b p0+2
-.1:
+.1:									; velocity doubled, then sound $0F
 	asl.b p0
 	asl.b p0+2
 	lda.w #$000F

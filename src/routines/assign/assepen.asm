@@ -1,82 +1,85 @@
 ; Assignment: the player leaves the penalty box and comes onto the ice
-assepen:
-	lda.w pflags,x
-	bit.w #pfna
+; Takes: X = player object. Called through asstab (assignment $0B).
+; First frame: takes one man off PBnum, puts the player at the box door (x sideline, y +-60) and starts the
+; wall animation. Later frames: push him onto the ice and give him a human pad of his team (probably).
+assepen:							; assignment: leave the penalty box
+	lda.w pflags,x					; player flags
+	bit.w #pfna						; first frame of the assignment (pfna)?
 	bne .t1
-	jmp.w .t2
+	jmp.w .t2						; no: step out onto the ice
 
-.t1:
-	and.w #$FFFD
+.t1:								; first frame of the assignment
+	and.w #$FFFD					; clear pfna
 	sta.w pflags,x
-	ldy.w #$0010
+	ldy.w #$0010					; box count unit: $10 for the home team
 	lda.w pfteam,x
 	beq .1
 	ldy.w #$0001
-.1:
-	sty.b d0
+.1:									; box count unit
+	sty.b d0						; take one man out of PBnum
 	lda.w PBnum
 	sec
 	sbc.b d0
 	sta.w PBnum
-	stz.w Xvel,x
+	stz.w Xvel,x					; stand still
 	stz.w Yvel,x
-	lda.w #$003C
+	lda.w #$003C					; box door y: 60 for the visitors
 	sta.b d0
-	lda.w pfteam,x
+	lda.w pfteam,x					; visitors?
 	bne .2
 	lda.w #$FFC4
 	sta.b d0
-.2:
+.2:									; box door y chosen
 	lda.b d0
 	sta.w Ypos,x
-	lda.w #sideline
+	lda.w #sideline					; x at the side boards
 	sta.w Xpos,x
-	lda.w #$0002
+	lda.w #$0002					; face left
 	sta.w facedir,x
-	sta.w pfalock,x
-	lda.w #SPAwallleft
+	sta.w pfalock,x					; lock the assignment
+	lda.w #SPAwallleft				; wall animation
 	jsl.l SetSPAFromA
-	jml.l SprSort
+	jml.l SprSort					; sort the sprites
 
-.t2:
-	lda.w #$0004
+.t2:								; animation over: out on the ice
+	lda.w #$0004					; face right
 	sta.w facedir,x
-	lda.w #$FFFF
+	lda.w #$FFFF					; no player/position requests
 	sta.w newpnum,x
 	sta.w newpos,x
-	lda.w pflags,x
+	lda.w pflags,x					; clear the flags in $9008
 	and.w #$6FF7
 	sta.w pflags,x
-	stz.w pfnc,x
-	lda.w #$F000
+	stz.w pfnc,x					; collisions on
+	lda.w #$F000					; skate out at Xvel -$1000
 	sta.w Xvel,x
-	ldx.b a2
-	lda.w teampads,x
-	cmp.w #$0004
+	ldx.b a2						; team of this player
+	lda.w teampads,x				; pads of the team
+	cmp.w #$0004					; below 4: nothing to hand over (probably)
 	bcc .2x
-	ldy.w padsitnext,x
-.loop:
+	ldy.w padsitnext,x				; round robin from padsitnext
+.loop:								; each pad in turn
 	iny
 	iny
-	cpy.w #$000A
+	cpy.w #$000A					; wrapped past the last?
 	bne .1x
 	ldy.w #$0000
-.1x:
-	lda.w padside,y
+.1x:								; pad side table index chosen
+	lda.w padside,y					; pad of another team or used: next
 	bpl .loop
-	and.w #$00FF
+	and.w #$00FF					; team of the pad
 	cmp.b a2
-	bne .loop
-	sta.w padside,y
+	bne .loop						; not this team: next
+	sta.w padside,y					; mark the pad as used
 	inc a
 	inc a
 	lsr a
-	sta.w cont1team,y
-	ldx.b curobj
+	sta.w cont1team,y				; set the controller team
+	ldx.b curobj					; restore the player object
 	tya
-	sta.w playerpad,x
+	sta.w playerpad,x				; player pad
 	txa
-	sta.w c1playernum,y
-.2x:
-	ldx.b curobj
-	jml.l assexit
+	sta.w c1playernum,y				; remember the player for the pad
+.2x:								; all done
+	ldx.b curobj					; restore the player object
+	jml.l assexit					; assignment over

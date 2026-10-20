@@ -1,3 +1,3 @@
 ; Does nothing (TitleScreen calls it)
-TitleStub:
+TitleStub:							; called from TitleScreen; does nothing
 	rts

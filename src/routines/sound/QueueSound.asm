@@ -1,7 +1,8 @@
 ; Start sound A (an entry of SoundTable) on a free sound effect voice, and return the voice number in A (this
 ; sound's voice when it already plays). During a replay nothing is recorded; otherwise the sound is kept in
 ; recsfx for the replay record (the previous one moves to recsfx2). The sound itself starts in PlaySoundEntry
-QueueSound:
+; Called from PuckSfx, UpdateStreamSfx, puckfaceoff2, Pausemode and others.
+QueueSound:							; queue sound A
 	phx								;keep the registers
 	phy
 	phb
@@ -53,7 +54,7 @@ QueueSound:
 	stx.w recsfxpitch2
 	ldx.w recsfxvol
 	stx.w recsfxvol2
-.1x:
+.1x:								; store this sound as the recorded one
 	sta.w recsfx					;record this sound
 	sep #$10
 	plx

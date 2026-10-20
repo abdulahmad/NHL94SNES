@@ -1,20 +1,24 @@
 ; join free blocks and move unlocked blocks down over them, fixing their handles
+;
+; Takes: p0+2 = bank, Y = first block header. Free blocks are joined, and a used unlocked block after a
+; free block is moved down into it, with the free space moving up and the handle fixed. A block header is
+; size, flags, next, previous (bit 15 flags used, bit 14 locked). Called by HeapCompact (jsr).
 HeapCompactBank:					;join free blocks and move unlocked blocks down over them, fixing their
 									;handles
-	iny
+	iny								; look at the flags of the block
 	iny
 	lda.b [p0],y
 	beq .free
-.next:
+.next:								; used or locked: next block
 	iny
 	iny
 	lda.b [p0],y
 	beq .done
 	tay
 	bra HeapCompactBank
-.done:
+.done:								; end of the chain
 	rts
-.merge:
+.merge:								; the next block is free as well: join the two
 	tyx
 	dey
 	dey
@@ -35,7 +39,7 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	iny
 	lda.b r0
 	sta.b [p0],y
-.size:
+.size:								; store the joined size (both sizes + 8 for the header) and its next link
 	ldy.b r0
 	lda.b r1
 	clc
@@ -50,7 +54,7 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	sta.b [p0],y
 	dey
 	dey
-.free:
+.free:								; free block: r0 = its header, r1+2 = its size
 	dey
 	dey
 	sty.b r0
@@ -61,14 +65,14 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	iny
 	iny
 	lda.b [p0],y
-	beq .done
+	beq .done						; last block: done
 	tay
 	iny
 	iny
 	lda.b [p0],y
-	beq .merge
+	beq .merge						; next block is free: merge it
 	and.w #$4000
-	bne .next
+	bne .next						; locked: skip it
 	dey
 	dey
 	sty.b r2+2
@@ -94,7 +98,7 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	iny
 	iny
 	sta.b [p0],y
-.move:
+.move:								; move the used block down: write its header at the free place
 	tax
 	ldy.b r0
 	lda.b r1
@@ -109,7 +113,7 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	sta.b [p0],y
 	phx
 	phy
-	phb
+	phb								; move the data with mvn (r1 bytes) in its bank
 	lda.b r2+2
 	clc
 	adc.w #$0008
@@ -125,11 +129,11 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	dec a
 	mvn $7F,$7F
 	bra .moved
-.mvn7E:
+.mvn7E:								; bank $7E: block move inside the bank
 	lda.b r1
 	dec a
 	mvn $7E,$7E
-.moved:
+.moved:								; the free block now follows the moved one: write its header
 	plb
 	ply
 	plx
@@ -153,7 +157,7 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	adc.w #$0008
 	txy
 	ldx.w #$00FC
-.scan:
+.scan:								; search the handle table for the old data address
 	cmp.l HandleTable,x
 	beq .fix
 	dex
@@ -162,12 +166,12 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	dex
 	bpl .scan
 	bra .again
-.fix:
+.fix:								; point the handle at the new address
 	lda.b r0
 	clc
 	adc.w #$0008
 	sta.l HandleTable,x
-.again:
+.again:								; look at the block now following
 	iny
 	iny
 	jmp.w .free

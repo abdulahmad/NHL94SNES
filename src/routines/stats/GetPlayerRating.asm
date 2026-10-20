@@ -1,9 +1,14 @@
 ; d0 = rating column d1 (AttribMenuSkater / AttribMenuGoalie) of player $1D9B of team a2 through CalcAttrib,
 ; with the hot / cold adjustment
-GetPlayerRating:
+; Takes d1 = rating column number, a2 = team offset, curplayer = player. Saves d0 to d9 and the pointers,
+; picks the AttribMenuGoalie list for a goalie (curplayer past the skaters) or AttribMenuSkater, finds the
+; d1-th entry and gets the value with CalcAttrib. Returns d0 = rating, the other registers restored.
+;
+; Called from ScoutingReport, ShowMatchups, AddStrength, FindGoalieStrengths and DrawPlayerCard.
+GetPlayerRating:					; rating of curplayer with hot / cold
 	stx.b xsave
 	ldx.w #$0000
-.loop:
+.loop:								; save d0 to d9 on the stack
 	lda.b d0,x
 	pha
 	inx
@@ -34,10 +39,10 @@ GetPlayerRating:
 	sta.b a1
 	lda.w #$0010
 	sta.b r2
-.1:
+.1:									; goalie: use the goalie menu and r2 = $10
 	phx
 	ldx.b d1
-.loop2:
+.loop2:								; skip the entries before column d1
 	dex
 	bmi .t1
 	lda.b a1
@@ -47,7 +52,7 @@ GetPlayerRating:
 	sta.b a1
 	bra .loop2
 
-.t1:
+.t1:								; found the entry: d4 = its attribute and word
 	lda.b a1
 	clc
 	adc.b [a1]
@@ -75,7 +80,7 @@ GetPlayerRating:
 	sta.b a0
 	stx.b xsave
 	ldx.w #$0012
-.loopx:
+.loopx:								; restore d0 to d9
 	pla
 	sta.b d0,x
 	dex

@@ -1,68 +1,72 @@
 ; The cold start after Reset_Fast: password and default options, the title screen, then a fresh start
 ; (Restart)
+;
+; Takes nothing, never returns. Jumped to from Reset_Fast. Falls into Restart.
 Opening:
-	rep #$30
-	jsl.l Multi5Init
+	rep #$30						; 16 bit registers
+	jsl.l Multi5Init				; init the multitap
 	jsl.l IntroSequence
 	jsl.l forceblack
-	lda.w #$0000
+	lda.w #$0000					; A = 0, X = 0
 	tax
-.loop:
+.loop:								; clear all of bank 7F, a word at a time (X wraps around through $0000)
 	sta.l Ram7F,x
 	dex
 	dex
 	bne .loop
-	lda.w #$005C
+	lda.w #$005C					; $5C: the jml opcode of the RAM trampoline
 	sta.w jmlvector
-	jsl.l CheckPAL
-	jsl.l ResetPassWord
-	jsl.l DefaultMenus
+	jsl.l CheckPAL					; detect NTSC / PAL
+	jsl.l ResetPassWord				; reset the password
+	jsl.l DefaultMenus				; default menu options
 	jsl.l ReadAnyPad
 	lda.w #$0000
 	sta.w brightness
 	jsl.l ReadAnyPad
 	stz.w sndbank					;no sample set loaded: the title upload runs
-	jsl.l TitleScreen
-	jsl.l FadeOutSound
-.loop2:
+	jsl.l TitleScreen				; title screen
+	jsl.l FadeOutSound				; fade the music out
+.loop2:								; wait for the fade-out to end
 	lda.w brightness
 	bne .loop2
 	lda.w MusicOn
 	bne .loop2
-Restart:
-	lda.w #$0000
+; Back to the menu song and the option screens, then the game. Takes nothing, never returns. Jumped to from
+; demoread, BadPasswordPrompt, PauseExitGame and GameOver.
+Restart:							; start over at the option screens
+	lda.w #$0000					; playoff round 0
 	sta.l playoffRoundIdx
 	rep #$30
-	lda.w #$1FFF
+	lda.w #$1FFF					; stack back to $1FFF
 	tcs
-	phk
+	phk								; data bank = program bank
 	plb
-	jsl.l SPCMenuUpload
+	jsl.l SPCMenuUpload				; upload the menu music driver
 	lda.w MusicOn
-	beq .1
+	beq .1							; no music playing: start the menu song
 	lda.w SongPtr
-	cmp.w #$C20C
+	cmp.w #$C20C					; menu song already playing?
 	beq .2
-	jsl.l FadeOutSound
-.loop:
+	jsl.l FadeOutSound				; other music: fade it out
+.loop:								; and wait for it to stop
 	lda.w MusicOn
 	bne .loop
-.1:
+.1:									; start the menu song
 	lda.w #MenuSong>>16
 	sta.b p0+2
 	lda.w #MenuSong
 	sta.b p0
 	jsl.l MusicStart
-.2:
-	stz.w sfhormode
+.2:									; menu song running
+	stz.w sfhormode					; vertical mode
 	lda.w #$005C
 	sta.w jmlvector
 	jsl.l CheckPAL
-	jsl.l setoptions
-	stz.w shootoutmode
+	jsl.l setoptions				; option screens
+	stz.w shootoutmode				; no shootout yet
 	lda.l OptPlayMode
-	cmp.w #$0004
-	bne StartGame
-	jsl.l PlayShootout
-	stz.w FrameByNumber
-	jmp.w Restart
+	cmp.w #$0004					; play mode 4 = shootout?
+	bne StartGame					; no: start the game
+	jsl.l PlayShootout				; shootout
+	stz.w FrameByNumber				; clear the frame cache flag
+	jmp.w Restart					; back to the start

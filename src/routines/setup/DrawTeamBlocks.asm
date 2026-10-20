@@ -3,7 +3,7 @@
 ;
 ; Takes d1 = team number, printx / printy = position in tiles. Returns nothing, X and a2 are kept. Called
 ; from TeamRoster, setoptions, ShowMatchups and ShowGameStats.
-DrawTeamBlocks:
+DrawTeamBlocks:						; entry: the block of team d1
 	lda.b a2
 	pha								; save a2 and X
 	phx
@@ -20,7 +20,7 @@ DrawTeamBlocks:
 	sec
 	sbc.w #$0008
 	tax
-.1:
+.1:									; name X is final
 	lda.w printy					; Y = printy * 8 + 3: pixel Y of the name
 	asl a
 	asl a
@@ -35,7 +35,7 @@ DrawTeamBlocks:
 	bne .t1
 	bra .2
 
-.t1:
+.t1:								; shift the name for the pause menu / card
 	inx								; name moved 4 right
 	inx
 	inx
@@ -44,7 +44,7 @@ DrawTeamBlocks:
 	iny
 	iny
 	iny
-.2:
+.2:									; name position is final
 	jsl.l PrintTeamSprites			; draw the team name as letter sprites
 	lda.l horblocks					; horizontal block mode and no redraw:
 	beq .t2
@@ -52,7 +52,7 @@ DrawTeamBlocks:
 	bne .t2
 	jmp.w .3						; skip the palette and the map
 
-.t2:
+.t2:								; palette and map: write the block colours
 	lda.w #$1800					; r3 = $1800: tile attribute of palette 6 (the visiting team)
 	sta.b r3
 	ldy.w #$0060					; Y = first colour of palette 6
@@ -62,7 +62,7 @@ DrawTeamBlocks:
 	ldx.w #$1C00					; home team: tile attribute $1C00, palette 7
 	stx.b r3
 	ldy.w #$0070					; first colour of palette 7
-.1x:
+.1x:								; palette index is set: load the colours for the team in A
 	asl a							; A = team * 4: index into the palette pointers
 	asl a
 	tax
@@ -84,7 +84,7 @@ DrawTeamBlocks:
 	lda.b d1
 	bra .1x							; same team again, with palette 6
 
-.t1x:
+.t1x:								; write the logo map into the text map
 	ldy.w #$0000					; Y = offset into the logo map
 	lda.w #TeamBlocksMap>>16		; a2 = TeamBlocksMap, past its 6 byte header
 	sta.b a2+2

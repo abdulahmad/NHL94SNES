@@ -1,5 +1,10 @@
 ; Start the puck spinning
-puckflip:
+;
+; Takes d0 (bit 0 = spin direction). Flips the puck facing, sets SPAcnt to -1 and starts the
+; puck flip animation on the puck object.
+;
+; Called from assdumpin, puckbody and wallcoll.
+puckflip:							; spin the puck, facing from d0 bit 0
 	lda.b d0						; spin direction bit
 	and.w #$0001					; facedir of the puck ^= d0 bit 0, & 3
 	sta.b d0

@@ -1,5 +1,9 @@
 ; d0 / d1 = where the puck will be soon.
-skatetopuckinit:
+;
+; Returns d0 / d1 = the puck position plus half the high byte of its velocity (a short lead).
+;
+; Called from assnearest and skatetopuck.
+skatetopuckinit:					; d0 / d1 = where the puck will be soon
 	lda.w puckvx					; puckvx high byte / 2
 	xba								; high byte
 	lsr a							; / 2
