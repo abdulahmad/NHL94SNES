@@ -1,5 +1,5 @@
 ; Pause menu Timeout
-PauseTimeout:
+PauseTimeout:						; called from PauseMenuHandlers
 	lda.b d1
 	bit.w #$8080
 	beq PauseDefStore
@@ -48,7 +48,7 @@ PauseTimeout:
 	dec a
 	dec a
 	lsr a
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
 	adc.w #$0010
@@ -59,5 +59,5 @@ PauseTimeout:
 	ldy.w #$0000
 	jsl.l WaitFrames_Inc
 	jsl.l ChoosePauseMenu
-.1:
+.1:									; go to PauseMenuPoll
 	jmp.w PauseMenuPoll

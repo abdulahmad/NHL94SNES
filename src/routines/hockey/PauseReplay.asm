@@ -1,11 +1,11 @@
 ; Pause menu Instant Replay
-PauseReplay:
+PauseReplay:						; called from PauseMenuHandlers
 	lda.b d1
 	bit.w #$8080
 	bne .t1
 	jmp.w PauseMenuPoll
 
-.t1:
+.t1:								; d1 bit $8080 set: replaymusic = MusicOn, call FadeOut, call FadeOutSo...
 	lda.w MusicOn
 	sta.w replaymusic
 	jsl.l FadeOut
@@ -24,7 +24,7 @@ PauseReplay:
 	pla
 	sta.b d7
 	sta.w timestep
-PauseSubmenuDone:
+PauseSubmenuDone:					; called from PauseCrowdLevel, PauseEditLines, PauseGameStats, PauseOth...
 	stz.w textdirtylo
 	lda.w #$03FF
 	sta.w textdirtyhi

@@ -1,5 +1,5 @@
 ; Move the password cursor to character d5.
-PlacePasswordCursor:
+PlacePasswordCursor:				; called from PasswordRedraw, PasswordScreen
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -30,5 +30,5 @@ PlacePasswordCursor:
 	lda.w #$0003
 	sta.b d0
 	sta.b d1
-PasswordCursorRtl:
+PasswordCursorRtl:					; called from BadPasswordPrompt
 	rtl
