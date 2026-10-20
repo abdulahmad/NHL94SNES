@@ -1,6 +1,6 @@
 ; d0 = the period and the time into it, for the goal and penalty logs
 GetPeriodTimeRemaining:
-	lda.w gsp
+	lda.w gsp						; gsp in bits 14-15
 	xba
 	and.w #$FF00
 	asl a
@@ -10,7 +10,7 @@ GetPeriodTimeRemaining:
 	asl a
 	asl a
 	ora.w PerTimeTotal
-	sec
-	sbc.w gameclock
+	sec								; plus the time at the start of the period
+	sbc.w gameclock					; minus the clock: time into the period
 	sta.b d0
 	rtl

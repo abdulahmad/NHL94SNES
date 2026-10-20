@@ -21,7 +21,7 @@ Opening:
 	lda.w #$0000
 	sta.w brightness
 	jsl.l ReadAnyPad
-	stz.w sndbank
+	stz.w sndbank					;no sample set loaded: the title upload runs
 	jsl.l TitleScreen
 	jsl.l FadeOutSound
 .loop2:

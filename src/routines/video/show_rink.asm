@@ -1,16 +1,16 @@
 ; Set the rink scroll from the camera position.
 show_rink:
 	lda.w sfhormode
-	bne .rtl
-	lda.w Hpos
+	bne .rtl						; horizontal mode has its own scroll
+	lda.w Hpos						; camera x
 	sec
-	sbc.w #$0080
+	sbc.w #$0080					; minus half the screen: scroll x
 	sta.w Hscroll
-	lda.w Vpos
-	eor.w #$FFFF
+	lda.w Vpos						; camera y
+	eor.w #$FFFF					; negate
 	inc a
 	sec
-	sbc.w #$0070
+	sbc.w #$0070					; minus $70: scroll y
 	sta.w Vscroll
-.rtl:
+.rtl:								; return
 	rtl

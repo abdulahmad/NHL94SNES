@@ -1,8 +1,8 @@
 ; Give player X assignment d0 on top of the current one.
 assinsert:
-	lda.w assnum,x
-	dec a
-	and.w #$0007
+	lda.w assnum,x					; assnum - 1
+	dec a							; one slot back
+	and.w #$0007					; wrap around the 8 slots
 	sta.w assnum,x
 assreplace:
 	lda.w pflags,x

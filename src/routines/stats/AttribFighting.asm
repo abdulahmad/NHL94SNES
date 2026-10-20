@@ -1,9 +1,9 @@
 ; Roster column: the fighting rating, then the rating printer AttribRating
 AttribFighting:
 	lda.b d0
-	and.w #$000E
+	and.w #$000E					; drop the handedness bit
 	sta.b d0
-	dec.b d1
+	dec.b d1						; 15 ratings: d1 - 1
 AttribRating:
 	lda.w #$0004
 	sta.b d1

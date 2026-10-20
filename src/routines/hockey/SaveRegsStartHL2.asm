@@ -76,9 +76,9 @@ StartHL2:
 	jsl.l WaitFadeOut
 	jsl.l forceblack
 	jsl.l FadeOutSound
-	lda.w sndbank
-	cmp.w #$0001
-	beq .1
+	lda.w sndbank					;the sample set loaded in the SPC
+	cmp.w #SoundBankGame
+	beq .1							;already loaded
 	jsl.l SPCGameUpload
 .1:
 	ldx.b a0

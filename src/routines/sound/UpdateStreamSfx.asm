@@ -5,9 +5,9 @@ UpdateStreamSfx:
 	lda.w SoundLock
 	and.w #$00FF
 	bne .3
-	lda.w sndbank
-	cmp.w #$0002
-	beq .3
+	lda.w sndbank					;the sample set loaded in the SPC
+	cmp.w #SoundBankMenu
+	beq .3							;skip while the menu set is loaded
 	lda.w gmclock
 	bne .2
 	lda.w MusicOn
