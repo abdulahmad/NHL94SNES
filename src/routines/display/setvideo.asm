@@ -1,8 +1,8 @@
 ; Once per game frame: build the sprite table for the next vblank
-setvideo:
+setvideo:							; called from DoGameFrame, PauseMenu, Pausemode, PeriodOver, ReloadRink...
 	stx.b xsave
 	ldx.w #$0000
-.loop:
+.loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b a0,x
 	pha
 	inx
@@ -23,11 +23,11 @@ setvideo:
 	lda.w sfhormode
 	beq .1
 	jsl.l DrawHorTeams
-.1:
+.1:									; call QueueTextDMA, xsave = X
 	jsl.l QueueTextDMA
 	stx.b xsave
 	ldx.w #$0036
-.loop2:
+.loop2:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b a0,x
 	dex
@@ -37,7 +37,7 @@ setvideo:
 	ldx.b a3
 	rtl
 
-.t3:
+.t3:								; subroutine: if pregamepause != 0 go to .rtl, ...
 	lda.w pregamepause
 	bne .rtl
 	lda.w sflags
@@ -67,15 +67,15 @@ setvideo:
 	lda.w #SPFarrow+12-1
 	sta.b r0
 	jsr.w .t1
-.rtl:
+.rtl:								; return
 	rtl
 
-.t1:
+.t1:								; subroutine: if c1playernum,y >= 0 go to .t2, ...
 	lda.w c1playernum,y
 	bpl .t2
 	rts
 
-.t2:
+.t2:								; c1playernum,y >= 0: d0 = Xpos,y, d1 = Ypos,y, if sfhormode = 0 go to...
 	tay
 	lda.w Xpos,y
 	sta.b d0
@@ -84,7 +84,7 @@ setvideo:
 	lda.w sfhormode
 	beq .t1x
 	lda.b d1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.b d0
 	lda.w Xpos,y
@@ -93,7 +93,7 @@ setvideo:
 	sta.b d1
 	bra .7
 
-.t1x:
+.t1x:								; sfhormode = 0: d0 = d0 - Hpos, d1 = d1 - Vpos
 	lda.b d0
 	sec
 	sbc.w Hpos
@@ -102,31 +102,31 @@ setvideo:
 	sec
 	sbc.w Vpos
 	sta.b d1
-.7:
+.7:									; d2 = 0, if d0 - $0074 negative go to .1x, ...
 	stz.b d2
 	lda.b d0
 	cmp.w #$0074
 	bmi .1x
 	lda.w #$0008
 	sta.b d2
-.1x:
+.1x:								; if d0 - $FF8D >= 0 go to .2, ...
 	lda.b d0
 	cmp.w #$FF8D
 	bpl .2
 	lda.w #$0004
 	tsb.b d2
-.2:
+.2:									; if d1 - $0064 negative go to .3, ...
 	lda.b d1
 	cmp.w #$0064
 	bmi .3
 	inc.b d2
-.3:
+.3:									; if d1 - $FF9D >= 0 go to .4, ...
 	lda.b d1
 	cmp.w #$FF9D
 	bpl .4
 	inc.b d2
 	inc.b d2
-.4:
+.4:									; if d2 = 0 go to .rts, ...
 	ldx.b d2
 	beq .rts
 	lda.l jdtab8F,x
@@ -138,11 +138,11 @@ setvideo:
 	lda.l .8,x
 	beq .5
 	sta.b d0
-.5:
+.5:									; if .8+2,x = 0 go to .6, ...
 	lda.l .8+2,x
 	beq .6
 	sta.b d1
-.6:
+.6:									; r0 = r0 + .8+4,x, r3 = .8+6,x, ora r3, ...
 	lda.b r0
 	clc
 	adc.l .8+4,x
@@ -154,7 +154,7 @@ setvideo:
 	adc.w #$0080
 	tax
 	lda.b d1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
 	adc.w #$0070
@@ -162,9 +162,9 @@ setvideo:
 	lda.w #$2000
 	ora.b r3
 	jsl.l DrawSprite
-.rts:
+.rts:								; return
 	rts
-.8:
+.8:									; dw $0000,$0064,$0000,$0000, dw $0074,$0064,$0001,$0000, dw $0074,$000...
 	dw $0000,$0064,$0000,$0000
 	dw $0074,$0064,$0001,$0000
 	dw $0074,$0000,$0002,$0000

@@ -1,5 +1,5 @@
 ; Erase the goal box (19 x 9 at $0B, $02)
-box:
+box:								; called from SetLCmode2
 	lda.b a1+2
 	pha
 	lda.b a1

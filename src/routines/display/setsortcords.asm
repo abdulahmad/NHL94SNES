@@ -1,5 +1,5 @@
 ; Draw the sorted objects in display order, hiding ones that are off screen
-setsortcords:
+setsortcords:						; called from setvideo
 	lda.w benchframe
 	bmi .10
 	lda.w sfhormode
@@ -34,14 +34,14 @@ setsortcords:
 .1:									;read with an index from 1, as .2 and .3: DrawSprite index (frame - 1) of
 									;the first bench frame
 	dw SPFbench-1,SPFbench-1,SPFbench+6-1,SPFbench+6-1
-.2:
+.2:									; dw $FF31,$FFB9,$FF31,$FFB9
 	dw $FF31,$FFB9,$FF31,$FFB9
-.3:
+.3:									; dw $2000,$2200,$2000,$2200
 	dw $2000,$2200,$2000,$2200
-.10:
+.10:								; a4 = OOlist
 	lda.w #OOlist
 	sta.b a4
-.5:
+.5:									; if $0000 != $001C go to .1x, ...
 	lda.b (a4)
 	and.w #$00FF
 	tax
@@ -49,11 +49,11 @@ setsortcords:
 	cpx.w #$001C
 	bne .1x
 	lda.w puckz
-.1x:
+.1x:								; if not zero go to .2x, ...
 	cpx.w #$001E
 	bne .2x
 	lda.w shadowz
-.2x:
+.2x:								; d2 = A, if carry set go to .6, ...
 	sta.b d2
 	cpx.w #$0018
 	bcs .6
@@ -62,26 +62,26 @@ setsortcords:
 	bne .3x
 	lda.w position,x
 	bmi .t1
-.3x:
+.3x:								; if frame,x = SPFPen+7 go to .4, ...
 	lda.w frame,x
 	cmp.w #SPFPen+7
 	beq .4
 	cmp.w #SPFPen+8
 	bne .6
-.4:
+.4:									; if sfhormode != 0 go to .t2, ...
 	lda.w sfhormode
 	bne .t2
 	lda.w #SPFPen+8
 	sta.w frame,x
 	bra .6
 
-.t1:
+.t1:								; position,x negative: go to .8
 	jmp.w .8
 
-.t2:
+.t2:								; sfhormode != 0: frame,x = SPFPen+7
 	lda.w #SPFPen+7
 	sta.w frame,x
-.6:
+.6:									; d0 = Xpos,x, d1 = Ypos,x, call projxy, ...
 	lda.w Xpos,x
 	sta.b d0
 	lda.w Ypos,x
@@ -97,7 +97,7 @@ setsortcords:
 	bne .1xx
 	cpx.w #$0018
 	bcs .8
-.1xx:
+.1xx:								; sprframe = A, if frame,x = SPFPen+8 go to .9, ...
 	sta.w sprframe
 	lda.w frame,x
 	cmp.w #SPFPen+8
@@ -110,13 +110,13 @@ setsortcords:
 	lda.w attribute,x
 	and.w #$1000
 	sta.w sprvflip
-.7:
+.7:									; if carry clear go to .1xxx, ...
 	lda.w attribute,x
 	ldx.w #$2000
 	lsr a
 	bcc .1xxx
 	ldx.w #$2200
-.1xxx:
+.1xxx:								; sprattr = X, call addframe, if sprframe < SPFcup go to .8, ...
 	stx.w sprattr
 	jsl.l addframe
 	lda.w sprframe
@@ -131,16 +131,16 @@ setsortcords:
 	ldx.w sprx
 	ldy.w spry
 	jsl.l DrawSprite
-.8:
+.8:									; increment a4, if a4 = $15D3 go to .t1x, ...
 	inc.b a4
 	lda.b a4
 	cmp.w #$15D3
 	beq .t1x
 	jmp.w .5
 
-.t1x:
+.t1x:								; a4 = $15D3: return
 	rtl
-.9:
+.9:									; sprhflip = 0, sprvflip = 0, go to .7
 	stz.w sprhflip
 	stz.w sprvflip
 	bra .7

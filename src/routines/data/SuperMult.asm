@@ -1,8 +1,8 @@
 ; password bits *= d0
-SuperMult:
+SuperMult:							; called from PWtoBits, PushBits
 	phx
 	ldx.w #$000E
-.loop:
+.loop:								; loop: mulres,x = passbits,x, passbits,x = $0000, X - 1, ...
 	lda.l passbits,x
 	sta.b mulres,x
 	lda.w #$0000
@@ -12,7 +12,7 @@ SuperMult:
 	bpl .loop
 	lda.b d0
 	sta.b tmp4
-.loop2:
+.loop2:								; loop: lsr tmp4, if carry clear go to .1, ...
 	lsr.b tmp4
 	bcc .1
 	lda.l passbits
@@ -40,7 +40,7 @@ SuperMult:
 	lda.l passbits+$E
 	adc.b mulres+14
 	sta.l passbits+$E
-.1:
+.1:									; asl mulres, rol mulres+2, rol mulres+4, ...
 	asl.b mulres
 	rol.b mulres+2
 	rol.b mulres+4

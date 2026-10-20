@@ -1,5 +1,5 @@
 ; Draw the face off sprites
-checkfo:
+checkfo:							; called from setvideo
 	lda.w sfhormode
 	bne .rtl
 	lda.w penshot
@@ -13,7 +13,7 @@ checkfo:
 	lda.w #$3000
 	sta.w sprpriority
 	ldx.w #$0000
-.loop:
+.loop:								; loop: sprx = fodropx, spry = fodropy, sprframe = fofdata2,x + SPFface...
 	lda.l fodropx
 	sta.w sprx
 	lda.l fodropy
@@ -29,7 +29,7 @@ checkfo:
 	cpx.w #$0004
 	bne .1
 	lda.w #$0200
-.1:
+.1:									; ora sprpriority, sprattr = A, call addframe, ...
 	ora.w sprpriority
 	sta.w sprattr
 	phx
@@ -43,5 +43,5 @@ checkfo:
 	bne .loop
 	lda.w #$2000
 	sta.w sprpriority
-.rtl:
+.rtl:								; return
 	rtl

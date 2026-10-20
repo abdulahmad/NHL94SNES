@@ -1,11 +1,11 @@
 ; Draw the game clock unless a replay is playing
-showclock:
+showclock:							; called from setvideo
 	lda.w sflags
 	bit.w #sf2replay
 	beq .t1
 	jmp.w .t2
 
-.t1:
+.t1:								; sflags bits sf2replay clear: mesarea = $0007, mesarea+2 = $0020, mesa...
 	lda.w #$0007
 	sta.w mesarea
 	lda.w #$0020
@@ -52,7 +52,7 @@ showclock:
 	sep #$20
 	sta.w mesarea+2
 	rep #$20
-.1:
+.1:									; printa = $2000, printx = $0003, printy = $0018, ...
 	lda.w #$2000
 	sta.w printa
 	lda.w #$0003
@@ -68,12 +68,12 @@ showclock:
 	lda.w gsp
 	cmp.w #$0004
 	beq .t2
-.2:
+.2:									; a1 = mesarea, go to print
 	lda.w #mesarea>>16
 	sta.b a1+2
 	lda.w #mesarea
 	sta.b a1
 	jml.l print
 
-.t2:
+.t2:								; return
 	rtl

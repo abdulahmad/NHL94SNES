@@ -1,10 +1,10 @@
 ; Set the crowd noise volume from crowdlevel
-updatesound:
+updatesound:						; called from periodicevents
 	lda.l crowdlevel
 	cmp.w #$0380
 	bcc .1
 	lda.w #$0380
-.1:
+.1:									; adc #$0080, asl a, asl a, ...
 	clc
 	adc.w #$0080
 	asl a
@@ -27,7 +27,7 @@ updatesound:
 	sta.w VoiceGain
 	rtl
 
-.t1:
+.t1:								; VoiceGain+2 >= $2733: sbc #$2600, asl a, asl a, ...
 	sec
 	sbc.w #$2600
 	asl a
