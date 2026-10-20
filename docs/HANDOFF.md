@@ -1,5 +1,16 @@
 # Handoff
 
+## Comment pass (in progress)
+
+Goal: every label in `src/routines/**/*.asm` has a trailing comment, every routine has a header comment (what it does, takes and returns, callers found with grep), and non-obvious steps have short comments, as in NHLPA93SNES. Rules: `CONTRIBUTING.md` sections 2 to 5. The pass is comment-only: the ROM must stay byte-identical.
+
+- Done: about 3,900 labels, with headers and step comments, in about 320 files. About 1,640 labels in 434 files are still uncommented. List them with `for f in $(find src/routines -name '*.asm'); do u=$(grep -E '^\.?[A-Za-z_][A-Za-z0-9_]*:' $f | grep -vc ';'); [ "$u" -gt 0 ] && echo "$u $f"; done | sort -rn`.
+- Also done: `SoundBankGame` and `SoundBankMenu` replace the bare `sndbank` values; the SPC upload routines, `SPCUpload` and `QueueSound` are explained; comments were carried over from identical NHLPA93SNES code.
+- Sources for wording: the same routine name in NHLPA93SNES `src/routines/**` (same CPU, closest), NHL94Genesis `src/*.asm` and NHLPA93Genesis `src/*.asm`. Port a comment only after checking that the logic is the same.
+- Check after every batch of about 15 files: `./build.sh` must print `MATCH` (or `tools/bin/asar --fix-checksum=off src/nhl94snes.asm /tmp/out.sfc && cmp lst/nhl94snes.sfc /tmp/out.sfc`), and `python3 tools/check_comments.py` must print `comment layout OK`. The comment column is 36, lines are at most 110 columns, paragraphs at most 3 lines.
+- Placement: the folders under `src/routines` follow the NHL94Genesis source files (`penalty`, `checks`, `video` and so on), so a routine sits where 94G has it. Do not regroup them by topic.
+- When the pass is finished, regenerate the report in nhl-disasm-report (`python3 tools/generate.py`, then a PR and merge).
+
 ## Naming pass
 
 - `docs/cleanup_plan.md` is the audit: 6881 generic labels (5100 `CODE_`, 976 `SpriteFrameN`, 793 `DATA8_`, 12 `DATA16_`) and the asset inventory.
