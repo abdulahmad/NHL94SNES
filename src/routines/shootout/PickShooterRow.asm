@@ -1,5 +1,5 @@
 ; button on a row: the goalie row cycles the goalie, a shooter row opens ShooterSelectList
-PickShooterRow:
+PickShooterRow:						; called from ShootersPick
 	lda.w curitem
 	bne ShooterSelectList
 	jsl.l GoalieCount
@@ -13,7 +13,7 @@ PickShooterRow:
 	sta.b a1+2
 	lda.w #awayshooters
 	sta.b a1
-.2:
+.2:									; if zero go to .1, ...
 	lda.b [a1]
 	and.w #$00FF
 	inc a
@@ -21,7 +21,7 @@ PickShooterRow:
 	beq .1
 	bmi .1
 	lda.w #$0001
-.1:
+.1:									; [a1] = A, return
 	sep #$20
 	sta.b [a1]
 	rep #$20

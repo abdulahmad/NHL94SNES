@@ -1,5 +1,5 @@
 ; Shootout shooters menu item: pick the 3 shooters of each team
-ShootoutShooters:
+ShootoutShooters:					; called from PauseShootoutSetup
 	jsl.l GetPauseTeam
 	lda.w #$0001
 	sta.b d0
@@ -7,7 +7,7 @@ ShootoutShooters:
 	beq .team
 	lda.w #$0002
 	sta.b d0
-.team:
+.team:								; if cont1team = d0 go to .t1, ...
 	lda.w cont1team
 	cmp.b d0
 	beq .t1
@@ -16,7 +16,7 @@ ShootoutShooters:
 	beq .t1
 	jmp.w ShootersExit
 
-.t1:
+.t1:								; setupvis = HomeTeam,x, setuphome = $FFFF, call SetupScreen, ...
 	ldx.b a2
 	lda.w HomeTeam,x
 	sta.l setupvis
@@ -36,7 +36,7 @@ ShootoutShooters:
 	jsl.l SetupBandIRQ
 	jsl.l MenuScreenHDMA
 	jsl.l ScreenOn
-ShootersLoop:
+ShootersLoop:						; called from ShootersNext
 	jsl.l SendTextMap
 	jsl.l WaitFrame
 	jsl.l ReadPads
@@ -51,9 +51,9 @@ ShootersLoop:
 	bne ShootersPick
 	bit.w #$1000
 	bne ShootersExit
-ShootersNext:
+ShootersNext:						; called from ShootersDown, ShootersPick, ShootersUp
 	bra ShootersLoop
-ShootersExit:
+ShootersExit:						; called from ShootersLoop, ShootoutShooters
 	ldy.b a2
 	bne .t1
 	sep #$20
@@ -61,33 +61,33 @@ ShootersExit:
 	rep #$20
 	bra ShootersSetGoalie
 
-.t1:
+.t1:								; a2 != 0: falls through
 	sep #$20
 	lda.w awayshooters
 	rep #$20
-ShootersSetGoalie:
+ShootersSetGoalie:					; called from ShootersExit
 	and.w #$00FF
 	dec a
 	sta.w tmgoalie,y
 	rtl
-ShootersUp:
+ShootersUp:							; called from ShootersLoop
 	lda.w curitem
 	beq ShootersNext
 	dec.w curitem
 	jsl.l PrintShooterNames
 	bra ShootersNext
-ShootersDown:
+ShootersDown:						; called from ShootersLoop
 	lda.w curitem
 	cmp.w #$0005
 	bpl ShootersNext
 	inc.w curitem
 	jsl.l PrintShooterNames
 	bra ShootersNext
-ShootersPick:
+ShootersPick:						; called from ShootersLoop
 	jsl.l PickShooterRow
 	jsl.l PrintShooterNames
 	bra ShootersNext
-ShootersSetup:
+ShootersSetup:						; called from ShootoutShooters
 	lda.b a1+2
 	pha
 	lda.b a1

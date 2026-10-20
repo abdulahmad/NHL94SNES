@@ -1,9 +1,9 @@
 ; Shootout shooters: the background, the Shootout title and the team
-ShootersBackground:
+ShootersBackground:					; called from PrintShooterNames, ShootersSetup, ShootoutShooters
 	lda.l drawlinesback
 	beq .2
 	jsl.l DrawShootersBack
-.2:
+.2:									; call SpriteFrameStart, a1 = ShootoutLabel, call PrintLetterSprites, ...
 	jsl.l SpriteFrameStart
 	ldx.w #$0058
 	ldy.w #$0018
@@ -31,7 +31,7 @@ ShootersBackground:
 	beq .1
 	lda.w VisTeam
 	sta.b d1
-.1:
+.1:									; call DrawTeamBlocks, call DrawMatchupPictures, call SpriteFrameEnd, ...
 	jsl.l DrawTeamBlocks
 	jsl.l DrawMatchupPictures
 	jsl.l SpriteFrameEnd
@@ -42,5 +42,5 @@ ShootersBackground:
 	sta.w irqline2
 	lda.w #$0000
 	sta.l drawlinesback
-.rtl:
+.rtl:								; return
 	rtl

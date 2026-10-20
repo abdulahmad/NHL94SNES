@@ -64,14 +64,14 @@ PrintShooterNames:					;print the goalie and shooter rows, the row at the cursor
 	sta.b a3+2
 	lda.w #awayshooters
 	sta.b a3
-.1:
+.1:									; a5+2 = $0080, a5 = .8, d1 = $0005
 	lda.w #$0080
 	sta.b a5+2
 	lda.w #.8
 	sta.b a5
 	lda.w #$0005
 	sta.b d1
-.2:
+.2:									; loop: printa = $3800, if not zero go to .5, ...
 	lda.w #$3800
 	sta.w printa
 	lda.w #$0005
@@ -90,7 +90,7 @@ PrintShooterNames:					;print the goalie and shooter rows, the row at the cursor
 	lda.w HomeTeam,x
 	cmp.w #$0018
 	bcc .4
-.3:
+.3:									; p0+2 = p1+2, p0 = p1, call FreeFrameTiles
 	ldx.w #$0000
 	lda.l matchuphome
 	lda.b p1+2
@@ -98,9 +98,9 @@ PrintShooterNames:					;print the goalie and shooter rows, the row at the cursor
 	lda.b p1
 	sta.b p0
 	jsl.l FreeFrameTiles
-.4:
+.4:									; falls through
 	plx
-.5:
+.5:									; printx = $0005, a1+2 = a5+2, a1 = a5, ...
 	lda.w #$0005
 	sta.w printx
 	lda.b a5+2
@@ -127,12 +127,12 @@ PrintShooterNames:					;print the goalie and shooter rows, the row at the cursor
 	bmi .t1
 	jmp.w .2
 
-.t1:
+.t1:								; d1 counted below 0: call ShootersBackground, return
 	jsl.l ShootersBackground
 	rtl
-.6:
+.6:									; db $01,$02,$03,$04
 	db $01,$02,$03,$04
-.7:
+.7:									; db $03,$00,$47,$03,$00,$47,$03,$00,$47,$03,$00,$47
 	db $03,$00,$47,$03,$00,$47,$03,$00,$47,$03,$00,$47
-.8:
+.8:									; db $03,$00,$47,$03,$00,$31,$03,$00,$32,$03,$00,$33,$03,$00,$34,$03,$0...
 	db $03,$00,$47,$03,$00,$31,$03,$00,$32,$03,$00,$33,$03,$00,$34,$03,$00,$35
