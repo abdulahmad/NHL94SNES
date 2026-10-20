@@ -1,5 +1,5 @@
 ; Clear the text screen and draw the horizontal rink scoreboard background
-StatsReport:
+StatsReport:						; called from SetHor
 	lda.b a1+2
 	pha
 	lda.b a1

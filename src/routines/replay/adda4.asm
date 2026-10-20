@@ -1,5 +1,5 @@
 ; Move the replay one frame forward
-adda4:
+adda4:								; called from ReplayMode
 	stz.b d7
 	lda.w sflags
 	bit.w #sf2drec
@@ -25,7 +25,7 @@ adda4:
 	bne .t2
 	rtl
 
-.t2:
+.t2:								; if a4 != ReplayBufferPtr go to .t1, ...
 	lda.b a4
 	cmp.w ReplayBufferPtr
 	bne .t1
@@ -34,16 +34,16 @@ adda4:
 	bne .t1
 	rtl
 
-.t1:
+.t1:								; call RestoreReplayFrame
 	jsl.l RestoreReplayFrame
-adda43:
+adda43:								; called from adda4
 	lda.b a4
 	clc
 	adc.w #replaysize
 	sta.b a4
 	bcc .1
 	inc.b a4+2
-.1:
+.1:									; if not zero go to .rtl, ...
 	cmp.w #ReplayBufferEnd
 	bne .rtl
 	lda.b a4+2
@@ -53,5 +53,5 @@ adda43:
 	sta.b a4+2
 	lda.w #ReplayBufferStart
 	sta.b a4
-.rtl:
+.rtl:								; return
 	rtl

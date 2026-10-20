@@ -1,17 +1,17 @@
 ; Once a second, count down the penalty box times. The clock-stopped flag chooses the path.
-updatepentime:
+updatepentime:						; called from PenaltyManager
 	lda.w #$0020
 	trb.w sflags3
 	lda.w gmclock
 	beq .t2
 	jmp.w .4
 
-.t2:
+.t2:								; gmclock = 0: if PenShotActive = 0 go to .t1, ...
 	lda.w PenShotActive
 	beq .t1
 	jmp.w .4
 
-.t1:
+.t1:								; PenShotActive = 0: pentimer = pentimer - d7, if plus go to .4, ...
 	lda.w pentimer
 	sec
 	sbc.b d7
@@ -27,11 +27,11 @@ updatepentime:
 	jsl.l .1
 	lda.w #$0002
 	sta.b a2
-.1:
+.1:									; subroutine: if a2 = 0 go to .2, ...
 	lda.b a2
 	beq .2
 	lda.w #$001A
-.2:
+.2:									; a0 = A, a1 = mesarea, d1 = $0002, ...
 	sta.b a0
 	lda.w #mesarea>>16
 	sta.b a1+2
@@ -40,7 +40,7 @@ updatepentime:
 	lda.w #$0002
 	sta.b d1
 	sta.b d3
-.3:
+.3:									; loop: increment a0, d0 = tmboxlist,y & $00FF, if not zero go to .5, ...
 	ldy.b a0
 	lda.w tmboxlist,y
 	inc.b a0
@@ -51,7 +51,7 @@ updatepentime:
 	lda.b a2
 	beq .1x
 	lda.w #$0034
-.1x:
+.1x:								; adc d0, if tmpdst,y bit $4000 set go to .6, ...
 	clc
 	adc.b d0
 	tay
@@ -69,11 +69,11 @@ updatepentime:
 	sta.w tmpdst,y
 	bne .2x
 	jsl.l RemovePlayerFromList
-.2x:
+.2x:								; go to .3
 	bra .3
-.4:
+.4:									; return
 	rtl
-.5:
+.5:									; d0 = mesarea, if d1 = $0001 go to .2xx, ...
 	lda.w mesarea
 	sta.b d0
 	lda.b d1
@@ -84,19 +84,19 @@ updatepentime:
 	jsl.l .2xx
 	bra .1xx
 
-.t1x:
+.t1x:								; d1 != 0: if d1 != $FFFF go to .4
 	lda.b d1
 	cmp.w #$FFFF
 	bne .4
-.1xx:
+.1xx:								; d0 = mesarea+2
 	lda.w mesarea+2
 	sta.b d0
 org $9EC000
-.2xx:
+.2xx:								; subroutine: if a2 = 0 go to .1xxx, ...
 	lda.b a2
 	beq .1xxx
 	lda.w #$0034
-.1xxx:
+.1xxx:								; adc d0, if tmpdst,y - $0006 >= 0 go to .4, ...
 	clc
 	adc.b d0
 	tay
@@ -106,23 +106,23 @@ org $9EC000
 	lda.w tmpdst,y
 	bne .rtl
 	jsl.l releasepl
-.rtl:
+.rtl:								; return
 	rtl
-.6:
+.6:									; tmpdst,y bit $4000 set: decrement a, tmpdst,y = A, if not zero go to...
 	dec a
 	sta.w tmpdst,y
 	bit.w #$0800
 	bne .t2x
 	jmp.w .3
 
-.t2x:
+.t2x:								; if not zero go to .t1xx, ...
 	bit.w #$1000
 	bne .t1xx
 	lda.w #$1000
 	sta.w tmpdst,y
 	jml.l RemovePlayerFromList
 
-.t1xx:
+.t1xx:								; tmpdst,y = $0000, go to RemovePlayerFromList
 	lda.w #$0000
 	sta.w tmpdst,y
 	jml.l RemovePlayerFromList

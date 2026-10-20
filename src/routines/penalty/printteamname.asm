@@ -1,5 +1,5 @@
 ; Print team d3's name, then move down two rows
-printteamname:
+printteamname:						; called from PrintTeamNameAndScore, ShowStars
 	lda.w printx
 	pha
 	lda.w tmdata
@@ -10,7 +10,7 @@ printteamname:
 	beq .1
 	lda.w tmdata+2
 	sta.b a1
-.1:
+.1:									; a1 = [a1],y + a1, a1 = [a1] + a1, call print, ...
 	ldy.w #$0004
 	lda.b [a1],y
 	clc

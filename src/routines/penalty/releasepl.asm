@@ -1,8 +1,8 @@
 ; Player d0's penalty time is up: let him out of the box and put him on the ice
-releasepl:
+releasepl:							; called from updatepentime
 	stx.b xsave
 	ldx.w #$0000
-.save:
+.save:								; loop: X + 1, X + 1, if not zero go to .save, ...
 	lda.b d0,x
 	pha
 	inx
@@ -12,7 +12,7 @@ releasepl:
 	ldx.b xsave
 	stx.b xsave
 	ldx.w #$0000
-.savea:
+.savea:								; loop: X + 1, X + 1, if not zero go to .savea, ...
 	lda.b a0,x
 	pha
 	inx
@@ -24,7 +24,7 @@ releasepl:
 	ldx.w tmsort,y
 	dex
 	dex
-.find:
+.find:								; loop: X + 1, X + 1, if position,x >= 0 go to .find, ...
 	inx
 	inx
 	lda.w position,x
@@ -47,7 +47,7 @@ releasepl:
 	lda.w tmgoalie,y
 	bpl .tmgoaliepos
 	inc.b a0
-.tmgoaliepos:
+.tmgoaliepos:						; position,x = [a0],y & $00FF, a3 = X, call Setplass, ...
 	ldy.b d1
 	lda.b [a0],y
 	and.w #$00FF
@@ -60,7 +60,7 @@ releasepl:
 	sta.w pflags,x
 	stx.b xsave
 	ldx.w #$000E
-.resta:
+.resta:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b a0,x
 	dex
@@ -69,7 +69,7 @@ releasepl:
 	ldx.b xsave
 	stx.b xsave
 	ldx.w #$000E
-.restore:
+.restore:							; loop: d0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b d0,x
 	dex
