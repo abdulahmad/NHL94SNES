@@ -1,5 +1,5 @@
 ; Send rows 1-12 of the second text map to video memory
-SendTextMap2Rows:
+SendTextMap2Rows:					; called from DrawMatchupPictures, SelectLinePlayer, ShooterSelectList
 	lda.w #$007E
 	sta.b p0+2
 	lda.w #$4034

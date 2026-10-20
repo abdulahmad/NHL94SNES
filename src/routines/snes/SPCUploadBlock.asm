@@ -1,5 +1,5 @@
 ; SPCUpload of the sample at [p0]: loop point and length (big-endian words), then the BRR blocks
-SPCUploadBlock:
+SPCUploadBlock:						; called from SPCGameUpload, SPCIntroUpload, SPCMenuUpload, SPCTitleToM...
 	sep #$20
 	dec.w SoundLock
 	rep #$20
