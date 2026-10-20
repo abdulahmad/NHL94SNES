@@ -1,5 +1,5 @@
 ; Assignment: the puck carrier
-asspuckc:
+asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	cpx.w puckc
 	bne .1
 	lda.w playerpad,x
@@ -7,7 +7,7 @@ asspuckc:
 .1:
 	jmp.w assexit
 
-.t1:
+.t1:								; bare return, not branched to in this file
 	rtl
 .2:
 	jsl.l GlideBack
@@ -57,7 +57,7 @@ asspuckc:
 	jsl.l assreplace
 	bra .10
 
-.t1x:
+.t1x:								; no breakaway (or d0 >= $90): check line change and shot
 	jsl.l chk4lc
 	jsl.l chk4shot
 	lda.w asscur,x
@@ -201,5 +201,5 @@ asspuckc:
 	bmi .t1xx
 	jmp.w .6
 
-.t1xx:
+.t1xx:								; loop over, return
 	rtl

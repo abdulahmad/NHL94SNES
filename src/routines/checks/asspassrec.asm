@@ -1,5 +1,5 @@
 ; Assignment: waiting for a pass
-asspassrec:
+asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	lda.w pflags,x
 	bit.w #pfna
 	beq .3
@@ -30,10 +30,10 @@ asspassrec:
 	inc.w onetimerreq
 	bra .8
 
-.t1:
+.t1:								; bare return, not branched to in this file
 	rtl
 
-.t2:
+.t2:								; computer receiver or shoot not pressed: check the team's pads
 	ldy.b a2
 	lda.w teampads,y
 	bne .5
@@ -94,7 +94,7 @@ asspassrec:
 	sta.b d1
 	bra .2x
 
-.t1x:
+.t1x:								; pfgoal set: aim at y = $0108 - passtargety
 	lda.w #$0108
 	sec
 	sbc.w passtargety
@@ -106,7 +106,7 @@ asspassrec:
 	lda.w #SPAonetimerb
 	bra .3x
 
-.t1xx:
+.t1xx:								; Findhittype gave 0: use SPAonetimerf instead of SPAonetimerb
 	lda.w #SPAonetimerf
 .3x:
 	jsl.l SetSPAFromA
@@ -148,7 +148,7 @@ asspassrec:
 	sta.w passdir
 	bra .4x
 
-.t1xxx:
+.t1xxx:								; computer player (playerpad < 0): passdir = 8
 	lda.w #$0008
 	sta.w passdir
 .4x:
@@ -192,5 +192,5 @@ asspassrec:
 	beq .t1xxxx
 	jmp.w .6
 
-.t1xxxx:
+.t1xxxx:							; puck loose or X has it: return
 	rtl
