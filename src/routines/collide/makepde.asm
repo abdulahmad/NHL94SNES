@@ -1,5 +1,5 @@
 ; d0 = rating A scaled by player a0's energy
-makepde:
+makepde:							; called from doshot, puckstick
 	pha
 	lda.b d1
 	pha

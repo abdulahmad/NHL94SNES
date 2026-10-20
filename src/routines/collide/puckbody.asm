@@ -1,5 +1,5 @@
 ; The puck hits player a2: a fast high puck knocks him down, a slower one is caught
-puckbody:
+puckbody:							; called from checkpuckcoll_ccx
 	lda.w puckz
 	cmp.w #$0008
 	bpl .t2
@@ -8,7 +8,7 @@ puckbody:
 	beq .t2
 	jmp.w .3
 
-.t2:
+.t2:								; call a2touchpuck, if puckz - $000E negative go to .t1, ...
 	jsl.l a2touchpuck
 	ldy.w puckz
 	cmp.w #$000E
@@ -17,10 +17,10 @@ puckbody:
 	jsl.l StreamSfx
 	bra .2
 
-.t1:
+.t1:								; puckz - $000E negative: call PuckSfx
 	lda.w #$0008
 	jsl.l PuckSfx
-.2:
+.2:									; puckvz = 0, nopuck,y = $0008, d0 = Xpos,x - Xpos,y, ...
 	stz.w puckvz
 	ldy.b a2
 	lda.w #$0008
@@ -36,7 +36,7 @@ puckbody:
 	bne .1
 	tya
 	jsl.l GetHot
-.1:
+.1:									; d2 = Xvel,x, d3 = Yvel,x, Xvel+1,x = d0, ...
 	lda.w Xvel,x
 	sta.b d2
 	lda.w Yvel,x
@@ -76,9 +76,9 @@ org $9EF000
 	cmp.w #$000C
 	bmi .3
 	jmp.w FallDown
-.3:
+.3:									; return
 	rtl
-.4:
+.4:									; if pfalock,y != 0 go to .3, ...
 	ldy.b a2
 	lda.w pfalock,y
 	bne .3

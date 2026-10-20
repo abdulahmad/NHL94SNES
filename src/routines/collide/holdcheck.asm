@@ -1,5 +1,5 @@
 ; a2 holds or hooks X: both slow down, and a penalty may be called
-holdcheck:
+holdcheck:							; called from checkcheck
 	lda.w position,x
 	beq .t1
 	lda.w pfalock,x
@@ -29,10 +29,10 @@ holdcheck:
 	trb.w sflags
 	bra .t2
 
-.t1:
+.t1:								; return
 	rtl
 
-.t2:
+.t2:								; facedir,y = d0, ror a, Xvel,x = A, ...
 	lda.b d0
 	sta.w facedir,y
 	ldy.b a2
@@ -71,7 +71,7 @@ holdcheck:
 	cpy.w #SPAHold
 	beq .1
 	lda.w #SPAhook2
-.1:
+.1:									; call SetSPAFromA, call PenShotChk, if zero go to .t1x, ...
 	jsl.l SetSPAFromA
 	jsl.l PenShotChk
 	beq .t1x
@@ -86,7 +86,7 @@ holdcheck:
 	jsl.l AddPenalty
 	bra .2
 
-.t1x:
+.t1x:								; call checkagr, if d0 >= $0001 go to .2, ...
 	jsl.l checkagr
 	lda.b d0
 	cmp.w #$0001
@@ -98,9 +98,9 @@ holdcheck:
 	beq .1x
 	lda.w #PenHooking
 	sta.b d0
-.1x:
+.1x:								; call AddPenalty
 	jsl.l AddPenalty
-.2:
+.2:									; a2 = a3, a3 = a2, collflag = $FFFF, ...
 	ldx.b a2
 	ldy.b a3
 	sty.b a2

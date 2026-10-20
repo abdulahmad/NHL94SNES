@@ -1,5 +1,5 @@
 ; password bits += d0
-SuperAdd:
+SuperAdd:							; called from PWtoBits, PushBits
 	phx
 	lda.l passbits
 	clc
@@ -7,7 +7,7 @@ SuperAdd:
 	sta.l passbits
 	bcc .ex
 	ldx.w #$0002
-.carry:
+.carry:								; loop: passbits,x = passbits,x + 1, if not zero go to .ex, ...
 	lda.l passbits,x
 	inc a
 	sta.l passbits,x
@@ -16,7 +16,7 @@ SuperAdd:
 	inx
 	cpx.w #$0010
 	bne .carry
-.ex:
+.ex:								; return
 	plx
 	clc
 	rtl

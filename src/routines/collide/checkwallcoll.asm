@@ -1,5 +1,5 @@
 ; Collision of object X with the corners, the goals and the boards
-checkwallcoll:
+checkwallcoll:						; called from ReplayMode, checkcoll
 	lda.w #$012A					; d3 = $12A - wcradiusy, d2 = $88 - wcradiusx; corner centers 64 in
 	sec
 	sbc.w wcradiusy					; y half length minus the radius
@@ -39,7 +39,7 @@ checkwallcoll:
 	jsl.l checkgoal					; goal at the -y end
 	jmp.w .6
 
-.t1:
+.t1:								; d5 = $0000 - d5, if plus go to .1, ...
 	lda.w #$0000
 	sec
 	sbc.b d5
@@ -58,7 +58,7 @@ checkwallcoll:
 	lda.w #$0018
 	sta.b a2
 	jsl.l checkgoal					; goal at the +y end
-.1:
+.1:									; go to .6
 	jmp.w .6
 
 .t2:								;distance from the corner center (max+min/4)
@@ -71,9 +71,9 @@ checkwallcoll:
 	sta.b d1						; d1 = -dx, sin
 	bit.w #$8000
 	beq .1x
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.1x:
+.1x:								; tmp4 = A, d0 = d3 - d5, if zero go to .2, ...
 	sta.b tmp4
 	lda.b d3
 	sec
@@ -81,9 +81,9 @@ checkwallcoll:
 	sta.b d0						; d0 = dy, cos
 	bit.w #$8000
 	beq .2
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.2:
+.2:									; cornerdy = A, if carry clear go to .t1x, ...
 	sta.b cornerdy
 	cmp.b tmp4
 	bcc .t1x
@@ -97,7 +97,7 @@ checkwallcoll:
 	lsr a
 	lsr a
 	adc.b tmp4
-.5:
+.5:									; if carry clear go to .6, ...
 	cmp.w #$0041
 	bcc .6
 	sta.b d3
@@ -110,11 +110,11 @@ checkwallcoll:
 	cmp.w #$FF01
 	bpl .1xx
 	lda.w #$FF01
-.1xx:
+.1xx:								; if minus go to .2x, ...
 	cmp.w #$00FF
 	bmi .2x
 	lda.w #$00FF
-.2x:
+.2x:								; d0 = A, xba, and #$FF00, ...
 	sta.b d0
 	lda.b d1
 	xba
@@ -126,14 +126,14 @@ checkwallcoll:
 	cmp.w #$FF01
 	bpl .3
 	lda.w #$FF01
-.3:
+.3:									; if minus go to .4, ...
 	cmp.w #$00FF
 	bmi .4
 	lda.w #$00FF
-.4:
+.4:									; d1 = A, call wallcollb
 	sta.b d1
 	jsl.l wallcollb
-.6:
+.6:									; d2 = pulled value, d3 = pulled value, d4 = pulled value, ...
 	pla								; restore d2-d5
 	sta.b d2
 	pla
@@ -175,5 +175,5 @@ checkwallcoll:
 	dec a
 	cmp.b d2
 	bpl wallcollb
-.rtl:
+.rtl:								; return
 	rtl
