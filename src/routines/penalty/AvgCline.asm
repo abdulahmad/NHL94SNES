@@ -1,5 +1,5 @@
 ; d0 = the average energy of team a2's current line
-AvgCline:
+AvgCline:							; called from chk4lc
 	lda.b d1
 	pha
 	lda.b d1+2
@@ -24,7 +24,7 @@ AvgCline:
 	ldy.b a2
 	lda.w tmsort,y
 	sta.b a0
-.loop:
+.loop:								; loop: if position,y = 0 go to .2, ...
 	ldy.b a0
 	lda.w position,y
 	beq .2
@@ -36,14 +36,14 @@ AvgCline:
 	lda.b a2
 	beq .1
 	lda.w #$0034
-.1:
+.1:									; adc d3, d0 = tmpde,y + d0, increment d1
 	adc.b d3
 	tay
 	lda.w tmpde,y
 	adc.b d0
 	sta.b d0
 	inc.b d1
-.2:
+.2:									; increment a0, increment a0, decrement d2, ...
 	inc.b a0
 	inc.b a0
 	dec.b d2
@@ -58,7 +58,7 @@ AvgCline:
 	lda.b r0
 	sta.b d0
 	plx
-.3:
+.3:									; a0+2 = pulled value, a0 = pulled value, d3+2 = pulled value, ...
 	pla
 	sta.b a0+2
 	pla

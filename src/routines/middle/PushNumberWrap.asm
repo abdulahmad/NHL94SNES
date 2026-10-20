@@ -1,20 +1,20 @@
 ; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
-PushNumberWrap:
+PushNumberWrap:						; called from AttribRating, DrawPeriodStats, DrawPlayerCard, FillPenalt...
 	lda.b d0
 	pha
 	lda.b d1
 	cmp.w #$0002
 	bne PushNumberWidth
 	lda.b d0
-.loop:
+.loop:								; loop: if carry clear go to .t1, ...
 	cmp.w #$0064
 	bcc .t1
 	sbc.w #$0064
 	bra .loop
 
-.t1:
+.t1:								; d0 = A
 	sta.b d0
-PushNumberWidth:
+PushNumberWidth:					; called from PushNumberWrap
 	lda.w #$0000
 	sta.b a1+2
 	lda.w #$0A8E
@@ -31,7 +31,7 @@ PushNumberWidth:
 	sta.w PushWidthBuf+8
 	phx
 	lda.b d0
-.loop:
+.loop:								; loop: r2 = A, r1 = $000A, Y - 1, ...
 	sta.b r2
 	lda.w #$000A
 	sta.b r1

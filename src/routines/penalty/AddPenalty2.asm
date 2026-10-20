@@ -1,10 +1,10 @@
 ; Call penalty d0 on player X without the checks
-AddPenalty2:
+AddPenalty2:						; called from AddPenalty, FallDown, Goal, ShootoutWonBy, assgoalie and...
 	lda.w sfhormode
 	beq .t2
 	jmp.w .5
 
-.t2:
+.t2:								; sfhormode = 0: if d0 != PenGoal go to .1
 	lda.b d1
 	pha
 	lda.b d1+2
@@ -20,7 +20,7 @@ AddPenalty2:
 	lda.b d0
 	cmp.w #PenGoal
 	bne .1
-.1:
+.1:									; sbc #PenGoal, if minus go to .3, ...
 	sec
 	sbc.w #PenGoal
 	bmi .3
@@ -37,16 +37,16 @@ AddPenalty2:
 	sbc.w #$00C8
 	bcs .2
 	lda.w #$0000
-.2:
+.2:									; crowdlevel = A
 	sta.l crowdlevel
-.3:
+.3:									; a1 = PenBuf, d1 = $001F
 	lda.w #PenBuf>>16
 	sta.b a1+2
 	lda.w #PenBuf
 	sta.b a1
 	lda.w #$001F
 	sta.b d1
-.loop:
+.loop:								; loop: increment a1, increment a1, if zero go to .loop, ...
 	lda.b [a1]
 	inc.b a1
 	inc.b a1
@@ -59,7 +59,7 @@ AddPenalty2:
 	bpl .loop
 	bra .4
 
-.t1:
+.t1:								; decrement a1, decrement a1, xba, ...
 	dec.b a1
 	dec.b a1
 	txa
@@ -88,7 +88,7 @@ AddPenalty2:
 	beq .4
 	lda.w #$0000
 	sta.b [a1]
-.4:
+.4:									; a1+2 = pulled value, a1 = pulled value, a0+2 = pulled value, ...
 	pla
 	sta.b a1+2
 	pla
@@ -101,5 +101,5 @@ AddPenalty2:
 	sta.b d1+2
 	pla
 	sta.b d1
-.5:
+.5:									; return
 	rtl

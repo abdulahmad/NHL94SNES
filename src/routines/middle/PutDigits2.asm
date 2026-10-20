@@ -1,5 +1,5 @@
 ; Write the two digit number d0 as two characters at [a1], blank leading zero.
-PutDigits2:
+PutDigits2:							; called from PlayerNumName, PlayerShortName, pplpen
 	lda.w #$2020
 	sta.b tmp0
 	lda.b d0
@@ -13,7 +13,7 @@ PutDigits2:
 	clc
 	adc.w #$0030
 	sta.b tmp0
-.ones:
+.ones:								; tmp0+1 = d0 & $000F + $0030, [a1] = tmp0, increment a1, ...
 	lda.b d0
 	and.w #$000F
 	clc
