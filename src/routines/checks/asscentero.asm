@@ -1,5 +1,5 @@
 ; Assignment: the center on offense skates to a spot in the zone of the puck
-asscentero:
+asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	cpx.w puckc
 	beq .3
 	ldy.w puckc
@@ -43,7 +43,7 @@ asscentero:
 	bmi .t1
 	jmp.w .6
 
-.t1:
+.t1:								; temp1 ran out: add aidef,x to it and pick a new spot
 	clc
 	adc.w aidef,x
 	bpl .2x
@@ -133,5 +133,5 @@ asscentero:
 	sta.b a0
 	jml.l skateto
 
-.t1x:
+.t1x:								; bare return, not branched to in this file
 	rtl

@@ -1,5 +1,5 @@
 ; If the computer pulled its goalie, should he come back?
-ReturnGoalies:
+ReturnGoalies:						; tests both teams (a1 / a2 swapped); called from puckfaceoff
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
@@ -22,5 +22,5 @@ ReturnGoalies:
 	sta.b d1
 	jmp.w CPgoalie
 
-.t1:
+.t1:								; goalie not pulled, still too far away, or a pad controls him: return
 	rtl

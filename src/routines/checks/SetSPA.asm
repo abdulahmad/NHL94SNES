@@ -1,5 +1,5 @@
 ; Start sprite animation d1 on object X.
-SetSPA:
+SetSPA:								; takes d1 = animation, X = object; called by many routines
 	lda.b d1
 	cmp.w SPA,x						; same animation: keep going
 	beq .rtl

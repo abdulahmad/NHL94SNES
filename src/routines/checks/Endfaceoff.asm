@@ -1,5 +1,5 @@
 ; Drop the puck: pick the face off winner and send the puck off
-Endfaceoff:
+Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	lda.w #$2400
 	sta.b p0
 	stz.b p0+2
@@ -150,7 +150,7 @@ Endfaceoff:
 	lda.w #$0006
 	sta.b d0
 	pla
-.loop:
+.loop:								; find position A among the six players of the team at y
 	cmp.w position,y
 	beq .1x
 	iny

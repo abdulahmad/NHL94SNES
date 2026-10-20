@@ -1,5 +1,5 @@
 ; d0 / d1 = the hot spot x / y of object A's current frame
-GetHot:
+GetHot:								; takes A = object, returns d0 / d1 (many callers)
 	phx
 	tay
 	lda.w frame,y

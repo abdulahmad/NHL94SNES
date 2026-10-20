@@ -1,11 +1,11 @@
 ; A player touches the puck: remember the last touches (for assists), then the offsides and icing checks
-a2touchpuck:
+a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	ldy.b a2
 	cpy.w #$0018
 	bcc .t2
 	jmp.w .6
 
-.t2:
+.t2:								; player object: save his x / y / index as the last toucher
 	lda.w Xpos,y
 	sta.l ltx
 	lda.w Ypos,y
@@ -39,7 +39,7 @@ a2touchpuck:
 .2:
 	bra .3
 
-.t1:
+.t1:								; team flag $0004 clear: shift the touch history down by one
 	lda.w tmtouch2,y
 	sta.w tmtouch3,y
 	lda.w tmtouch1,y

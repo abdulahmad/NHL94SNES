@@ -9,7 +9,7 @@ ClearOffsidesIfAllPlayers:			; clear the offsides flag when nobody is offside an
 	bne .t1							; yes: check the players
 	jmp.w ChkOffsides_rtl			; no: nothing to do
 
-.t1:
+.t1:								; flag is set: look at the six players
 	lda.w tmsort,y					; first player of the team
 	sta.b a0
 	lda.w #$0005					; six players

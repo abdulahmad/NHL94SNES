@@ -1,5 +1,5 @@
 ; Assignment: the goalie skates out to a loose puck
-assgoalietopuck:
+assgoalietopuck:					; X = goalie; asstab entry
 	lda.w #$0006
 	ora.w goalieflags,x
 	sta.w goalieflags,x
@@ -102,7 +102,7 @@ assgoalietopuck:
 	lsr.w legstr,x
 	rtl
 
-.t2:
+.t2:								; subroutine (jsl above): temp2 -= d7, then continue with .5x
 	lda.w temp2,x
 	sec
 	sbc.b d7
@@ -110,7 +110,7 @@ assgoalietopuck:
 	bmi .t1
 	jmp.w .5x
 
-.t1:
+.t1:								; temp2 ran out: add 5 to it, aim at puckx + puckvx (high byte)
 	adc.w #$0005
 	sta.w temp2,x
 	lda.w puckvx

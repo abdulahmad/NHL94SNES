@@ -1,5 +1,5 @@
 ; Offsides if the player's team is flagged and the puck is past the blue line.
-a2offsides:
+a2offsides:							; takes a2 = player, called from a2touchpuck
 	ldy.b a2
 	lda.w gmode
 	bit.w #gmoffs
