@@ -45,7 +45,7 @@ LoadMatchupPhotos:					; unpack the matchup player photos of team x
 	lda.w #$2D00
 	bra .2
 
-.t1x:
+.t1x:								; a2 = 0: falls through
 	lda.w #$5100
 .2:									; add the photo's offset (MatchupPhotoOffsets) and convert to planar tiles
 	clc

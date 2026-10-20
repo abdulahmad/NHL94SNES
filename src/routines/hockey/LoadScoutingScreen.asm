@@ -223,13 +223,13 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	cmp.w #$0018
 	bcs .1
 	stz.b a2
-.1:
+.1:									; if VisTeam >= $0018 go to .2, ...
 	lda.w VisTeam
 	cmp.w #$0018
 	bcs .2
 	lda.w #$0002
 	sta.b a2
-.2:
+.2:									; p0 = RonBarrMap, p1+2 = $007F, p1 = $0000, ...
 	lda.w #RonBarrMap>>16			; Ron Barr map: add backchars, charofs2 and the priority bit ($0800) to
 									; the non-empty words, store in textmap2
 	sta.b p0+2

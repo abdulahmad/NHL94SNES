@@ -1,11 +1,11 @@
 ; Print the password (PassWord through PasstoText into mesarea), unless it is hidden (bit 7)
-PWprint:
+PWprint:							; called from PasswordRedraw, PlayoffScreen
 	lda.l PassWord
 	bit.w #$0080
 	beq .t1
 	jmp.w .1
 
-.t1:
+.t1:								; PassWord bits $0080 clear: a2 = PasstoText, a1 = mesarea, a0 = PassWo...
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -44,7 +44,7 @@ PWprint:
 	inc.b a1
 	lda.w #$000F
 	sta.b d1
-.loop:
+.loop:								; loop: increment a0, [a1] = [a2],y, increment a1, ...
 	lda.b [a0]
 	inc.b a0
 	and.w #$00FF
@@ -79,5 +79,5 @@ PWprint:
 	sta.b d0+2
 	pla
 	sta.b d0
-.1:
+.1:									; return
 	rtl

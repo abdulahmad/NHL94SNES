@@ -117,7 +117,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	sbc.w #$0300
 	bpl .2xx
 	lda.w #$0000
-.2xx:
+.2xx:								; crowdlevel = A, go to .score
 	sta.l crowdlevel
 	bra .score
 
@@ -262,7 +262,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	lda.b a1
 	beq .10
 	lda.w #$001A
-.10:
+.10:								; adc d0, increment tmgoals,x
 	clc
 	adc.b d0
 	tax
@@ -329,7 +329,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	tax
 	lda.w #$0005
 	sta.b d3
-.loop:
+.loop:								; loop: if position,x negative go to .1xxxx, ...
 	lda.w position,x
 	bmi .1xxxx
 	beq .1xxxx
