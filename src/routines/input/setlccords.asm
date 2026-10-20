@@ -7,7 +7,7 @@ setlccords:							; position and size of the line change box of team a2
 	lda.b a2						; team
 	bne .1							; team 1: keep 0
 	inc.b d0						; team 0: d0 = 1
-.1:
+.1:									; a1 = setlccordsPos, call print, a1 = pulled value, ...
 	lda.b a1+2						; save a1
 	pha
 	lda.b a1
@@ -27,7 +27,7 @@ setlccords:							; position and size of the line change box of team a2
 	lda.b d0						; swap the sides
 	eor.w #$0001
 	sta.b d0
-.2:
+.2:									; call Mul8U, adc printy, printy = A, ...
 	phx								; keep X
 	lda.w #$0015					; 21 rows per side
 	ldx.b d0
@@ -44,7 +44,7 @@ setlccords:							; position and size of the line change box of team a2
 	bpl .3							; yes
 	dec.b d1						; no: one row less
 	inc.w printy					; and start a row lower
-.3:
+.3:									; d0 = $000C, return
 	lda.w #$000C					; width 12
 	sta.b d0
 	rtl

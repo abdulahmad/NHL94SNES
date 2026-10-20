@@ -1,5 +1,5 @@
 ; The stick is at the puck: launch it toward the goal
-doshot:
+doshot:								; called from ShotMode, assbreakaway, asspassrec
 	jsl.l shotdiradj
 	lda.w #$0007
 	pha
@@ -11,7 +11,7 @@ doshot:
 	beq .t2
 	jmp.w .7
 
-.t2:
+.t2:								; r0+1,s = $0001, tsb sflags, if SPA,x != SPAshotb go to .1, ...
 	lda.w #$0001
 	sta.b r0+1,s
 	lda.w #$1000
@@ -24,19 +24,19 @@ doshot:
 	lda.w passspeed
 	lsr a
 	lsr a
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
 	adc.w passspeed
 	sta.w passspeed
-.1:
+.1:									; lastshotspeed = passspeed, if carry clear go to .2, ...
 	lda.w passspeed
 	sta.w lastshotspeed
 	cmp.w #$001E
 	bcc .2
 	lda.w #$0002
 	sta.b r0+1,s
-.2:
+.2:									; a0 = X, call makepde, adc #$0014, ...
 	lda.w shotspd,x
 	stx.b a0
 	jsl.l makepde
@@ -54,7 +54,7 @@ doshot:
 	jsl.l CheckBreakaway
 	lda.w IsBreakaway
 	sta.w breakaway
-.3:
+.3:									; puckc = $FFFF, nopuck,x = $0010, lastplayer = curobj / 2, ...
 	ldx.b curobj
 	lda.w #$FFFF
 	sta.w puckc
@@ -67,7 +67,7 @@ doshot:
 	lda.w pfgoal,x
 	bne .4
 	ldy.w #$FEF8
-.4:
+.4:									; d1 = Y, a0 = shotsets, d0 = [a0],y - puckx, ...
 	sty.b d1
 	lda.w passdir
 	asl a
@@ -99,14 +99,14 @@ doshot:
 	cmp.w #$0000
 	bne .5
 	inc a
-.5:
+.5:									; d3 = A, if gmode bits gmhl clear go to .t1, ...
 	sta.b d3
 	lda.w gmode
 	bit.w #gmhl
 	beq .t1
 	jmp.w .6
 
-.t1:
+.t1:								; gmode bits gmhl clear: if d3 >= $00C9 go to .1x, ...
 	lda.b d3
 	cmp.w #$00C9
 	bcs .1x
@@ -115,7 +115,7 @@ doshot:
 	jsl.l randoma8
 	cmp.w #$000F
 	bcs .6
-.1x:
+.1x:								; call Mul16U, d0 = r2 / 2 / 2 / 2 / 2 / 2 / 2, if d3 >= $00FB go to .2...
 	lda.w passspeed
 	lsr a
 	lsr a
@@ -138,13 +138,13 @@ doshot:
 	cmp.w #$00FB
 	bcs .2x
 	lsr.b d0
-.2x:
+.2x:								; if d0 < sideline go to .3x, ...
 	lda.b d0
 	cmp.w #sideline
 	bcc .3x
 	lda.w #sideline
 	sta.b d0
-.3x:
+.3x:								; call randomd0s, adc r0+3,s, r0+3,s = A, ...
 	pha
 	jsl.l randomd0s
 	adc.b r0+3,s
@@ -156,11 +156,11 @@ doshot:
 	lda.w #$003C
 	sta.b d0
 	sta.b r0+1,s
-.4x:
+.4x:								; if r1+1,s >= 0 go to .5x, ...
 	lda.b r1+1,s
 	bpl .5x
 	lsr.b d0
-.5x:
+.5x:								; call randomd0sd0, r1+1,s = r1+1,s + d0, call randoma, ...
 	jsl.l randomd0sd0
 	lda.b r1+1,s
 	adc.b d0
@@ -170,7 +170,7 @@ doshot:
 	jsl.l randoma
 	adc.b r1+1,s
 	sta.b r1+1,s
-.6:
+.6:									; call Mul8XS, call Mul16S, r1 = d3, ...
 	ldx.w passspeed
 	lda.w #$0044
 	jsl.l Mul8XS
@@ -221,9 +221,9 @@ doshot:
 	cmp.w #$1801
 	bcc .1xx
 	lda.w #$1800
-.1xx:
+.1xx:								; puckvz = A
 	sta.w puckvz
-.7:
+.7:									; call PuckSfx, if pfgoal,x != 0 go to .1xxx, ...
 	pla
 	jsl.l PuckSfx
 	ldx.b a3
@@ -231,7 +231,7 @@ doshot:
 	lda.w pfgoal,x
 	bne .1xxx
 	ldy.w #$FEF8
-.1xxx:
+.1xxx:								; tmp0 = Y, eor puckvy, if plus go to .2xx, ...
 	sty.b tmp0
 	tya
 	sec
@@ -242,11 +242,11 @@ doshot:
 	sec
 	sbc.w puckvy
 	sta.w puckvy
-.2xx:
+.2xx:								; if PenShotActive = 0 go to .rtl, ...
 	lda.w PenShotActive
 	beq .rtl
 	lda.w #$0012
 	sta.b d0
 	jsl.l assreplace
-.rtl:
+.rtl:								; return
 	rtl

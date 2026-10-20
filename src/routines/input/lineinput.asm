@@ -11,7 +11,7 @@ lineinput:							; pad input for the line change box
 	beq .1							; team 0
 	inc.b a2						; team 1: a2 = 2
 	inc.b a2
-.1:
+.1:									; if tmflags,y bits $0001 clear go to .2, ...
 	ldy.b a2						; Y = team offset
 	lda.w tmflags,y					; team flags
 	bit.w #$0001					; redraw request (bit 0)?
@@ -22,7 +22,7 @@ lineinput:							; pad input for the line change box
 	sta.w lcpad,y					; no pad owns the box
 	jsl.l lcfound2					; close the box
 	jsl.l SetLCmode2				; and open it again
-.2:
+.2:									; d1 = pulled value, d2 = 0, if not zero go to .t3, ...
 	pla								; restore the presses
 	sta.b d1
 	stz.b d2						; d2 = choice 0
@@ -43,7 +43,7 @@ lineinput:							; pad input for the line change box
 	bne .t1							; yes
 	jml.l doplayeracc				; skate
 
-.t1:
+.t1:								; return
 	rtl								; return
 
 .t2:								; leave the box without changing lines

@@ -1,6 +1,6 @@
 ; End the penalty shot or shootout attempt in progress ($163A and $1E9B): clear it, no shooter, ShootoutWonBy
 ; 10, put back the saved scores
-EndPenaltyShot:
+EndPenaltyShot:						; called from Gameloop, Goal, clockcont_0, puckglue, pucknorm_move and...
 	lda.w PenShotActive
 	beq .rtl
 	lda.w penshot
@@ -17,5 +17,5 @@ EndPenaltyShot:
 	lda.w psfoysave
 	sta.l lty
 	plx
-.rtl:
+.rtl:								; return
 	rtl

@@ -1,6 +1,6 @@
 ; Pad d4 takes control of player d0: its old player is released (pflags, $19D4 = -1), the new one marked
 ; (pflags bit 3, $19D4 = pad, $19EC = player)
-AssignPadPlayer:
+AssignPadPlayer:					; called from AssignPadIfFree, PadTakePosition, PuckCarrierPad, doinput...
 	lda.w #$FFFF
 	sta.w dumpinplayer
 	ldy.b d4
@@ -20,7 +20,7 @@ AssignPadPlayer:
 	bne .1
 	lda.w #$0000
 	sta.w goalieflags,y
-.1:
+.1:									; if d0 >= $0018 go to .rtl, ...
 	ldy.b d0
 	cpy.w #$0018
 	bcs .rtl
@@ -32,5 +32,5 @@ AssignPadPlayer:
 	tay
 	lda.b d0
 	sta.w c1playernum,y
-.rtl:
+.rtl:								; return
 	rtl

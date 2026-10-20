@@ -1,10 +1,10 @@
 ; Aim a computer shot at the open side when the goalie covers the middle of the net
-shotdiradj:
+shotdiradj:							; called from doshot
 	lda.w playerpad,x
 	bmi .t2
 	jmp.w .6
 
-.t2:
+.t2:								; playerpad,x negative: d0 = $0008, d1 = $0005, if pfteam,x != 0 go to...
 	lda.w #$0008
 org $9EE002
 	sta.b d0
@@ -14,7 +14,7 @@ org $9EE002
 	lda.w pfteam,x
 	bne .1
 	ldy.w #$000C
-.1:
+.1:									; loop: if position,y = 0 go to .t1, ...
 	lda.w position,y
 	beq .t1
 	iny
@@ -23,13 +23,13 @@ org $9EE002
 	bpl .1
 	jmp.w .5
 
-.t1:
+.t1:								; position,y = 0: if zero go to .1x, ...
 	lda.w Xvel+1,y
 	and.w #$00FF
 	bit.w #$0080
 	beq .1x
 	ora.w #$FF00
-.1x:
+.1x:								; asl a, ror a, adc Xpos,y, ...
 	pha
 	asl a
 	pla
@@ -44,7 +44,7 @@ org $9EE002
 	bit.w #$0080
 	beq .2
 	ora.w #$FF00
-.2:
+.2:									; asl a, ror a, adc Ypos,y, ...
 	pha
 	asl a
 	pla
@@ -63,7 +63,7 @@ org $9EE002
 	lda.w pfgoal,x
 	bne .3
 	ldy.w #$FEF8
-.3:
+.3:									; d4 = Y, call CalcAngleOffset, d5 = d4, ...
 	sty.b d4
 	tya
 	pha
@@ -73,7 +73,7 @@ org $9EE002
 	lda.b d4
 	sta.b d5
 	pla
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.b d3
 	pla
@@ -96,7 +96,7 @@ org $9EE002
 	sec
 	sbc.b d4
 	sta.b d4
-.4:
+.4:									; call RandomWord, and #$0003, increment a, ...
 	jsl.l RandomWord
 	and.w #$0003
 	inc a
@@ -107,8 +107,8 @@ org $9EE002
 	clc
 	adc.w #$0004
 	sta.b d0
-.5:
+.5:									; passdir = d0
 	lda.b d0
 	sta.w passdir
-.6:
+.6:									; return
 	rtl

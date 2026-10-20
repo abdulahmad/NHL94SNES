@@ -1,5 +1,5 @@
 ; d0 = the number of goalies on team a2.
-GoalieCount:
+GoalieCount:						; called from DrawPlayerCard, DrawPlayerPicture, GetPlayerBaseRating, G...
 	lda.b a2
 	tay
 	lda.w #TeamList>>16
@@ -13,7 +13,7 @@ GoalieCount:
 	stz.b d0
 	lda.b [tmp0]
 	xba
-.cnt:
+.cnt:								; loop: increment d0, asl a, asl a, ...
 	inc.b d0
 	asl a
 	asl a

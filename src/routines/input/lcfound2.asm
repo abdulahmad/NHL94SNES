@@ -51,7 +51,7 @@ lcfound2:							; close the line change box and redraw the scoreboard
 	cmp.w #$0020					; cap at 31
 	bcc .1x
 	lda.w #$001F
-.1x:
+.1x:								; d0 = A, mesarea = $0006, d3 = $0003
 	sta.b d0						; d0 = cell value
 	ldy.w #$0002					; Y = first cell of mesarea
 	lda.w #$0006					; string length 6
@@ -75,7 +75,7 @@ lcfound2:							; close the line change box and redraw the scoreboard
 	and.w #$00FF					; low byte
 	bne .3							; tile 0 becomes $20 (blank)
 	lda.w #$0020
-.3:
+.3:									; mesarea,y = A, Y + 1, d0 = d0 - $0008, ...
 	sta.w mesarea,y					; store the cell
 	iny
 	lda.b d0						; remaining value minus 8
