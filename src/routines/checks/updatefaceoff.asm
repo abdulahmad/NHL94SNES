@@ -2,25 +2,25 @@
 updatefaceoff:
 	lda.w temp1,x
 	beq .t2
-	clc
-	adc.w #$0006
+	clc								; (temp1+6)/8 <= 2: drop frame 10-d0
+	adc.w #$0006					; (timer + 6) / 8
 	lsr a
 	lsr a
 	lsr a
 	sta.b d0
 	cmp.w #$0003
 	bpl .rtl
-	lda.b d0
-	eor.w #$FFFF
+	lda.b d0						; d0 = 10 - d0
+	eor.w #$FFFF					; negate
 	inc a
 	clc
 	adc.w #$000A
 	sta.b d0
 	sta.l fofdata
-.rtl:
+.rtl:								; return
 	rtl
 
-.t2:
+.t2:								; face off display off
 	lda.w penshot
 	bne .t1
 	lda.b a1+2
@@ -38,11 +38,11 @@ updatefaceoff:
 	sta.b a1+2
 	lda.l fodropx
 	sec
-	sbc.w #$002E
+	sbc.w #$002E					; minus the box x origin
+	lsr a							; divide by 8
 	lsr a
 	lsr a
-	lsr a
-	bit.w #$1000
+	bit.w #$1000					; sign extend
 	beq .2
 .1:
 	ora.w #$E000
@@ -50,7 +50,7 @@ updatefaceoff:
 	sta.w printx
 	lda.l fodropy
 	sec
-	sbc.w #$0044
+	sbc.w #$0044					; minus the box y origin
 	lsr a
 	lsr a
 	lsr a
@@ -59,10 +59,10 @@ updatefaceoff:
 .3:
 	ora.w #$E000
 .4:
-	sta.w printy
-	lda.w #$000C
+	sta.w printy					; print y
+	lda.w #$000C					; box 12 wide
 	sta.b d0
-	inc a
+	inc a							; and 13 high
 	sta.b d1
 	bra .5
 

@@ -8,17 +8,17 @@ doplayeracc:
 	lda.w SPA,x
 	cmp.w #SPAsweepchk
 	beq .t2
-	lda.w #SPAglide
+	lda.w #SPAglide					; d1 = glide animation
 	sta.b d1
-	lda.w pfrev,x
+	lda.w pfrev,x					; skating backwards?
 	beq .1
 	lda.w #SPAglideback
 	sta.b d1
 .1:
 	lda.b d0
-	and.w #$000F
+	and.w #$000F					; low nibble: direction or 8/9
 	sta.b d0
-	cmp.w #$0008
+	cmp.w #$0008					; 0-7 is a real direction
 	bcc .t3
 	cmp.w #$0009
 	bne .t1
@@ -32,26 +32,26 @@ doplayeracc:
 	bne .t2
 	jmp.w SetSPA
 
-.t2:
+.t2:								; return
 	rtl
 
-.t3:
-	lda.b d1
+.t3:								;a direction: pfrev, then the turn
+	lda.b d1						; save the animation
 	pha
-	lda.b d0
+	lda.b d0						; and the wanted direction
 	pha
-	sta.b d2
+	sta.b d2						; d2 = wanted direction
 	cpx.w puckc
 	bne .t2x
 	jmp.w .4
 
-.t2x:
-	lda.w puckx
+.t2x:								; dx to the puck
+	lda.w puckx						; dx to the puck
 	sec
-	sbc.w Xpos,x
+	sbc.w Xpos,x					; minus the x of X
 	sta.b d0
 	lda.w Ypos,x
-	sta.b d3
+	sta.b d3						; d3 = my y
 	lda.w puckvy
 	xba
 	and.w #$00FF
@@ -60,11 +60,11 @@ doplayeracc:
 	ora.w #$FF00
 .1x:
 	clc
-	adc.w pucky
+	adc.w pucky						; plus the puck y
 	sec
-	sbc.b d3
+	sbc.b d3						; dy to the puck, led by its y velocity
 	sta.b d1
-	lda.w pfgoal,x
+	lda.w pfgoal,x					; mirror for the team shooting toward +y
 	bne .2
 	lda.w #$0000
 	sec
@@ -78,7 +78,7 @@ doplayeracc:
 	sec
 	sbc.b d3
 	sta.b d3
-	lda.b d2
+	lda.b d2						; and the wanted direction
 	eor.w #$0004
 	sta.b d2
 .2:
@@ -89,21 +89,21 @@ doplayeracc:
 	lda.b d2
 	cmp.w #$0004
 	bne .4
-	jsl.l vtoa
+	jsl.l vtoa						; vector to direction
 	inc a
 	and.w #$0007
 	cmp.w #$0003
 	bcs .4
 	bra .3
 
-.t1x:
-	lda.b d2
+.t1x:								; already backwards: stay so only if the wanted direction allows
+	lda.b d2						; already backwards: wanted direction 3, 4 or 5
 	sec
 	sbc.w #$0003
 	and.w #$0007
 	cmp.w #$0003
 	bcs .4
-	jsl.l vtoa
+	jsl.l vtoa						; vector to direction
 	inc a
 	inc a
 	and.w #$0007
@@ -113,12 +113,12 @@ doplayeracc:
 	lda.w pfrev,x
 	bne .9
 	lda.w Xvel,x
-	sta.b d0
+	sta.b d0						; moving?
 	ora.w Yvel,x
 	beq .1xx
 	lda.w Yvel,x
 	sta.b d1
-	jsl.l vtoa
+	jsl.l vtoa						; vector to direction
 	sec
 	sbc.b r0+1,s
 	inc a
@@ -132,16 +132,16 @@ doplayeracc:
 .4:
 	stz.w pfrev,x
 .9:
-	pla
+	pla								; d0 = wanted direction
 	sta.b d0
-	pla
+	pla								; d1 = animation
 	sta.b d1
-	lda.w facedir,x
+	lda.w facedir,x					; facing direction
 	sta.b d2
 	lda.b d0
 	sec
 	sbc.b d2
-	and.w #$0007
+	and.w #$0007					; d0 = wanted - facing
 	asl a
 	sta.b d0
 	tax
@@ -179,13 +179,13 @@ doplayeracc:
 	jsl.l Mul8S
 	clc
 	adc.b d4
-	sta.b d3
-	lda.w #$0300
+	sta.b d3						; d3 = speed class
+	lda.w #$0300					; turn rate base $300
 	sec
-	sbc.b d3
+	sbc.b d3						; falls as speed rises
 	sta.b d4
 	sec
-	sbc.w #$0180
+	sbc.w #$0180					; down to $180
 	bpl .3x
 	lda.w #$0180
 	sta.b d4
@@ -208,17 +208,17 @@ doplayeracc:
 	sbc.b d4+2
 	sta.b d4+2
 .4x:
-	lda.w facefrac,x
+	lda.w facefrac,x				; facing fraction
 	clc
 	adc.b d4
 	sta.w facefrac,x
-	lda.w facedir,x
+	lda.w facedir,x					; facing direction
 	adc.b d4+2
-	and.w #$0007
+	and.w #$0007					; 0-7
 	sta.w facedir,x
-	sta.b d2
+	sta.b d2						; d2 = new facing for playeracc
 	lda.b d3
-	cmp.w #$0015
+	cmp.w #$0015					; slow: keep the animation
 	bcc .7
 	stz.b d1
 	lda.b tmp0
@@ -235,7 +235,7 @@ doplayeracc:
 .6:
 	lda.b d1
 	clc
-	adc.w #SPAturnr
+	adc.w #SPAturnr					; SPAturnr or SPAturnl
 	sta.b d1
 .7:
 	lda.w pf2aip,x

@@ -1,5 +1,8 @@
 ; Set the energy of player d1 of team a2 to d0
-setpde:
+;
+; Takes d1 = player number, d0 = energy (a negative value is stored as 0), a2 = team (0 home).
+; Called from playeracc and burst. Returns nothing.
+setpde:								; set the energy of player d1 of team a2 to d0
 	lda.b a2						; team
 	beq .home						; home
 	lda.w #$0034					; away team offset $34

@@ -1,6 +1,6 @@
 ; Skate toward d0 / d1, with a routine in a0 for avoiding others; slow down near the target
 skateto:
-	lda.w temp2,x
+	lda.w temp2,x					; skateto timer
 	sec
 	sbc.w timestep
 	sta.w temp2,x
@@ -15,7 +15,7 @@ skateto:
 	lda.b d1
 	sta.b d1+2
 	jsl.l avdgoal
-	lda.w Xvel,x
+	lda.w Xvel,x					; x velocity high byte
 	xba
 	and.w #$00FF
 	bit.w #$0080
@@ -26,11 +26,11 @@ skateto:
 	inc a
 	sta.b r3
 	clc
-	adc.b d0
+	adc.b d0						; plus the target x
 	sec
-	sbc.w Xpos,x
+	sbc.w Xpos,x					; minus my x
 	sta.b d0
-	lda.w Yvel,x
+	lda.w Yvel,x					; y velocity high byte
 	xba
 	and.w #$00FF
 	bit.w #$0080
@@ -41,9 +41,9 @@ skateto:
 	inc a
 	sta.b r3+2
 	clc
-	adc.b d1
+	adc.b d1						; plus the target y
 	sec
-	sbc.w Ypos,x
+	sbc.w Ypos,x					; minus my y
 	sta.b d1
 	lda.w position,x
 	bne .3
@@ -95,12 +95,12 @@ skateto:
 .5:
 	jsl.l vtoa
 .6:
-	lda.b a0
+	lda.b a0						; caller's avoidance routine
 	sta.w jmlvector+1
 	lda.b a0+1
 	sta.w jmlvector+2
-	jsl.l jmlvector
-	lda.b d0
+	jsl.l jmlvector					; may adjust the direction in d0
+	lda.b d0						; remember the direction
 	sta.w temp2b,x
 	cmp.w #$0008
 	bcc .7
@@ -109,14 +109,14 @@ skateto:
 	bne .7
 	lda.w puckx
 	sec
-	sbc.w Xpos,x
+	sbc.w Xpos,x					; minus my x
 	sta.b d0
 	lda.w pucky
 	sec
-	sbc.w Ypos,x
+	sbc.w Ypos,x					; minus my y
 	sta.b d1
-	jsl.l vtoa
+	jsl.l vtoa						; vector to direction
 .7:
-	lda.w temp2b,x
+	lda.w temp2b,x					; stored direction
 	sta.b d0
-	jml.l doplayeracc
+	jml.l doplayeracc				; accelerate that way

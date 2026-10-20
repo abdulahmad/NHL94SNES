@@ -26,15 +26,15 @@ puckfaceoff:
 .1xx:
 	jml.l PeriodOver
 
-.t2x:
+.t2x:								; end of the period
 	lda.w gmode
 	bit.w #$0040
 	beq .t1xx
 .1x2:
 	jml.l PeriodOver
 
-.t1xx:
-	lda.w gsp
+.t1xx:								; overtime and not tied: clock control
+	lda.w gsp						; overtime and not tied: clockcont_0
 	cmp.w #$0003
 	bne .t3
 .1xxx:
@@ -43,16 +43,16 @@ puckfaceoff:
 	beq .t3
 	jml.l clockcont_0
 
-.t3:
+.t3:								; no period over: check for a penalty delay
 	lda.w gmode
 	bit.w #$0008
 	beq .t1x2
 .1x3:
 	jml.l Stop4Pen
 
-.t1x2:
-	jsl.l ReturnGoalies
-	lda.w #$FFFF
+.t1x2:								; computer may put the goalie back / pull it
+	jsl.l ReturnGoalies				; ReturnGoalies
+	lda.w #$FFFF					; temp1/temp2 = -1: no lc box timers
 	sta.w temp1,x
 	sta.w temp2,x
 	lda.l OptLine
@@ -104,7 +104,7 @@ puckfaceoff:
 .3:
 	lda.w #$0000
 	sta.l newperiod
-	stz.b a1
+	stz.b a1						; a1 = home, a2 = away
 	lda.w #$0002
 	sta.b a2
 	sta.b d0
@@ -142,7 +142,7 @@ puckfaceoff:
 	jmp.w .8
 .4:
 	jsl.l CompLine
-	jsl.l setpersonel
+	jsl.l setpersonel				; update the players on the ice
 	jml.l printscores1
 .5:
 	lda.l OptLine
@@ -167,7 +167,7 @@ puckfaceoff:
 	ldy.b a3
 	sty.b a2
 	lda.b d0
-	asl a
+	asl a							; exg a2,a3: X = the controlled player
 	sta.b d0
 	sta.b a3
 	tax
@@ -195,15 +195,15 @@ puckfaceoff:
 	beq .3x
 	lda.w pfteam,x
 	beq .t1xxxxxx
-	lda.w #$0168
+	lda.w #$0168					; visitors: temp2 = 6*60, temp4 = SCnum
 	sta.w temp2,y
 	txa
 	lsr a
 	sta.w temp4,y
 	bra .3x
 
-.t1xxxxxx:
-	lda.w #$0258
+.t1xxxxxx:							; temp1 = 10*60 (92 5*60)
+	lda.w #$0258					; home: temp1 = 10*60, temp3 = SCnum
 	sta.w temp1,y
 	txa
 	lsr a
@@ -227,7 +227,7 @@ puckfaceoff:
 	bpl .8
 	lda.w temp2,x
 	bpl .8
-	stz.b a2
+	stz.b a2						; a2 = home, a1 = away
 	lda.w #$0001
 	sta.b d0
 	inc a
@@ -238,7 +238,7 @@ puckfaceoff:
 	ldx.b a3
 	jml.l assreplace
 
-.t1xxxxxxx:
+.t1xxxxxxx:							;d0 = 0 (temp1/temp3) or $20 (temp2/temp4): update one lc box timer
 	lda.b a3
 	clc
 	adc.b d0
@@ -246,7 +246,7 @@ puckfaceoff:
 	lda.w temp1,y
 	bmi .8
 .1xxxxx:
-	lda.w temp3,y
+	lda.w temp3,y					; temp3/temp4 = SCnum of the box owner
 	asl a
 	sta.b d1
 	tay
@@ -268,24 +268,24 @@ puckfaceoff:
 	adc.b d0
 	tay
 	lda.w temp1,y
-	ora.w #$FF00
+	ora.w #$FF00					; timer negative: box closed
 	sta.w temp1,y
 	ldx.b a3
 	jmp.w SetLCmode2
 
-.t2xxx:
+.t2xxx:								; move to the next player slot
 	lda.b a3
 	clc
 	adc.b d0
 	tay
 	lda.w temp1,y
 	sec
-	sbc.b d7
+	sbc.b d7						; count down
 	sta.w temp1,y
 	bmi .t1xxxxxxxx
 	jmp.w .8
 
-.t1xxxxxxxx:
+.t1xxxxxxxx:						; line change done
 	ldx.b a3
 	phx
 	ldx.b d1

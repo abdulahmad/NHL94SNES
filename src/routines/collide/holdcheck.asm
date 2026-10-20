@@ -4,21 +4,21 @@ holdcheck:
 	beq .t1
 	lda.w pfalock,x
 	bne .t1
-	ldy.b a2
-	lda.w Xpos,x
+	ldy.b a2						; a2 is the holder
+	lda.w Xpos,x					; x of X
 	sec
-	sbc.w Xpos,y
+	sbc.w Xpos,y					; minus the holder's x
 	sta.b d0
-	lda.w Ypos,x
+	lda.w Ypos,x					; y of X
 	sec
-	sbc.w Ypos,y
+	sbc.w Ypos,y					; minus the holder's y
 	sta.b d1
-	jsl.l vtoa
-	ldy.b a2
+	jsl.l vtoa						; direction from a2 to X
+	ldy.b a2						; holder
 	lda.b d0
 	sec
 	sbc.w facedir,y
-	inc a
+	inc a							; direction difference
 	and.w #$0007
 	cmp.w #$0003
 	bcs .t1
@@ -36,23 +36,23 @@ holdcheck:
 	lda.b d0
 	sta.w facedir,y
 	ldy.b a2
-	lda.w Xvel,x
+	lda.w Xvel,x					; x velocities
 	clc
-	adc.w Xvel,y
+	adc.w Xvel,y					; added
 	pha
 	asl a
 	pla
-	ror a
-	sta.w Xvel,x
+	ror a							; halved
+	sta.w Xvel,x					; both take it
 	sta.w Xvel,y
-	lda.w Yvel,x
+	lda.w Yvel,x					; y velocities
 	clc
-	adc.w Yvel,y
+	adc.w Yvel,y					; added
 	pha
 	asl a
 	pla
-	ror a
-	sta.w Yvel,x
+	ror a							; halved
+	sta.w Yvel,x					; both take it
 	sta.w Yvel,y
 	tya
 	sta.w impactp,x
@@ -93,8 +93,8 @@ holdcheck:
 	bcs .2
 	lda.w #$0028
 	sta.b d0
-	lda.w SPA,x
-	cmp.w #SPAHold2
+	lda.w SPA,x						; holding or hooking by the animation
+	cmp.w #SPAHold2					; hold?
 	beq .1x
 	lda.w #PenHooking
 	sta.b d0

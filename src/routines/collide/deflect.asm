@@ -1,6 +1,6 @@
 ; Send the puck off in a random direction after a deflection
 deflect:
-	lda.w #$FFFF
+	lda.w #$FFFF					; puck loose
 	sta.w puckc
 	jsl.l RandomWord
 	and.w #$1FFF

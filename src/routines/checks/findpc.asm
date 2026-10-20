@@ -1,8 +1,8 @@
 ; When and where the puck will cross each goal line
 findpc:
-	stx.b xsave
-	ldx.w #$0000
-.loop:
+	stx.b xsave						; keep X
+	ldx.w #$0000					; save d0 through d4
+.loop:								; save d0 and the words after it (10 words)
 	lda.b d0,x
 	pha
 	inx
@@ -174,7 +174,7 @@ findpc:
 .12:
 	stx.b xsave
 	ldx.w #$000E
-.loopx:
+.loopx:								; pull d0-d4 back
 	pla
 	sta.b d0,x
 	dex

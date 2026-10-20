@@ -1,6 +1,6 @@
 ; Accelerate player X in direction d2, up to his top speed
 playeracc:
-	asl.b d2
+	asl.b d2						; 4 bytes per direction entry
 	asl.b d2
 	ldx.b d2
 	lda.l .8+2,x
@@ -24,12 +24,12 @@ playeracc:
 	lsr a
 	lsr a
 	lsr a
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	clc
 	adc.w #$0020
 	clc
-	adc.w legstr,x
+	adc.w legstr,x					; plus leg strength
 	sta.b d2
 	lda.w legstr,x
 	lsr a
@@ -129,7 +129,7 @@ playeracc:
 	asl a
 	asl a
 	tax
-	lda.l MaxSpeed,x
+	lda.l MaxSpeed,x				; max speed squared for the rating level
 	sta.b d2
 	lda.l MaxSpeed+2,x
 	sta.b d2+2
@@ -157,7 +157,7 @@ playeracc:
 	cmp.b d3
 	bcc .5
 	lda.b d0
-	sta.w Xvel,x
+	sta.w Xvel,x					; store the new velocity
 	lda.b d1
 	sta.w Yvel,x
 .5:
@@ -169,11 +169,11 @@ playeracc:
 	jsl.l getpde
 	lda.b d0
 	sec
-	sbc.w #$0021
+	sbc.w #$0021					; lower the energy by 33
 	sta.b d0
 	cmp.w #$0C00
 	bmi .6
-	lda.w endurance,x
+	lda.w endurance,x				; above $C00: also add the endurance byte
 	sta.b d2
 	clc
 	adc.b d0

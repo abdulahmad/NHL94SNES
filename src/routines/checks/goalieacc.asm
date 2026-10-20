@@ -1,11 +1,11 @@
 ; The goalie skates in direction d0, turning one step toward it
 goalieacc:
-	lda.w #SPAgready
-	sta.b d1
-	lda.b d0
-	and.w #$000F
-	sta.b d0
-	cmp.w #$0008
+	lda.w #SPAgready				; SPAgready (2)
+	sta.b d1						; ready animation
+	lda.b d0						; direction
+	and.w #$000F					; 4 bits
+	sta.b d0						; keep it
+	cmp.w #$0008					; 8 = no direction
 	bcc .t2
 	ldy.w playerpad,x
 	bpl .1
@@ -21,10 +21,10 @@ org $9ED002
 	bne .t1
 	jml.l SetSPA
 
-.t1:
+.t1:								; return
 	rtl
 
-.t2:
+.t2:								;d0 = wanted direction: step facedir one eighth toward it
 	cpx.w puckc
 	beq .t4
 	lda.w asscur,x
@@ -62,19 +62,19 @@ org $9ED002
 	bne .3
 	lda.b d0
 	sec
-	sbc.w facedir,x
-	sta.b d0
+	sbc.w facedir,x					; difference to the facing
+	sta.b d0						; d0 = difference
 	beq .3
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
-	and.w #$0004
-	lsr a
+	and.w #$0004					; one step (+1/-1) toward d0
+	lsr a							; +1 or -1
 	dec a
-	clc
+	clc								; plus the facing
 	adc.w facedir,x
-	and.w #$0007
-	sta.b d0
-	sta.w facedir,x
+	and.w #$0007					; 0-7
+	sta.b d0						; d0 = new direction
+	sta.w facedir,x					; new facing
 	lda.w #$0006
 	sta.w goalieturnwait,x
 .3:
@@ -98,5 +98,5 @@ org $9ED002
 .4:
 	jsl.l SetSPAFromA
 	lda.w facedir,x
-	sta.b d2
-	jml.l playeracc
+	sta.b d2						; skate that way
+	jml.l playeracc					; d2 = facedir, bank $8F (d2 = direction)

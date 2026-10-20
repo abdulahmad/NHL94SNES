@@ -1,26 +1,26 @@
 ; Collision of object X with the corners, the goals and the boards
 checkwallcoll:
-	lda.w #$012A
+	lda.w #$012A					; d3 = $12A - wcradiusy, d2 = $88 - wcradiusx; corner centers 64 in
 	sec
-	sbc.w wcradiusy
-	pha
-	eor.w #$FFFF
+	sbc.w wcradiusy					; y half length minus the radius
+	pha								; keep it
+	eor.w #$FFFF					; negate
 	inc a
 	clc
 	adc.w #$0040
-	sta.b d5
+	sta.b d5						; d5 = corner circle center y
 	lda.w #sideline
 	sec
-	sbc.w wcradiusx
-	pha
-	eor.w #$FFFF
+	sbc.w wcradiusx					; x half width minus the radius
+	pha								; keep it
+	eor.w #$FFFF					; negate
 	inc a
 	clc
 	adc.w #$0040
-	sta.b d4
+	sta.b d4						; d4 = corner circle center x
 	lda.b d3
-	pha
-	ldy.b d2
+	pha								; keep y
+	ldy.b d2						; and x
 	phy
 	dec a
 	cmp.b d5
@@ -36,7 +36,7 @@ checkwallcoll:
 	bmi .t2
 	lda.w #$001A
 	sta.b a2
-	jsl.l checkgoal
+	jsl.l checkgoal					; goal at the -y end
 	jmp.w .6
 
 .t1:
@@ -57,18 +57,18 @@ checkwallcoll:
 	bmi .t2
 	lda.w #$0018
 	sta.b a2
-	jsl.l checkgoal
+	jsl.l checkgoal					; goal at the +y end
 .1:
 	jmp.w .6
 
-.t2:
-	lda.b d2
+.t2:								;distance from the corner center (max+min/4)
+	lda.b d2						; corner circle: offset from the center
 	sec
-	sbc.b d4
+	sbc.b d4						; d2 = dx
 	sta.b d2
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
-	sta.b d1
+	sta.b d1						; d1 = -dx, sin
 	bit.w #$8000
 	beq .1x
 	eor.w #$FFFF
@@ -78,7 +78,7 @@ checkwallcoll:
 	lda.b d3
 	sec
 	sbc.b d5
-	sta.b d0
+	sta.b d0						; d0 = dy, cos
 	bit.w #$8000
 	beq .2
 	eor.w #$FFFF
@@ -93,7 +93,7 @@ checkwallcoll:
 	adc.b cornerdy
 	bra .5
 
-.t1x:
+.t1x:								; scale the wall normal
 	lsr a
 	lsr a
 	adc.b tmp4
@@ -134,7 +134,7 @@ checkwallcoll:
 	sta.b d1
 	jsl.l wallcollb
 .6:
-	pla
+	pla								; restore d2-d5
 	sta.b d2
 	pla
 	sta.b d3
@@ -142,13 +142,13 @@ checkwallcoll:
 	sta.b d4
 	pla
 	sta.b d5
-	lda.w Wallcos,x
+	lda.w Wallcos,x					; corner hit: done
 	ora.w Wallsin,x
 	bne .rtl
 	lda.w #$00FF
 	sta.b d0
 	stz.b d1
-	lda.b d3
+	lda.b d3						; y against the board limit
 	dec a
 	cmp.b d5
 	bpl wallcollb

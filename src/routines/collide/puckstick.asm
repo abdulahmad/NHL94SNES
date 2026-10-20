@@ -1,7 +1,7 @@
 ; The puck hits player a2's stick
 puckstick:
-	ldy.b a2
-	lda.w position,y
+	ldy.b a2						; player a2
+	lda.w position,y				; position
 	bne .2
 	lda.w gmode
 	bit.w #gmhl
@@ -30,53 +30,53 @@ puckstick:
 	lda.w position,y
 	beq .1
 	lda.w stickhand,y
-	jsl.l makepde
+	jsl.l makepde					; makepde
 	lda.b d0
-	pha
-	lda.b a0
-	ldy.b a2
+	pha								; keep it
+	lda.b a0						; carrier offset
+	ldy.b a2						; a2
 	sty.b a0
 	sta.b a2
-	lda.w stickhand,y
+	lda.w stickhand,y				; stickhand of a2
 	sta.b d0
-	jsl.l makepde
-	lda.b a0
+	jsl.l makepde					; makepde
+	lda.b a0						; carrier offset
 	ldy.b a2
 	sty.b a0
 	sta.b a2
-	pla
+	pla								; carrier value
 	sec
-	sbc.b d0
+	sbc.b d0						; minus a2 value
 	clc
-	adc.w #$0024
-	jsl.l randoma
-	cmp.w #$0003
+	adc.w #$0024					; plus 36
+	jsl.l randoma					; random number 0 to A-1
+	cmp.w #$0003					; steal fails
 	bcs .1
 .1x:
 	ldy.b a0
 	lda.w stickhand,y
 	jsl.l makepde
 	lda.b d0
-	adc.w #$0014
+	adc.w #$0014					; nopuck = makepde(stickhand) + 20 for both
 	ldy.b a0
-	sta.w nopuck,y
-	lda.b a0
-	ldy.b a2
+	sta.w nopuck,y					; store it for the carrier
+	lda.b a0						; a2
+	ldy.b a2						; stealer
 	sty.b a0
 	sta.b a2
 	lda.w stickhand,y
 	jsl.l makepde
 	lda.b d0
-	adc.w #$0014
+	adc.w #$0014					; plus 20
 	ldy.b a0
-	sta.w nopuck,y
+	sta.w nopuck,y					; store it for the stealer
 	lda.b a0
 	ldy.b a2
 	sty.b a0
 	sta.b a2
-	tya
+	tya								; old carrier
 	lsr a
-	sta.w lastplayer
+	sta.w lastplayer				; lastplayer = the old carrier
 	lda.w #$000C
 	trb.w sflags
 .3:
@@ -108,8 +108,8 @@ puckstick:
 	lda.b r2+2
 	adc.b d0+2
 	sta.b d0+2
-	stz.b d1
-	lda.w sflags
+	stz.b d1						; no stickhand bonus
+	lda.w sflags					; sf2shot: no stickhand bonus
 	bit.w #$1000
 	bne .1xx
 	ldy.b a2
@@ -149,7 +149,7 @@ puckstick:
 
 .t1x:
 	ldy.b a2
-	lda.w #$0008
+	lda.w #$0008					; too fast: nopuck 8, deflect
 	sta.w nopuck,y
 	jmp.w .3
 

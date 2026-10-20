@@ -12,27 +12,27 @@ puckglue:
 	ldy.b a2
 	sty.w puckc
 	sty.b d0
-	stz.b a0
-	lda.w #$0002
+	stz.b a0						; a0 = 0
+	lda.w #$0002					; a1 = 2
 	sta.b a1
-	lda.w pfteam,y
+	lda.w pfteam,y					; team
 	bne .2
-	stz.b a1
+	stz.b a1						; a1 = 0
 	lda.w #$0002
-	sta.b a0
+	sta.b a0						; a0 = 2
 .2:
-	ldy.b a0
-	lda.w #$FFFF
-	sta.w tmtouch2,y
-	sta.w tmtouch3,y
-	lda.w tmflags,y
+	ldy.b a0						; other team
+	lda.w #$FFFF					; no touches
+	sta.w tmtouch2,y				; other team loses its touches
+	sta.w tmtouch3,y				; touches
+	lda.w tmflags,y					; flags
 	ora.w #$0004
 	sta.w tmflags,y
 	lda.w #$0010
 	trb.w sflags3
 	beq .3
-	ldy.b a1
-	lda.w tmfowon,y
+	ldy.b a1						; faceoff team
+	lda.w tmfowon,y					; faceoff wins
 	inc a
 	sta.w tmfowon,y
 	lda.l crowdlevel
@@ -47,21 +47,21 @@ puckglue:
 	lda.b a2
 	cmp.w passReceiverPlayerNum
 	bne .4
-	ldy.b a1
-	lda.w tmpasscomp,y
-	inc a
+	ldy.b a1						; team
+	lda.w tmpasscomp,y				; passes completed
+	inc a							; one more
 	sta.w tmpasscomp,y
 .4:
 	lda.w #$000C
 	trb.w sflags
-	ldy.b a2
-	lda.w position,y
+	ldy.b a2						; player
+	lda.w position,y				; position
 	bne .6
-	jsl.l ChkShotStat
-	ldy.b a2
-	lda.w #$008C
-	sta.w temp5,y
-	lda.w SPA,y
+	jsl.l ChkShotStat				; ChkShotStat (goalie made a save)
+	ldy.b a2						; player
+	lda.w #$008C					; temp5 = 140, count down for the faceoff
+	sta.w temp5,y					; store
+	lda.w SPA,y						; animation
 	cmp.w #SPAgdive
 	bne .6
 .5:

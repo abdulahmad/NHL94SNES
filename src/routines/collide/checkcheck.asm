@@ -20,12 +20,12 @@ org $9EA001
 	pla
 	sta.b d4
 	ldx.b a3
-.rtl:
+.rtl:								; return
 	rtl
 .1:
 	jmp.w holdcheck
-.cc:
-	ldy.b a2
+.cc:								;X is checking a2
+	ldy.b a2						; a2 holding: holdcheck
 	lda.w SPA,y
 	cmp.w #SPAHold
 	beq .1
@@ -35,11 +35,11 @@ org $9EA001
 	bne .t1
 	jmp.w Bcheck
 
-.t1:
+.t1:								;X must be in the burst anim
 	lda.w SPA,x
 	cmp.w #SPAburst
 	bne .rtl
-	lda.w gmclock
+	lda.w gmclock					; clock stopped: fight chance up
 	beq .1x
 	lda.w #$0100
 	sta.w impact,x
@@ -53,7 +53,7 @@ org $9EA001
 	sec
 	sbc.w Ypos,x
 	sta.b d1
-	jsl.l vtoa
+	jsl.l vtoa						; vector to direction
 	lda.b d0
 	sec
 	sbc.w facedir,x
@@ -113,7 +113,7 @@ org $9EA001
 	beq .t2x
 	bmi .t2x
 	sta.b d0
-	jsl.l randomd0
+	jsl.l randomd0					; random < aggress: down
 	lda.b d0
 	sec
 	sbc.w aggress,x
@@ -132,7 +132,7 @@ org $9EA001
 	sta.b d0
 	jmp.w AddPenalty
 
-.t1x:
+.t1x:								; roll a penalty, then a2 falls
 	rtl
 
 .t2x:
