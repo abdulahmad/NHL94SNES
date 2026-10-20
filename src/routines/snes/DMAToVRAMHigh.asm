@@ -1,5 +1,5 @@
 ; DMA X bytes from [p0] to the high bytes of video memory at Y
-DMAToVRAMHigh:
+DMAToVRAMHigh:						; called from LoadTitleLogo, TitleScreen
 	lda.w IniDispShadow-1
 	bpl .t1
 	stx.w DAS1L
@@ -21,15 +21,15 @@ DMAToVRAMHigh:
 	tay
 	rtl
 
-.t1:
+.t1:								; IniDispShadow-1 >= 0: falls through
 	txa
 	ldx.b DMAQueueTail
-.loop:
+.loop:								; loop: r3 = A, if carry clear go to .1, ...
 	sta.b r3
 	cmp.w #$1001
 	bcc .1
 	lda.w #$1000
-.1:
+.1:									; DMAQueue+4,x = A, DMAQueue+6,x = Y, DMAQueue+1,x = p0, ...
 	sta.w DMAQueue+4,x
 	pha
 	tya
@@ -59,6 +59,6 @@ DMAToVRAMHigh:
 	sbc.w #$1000
 	beq .2
 	bcs .loop
-.2:
+.2:									; DMAQueueTail = X, return
 	stx.b DMAQueueTail
 	rtl

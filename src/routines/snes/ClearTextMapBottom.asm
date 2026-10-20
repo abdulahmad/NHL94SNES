@@ -1,5 +1,5 @@
 ; Fill the text map from row 12 down with the blank tile
-ClearTextMapBottom:
+ClearTextMapBottom:					; called from ClearMessageArea, PlayerSelect, RedrawPlayerSelect, setop...
 	lda.w #$007E
 	sta.b p1+2
 	lda.w #$3AF4

@@ -1,5 +1,5 @@
 ; Clear the track pointers and waits of tracks Y up to X
-ClearTracks:
+ClearTracks:						; called from MusicStop, SoundInit
 	php
 	sep #$30
 	stx.b $52
@@ -9,7 +9,7 @@ ClearTracks:
 	tay
 	rep #$20
 	lda.w #$0000
-.loop:
+.loop:								; loop: TrackInst,y = A, TrackWait,y = A, Y + 1, ...
 	sta.w TrackInst,y
 	sta.w TrackWait,y
 	iny

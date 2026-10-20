@@ -1,5 +1,5 @@
 ; DMA X bytes from [p0] to video memory at Y
-DMAToVRAM:
+DMAToVRAM:							; called from DrawMatchupPictures, DrawOtherScoresPage, DrawPenaltyPage...
 	lda.w IniDispShadow-1
 	bpl QueueVRAMDMA
 	stx.w DAS1L
@@ -11,7 +11,7 @@ DMAToVRAM:
 	bmi .1
 	sty.w VMADDL
 	sty.b r3
-.1:
+.1:									; A1B1 = p0+2, MDMAEN = $02, return
 	sep #$20
 	lda.b p0+2
 	sta.w A1B1

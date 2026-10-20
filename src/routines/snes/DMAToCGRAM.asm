@@ -1,5 +1,5 @@
 ; DMA X bytes of colours from [p0] to CGRAM at colour Y
-DMAToCGRAM:
+DMAToCGRAM:							; called from ClrHor, DrawHorTeams, IntroSequence, PlayoffScreen, Pulse...
 	sep #$20
 	lda.w IniDispShadow
 	bpl .t1
@@ -19,11 +19,11 @@ DMAToCGRAM:
 	stx.w A1B1
 	ldx.b #$02
 	stx.w MDMAEN
-.1:
+.1:									; return
 	rep #$30
 	rtl
 
-.t1:
+.t1:								; IniDispShadow >= 0: CGDMAColour = Y, CGDMABank = p0+2, CGDMASrc = p0...
 	sty.w CGDMAColour
 	rep #$20
 	lda.b p0+2
@@ -35,7 +35,7 @@ DMAToCGRAM:
 	sta.w CGDMALen
 	rtl
 
-.t3:
+.t3:								; if zero go to .t1x, ...
 	cmp.w #$0000
 	beq .t1x
 	cmp.w #$0100
@@ -43,7 +43,7 @@ DMAToCGRAM:
 	tya
 	asl a
 	tay
-.loop:
+.loop:								; loop: [p1],y = [p0],y, Y + 1, Y + 1, ...
 	lda.b [p0],y
 	sta.b [p1],y
 	iny
@@ -52,12 +52,12 @@ DMAToCGRAM:
 	bne .loop
 	rtl
 
-.t1x:
+.t1x:								; falls through
 	lda.w #$0000
 	tya
 	asl a
 	tay
-.loopx:
+.loopx:								; loop: [p1],y = A, Y + 1, Y + 1, ...
 	sta.b [p1],y
 	iny
 	iny
@@ -65,14 +65,14 @@ DMAToCGRAM:
 	bne .loopx
 	rtl
 
-.t2:
+.t2:								; and #$00FF, xba, r3 = A, ...
 	and.w #$00FF
 	xba
 	sta.b r3
 	tya
 	asl a
 	tay
-.loopx2:
+.loopx2:							; loop: ora r3, WRMPYA = A, xba, ...
 	lda.b [p0],y
 	and.w #$001F
 	ora.b r3

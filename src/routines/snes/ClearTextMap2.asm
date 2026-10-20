@@ -1,5 +1,5 @@
 ; Fill the second text map ($7E3FF4, the one SendTextMap2 sends) with the blank tile
-ClearTextMap2:
+ClearTextMap2:						; called from LoadPlayerCardScreen
 	lda.w #textmap2>>16
 	sta.b p1+2
 	lda.w #textmap2
