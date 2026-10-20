@@ -1,5 +1,5 @@
 ; convert $00 bytes of linear 4bpp tiles at [p0] to SNES planar, in place
-LinearToPlanar:
+LinearToPlanar:						; called from DrawPlayerPicture, LoadCenterIce, LoadMatchupPhotos, Load...
 	ldx.b r0
 	phb
 	sep #$20
@@ -15,7 +15,7 @@ LinearToPlanar:
 	lsr a
 	sta.b r0
 	bra .2
-.1:
+.1:									; (p0),y = 0: if zero go to .6, ...
 	txa
 	lsr a
 	lsr a
@@ -26,7 +26,7 @@ LinearToPlanar:
 	iny
 	iny
 	bra .5
-.2:
+.2:									; r3 = 0, r3+2 = 0
 	ldx.w #$0080
 	stz.b r3
 	stz.b r3+2
@@ -34,12 +34,12 @@ LinearToPlanar:
 	asl a
 	asl a
 	tay
-.5:
+.5:									; loop: if (p0),y = 0 go to .1, ...
 	lda.b (p0),y
 	beq .1
 	xba
 	tay
-.loop:
+.loop:								; loop: if carry clear go to .1x, ...
 	tya
 	asl a
 	bcc .1x
@@ -47,28 +47,28 @@ LinearToPlanar:
 	txa
 	tsb.b r3+1
 	tya
-.1x:
+.1x:								; asl a, if carry clear go to .2x, ...
 	asl a
 	bcc .2x
 	tay
 	txa
 	tsb.b r3
 	tya
-.2x:
+.2x:								; asl a, if carry clear go to .3, ...
 	asl a
 	bcc .3
 	tay
 	txa
 	tsb.b r3+3
 	tya
-.3:
+.3:									; asl a, if carry clear go to .4, ...
 	asl a
 	bcc .4
 	tay
 	txa
 	tsb.b r3+2
 	tya
-.4:
+.4:									; if carry set go to .loop, ...
 	tay
 	txa
 	lsr a
@@ -86,7 +86,7 @@ LinearToPlanar:
 	iny
 	iny
 	bra .5
-.6:
+.6:									; if zero go to .1xx, ...
 	lda.b r1+2
 	inc a
 	inc a
@@ -97,7 +97,7 @@ LinearToPlanar:
 	clc
 	adc.w #$0010
 	tay
-.1xx:
+.1xx:								; r1+2 = Y, (p1),y = r3+2, (p1),y = r3, ...
 	sty.b r1+2
 	lda.b r3+2
 	sta.b (p1),y
