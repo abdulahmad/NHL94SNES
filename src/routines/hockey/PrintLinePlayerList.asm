@@ -1,6 +1,6 @@
 ; Line editor player list: each row a player name and the attribute (GetNameandAttrib), the selected row
 ; highlighted
-PrintLinePlayerList:
+PrintLinePlayerList:				; called from SelectLinePlayer
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -31,7 +31,7 @@ PrintLinePlayerList:
 	lda.w pickrows
 	dec a
 	sta.b d1
-.loop:
+.loop:								; loop: printa = $3800, if not zero go to .1, ...
 	lda.w #$3800
 	sta.w printa
 	lda.b d1
@@ -41,7 +41,7 @@ PrintLinePlayerList:
 	bne .1
 	lda.w #$2000
 	sta.w printa
-.1:
+.1:									; a5 = a1, a5+2 = a1+2, printx = $0002, ...
 	lda.b a1
 	sta.b a5
 	lda.b a1+2
@@ -60,7 +60,7 @@ PrintLinePlayerList:
 	bpl .2
 	lda.w #$0010
 	sta.b r2
-.2:
+.2:									; d0 = r1, call GetNameandAttrib, increment a3, ...
 	lda.b r1
 	sta.b d0
 	jsl.l GetNameandAttrib

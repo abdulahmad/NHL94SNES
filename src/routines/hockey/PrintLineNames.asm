@@ -1,5 +1,5 @@
 ; Print the current line name. A zero select word uses the best-line list.
-PrintLineNames:
+PrintLineNames:						; called from EditLinesScreen
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -25,7 +25,7 @@ PrintLineNames:
 	sta.b a1+2
 	lda.w #BestLineNames
 	sta.b a1
-.1:
+.1:									; call AdvanceStringPtr, call print, d4+2 = [a1], ...
 	jsl.l AdvanceStringPtr
 	jsl.l print
 	lda.b [a1]

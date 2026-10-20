@@ -1,5 +1,5 @@
 ; Print the fourth MultiPlayer 5 warning line, centered.
-PrintMP5Line4:
+PrintMP5Line4:						; called from ShowMP5Warning
 	lda.b a1+2
 	pha
 	lda.b a1

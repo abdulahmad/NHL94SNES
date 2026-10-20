@@ -1,5 +1,5 @@
 ; Line editor: erase the line area and print the selected line's players by position, with the goalie marks
-PrintLinePlayers:
+PrintLinePlayers:					; called from PrintLineNames
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -68,15 +68,15 @@ PrintLinePlayers:
 	sbc.w #$0005
 	beq .3
 	bmi .t1
-.1:
+.1:									; if overflow clear go to .2, ...
 	bvc .2
 	bra .3
 
-.t1:
+.t1:								; if overflow clear go to .3
 	bvc .3
-.2:
+.2:									; decrement d1
 	dec.b d1
-.3:
+.3:									; loop: printa = $3800, if d1 != linecursor go to .1x, ...
 	lda.w #$3800
 	sta.w printa
 	lda.b d1
@@ -88,7 +88,7 @@ PrintLinePlayers:
 	and.w #$00FF
 	dec a
 	sta.l matchuphome
-.1x:
+.1x:								; printx = $0005, a1 = a5, a1+2 = a5+2, ...
 	lda.w #$0005
 	sta.w printx
 	lda.b a5
@@ -123,8 +123,8 @@ PrintLinePlayers:
 	bmi .t1x
 	jmp.w .3
 
-.t1x:
+.t1x:								; d1 counted below 0: call DrawEditLinesTitle, return
 	jsl.l DrawEditLinesTitle
 	rts
-.4:
+.4:									; db $01,$02,$03,$04
 	db $01,$02,$03,$04

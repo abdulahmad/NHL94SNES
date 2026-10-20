@@ -1,6 +1,6 @@
 ; The player select screen after the game setup: each pad moves its icon under the visitors or home team
 ; ($1C84-$1C8C), start goes on
-PlayerSelect:
+PlayerSelect:						; called from setoptions
 	stz.w cont1team
 	stz.w cont2team
 	stz.w cont3team
@@ -10,7 +10,7 @@ PlayerSelect:
 	bne .t1
 	rtl
 
-.t1:
+.t1:								; notdemo != 0: mp5readall = $FFFF, call FadeOut, call WaitFadeOut, ...
 	lda.w #$FFFF
 	sta.w mp5readall
 	jsl.l FadeOut
@@ -63,20 +63,20 @@ PlayerSelect:
 	beq .1
 	lda.w VisTeam
 	sta.w HomeTeam
-.1:
+.1:									; decrement d1, increment d1+2
 	dec.b d1
 	inc.b d1+2
-.2:
+.2:									; cont1team = $0001
 	lda.w #$0001
 	sta.w cont1team
-.3:
+.3:									; call ClearTextMapBottom, call ClearBigText
 	lda.b d1
 	pha
 	jsl.l ClearTextMapBottom
 	jsr.w ClearBigText
 	ldx.w #$0000
 	lda.w #$0000
-.loop:
+.loop:								; loop: bigtextbuf,x = A, X + 1, X + 1, ...
 	sta.l bigtextbuf,x
 	inx
 	inx
@@ -94,7 +94,7 @@ PlayerSelect:
 	pha
 	bne .1x
 	jsr.w DrawSelectTeam
-.1x:
+.1x:								; d1+2 = pulled value, printx = $0016, d1 = HomeTeam, ...
 	pla
 	sta.b d1+2
 	lda.w #$0016
@@ -143,7 +143,7 @@ PlayerSelect:
 	sta.b a1+2
 	bra .t2
 
-.t1x:
+.t1x:								; d1+2 = 0: a1 = NotTxt2, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -172,7 +172,7 @@ PlayerSelect:
 	sta.b a1+2
 	bra .t2
 
-.t2:
+.t2:								; a1 = UseToSelectTeamTxt, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -200,7 +200,7 @@ PlayerSelect:
 	pla
 	sta.b a1+2
 	jsl.l QueueTextDMA
-.4:
+.4:									; call WaitFrame, eor d2, if not zero go to .t5, ...
 	jsl.l WaitFrame
 	ldx.w mp5warning
 	txa
@@ -208,7 +208,7 @@ PlayerSelect:
 	bne .t5
 	jmp.w .t6
 
-.t5:
+.t5:								; d2 = X, if zero go to .t4, ...
 	stx.b d2
 	txa
 	beq .t4
@@ -220,56 +220,56 @@ PlayerSelect:
 	bne .t3
 	bra .t6
 
-.t1xx:
+.t1xx:								; call RedrawPlayerSelect, call Multi5SocketMsg, go to .t6
 	jsl.l RedrawPlayerSelect
 	jsl.l Multi5SocketMsg
 	bra .t6
 
-.t2x:
+.t2x:								; call RedrawPlayerSelect, call Multi5ScopeMsg, go to .t6
 	jsl.l RedrawPlayerSelect
 	jsl.l Multi5ScopeMsg
 	bra .t6
 
-.t3:
+.t3:								; call RedrawPlayerSelect, call Multi5MouseMsg, go to .t6
 	jsl.l RedrawPlayerSelect
 	jsl.l Multi5MouseMsg
 	bra .t6
 
-.t4:
+.t4:								; call Multi5Init, go to .3
 	jsl.l Multi5Init
 	jmp.w .3
 
-.t6:
+.t6:								; if mp5warning = 0 go to .t1xxx, ...
 	lda.w mp5warning
 	beq .t1xxx
 	jmp.w .4
 
-.t1xxx:
+.t1xxx:								; mp5warning = 0: call ReadPads
 	jsl.l ReadPads
 	ldx.w #$0000
-.5:
+.5:									; if mp5warning != 0 go to .1xx, ...
 	lda.w mp5warning
 	bne .1xx
 	lda.w JoyPad,x
 	and.w #$000F
 	beq .t1xxxx
-.1xx:
+.1xx:								; cont1team,x = $0000, go to .10
 	lda.w #$0000
 	sta.w cont1team,x
 	jmp.w .10
 
-.t1xxxx:
+.t1xxxx:							; JoyPad,x & $000F = 0: if padnew,x bit $1000 set go to .t3x, ...
 	lda.w padnew,x
 	bit.w #$1000
 	bne .t3x
 	jmp.w .6
 
-.t3x:
+.t3x:								; padnew,x bit $1000 set: if d1+2 = 0 go to .1xxx, ...
 	lda.b d1+2
 	beq .1xxx
 	ldx.w #$0000
 	lda.w #$0000
-.loopx:
+.loopx:								; loop: ora cont1team,x, X + 1, X + 1, ...
 	ora.w cont1team,x
 	inx
 	inx
@@ -278,12 +278,12 @@ PlayerSelect:
 	bit.w #$0001
 	beq .t1xxxxx
 	jsl.l FigureJoy
-.1xxx:
+.1xxx:								; if OptPlayMode != $0004 go to .3x, ...
 	lda.l OptPlayMode
 	cmp.w #$0004
 	bne .3x
 	ldx.w #$0005
-.loop2:
+.loop2:								; loop: if cont1team,y = 0 go to .2x, ...
 	txa
 	asl a
 	tay
@@ -293,7 +293,7 @@ PlayerSelect:
 	txa
 	dec a
 	sta.b r3+2
-.loop3:
+.loop3:								; loop: if cont1team,y = r3 go to .t2xx, ...
 	lda.b r3+2
 	asl a
 	tay
@@ -302,14 +302,14 @@ PlayerSelect:
 	beq .t2xx
 	dec.b r3+2
 	bpl .loop3
-.2x:
+.2x:								; X - 1, if X not yet 0 go to .loop2
 	dex
 	bne .loop2
-.3x:
+.3x:								; mp5readall = 0, return
 	stz.w mp5readall
 	rtl
 
-.t1xxxxx:
+.t1xxxxx:							; a1 = AtLeastOnePersonMustTxt, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -340,7 +340,7 @@ PlayerSelect:
 	jsl.l WaitPadsRelease
 	bra .4x
 
-.t2xx:
+.t2xx:								; cont1team,y = r3: a1 = OnlyOnePlayerPerTeamTxt, call print, a1 = pull...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -369,10 +369,10 @@ PlayerSelect:
 	sta.b a1+2
 	jsl.l QueueTextDMA
 	jsl.l WaitPadsRelease
-.4x:
+.4x:								; loop: call ReadPads
 	jsl.l ReadPads
 	ldx.w #$0008
-.loopxx:
+.loopxx:							; loop: if mp5warning != 0 go to .1xxxx, ...
 	lda.w mp5warning
 	bne .1xxxx
 	lda.w JoyPad,x
@@ -380,13 +380,13 @@ PlayerSelect:
 	bne .1xxxx
 	and.w #$FFF0
 	bne .t1xxxxxx
-.1xxxx:
+.1xxxx:								; X - 1, X - 1, if X still >= 0 go to .loopxx, ...
 	dex
 	dex
 	bpl .loopxx
 	bra .4x
 
-.t1xxxxxx:
+.t1xxxxxx:							; a1 = UseToSelectTeamTxt2, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -414,37 +414,37 @@ PlayerSelect:
 	pla
 	sta.b a1+2
 	jsl.l QueueTextDMA
-.loopxxx:
+.loopxxx:							; loop: falls through
 	ldx.w #$0008
-.loop2x:
+.loop2x:							; loop: if JoyPad,x bit $000F set go to .1xxxxx, ...
 	lda.w JoyPad,x
 	bit.w #$000F
 	bne .1xxxxx
 	bit.w #$1000
 	bne .loopxxx
-.1xxxxx:
+.1xxxxx:							; X - 1, X - 1, if X still >= 0 go to .loop2x, ...
 	dex
 	dex
 	bpl .loop2x
 	jmp.w .4
-.6:
+.6:									; if zero go to .9, ...
 	bit.w #$0200
 	beq .9
 	lda.w cont1team,x
 	beq .8
 	cmp.w #$0001
 	bne .10
-.7:
+.7:									; cont1team,x = $0000, go to .10
 	lda.w #$0000
 	sta.w cont1team,x
 	bra .10
-.8:
+.8:									; cont1team,x = 0: if d1+2 != 0 go to .10, ...
 	lda.b d1+2
 	bne .10
 	lda.w #$0002
 	sta.w cont1team,x
 	bra .10
-.9:
+.9:									; if zero go to .10, ...
 	bit.w #$0100
 	beq .10
 	lda.w cont1team,x
@@ -454,7 +454,7 @@ PlayerSelect:
 	beq .7
 	lda.w #$0001
 	sta.w cont1team,x
-.10:
+.10:								; X + 1, X + 1, if OptPlayMode != $0004 go to .1xxxxxx, ...
 	inx
 	inx
 	lda.l OptPlayMode
@@ -462,12 +462,12 @@ PlayerSelect:
 	bne .1xxxxxx
 	cpx.w #$0004
 	bcs .t1xxxxxxx
-.1xxxxxx:
+.1xxxxxx:							; if carry set go to .t1xxxxxxx, ...
 	cpx.w #$000A
 	bcs .t1xxxxxxx
 	jmp.w .5
 
-.t1xxxxxxx:
+.t1xxxxxxx:							; call SpriteFrameStart, setupvis = VisTeam, setuphome = HomeTeam, ...
 	jsl.l SpriteFrameStart
 	lda.w VisTeam
 	sta.l setupvis
@@ -477,7 +477,7 @@ PlayerSelect:
 	beq .1xxxxxxx
 	lda.w #$001C
 	sta.l setupvis
-.1xxxxxxx:
+.1xxxxxxx:							; a1 = PlayerSelectTitle, call PrintLetterSprites, call DrawMatchupPict...
 	ldx.w #$0047
 	ldy.w #$0018
 	lda.w #PlayerSelectTitle>>16
@@ -496,7 +496,7 @@ PlayerSelect:
 	lda.w #SpriteFrames
 	sta.b p1
 	ldy.w #$0000
-.loopxxxx:
+.loopxxxx:							; loop: if mp5warning != 0 go to .2xx, ...
 	phy
 	lda.w mp5warning
 	bne .2xx
@@ -550,7 +550,7 @@ PlayerSelect:
 	dex
 	lda.w #$2000
 	jsl.l DrawSprite
-.2xx:
+.2xx:								; Y + 1, Y + 1, if OptPlayMode != $0004 go to .3xx, ...
 	ply
 	iny
 	iny
@@ -559,10 +559,10 @@ PlayerSelect:
 	bne .3xx
 	cpy.w #$0004
 	bcs .4xx
-.3xx:
+.3xx:								; if carry clear go to .loopxxxx
 	cpy.w #$000A
 	bcc .loopxxxx
-.4xx:
+.4xx:								; p1+2 = pulled value, p1 = pulled value, call WaitFrame, ...
 	pla
 	sta.b p1+2
 	pla
@@ -570,9 +570,9 @@ PlayerSelect:
 	jsl.l WaitFrame
 	jsl.l SpriteFrameEnd
 	jmp.w .4
-.11:
+.11:								; dw $0080,$00D0,$0030,$0000,$0030,$00D0,$009C,$0000
 	dw $0080,$00D0,$0030,$0000,$0030,$00D0,$009C,$0000
-.12:
+.12:								; dw $0068,$007C,$0090,$00A4,$00B8,$0100,$0100,$0100, dw $0100,$0100,$0...
 	dw $0068,$007C,$0090,$00A4,$00B8,$0100,$0100,$0100
 	dw $0100,$0100,$0100,$0100,$0100,$0100,$0100,$0100
 	dw $0100,$0100,$0100,$0100,$0100,$0100,$0100,$0100
