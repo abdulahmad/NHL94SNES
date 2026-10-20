@@ -1,7 +1,7 @@
 ; Draw string a1 as letter sprites at X / Y (the PrintTeamSprites letter loop)
-PrintStringSprites:
+PrintStringSprites:					; called from PrintCopyright, RollCredits
 	phb
-	phk
+	phk								; data bank = program bank
 	plb
 	stx.w letterx
 	sty.w lettery

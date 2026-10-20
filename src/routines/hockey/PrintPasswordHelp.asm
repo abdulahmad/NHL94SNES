@@ -1,5 +1,5 @@
 ; Print the password screen keys: Select, A Next, Y Back, Press start
-PrintPasswordHelp:
+PrintPasswordHelp:					; called from BadPasswordPrompt, PasswordRedraw
 	lda.b a1+2
 	pha
 	lda.b a1

@@ -1,8 +1,8 @@
 ; Draw string [p0] in the big proportional font: letter tiles into $7E4EF4 from tile $7E3466, centred in $24
 ; pixels from printx, with the jmlvector hook placing each letter on the map
-RenderBigText:
+RenderBigText:						; called from DrawSelectTeam, PlayoffScreen
 	phb
-	phk
+	phk								; data bank = program bank
 	plb
 	lda.w #hlsavebuf>>16
 	sta.b p1+2
@@ -10,7 +10,7 @@ RenderBigText:
 	sta.b p1
 	jsr.w .9
 	lsr a
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
 	adc.w #$0024
@@ -26,13 +26,13 @@ RenderBigText:
 	asl a
 	asl a
 	asl a
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
 	adc.b r3
 	sta.b r3
 	ldy.w #$0000
-.1:
+.1:									; r0+2 = r3 * 2, if [p0],y & $00FF != 0 go to .t2, ...
 	lda.b r3
 	asl a
 	sta.b r0+2
@@ -43,7 +43,7 @@ RenderBigText:
 	sta.b r2
 	jmp.w .4
 
-.t2:
+.t2:								; [p0],y & $00FF != 0: if zero go to .2, ...
 	cmp.w #$0020
 	beq .2
 	cmp.w #$002E
@@ -51,11 +51,11 @@ RenderBigText:
 	lda.w #$001A
 	bra .2
 
-.t1:
+.t1:								; and #$00DF, sbc #$0041
 	and.w #$00DF
 	sec
 	sbc.w #$0041
-.2:
+.2:									; r2 = A, if not zero go to .t1x, ...
 	phy
 	sta.b r2
 	cmp.w #$0020
@@ -63,7 +63,7 @@ RenderBigText:
 	lda.w #$0005
 	bra .3
 
-.t1x:
+.t1x:								; r1 = BigLetterMap+6,x * 2 * 2 * 2 * 2 * 2, r1+2 = BigLetterMap+6,x *...
 	lda.b r2
 	asl a
 	tax
@@ -95,12 +95,12 @@ RenderBigText:
 	ldx.b r2
 	lda.l LetterWidths,x
 	and.w #$00FF
-.3:
+.3:									; adc r3, if carry clear go to .5
 	clc
 	adc.b r3
 	cmp.w #$0008
 	bcc .5
-.4:
+.4:									; call jmlvector, increment printx, r1 = r1+2, ...
 	jsl.l jmlvector
 	inc.w printx
 	lda.b r1+2
@@ -135,17 +135,17 @@ RenderBigText:
 	lda.l bigtextchar
 	inc a
 	jsr.w .11
-.5:
+.5:									; if r2 != $0020 go to .t1xx, ...
 	ldx.b r2
 	cmp.w #$0020
 	bne .t1xx
 	lda.w #$0005
 	bra .6
 
-.t1xx:
+.t1xx:								; r2 != $0020: falls through
 	lda.l LetterWidths,x
 	and.w #$00FF
-.6:
+.6:									; adc r3, and #$0007, r3 = A, ...
 	clc
 	adc.b r3
 	and.w #$0007
@@ -153,16 +153,16 @@ RenderBigText:
 	ply
 	iny
 	jmp.w .1
-.7:
+.7:									; r2 negative: return
 	plb
 	rtl
-.8:
+.8:									; db $FE,$FE,$FC,$FC,$F8,$F8,$F0,$F0,$E0,$E0,$C0,$C0,$80,$80,$00,$00, ...
 	db $FE,$FE,$FC,$FC,$F8,$F8,$F0,$F0,$E0,$E0,$C0,$C0,$80,$80,$00,$00
 	db $FF,$FF,$7F,$7F,$3F,$3F,$1F,$1F,$0F,$0F,$07,$07,$03,$03,$01,$01
-.9:
+.9:									; subroutine: r3 = 0
 	stz.b r3
 	ldy.w #$0000
-.1x:
+.1x:								; if [p0],y & $00FF = 0 go to .5x, ...
 	lda.b [p0],y
 	and.w #$00FF
 	beq .5x
@@ -173,20 +173,20 @@ RenderBigText:
 	lda.w #$0005
 	bra .3x
 
-.t3:
+.t3:								; if not zero go to .t1xxx, ...
 	cmp.w #$002E
 	bne .t1xxx
 	lda.w #$0003
 	bra .3x
 
-.t1xxx:
+.t1xxx:								; if not zero go to .t2x, ...
 	cmp.w #$0040
 	bne .t2x
 	lda.l LetterWidths+$1B
 	and.w #$00FF
 	bra .3x
 
-.t2x:
+.t2x:								; if carry clear go to .t1xxxx, ...
 	cmp.w #$0030
 	bcc .t1xxxx
 	cmp.w #$003A
@@ -197,25 +197,25 @@ RenderBigText:
 	adc.w #$001C
 	bra .2x
 
-.t1xxxx:
+.t1xxxx:							; and #$00DF, sbc #$0041
 	and.w #$00DF
 	sec
 	sbc.w #$0041
-.2x:
+.2x:								; falls through
 	tax
 	lda.l LetterWidths,x
 	and.w #$00FF
-.3x:
+.3x:								; adc r3, r3 = A
 	clc
 	adc.b r3
 	sta.b r3
-.4x:
+.4x:								; Y + 1, go to .1x
 	iny
 	bra .1x
-.5x:
+.5x:								; [p0],y & $00FF = 0: return
 	lda.b r3
 	rts
-.10:
+.10:								; subroutine: asl a, asl a, asl a, ...
 	asl a
 	asl a
 	asl a
@@ -223,16 +223,16 @@ RenderBigText:
 	tax
 	lda.w #$0008
 	sta.b r0
-.loop:
+.loop:								; loop: if r3 = 0 go to .1xx
 	ldy.b r1
 	lda.b [p1],y
 	ldy.b r3
 	beq .1xx
-.loop2:
+.loop2:								; loop: lsr a, Y - 1, if Y not yet 0 go to .loop2
 	lsr a
 	dey
 	bne .loop2
-.1xx:
+.1xx:								; and .8+16,y, ora bigtextbuf,x, bigtextbuf,x = A, ...
 	ldy.b r0+2
 	and.w .8+16,y
 	ora.l bigtextbuf,x
@@ -244,7 +244,7 @@ RenderBigText:
 	dec.b r0
 	bne .loop
 	rts
-.11:
+.11:								; subroutine: asl a, asl a, asl a, ...
 	asl a
 	asl a
 	asl a
@@ -252,12 +252,12 @@ RenderBigText:
 	tax
 	lda.w #$0008
 	sta.b r0
-.loopx:
+.loopx:								; loop: Y + 1
 	ldy.b r1
 	lda.b [p1],y
 	ldy.b r3+2
 	iny
-.loop2x:
+.loop2x:							; loop: asl a, Y - 1, if Y not yet 0 go to .loop2x, ...
 	asl a
 	dey
 	bne .loop2x
@@ -273,7 +273,7 @@ RenderBigText:
 	rts
 ; jmlvector letter hook of PlayoffScreen: put letter tile $7E3466 (two rows) at printx / printy of the $7EC67C
 ; map
-BigLetterPlayoff:
+BigLetterPlayoff:					; called from PlayoffScreen
 	lda.w printy
 	asl a
 	asl a
@@ -294,7 +294,7 @@ BigLetterPlayoff:
 	rtl
 ; jmlvector letter hook of DrawSelectTeam: put letter tile $7E3466 (two rows) at printx / printy of the
 ; $7EA67C map
-BigLetterSelect:
+BigLetterSelect:					; called from DrawSelectTeam
 	lda.w printy
 	asl a
 	asl a

@@ -1,5 +1,5 @@
 ; Other scores: game $1DB9, its two teams with their scores and the period label (PerLabels)
-PrintOtherScore:
+PrintOtherScore:					; called from FillOtherScores
 	lda.w curitem
 	asl a
 	tax
@@ -22,14 +22,14 @@ PrintOtherScore:
 	lda.b d0
 	cmp.w #$0004
 	bne .2
-.1:
+.1:									; increment d0
 	inc.b d0
-.2:
+.2:									; a0 = PerLabels
 	lda.w #PerLabels>>16
 	sta.b a0+2
 	lda.w #PerLabels
 	sta.b a0
-.loop:
+.loop:								; loop: a1+2 = a0+2, a1 = a0, a0 = [a0] + a0, ...
 	lda.b a0+2
 	sta.b a1+2
 	lda.b a0
@@ -41,7 +41,7 @@ PrintOtherScore:
 	dec.b d0
 	bmi .3
 	bne .loop
-.3:
+.3:									; call PrintToStatsPage, increment printy, return
 	jsl.l PrintToStatsPage
 	inc.w printy
 	rts

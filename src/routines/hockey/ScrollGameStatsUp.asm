@@ -1,5 +1,5 @@
 ; Scroll the game stats up one row.
-ScrollGameStatsUp:
+ScrollGameStatsUp:					; called from GameStatsInput, GameStatsKeys
 	jsr.w ClearGameStatBraces
 	lda.w listtop
 	dec a
@@ -11,7 +11,7 @@ ScrollGameStatsUp:
 	jsl.l WaitFrame
 	lda.w #$000D
 	sta.w irqvscroll1
-.loop:
+.loop:								; loop: call WaitFrame, decrement irqvscroll1, decrement irqvscroll1, ...
 	jsl.l WaitFrame
 	dec.w irqvscroll1
 	dec.w irqvscroll1
