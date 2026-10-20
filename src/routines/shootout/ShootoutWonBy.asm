@@ -4,21 +4,21 @@ ShootoutWonBy:						; "<team> Wins!" once the shootout is decided
 	bne .t1
 	jmp.w .3
 
-.t1:
+.t1:								; shootoutmode != 0: d0 = $000A, if shootoutdecider != 0 go to .t3, ...
 	lda.w #$000A
 	sta.b d0
 	lda.w shootoutdecider
 	bne .t3
 	jmp.w .3
 
-.t3:
+.t3:								; shootoutdecider != 0: if not zero go to .t1x, ...
 	lda.w tmscore
 	sec
 	sbc.w tmscore+2
 	bne .t1x
 	jmp.w .3
 
-.t1x:
+.t1x:								; if minus go to .t2, ...
 	phx
 	phy
 	lda.b d1
@@ -32,9 +32,9 @@ ShootoutWonBy:						; "<team> Wins!" once the shootout is decided
 	ldy.w #$0000
 	bra .1
 
-.t2:
+.t2:								; falls through
 	ldy.w #$0002
-.1:
+.1:									; call GetTeamLongName, d0 = [a1] & $00FF - 1 - 1 * 2 + $0002, ...
 	phy
 	lda.w HomeTeam,y
 	jsl.l GetTeamLongName
@@ -82,13 +82,13 @@ ShootoutWonBy:						; "<team> Wins!" once the shootout is decided
 	jsl.l printbig
 	bra .2
 
-.t1xx:
+.t1xx:								; a1 = WinMark, call printbig
 	lda.w #WinMark>>16
 	sta.b a1+2
 	lda.w #WinMark
 	sta.b a1
 	jsl.l printbig
-.2:
+.2:									; a1 = pulled value, d1 = pulled value, d0 = PenNoText
 	pla
 	sta.b a1
 	pla
@@ -97,6 +97,6 @@ ShootoutWonBy:						; "<team> Wins!" once the shootout is decided
 	plx
 	lda.w #PenNoText
 	sta.b d0
-.3:
+.3:									; call AddPenalty2, return
 	jsl.l AddPenalty2
 	rtl

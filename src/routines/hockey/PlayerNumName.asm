@@ -1,5 +1,5 @@
 ; mesarea = the uniform number and name of roster player d0 of team a2
-PlayerNumName:
+PlayerNumName:						; called from DrawPlayerCard, GetNameandAttrib, GetPlayerName, PrintLin...
 	lda.b d0
 	pha
 	lda.b d0+2

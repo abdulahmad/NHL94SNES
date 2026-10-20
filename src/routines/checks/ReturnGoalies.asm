@@ -7,11 +7,11 @@ ReturnGoalies:						; tests both teams (a1 / a2 swapped); called from puckfaceof
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
-.1:
+.1:									; subroutine: if tmgoalie,y >= 0 go to .t1
 	ldy.b a2
 	lda.w tmgoalie,y
 	bpl .t1
-.2:
+.2:									; and #$00FF, if carry set go to .t1, ...
 	and.w #$00FF
 	cmp.w #$000A
 	bcs .t1

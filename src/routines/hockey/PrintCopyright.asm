@@ -1,5 +1,5 @@
 ; Print the two copyright lines.
-PrintCopyright:
+PrintCopyright:						; called from TitleScreen
 	lda.w #CopyrightLines>>16
 	sta.b a1+2
 	lda.w #CopyrightLines

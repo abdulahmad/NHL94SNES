@@ -15,7 +15,7 @@ CompShoot:							; computer player X shoots
 	sec
 	sbc.b d0
 	sta.b d0
-.1:
+.1:									; if carry clear go to .2, ...
 	lda.w #$0108					; $108 minus the puck y
 	sec
 	sbc.b d0

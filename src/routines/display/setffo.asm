@@ -1,19 +1,19 @@
 ; Draw the objects tied to rink scrolling (the pad labels)
-setffo:
+setffo:								; called from setvideo
 	lda.w #SpriteFrames>>16
 	sta.b p1+2
 	lda.w #SpriteFrames
 	sta.b p1
 	lda.w #$000C
 	sta.b a2
-.1:
+.1:									; if PadControlObj,y != $000F go to .3
 	ldy.b a2
 	lda.w PadControlObj,y
 	cmp.w #$000F
 	bne .3
-.2:
+.2:									; go to .6
 	jmp.w .6
-.3:
+.3:									; PadControlObj,y != $000F: tyx, r0 = .7,x, d0 = Xpos,x, ...
 	tyx
 	lda.l .7,x
 	sta.b r0
@@ -55,7 +55,7 @@ setffo:
 	sec
 	sbc.w #$0004
 	sta.b d0
-.1x:
+.1x:								; mesarea+2,y = rostnum,x & $000F, Y + 1, d0 = d0 - $0004, ...
 	lda.w rostnum,x
 	and.w #$000F
 	sta.w mesarea+2,y
@@ -80,10 +80,10 @@ setffo:
 	sec
 	sbc.w #$0006
 	sta.b d0
-.2x:
+.2x:								; mesarea = Y
 	sty.w mesarea
 	ldy.w #$0000
-.4:
+.4:									; d2 = Y, if zero go to .t1, ...
 	sty.b d2
 	lda.w mesarea+2,y
 	and.w #$00FF
@@ -101,23 +101,23 @@ setffo:
 	sta.b d0
 	bra .5
 
-.t1:
+.t1:								; d0 = d0 + $0004
 	lda.b d0
 	clc
 	adc.w #$0004
 	sta.b d0
-.5:
+.5:									; Y + 1, if not zero go to .4
 	ldy.b d2
 	iny
 	cpy.w mesarea
 	bne .4
-.6:
+.6:									; decrement a2, decrement a2, if a2 counted below 0 go to .t1x, ...
 	dec.b a2
 	dec.b a2
 	bmi .t1x
 	jmp.w .1
 
-.t1x:
+.t1x:								; a2 counted below 0: return
 	rtl
 .7:									; DrawSprite index (frame - 1) of each label
 	dw SPFpad-1,SPFpad+1-1,SPFpad+2-1,SPFpad+3-1,SPFpad+4-1,SPFpad+5-1,SPFreplay-1

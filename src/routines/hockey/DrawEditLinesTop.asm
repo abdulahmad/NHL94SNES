@@ -1,5 +1,5 @@
 ; Line editor: clear the top, the title (DrawEditLinesTitle) and the line frame
-DrawEditLinesTop:
+DrawEditLinesTop:					; called from EditLinesMenu, EditLinesScreen
 	lda.b a1+2
 	pha
 	lda.b a1

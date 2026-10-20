@@ -1,5 +1,5 @@
 ; Show the previous player card.
-PrevPlayerCard:
+PrevPlayerCard:						; called from PlayerCardsLoop
 	lda.w curitem
 	beq PlayerCardsWait
 	dec.w curitem
@@ -19,12 +19,12 @@ PrevPlayerCard:
 	clc
 	adc.b [a3],y
 	sta.b a3
-.loop:
+.loop:								; loop: decrement curplayer, if curplayer counted to 0 go to .1, ...
 	dec.w curplayer
 	beq .1
 	bmi .1
 	ldy.w #$0000
-.loop2:
+.loop2:								; loop: if zero go to .loop, ...
 	lda.b [a3],y
 	and.w #$00FF
 	cmp.w curplayer
@@ -32,12 +32,12 @@ PrevPlayerCard:
 	iny
 	cpy.w #$0006
 	bmi .loop2
-.1:
+.1:									; decrement curplayer, curitem = curplayer + $0007
 	dec.w curplayer
 	lda.w curplayer
 	clc
 	adc.w #$0007
 	sta.w curitem
-.2:
+.2:									; call DrawPlayerCard, go to PlayerCardsRedraw
 	jsl.l DrawPlayerCard
 	jmp.w PlayerCardsRedraw

@@ -1,10 +1,10 @@
 ; Stars of the Game
-ShowStars:
+ShowStars:							; called from InProgress
 	phx
 	phy
 	stx.b xsave
 	ldx.w #$0000
-.loop:
+.loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b d0,x
 	pha
 	inx
@@ -14,7 +14,7 @@ ShowStars:
 	ldx.b xsave
 	stx.b xsave
 	ldx.w #$0000
-.loop2:
+.loop2:								; loop: X + 1, X + 1, if not zero go to .loop2, ...
 	lda.b a0,x
 	pha
 	inx
@@ -89,7 +89,7 @@ ShowStars:
 	inc.b d3
 	lda.w #$0002
 	sta.b a2
-.1:
+.1:									; call printteamname, printy = $0005, printx = $0011, ...
 	jsl.l printteamname
 	lda.w #$0005
 	sta.w printy
@@ -113,7 +113,7 @@ ShowStars:
 	inc.b d3
 	lda.w #$0002
 	sta.b a2
-.2:
+.2:									; call printteamname, printy = $0006, printx = $0011, ...
 	jsl.l printteamname
 	lda.w #$0006
 	sta.w printy
@@ -137,7 +137,7 @@ ShowStars:
 	inc.b d3
 	lda.w #$0002
 	sta.b a2
-.3:
+.3:									; call printteamname, printy = $0007, printx = $0011, ...
 	jsl.l printteamname
 	lda.w #$0007
 	sta.w printy
@@ -149,7 +149,7 @@ ShowStars:
 	jsl.l print
 	stx.b xsave
 	ldx.w #$0012
-.loop3:
+.loop3:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b a0,x
 	dex
@@ -158,7 +158,7 @@ ShowStars:
 	ldx.b xsave
 	stx.b xsave
 	ldx.w #$0016
-.loop4:
+.loop4:								; loop: d0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b d0,x
 	dex
@@ -169,7 +169,7 @@ ShowStars:
 	plx
 	rtl
 
-.t1:
+.t1:								; subroutine: star1score+2 = $0000, star1score = $0000, star2score+2 =...
 	lda.w #$0000
 	sta.w star1score+2
 	lda.w #$0000
@@ -214,7 +214,7 @@ ShowStars:
 	clc
 	adc.w #$001A
 	sta.w otgoalscorer
-.1x:
+.1x:								; a2 = 0, call GetPlayerCount, starplayerend = d0, ...
 	stz.b a2
 	jsl.l GetPlayerCount
 	lda.b d0
@@ -223,13 +223,13 @@ ShowStars:
 	lda.b d0
 	sta.w stargoalieend
 	ldx.w #$0000
-.12:
+.12:								; if minus go to .t1x, ...
 	phx
 	cpx.w starplayerend
 	bmi .t1x
 	jmp.w .16
 
-.t1x:
+.t1x:								; call .17, if minus go to .t2, ...
 	jsl.l .17
 	lda.b d0+2
 	sec
@@ -238,17 +238,17 @@ ShowStars:
 	bvc .1xx
 	bra .3x
 
-.t2:
+.t2:								; if overflow clear go to .3x
 	bvc .3x
-.1xx:
+.1xx:								; if zero go to .2x, ...
 	beq .2x
 	bmi .t1xx
 	bvs .2x
 	bra .13
 
-.t1xx:
+.t1xx:								; if overflow set go to .13
 	bvs .13
-.2x:
+.2x:								; if zero go to .3x, ...
 	lda.b d0
 	sec
 	sbc.w star1score
@@ -257,9 +257,9 @@ ShowStars:
 	bvs .3x
 	bra .13
 
-.t1xxx:
+.t1xxx:								; if overflow set go to .13
 	bvs .13
-.3x:
+.3x:								; if minus go to .t1xxxx, ...
 	lda.b d0+2
 	sec
 	sbc.w star2score+2
@@ -267,17 +267,17 @@ ShowStars:
 	bvc .4
 	bra .6
 
-.t1xxxx:
+.t1xxxx:							; if overflow clear go to .6
 	bvc .6
-.4:
+.4:									; if zero go to .5, ...
 	beq .5
 	bmi .t1xxxxx
 	bvs .5
 	bra .14
 
-.t1xxxxx:
+.t1xxxxx:							; if overflow set go to .14
 	bvs .14
-.5:
+.5:									; if zero go to .6, ...
 	lda.b d0
 	sec
 	sbc.w star2score
@@ -286,27 +286,27 @@ ShowStars:
 	bvs .6
 	bra .14
 
-.t1xxxxxx:
+.t1xxxxxx:							; if overflow set go to .14
 	bvs .14
-.6:
+.6:									; if minus go to .8, ...
 	lda.b d0+2
 	sec
 	sbc.w star3score+2
 	bmi .8
 	bvc .9
-.7:
+.7:									; go to .16
 	jmp.w .16
-.8:
+.8:									; if overflow clear go to .7
 	bvc .7
-.9:
+.9:									; if zero go to .10, ...
 	beq .10
 	bmi .t1xxxxxxx
 	bvs .10
 	bra .15
 
-.t1xxxxxxx:
+.t1xxxxxxx:							; if overflow set go to .15
 	bvs .15
-.10:
+.10:								; if zero go to .11, ...
 	lda.b d0
 	sec
 	sbc.w star3score
@@ -315,11 +315,11 @@ ShowStars:
 	bvs .11
 	bra .15
 
-.t1xxxxxxxx:
+.t1xxxxxxxx:						; if overflow set go to .15
 	bvs .15
-.11:
+.11:								; go to .16
 	bra .16
-.13:
+.13:								; starswapplayer = star1, starswapscore+2 = star1score+2, starswapscore...
 	lda.w star1
 	sta.w starswapplayer
 	lda.w star1score+2
@@ -336,7 +336,7 @@ ShowStars:
 	sta.b d0+2
 	lda.w starswapscore
 	sta.b d0
-.14:
+.14:								; starswapplayer = star2, starswapscore+2 = star2score+2, starswapscore...
 	lda.w star2
 	sta.w starswapplayer
 	lda.w star2score+2
@@ -353,13 +353,13 @@ ShowStars:
 	sta.b d0+2
 	lda.w starswapscore
 	sta.b d0
-.15:
+.15:								; star3 = X, star3score+2 = d0+2, star3score = d0
 	stx.w star3
 	lda.b d0+2
 	sta.w star3score+2
 	lda.b d0
 	sta.w star3score
-.16:
+.16:								; X + 1, if starplayerend - $001A >= 0 go to .1xxx, ...
 	plx
 	inx
 	lda.w starplayerend
@@ -379,14 +379,14 @@ ShowStars:
 	clc
 	adc.w #$001A
 	sta.w stargoalieend
-.1xxx:
+.1xxx:								; if plus go to .t1xxxxxxxxx, ...
 	cpx.w #$0034
 	bpl .t1xxxxxxxxx
 	jmp.w .12
 
-.t1xxxxxxxxx:
+.t1xxxxxxxxx:						; return
 	rtl
-.17:
+.17:								; subroutine: a2 = 0, a1 = $0002, if minus go to .1xxxx, ...
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
@@ -395,7 +395,7 @@ ShowStars:
 	lda.w #$0002
 	sta.b a2
 	stz.b a1
-.1xxxx:
+.1xxxx:								; d0 = tmscore,y - tmscore,y, d0+2 = $0000 - $0000, if minus go to .t1x...
 	ldy.b a2
 	lda.w tmscore,y
 	ldy.b a1
@@ -414,7 +414,7 @@ ShowStars:
 	lda.w #$71B0
 	sta.b r2
 	jsr.w .18
-.2xx:
+.2xx:								; call Mul16U, call .18, call Mul16U, ...
 	sep #$20
 	lda.w tmgoals,x
 	rep #$20
@@ -444,7 +444,7 @@ ShowStars:
 	jsr.w .18
 	bra .3xx
 
-.t1xxxxxxxxxx:
+.t1xxxxxxxxxx:						; call GetPeriodTime, call DivX8U, d1 = A, ...
 	lda.b d0
 	pha
 	jsl.l GetPeriodTime
@@ -489,7 +489,7 @@ ShowStars:
 	lda.w #$24F8
 	sta.b r2
 	jsr.w .18
-.3xx:
+.3xx:								; d0+2 = d0+2 * 2, d0+2 = d0+2 + $0000, d0 = d0 & $7FFF, ...
 	lda.b d0+2
 	asl a
 	sta.b d0+2
@@ -502,7 +502,7 @@ ShowStars:
 	and.w #$7FFF
 	sta.b d0
 	rtl
-.18:
+.18:								; subroutine: d0 = d0 + r2, d0+2 = d0+2 + r2+2, return
 	lda.b d0
 	clc
 	adc.b r2

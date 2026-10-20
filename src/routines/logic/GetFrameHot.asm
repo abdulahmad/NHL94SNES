@@ -1,6 +1,6 @@
 ; d0 / d1 = the stick hot spot of object A's current frame, read from its SpriteFrames entry (bytes $12-$15),
 ; x / y flipped by the attribute and rotated in horizontal mode
-GetFrameHot:
+GetFrameHot:						; called from checkpuckcoll_ccx
 	phx
 	tay
 	lda.w frame,y
@@ -22,7 +22,7 @@ GetFrameHot:
 	cmp.w #$0080
 	bcc .1
 	ora.w #$FF00
-.1:
+.1:									; d0 = A, Y + 1, if carry clear go to .2, ...
 	sta.b d0
 	iny
 	lda.b [p0],y
@@ -30,7 +30,7 @@ GetFrameHot:
 	cmp.w #$0080
 	bcc .2
 	ora.w #$FF00
-.2:
+.2:									; d1 = A, Y + 1, if carry clear go to .3, ...
 	sta.b d1
 	iny
 	lda.b [p0],y
@@ -38,7 +38,7 @@ GetFrameHot:
 	cmp.w #$0080
 	bcc .3
 	ora.w #$FF00
-.3:
+.3:									; sbc d0, d0 = A, Y + 1, ...
 	sec
 	sbc.b d0
 	sta.b d0
@@ -48,7 +48,7 @@ GetFrameHot:
 	cmp.w #$0080
 	bcc .4
 	ora.w #$FF00
-.4:
+.4:									; eor #$FFFF, adc d1, d1 = A, ...
 	sec
 	eor.w #$FFFF
 	adc.b d1
@@ -56,12 +56,12 @@ GetFrameHot:
 	lda.w attribute,x
 	bit.w #$0800
 	beq .6
-.5:
+.5:									; d0 = $0000 - d0
 	lda.w #$0000
 	sec
 	sbc.b d0
 	sta.b d0
-.6:
+.6:									; if attribute,x bit $1000 set go to .7, ...
 	lda.w attribute,x
 	bit.w #$1000
 	bne .7
@@ -69,15 +69,15 @@ GetFrameHot:
 	sec
 	sbc.b d1
 	sta.b d1
-.7:
+.7:									; if sfhormode = 0 go to .8, ...
 	lda.w sfhormode
 	beq .8
 	lda.b d0
 	ldy.b d1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.b d1
 	sty.b d0
-.8:
+.8:									; return
 	plx
 	rtl

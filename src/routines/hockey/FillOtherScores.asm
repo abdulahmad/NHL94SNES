@@ -1,5 +1,5 @@
 ; Fill the other-scores rows, skipping this game.
-FillOtherScores:
+FillOtherScores:					; called from ShowOtherScores
 	lda.w #$007F
 	sta.b p1+2
 	lda.w #$2780
@@ -19,23 +19,23 @@ FillOtherScores:
 	lda.b r0
 	sta.w curitem
 	stz.w otherskip
-.2:
+.2:									; if not zero go to .t1
 	cmp.l gamenum
 	bne .t1
-.1:
+.1:									; increment otherskip, go to .3
 	inc.w otherskip
 	bra .3
 
-.t1:
+.t1:								; if curitem = listend go to .4, ...
 	lda.w curitem
 	cmp.w listend
 	beq .4
 	jsr.w PrintOtherScore
 	inc.w printy
-.3:
+.3:									; curitem = curitem + 1, go to .2
 	lda.w curitem
 	inc a
 	sta.w curitem
 	bra .2
-.4:
+.4:									; return
 	rtl

@@ -1,5 +1,5 @@
 ; The playoff tree screen
-PlayoffScreen:
+PlayoffScreen:						; called from GameOver, StartGame
 	lda.w #$FFFF
 	sta.l phototeams
 	sta.l phototeams+2
@@ -10,12 +10,12 @@ PlayoffScreen:
 	bne .t3
 	jmp.w .3
 
-.t3:
+.t3:								; OptPlayMode != 0: if not zero go to .t1, ...
 	cmp.w #$0004
 	bne .t1
 	jmp.w .3
 
-.t1:
+.t1:								; if playoffRoundIdx < $0002 go to .t2, ...
 	lda.l playoffRoundIdx
 	cmp.w #$0002
 	bcc .t2
@@ -24,7 +24,7 @@ PlayoffScreen:
 	beq .t2
 	jsl.l FadeOutSound
 	jsl.l forceblack
-.loop:
+.loop:								; loop: if MusicOn != 0 go to .loop, ...
 	lda.w MusicOn
 	bne .loop
 	lda.w #PlayoffSong>>16
@@ -34,9 +34,9 @@ PlayoffScreen:
 	jsl.l MusicStart
 	jmp.w .2
 
-.t2:
+.t2:								; call forceblack
 	jsl.l forceblack
-.2:
+.2:									; BGMODE = $09, BG1SC = $01, BG2SC = $08, ...
 	sep #$20
 	lda.b #$09
 	sta.w BGMODE
@@ -192,7 +192,7 @@ PlayoffScreen:
 	lda.w #$3674
 	sta.b p1
 	ldx.w #$001B
-.loopx:
+.loopx:								; loop: p0+2 = TeamBlockPalettes+2,x, p0 = TeamBlockPalettes,x, [p1],y...
 	phx
 	txa
 	asl a
@@ -352,7 +352,7 @@ PlayoffScreen:
 	sta.b a1+2
 	lda.w #$0001
 	sta.l bigtextchar
-.loop2:
+.loop2:								; loop: increment a0, printx = [a0] & $00FF, printa = $3000, ...
 	lda.b [a0]
 	inc.b a0
 	and.w #$00FF
@@ -376,7 +376,7 @@ PlayoffScreen:
 	bne .1
 	lda.w #$3400
 	sta.w printa
-.1:
+.1:									; p0 = TeamPlaceNames,x, p0+2 = $009C, jmlvector = $005C, ...
 	lda.b tmp4
 	asl a
 	tax
@@ -432,7 +432,7 @@ PlayoffScreen:
 	lda.b [a2]
 	clc
 	adc.l scorechars
-.loop3:
+.loop3:								; loop: screenmap+6,x = A, X + 1, X + 1, ...
 	sta.l screenmap+6,x
 	inx
 	inx
@@ -455,7 +455,7 @@ PlayoffScreen:
 	clc
 	adc.l scorechars
 	ora.w #$8000
-.loop4:
+.loop4:								; loop: screenmap+$F6,x = A, X + 1, X + 1, ...
 	sta.l screenmap+$F6,x
 	inx
 	inx
@@ -466,7 +466,7 @@ org $9D9000
 	beq .t1x
 	jmp.w .loop2
 
-.t1x:
+.t1x:								; d4 counted to 0: p0 = bigtextbuf, call DMAToVRAM
 	lda.w #bigtextbuf>>16
 	sta.b p0+2
 	lda.w #bigtextbuf
@@ -480,7 +480,7 @@ org $9D9000
 	asl a
 	tax
 	jsl.l DMAToVRAM
-.loopxx:
+.loopxx:							; loop: increment a0, if zero go to .7, ...
 	lda.b [a0]
 	inc.b a0
 	and.w #$00FF
@@ -498,7 +498,7 @@ org $9D9000
 	tax
 	lda.l PlayoffBracketMap+2
 	tay
-.loop2x:
+.loop2x:							; loop: screenmap+$206,x = [tmp0], tmp0 = tmp0 + PlayoffBracketMap + Pl...
 	lda.b [tmp0]
 	sta.l screenmap+$206,x
 	lda.b tmp0
@@ -512,12 +512,12 @@ org $9D9000
 	dey
 	bne .loop2x
 	bra .loopxx
-.3:
+.3:									; textdirtyhi = 0, textdirtylo = $FFFF, return
 	stz.w textdirtyhi
 	lda.w #$FFFF
 	sta.w textdirtylo
 	rtl
-.7:
+.7:									; increment a0, d2+2 = [a0] & $00FF * 2 * 2 * 2, increment a0, ...
 	lda.b [a0]
 	inc.b a0
 	and.w #$00FF
@@ -555,7 +555,7 @@ org $9D9000
 	sta.b d4
 	beq .1x
 	stz.b a2
-.loopxxx:
+.loopxxx:							; loop: increment a0, printx = [a0] & $00FF, increment a0, ...
 	lda.b [a0]
 	inc.b a0
 	and.w #$00FF
@@ -588,7 +588,7 @@ org $9D9000
 	inc.b a2
 	dec.b d4
 	bne .loopxxx
-.1x:
+.1x:								; p0 = StanleyCupMap, p1+2 = $007F, p1 = $0000, ...
 	lda.w #StanleyCupMap>>16
 	sta.b p0+2
 	lda.w #StanleyCupMap
@@ -690,7 +690,7 @@ org $9D9000
 	ldx.w #$0070
 	jsl.l DMAToCGRAM
 	jsl.l ScreenOn
-.2x:
+.2x:								; call WaitFrame, call ReadPads, ora padnew+2, ...
 	jsl.l WaitFrame
 	jsl.l ReadPads
 	lda.w padnew
@@ -699,7 +699,7 @@ org $9D9000
 	bne .t2x
 	jmp.w .3
 
-.t2x:
+.t2x:								; if vcount = d7 go to .2x, ...
 	lda.b vcount
 	cmp.b d7
 	beq .2x
@@ -724,15 +724,15 @@ org $9D9000
 	bne .3x
 	jmp.w .2x
 
-.t1xx:
+.t1xx:								; d3+2 = $FFFE, go to .3x
 	lda.w #$FFFE
 	sta.b d3+2
 	jmp.w .3x
 
-.t3x:
+.t3x:								; d3+2 = $0002
 	lda.w #$0002
 	sta.b d3+2
-.3x:
+.3x:								; if carry set go to .t2xx, ...
 	lda.w Hscroll
 	clc
 	adc.b d3+2
@@ -740,18 +740,18 @@ org $9D9000
 	bcs .t2xx
 	jmp.w .5
 
-.t2xx:
+.t2xx:								; if carry clear go to .t1xxx, ...
 	cmp.b d0+2
 	bcc .t1xxx
 	jmp.w .5
 
-.t1xxx:
+.t1xxx:								; Hscroll = A, and #$0007, if zero go to .t3xx, ...
 	sta.w Hscroll
 	and.w #$0007
 	beq .t3xx
 	jmp.w .4
 
-.t3xx:
+.t3xx:								; if d3+2 negative go to .t2xxx, ...
 	lda.b d3+2
 	bmi .t2xxx
 	lda.w Hscroll
@@ -764,7 +764,7 @@ org $9D9000
 	bcc .t1xxxx
 	jmp.w .4
 
-.t1xxxx:
+.t1xxxx:							; r7 = A, p0 = screenmap, MapVRAM = 0, ...
 	sta.b r7
 	pha
 	lda.w #screenmap>>16
@@ -803,7 +803,7 @@ org $9D9000
 	jsl.l MapPartToVRAM
 	bra .4
 
-.t2xxx:
+.t2xxx:								; d3+2 negative: if carry clear go to .4, ...
 	lda.w Hscroll
 	lsr a
 	lsr a
@@ -847,7 +847,7 @@ org $9D9000
 	sta.b r4+2
 	ldy.w #$0000
 	jsl.l MapPartToVRAM
-.4:
+.4:									; if Hscroll = $0058 go to .5, ...
 	lda.w Hscroll
 	cmp.w #$0058
 	beq .5
@@ -863,9 +863,9 @@ org $9D9000
 	beq .5
 	cmp.w #$02A8
 	bne .6
-.5:
+.5:									; d3+2 = 0
 	stz.b d3+2
-.6:
+.6:									; BG1HScroll = Hscroll - $0100, BG3HScroll = Hscroll - $0100, ...
 	lda.w Hscroll
 	sec
 	sbc.w #$0100
@@ -875,12 +875,12 @@ org $9D9000
 	sbc.w #$0080
 	sta.w BG2HScroll
 	jmp.w .2x
-.8:
+.8:									; db $04,$06,$08,$0A,$0C,$0E,$10,$12,$14,$16,$18,$1A,$1C,$1E,$24,$26, ...
 	db $04,$06,$08,$0A,$0C,$0E,$10,$12,$14,$16,$18,$1A,$1C,$1E,$24,$26
 	db $28,$2A,$2C,$2E,$30,$32,$34,$36,$38,$3A,$3C,$3E,$44,$46,$48,$4A
 	db $4C,$4E,$50,$52,$54,$56,$58,$5A,$5C,$5E,$64,$66,$68,$6A,$6C,$6E
 	db $70,$72,$74,$76,$78,$7A
-.9:
+.9:									; subroutine: colourbuf,x = X / 2, colourbuf+2,x = X / 2 + 1, if carry...
 	txa
 	asl a
 	asl a
@@ -903,7 +903,7 @@ org $9D9000
 	cpx.w #$0200
 	bcc .1xx
 	ora.b #$01
-.1xx:
+.1xx:								; colourbuf+1,x = A, colourbuf+3,x = A, r0 = Y / 2 & $0F, ...
 	sta.l colourbuf+1,x
 	sta.l colourbuf+3,x
 	lda.b r0+1,s
@@ -923,11 +923,11 @@ org $9D9000
 	rep #$20
 	rts
 
-.t1xxxxx:
+.t1xxxxx:							; subroutine: falls through
 	lda.b #$01
 	pha
 	ldy.w #$0007
-.2xx:
+.2xx:								; if r0+3,s & $01 = 0 go to .t1xxxxxx, ...
 	phx
 	lda.b r0+3,s
 	and.b #$01
@@ -936,10 +936,10 @@ org $9D9000
 	sta.l brackettiles,x
 	bra .3xx
 
-.t1xxxxxx:
+.t1xxxxxx:							; r0+3,s & $01 = 0: brackettiles,x = $80
 	lda.b #$80
 	sta.l brackettiles,x
-.3xx:
+.3xx:								; X + 1, if r0+3,s & $02 = 0 go to .t1xxxxxxx, ...
 	inx
 	lda.b r0+3,s
 	and.b #$02
@@ -948,10 +948,10 @@ org $9D9000
 	sta.l brackettiles,x
 	bra .4x
 
-.t1xxxxxxx:
+.t1xxxxxxx:							; r0+3,s & $02 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.4x:
+.4x:								; if r0+3,s & $04 = 0 go to .t1xxxxxxxx, ...
 	txa
 	clc
 	adc.b #$0F
@@ -963,10 +963,10 @@ org $9D9000
 	sta.l brackettiles,x
 	bra .5x
 
-.t1xxxxxxxx:
+.t1xxxxxxxx:						; r0+3,s & $04 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.5x:
+.5x:								; X + 1, if r0+3,s & $08 = 0 go to .t1xxxxxxxxx, ...
 	inx
 	lda.b r0+3,s
 	and.b #$08
@@ -975,10 +975,10 @@ org $9D9000
 	sta.l brackettiles,x
 	bra .6x
 
-.t1xxxxxxxxx:
+.t1xxxxxxxxx:						; r0+3,s & $08 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.6x:
+.6x:								; r0+3,s = r0, X + 1, X + 1, ...
 	lda.b r0
 	sta.b r0+3,s
 	plx
@@ -988,11 +988,11 @@ org $9D9000
 	bpl .2xx
 	pla
 	rts
-.7x:
+.7x:								; subroutine: falls through
 	lda.b #$01
 	pha
 	ldy.w #$0007
-.1xxx:
+.1xxx:								; if r0+3,s & $01 = 0 go to .t1xxxxxxxxxx, ...
 	phx
 	lda.b r0+3,s
 	and.b #$01
@@ -1001,10 +1001,10 @@ org $9D9000
 	sta.l brackettiles,x
 	bra .2xxx
 
-.t1xxxxxxxxxx:
+.t1xxxxxxxxxx:						; r0+3,s & $01 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.2xxx:
+.2xxx:								; X + 1, if r0+3,s & $02 = 0 go to .t1xxxxxxxxxxx, ...
 	inx
 	lda.b r0+3,s
 	and.b #$02
@@ -1013,10 +1013,10 @@ org $9D9000
 	sta.l brackettiles,x
 	bra .3xxx
 
-.t1xxxxxxxxxxx:
+.t1xxxxxxxxxxx:						; r0+3,s & $02 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.3xxx:
+.3xxx:								; if r0+3,s & $04 = 0 go to .t1xxxxxxxxxxxx, ...
 	txa
 	clc
 	adc.b #$0F
@@ -1028,10 +1028,10 @@ org $9D9000
 	sta.l brackettiles,x
 	bra .4xx
 
-.t1xxxxxxxxxxxx:
+.t1xxxxxxxxxxxx:					; r0+3,s & $04 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.4xx:
+.4xx:								; X + 1, if r0+3,s & $08 = 0 go to .t1xxxxxxxxxxxxx, ...
 	inx
 	lda.b r0+3,s
 	and.b #$08
@@ -1040,10 +1040,10 @@ org $9D9000
 	sta.l brackettiles,x
 	bra .5xx
 
-.t1xxxxxxxxxxxxx:
+.t1xxxxxxxxxxxxx:					; r0+3,s & $08 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.5xx:
+.5xx:								; r0+3,s = r0, X + 1, X + 1, ...
 	lda.b r0
 	sta.b r0+3,s
 	plx
@@ -1053,7 +1053,7 @@ org $9D9000
 	bpl .1xxx
 	pla
 	rts
-.10:
+.10:								; db $0A,$00,$47,$00,$94,$00,$ED,$00,$4C,$01,$10,$31,$02,$31,$05,$31, ...
 	db $0A,$00,$47,$00,$94,$00,$ED,$00,$4C,$01,$10,$31,$02,$31,$05,$31
 	db $08,$31,$0B,$31,$0E,$31,$11,$31,$14,$31,$17,$46,$02,$46,$05,$46
 	db $08,$46,$0B,$46,$0E,$46,$11,$46,$14,$46,$17,$00,$3A,$01,$3B,$0A

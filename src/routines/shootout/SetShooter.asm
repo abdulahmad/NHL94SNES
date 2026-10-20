@@ -1,5 +1,5 @@
 ; Put the player at the cursor in shooter row $1DB9; if that player is already in the list, the two swap
-SetShooter:
+SetShooter:							; called from ShooterSelectList
 	ldy.b d1
 	phy
 	lda.w #$0009
@@ -19,7 +19,7 @@ SetShooter:
 	sta.b a1+2
 	lda.w #awayshooters
 	sta.b a1
-.1:
+.1:									; d1 = [a1],y & $00FF
 	ldy.w curitem
 	sep #$20
 	lda.b [a1],y
@@ -28,7 +28,7 @@ SetShooter:
 	sta.b d1
 	lda.b d0
 	ldy.w #$0001
-.loop:
+.loop:								; loop: if zero go to .t1, ...
 	sep #$20
 	cmp.b [a1],y
 	rep #$20
@@ -38,12 +38,12 @@ SetShooter:
 	bmi .loop
 	bra .2
 
-.t1:
+.t1:								; [a1],y = d1
 	lda.b d1
 	sep #$20
 	sta.b [a1],y
 	rep #$20
-.2:
+.2:									; [a1],y = d0, d1 = pulled value, return
 	ldy.w curitem
 	lda.b d0
 	sep #$20

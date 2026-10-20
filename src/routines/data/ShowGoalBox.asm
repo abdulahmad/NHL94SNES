@@ -1,5 +1,5 @@
 ; The goal box with the scorer and the assists
-ShowGoalBox:
+ShowGoalBox:						; called from SetPA
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -14,7 +14,7 @@ ShowGoalBox:
 	pha
 	stx.b xsave
 	ldx.w #$0000
-.loop:
+.loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b a0,x
 	pha
 	inx
@@ -62,7 +62,7 @@ ShowGoalBox:
 	lda.b [a4],y
 	bmi .1
 	inc.b d1
-.1:
+.1:									; call Framer, a2 = 0, if [a4],y bits $0080 clear go to .2, ...
 	jsl.l Framer
 	stz.b a2
 	ldy.w #$0002
@@ -71,7 +71,7 @@ ShowGoalBox:
 	beq .2
 	inc.b a2
 	inc.b a2
-.2:
+.2:									; a1 = GoalBoxText, if a2 = 0 go to .3, ...
 	lda.w #GoalBoxText>>16
 	sta.b a1+2
 	lda.w #GoalBoxText
@@ -83,7 +83,7 @@ ShowGoalBox:
 	beq .3
 	clc
 	adc.w #$001A
-.3:
+.3:									; if not zero go to .4, ...
 	tay
 	lda.w tmgoals,y
 	and.w #$00FF
@@ -106,7 +106,7 @@ ShowGoalBox:
 	clc
 	adc.w #$000A
 	sta.w Pencntdwn
-.4:
+.4:									; call printbig, d0 = [a4],y & $00FF, call PlayerShortName, ...
 	jsl.l printbig
 	ldy.w #$0003
 	lda.b [a4],y
@@ -156,10 +156,10 @@ ShowGoalBox:
 	sta.b a1+2
 	jsl.l PlayerShortName
 	jsl.l print
-.5:
+.5:									; xsave = X
 	stx.b xsave
 	ldx.w #$0012
-.loop2:
+.loop2:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b a0,x
 	dex

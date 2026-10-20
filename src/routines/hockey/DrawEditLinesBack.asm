@@ -1,5 +1,5 @@
 ; Redraw the line editor background: clear the top, the frame, and the background map in map 2
-DrawEditLinesBack:
+DrawEditLinesBack:					; called from DrawEditLinesTitle
 	pha
 	lda.b a1+2
 	pha

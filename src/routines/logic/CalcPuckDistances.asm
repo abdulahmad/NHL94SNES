@@ -1,17 +1,17 @@
 ; For each of the 16 objects: puckdist2 (about (dx^2 + dy^2) / 4), puckdist (ApproxLength) and puckdir (vtoa)
 ; to the puck
-CalcPuckDistances:
+CalcPuckDistances:					; called from FaceoffPads
 	ldx.w #$0000
-.loop:
+.loop:								; loop: curobj = X, d0 = puckx - Xpos,x, if plus go to .1, ...
 	stx.b curobj
 	lda.w puckx
 	sec
 	sbc.w Xpos,x
 	sta.b d0
 	bpl .1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.1:
+.1:									; lsr a, lsr a, call Mul8U, ...
 	pha
 	lsr a
 	lsr a
@@ -24,9 +24,9 @@ CalcPuckDistances:
 	sbc.w Ypos,x
 	sta.b d1
 	bpl .2
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.2:
+.2:									; lsr a, lsr a, call Mul8U, ...
 	pha
 	lsr a
 	lsr a

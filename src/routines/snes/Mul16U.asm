@@ -1,12 +1,12 @@
 ; A * X into $08-$0B, unsigned
-Mul16U:
+Mul16U:								; called from DrawPlayerPicture, MapPartToVRAM, MapPartToVRAMOffset, Mo...
 	phy
 	tay
 	beq Mul16_Zero
 	sta.b r0
 	txa
 	beq Mul16_Zero
-Mul16U_Go:
+Mul16U_Go:							; called from Mul16S, Mul16U_Pre, Mul16XS_TestX
 	sep #$20
 	sta.w WRMPYA
 	sty.w WRMPYB
@@ -33,7 +33,7 @@ Mul16U_Go:
 	sta.b r2+1
 	bcc .nocarry
 	inc.b r2+3
-.nocarry:
+.nocarry:							; r2 = r1 + r2, r2+2 = r1+2 + r2+2, return
 	lda.b r1
 	clc
 	adc.b r2

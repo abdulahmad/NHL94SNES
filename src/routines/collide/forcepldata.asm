@@ -1,5 +1,5 @@
 ; Face offs: move team a2's players straight to their new positions
-forcepldata:
+forcepldata:						; called from StartHL2, puckfaceoff2
 	stx.b xsave						; keep X
 	ldx.w #$0000
 .save:								; save d0 and the words after it (10 words)
@@ -54,7 +54,7 @@ forcepldata:
 	lda.b a2
 	beq .idx
 	lda.w #$0034
-.idx:
+.idx:								; adc d3, tmpdst,y = TMPDICE, lsr d3, ...
 	clc
 	adc.b d3
 	tay

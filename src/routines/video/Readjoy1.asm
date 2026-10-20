@@ -1,5 +1,5 @@
 ; Read pad 1: d0 = direction, d1 = new presses, d2 = changed buttons, d3 = buttons held
-ReadJoy1:
+ReadJoy1:							; called from BadPasswordPrompt, PasswordRedraw, demoread, setoptions
 	lda.w JoyPad
 	sta.b d3
 	lda.w padchange
@@ -10,7 +10,7 @@ ReadJoy1:
 	sta.b d0
 	rtl
 
-.t1:
+.t1:								; d3 = JoyPad+2, d2 = padchange+2, d1 = padnew+2, ...
 	lda.w JoyPad+2
 	sta.b d3
 	lda.w padchange+2

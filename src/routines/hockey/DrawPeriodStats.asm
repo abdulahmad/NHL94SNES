@@ -1,5 +1,5 @@
 ; Draw the period stats title and both teams' period columns.
-DrawPeriodStats:
+DrawPeriodStats:					; called from ShowPeriodStats
 	jsl.l SpriteFrameStart
 	jsl.l DrawMatchupPictures
 	jsl.l WaitDMAQueue
@@ -85,7 +85,7 @@ DrawPeriodStats:
 	jsl.l SpriteFrameEnd
 	rtl
 
-.t3:
+.t3:								; subroutine: d4 = printx, printa = $2400, printy = $000C, ...
 	lda.w printx
 	sta.b d4
 	lda.w #$2400
@@ -112,13 +112,13 @@ DrawPeriodStats:
 	inc.w printy
 	bra .2
 
-.t1:
+.t1:								; if zero go to .t2, ...
 	cpx.w lastperiod
 	beq .t2
 	bmi .t2
 	jmp.w .3
 
-.t2:
+.t2:								; a1 = PerLabels, d0 = X, call AdvanceStringPtr, ...
 	lda.w #PerLabels>>16
 	sta.b a1+2
 	lda.w #PerLabels
@@ -126,7 +126,7 @@ DrawPeriodStats:
 	stx.b d0
 	jsl.l AdvanceStringPtr
 	jsl.l print
-.2:
+.2:									; printa = $2000, if curitem = 0 go to .t1x
 	txa
 	asl a
 	asl a
@@ -135,7 +135,7 @@ DrawPeriodStats:
 	sta.w printa
 	lda.w curitem
 	beq .t1x
-.1:
+.1:									; printx = d4, printy = $000F, d0 = tmPerShots+2,x, ...
 	lda.b d4
 	sta.w printx
 	lda.w #$000F
@@ -181,7 +181,7 @@ DrawPeriodStats:
 	sta.b a1+2
 	bra .3
 
-.t1x:
+.t1x:								; curitem = 0: printx = d4, printy = $000F, d0 = tmPerGoals+2,x, ...
 	lda.b d4
 	sta.w printx
 	lda.w #$000F
@@ -222,5 +222,5 @@ DrawPeriodStats:
 	sta.b a1
 	pla
 	sta.b a1+2
-.3:
+.3:									; return
 	rtl

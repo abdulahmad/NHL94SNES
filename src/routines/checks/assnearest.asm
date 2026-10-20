@@ -10,7 +10,7 @@ assnearest:							; X = player; asstab entry
 	lda.w #$0008
 	sta.w temp2b,x
 	stz.w temp1,x
-.1:
+.1:									; if position,x = 0 go to .t2, ...
 	lda.w position,x
 	beq .t2
 	cpx.w puckc
@@ -39,7 +39,7 @@ assnearest:							; X = player; asstab entry
 	adc.w aioff,x
 	bpl .1x
 	lda.w #$0000
-.1x:
+.1x:								; temp1,x = A, if puckc negative go to .t1x, ...
 	sta.w temp1,x
 	ldy.w puckc
 	bmi .t1x
@@ -59,7 +59,7 @@ assnearest:							; X = player; asstab entry
 	sta.b a1
 	lda.b d2
 	bmi .3
-.2:
+.2:									; if zero go to .3, ...
 	cpx.b a1
 	beq .3
 	lda.w gmclock
@@ -82,7 +82,7 @@ assnearest:							; X = player; asstab entry
 	jsl.l assinsert
 	ldx.b curobj
 	jmp.w assexit
-.3:
+.3:									; d1 = $0002, if d2 >= $00E2 go to .1xx, ...
 	lda.w #$0002
 	sta.b d1
 	lda.b d2
@@ -91,7 +91,7 @@ assnearest:							; X = player; asstab entry
 	stz.b d1
 	lda.w position,x
 	beq .9
-.1xx:
+.1xx:								; if sflags bits $2000 clear go to .2x, ...
 	lda.w sflags
 	bit.w #$2000
 	beq .2x
@@ -103,7 +103,7 @@ assnearest:							; X = player; asstab entry
 	inc.b d1
 	inc.b d1
 	inc.b d1
-.2x:
+.2x:								; d0 = $0014 - aggress,x, tmp0 = d1
 	lda.w #$0014
 	sec
 	sbc.w aggress,x
@@ -115,9 +115,9 @@ assnearest:							; X = player; asstab entry
 	bmi .8
 	asl.b d0
 	bra .loop
-.4:
+.4:									; playerpad,x >= 0: return
 	rtl
-.5:
+.5:									; if puckc negative go to .7, ...
 	ldy.w puckc
 	bmi .7
 	lda.w position,y
@@ -128,7 +128,7 @@ assnearest:							; X = player; asstab entry
 	ldy.w pfgoal,x
 	bne .1xxx
 	lda.w #$FFA8
-.1xxx:
+.1xxx:								; d1 = A, a0 = rtss, call skateto, ...
 	sta.b d1
 	lda.w #rtss>>16
 	sta.b a0+2
@@ -136,20 +136,20 @@ assnearest:							; X = player; asstab entry
 	sta.b a0
 	jsl.l skateto
 	jmp.w check4check
-.6:
+.6:									; gmclock != 0: call GlideBack, go to assnothing
 	jsl.l GlideBack
 	jmp.w assnothing
-.7:
+.7:									; call skatetopuck, go to check4check
 	jsl.l skatetopuck
 	jmp.w check4check
-.8:
+.8:									; tmp0 counted below 0: call randomd0, if d0 >= $0002 go to .9, ...
 	jsl.l randomd0
 	lda.b d0
 	cmp.w #$0002
 	bcs .9
 	lda.w #$00F0
 	sta.w temp3,x
-.9:
+.9:									; if playerpad,x >= 0 go to .4, ...
 	lda.w playerpad,x
 	bpl .4
 	lda.w gmclock
@@ -167,17 +167,17 @@ assnearest:							; X = player; asstab entry
 	cmp.w #$0000
 	bpl .5
 	stz.w temp3,x
-.1xxxx:
+.1xxxx:								; call skatetopuckinit, d0 = -(d0), d1 = -(d1) + $00F4, ...
 	jsl.l skatetopuckinit
 	lda.b d1
 	pha
 	lda.b d0
 	pha
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.b d0
 	lda.b d1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
 	adc.w #$00F4
@@ -188,7 +188,7 @@ assnearest:							; X = player; asstab entry
 	sec
 	sbc.w #$01E8
 	sta.b d1
-.2xx:
+.2xx:								; ror a, d0 = A, ror a, ...
 	lda.b d0
 	pha
 	asl a
@@ -213,7 +213,7 @@ assnearest:							; X = player; asstab entry
 	lda.w tmflags,y
 	bit.w #$0002
 	beq .4x
-.3x:
+.3x:								; if pfgoal,x = 0 go to .t1xx, ...
 	lda.w pfgoal,x
 	beq .t1xx
 	lda.b d1
@@ -231,7 +231,7 @@ assnearest:							; X = player; asstab entry
 	bpl .4x
 	lda.w #$FFBC
 	sta.b d1
-.4x:
+.4x:								; a0 = rtss, call skateto, go to check4check
 	lda.w #rtss>>16
 	sta.b a0+2
 	lda.w #rtss

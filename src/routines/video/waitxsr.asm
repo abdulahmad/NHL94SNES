@@ -1,11 +1,11 @@
 ; Wait d0 frames or until a button in d1 is pressed
-waitxsr:
+waitxsr:							; called from StartHL2
 	phx
 	lda.b d0
 	pha
-.loop:
+.loop:								; loop: falls through
 	ldx.w #$0000
-.loop2:
+.loop2:								; loop: if cont1team,y = 0 go to .1, ...
 	txa
 	asl a
 	tay
@@ -15,7 +15,7 @@ waitxsr:
 	jsl.l ReadjoyA
 	lda.b d3
 	bne .2
-.1:
+.1:									; X + 1, if carry clear go to .loop2, ...
 	inx
 	cpx.w #$0005
 	bcc .loop2
@@ -23,7 +23,7 @@ waitxsr:
 	jsl.l setvideo
 	jsl.l SpriteFrameEnd
 	lda.b vcount
-.loop3:
+.loop3:								; loop: if zero go to .loop3, ...
 	cmp.b vcount
 	beq .loop3
 	jsl.l ReadPads
@@ -31,7 +31,7 @@ waitxsr:
 	dec a
 	pha
 	bpl .loop
-.2:
+.2:									; return
 	pla
 	plx
 	rtl

@@ -1,5 +1,5 @@
 ; assdumpin: dumpinplayer = X; pick the dump-in target (dumpintarget) and passdir from where he is
-DumpInTarget:
+DumpInTarget:						; called from assdumpin
 	stx.w dumpinplayer
 	lda.w position,x
 	beq .t4
@@ -8,7 +8,7 @@ DumpInTarget:
 	lda.w Ypos,x
 	cmp.w #$FFA8
 	bmi .t2
-.1:
+.1:									; passdir = $0004, if Xpos,x negative go to .t1, ...
 	lda.w #$0004
 	sta.w passdir
 	lda.w Xpos,x
@@ -17,12 +17,12 @@ DumpInTarget:
 	sta.w dumpintarget
 	rtl
 
-.t1:
+.t1:								; Xpos,x negative: dumpintarget = $0006, return
 	lda.w #$0006
 	sta.w dumpintarget
 	rtl
 
-.t2:
+.t2:								; Ypos,x - $FFA8 negative: passdir = puckdir+$1A - $0004 & $0007, dumpi...
 	lda.w puckdir+$1A
 	sec
 	sbc.w #$0004
@@ -32,7 +32,7 @@ DumpInTarget:
 	sta.w dumpintarget
 	rtl
 
-.t3:
+.t3:								; pfgoal,x != 0: if Ypos,x - $0058 >= 0 go to .t2x, ...
 	lda.w Ypos,x
 	cmp.w #$0058
 	bpl .t2x
@@ -44,12 +44,12 @@ DumpInTarget:
 	sta.w dumpintarget
 	rtl
 
-.t1x:
+.t1x:								; Xpos,x negative: dumpintarget = $0012, return
 	lda.w #$0012
 	sta.w dumpintarget
 	rtl
 
-.t2x:
+.t2x:								; Ypos,x - $0058 >= 0: passdir = puckdir+$18 - $0004 & $0007, dumpintar...
 	lda.w puckdir+$18
 	sec
 	sbc.w #$0004
@@ -59,7 +59,7 @@ DumpInTarget:
 	sta.w dumpintarget
 	rtl
 
-.t4:
+.t4:								; position,x = 0: dumpintarget = 0, passdir = 0, if pfgoal,x != 0 go to...
 	stz.w dumpintarget
 	stz.w passdir
 	lda.w pfgoal,x
@@ -68,5 +68,5 @@ DumpInTarget:
 	sta.w dumpintarget
 	lda.w #$0004
 	sta.w passdir
-.rtl:
+.rtl:								; return
 	rtl

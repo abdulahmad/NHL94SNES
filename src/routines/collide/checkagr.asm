@@ -1,5 +1,5 @@
 ; How hard a check is, from the player's checking rating
-checkagr:
+checkagr:							; called from Bcheck, checkcheck, holdcheck
 	lda.w #$0014					; $14 minus the energy left
 	sec
 	sbc.w GGSleft,x
@@ -11,7 +11,7 @@ checkagr:
 	lda.w playerpad,x
 	bmi .1
 	asl.b d0
-.1:
+.1:									; if minus go to .2, ...
 	lda.w Xpos,x					; x distance
 	sec
 	sbc.w puckx
@@ -27,5 +27,5 @@ checkagr:
 	cmp.w #$0029
 	bpl .2
 	lsr.b d0
-.2:
+.2:									; go to randomd0
 	jml.l randomd0

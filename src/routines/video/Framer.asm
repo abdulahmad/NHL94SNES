@@ -1,5 +1,5 @@
 ; Draw a frame and fill it. d0 / d1 = width / height
-Framer:
+Framer:								; called from ClearPenaltyMessage, DrawExitPrompt, Intermission, NewTic...
 	phx
 	phy
 	lda.l Framercset
@@ -17,10 +17,10 @@ Framer:
 	cmp.w textdirtylo
 	bcs .1
 	sta.w textdirtylo
-.1:
+.1:									; decrement d1, decrement d1
 	dec.b d1
 	dec.b d1
-.loop:
+.loop:								; loop: p0 = FramerMap+12, call FramerRow, decrement d1, ...
 	lda.w #FramerMap+12
 	sta.b p0
 	jsr.w FramerRow
@@ -36,7 +36,7 @@ Framer:
 	cmp.w textdirtyhi
 	bcc .2
 	sta.w textdirtyhi
-.2:
+.2:									; return
 	ply
 	plx
 	rtl

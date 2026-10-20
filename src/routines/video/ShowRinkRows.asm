@@ -1,10 +1,10 @@
 ; Queue the rink map rows that the vertical scroll brought on screen
-ShowRinkRows:
+ShowRinkRows:						; called from setvideo
 	lda.w sfhormode
 	beq .t2
 	rtl
 
-.t2:
+.t2:								; sfhormode = 0: if not zero go to .t1, ...
 	lda.w Vscroll
 	clc
 	adc.w #$0170
@@ -17,10 +17,10 @@ ShowRinkRows:
 	bne .t1
 	jmp.w .4
 
-.t1:
+.t1:								; if plus go to .2, ...
 	bpl .2
 	stx.w Oldrow
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	cmp.w #$0019
 	bcs .1
@@ -32,13 +32,13 @@ ShowRinkRows:
 	sta.w vramrow
 	sta.b tmp2
 	bra .3
-.1:
+.1:									; tmp1 = $001D, vramrow = 0, tmp2 = 0, ...
 	lda.w #$001D
 	sta.b tmp1
 	stz.w vramrow
 	stz.b tmp2
 	bra .3
-.2:
+.2:									; Oldrow = X, if carry set go to .1, ...
 	stx.w Oldrow
 	cmp.w #$0019
 	bcs .1
@@ -58,7 +58,7 @@ org $9FC002
 	sec
 	sbc.b tmp1
 	tax
-.3:
+.3:									; tmp0 = X * 2 * 2 * 2 * 2 * 2, tmp0 = X * 2 * 2 * 2 * 2 * 2 * 2 + tmp0...
 	txa
 	asl a
 	asl a
@@ -81,7 +81,7 @@ org $9FC002
 	sta.b tmp2
 	lda.b tmp1
 	sta.b r1
-.loop:
+.loop:								; loop: p0+2 = $007F, p0 = tmp0, call DMAToVRAM, ...
 	lda.w #$007F
 	sta.b p0+2
 	lda.b tmp0
@@ -111,7 +111,7 @@ org $9FC002
 	sta.b tmp2
 	dec.b r1
 	bne .loop
-.4:
+.4:									; BG2HScroll = Hscroll + $00C0, r3 = Vscroll & $0007, ora r3, ...
 	lda.w Hscroll
 	clc
 	adc.w #$00C0

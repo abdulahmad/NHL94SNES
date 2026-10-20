@@ -1,5 +1,5 @@
 ; Print the short name of the player in line slot y (a3) centred on x at printy
-PrintLineSlotName:
+PrintLineSlotName:					; called from DrawPlayerCard
 	lda.b [a3],y
 	and.w #$00FF
 	dec a
@@ -13,7 +13,7 @@ PrintLineSlotName:
 	lsr a
 	asl a
 	asl a
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
 	adc.b d1

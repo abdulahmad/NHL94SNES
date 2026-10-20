@@ -1,6 +1,6 @@
 ; Draw the scoreboard: the period and score boxes on the vertical rink, or the period, teams and scores on the
 ; horizontal rink
-printscores1:
+printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2 and 4 more
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -15,7 +15,7 @@ printscores1:
 	pha
 	stx.b xsave
 	ldx.w #$0000
-.savea:
+.savea:								; loop: X + 1, X + 1, if not zero go to .savea, ...
 	lda.b a0,x
 	pha
 	inx
@@ -27,7 +27,7 @@ printscores1:
 	beq .v
 	jmp.w .sbscreen
 
-.v:
+.v:									; sfhormode = 0: a1 = printscores1Pos, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -68,7 +68,7 @@ printscores1:
 	bne .noso
 	dec.w printx
 	inc.b d0
-.noso:
+.noso:								; a1 = PerLabels, call PrintStringFromList, call EASNLogo, ...
 	lda.w #PerLabels>>16
 	sta.b a1+2
 	lda.w #PerLabels
@@ -78,7 +78,7 @@ printscores1:
 	jsl.l updatepwrplay
 	bra .scores
 
-.t2:
+.t2:								; OptPlayMode = $0004: a1 = RoundTxt, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -100,13 +100,13 @@ printscores1:
 	sta.b d1
 	jsl.l PushNumberWrap
 	jsl.l print
-.scores:
+.scores:							; if sflags3 bits sf3llcs clear go to .boxes, ...
 	lda.w sflags3
 	bit.w #sf3llcs
 	beq .boxes
 	jmp.w .ex
 
-.boxes:
+.boxes:								; sflags3 bits sf3llcs clear: a1 = printscores1Pos3, call print, a1 = p...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -167,7 +167,7 @@ printscores1:
 	stz.b a3
 	lda.w #$0002
 	sta.b a2
-.ends:
+.ends:								; a1 = printscores1Pos6, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -200,10 +200,10 @@ printscores1:
 	pla
 	sta.b a1+2
 	jsl.l nullrtl89
-.ex:
+.ex:								; xsave = X
 	stx.b xsave
 	ldx.w #$000E
-.resta:
+.resta:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b a0,x
 	dex
@@ -224,7 +224,7 @@ printscores1:
 	sta.b d0
 	ldx.b a3
 	rtl
-.sbscreen:
+.sbscreen:							; a1 = printscores1Pos8, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1

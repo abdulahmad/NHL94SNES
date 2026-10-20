@@ -1,5 +1,5 @@
 ; Scroll the scoring summary up one page.
-ScrollScoringUp:
+ScrollScoringUp:					; called from ScoringSummaryLoop
 	lda.w listtop
 	dec a
 	bmi ScoringSummaryWait
@@ -12,7 +12,7 @@ ScrollScoringUp:
 	sta.w irqvscroll1
 	lda.w #$0018
 	sta.w irqvscroll2
-.loop:
+.loop:								; loop: call WaitFrame, decrement irqvscroll1, decrement irqvscroll1, ...
 	jsl.l WaitFrame
 	dec.w irqvscroll1
 	dec.w irqvscroll1

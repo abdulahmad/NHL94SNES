@@ -1,8 +1,8 @@
 ; NMI: save the registers; nothing more while $38 is set, else the frame work and the NMI hook
-NMI_Fast:
+NMI_Fast:							; called from NMI
 	rep #$30
 	phb
-	phk
+	phk								; data bank = program bank
 	plb
 	pha
 	cli
@@ -15,7 +15,7 @@ NMI_Fast:
 	plb
 	rti
 
-.t1:
+.t1:								; NMISkip = 0: DMABudget = $16D3, if NMIHookNext+1 = 0 go to .1, ...
 	phx
 	phy
 	lda.w #$16D3
@@ -28,7 +28,7 @@ NMI_Fast:
 	stz.w NMIHookNext
 	ldx.w NMIHookNext+2
 	stx.w NMIHook+2
-.1:
+.1:									; go to [$078C]
 	ldx.b #$80
 	phx
 	pea.w NMI_HookReturn-1			; rtl from the hook lands on the next line

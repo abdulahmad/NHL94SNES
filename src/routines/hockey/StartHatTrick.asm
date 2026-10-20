@@ -1,9 +1,9 @@
 ; Start the hat trick sprites: clear the ten slots ($7E340C) and set $7E3448
-StartHatTrick:
+StartHatTrick:						; called from ShowGoalBox
 	phx
 	ldx.w #$0012
 	lda.w #$0000
-.loop:
+.loop:								; loop: hatstep,x = A, X - 1, X - 1, ...
 	sta.l hatstep,x
 	dex
 	dex

@@ -1,5 +1,5 @@
 ; Turn the playoff state into the password bits, with a checksum
-WritePassBits:
+WritePassBits:						; called from EncodePW, ResolveGames
 	jsl.l ClrPassBits
 	stz.b d7
 	lda.l postarts
@@ -37,7 +37,7 @@ WritePassBits:
 	lda.w #$0007
 	sta.b d2
 	stz.b a1
-.loop:
+.loop:								; loop: d0 = gspotwins,x, call .t1, d0 = gspobwins,x, ...
 	ldx.b a1
 	lda.l gspotwins,x
 	sta.b d0
@@ -58,7 +58,7 @@ WritePassBits:
 	jsl.l PushBits
 	rtl
 
-.t1:
+.t1:								; subroutine: d7 = d7 + d0, go to PushBits
 	lda.b d7
 	clc
 	adc.b d0

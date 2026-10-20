@@ -1,16 +1,16 @@
 ; Draw the MultiPlayer 5 warning for the controller, Super Scope, or mouse.
-ShowMP5Warning:
+ShowMP5Warning:						; called from SelectPauseController
 	lda.w mp5warning
 	beq .rtl
-.loop:
+.loop:								; loop: call .t4, if mp5warning != 0 go to .loop, ...
 	jsl.l .t4
 	lda.w mp5warning
 	bne .loop
 	jsl.l Pmenu
-.rtl:
+.rtl:								; return
 	rtl
 
-.t4:
+.t4:								; subroutine: a1 = ShowMP5WarningPos, call print, a1 = pulled value, ...
 	pha
 	lda.b a1+2
 	pha
@@ -39,7 +39,7 @@ ShowMP5Warning:
 	bne .t3
 	jmp.w .1
 
-.t1:
+.t1:								; a1 = MultiPlayer5Text, call PrintMP5Line1, a1 = MP5MustConnect, ...
 	lda.w #MultiPlayer5Text>>16
 	sta.b a1+2
 	lda.w #MultiPlayer5Text
@@ -62,7 +62,7 @@ ShowMP5Warning:
 	jsl.l PrintMP5Line4
 	bra .1
 
-.t2:
+.t2:								; a1 = MP5ScopeHead, call PrintMP5Line1, a1 = MP5ScopeNot, ...
 	lda.w #MP5ScopeHead>>16
 	sta.b a1+2
 	lda.w #MP5ScopeHead
@@ -85,7 +85,7 @@ ShowMP5Warning:
 	jsl.l PrintMP5Line4
 	bra .1
 
-.t3:
+.t3:								; a1 = MP5MouseHead, call PrintMP5Line1, a1 = MP5MouseNot, ...
 	lda.w #MP5MouseHead>>16
 	sta.b a1+2
 	lda.w #MP5MouseHead
@@ -106,7 +106,7 @@ ShowMP5Warning:
 	lda.w #MP5Mouse
 	sta.b a1
 	jsl.l PrintMP5Line4
-.1:
+.1:									; call SendTextMap, call WaitFrame, return
 	jsl.l SendTextMap
 	jsl.l WaitFrame
 	rtl

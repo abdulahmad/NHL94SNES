@@ -1,5 +1,5 @@
 ; Set the frame hook back to the empty routine
-ClearFrameHook:
+ClearFrameHook:						; called from BlankScreen
 	pha
 	phx
 	ldx.w #NullHook>>16

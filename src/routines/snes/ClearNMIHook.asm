@@ -1,5 +1,5 @@
 ; Set the NMI hook back to the empty routine
-ClearNMIHook:
+ClearNMIHook:						; called from BlankScreen
 	pha
 	phx
 	ldx.w #$0080
@@ -9,7 +9,7 @@ ClearNMIHook:
 	pla
 	rtl
 
-.t1:
+.t1:								; subroutine: NMIHookNext+2 = X, NMIHookNext = A, return
 	sep #$10
 	stx.w NMIHookNext+2
 	sta.w NMIHookNext

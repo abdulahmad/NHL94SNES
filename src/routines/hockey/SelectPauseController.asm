@@ -1,12 +1,12 @@
 ; Pick the controller that owns the pause menu, and rebuild the menu when it changes.
-SelectPauseController:
+SelectPauseController:				; called from PauseMenuPoll
 	jsl.l ShowMP5Warning
 	jsr.w PulsePauseSide
 	jsl.l IntermissionTick
 	beq .t1
 	jmp.w .6
 
-.t1:
+.t1:								; call SpriteFrameStart, call setvideo, call WaitFrame, ...
 	jsl.l SpriteFrameStart
 	jsl.l setvideo
 	jsl.l WaitFrame
@@ -16,7 +16,7 @@ SelectPauseController:
 	bpl .4
 	lda.w #$0000
 	pha
-.loop:
+.loop:								; loop: if JoyPad,x bit $000F set go to .1, ...
 	lda.b r0+1,s
 	asl a
 	tax
@@ -29,7 +29,7 @@ SelectPauseController:
 	jsl.l ReadjoyA
 	lda.b d3
 	bne .t2
-.1:
+.1:									; r0+1,s = r0+1,s + 1, if carry clear go to .loop, ...
 	lda.b r0+1,s
 	inc a
 	sta.b r0+1,s
@@ -38,12 +38,12 @@ SelectPauseController:
 	pla
 	jmp.w .5
 
-.t2:
+.t2:								; d3 != 0: if zero go to .3, ...
 	pla
 	asl a
 	tax
 	lda.w cont1team,x
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	cmp.w pausepad
 	beq .3
@@ -63,16 +63,16 @@ SelectPauseController:
 	beq .t1x
 	bra .2
 
-.t1x:
+.t1x:								; call ChoosePauseMenu
 	jsl.l ChoosePauseMenu
-.2:
+.2:									; return
 	rtl
-.3:
+.3:									; pausepad = X, pausepadidle = $003C
 	stx.w pausepad
 	lda.w #$003C
 	sta.w pausepadidle
 	txa
-.4:
+.4:									; lsr a, call ReadjoyA, decrement repeatdelay, ...
 	lsr a
 	jsl.l ReadjoyA
 	dec.w repeatdelay
@@ -87,19 +87,19 @@ SelectPauseController:
 	sta.w pausepadidle
 	beq .1x
 	bpl .5
-.1x:
+.1x:								; pausepadidle = 0, pausepad = -(cont1team,x), return
 	stz.w pausepadidle
 	ldx.w pausepad
 	lda.w cont1team,x
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.w pausepad
 	rtl
 
-.t1xx:
+.t1xx:								; d3 != 0: pausepadidle = $003C
 	lda.w #$003C
 	sta.w pausepadidle
-.5:
+.5:									; if demoflag = 0 go to .7, ...
 	lda.w demoflag
 	beq .7
 	lda.w cont1team
@@ -110,16 +110,16 @@ SelectPauseController:
 	bne .7
 	dec.w pausetimer
 	bne .7
-.6:
+.6:									; tsb d3
 	lda.w #$1000
 	tsb.b d3
-.7:
+.7:									; ora d3, if not zero go to .t1xxx, ...
 	lda.b d1
 	ora.b d3
 	bne .t1xxx
 	jmp.w SelectPauseController
 
-.t1xxx:
+.t1xxx:								; ora cont2team, ora cont3team, ora cont4team, ...
 	lda.w cont1team
 	ora.w cont2team
 	ora.w cont3team
@@ -128,5 +128,5 @@ SelectPauseController:
 	beq .rtl
 	lda.w #$EA60
 	sta.w pausetimer
-.rtl:
+.rtl:								; return
 	rtl

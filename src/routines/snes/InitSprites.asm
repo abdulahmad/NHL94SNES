@@ -12,7 +12,7 @@ InitSprites:						;A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block a
 	cmp.w #$01C0
 	bcs .1
 	lda.w #$01A0
-.1:
+.1:									; adc #$001F, and #$FFE0, SpriteBlockTiles = A, ...
 	clc
 	adc.w #$001F
 	and.w #$FFE0
@@ -23,7 +23,7 @@ InitSprites:						;A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block a
 	sep #$30
 	tax
 	lda.b #$00
-.loop:
+.loop:								; loop: BlockRuns,x = A, BlockRunPrev,x = X - $08, if $08 - $00 >= 0 go...
 	sta.w BlockRuns,x
 	txa
 	sec
@@ -65,10 +65,10 @@ InitSprites:						;A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block a
 	plb
 	jmp.w SpriteFrameEnd
 
-.t1:
+.t1:								; subroutine: falls through
 	ldx.w #$03D0
 	lda.w #$FFFF
-.loopx:
+.loopx:								; loop: FrameCacheOf,x = A, X - 1, X - 1, ...
 	sta.w FrameCacheOf,x
 	dex
 	dex

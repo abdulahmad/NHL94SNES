@@ -1,22 +1,22 @@
 ; Reset the game state for a new game, then start the first period
-StartGame:
+StartGame:							; called from GameOver, Restart
 	jsl.l PlayoffScreen
-StartGame_scout:
+StartGame_scout:					; called from GameOver
 	jsl.l Create_HotCold_Table
 	jsl.l ScoutingReport
-StartGame_go:
+StartGame_go:						; called from PlayShootout
 	lda.w #$FFFF
 	sta.w FrameByNumber
 	jsl.l FadeOut
 	ldx.w #$0AD7
 	lda.w #$0000
-.loop:
+.loop:								; loop: r0,x = A, X + 1, if not zero go to .loop, ...
 	sta.b r0,x
 	inx
 	cpx.w #$1A11
 	bne .loop
 	ldx.w #$30F4
-.loop2:
+.loop2:								; loop: Ram7E,x = A, X + 1, if not zero go to .loop2, ...
 	sta.l Ram7E,x
 	inx
 	cpx.w #$3479
@@ -30,7 +30,7 @@ StartGame_go:
 	bne .1
 	lda.w #$0020
 	tsb.w gmode
-.1:
+.1:									; call ClearTeamStats, call restoreteams, call InitScores, ...
 	jsl.l ClearTeamStats
 	jsl.l restoreteams
 	jsl.l InitScores
@@ -64,25 +64,25 @@ StartGame_go:
 	stz.w teampads
 	stz.w teampads+2
 	ldx.w #$0008
-.2:
+.2:									; if cont1team,x != $0001 go to .t1, ...
 	lda.w cont1team,x
 	cmp.w #$0001
 	bne .t1
 	inc.w teampads
 	bra .3
 
-.t1:
+.t1:								; cont1team,x != $0001: if not zero go to .3, ...
 	cmp.w #$0002
 	bne .3
 	inc.w teampads+2
-.3:
+.3:									; X - 1, X - 1, if X still >= 0 go to .2, ...
 	dex
 	dex
 	bpl .2
 	jsl.l setupice
 	stz.w pregamepause
 	ldx.w #$0000
-.loopx:
+.loopx:								; loop: padside,x = cont1team,x - 1 * 2, X + 1, X + 1, ...
 	lda.w cont1team,x
 	dec a
 	asl a
@@ -92,7 +92,7 @@ StartGame_go:
 	cpx.w #$000A
 	bcc .loopx
 	ldx.w #$0000
-.loop2x:
+.loop2x:							; loop: if cont1team,x != 0 go to .t1x, ...
 	lda.w cont1team,x
 	bne .t1x
 	inx
@@ -101,10 +101,10 @@ StartGame_go:
 	bcc .loop2x
 	bra .4
 
-.t1x:
+.t1x:								; cont1team,x != 0: pregamepause = $0001
 	lda.w #$0001
 	sta.w pregamepause
-.4:
+.4:									; BA_Sktr_SCnum = $FFFF, if shootoutmode = 0 go to StartPer, ...
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
 	lda.w shootoutmode

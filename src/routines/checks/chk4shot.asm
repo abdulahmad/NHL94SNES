@@ -1,5 +1,5 @@
 ; A computer player looks for a shot
-chk4shot:
+chk4shot:							; called from asspuckc
 	lda.w gmclock
 	bne .t2
 	lda.w gameclock
@@ -7,7 +7,7 @@ chk4shot:
 	bcs .t2
 	jmp.w CompShoot
 
-.t2:
+.t2:								; if PenShotActive != 0 go to .t1, ...
 	lda.w PenShotActive
 	bne .t1
 	jsl.l chkpk
@@ -24,7 +24,7 @@ chk4shot:
 	bne .t1
 	jmp.w StartDumpIn
 
-.t1:
+.t1:								; d4 = $0020 - spodds,x * 2 * 2 * 2 * 2, if pfgoal,x != 0 go to .1, ...
 	lda.w #$0020
 	sec
 	sbc.w spodds,x
@@ -37,7 +37,7 @@ chk4shot:
 	lda.w pfgoal,x
 	bne .1
 	ldy.w #$FEF8
-.1:
+.1:									; d1 = Y, d1 = Y - pucky, if plus go to .3, ...
 	sty.b d1
 	tya
 	sec
@@ -52,7 +52,7 @@ chk4shot:
 	bpl .3
 	cmp.w #$FF9C
 	bmi .6
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	pha
 	tax
@@ -81,7 +81,7 @@ chk4shot:
 	cpx.w #$000C
 	bcs .2
 	ldy.w #$000C
-.2:
+.2:									; if position,y = 0 go to .4, ...
 	lda.w position,y
 	beq .4
 	lda.w puckdir,y
@@ -92,20 +92,20 @@ chk4shot:
 	bne .5
 	asl.b d4
 	bra .5
-.3:
+.3:									; go to .6
 	bra .6
-.4:
+.4:									; position,y = 0: if pf2aip,y = 0 go to .5, ...
 	lda.w pf2aip,y
 	beq .5
 	stz.b d3
 	lda.w #$0001
 	sta.b d4
-.5:
+.5:									; Y + 1, Y + 1, decrement d3, ...
 	iny
 	iny
 	dec.b d3
 	bpl .2
-.6:
+.6:									; call randoma, if carry set go to .t1x, ...
 	lda.b d4
 	jsl.l randoma
 	cmp.w #$0009
@@ -118,7 +118,7 @@ chk4shot:
 	sec
 	sbc.b d0
 	sta.b d0
-.1x:
+.1x:								; if d0 negative go to .t1x, ...
 	lda.b d0
 	bmi .t1x
 	lda.w #$0108
@@ -135,11 +135,11 @@ chk4shot:
 	sec
 	sbc.b d0
 	bpl .t1x
-.2x:
+.2x:								; if sflags bit $8000 set go to .t1x, ...
 	lda.w sflags
 	bit.w #$8000
 	bne .t1x
 	jmp.w CompShoot
 
-.t1x:
+.t1x:								; return
 	rtl

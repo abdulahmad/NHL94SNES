@@ -1,5 +1,5 @@
 ; Draw the logo of team A as sprites at x, y with its LogoPaletteTable palette
-DrawLogoSprite:
+DrawLogoSprite:						; called from DrawPlayerCard
 	sta.b r0
 	stx.b r1
 	sty.b r2

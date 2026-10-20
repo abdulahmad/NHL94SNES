@@ -1,5 +1,5 @@
 ; Edit Lines menu: Return to Game and Restore default lines
-EditLinesMenu:
+EditLinesMenu:						; called from EditLinesScreen
 	jsr.w ClearEditLinesMenu
 	lda.b a1+2
 	pha
@@ -31,7 +31,7 @@ EditLinesMenu:
 	jsl.l WaitButtonRelease
 	lda.w #$0000
 	sta.w linemenuitem
-.1:
+.1:									; if $0000 != linemenuitem go to .t1, ...
 	lda.w #$0000
 	cmp.w linemenuitem
 	bne .t1
@@ -50,7 +50,7 @@ EditLinesMenu:
 	sta.b a1+2
 	bra .2
 
-.t1:
+.t1:								; $0000 != linemenuitem: a1 = EditLinesMenuPos2, call print, a1 = pulle...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -64,7 +64,7 @@ EditLinesMenu:
 	sta.b a1
 	pla
 	sta.b a1+2
-.2:
+.2:									; a1 = ReturnToGame, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -96,7 +96,7 @@ EditLinesMenu:
 	sta.b a1+2
 	bra .3
 
-.t1x:
+.t1x:								; $0001 != linemenuitem: a1 = EditLinesMenuPos4, call print, a1 = pulle...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -110,7 +110,7 @@ EditLinesMenu:
 	sta.b a1
 	pla
 	sta.b a1+2
-.3:
+.3:									; a1 = RestoreDefaultLines, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -136,30 +136,30 @@ EditLinesMenu:
 	bne .6
 	bit.w #$0800
 	bne .5
-.4:
+.4:									; go to .1
 	jmp.w .1
-.5:
+.5:									; linemenuitem = $0000, go to .4
 	lda.w #$0000
 	sta.w linemenuitem
 	bra .4
-.6:
+.6:									; linemenuitem = $0001, go to .4
 	lda.w #$0001
 	sta.w linemenuitem
 	bra .4
-.7:
+.7:									; d1 bit $9080 set: if linemenuitem = $0000 go to .t1xx, ...
 	lda.w linemenuitem
 	cmp.w #$0000
 	beq .t1xx
 	bra .t2
 
-.t1xx:
+.t1xx:								; linemenuitem = $0000: go to .1x
 	lda.w #$FFFF
 	bra .1x
 
-.t2:
+.t2:								; call LoadTeamLines, call ClearEditLinesMenu, call DrawEditLinesTop, ...
 	jsl.l LoadTeamLines
 	jsr.w ClearEditLinesMenu
 	jsl.l DrawEditLinesTop
 	lda.w #$0000
-.1x:
+.1x:								; return
 	rts

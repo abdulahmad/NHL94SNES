@@ -1,5 +1,5 @@
 ; Lock the view at its current position
-freezewindow:
+freezewindow:						; called from Goal, clockcont
 	lda.w Vpos						; yc1 = Vpos, xc1 = Hpos, sfslock
 	sta.w yc1						; view lock y
 	lda.w Hpos

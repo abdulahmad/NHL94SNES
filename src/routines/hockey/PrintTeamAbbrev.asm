@@ -1,5 +1,5 @@
 ; Print the abbreviation of the home team (d3 = 0) or the visitors on the stats page, then two rows down
-PrintTeamAbbrev:
+PrintTeamAbbrev:					; called from FillPenaltyPage, FillScoringPage
 	lda.w printx
 	pha
 	lda.w tmdata
@@ -10,7 +10,7 @@ PrintTeamAbbrev:
 	beq .1
 	lda.w tmdata+2
 	sta.b a1
-.1:
+.1:									; a1 = [a1],y + a1, a1 = [a1] + a1, call PrintToStatsPage, ...
 	ldy.w #$0004
 	lda.b [a1],y
 	clc

@@ -1,8 +1,8 @@
 ; Turn the password characters into the password bits
-PWtoBits:
+PWtoBits:							; called from DecodePW
 	jsl.l ClrPassBits
 	ldx.w #$0000
-.char:
+.char:								; loop: d0 = PWrange, call SuperMult, d0 = PassWord,x & $00FF, ...
 	lda.w #PWrange
 	sta.b d0
 	jsl.l SuperMult

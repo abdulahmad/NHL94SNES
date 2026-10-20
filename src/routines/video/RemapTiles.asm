@@ -1,9 +1,9 @@
 ; Copy tiles to video memory with each pixel colour remapped through a table.
-RemapTiles:
+RemapTiles:							; called from LoadPlayerCardScreen, LoadScoutingScreen, PlayoffScreen...
 	lda.w #$000E
 	sta.b tmp2+1
 	sta.b tmp2+1
-.tile:
+.tile:								; loop: tmp0 = [a0],y, tmp1 = [a0],y, tmp2 = $07
 	rep #$30
 	ldy.b tmp2+1
 	lda.b [a0],y
@@ -18,28 +18,28 @@ RemapTiles:
 	ldx.b tmp2+1
 	lda.b #$07
 	sta.b tmp2
-.pixel:
+.pixel:								; loop: asl tmp1+1, if carry clear go to .lt, ...
 	ldy.b #$00
 	asl.b tmp1+1
 	bcc .lt
 	ldy.b #$08
-.lt:
+.lt:								; asl tmp1, if carry clear go to .lt2, ...
 	asl.b tmp1
 	bcc .lt2
 	iny
 	iny
 	iny
 	iny
-.lt2:
+.lt2:								; asl tmp0+1, if carry clear go to .lt3, ...
 	asl.b tmp0+1
 	bcc .lt3
 	iny
 	iny
-.lt3:
+.lt3:								; asl tmp0, if carry clear go to .lt4, ...
 	asl.b tmp0
 	bcc .lt4
 	iny
-.lt4:
+.lt4:								; rol RemapOut,x, lsr a, rol RemapOut+1,x, ...
 	lda.b [a1],y
 	lsr a
 	rol.w RemapOut,x
@@ -56,7 +56,7 @@ RemapTiles:
 	bpl .tile
 	rep #$30
 	ldx.w #$0000
-.out:
+.out:								; loop: VMDATAL = RemapOut,x, X + 1, X + 1, ...
 	lda.w RemapOut,x
 	sta.w VMDATAL
 	inx

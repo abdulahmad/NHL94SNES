@@ -1,5 +1,5 @@
 ; Other scores: team A's full name at x 7 and its score d0 at x $14 on the stats page
-PrintOtherScoreTeam:
+PrintOtherScoreTeam:				; called from PrintOtherScore
 	jsl.l GetTeamLongName
 	lda.w #$0007
 	sta.w printx

@@ -1,5 +1,5 @@
 ; Draw one row of a frame into the text map at printx / printy: a corner, d0 - 2 middle tiles, a corner
-FramerRow:
+FramerRow:							; called from Framer, FramerNineTile, FramerOutline
 	lda.w printy
 	asl a
 	asl a
@@ -23,7 +23,7 @@ FramerRow:
 	ldy.b d0
 	dey
 	dey
-.loop:
+.loop:								; loop: X + 1, X + 1, textmap,x = A, ...
 	inx
 	inx
 	sta.l textmap,x

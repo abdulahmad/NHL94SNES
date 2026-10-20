@@ -11,26 +11,26 @@ addframe:							; draw SpriteFrames frame $0CCD (at most $3D0) at $0CCF, $0CD1
 	beq .1
 	lda.w #$4000
 	tsb.w sprattr
-.1:
+.1:									; if sprvflip = 0 go to .2, ...
 	lda.w sprvflip
 	beq .2
 	lda.w #$8000
 	tsb.w sprattr
-.2:
+.2:									; if a still >= 0 go to .3, ...
 	lda.w sprframe
 	dec a
 	bpl .3
 	lda.w #$0000
-.3:
+.3:									; if carry clear go to .4, ...
 	cmp.w #$03D0
 	bcc .4
 	lda.w #$03D0
-.4:
+.4:									; r0 = A, call DrawSprite
 	sta.b r0
 	lda.w sprattr
 	ldx.w sprx
 	ldy.w spry
 	jsl.l DrawSprite
 org $9BC001
-.rtl:
+.rtl:								; return
 	rtl

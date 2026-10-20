@@ -1,5 +1,5 @@
 ; Animation, speed, position, input and assignment for every object
-updateplayers:
+updateplayers:						; called from DoGameFrame
 	lda.w #$FFFF
 	sta.w topgoalie
 	sta.w botgoalie
@@ -10,7 +10,7 @@ updateplayers:
 	lda.w puckz
 	sta.w puckoldz
 	ldx.w #$001E
-.2:
+.2:									; curobj = X, OldXpos,x = Xpos,x, OldXfrac,x = Xfrac,x, ...
 	stx.b curobj
 	lda.w Xpos,x
 	sta.w OldXpos,x
@@ -24,38 +24,38 @@ updateplayers:
 	beq .1
 	cpx.w #$001A
 	bne .t2
-.1:
+.1:									; go to .9
 	jmp.w .9
 
-.t2:
+.t2:								; if position,x >= 0 go to .t1, ...
 	lda.w position,x
 	bpl .t1
 	jmp.w .11
 
-.t1:
+.t1:								; position,x >= 0: if not zero go to .8, ...
 	bne .8
 	lda.w Ypos,x
 	bpl .t3
 	stx.w botgoalie
 	bra .8
 
-.t3:
+.t3:								; Ypos,x >= 0: topgoalie = X
 	stx.w topgoalie
-.8:
+.8:									; call updateanim, if plus go to .1x, ...
 	jsl.l updateanim
 	lda.w nopuck,x
 	sec
 	sbc.w timestep
 	bpl .1x
 	lda.w #$0000
-.1x:
+.1x:								; nopuck,x = A, if plus go to .2x, ...
 	sta.w nopuck,x
 	lda.w nopuckb,x
 	sec
 	sbc.w timestep
 	bpl .2x
 	lda.w #$0000
-.2x:
+.2x:								; nopuckb,x = A, if sflags3 bits $0020 clear go to .4, ...
 	sta.w nopuckb,x
 	lda.w sflags3
 	bit.w #$0020
@@ -65,43 +65,43 @@ updateplayers:
 	cmp.w #$0080
 	bcc .3
 	ora.w #$FF00
-.3:
+.3:									; d0 = A, if minus go to .4, ...
 	sta.b d0
 	cmp.w #$0000
 	bmi .4
 	asl.b d0
 	jsl.l loadTeamStruct
-.4:
+.4:									; if goaliedivewait,x = 0 go to .6, ...
 	lda.w goaliedivewait,x
 	beq .6
 	sec
 	sbc.w timestep
 	bpl .5
 	lda.w #$0000
-.5:
+.5:									; goaliedivewait,x = A
 	sta.w goaliedivewait,x
-.6:
+.6:									; if not zero go to .7, ...
 	cpx.w passReceiverPlayerNum
 	bne .7
 	lda.w onetimer
 	bne .10
-.7:
+.7:									; if SPA,x != SPAinjury1 go to .t1x, ...
 	lda.w SPA,x
 	cmp.w #SPAinjury1
 	bne .t1x
 	jmp.w .11
 
-.t1x:
+.t1x:								; SPA,x != SPAinjury1: if carry clear go to .t2x, ...
 	cmp.w #SPAboardfront
 	bcc .t2x
 	jmp.w .11
 
-.t2x:
+.t2x:								; if not zero go to .9, ...
 	cpx.w #$001C
 	bne .9
 	lda.w puckz
 	bne .10
-.9:
+.9:									; txy, d2 = .20,x & $00FF, if pflags,y bits $0001 clear go to .1xx, ...
 	txy
 	ldx.w timestep
 	lda.l .20,x
@@ -113,7 +113,7 @@ updateplayers:
 	lda.l .22-1,x
 	and.w #$00FF
 	sta.b d2
-.1xx:
+.1xx:								; call Mul16x8HiXS, Xvel,y = A, call Mul16x8HiXS, ...
 	ldx.w Xvel,y
 	lda.b d2
 	jsl.l Mul16x8HiXS
@@ -123,7 +123,7 @@ updateplayers:
 	jsl.l Mul16x8HiXS
 	sta.w Yvel,y
 	tyx
-.10:
+.10:								; p0 = velstep, if Xvel,x = 0 go to .1xxx, ...
 	lda.w velstep
 	sta.b p0
 	lda.w Xvel,x
@@ -139,7 +139,7 @@ updateplayers:
 	lda.b r2+2
 	adc.w Xpos,x
 	sta.w Xpos,x
-.1xxx:
+.1xxx:								; if Yvel,x = 0 go to .2xx, ...
 	lda.w Yvel,x
 	beq .2xx
 	tax
@@ -153,7 +153,7 @@ updateplayers:
 	lda.b r2+2
 	adc.w Ypos,x
 	sta.w Ypos,x
-.2xx:
+.2xx:								; if not zero go to .11, ...
 	cpx.w #$001C
 	bne .11
 	lda.w puckz
@@ -161,7 +161,7 @@ updateplayers:
 	bne .3x
 	lda.w puckvz
 	beq .11
-.3x:
+.3x:								; puckvz = puckvz - gravstep, call Mul16x8XS, puckzfrac = r2 + puckzfra...
 	lda.w puckvz
 	sec
 	sbc.w gravstep
@@ -181,7 +181,7 @@ updateplayers:
 	stz.w puckz
 	stz.w puckzfrac
 	lda.w puckvz
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	lsr a
 	sta.w puckvz
@@ -193,15 +193,15 @@ updateplayers:
 	stz.b p0+2
 	lda.w #$0007
 	jsl.l sfx
-.11:
+.11:								; d0 = puckx - Xpos,x, if plus go to .1xxxx, ...
 	lda.w puckx
 	sec
 	sbc.w Xpos,x
 	sta.b d0
 	bpl .1xxxx
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.1xxxx:
+.1xxxx:								; lsr a, lsr a, call Mul8U, ...
 	pha
 	lsr a
 	lsr a
@@ -214,9 +214,9 @@ updateplayers:
 	sbc.w Ypos,x
 	sta.b d1
 	bpl .2xxx
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.2xxx:
+.2xxx:								; lsr a, lsr a, call Mul8U, ...
 	pha
 	lsr a
 	lsr a
@@ -245,12 +245,12 @@ updateplayers:
 	stx.w tmnearpl
 	bra .12
 
-.t1xx:
+.t1xx:								; r3 >= $000C: if carry set go to .12, ...
 	cmp.w tmnear+2
 	bcs .12
 	sta.w tmnear+2
 	stx.w tmnearpl+2
-.12:
+.12:								; call ApproxLength_abs, puckdist,x = A, if carry set go to .14, ...
 	ply
 	pla
 	jsl.l ApproxLength_abs
@@ -271,10 +271,10 @@ updateplayers:
 	bne .14
 	bra .13
 
-.t1xxx:
+.t1xxx:								; if pfgoal,x = 0 go to .14
 	lda.w pfgoal,x
 	beq .14
-.13:
+.13:								; if puckz >= $000D go to .14, ...
 	lda.w puckz
 	cmp.w #$000D
 	bcs .14
@@ -285,7 +285,7 @@ updateplayers:
 	bmi .14
 	lda.w #$0005
 	trb.w iflags
-.14:
+.14:								; call vtoa, puckdir,x = A, X - 1, ...
 	jsl.l vtoa
 	sta.w puckdir,x
 	dex
@@ -293,29 +293,29 @@ updateplayers:
 	bmi .t1xxxx
 	jmp.w .2
 
-.t1xxxx:
+.t1xxxx:							; X counted below 0: if Ypos+$18 - $011F negative go to .1xxxxx, ...
 	lda.w Ypos+$18
 	cmp.w #$011F
 	bmi .1xxxxx
 	lda.w #$011F
-.1xxxxx:
+.1xxxxx:							; Ypos+$18 = A, if Ypos+$1A - $FED2 >= 0 go to .2xxxx, ...
 	sta.w Ypos+$18
 	lda.w Ypos+$1A
 	cmp.w #$FED2
 	bpl .2xxxx
 	lda.w #$FED2
-.2xxxx:
+.2xxxx:								; Ypos+$1A = A
 	sta.w Ypos+$1A
 	ldy.w #$000C
 	lda.w #$000F
-.loop:
+.loop:								; loop: PadControlObj,y = A, Y - 1, Y - 1, ...
 	sta.w PadControlObj,y
 	dey
 	dey
 	bpl .loop
 	ldx.w #$0008
 	lda.w #$0000
-.loop2:
+.loop2:								; loop: padinputdone,x = A, X - 1, X - 1, ...
 	sta.w padinputdone,x
 	dex
 	dex
@@ -325,7 +325,7 @@ updateplayers:
 	lda.w #$0002
 	sta.b curobjopp
 	ldx.w #$0000
-.15:
+.15:								; a3 = X, curobj = X, if not zero go to .1xxxxxx, ...
 	stx.b a3
 	stx.b curobj
 	cpx.w #$000C
@@ -334,14 +334,14 @@ updateplayers:
 	sta.b curobjteam
 	lda.w #$0000
 	sta.b curobjopp
-.1xxxxxx:
+.1xxxxxx:							; PlayersUnused = $FFFF, if position,x >= 0 go to .t2xx, ...
 	lda.w #$FFFF
 	sta.b PlayersUnused
 	lda.w position,x
 	bpl .t2xx
 	jmp.w .19
 
-.t2xx:
+.t2xx:								; position,x >= 0: d6 = X / 2, if not zero go to .1xxxxxxx, ...
 	txa
 	lsr a
 	sta.b d6
@@ -352,7 +352,7 @@ updateplayers:
 	lda.w #$0000
 	sta.b d4
 	jsl.l setpads
-.1xxxxxxx:
+.1xxxxxxx:							; if carry set go to .t1xxxxx, ...
 	cpx.w #$0018
 	bcs .t1xxxxx
 	lda.w playerpad,x
@@ -376,7 +376,7 @@ updateplayers:
 	jsl.l doinput
 	bra .t1xxxxx
 
-.t1xxxxx:
+.t1xxxxx:							; if pfalock,x != 0 go to .1xxxxxxxx, ...
 	lda.w pfalock,x
 	bne .1xxxxxxxx
 	lda.w asscur,x
@@ -390,7 +390,7 @@ updateplayers:
 	ldx.b curobj
 	jsl.l loadTeamStruct
 	jsl.l jmlvector
-.1xxxxxxxx:
+.1xxxxxxxx:							; ora gmclock, if not zero go to .17, ...
 	lda.w position,x
 	ora.w gmclock
 	bne .17
@@ -410,14 +410,14 @@ updateplayers:
 	stz.w Xvel,x
 	bra .16
 
-.t3x:
+.t3x:								; Xpos,x - $FFD5 >= 0: if minus go to .16, ...
 	cmp.w #$002C
 	bmi .16
 	cmp.w #$0031
 	bpl .16
 	lda.w #$002B
 	stz.w Xvel,x
-.16:
+.16:								; Xpos,x = A, if Ypos,x >= 0 go to .t1xxxxxx, ...
 	sta.w Xpos,x
 	lda.w Ypos,x
 	bpl .t1xxxxxx
@@ -430,7 +430,7 @@ updateplayers:
 	stz.w Yvel,x
 	bra .17
 
-.t1xxxxxx:
+.t1xxxxxx:							; Ypos,x >= 0: if plus go to .17, ...
 	cmp.w #$00E5
 	bpl .17
 	cmp.w #$00E0
@@ -438,7 +438,7 @@ updateplayers:
 	lda.w #$00E5
 	sta.w Ypos,x
 	stz.w Yvel,x
-.17:
+.17:								; Wallcos,x = 0, Wallsin,x = 0, d3 = Ypos,x, ...
 	stz.w Wallcos,x
 	stz.w Wallsin,x
 	lda.w Ypos,x
@@ -452,7 +452,7 @@ updateplayers:
 	bne .t1xxxxxxx
 	jmp.w .18
 
-.t1xxxxxxx:
+.t1xxxxxxx:							; call checkcoll, if carry set go to .18, ...
 	jsl.l checkcoll
 	cpx.w #$0018
 	bcs .18
@@ -470,18 +470,18 @@ updateplayers:
 	lda.w Ypos,x
 	bit.w #$8000
 	beq .1xxxxxxxxx
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.1xxxxxxxxx:
+.1xxxxxxxxx:						; sbc #$010D, r0 = A, if OldYpos,x bits $8000 clear go to .2xxxxx, ...
 	sec
 	sbc.w #$010D
 	sta.b r0
 	lda.w OldYpos,x
 	bit.w #$8000
 	beq .2xxxxx
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.2xxxxx:
+.2xxxxx:							; sbc #$010D, eor r0, if minus go to .4x, ...
 	sec
 	sbc.w #$010D
 	eor.b r0
@@ -489,25 +489,25 @@ updateplayers:
 	lda.w Ypos,x
 	bit.w #$8000
 	beq .3xx
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.3xx:
+.3xx:								; if carry clear go to .18, ...
 	cmp.w #$0103
 	bcc .18
 	cmp.w #$0117
 	bcs .18
-.4x:
+.4x:								; Xpos,x = OldXpos,x, Ypos,x = OldYpos,x
 	lda.w OldXpos,x
 	sta.w Xpos,x
 	lda.w OldYpos,x
 	sta.w Ypos,x
-.18:
+.18:								; if plus go to .19, ...
 	lda.w impact,x
 	sec
 	sbc.w impactstep
 	bpl .19
 	lda.w #$0000
-.19:
+.19:								; impact,x = A, X + 1, X + 1, ...
 	sta.w impact,x
 	inx
 	inx
@@ -515,7 +515,7 @@ updateplayers:
 	beq .t1xxxxxxxx
 	jmp.w .15
 
-.t1xxxxxxxx:
+.t1xxxxxxxx:						; if puckz >= $0018 go to .2xxxxxx, ...
 	lda.w puckz
 	cmp.w #$0018
 	bcs .2xxxxxx
@@ -528,7 +528,7 @@ updateplayers:
 	cpx.w #SPFpuck
 	bne .1xxxxxxxxxx
 	sta.w Xpos+$1E
-.1xxxxxxxxxx:
+.1xxxxxxxxxx:						; if puckx - sideline negative go to .2xxxxxx, ...
 	lda.w puckx
 	cmp.w #sideline
 	bmi .2xxxxxx
@@ -538,7 +538,7 @@ updateplayers:
 	cpx.w #SPFpuck
 	bne .2xxxxxx
 	sta.w Xpos+$1E
-.2xxxxxx:
+.2xxxxxx:							; if puckz != 0 go to .4xx, ...
 	lda.w puckz
 	bne .4xx
 	lda.w pucky
@@ -552,21 +552,21 @@ updateplayers:
 	lda.w #$FEDB
 	sta.w pucky
 	sta.w Ypos+$1E
-.3xxx:
+.3xxx:								; if pucky - $012A negative go to .4xx, ...
 	lda.w pucky
 	cmp.w #$012A
 	bmi .4xx
 	lda.w #$012A
 	sta.w pucky
 	sta.w Ypos+$1E
-.4xx:
+.4xx:								; if puckc negative go to .20, ...
 	lda.w puckc
 	bmi .20
 	lda.w pucky
 	sta.l carriedy
-.20:
+.20:								; return
 	rtl
-.21:
+.21:								; db $FD,$FA,$F7,$F4,$F1,$EE,$EB,$E8,$E6,$E3
 	db $FD,$FA,$F7,$F4,$F1,$EE,$EB,$E8,$E6,$E3
-.22:
+.22:								; db $FF,$FF,$FE,$FE,$FE,$FD,$FD,$FD,$FC,$FC
 	db $FF,$FF,$FE,$FE,$FE,$FD,$FD,$FD,$FC,$FC

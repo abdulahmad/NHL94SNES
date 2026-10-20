@@ -12,7 +12,7 @@ a2offsides:							; takes a2 = player, called from a2touchpuck
 	sec
 	sbc.b d0
 	sta.b d0
-.0:
+.0:									; if d0 - blueline negative go to .rtl, ...
 	lda.b d0
 	cmp.w #blueline
 	bmi .rtl
@@ -21,7 +21,7 @@ a2offsides:							; takes a2 = player, called from a2touchpuck
 	beq .1
 	lda.w #$0002
 	sta.b a0
-.1:
+.1:									; if tmflags,y bits tmfoside clear go to .rtl, ...
 	ldy.b a0
 	lda.w tmflags,y
 	bit.w #tmfoside
@@ -40,5 +40,5 @@ a2offsides:							; takes a2 = player, called from a2touchpuck
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-.rtl:
+.rtl:								; return
 	rtl

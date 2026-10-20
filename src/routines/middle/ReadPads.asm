@@ -1,5 +1,5 @@
 ; Once per frame: each pad's direction, changed buttons and new presses
-ReadPads:
+ReadPads:							; called from AskExitGame, BadPasswordPrompt, EditLinesMenu, EditLinesS...
 	lda.w JoyPad
 	xba
 	and.w #$000F

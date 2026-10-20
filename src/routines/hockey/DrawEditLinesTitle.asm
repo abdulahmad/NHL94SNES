@@ -1,10 +1,10 @@
 ; Line editor: the EditLinesLabel title sprites, the team name and picture; the background first when $7E3468
 ; is set
-DrawEditLinesTitle:
+DrawEditLinesTitle:					; called from DrawEditLinesTop, PrintLinePlayers
 	lda.l drawlinesback
 	beq .1
 	jsr.w DrawEditLinesBack
-.1:
+.1:									; call SpriteFrameStart, a1 = EditLinesLabel, call PrintLetterSprites, ...
 	jsl.l SpriteFrameStart
 	ldx.w #$0058
 	ldy.w #$0018
@@ -30,11 +30,11 @@ DrawEditLinesTitle:
 	sta.b d1
 	lda.b a2
 	beq .3
-.2:
+.2:									; d1 = VisTeam
 	lda.w VisTeam
 	sta.b d1
 	lda.w #$0030
-.3:
+.3:									; d0 = A, call DrawTeamBlocks, call DrawMatchupPictures, ...
 	sta.b d0
 	jsl.l DrawTeamBlocks
 	jsl.l DrawMatchupPictures
@@ -46,6 +46,6 @@ DrawEditLinesTitle:
 	sta.w irqline2
 	lda.w #$0000
 	sta.l drawlinesback
-.4:
+.4:									; call SendColours, return
 	jsl.l SendColours
 	rtl

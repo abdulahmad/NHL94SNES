@@ -1,5 +1,5 @@
 ; Draw the energy bar of line d0
-linebar:
+linebar:							; called from SetLCmode2
 	jsl.l getlinee
 	lda.w printa
 	pha
@@ -10,7 +10,7 @@ linebar:
 	cmp.w #$1000
 	bcc .1
 	lda.w #$1000
-.1:
+.1:									; d0 = A, call Mul16x8U, mesarea+2 = r2+2 + $001D, ...
 	sta.b d0
 	tax
 	lda.w #$002F

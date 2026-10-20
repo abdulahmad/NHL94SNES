@@ -1,5 +1,5 @@
 ; The injury box: the injured player and whether he is out for the period or the game
-ShowInjuryBox:
+ShowInjuryBox:						; called from CheckInjury
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -14,7 +14,7 @@ ShowInjuryBox:
 	pha
 	stx.b xsave
 	ldx.w #$0000
-.loop:
+.loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b a0,x
 	pha
 	inx
@@ -71,12 +71,12 @@ ShowInjuryBox:
 	sta.b a1
 	pla
 	sta.b a1+2
-.1:
+.1:									; call GetPlayerNumInitial, call print, xsave = X, ...
 	jsl.l GetPlayerNumInitial
 	jsl.l print
 	stx.b xsave
 	ldx.w #$0012
-.loop2:
+.loop2:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b a0,x
 	dex

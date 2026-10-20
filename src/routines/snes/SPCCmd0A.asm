@@ -1,7 +1,7 @@
 ; sound driver command $0A (the eight echo filter coefficients), 8 bytes from [p0]
-SPCCmd0A:
+SPCCmd0A:							; entry point, no direct callers found
 	sep #$30
-.wait:
+.wait:								; loop: if APUIO0 != 0 go to .wait, ...
 	lda.w APUIO0
 	bne .wait
 	ldy.b #$00
@@ -16,7 +16,7 @@ SPCCmd0A:
 	iny
 	lda.b #$0A
 	sta.w APUIO0
-.ack:
+.ack:								; loop: if not zero go to .ack, ...
 	cmp.w APUIO0
 	bne .ack
 	lda.b [p0],y
@@ -29,7 +29,7 @@ SPCCmd0A:
 	sta.w APUIO3
 	ldx.b #$84
 	stx.w APUIO0
-.ack2:
+.ack2:								; loop: if not zero go to .ack2, ...
 	cpx.w APUIO0
 	bne .ack2
 	lda.b [p0],y
@@ -39,7 +39,7 @@ SPCCmd0A:
 	sta.w APUIO2
 	inx
 	stx.w APUIO0
-.ack3:
+.ack3:								; loop: if not zero go to .ack3, ...
 	cpx.w APUIO0
 	bne .ack3
 	stz.w APUIO0

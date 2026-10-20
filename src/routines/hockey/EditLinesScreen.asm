@@ -1,5 +1,5 @@
 ; Change the lines on the ice. Start opens the line menu.
-EditLinesScreen:
+EditLinesScreen:					; called from PauseEditLines
 	jsl.l GetPauseTeam
 	ldy.b a2
 	lda.w tmline,y
@@ -24,7 +24,7 @@ EditLinesScreen:
 	jsl.l SetupBandIRQ
 	jsl.l MenuScreenHDMA
 	jsl.l ScreenOn
-.3:
+.3:									; call SendTextMap, call WaitFrame, call ReadPads, ...
 	jsl.l SendTextMap
 	jsl.l WaitFrame
 	jsl.l ReadPads
@@ -38,21 +38,21 @@ EditLinesScreen:
 	beq .t1
 	jmp.w EditLinesRtl
 
-.t1:
+.t1:								; call PrintLineNames, go to .3
 	jsl.l PrintLineNames
 	bra .3
 
-.t2:
+.t2:								; d1 bits $1000 clear: if not zero go to .t1x, ...
 	bit.w #$8080
 	bne .t1x
 	jmp.w .t3
 
-.t1x:
+.t1x:								; call SelectLinePlayer, if minus go to .1, ...
 	jsl.l SelectLinePlayer
 	cmp.w #$0000
 	bmi .1
 	jsr.w SetLineSlot
-.1:
+.1:									; drawlinesback = $0001, call PrintLineNames, a1 = EditLinesScreenPos, ...
 	lda.w #$0001
 	sta.l drawlinesback
 	jsl.l PrintLineNames
@@ -81,7 +81,7 @@ EditLinesScreen:
 	sta.b a1+2
 	lda.w #BestLineNames
 	sta.b a1
-.2:
+.2:									; call AdvanceStringPtr, call print, call SendTextMap, ...
 	jsl.l AdvanceStringPtr
 	jsl.l print
 	jsl.l SendTextMap
@@ -100,7 +100,7 @@ EditLinesScreen:
 	sta.b a1+2
 	jmp.w .5
 
-.t3:
+.t3:								; d0 = 0, increment d0, if not zero go to .t2x, ...
 	stz.b d0
 	inc.b d0
 	bit.w #$0100
@@ -115,7 +115,7 @@ EditLinesScreen:
 	inc.b d0
 	bit.w #$0800
 	beq .5
-.1x:
+.1x:								; if minus go to .5, ...
 	lda.b d0
 	clc
 	adc.w linecursor
@@ -126,7 +126,7 @@ EditLinesScreen:
 	jsl.l PrintLineNames
 	jmp.w .5
 
-.t2x:
+.t2x:								; if OptLine = 0 go to .5, ...
 	lda.l OptLine
 	beq .5
 	lda.b d0
@@ -149,13 +149,13 @@ EditLinesScreen:
 	dec.w linecursor
 	bra .4
 
-.t1x2:
+.t1x2:								; if lineslots = $0005 go to .4, ...
 	lda.w lineslots
 	cmp.w #$0005
 	beq .4
 	inc.w lineslots
 	inc.w linecursor
-.4:
+.4:									; call PrintLineNames
 	jsl.l PrintLineNames
-.5:
+.5:									; go to .3
 	jmp.w .3

@@ -1,5 +1,5 @@
 ; Clear the penalty message area on the horizontal rink (a 24 x 3 frame at 4, $0C)
-ClearPenaltyMessage:
+ClearPenaltyMessage:				; called from UpdatePA, prefmes
 	lda.b d0
 	pha
 	lda.b a1+2

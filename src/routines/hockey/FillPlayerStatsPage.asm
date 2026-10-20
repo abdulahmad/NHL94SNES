@@ -1,5 +1,5 @@
 ; Build the player stats page in the stats page buffer, a row per player in the sorted order
-FillPlayerStatsPage:
+FillPlayerStatsPage:				; called from SortPlayerStats
 	lda.w #$007F
 	sta.b p1+2
 	lda.w #$2780
@@ -14,7 +14,7 @@ FillPlayerStatsPage:
 	dec a
 	asl a
 	sta.w printy
-.1:
+.1:									; increment printy, increment printy, if statcolumn = 0 go to .t1, ...
 	inc.w printy
 	inc.w printy
 	sep #$20
@@ -27,15 +27,15 @@ FillPlayerStatsPage:
 	jsl.l .3
 	bra .2
 
-.t1:
+.t1:								; statcolumn = 0: call .4
 	jsl.l .4
-.2:
+.2:									; Y + 1, if zero go to .1, ...
 	iny
 	cpy.w listend
 	beq .1
 	bcc .1
 	rtl
-.3:
+.3:									; subroutine: call SetStatColumnPal, printx = $0003, d0 = X, ...
 	phy
 	lda.b d1
 	pha
@@ -49,9 +49,9 @@ FillPlayerStatsPage:
 	stx.w statstemp
 	lda.b a2
 	beq .2x
-.1x:
+.1x:								; falls through
 	lda.w #$001A
-.2x:
+.2x:								; adc statstemp, call SetStatColumnPal, printx = $0011, ...
 	clc
 	adc.w statstemp
 	tax
@@ -133,7 +133,7 @@ FillPlayerStatsPage:
 	sta.b d1
 	ply
 	rtl
-.4:
+.4:									; subroutine: call SetStatColumnPal, printx = $0003, d0 = X, ...
 	phy
 	lda.b d1
 	pha
@@ -148,7 +148,7 @@ FillPlayerStatsPage:
 	lda.b a2
 	beq .1xx
 	lda.w #$001A
-.1xx:
+.1xx:								; adc statstemp, printx = $0012, d0 = tmgoals,x & $00FF, ...
 	clc
 	adc.w statstemp
 	tax
@@ -197,10 +197,10 @@ FillPlayerStatsPage:
 	sta.b d0
 	bra .2xx
 
-.t1x:
+.t1x:								; d0 = $0064
 	lda.w #$0064
 	sta.b d0
-.2xx:
+.2xx:								; d0 = $0064 - d0, d1 = $0003, call PushNumberWrap, ...
 	lda.w #$0064
 	sec
 	sbc.b d0

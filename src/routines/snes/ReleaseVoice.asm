@@ -1,5 +1,5 @@
 ; Put voice Y into its release
-ReleaseVoice:
+ReleaseVoice:						; called from PlaySoundEntry, StepTrack, UpdateVoice
 	sep #$20
 	lda.w VoiceState,y
 	beq .3
@@ -28,24 +28,24 @@ ReleaseVoice:
 	lda.b #$9F
 	bra .2
 
-.t2:
+.t2:								; if carry clear go to .t1, ...
 	cmp.b #$36
 	bcc .t1
 	lda.b #$99
 	bra .2
 
-.t1:
+.t1:								; if carry clear go to .1, ...
 	cmp.b #$03
 	bcc .1
 	lda.b #$8C
 	bra .2
-.1:
+.1:									; falls through
 	lda.b #$81
-.2:
+.2:									; DSPGain = A, call SeqCmd0C
 	sta.b DSPGain
 	jsr.w SeqCmd0C
-.3:
+.3:									; return
 	rts
-.4:
+.4:									; call StopVoice, return
 	jsr.w StopVoice
 	rts

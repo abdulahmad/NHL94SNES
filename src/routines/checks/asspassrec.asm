@@ -9,7 +9,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x
-.3:
+.3:									; passwait,x = passwait,x - timestep, if minus go to .6, ...
 	lda.w passwait,x
 	sec
 	sbc.w timestep
@@ -26,7 +26,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	bne .6
 	bit.w #$0080
 	beq .t2
-.4:
+.4:									; increment onetimerreq, go to .8
 	inc.w onetimerreq
 	bra .8
 
@@ -42,20 +42,20 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	lda.w Ypos,x
 	cmp.w #$FFA8
 	bpl .5
-.1:
+.1:									; call RandomWord, and #$0080, if not zero go to .5, ...
 	jsl.l RandomWord
 	and.w #$0080
 	bne .5
 	inc.w onetimerreq
 	jmp.w .8
-.2:
+.2:									; pfgoal,x != 0: if Ypos,x - $0058 >= 0 go to .1
 	lda.w Ypos,x
 	cmp.w #$0058
 	bpl .1
-.5:
+.5:									; if puckc negative go to .7
 	lda.w puckc
 	bmi .7
-.6:
+.6:									; passReceiverPlayerNum = $FFFF, pfalock,x = 0, onetimerreq = 0, ...
 	lda.w #$FFFF
 	sta.w passReceiverPlayerNum
 	stz.w pfalock,x
@@ -64,9 +64,9 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	and.w #$FFFE
 	sta.w pflags,x
 	jmp.w assexit
-.7:
+.7:									; return
 	rtl
-.8:
+.8:									; if SPA,x = SPAonetimerf go to .10, ...
 	lda.w SPA,x
 	cmp.w #SPAonetimerf
 	beq .10
@@ -77,7 +77,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	cpx.w #$000C
 	bmi .1x
 	ldy.w #$0002
-.1x:
+.1x:								; tmOneTimerSwings,y = tmOneTimerSwings,y + 1, d0 = $0000 - passtargetx...
 	lda.w tmOneTimerSwings,y
 	inc a
 	sta.w tmOneTimerSwings,y
@@ -99,7 +99,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	sec
 	sbc.w passtargety
 	sta.b d1
-.2x:
+.2x:								; call vtoa, call Findhittype, if zero go to .t1xx, ...
 	jsl.l vtoa
 	jsl.l Findhittype
 	beq .t1xx
@@ -108,12 +108,12 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 
 .t1xx:								; Findhittype gave 0: use SPAonetimerf instead of SPAonetimerb
 	lda.w #SPAonetimerf
-.3x:
+.3x:								; call SetSPAFromA, go to .7
 	jsl.l SetSPAFromA
 	jmp.w .7
-.9:
+.9:									; SPAnum,x >= $0010: go to .6
 	jmp.w .6
-.10:
+.10:								; nopuck,x = $000A, if SPAnum,x >= $0010 go to .9, ...
 	lda.w #$000A
 	sta.w nopuck,x
 	lda.w SPAnum,x
@@ -143,7 +143,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	stx.w puckc
 	ldy.w playerpad,x
 	bmi .t1xxx
-.1xx:
+.1xx:								; passdir = paddir,y, go to .4x
 	lda.w paddir,y
 	sta.w passdir
 	bra .4x
@@ -151,7 +151,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 .t1xxx:								; computer player (playerpad < 0): passdir = 8
 	lda.w #$0008
 	sta.w passdir
-.4x:
+.4x:								; passspeed = $0024, pfalock,x = $0024, if gmclock != 0 go to .2xx, ...
 	lda.w #$0024
 	sta.w passspeed
 	sta.w pfalock,x
@@ -162,12 +162,12 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	cpx.w #$000C
 	bmi .1xxx
 	ldy.w #$0002
-.1xxx:
+.1xxx:								; tmOneTimers,y = tmOneTimers,y + 1
 	lda.w tmOneTimers,y
 	inc a
 	sta.w tmOneTimers,y
 	ply
-.2xx:
+.2xx:								; onetimer = $0001, if minus go to .3xx, ...
 	lda.w #$0001
 	sta.w onetimer
 	lda.w CwdExciteLvl
@@ -175,7 +175,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	adc.w #$000A
 	bmi .3xx
 	sta.w CwdExciteLvl
-.3xx:
+.3xx:								; a2 = X, call a2touchpuck, a2 = pulled value, ...
 	lda.b a2
 	pha
 	stx.b a2
@@ -184,10 +184,10 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	sta.b a2
 	jsl.l doshot
 	jmp.w .6
-.5x:
+.5x:								; if puckc negative go to .t1xxxx
 	lda.w puckc
 	bmi .t1xxxx
-.1xxxx:
+.1xxxx:								; if zero go to .t1xxxx, ...
 	cpx.w puckc
 	beq .t1xxxx
 	jmp.w .6

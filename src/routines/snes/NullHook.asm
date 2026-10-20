@@ -1,3 +1,3 @@
 ; An empty hook
-NullHook:
+NullHook:							; called from ClearFrameHook, ClearNMIHook, InitHooks
 	rtl

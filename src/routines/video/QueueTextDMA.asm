@@ -1,5 +1,5 @@
 ; Queue the changed part of the text map for transfer to video memory
-QueueTextDMA:
+QueueTextDMA:						; called from BadPasswordPrompt, DrawOtherScoresPage, DrawPenaltyPage...
 	lda.w textdirtylo
 	bmi .rtl
 	tay
@@ -19,5 +19,5 @@ QueueTextDMA:
 	lda.w #$FFFF
 	sta.w textdirtylo
 	stz.w textdirtyhi
-.rtl:
+.rtl:								; return
 	rtl

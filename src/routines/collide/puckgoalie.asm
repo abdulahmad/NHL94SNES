@@ -1,18 +1,18 @@
 ; The puck hits goalie a2: a save or not, by his save ratings
-puckgoalie:
+puckgoalie:							; called from checkpuckcoll_ccx
 	lda.w gmode						; game mode
 	bit.w #gmhl						; gmhl
 	beq .t1
 	jmp.w .7
 
-.t1:
+.t1:								; gmode bits gmhl clear: d2 = 0, if puckz - $0008 >= 0 go to .1, ...
 	stz.b d2
 	lda.w puckz
 	cmp.w #$0008
 	bpl .1
 	inc.b d2
 	inc.b d2
-.1:
+.1:									; d0 = $0000 - d0, d1 = $0000 - d1, call vtoa, ...
 	lda.w #$0000
 	sec
 	sbc.b d0
@@ -33,7 +33,7 @@ puckgoalie:
 	bne .2
 	lda.w seed
 	sta.b d0
-.2:
+.2:									; eor #$0001, adc d2, asl a, ...
 	lda.b d0						; side bit
 	and.w #$0004
 	lsr a
@@ -59,7 +59,7 @@ puckgoalie:
 	beq .3
 	lda.w endurance,y
 	sta.b d1
-.3:
+.3:									; d1 = d1 + $000F, if attribute,y bits $0800 clear go to .4, ...
 	lda.b d1
 	clc
 	adc.w #$000F					; plus 15
@@ -70,7 +70,7 @@ puckgoalie:
 	lda.b d2						; mirror the side
 	eor.w #$0002
 	sta.b d2
-.4:
+.4:									; if carry set go to .t2, ...
 	lda.w frame,y					; goalie frame
 	sec
 	sbc.w #SPFgdive					; goalie dive frames SPFgdive..+15
@@ -91,13 +91,13 @@ puckgoalie:
 	bpl .1x
 	cmp.w #$D000
 	bpl .5
-.1x:
+.1x:								; if minus go to .2x, ...
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$000A
 	bmi .2x
 	sta.w CwdExciteLvl
-.2x:
+.2x:								; if pfteam,y = 0 go to .t1x, ...
 	ldy.b a2
 	lda.w pfteam,y
 	beq .t1x
@@ -105,23 +105,23 @@ puckgoalie:
 	jsl.l StreamSfx
 	bra .5
 
-.t1x:
+.t1x:								; pfteam,y = 0: crowdlevel = crowdlevel + $0258, crowdhold = $003C
 	lda.l crowdlevel
 	clc
 	adc.w #$0258
 	sta.l crowdlevel
 	lda.w #$003C
 	sta.b crowdhold
-.5:
+.5:									; if puckc negative go to .1xx, ...
 	lda.w puckc
 	bmi .1xx
 	lsr a
-.1xx:
+.1xx:								; d2 = A, if plus go to .t2x, ...
 	sta.b d2
 	bpl .t2x
 	jmp.w .9
 
-.t2x:
+.t2x:								; if not zero go to .t1xx, ...
 	cpx.w puckc
 	bne .t1xx
 	jmp.w .9
@@ -140,7 +140,7 @@ puckgoalie:
 	sta.w lastplayer				; lastplayer
 	lda.w #$000C
 	trb.w sflags
-.6:
+.6:									; puckvz = 0, nopuck,y = $000A, temp4,y = $0004, ...
 	stz.w puckvz
 	ldy.b a2
 	lda.w #$000A					; nopuck 10 for the goalie
@@ -158,18 +158,18 @@ puckgoalie:
 	bne .1xxx
 	lda.b a2
 	jsl.l GetHot
-.1xxx:
+.1xxx:								; if zero go to .2xx, ...
 	lda.b d1
 	and.w #$00FF					; low byte
 	bit.w #$0080
 	beq .2xx
 	ora.w #$FF00
-.2xx:
+.2xx:								; d1 = A, if d1 = 0 go to .3x, ...
 	sta.b d1
 	lda.b d1
 	beq .3x
 	inc.b d1
-.3x:
+.3x:								; eor d1, if minus go to .4x, ...
 	ldy.b a2						; goalie
 	lda.w Yvel,y					; goalie y velocity
 	eor.b d1						; compared with the direction
@@ -178,7 +178,7 @@ puckgoalie:
 	sec
 	sbc.b d1
 	sta.b d1
-.4x:
+.4x:								; Xvel+1,x = d0, Yvel+1,x = d1, go to puckflip
 	sep #$20						; 8-bit A
 	lda.b d0						; x velocity high byte
 	sta.w Xvel+1,x
@@ -186,11 +186,11 @@ puckgoalie:
 	sta.w Yvel+1,x
 	rep #$20						; 16-bit A
 	jmp.w puckflip					; flip the puck
-.7:
+.7:									; return
 	rtl
-.8:
+.8:									; go to .6
 	jmp.w .6
-.9:
+.9:									; xba, and #$FF00, asl a, ...
 	lda.w #$0002					; catch speed limit = random((2+shotspd)*512) + $C00
 	clc
 	adc.w shotspd,y					; plus the shot speed

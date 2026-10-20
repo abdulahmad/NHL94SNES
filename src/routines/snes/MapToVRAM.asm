@@ -1,5 +1,5 @@
 ; Copy map [p0] (width, height) into the screen map in video memory at column X, row Y
-MapToVRAM:
+MapToVRAM:							; called from DrawPlayerCard, TitleScreen
 	stx.b r5
 	sty.b r5+2
 	ldy.w #$0000
@@ -26,7 +26,7 @@ MapToVRAM:
 	bmi .t1
 	jmp.w .4
 
-.t1:
+.t1:								; IniDispShadow-1 negative: A1B1 = p0+2, DMAP1 = $01, BBAD1 = $18, ...
 	sep #$20
 	lda.b p0+2
 	sta.w A1B1
@@ -35,7 +35,7 @@ MapToVRAM:
 	lda.b #$18
 	sta.w BBAD1
 	rep #$20
-.1:
+.1:									; loop: if carry set go to .3, ...
 	lda.b r4
 	clc
 	adc.b r5
@@ -46,7 +46,7 @@ MapToVRAM:
 	sta.w DAS1L
 	stx.w A1T1L
 	sty.w VMADDL
-.2:
+.2:									; MDMAEN = $02, increment r5+2, if r5+2 != $0020 go to .1x, ...
 	sep #$20
 	lda.b #$02
 	sta.w MDMAEN
@@ -68,11 +68,11 @@ MapToVRAM:
 	clc
 	adc.w MapScreenStep
 	tay
-.1x:
+.1x:								; decrement r4+2, if r4+2 not yet 0 go to .1, ...
 	dec.b r4+2
 	bne .1
 	rtl
-.3:
+.3:									; r6 = $0020 - r5 * 2, DAS1L = $0020 - r5 * 2, A1T1L = X, ...
 	lda.w #$0020
 	sbc.b r5
 	asl a
@@ -98,9 +98,9 @@ MapToVRAM:
 	and.w #$FFE0
 	sta.w VMADDL
 	jmp.w .2
-.4:
+.4:									; p0 = X
 	stx.b p0
-.1xx:
+.1xx:								; loop: if carry set go to .3x, ...
 	lda.b r4
 	clc
 	adc.b r5
@@ -112,7 +112,7 @@ MapToVRAM:
 	phy
 	jsl.l QueueVRAMDMA
 	ply
-.2x:
+.2x:								; increment r5+2, if r5+2 != $0020 go to .1xxx, ...
 	tya
 	clc
 	adc.w #$0020
@@ -125,11 +125,11 @@ MapToVRAM:
 	clc
 	adc.w MapScreenStep
 	tay
-.1xxx:
+.1xxx:								; decrement r4+2, if r4+2 not yet 0 go to .1xx, ...
 	dec.b r4+2
 	bne .1xx
 	rtl
-.3x:
+.3x:								; r6 = $0020 - r5 * 2, call QueueVRAMDMA, call QueueVRAMDMA, ...
 	lda.w #$0020
 	sbc.b r5
 	asl a

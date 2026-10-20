@@ -1,13 +1,13 @@
 ; Add a DMA of X bytes from [p0] to video memory at Y to the NMI transfer list
-QueueVRAMDMA:
+QueueVRAMDMA:						; called from DMAToVRAM, MapPartToVRAM, MapToVRAM
 	txa
 	ldx.b DMAQueueTail
-.loop:
+.loop:								; loop: r3 = A, if carry clear go to .1, ...
 	sta.b r3
 	cmp.w #$1000
 	bcc .1
 	lda.w #$1000
-.1:
+.1:									; DMAQueue+4,x = A, lsr a, r3+2 = A, ...
 	sta.w DMAQueue+4,x
 	lsr a
 	sta.b r3+2
@@ -38,6 +38,6 @@ QueueVRAMDMA:
 	sbc.w #$1000
 	beq .2
 	bcs .loop
-.2:
+.2:									; DMAQueueTail = X, return
 	stx.b DMAQueueTail
 	rtl

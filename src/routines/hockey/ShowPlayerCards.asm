@@ -1,5 +1,5 @@
 ; Player cards. Left and right change the player, start leaves.
-ShowPlayerCards:
+ShowPlayerCards:					; called from PausePlayerCards
 	jsl.l GetPauseTeam
 	lda.b a2
 	pha
@@ -17,9 +17,9 @@ ShowPlayerCards:
 	sta.w listend
 	jsl.l ScreenOn
 	jsl.l DrawPlayerCard
-PlayerCardsRedraw:
+PlayerCardsRedraw:					; called from NextPlayerCard, PrevPlayerCard, SwapPlayerCardTeam
 	jsl.l SendTextMap
-PlayerCardsLoop:
+PlayerCardsLoop:					; called from PlayerCardsWait
 	jsl.l WaitFrame
 	jsl.l ReadPads
 	jsl.l ReadPausePad
@@ -34,9 +34,9 @@ PlayerCardsLoop:
 	bit.w #$4000
 	beq PlayerCardsWait
 	jmp.w SwapPlayerCardTeam
-PlayerCardsWait:
+PlayerCardsWait:					; called from NextPlayerCard, PlayerCardsLoop, PrevPlayerCard
 	bra PlayerCardsLoop
-PlayerCardsExit:
+PlayerCardsExit:					; called from PlayerCardsLoop
 	pla
 	sta.b a2
 	rtl

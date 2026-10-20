@@ -80,7 +80,7 @@ ResolveGames:						; record the played playoff game and the series wins
 	bvs .5
 	bra .7							; next round
 
-.t2:
+.t2:								; if overflow set go to .7
 	bvs .7							; signed compare
 .5:									; d1 = games - 1
 	jsl.l GetShifter

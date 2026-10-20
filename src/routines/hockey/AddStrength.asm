@@ -1,6 +1,6 @@
 ; Insert rating column d1 of player $1D9B (GetPlayerRating) into the best-three list at $1E79-$1E83 (column,
 ; rating pairs)
-AddStrength:
+AddStrength:						; called from FindGoalieStrengths, FindSkaterStrengths
 	jsl.l GetPlayerRating
 	lda.b d0
 	dec a
@@ -12,7 +12,7 @@ AddStrength:
 	bpl .2
 	bra .3
 
-.t1:
+.t1:								; r0 = strengths+2, r1 = strengths, strengths+2 = d0, ...
 	lda.w strengths+2
 	sta.b r0
 	lda.w strengths
@@ -25,7 +25,7 @@ AddStrength:
 	sta.b d0
 	lda.b r1
 	sta.b d1
-.1:
+.1:									; r0 = strengths+6, r1 = strengths+4, strengths+6 = d0, ...
 	lda.w strengths+6
 	sta.b r0
 	lda.w strengths+4
@@ -38,10 +38,10 @@ AddStrength:
 	sta.b d0
 	lda.b r1
 	sta.b d1
-.2:
+.2:									; strengths+$A = d0, strengths+8 = d1
 	lda.b d0
 	sta.w strengths+$A
 	lda.b d1
 	sta.w strengths+8
-.3:
+.3:									; return
 	rtl

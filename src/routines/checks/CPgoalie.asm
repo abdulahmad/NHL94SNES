@@ -26,7 +26,7 @@ CPgoalie:							; should the computer pull its goalie?
 	sec
 	sbc.b d1
 	sta.b d1
-.1:
+.1:									; if d1 negative go to .t1, ...
 	lda.b d1						; puck y in the attacking half?
 	bmi .t1							; no: leave
 	ldy.b a2						; this team

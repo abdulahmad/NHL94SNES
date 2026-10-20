@@ -1,5 +1,5 @@
 ; Pause menu: toggle the goalie control
-PauseGoalieMode:
+PauseGoalieMode:					; called from PauseMenuHandlers
 	lda.b d1
 	bit.w #$8380
 	beq .1
@@ -8,5 +8,5 @@ PauseGoalieMode:
 	lda.w goaliemode1,y
 	eor.w #$0001
 	sta.w goaliemode1,y
-.1:
+.1:									; go to PauseMenuPoll
 	jmp.w PauseMenuPoll

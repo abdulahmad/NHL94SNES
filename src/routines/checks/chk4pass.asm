@@ -1,5 +1,5 @@
 ; A computer player looks for a good pass
-chk4pass:
+chk4pass:							; called from assgoalie, asspuckc
 	lda.w threat
 	bne .1
 	lda.w #$0010
@@ -8,7 +8,7 @@ chk4pass:
 	jsl.l randoma8
 	cmp.w #$0009
 	bcs .4
-.1:
+.1:									; call randoma8, d0 = A, if carry clear go to .2, ...
 	lda.w #$0006
 	jsl.l randoma8
 	sta.b d0
@@ -17,7 +17,7 @@ chk4pass:
 	clc
 	adc.w #$0006
 	sta.b d0
-.2:
+.2:									; if position,x = 0 go to .3, ...
 	lda.w position,x
 	beq .3
 	lda.w puckx
@@ -30,13 +30,13 @@ chk4pass:
 	bmi .4
 	cmp.w #$00CD
 	bpl .4
-.3:
+.3:									; asl d0, if not zero go to .6
 	asl.b d0
 	cpx.b d0
 	bne .6
-.4:
+.4:									; return
 	rtl
-.6:
+.6:									; a0 = d0, if position,y = 0 go to .4, ...
 	ldy.b d0
 	sty.b a0
 	lda.w position,y
@@ -60,7 +60,7 @@ chk4pass:
 	sec
 	sbc.b d1
 	sta.b d1
-.1x:
+.1x:								; if gmode bits gmoffs clear go to .2x, ...
 	lda.w gmode
 	bit.w #gmoffs
 	beq .2x
@@ -73,7 +73,7 @@ chk4pass:
 	sbc.w #$0058
 	eor.b tmp0
 	bmi .4
-.2x:
+.2x:								; if d0 - $0058 >= 0 go to .3x, ...
 	lda.b d0
 	cmp.w #$0058
 	bpl .3x
@@ -83,7 +83,7 @@ chk4pass:
 	sta.b d0
 	cmp.w #$FFF1
 	bmi .t1
-.3x:
+.3x:								; passdir = puckdir,y - $0004 & $0007, d2 = puckdist2,y, d3 = $0005, ...
 	lda.w puckdir,y
 	sec
 	sbc.w #$0004
@@ -98,7 +98,7 @@ chk4pass:
 	cpx.w #$000C
 	bcs .4x
 	ldy.w #$000C
-.4x:
+.4x:								; loop: if d2 < puckdist2,y go to .5, ...
 	lda.b d2
 	cmp.w puckdist2,y
 	bcc .5
@@ -108,7 +108,7 @@ chk4pass:
 	and.w #$0007
 	cmp.w passdir
 	beq .t1
-.5:
+.5:									; Y + 1, Y + 1, decrement d3, ...
 	iny
 	iny
 	dec.b d3
@@ -122,5 +122,5 @@ chk4pass:
 	rep #$30
 	jmp.w assexit
 
-.t1:
+.t1:								; return
 	rtl

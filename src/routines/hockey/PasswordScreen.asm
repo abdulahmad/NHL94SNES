@@ -1,5 +1,5 @@
 ; Password entry screen
-PasswordScreen:
+PasswordScreen:						; called from setoptions
 	jsl.l FadeOut
 	jsl.l WaitFadeOut
 	lda.w #$FF7F
@@ -65,7 +65,7 @@ PasswordScreen:
 	sta.b a0
 	lda.w #$0004
 	sta.b d0
-.loop:
+.loop:								; loop: d1 = $0005, a1 = mesarea, [a1] = $000D, ...
 	lda.w #$0005
 	sta.b d1
 	lda.w #mesarea>>16
@@ -76,7 +76,7 @@ PasswordScreen:
 	sta.b [a1]
 	inc.b a1
 	inc.b a1
-.loop2:
+.loop2:								; loop: [a1] = [a0], increment a0, increment a1, ...
 	lda.b [a0]
 	sta.b [a1]
 	inc.b a0
@@ -107,7 +107,7 @@ PasswordScreen:
 	cmp.w #$001E
 	bcs .1
 	sta.b d5
-.1:
+.1:									; call PlacePasswordCursor, call FramerOutline, PWCharStr = $0003, ...
 	jsl.l PlacePasswordCursor
 	jsl.l FramerOutline
 	lda.w #$0003
@@ -128,9 +128,9 @@ PasswordScreen:
 	jsl.l print
 	lda.w #$000A
 	sta.w fadestep
-PasswordRedraw:
+PasswordRedraw:						; called from BadPasswordPrompt
 	jsr.w PrintPasswordHelp
-.1:
+.1:									; a1 = PasswordScreenPos2, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -146,7 +146,7 @@ PasswordRedraw:
 	sta.b a1+2
 	jsl.l PWprint
 	jsl.l QueueTextDMA
-.loop:
+.loop:								; loop: call WaitFrame, call ReadPads, call ReadJoy1, ...
 	jsl.l WaitFrame
 	jsl.l ReadPads
 	jsl.l ReadJoy1
@@ -158,7 +158,7 @@ PasswordRedraw:
 	beq .t3
 	jmp.w BadPasswordPrompt
 
-.t3:
+.t3:								; d0 = 0, decrement d0, if not zero go to .t1, ...
 	stz.b d0
 	dec.b d0
 	bit.w #$4000
@@ -183,7 +183,7 @@ PasswordRedraw:
 	bne .2
 	jmp.w .1
 
-.t1:
+.t1:								; if carry clear go to .t2, ...
 	lda.b d4
 	clc
 	adc.b d0
@@ -191,7 +191,7 @@ PasswordRedraw:
 	bcc .t2
 	jmp.w .1
 
-.t2:
+.t2:								; d4 = A, call PrintSelectLeft, a0 = PassWord, ...
 	sta.b d4
 	jsl.l PrintSelectLeft
 	lda.w #PassWord>>16
@@ -207,7 +207,7 @@ PasswordRedraw:
 	sec
 	sbc.b d5
 	sta.b d0
-.2:
+.2:									; if carry clear go to .t1x, ...
 	lda.b d5
 	clc
 	adc.b d0
@@ -215,7 +215,7 @@ PasswordRedraw:
 	bcc .t1x
 	jmp.w .1
 
-.t1x:
+.t1x:								; call PlacePasswordCursor, d2 = blankchar, call eraser, ...
 	pha
 	jsl.l PlacePasswordCursor
 	lda.l blankchar

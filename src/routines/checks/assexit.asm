@@ -1,5 +1,5 @@
 ; End the player's current assignment and go back to the one under it
-assexit:
+assexit:							; called from assbench, assbreakaway, assdumpin, asseben, assepen and 8...
 	lda.w assnum,x
 	inc a
 	and.w #$0007

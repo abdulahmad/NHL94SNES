@@ -1,5 +1,5 @@
 ; Step the puck drop animation
-updatefaceoff:
+updatefaceoff:						; called from puckfaceoff2
 	lda.w temp1,x
 	beq .t2
 	clc								; (temp1+6)/8 <= 2: drop frame 10-d0
@@ -44,9 +44,9 @@ updatefaceoff:
 	lsr a
 	bit.w #$1000					; sign extend
 	beq .2
-.1:
+.1:									; ora #$E000
 	ora.w #$E000
-.2:
+.2:									; printx = A, if zero go to .4
 	sta.w printx
 	lda.l fodropy
 	sec
@@ -56,9 +56,9 @@ updatefaceoff:
 	lsr a
 	bit.w #$1000
 	beq .4
-.3:
+.3:									; ora #$E000
 	ora.w #$E000
-.4:
+.4:									; printy = A, d0 = $000C, d1 = $000C + 1, ...
 	sta.w printy					; print y
 	lda.w #$000C					; box 12 wide
 	sta.b d0
@@ -66,7 +66,7 @@ updatefaceoff:
 	sta.b d1
 	bra .5
 
-.t1:
+.t1:								; penshot != 0: printy = $0001, printx = $0006, d0 = $0014, ...
 	lda.w #$0001
 	sta.w printy
 	lda.w #$0006
@@ -75,7 +75,7 @@ updatefaceoff:
 	sta.b d0
 	lda.w #$0008
 	sta.b d1
-.5:
+.5:									; d2 = blankchar, call eraser, FrameCount = 0, ...
 	lda.l blankchar
 	sta.b d2
 	jsl.l eraser

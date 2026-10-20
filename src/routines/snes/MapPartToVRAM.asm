@@ -1,5 +1,5 @@
 ; Copy part of map [p0] into the screen map in video memory at column X, row Y
-MapPartToVRAM:
+MapPartToVRAM:						; called from PlayoffScreen, SendBigText, StatsReport
 	cpx.w #$0020
 	bcc .1
 	txa
@@ -9,7 +9,7 @@ MapPartToVRAM:
 	clc
 	adc.w #$0400
 	sta.w MapVRAM
-.1:
+.1:									; r5 = X, r5+2 = Y, call Mul16U, ...
 	stx.b r5
 	sty.b r5+2
 	ldy.w #$0000
@@ -23,7 +23,7 @@ MapPartToVRAM:
 	bmi .t1
 	jmp.w .5
 
-.t1:
+.t1:								; IniDispShadow-1 negative: r7 = pulled value, ora r5, A1B1 = p0+2, ...
 	lda.b p0
 	clc
 	adc.w #$0006
@@ -49,7 +49,7 @@ MapPartToVRAM:
 	lda.b #$18
 	sta.w BBAD1
 	rep #$20
-.2:
+.2:									; loop: if carry set go to .4, ...
 	lda.b r4
 	clc
 	adc.b r5
@@ -60,7 +60,7 @@ MapPartToVRAM:
 	sta.w DAS1L
 	stx.w A1T1L
 	sty.w VMADDL
-.3:
+.3:									; MDMAEN = $02, increment r5+2, if r5+2 != $0020 go to .1x, ...
 	sep #$20
 	lda.b #$02
 	sta.w MDMAEN
@@ -81,11 +81,11 @@ MapPartToVRAM:
 	clc
 	adc.w MapScreenStep
 	tay
-.1x:
+.1x:								; decrement r4+2, if r4+2 not yet 0 go to .2, ...
 	dec.b r4+2
 	bne .2
 	rtl
-.4:
+.4:									; r6 = $0020 - r5 * 2, DAS1L = $0020 - r5 * 2, A1T1L = X, ...
 	lda.w #$0020
 	sbc.b r5
 	asl a
@@ -111,7 +111,7 @@ MapPartToVRAM:
 	and.w #$FFE0
 	sta.w VMADDL
 	jmp.w .3
-.5:
+.5:									; p0 = p0 + $0006 + r7 + r2, r7 = pulled value, ora r5, ...
 	lda.b p0
 	clc
 	adc.w #$0006
@@ -129,7 +129,7 @@ MapPartToVRAM:
 	adc.w MapVRAM
 	ora.b r5
 	tay
-.1xx:
+.1xx:								; loop: if carry set go to .3x, ...
 	lda.b r4
 	clc
 	adc.b r5
@@ -145,7 +145,7 @@ MapPartToVRAM:
 	pla
 	sta.b p0
 	ply
-.2x:
+.2x:								; p0 = p0 + r7, increment r5+2, if r5+2 != $0020 go to .1xxx, ...
 	lda.b p0
 	clc
 	adc.b r7
@@ -162,11 +162,11 @@ MapPartToVRAM:
 	clc
 	adc.w MapScreenStep
 	tay
-.1xxx:
+.1xxx:								; decrement r4+2, if r4+2 not yet 0 go to .1xx, ...
 	dec.b r4+2
 	bne .1xx
 	rtl
-.3x:
+.3x:								; r6 = $0020 - r5 * 2, call QueueVRAMDMA, call QueueVRAMDMA, ...
 	lda.w #$0020
 	sbc.b r5
 	asl a

@@ -1,6 +1,6 @@
 ; NMI after the hook: the IRQ timers, INIDISP from IniDispShadow, the BG scroll registers and the rest of the
 ; frame registers
-NMI_HookReturn:
+NMI_HookReturn:						; called from NMI_Fast
 	rep #$30
 	lda.w IRQVTime
 	sta.w VTIMEL
@@ -11,7 +11,7 @@ NMI_HookReturn:
 	sta.w INIDISP
 	ldx.b #$00
 	txy
-.loop:
+.loop:								; loop: BG1HOFS,y = BG1HScroll,x, BG1HOFS,y = BG1HScroll+1,x, Y + 1, ...
 	txa
 	lda.w BG1HScroll,x
 	sta.w BG1HOFS,y
@@ -43,11 +43,11 @@ NMI_HookReturn:
 	sbc.w #$0048
 	sta.b DMABudget
 	stz.w CGDMALen
-.1:
+.1:									; falls through
 	sep #$20
 	rep #$10
 	ldx.b DMAQueueHead
-.2:
+.2:									; loop: if zero go to .t1, ...
 	cpx.b DMAQueueTail
 	beq .t1
 	lda.w DMAQueue,x
@@ -81,15 +81,15 @@ NMI_HookReturn:
 	sta.w MDMAEN
 	bra .2
 
-.t1:
+.t1:								; go to NMI_SendOAM
 	jmp.w NMI_SendOAM
-.3:
+.3:									; go to .7
 	jmp.w .7
-.4:
+.4:									; DMAQueue,x negative: if zero go to .6, ...
 	cmp.b #$FD
 	beq .6
 	bmi .3
-.1x:
+.1x:								; and #$00FF, if carry clear go to .5, ...
 	rep #$20
 	and.w #$00FF
 	tay
@@ -106,7 +106,7 @@ NMI_HookReturn:
 	beq .2x
 	lda.w DMAQueue+6,x
 	sta.w VMDATAL
-.2x:
+.2x:								; go to .2
 	txa
 	clc
 	adc.w #$0008
@@ -114,10 +114,10 @@ NMI_HookReturn:
 	tax
 	sep #$20
 	jmp.w .2
-.5:
+.5:									; DMAQueueHead = X, go to NMI_Tick
 	stx.b DMAQueueHead
 	jmp.w NMI_Tick
-.6:
+.6:									; A1T0L = DMAQueue+1,x, DMAP0 = $1808, if carry clear go to .5, ...
 	lda.w DMAQueue+1,x
 	sta.w A1T0L
 	rep #$20
@@ -148,7 +148,7 @@ NMI_HookReturn:
 	lda.b #$80
 	sta.w VMAIN
 	jmp.w .2
-.7:
+.7:									; if zero go to .t2, ...
 	cmp.b #$FB
 	beq .t2
 	bmi .t1x
@@ -180,10 +180,10 @@ NMI_HookReturn:
 	sta.w MDMAEN
 	jmp.w .2
 
-.t1x:
+.t1x:								; go to .9
 	jmp.w .9
 
-.t2:
+.t2:								; A1T0L = DMAQueue+1,x, DMAP0 = $1800, if carry clear go to .8, ...
 	lda.w DMAQueue+1,x
 	sta.w A1T0L
 	rep #$20
@@ -214,9 +214,9 @@ NMI_HookReturn:
 	lda.b #$80
 	sta.w VMAIN
 	jmp.w .2
-.8:
+.8:									; go to .5
 	jmp.w .5
-.9:
+.9:									; A1T0L = DMAQueue+1,x, DMAP0 = $1900, if carry clear go to .8, ...
 	lda.w DMAQueue+1,x
 	sta.w A1T0L
 	rep #$20

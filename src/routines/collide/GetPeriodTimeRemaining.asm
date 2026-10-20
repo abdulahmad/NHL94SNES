@@ -1,5 +1,5 @@
 ; d0 = the period and the time into it, for the goal and penalty logs
-GetPeriodTimeRemaining:
+GetPeriodTimeRemaining:				; called from Goal, InProgress
 	lda.w gsp						; gsp in bits 14-15
 	xba
 	and.w #$FF00

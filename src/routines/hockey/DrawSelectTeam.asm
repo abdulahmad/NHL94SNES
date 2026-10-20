@@ -1,5 +1,5 @@
 ; Draw team d1 on the player select screen at printx: its palette, logo tiles and city name (TeamPlaceNames)
-DrawSelectTeam:
+DrawSelectTeam:						; called from PlayerSelect
 	lda.b a2
 	pha
 	phx
@@ -16,7 +16,7 @@ DrawSelectTeam:
 	ldy.w #$0070
 	lda.w #$0018
 	sta.l bigtextchar
-.1:
+.1:									; loop: p0+2 = TeamBlockPalettes+2,x, p0 = TeamBlockPalettes,x, call Se...
 	lda.b d1
 	asl a
 	asl a
@@ -39,7 +39,7 @@ DrawSelectTeam:
 	lda.b d1
 	bra .1
 
-.t1:
+.t1:								; if redrawblocks = 0 go to .1x, ...
 	lda.l redrawblocks
 	beq .1x
 	ldy.w #$0000
@@ -60,7 +60,7 @@ DrawSelectTeam:
 	lda.w #$0009
 	sta.b tmp0
 	sta.b tmp1
-.loop:
+.loop:								; loop: textmap,x = [a2],y + scorechars + printfontset + r3, Y + 1, ...
 	lda.b [a2],y
 	clc
 	adc.l scorechars
@@ -75,7 +75,7 @@ DrawSelectTeam:
 	inx
 	dec.b tmp0
 	bne .loop
-.loop2:
+.loop2:								; loop: textmap+$2E,x = [a2],y + scorechars + printfontset + r3, Y + 1...
 	lda.b [a2],y
 	clc
 	adc.l scorechars
@@ -90,7 +90,7 @@ DrawSelectTeam:
 	inx
 	dec.b tmp1
 	bne .loop2
-.1x:
+.1x:								; p0 = TeamPlaceNames,x, p0+2 = $009C, jmlvector = $005C, ...
 	lda.b d1
 	asl a
 	tax

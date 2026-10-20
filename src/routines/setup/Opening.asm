@@ -2,7 +2,7 @@
 ; (Restart)
 ;
 ; Takes nothing, never returns. Jumped to from Reset_Fast. Falls into Restart.
-Opening:
+Opening:							; called from Reset_Fast
 	rep #$30						; 16 bit registers
 	jsl.l Multi5Init				; init the multitap
 	jsl.l IntroSequence

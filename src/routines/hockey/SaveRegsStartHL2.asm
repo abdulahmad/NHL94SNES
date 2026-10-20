@@ -1,8 +1,8 @@
 ; Save the registers and go on to StartHL2
-SaveRegsStartHL2:
+SaveRegsStartHL2:					; called from DoHiLights
 	stx.b xsave
 	ldx.w #$0000
-.loop:
+.loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b d0,x
 	pha
 	inx
@@ -12,7 +12,7 @@ SaveRegsStartHL2:
 	ldx.b xsave
 	stx.b xsave
 	ldx.w #$0000
-.loop2:
+.loop2:								; loop: X + 1, X + 1, if not zero go to .loop2, ...
 	lda.b a0,x
 	pha
 	inx
@@ -20,13 +20,13 @@ SaveRegsStartHL2:
 	cpx.w #$001C
 	bne .loop2
 	ldx.b xsave
-StartHL2:
+StartHL2:							; entry point, no direct callers found
 	lda.w sflags3
 	bit.w #$0008
 	beq .t1
 	jmp.w .15
 
-.t1:
+.t1:								; sflags3 bits $0008 clear: call .18, d3 = d1, call NewTicker3, ...
 	jsl.l .18
 	lda.b d1
 	sta.b d3
@@ -36,7 +36,7 @@ StartHL2:
 	beq .t3
 	jmp.w .14
 
-.t3:
+.t3:								; sflags3 bits $0008 clear: printx = $0004, printy = $0014, d0 = $0018...
 	lda.w #$0004
 	sta.w printx
 	lda.w #$0014
@@ -70,7 +70,7 @@ StartHL2:
 	beq .t1x
 	jmp.w .14
 
-.t1x:
+.t1x:								; d3 bits $1000 clear: padchangeany = 0, call FadeOut, call WaitFadeOut...
 	stz.w padchangeany
 	jsl.l FadeOut
 	jsl.l WaitFadeOut
@@ -80,7 +80,7 @@ StartHL2:
 	cmp.w #SoundBankGame
 	beq .1							;already loaded
 	jsl.l SPCGameUpload
-.1:
+.1:									; HomeTeam = gst1,x, VisTeam = gst2,x, call ClearTeamStats, ...
 	ldx.b a0
 	lda.l gst1,x
 	sta.w HomeTeam
@@ -106,7 +106,7 @@ StartHL2:
 	jsl.l LoadCenterIce
 	ldx.w #$0008
 	lda.w #$FFFF
-.loop:
+.loop:								; loop: c1playernum,x = A, padside,x = A, X - 1, ...
 	sta.w c1playernum,x
 	sta.w padside,x
 	dex
@@ -145,7 +145,7 @@ StartHL2:
 	bcc .2
 	lda.w #$0002
 	tsb.w gmode
-.2:
+.2:									; sflags3 = 0, sflags = $0400, sfhormode = 0, ...
 	stz.w sflags3
 	lda.w #$0400
 	sta.w sflags
@@ -175,7 +175,7 @@ StartHL2:
 	lda.w #.20
 	sta.b a0
 	stz.b a1
-.loop2:
+.loop2:								; loop: d1 = position,x, if pfgoal,x != 0 go to .3, ...
 	ldx.b a1
 	lda.w position,x
 	sta.b d1
@@ -185,7 +185,7 @@ StartHL2:
 	clc
 	adc.w #$0006
 	sta.b d1
-.3:
+.3:									; asl d1, asl d1, Xpos,x = [a0],y, ...
 	asl.b d1
 	asl.b d1
 	ldy.b d1
@@ -207,7 +207,7 @@ StartHL2:
 	jsl.l randoma
 	asl a
 	sta.w puckc
-.4:
+.4:									; if position,x != 0 go to .5, ...
 	tax
 	lda.w position,x
 	bne .5
@@ -215,14 +215,14 @@ StartHL2:
 	dex
 	txa
 	sta.w puckc
-.5:
+.5:									; call SprSort, oldvcount = vcount
 	jsl.l SprSort
 org $9F9001
 	lda.w #$00B4
 	pha
 	lda.b vcount
 	sta.w oldvcount
-.loop3:
+.loop3:								; loop: if vcount = oldvcount go to .loop3, ...
 	lda.b vcount
 	cmp.w oldvcount
 	beq .loop3
@@ -251,7 +251,7 @@ org $9F9001
 	lda.w gmclock
 	bne .7
 	ldx.b d7
-.loop4:
+.loop4:								; loop: if gameclock = 0 go to .6, ...
 	lda.w gameclock
 	beq .6
 	lda.w gameclock+2
@@ -260,10 +260,10 @@ org $9F9001
 	sta.w gameclock+2
 	bcs .6
 	dec.w gameclock
-.6:
+.6:									; X - 1, if X not yet 0 go to .loop4
 	dex
 	bne .loop4
-.7:
+.7:									; call DoGameFrame, d7 = pulled value, timestep = pulled value, ...
 	lda.b d7
 	pha
 	jsl.l DoGameFrame
@@ -277,7 +277,7 @@ org $9F9001
 	sbc.b d7
 	pha
 	bmi .9
-.8:
+.8:									; call ReadAnyPad, if d1 bits $9080 clear go to .loop3, ...
 	jsl.l ReadAnyPad
 	lda.b d1
 	bit.w #$9080
@@ -289,7 +289,7 @@ org $9F9001
 	and.w #$0002
 	tax
 	inc.w tmscore,x
-.9:
+.9:									; a0+2 = pulled value, a0 = pulled value, call FadeOutSound, ...
 	pla
 	pla
 	sta.b a0+2
@@ -303,7 +303,7 @@ org $9F9001
 	sta.l gss2,x
 	jsl.l SetupTeamForIntermission
 	ldx.w #$0000
-.loop5:
+.loop5:								; loop: Xpos,x = $FF10, Ypos,x = 0, frame,x = $0001, ...
 	lda.w #$FF10
 	sta.w Xpos,x
 	stz.w Ypos,x
@@ -322,7 +322,7 @@ org $9F9001
 	jsl.l SpriteFrameStart
 	jsl.l setvideo
 	jsl.l SpriteFrameEnd
-.loop6:
+.loop6:								; loop: if SoundFadeSpeed != 0 go to .loop6, ...
 	lda.w SoundFadeSpeed
 	bne .loop6
 	lda.w MusicOn
@@ -342,13 +342,13 @@ org $9F9001
 	jsl.l MusicStart
 	bra .10
 
-.t2:
+.t2:								; p0 = MenuSong, call MusicStart
 	lda.w #MenuSong>>16
 	sta.b p0+2
 	lda.w #MenuSong
 	sta.b p0
 	jsl.l MusicStart
-.10:
+.10:								; a1 = SaveRegsStartHL2Pos, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -373,7 +373,7 @@ org $9F9001
 	jsl.l ScreenOn
 	stx.b xsave
 	ldx.w #$001A
-.loopx:
+.loopx:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b a0,x
 	dex
@@ -382,7 +382,7 @@ org $9F9001
 	ldx.b xsave
 	stx.b xsave
 	ldx.w #$001E
-.loop2x:
+.loop2x:							; loop: d0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b d0,x
 	dex
@@ -392,7 +392,7 @@ org $9F9001
 	ldx.b a3
 	stx.b xsave
 	ldx.w #$0000
-.loop3x:
+.loop3x:							; loop: X + 1, X + 1, if not zero go to .loop3x, ...
 	lda.b d0,x
 	pha
 	inx
@@ -402,7 +402,7 @@ org $9F9001
 	ldx.b xsave
 	stx.b xsave
 	ldx.w #$0000
-.loop4x:
+.loop4x:							; loop: X + 1, X + 1, if not zero go to .loop4x, ...
 	lda.b a0,x
 	pha
 	inx
@@ -418,7 +418,7 @@ org $9F9001
 	bne .t1xx
 	jmp.w StartHL2
 
-.t1xx:
+.t1xx:								; gss1,x != gss2,x: gsper,x = $0005, d3 = d1, call NewTicker3, ...
 	lda.w #$0005
 	sta.l gsper,x
 	lda.b d1
@@ -430,14 +430,14 @@ org $9F9001
 	lda.b d1
 	bit.w #$1000
 	beq .12
-.11:
+.11:								; tsb sflags3, go to .13
 	lda.w #$0008
 	tsb.w sflags3
 	bra .13
-.12:
+.12:								; trb sflags3
 	lda.w #$0008
 	trb.w sflags3
-.13:
+.13:								; call LoadCenterIce, p0 = FaceOffTiles, p1+2 = $007F, ...
 	jsl.l LoadCenterIce
 	lda.w #FaceOffTiles>>16
 	sta.b p0+2
@@ -462,7 +462,7 @@ org $9F9001
 	jsl.l DMAToVRAM
 	stx.b xsave
 	ldx.w #$001A
-.loopxx:
+.loopxx:							; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b a0,x
 	dex
@@ -471,7 +471,7 @@ org $9F9001
 	ldx.b xsave
 	stx.b xsave
 	ldx.w #$001E
-.loop2xx:
+.loop2xx:							; loop: d0,x = pulled value, X - 1, X - 1, ...
 	pla
 	sta.b d0,x
 	dex
@@ -480,7 +480,7 @@ org $9F9001
 	ldx.b xsave
 	ldx.b a3
 	rtl
-.14:
+.14:								; printx = $0004, printy = $0014, d0 = $0018, ...
 	lda.w #$0004
 	sta.w printx
 	lda.w #$0014
@@ -497,10 +497,10 @@ org $9F9001
 	jsl.l .19
 	jsl.l .17
 	jmp.w .11
-.15:
+.15:								; call .17, go to .12
 	jsl.l .17
 	jmp.w .12
-.16:
+.16:								; subroutine: call reenergizeteam, call setpersonel, call forcepldata, ...
 	jsl.l reenergizeteam
 	jsl.l setpersonel
 	jsl.l forcepldata
@@ -510,7 +510,7 @@ org $9F9001
 	sta.w tmtouch2,y
 	sta.w tmtouch3,y
 	rtl
-.17:
+.17:								; subroutine: if gss1,x != gss2,x go to .1x, ...
 	ldx.b a0
 	lda.l gss1,x
 	cmp.l gss2,x
@@ -526,13 +526,13 @@ org $9F9001
 	eor.w #$0001
 	adc.l gss2,x
 	sta.l gss2,x
-.1x:
+.1x:								; gsper,x = $0005, return
 	lda.w #$0005
 	sta.l gsper,x
 	rtl
-.18:
+.18:								; subroutine: falls through
 	ldx.w #$0000
-.loopxxx:
+.loopxxx:							; loop: hlsavebuf,x = OOlist+$10,x, X + 1, X + 1, ...
 	lda.w OOlist+$10,x
 	sta.l hlsavebuf,x
 	inx
@@ -549,7 +549,7 @@ org $9F9001
 	stz.w teampads+2
 	lda.w #$FFFF
 	ldx.w #$0000
-.loop2xxx:
+.loop2xxx:							; loop: playerpad,x = A, X + 1, X + 1, ...
 	sta.w playerpad,x
 	inx
 	inx
@@ -557,9 +557,9 @@ org $9F9001
 	bcc .loop2xxx
 	jsl.l ClearPenaltyBuffer
 	rtl
-.19:
+.19:								; subroutine: falls through
 	ldx.w #$0000
-.loopxxxx:
+.loopxxxx:							; loop: OOlist+$10,x = hlsavebuf,x, X + 1, X + 1, ...
 	lda.l hlsavebuf,x
 	sta.w OOlist+$10,x
 	inx
@@ -571,6 +571,6 @@ org $9F9001
 	inx
 	sta.l ScoreSumbytes
 	rtl
-.20:
+.20:								; dw 0,-240,-70,-140,20,-110,-100,-60,25,-40,70,-80, dw 0,240,34,90,-55...
 	dw 0,-240,-70,-140,20,-110,-100,-60,25,-40,70,-80
 	dw 0,240,34,90,-55,80,100,40,-10,10,-50,0

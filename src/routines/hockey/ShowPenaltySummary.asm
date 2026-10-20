@@ -1,5 +1,5 @@
 ; Penalty summary for both teams. Start leaves.
-ShowPenaltySummary:
+ShowPenaltySummary:					; called from PausePenaltySummary
 	lda.w VisTeam
 	sta.l setupvis
 	lda.w HomeTeam
@@ -42,9 +42,9 @@ ShowPenaltySummary:
 	lda.w listend
 	cmp.w #$0006
 	bcc .2
-.1:
+.1:									; call PrintScrollHint
 	jsl.l PrintScrollHint
-.2:
+.2:									; call FillPenaltyPage, call SendTextMap, call SetupScrollIRQ, ...
 	jsr.w FillPenaltyPage
 	jsl.l SendTextMap
 	lda.w #$0058
@@ -56,7 +56,7 @@ ShowPenaltySummary:
 	lda.w #$0005
 	sta.w listrows
 	jsr.w DrawPenaltyPage
-PenaltySummaryLoop:
+PenaltySummaryLoop:					; called from PenaltySummaryWait, ScrollPenaltyDown, ScrollPenaltyUp
 	jsl.l ReadPausePad
 	jsl.l ProcessInputWithRepeat
 	lda.b d3
@@ -64,11 +64,11 @@ PenaltySummaryLoop:
 	beq .t1
 	rtl
 
-.t1:
+.t1:								; d3 bits $1000 clear: if not zero go to ScrollPenaltyUp, ...
 	bit.w #$0800
 	bne ScrollPenaltyUp
 	bit.w #$0400
 	bne ScrollPenaltyDown
-PenaltySummaryWait:
+PenaltySummaryWait:					; called from ScrollPenaltyDown, ScrollPenaltyUp
 	jsl.l WaitFrame
 	bra PenaltySummaryLoop

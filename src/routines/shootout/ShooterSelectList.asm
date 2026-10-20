@@ -1,5 +1,5 @@
 ; Shootout shooters: the select-player list
-ShooterSelectList:
+ShooterSelectList:					; called from PickShooterRow
 	jsl.l SpriteFrameStart
 	lda.b a1+2
 	pha
@@ -72,7 +72,7 @@ ShooterSelectList:
 	sta.b a3+2
 	lda.w #awayshooters
 	sta.b a3
-.list:
+.list:								; a3 = a3 + curitem, curplayer = [a3] & $00FF - 1, if plus go to .t1, ...
 	lda.b a3
 	clc
 	adc.w curitem
@@ -96,20 +96,20 @@ ShooterSelectList:
 	clc
 	adc.w picktop
 	sta.w picktop
-.zero:
+.zero:								; go to .1
 	lda.w #$0000
 	bra .1
 
-.t1:
+.t1:								; falls through
 	lda.w picktop
 	clc
 	adc.w #$0008
 	sec
 	sbc.w curplayer
-.1:
+.1:									; curplayer = A, call PrintShooterList
 	sta.w curplayer
 	jsl.l PrintShooterList
-.2:
+.2:									; loop: call SendTextMap, call SendTextMap2, call WaitFrame, ...
 	jsl.l SendTextMap
 	jsl.l SendTextMap2
 	jsl.l WaitFrame
@@ -130,12 +130,12 @@ ShooterSelectList:
 	bit.w #$8080
 	beq .2
 	jsl.l SetShooter
-.1x:
+.1x:								; drawlinesback = $0001, return
 	lda.w #$0001
 	sta.l drawlinesback
 	rtl
 
-.t1x:
+.t1x:								; if plus go to .2, ...
 	lda.w DispAttribCtr
 	inc a
 	cmp.w #$0010
@@ -144,7 +144,7 @@ ShooterSelectList:
 	jsl.l PrintShooterList
 	bra .2
 
-.t2:
+.t2:								; if a counted below 0 go to .2, ...
 	lda.w DispAttribCtr
 	dec a
 	bmi .2
@@ -152,7 +152,7 @@ ShooterSelectList:
 	jsl.l PrintShooterList
 	jmp.w .2
 
-.t3:
+.t3:								; if a counted below 0 go to .t5, ...
 	lda.w curplayer
 	dec a
 	bmi .t5
@@ -160,7 +160,7 @@ ShooterSelectList:
 	jsl.l PrintShooterList
 	jmp.w .2
 
-.t4:
+.t4:								; if plus go to .t6, ...
 	lda.w curplayer
 	inc a
 	cmp.w #$0009
@@ -169,7 +169,7 @@ ShooterSelectList:
 	jsl.l PrintShooterList
 	jmp.w .2
 
-.t5:
+.t5:								; a counted below 0: if minus go to .t1xx, ...
 	lda.w picktop
 	sec
 	sbc.w pickfirst
@@ -179,19 +179,19 @@ ShooterSelectList:
 	bmi .t1xx
 	jmp.w .2
 
-.t1xx:
+.t1xx:								; increment picktop, call PrintShooterList, go to .2
 	inc.w picktop
 	jsl.l PrintShooterList
 	jmp.w .2
 
-.t6:
+.t6:								; if plus go to .t1x2, ...
 	lda.w picktop
 	dec a
 	cmp.w pickfirst
 	bpl .t1x2
 	jmp.w .2
 
-.t1x2:
+.t1x2:								; decrement picktop, call PrintShooterList, go to .2
 	dec.w picktop
 	jsl.l PrintShooterList
 org $80D001

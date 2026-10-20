@@ -1,11 +1,11 @@
 ; Pause menu Player Cards
-PausePlayerCards:
+PausePlayerCards:					; called from PauseMenuHandlers
 	lda.b d1
 	bit.w #$8080
 	bne .t1
 	jmp.w PauseMenuPoll
 
-.t1:
+.t1:								; d1 bit $8080 set: call ShowPlayerCards, call ReloadRink, go to PauseS...
 	jsl.l ShowPlayerCards
 	jsl.l ReloadRink
 	jmp.w PauseSubmenuDone

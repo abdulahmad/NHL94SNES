@@ -1,10 +1,10 @@
 ; Clear the sorted objects and set up the objects from their start tables
-InitSortObjects:
+InitSortObjects:					; called from setoptions, setupice_reset
 	phb
-	phk
+	phk								; data bank = program bank
 	plb
 	ldx.w #$0000
-.loop:
+.loop:								; loop: Xpos,x = 0, X + 1, X + 1, ...
 	stz.w Xpos,x
 	inx
 	inx
@@ -16,7 +16,7 @@ InitSortObjects:
 	stz.b a3
 	stz.b a4
 	stz.w puckz
-.loop2:
+.loop2:								; loop: SCnum,y = d6, oldframe,y = $FFFF, pnum,y = $FFFF, ...
 	ldx.b a2
 	ldy.b a3
 	lda.b d6
@@ -53,7 +53,7 @@ InitSortObjects:
 	bne .1
 	lda.w #$0001
 	sta.w pfnc,y
-.1:
+.1:									; rol a, increment a, and #$0001, ...
 	cpx.w #$006C
 	rol a
 	inc a
@@ -65,7 +65,7 @@ InitSortObjects:
 	bcs .2
 	lda.w #$0034
 	sta.w pfteam,y
-.2:
+.2:									; increment a3, increment a3, OOlist,y = d6 * 2, ...
 	inc.b a3
 	inc.b a3
 	sep #$20
@@ -90,7 +90,7 @@ InitSortObjects:
 	beq .t1
 	jmp.w .loop2
 
-.t1:
+.t1:								; d6 = $0010: position+$18 = $FFFF, position+$1A = $FFFF, go to SprSort
 	lda.w #$FFFF
 	sta.w position+$18
 	sta.w position+$1A

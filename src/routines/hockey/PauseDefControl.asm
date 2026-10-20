@@ -1,5 +1,5 @@
 ; Pause menu: toggle defensive control
-PauseDefControl:
+PauseDefControl:					; called from PauseMenuHandlers
 	lda.b d1
 	bit.w #$8380
 	beq PauseDefStore
@@ -8,5 +8,5 @@ PauseDefControl:
 	lda.w defcontrol,y
 	eor.w #$0001
 	sta.w defcontrol,y
-PauseDefStore:
+PauseDefStore:						; called from PauseDefControl, PauseTimeout
 	jmp.w PauseMenuPoll

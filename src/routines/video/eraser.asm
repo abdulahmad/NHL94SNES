@@ -1,12 +1,12 @@
 ; Fill a d0 by d1 rectangle of the text map at printx / printy with tile d2.
-eraser:
+eraser:								; called from BadPasswordPrompt, ClearEditLinesMenu, DrawEditLinesBack...
 	phx
 	lda.b d2
 	clc
 	adc.l printfontset
 	sta.b d2
 	stz.b d1+2
-.row:
+.row:								; loop: falls through
 	lda.w printy
 	clc
 	adc.b d1+2
@@ -21,7 +21,7 @@ eraser:
 	tax
 	ldy.b d0
 	lda.b d2
-.col:
+.col:								; loop: textmap,x = A, X + 1, X + 1, ...
 	sta.l textmap,x
 	inx
 	inx
@@ -42,7 +42,7 @@ eraser:
 	cmp.w textdirtylo
 	bcs .hi
 	sta.w textdirtylo
-.hi:
+.hi:								; printy = printy + d1 & $001F, if carry clear go to .rtl, ...
 	lda.w printy
 	clc
 	adc.b d1
@@ -61,5 +61,5 @@ eraser:
 	cmp.w textdirtyhi
 	bcc .rtl
 	sta.w textdirtyhi
-.rtl:
+.rtl:								; return
 	rtl

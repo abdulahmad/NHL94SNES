@@ -1,5 +1,5 @@
 ; Assignment: the puck most of the time
-pucknorm:
+pucknorm:							; called from asstab
 	lda.w #$0002
 	trb.w pflags+puckobj
 	beq pucknorm_move
@@ -9,7 +9,7 @@ pucknorm:
 	sta.w temp2b+puckobj
 	lda.w #$0000
 	sta.l pspuckback
-pucknorm_move:
+pucknorm_move:						; called from puckfaceoff, pucknorm
 	lda.w puckcross+2				; puckcross times count down
 	sec
 	sbc.b d7
@@ -26,7 +26,7 @@ pucknorm_move:
 	adc.w #$0005
 	sta.w temp1+puckobj
 	jsl.l .14
-.1:
+.1:									; if puckc negative go to .4, ...
 	lda.w puckc
 	bmi .4
 	sta.b a2
@@ -44,7 +44,7 @@ pucknorm_move:
 	bit.w #$2000					; asr #2
 	beq .2
 	ora.w #$C000
-.2:
+.2:									; adc puckx, puckx = A, if zero go to .3, ...
 	clc
 	adc.w puckx
 	sta.w puckx
@@ -58,7 +58,7 @@ pucknorm_move:
 	bit.w #$2000
 	beq .3
 	ora.w #$C000
-.3:
+.3:									; adc pucky, pucky = A, puckvx = Xvel,y, ...
 	clc
 	adc.w pucky
 	sta.w pucky
@@ -66,7 +66,7 @@ pucknorm_move:
 	sta.w puckvx
 	lda.w Yvel,y
 	sta.w puckvy
-.4:
+.4:									; call PuckIChk, call ChkOffsides, if gmclock != 0 go to .13, ...
 	jsl.l PuckIChk
 	jsl.l ChkOffsides
 	lda.w gmclock					; clock stopped
@@ -80,31 +80,31 @@ pucknorm_move:
 	bne .t1
 	lda.w BA_Team
 	beq .7
-.5:
+.5:									; go to .6
 	bra .6
 
-.t1:
+.t1:								; gmode bit $0002 set: if BA_Team != 0 go to .7
 	lda.w BA_Team
 	bne .7
-.6:
+.6:									; if puckvy negative go to .9, ...
 	lda.w puckvy
 	bmi .9
 	bra .8
-.7:
+.7:									; if a still >= 0 go to .9
 	lda.w puckvy
 	dec a
 	bpl .9
-.8:
+.8:									; pspuckback = pspuckback + 1, if carry clear go to .10, ...
 	lda.l pspuckback
 	inc a
 	sta.l pspuckback
 	cmp.w #$0030
 	bcc .10
 	jsl.l EndPenaltyShot
-.9:
+.9:									; pspuckback = $0000
 	lda.w #$0000
 	sta.l pspuckback
-.10:
+.10:								; if puckx != OldXpos+puckobj go to .12, ...
 	lda.w puckx
 	cmp.w OldXpos+puckobj
 	bne .12
@@ -115,16 +115,16 @@ pucknorm_move:
 	sta.b d0
 	dec.w temp2b+puckobj
 	bpl .13
-.1x:
+.1x:								; call AddPenalty2, go to .13
 	jsl.l AddPenalty2
 	bra .13
-.11:
+.11:								; puckc >= 0: pspuckback = $0000
 	lda.w #$0000
 	sta.l pspuckback
-.12:
+.12:								; temp2b+puckobj = $0078
 	lda.w #$0078
 	sta.w temp2b+puckobj
-.13:
+.13:								; ora puckz, if zero go to .t1x, ...
 	lda.w puckvz
 	and.w #$FF00
 	ora.w puckz
@@ -134,7 +134,7 @@ pucknorm_move:
 .t1x:								; stop spinning, check collisions
 	jsl.l pucknothing				; pucknothing: stop spinning
 	jmp.w checkpuckcoll				; bra checkpuckcoll
-.14:
+.14:								; subroutine: d4 = $0108, call .16, d4 = $FEF8, ...
 	phx
 	lda.w #$0108
 	sta.b d4
@@ -146,9 +146,9 @@ pucknorm_move:
 	jsl.l .16
 	plx
 	rtl
-.15:
+.15:								; go to .17
 	jmp.w .17
-.16:
+.16:								; subroutine: d0 = d4 - pucky, if puckvy = 0 go to .15, ...
 	lda.b d4
 	sec
 	sbc.w pucky
@@ -170,7 +170,7 @@ pucknorm_move:
 	bit.w #$0800
 	beq .1xx
 	ora.w #$F000
-.1xx:
+.1xx:								; r2+2 = A, r1 = puckvy, call Div32S, ...
 	sta.b r2+2
 	lda.w puckvy
 	sta.b r1
@@ -190,17 +190,17 @@ pucknorm_move:
 	bmi .2x
 	lda.w #sideline
 	sta.b d0
-.2x:
+.2x:								; if d0 - $FF78 >= 0 go to .3x, ...
 	lda.b d0
 	cmp.w #$FF78
 	bpl .3x
 	lda.w #$FF78
 	sta.b d0
-.3x:
+.3x:								; puckcross,y = d0, return
 	lda.b d0
 	sta.w puckcross,y
 	rtl
-.17:
+.17:								; puckcross+2,y = $FFFF, return
 	lda.w #$FFFF
 	sta.w puckcross+2,y
 	rtl

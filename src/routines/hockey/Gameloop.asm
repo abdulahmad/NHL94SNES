@@ -1,6 +1,6 @@
 ; Main game loop: wait for a frame, the clock, the music, one frame of game logic, the pause
 ; Runs once per frame until the period ends (or a shootout turnover). Called from StartPer and PlayShootout.
-Gameloop:
+Gameloop:							; called from PlayShootout, StartPer
 	lda.b vcount					; wait until vcount has advanced
 	sec
 	sbc.w oldvcount

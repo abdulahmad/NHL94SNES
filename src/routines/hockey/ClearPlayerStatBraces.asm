@@ -1,5 +1,5 @@
 ; Erase the braces around the visible player-stat rows.
-ClearPlayerStatBraces:
+ClearPlayerStatBraces:				; called from ShowPlayerStats_down, ShowPlayerStats_up
 	lda.w #$0001
 	sta.w printx
 	lda.w curitem

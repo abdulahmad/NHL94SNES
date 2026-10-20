@@ -1,5 +1,5 @@
 ; Password bits divided by d0, remainder left in d0
-SuperDiv:
+SuperDiv:							; called from BitstoPW, ReadPassBits
 	lda.b d0
 	cmp.w #$0100
 	bcs .t2
@@ -10,7 +10,7 @@ SuperDiv:
 	xba
 	lda.l passbits+$F
 	sta.b r3
-.loop:
+.loop:								; loop: WRDIVL = passbits,x, WRDIVH = r3, WRDIVB = d0, ...
 	lda.l passbits,x
 	sta.w WRDIVL
 	lda.b r3
@@ -41,7 +41,7 @@ SuperDiv:
 	clc
 	rtl
 
-.t2:
+.t2:								; d0 >= $0100: if not zero go to .t1, ...
 	cmp.w #$0200
 	bne .t1
 	lda.l passbits
@@ -54,7 +54,7 @@ SuperDiv:
 	ldx.b #$0E
 	lda.l passbits+$F
 	sta.b r3
-.loopx:
+.loopx:								; loop: r3 = passbits,x, ror a, passbits,x = A, ...
 	ldy.b r3
 	lda.l passbits,x
 	sta.b r3
@@ -71,13 +71,13 @@ SuperDiv:
 	clc
 	rtl
 
-.t1:
+.t1:								; d0 = passbits & $3FFF
 	lda.l passbits
 	and.w #$3FFF
 	sta.b d0
 	phx
 	ldx.w #$0000
-.loopxx:
+.loopxx:							; loop: xba, passbits,x = A, X + 1, ...
 	lda.l passbits+1,x
 	asl a
 	asl a

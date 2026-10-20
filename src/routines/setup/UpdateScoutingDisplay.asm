@@ -52,7 +52,7 @@ UpdateScoutingDisplay_scroll:		; start a new paragraph: scroll the text up
 	cmp.w #$0001					; nothing printed yet: scroll once only
 	bmi .1
 	jsl.l ScrollDisplayUp			; scroll up an extra line
-.1:
+.1:									; call ScrollDisplayUp, a2+2 = a1+2, a2 = a1, ...
 	jsl.l ScrollDisplayUp			; scroll up a line
 	lda.b a1+2						; a2 = a1
 	sta.b a2+2

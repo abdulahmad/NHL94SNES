@@ -1,12 +1,12 @@
 ; Print one penalty box line: player number and time left
-pplpen:
+pplpen:								; called from DispPen
 	lda.w printy
 	cmp.w #$000B
 	bcs USBoard_rtl
 	lda.b a2
 	beq .noa2
 	lda.w #$0034
-.noa2:
+.noa2:								; adc d0, d2 = tmpdst,y & $07FF, a1 = tmdata,y, a1+2 = TeamList>>16, ...
 	adc.b d0
 	tay
 	lda.w tmpdst,y
@@ -21,7 +21,7 @@ pplpen:
 	adc.b [a1],y
 	sta.b a1
 	lsr.b d0
-.find:
+.find:								; loop: a1 = [a1] + a1 + $0008, decrement d0, if d0 still >= 0 go to .f...
 	lda.b [a1]
 	clc
 	adc.b a1

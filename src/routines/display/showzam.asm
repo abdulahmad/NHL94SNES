@@ -1,5 +1,5 @@
 ; Draw the zamboni moving across the horizontal rink
-showzam:
+showzam:							; called from setvideo
 	lda.b vcount
 	ldy.b vcount+2
 	sbc.w vcountmark
@@ -24,5 +24,5 @@ showzam:
 	lda.w #SPFzamboni
 	sta.w sprframe
 	jsl.l addframe
-.rtl:
+.rtl:								; return
 	rtl

@@ -39,7 +39,7 @@ doinput:							; pad input for player X
 	lda.w pfteam,x					; team of X
 	beq .1xx						; home: team offset 0
 	ldy.w #$0002					; away: team offset 2
-.1xx:
+.1xx:								; if minus go to .2, ...
 	lda.w lcpad,y					; the pad that owns the line change box of the team
 	ply								; restore Y
 	cmp.w #$0000					; nobody owns it?
@@ -52,7 +52,7 @@ doinput:							; pad input for player X
 	lda.w pfteam,x
 	beq .3
 	ldy.w #$0002
-.3:
+.3:									; if not zero go to .8
 	lda.w tmflags,y					; team flags
 	ply
 	bit.w #$0008					; line change box open (bit 3)?
@@ -110,7 +110,7 @@ doinput:							; pad input for player X
 	bne .1xxx						; yes: skate
 	and.w #$0002					; flag bit 1?
 	bne .14							; yes: no input
-.1xxx:
+.1xxx:								; go to doplayeracc
 	jml.l doplayeracc				; skate
 .14:								; nothing to do
 	rtl
@@ -121,20 +121,20 @@ doinput:							; pad input for player X
 	lda.w pfteam,x					; team of X
 	beq .1xxxx
 	ldy.w #$0002
-.1xxxx:
+.1xxxx:								; if lcpad,y >= 0 go to .14, ...
 	lda.w lcpad,y					; line change box owner
 	bpl .14							; someone has it: leave
 	lda.b d4						; this pad
 	sta.w lcpad,y
 	jmp.w SetLCmode					; open the line change box
-.16:
+.16:								; d1 bit $0080 set: go to burst
 	jml.l burst						; speed burst
-.17:
+.17:								; if $0000 - $000C negative go to .1xxxxx, ...
 	ldy.w #$0000					; goalie control
 	cpx.w #$000C					; X is on team 0?
 	bmi .1xxxxx
 	ldy.w #$0002					; team 1
-.1xxxxx:
+.1xxxxx:							; if goaliemode1,y = 0 go to .14, ...
 	lda.w goaliemode1,y				; manual goalie flag of the team
 	beq .14							; not set: leave
 	jml.l PadTakeGoalie				; take over the goalie
@@ -146,7 +146,7 @@ doinput:							; pad input for player X
 	bne .1xxxxxx					; not the goalie
 	lda.w pf2aip,x					; goalie in an animation?
 	bne .14							; yes: leave
-.1xxxxxx:
+.1xxxxxx:							; if sflags bit sfspdir set go to .t1x, ...
 	lda.w sflags					; game flags
 	bit.w #sfspdir					; pass direction set?
 	bne .t1x						; yes: pass mode
@@ -167,26 +167,26 @@ doinput:							; pad input for player X
 	bne .20							; shot
 	jml.l doplayeracc				; skate
 
-.t1x:
+.t1x:								; sflags bit sfspdir set: go to passmode
 	jml.l passmode					; pass input
 
-.t2x:
+.t2x:								; go to ShotMode
 	jml.l ShotMode					; shot input
 
-.t3:
+.t3:								; d0 = $0014, go to assinsert
 	lda.w #$0014					; assignment $14
 	sta.b d0
 	jml.l assinsert					; give it to X
 
-.t4:
+.t4:								; d1 bit $8000 set: go to setpassmode
 	jml.l setpassmode				; set the pass direction
-.19:
+.19:								; d1 bit $8000 set: go to findpc
 	jml.l findpc					; change player
-.20:
+.20:								; d1 bit $0080 set: go to SetShotMode
 	jml.l SetShotMode				; start a shot
-.21:
+.21:								; position,x = 0: go to .13
 	jmp.w .13						; goalie
-.22:
+.22:								; if zero go to .23, ...
 	cpx.w puckc						; puck carrier?
 	beq .23							; yes: nothing
 	lda.b d1
@@ -196,7 +196,7 @@ doinput:							; pad input for player X
 	beq .t1xx						; no
 	jmp.w .17						; goalie control
 
-.t1xx:
+.t1xx:								; if zero go to .23, ...
 	bit.w #$0080					; A?
 	beq .23							; no
 	ldy.w passReceiverPlayerNum		; pass receiver
@@ -214,5 +214,5 @@ doinput:							; pad input for player X
 	inc.w onetimerreq				; one time request
 	jsl.l AssignPadPlayer			; give the pad to the receiver
 	rtl
-.23:
+.23:								; return
 	rtl								; return

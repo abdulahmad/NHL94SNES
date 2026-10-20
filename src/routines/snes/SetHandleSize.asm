@@ -15,7 +15,7 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	beq .heap
 	cmp.w #$007F
 	bne .bad
-.heap:
+.heap:								; r2 = X, p0+2 = A, p0 = 0, ...
 	stx.b r2
 	sta.b p0+2
 	stz.b p0
@@ -40,11 +40,11 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	cmp.w #$0009
 	bcs .shrink
 	jmp.w .exit
-.togrow:
+.togrow:							; go to .grow
 	jmp.w .grow
-.bad:
+.bad:								; go to .exit
 	jmp.w .exit
-.shrink:
+.shrink:							; r0+2 = [p0],y, if zero go to .split, ...
 	lda.b [p0],y
 	sta.b r0+2
 	beq .split
@@ -53,7 +53,7 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	iny
 	lda.b [p0],y
 	beq .mergenext
-.split:
+.split:								; txy, r0 = r3+2 - $0008 - r3, [p0],y = r3, ...
 	txy
 	lda.b r3+2
 	sec
@@ -76,7 +76,7 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	lda.b r0
 	sta.b [p0],y
 	jmp.w .newfree
-.mergenext:
+.mergenext:							; [p0],y = 0: Y - 1, Y - 1, r1+2 = [p0],y, ...
 	dey
 	dey
 	lda.b [p0],y
@@ -110,7 +110,7 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	clc
 	adc.b r1+2
 	sta.b [p0],y
-.newfree:
+.newfree:							; Y + 1, Y + 1, [p0],y = $0000, ...
 	iny
 	iny
 	lda.w #$0000
@@ -125,7 +125,7 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	sta.b [p0],y
 	ldy.b r0+2
 	beq .done
-.linkprev:
+.linkprev:							; Y + 1, Y + 1, Y + 1, ...
 	iny
 	iny
 	iny
@@ -134,9 +134,9 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	iny
 	lda.b r1
 	sta.b [p0],y
-.done:
+.done:								; go to .exit
 	jmp.w .exit
-.grow:
+.grow:								; r0+2 = [p0],y, if zero go to .move, ...
 	lda.b [p0],y
 	sta.b r0+2
 	beq .move
@@ -185,7 +185,7 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	lda.b r0
 	sta.b [p0],y
 	jmp.w .newfree
-.wholenext:
+.wholenext:							; Y + 1, Y + 1, Y + 1, ...
 	ldy.b r0+2
 	iny
 	iny
@@ -206,9 +206,9 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	tay
 	bne .tolinkprev
 	jmp.w .exit
-.tolinkprev:
+.tolinkprev:						; go to .linkprev
 	jmp.w .linkprev
-.move:
+.move:								; txy, Y + 1, Y + 1, ...
 	txy
 	iny
 	iny
@@ -264,5 +264,5 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	lda.w #$0000
 	sta.l Ram7E,x
 	sta.l Ram7E+2,x
-.exit:
+.exit:								; return
 	rtl

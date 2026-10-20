@@ -1,5 +1,5 @@
 ; a1 = the time d0 (seconds) as a minutes:seconds string.
-PushTime:
+PushTime:							; called from AttribStatus, FillPenaltyPage, FillScoringPage, PrintTeam...
 	lda.w #$0000
 	sta.b a1+2
 	lda.w #mesareaEnd
@@ -53,7 +53,7 @@ PushTime:
 	adc.b #$30
 	sta.b [a1]
 	rep #$30
-.noz:
+.noz:								; decrement a1, decrement a1, [a1] = mesareaEnd - a1, ...
 	dec.b a1
 	dec.b a1
 	lda.w #mesareaEnd

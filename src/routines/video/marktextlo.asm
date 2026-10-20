@@ -1,8 +1,8 @@
 ; Lower the low end of the changed text map area to A
-marktextlo:
+marktextlo:							; called from puckfaceoff2
 	cmp.w textdirtylo
 	bcs .rtl
-.1:
+.1:									; textdirtylo = A
 	sta.w textdirtylo
-.rtl:
+.rtl:								; return
 	rtl

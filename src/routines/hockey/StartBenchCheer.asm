@@ -1,5 +1,5 @@
 ; Start bench A cheering, unless one already is: benchcheer = A, benchframe = A * 8, its step timer
-StartBenchCheer:
+StartBenchCheer:					; called from FallDown, Goal, assscore
 	ldy.w benchcheer
 	bne .rtl
 	sta.w benchcheer
@@ -10,5 +10,5 @@ StartBenchCheer:
 	lda.w #$000B
 	sta.w benchtimer
 	stz.w benchrounds
-.rtl:
+.rtl:								; return
 	rtl

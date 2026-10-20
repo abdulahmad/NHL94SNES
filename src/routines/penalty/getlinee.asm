@@ -1,5 +1,5 @@
 ; d0 = the average energy of line d0 of team a2
-getlinee:
+getlinee:							; called from CompLine, linebar
 	lda.b d3
 	pha
 	lda.b d3+2
@@ -42,7 +42,7 @@ getlinee:
 	lda.w tmap,y
 	sta.b d4
 	bra .3
-.2:
+.2:									; loop: d4 still >= 0: if [a0],y & $00FF = 0 go to .3, ...
 	ldy.b d4
 	lda.b [a0],y
 	and.w #$00FF
@@ -56,13 +56,13 @@ getlinee:
 	lda.b a2
 	beq .1
 	lda.w #$0034
-.1:
+.1:									; adc d3, r2 = tmpde-2,y + r2
 	adc.b d3
 	tay
 	lda.w tmpde-2,y
 	adc.b r2
 	sta.b r2
-.3:
+.3:									; decrement d4, if d4 still >= 0 go to .2, ...
 	dec.b d4
 	bpl .2
 	phx

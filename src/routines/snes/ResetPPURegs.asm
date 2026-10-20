@@ -1,5 +1,5 @@
 ; Reset the scroll, window and colour math registers and their copies
-ResetPPURegs:
+ResetPPURegs:						; called from forceblack
 	pha
 	stz.w BG1HScroll
 	stz.w BG2HScroll

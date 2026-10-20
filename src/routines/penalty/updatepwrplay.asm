@@ -1,5 +1,5 @@
 ; Show the power play box: the time left and the team on the power play
-updatepwrplay:
+updatepwrplay:						; called from periodicevents, printscores1
 	lda.l OptPlayMode
 	cmp.w #$0004
 	beq .off
@@ -12,7 +12,7 @@ updatepwrplay:
 	sta.b d0
 	bne .ne
 	jmp.w updatepwrplay_clr
-.ne:
+.ne:								; if plus go to .t0, ...
 	bpl .t0
 	lda.w sflags
 	bit.w #sf2pwrtm
@@ -21,9 +21,9 @@ updatepwrplay:
 	lda.w #sf2pwrtm
 	tsb.w sflags
 	bra .upp
-.off:
+.off:								; OptPlayMode = $0004: return
 	rtl
-.t0:
+.t0:								; a2 = a3, a3 = a2, if sflags bits sf2pwrtm clear go to .upp, ...
 	ldx.b a2
 	ldy.b a3
 	sty.b a2
@@ -34,13 +34,13 @@ updatepwrplay:
 	jsl.l updatepwrplay_clr
 	lda.w #sf2pwrtm
 	trb.w sflags
-.upp:
+.upp:								; tsb sflags, if not zero go to .uppt, ...
 	lda.w #sf2pwrplay
 	tsb.w sflags
 	bne .uppt
 	ldx.b a3
 	inc.w tmPwrPlays,x
-.uppt:
+.uppt:								; a1 = updatepwrplayPos, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -67,7 +67,7 @@ updatepwrplay:
 	lda.w #$0005
 	jsl.l QueueSound
 	bra .time
-.one:
+.one:								; SfxVelocity = $7000, call QueueSound, if VoiceState,y != $02 go to .w...
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.w #$0005
@@ -87,10 +87,10 @@ updatepwrplay:
 	lda.w #$0659
 	sta.w VoicePitch,y
 	sta.w recsfxpitch
-.wide:
+.wide:								; falls through
 	rep #$20
 	plx
-.time:
+.time:								; call PushTime, call print, a0 = tmdata,x, ...
 	jsl.l PushTime
 	jsl.l print
 	ldx.b a3

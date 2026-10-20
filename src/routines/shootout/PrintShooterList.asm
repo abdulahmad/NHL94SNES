@@ -25,7 +25,7 @@ PrintShooterList:					;draw the ShooterSelectList list: the title of rating colu
 	sta.w printx
 	lda.w #$0002
 	sta.w printy
-.1:
+.1:									; a1 = ShooterAttribColumns, d0 = DispAttribCtr, go to .3
 	lda.w #ShooterAttribColumns>>16
 	sta.b a1+2
 	lda.w #ShooterAttribColumns
@@ -33,24 +33,24 @@ PrintShooterList:					;draw the ShooterSelectList list: the title of rating colu
 	lda.w DispAttribCtr
 	sta.b d0
 	bra .3
-.2:
+.2:									; loop: d0 still >= 0: a1 = a1 + [a1] + $0004
 	lda.b a1
 	clc
 	adc.b [a1]
 	adc.w #$0004
 	sta.b a1
-.3:
+.3:									; if [a1] negative go to .1x, ...
 	lda.b [a1]
 	bmi .1x
 	dec.b d0
 	bpl .2
-.1x:
+.1x:								; if [a1] >= 0 go to .t1, ...
 	lda.b [a1]
 	bpl .t1
 	dec.w DispAttribCtr
 	bra .1
 
-.t1:
+.t1:								; [a1] >= 0: printa = $3800, call print, d4+2 = [a1], ...
 	lda.w #$3800
 	sta.w printa
 	jsl.l print
@@ -88,7 +88,7 @@ PrintShooterList:					;draw the ShooterSelectList list: the title of rating colu
 	sta.b a1
 	pla
 	sta.b a1+2
-.1xx:
+.1xx:								; if plus go to .2x, ...
 	lda.w picktop
 	sec
 	sbc.w pickfirst
@@ -109,6 +109,6 @@ PrintShooterList:					;draw the ShooterSelectList list: the title of rating colu
 	sta.b a1
 	pla
 	sta.b a1+2
-.2x:
+.2x:								; call PrintShooterRows, return
 	jsl.l PrintShooterRows
 	rtl

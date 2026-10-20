@@ -1,5 +1,5 @@
 ; Instant replay
-ReplayMode:
+ReplayMode:							; called from PauseReplay
 	lda.w SoundFadeSpeed
 	bne ReplayMode
 	jsl.l SPCGameUpload
@@ -55,12 +55,12 @@ ReplayMode:
 	lda.w ReplayBufferPtr+2
 	sbc.w #$007E
 	bcs .1
-.loop:
+.loop:								; loop: ReplayBufferPtr+2 = $007E, ReplayBufferPtr = ReplayBufferStart
 	lda.w #$007E
 	sta.w ReplayBufferPtr+2
 	lda.w #ReplayBufferStart
 	sta.w ReplayBufferPtr
-.1:
+.1:									; if carry clear go to .loop, ...
 	lda.w #ReplayBufferEnd
 	cmp.w ReplayBufferPtr
 	lda.w #$007E
@@ -84,7 +84,7 @@ ReplayMode:
 	sta.b a4
 	lda.w #$0000
 	pha
-.loop2:
+.loop2:								; loop: call suba4, if d7 != 0 go to .loop2, ...
 	jsl.l suba4
 	pla
 	inc a
@@ -94,7 +94,7 @@ ReplayMode:
 	pla
 	lsr a
 	pha
-.loop3:
+.loop3:								; loop: if r0+1,s = 0 go to .t1, ...
 	lda.b r0+1,s
 	beq .t1
 	jsl.l adda4
@@ -103,7 +103,7 @@ ReplayMode:
 	pha
 	bra .loop3
 
-.t1:
+.t1:								; r0+1,s = 0: replayHpos = Hpos, replayVpos = Vpos, call InitSprites, ...
 	pla
 	lda.w Hpos
 	sta.w replayHpos
@@ -129,12 +129,12 @@ ReplayMode:
 	lda.w #$0002
 	trb.w sflags3
 	jmp.w .13
-.10:
+.10:								; if replaylock >= 0 go to .t2, ...
 	lda.w replaylock
 	bpl .t2
 	jmp.w .7
 
-.t2:
+.t2:								; replaylock >= 0: Xpos+$20 = Xpos,x, if plus go to .t1x, ...
 	tax
 	lda.w Xpos,x
 	sta.w Xpos+$20
@@ -145,27 +145,27 @@ ReplayMode:
 	sbc.w #$0004
 	cmp.w Xpos+$20
 	bpl .2
-.1x:
+.1x:								; falls through
 	lda.w Xpos+$20
-.2:
+.2:									; go to .5
 	bra .5
 
-.t1x:
+.t1x:								; if minus go to .5, ...
 	lda.w replayHpos
 	clc
 	adc.w #$0004
 	cmp.w Xpos+$20
 	bmi .5
 	lda.w Xpos+$20
-.5:
+.5:									; if plus go to .1xx, ...
 	cmp.w #$FFC0
 	bpl .1xx
 	lda.w #$FFC0
-.1xx:
+.1xx:								; if minus go to .2x, ...
 	cmp.w #$0040
 	bmi .2x
 	lda.w #$0040
-.2x:
+.2x:								; Hpos = A, replayHpos = A, Ypos+$20 = Ypos,x, ...
 	sta.w Hpos
 	sta.w replayHpos
 	lda.w Ypos,x
@@ -177,29 +177,29 @@ ReplayMode:
 	sbc.w #$0004
 	cmp.w Ypos+$20
 	bpl .4
-.3:
+.3:									; falls through
 	lda.w Ypos+$20
-.4:
+.4:									; go to .6
 	bra .6
 
-.t1xx:
+.t1xx:								; if minus go to .6, ...
 	lda.w replayVpos
 	clc
 	adc.w #$0004
 	cmp.w Ypos+$20
 	bmi .6
 	lda.w Ypos+$20
-.6:
+.6:									; if plus go to .2xx
 	cmp.w #$FF39
 	bpl .2xx
-.1xxx:
+.1xxx:								; falls through
 	lda.w #$FF39
-.2xx:
+.2xx:								; if minus go to .4x
 	cmp.w #$0100
 	bmi .4x
-.3x:
+.3x:								; falls through
 	lda.w #$0100
-.4x:
+.4x:								; Vpos = A, replayVpos = A, PadControlObj+$C = X / 2, ...
 	sta.w Vpos
 	sta.w replayVpos
 	txa
@@ -207,7 +207,7 @@ ReplayMode:
 	sta.w PadControlObj+$C
 	jmp.w .12
 
-.7:
+.7:									; if zero go to .11, ...
 	cmp.w #$FFFF
 	beq .11
 	lda.w Xpos+$20
@@ -219,25 +219,25 @@ ReplayMode:
 	cmp.w Xpos+$20
 	bpl .1xxxx
 	lda.w Xpos+$20
-.1xxxx:
+.1xxxx:								; go to .8
 	bra .8
 
-.t2x:
+.t2x:								; Xpos+$20 - replayHpos >= 0: if minus go to .8, ...
 	lda.w replayHpos
 	clc
 	adc.w #$0002
 	cmp.w Xpos+$20
 	bmi .8
 	lda.w Xpos+$20
-.8:
+.8:									; if plus go to .1xxxxx, ...
 	cmp.w #$FFC0
 	bpl .1xxxxx
 	lda.w #$FFC0
-.1xxxxx:
+.1xxxxx:							; if minus go to .2xxx, ...
 	cmp.w #$0040
 	bmi .2xxx
 	lda.w #$0040
-.2xxx:
+.2xxx:								; Hpos = A, replayHpos = A, if Ypos+$20 - replayVpos >= 0 go to .t1xxx...
 	sta.w Hpos
 	sta.w replayHpos
 	lda.w Ypos+$20
@@ -249,36 +249,36 @@ ReplayMode:
 	cmp.w Ypos+$20
 	bpl .3xx
 	lda.w Ypos+$20
-.3xx:
+.3xx:								; go to .9
 	bra .9
 
-.t1xxx:
+.t1xxx:								; Ypos+$20 - replayVpos >= 0: if minus go to .9, ...
 	lda.w replayVpos
 	clc
 	adc.w #$0002
 	cmp.w Ypos+$20
 	bmi .9
 	lda.w Ypos+$20
-.9:
+.9:									; if plus go to .2xxxx
 	cmp.w #$FF39
 	bpl .2xxxx
-.1xxxxxx:
+.1xxxxxx:							; falls through
 	lda.w #$FF39
-.2xxxx:
+.2xxxx:								; if minus go to .4xx
 	cmp.w #$0100
 	bmi .4xx
-.3xxx:
+.3xxx:								; falls through
 	lda.w #$0100
-.4xx:
+.4xx:								; Vpos = A, replayVpos = A, go to .12
 	sta.w Vpos
 	sta.w replayVpos
 	bra .12
-.11:
+.11:								; replayHpos = Hpos, replayVpos = Vpos
 	lda.w Hpos
 	sta.w replayHpos
 	lda.w Vpos
 	sta.w replayVpos
-.12:
+.12:								; timestep = d7, call SprSort, call SpriteFrameStart, ...
 	lda.b d7
 	sta.w timestep
 	jsl.l SprSort
@@ -286,12 +286,12 @@ ReplayMode:
 	jsl.l setvideo
 	jsl.l SpriteFrameEnd
 	stz.w replaynewframe
-.13:
+.13:								; if d7 != 0 go to .2xxxxx
 	ldx.b d7
 	bne .2xxxxx
-.1xxxxxxx:
+.1xxxxxxx:							; X + 1
 	inx
-.2xxxxx:
+.2xxxxx:							; call WaitFrames_Inc, call ReadPads, call ReadPausePad, ...
 	ldy.w #$0000
 	jsl.l WaitFrames_Inc
 	jsl.l ReadPads
@@ -303,7 +303,7 @@ ReplayMode:
 	beq .t2xx
 	jmp.w .16
 
-.t2xx:
+.t2xx:								; d0 bits $0008 clear: d5 = A, d4 = $FFFF, d4+2 = $FFFF, ...
 	sta.b d5
 	lda.w #$FFFF
 	sta.b d4
@@ -311,7 +311,7 @@ ReplayMode:
 	sta.w replaylock
 	lda.w #$0016
 	sta.b a0
-.loopx:
+.loopx:								; loop: if position,y negative go to .4xxx, ...
 	ldy.b a0
 	lda.w position,y
 	bmi .4xxx
@@ -335,7 +335,7 @@ ReplayMode:
 	beq .1xxxxxxxx
 	cmp.w #$0007
 	bne .4xxx
-.1xxxxxxxx:
+.1xxxxxxxx:							; if zero go to .2xxxxxx, ...
 	lda.b d2
 	lsr a
 	lsr a
@@ -343,7 +343,7 @@ ReplayMode:
 	bit.w #$1000
 	beq .2xxxxxx
 	ora.w #$E000
-.2xxxxxx:
+.2xxxxxx:							; call Mul8S, d0 = A, if zero go to .3xxxx, ...
 	tax
 	jsl.l Mul8S
 	sta.b d0
@@ -354,7 +354,7 @@ ReplayMode:
 	bit.w #$1000
 	beq .3xxxx
 	ora.w #$E000
-.3xxxx:
+.3xxxx:								; call Mul8S, adc d0, if carry set go to .4xxx, ...
 	tax
 	jsl.l Mul8S
 	clc
@@ -364,7 +364,7 @@ ReplayMode:
 	sta.b d4+2
 	lda.b a0
 	sta.b d4
-.4xxx:
+.4xxx:								; decrement a0, decrement a0, if a0 still >= 0 go to .loopx, ...
 	dec.b a0
 	dec.b a0
 	bpl .loopx
@@ -381,8 +381,8 @@ ReplayMode:
 	trb.w sflags
 	jmp.w .10
 
-.t1xxxx:
-	phk
+.t1xxxx:							; call ReadPausePad, replaylock = $FFFE, tsb sflags, ...
+	phk								; data bank = program bank
 	plb
 	jsl.l ReadPausePad
 	lda.w #$FFFE
@@ -426,7 +426,7 @@ ReplayMode:
 	lda.w Wallsin,x
 	ora.w Wallcos,x
 	beq .4xxxx
-.1xxxxxxxxx:
+.1xxxxxxxxx:						; xba, and #$00FF, if carry clear go to .2xxxxxxx, ...
 	lda.w Wallsin,x
 	asl a
 	xba
@@ -434,7 +434,7 @@ ReplayMode:
 	cmp.w #$0080
 	bcc .2xxxxxxx
 	ora.w #$FF00
-.2xxxxxxx:
+.2xxxxxxx:							; adc Xpos+$20, d2 = A, xba, ...
 	clc
 	adc.w Xpos+$20
 	sta.b d2
@@ -445,13 +445,13 @@ ReplayMode:
 	cmp.w #$0080
 	bcc .3xxxxx
 	ora.w #$FF00
-.3xxxxx:
-	eor.w #$FFFF
+.3xxxxx:							; eor #$FFFF, increment a, adc Ypos+$20, ...
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
 	adc.w Ypos+$20
 	sta.b d3
-.4xxxx:
+.4xxxx:								; Xpos+$20 = d2, Hpos = d2, Ypos+$20 = d3, ...
 	lda.b d2
 	sta.w Xpos+$20
 	sta.w Hpos
@@ -464,7 +464,7 @@ ReplayMode:
 .14:								; x and y steps (words) for eight directions
 	dw $0000,$0002, $0002,$0002, $0002,$0000, $0002,$FFFE
 	dw $0000,$FFFE, $FFFE,$FFFE, $FFFE,$0000, $FFFE,$0002
-.16:
+.16:								; if replaylock != $FFFF go to .9x, ...
 	lda.w replaylock
 	cmp.w #$FFFF
 	bne .9x
@@ -481,34 +481,34 @@ ReplayMode:
 	sta.w Ypos+$20
 	bra .9x
 
-.t1xxxxx:
+.t1xxxxx:							; PadControlObj = $000F: PadControlObj+$C = $000F, if puckx - $FF78 >=...
 	lda.w #$000F
 	sta.w PadControlObj+$C
 	lda.w puckx
 	cmp.w #$FF78
 	bpl .2xxxxxxxx
-.1xxxxxxxxxx:
+.1xxxxxxxxxx:						; falls through
 	lda.w #$FF78
-.2xxxxxxxx:
+.2xxxxxxxx:							; if minus go to .4xxxxx
 	cmp.w #sideline
 	bmi .4xxxxx
-.3xxxxxx:
+.3xxxxxx:							; falls through
 	lda.w #sideline
-.4xxxxx:
+.4xxxxx:							; Xpos+$20 = A, if pucky - $FED4 >= 0 go to .6x
 	sta.w Xpos+$20
 	lda.w pucky
 	cmp.w #$FED4
 	bpl .6x
-.5x:
+.5x:								; falls through
 	lda.w #$FED4
-.6x:
+.6x:								; if minus go to .8x
 	cmp.w #$012C
 	bmi .8x
-.7x:
+.7x:								; falls through
 	lda.w #$012C
-.8x:
+.8x:								; Ypos+$20 = A
 	sta.w Ypos+$20
-.9x:
+.9x:								; if d1 bits $8000 clear go to .2xxxxxxxxx, ...
 	lda.b d1
 	bit.w #$8000
 	beq .2xxxxxxxxx
@@ -523,11 +523,11 @@ ReplayMode:
 	jsl.l WaitFrame
 	lda.w #$0000
 	sta.l replaypanel
-.1xxxxxxxxxxx:
+.1xxxxxxxxxxx:						; eor #$0002, sflags3 = A
 	lda.w sflags3
 	eor.w #$0002
 	sta.w sflags3
-.2xxxxxxxxx:
+.2xxxxxxxxx:						; if d3 bit $0020 set go to .t1xxxxxx, ...
 	lda.b d3
 	bit.w #$0020
 	bne .t1xxxxxx
@@ -547,50 +547,50 @@ ReplayMode:
 	jsl.l suba4
 	bra .11x
 
-.t1xxxxxx:
+.t1xxxxxx:							; d3 bit $0020 set: call suba4, go to .10x
 	jsl.l suba4
 	ldx.w #$0006
 	bra .10x
 
-.t2xxx:
+.t2xxx:								; go to .15
 	jmp.w .15
 
-.t3:
+.t3:								; d1 bit $2000 set: replaylock = $FFFF, trb sflags, go to .13
 	lda.w #$FFFF
 	sta.w replaylock
 	lda.w #$0020
 	trb.w sflags
 	jmp.w .13
 
-.t4:
+.t4:								; d3 bit $0080 set: call adda4, call adda4, go to .11x
 	jsl.l adda4
 	jsl.l adda4
 	bra .11x
 
-.t5:
+.t5:								; call adda4, if d3 bit $0010 set go to .10x, ...
 	jsl.l adda4
 	ldx.w #$0006
 	lda.b d3
 	bit.w #$0010
 	bne .10x
 	ldx.w #$000C
-.10x:
+.10x:								; call WaitFrames_Inc
 	ldy.w #$0000
 	jsl.l WaitFrames_Inc
-.11x:
+.11x:								; call SoundVoicesOff, d7 = $0001, trb sflags3, ...
 	jsl.l SoundVoicesOff
 	lda.w #$0001
 	sta.b d7
 	lda.w #$0002
 	trb.w sflags3
 	jmp.w .10
-.12x:
+.12x:								; if sflags3 bit $0002 set go to .t1xxxxxxx, ...
 	lda.w sflags3
 	bit.w #$0002
 	bne .t1xxxxxxx
 	jmp.w .13
 
-.t1xxxxxxx:
+.t1xxxxxxx:							; sflags3 bit $0002 set: call adda4, if d7 = 0 go to .11x, ...
 	jsl.l adda4
 	lda.b d7
 	beq .11x
@@ -618,15 +618,15 @@ ReplayMode:
 	tay
 	lda.w recsfxpitch2
 	sta.w VoicePitch,y
-.1xxxxxxxxxxxx:
+.1xxxxxxxxxxxx:						; go to .13x
 	rep #$20
 	bra .13x
 
-.t2xxxx:
+.t2xxxx:							; sbc #$0015, call StreamSfx
 	sec
 	sbc.w #$0015
 	jsl.l StreamSfx
-.13x:
+.13x:								; if zero go to .14x, ...
 	lda.w recsfx
 	and.w #$00FF
 	cmp.w #$00FF
@@ -652,17 +652,17 @@ org $9BB001
 	tay
 	lda.w recsfxpitch
 	sta.w VoicePitch,y
-.1xxxxxxxxxxxxx:
+.1xxxxxxxxxxxxx:					; go to .14x
 	rep #$20
 	bra .14x
 
-.t1xxxxxxxx:
+.t1xxxxxxxx:						; sbc #$0015, call StreamSfx
 	sec
 	sbc.w #$0015
 	jsl.l StreamSfx
-.14x:
+.14x:								; go to .10
 	jmp.w .10
-.15:
+.15:								; PadControlObj+$C = $000F, call SoundVoicesOff, Hpos = pulled value, ...
 	lda.w #$000F
 	sta.w PadControlObj+$C
 	jsl.l SoundVoicesOff
@@ -692,7 +692,7 @@ org $9BB001
 	sta.w textdirtyhi
 	jsl.l FadeOut
 	jsl.l FadeOutSound
-.loopxx:
+.loopxx:							; loop: if brightness != 0 go to .loopxx, ...
 	lda.w brightness
 	bne .loopxx
 	lda.w SoundFadeSpeed
@@ -717,11 +717,11 @@ org $9BB001
 	jsl.l MusicStart
 	jmp.w .1xxxxxxxxxxxxxx
 
-.t1xxxxxxxxx:
+.t1xxxxxxxxx:						; p0 = MenuSong, call MusicStart
 	lda.w #MenuSong>>16
 	sta.b p0+2
 	lda.w #MenuSong
 	sta.b p0
 	jsl.l MusicStart
-.1xxxxxxxxxxxxxx:
+.1xxxxxxxxxxxxxx:					; return
 	rtl

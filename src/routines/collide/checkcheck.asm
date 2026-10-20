@@ -1,5 +1,5 @@
 ; Two players are in contact: check what happens each way
-checkcheck:
+checkcheck:							; called from checkplcoll
 	lda.b d4
 	pha
 	lda.b a2
@@ -22,7 +22,7 @@ org $9EA001
 	ldx.b a3
 .rtl:								; return
 	rtl
-.1:
+.1:									; go to holdcheck
 	jmp.w holdcheck
 .cc:								;X is checking a2
 	ldy.b a2						; a2 holding: holdcheck
@@ -44,7 +44,7 @@ org $9EA001
 	lda.w #$0100
 	sta.w impact,x
 	sta.w impact,y
-.1x:
+.1x:								; d0 = Xpos,y - Xpos,x, d1 = Ypos,y - Ypos,x, call vtoa, ...
 	lda.w Xpos,y
 	sec
 	sbc.w Xpos,x
@@ -82,15 +82,15 @@ org $9EA001
 	beq .3
 	bra .2
 
-.t2:
+.t2:								; if seed & $0030 = 0 go to .3
 	lda.w seed
 	and.w #$0030
 	beq .3
-.2:
+.2:									; Y + 1, Y + 1, d0 = Y
 	iny
 	iny
 	sty.b d0
-.3:
+.3:									; call SetSPAFromA, if position,y = 0 go to .t1x, ...
 	lda.b [a0],y
 	jsl.l SetSPAFromA
 	ldy.b a2
@@ -135,7 +135,7 @@ org $9EA001
 .t1x:								; roll a penalty, then a2 falls
 	rtl
 
-.t2x:
+.t2x:								; call checkagr, if d0 >= $0001 go to .1xx, ...
 	jsl.l checkagr
 	lda.b d0
 	cmp.w #$0001
@@ -149,7 +149,7 @@ org $9EA001
 	adc.w #PenRoughing
 	sta.b d0
 	jsl.l AddPenalty
-.1xx:
+.1xx:								; call PenShotChk, if zero go to .2x, ...
 	jsl.l PenShotChk
 	beq .2x
 	lda.w BA_Sktr_SCnum
@@ -161,7 +161,7 @@ org $9EA001
 	lda.w #PenShot
 	sta.b d0
 	jsl.l AddPenalty
-.2x:
+.2x:								; go to FallDown
 	jmp.w FallDown
 .4:									; check animation by direction (93S .list, with a 94 animation first)
 	dw SPAcrosscheck&$FFFF,SPAshoulderchkr&$FFFF,SPAhipchkr&$FFFF,SPAhipchkr&$FFFF,SPAhipchkr&$FFFF,SPAhipchkl&$FFFF,SPAhipchkl&$FFFF,SPAshoulderchkl&$FFFF

@@ -1,5 +1,5 @@
 ; Print the rows of the list from $1DA7, the row at the cursor ($1D9B) in another palette
-PrintShooterRows:
+PrintShooterRows:					; called from PrintShooterList
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -37,11 +37,11 @@ PrintShooterRows:
 	bvc .1
 	bra .3
 
-.t1:
+.t1:								; if overflow clear go to .3
 	bvc .3
-.1:
+.1:									; decrement d1
 	dec.b d1
-.3:
+.3:									; loop: printa = $3800, if d1 != curplayer go to .1x, ...
 	lda.w #$3800
 	sta.w printa
 	lda.b d1
@@ -49,7 +49,7 @@ PrintShooterRows:
 	bne .1x
 	lda.w #$2000
 	sta.w printa
-.1x:
+.1x:								; a5+2 = a1+2, a5 = a1, printx = $0002, ...
 	lda.b a1+2
 	sta.b a5+2
 	lda.b a1
@@ -68,7 +68,7 @@ PrintShooterRows:
 	bpl .2
 	lda.w #$0010
 	sta.b r2
-.2:
+.2:									; d0 = r1, call GetNameandAttrib, increment a3, ...
 	lda.b r1
 	sta.b d0
 	jsl.l GetNameandAttrib

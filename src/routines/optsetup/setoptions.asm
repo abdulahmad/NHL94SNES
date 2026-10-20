@@ -1,5 +1,5 @@
 ; The game setup screen: up and down pick a line, left and right change it, Start goes on
-setoptions:
+setoptions:							; called from Restart
 	jsl.l FadeOut
 	lda.w #$0001
 	sta.l matchupphotos
@@ -100,17 +100,17 @@ setoptions:
 	jsl.l LoadMatchupPhotos
 	ldx.w #$0002
 	jsl.l LoadMatchupPhotos
-.3:
+.3:									; d6 = $12C0
 	lda.w #$12C0
 	sta.b d6
-.2:
+.2:									; loop: call WaitFrame, if OAMReady != 0 go to .2, ...
 	jsl.l WaitFrame
 	lda.w OAMReady
 	bne .2
 	inc.w seed
 	bne .1
 	inc.w seed+2
-.1:
+.1:									; call WaitFrame, eor d2+2, if not zero go to .t5, ...
 	jsl.l WaitFrame
 	ldx.w mp5warning
 	txa
@@ -118,7 +118,7 @@ setoptions:
 	bne .t5
 	jmp.w .t6
 
-.t5:
+.t5:								; d2+2 = X, if zero go to .t4, ...
 	stx.b d2+2
 	txa
 	beq .t4
@@ -130,34 +130,34 @@ setoptions:
 	bne .t3
 	bra .t6
 
-.t1:
+.t1:								; call ClearMessageArea, call Multi5SocketMsg, go to .t6
 	jsl.l ClearMessageArea
 	jsl.l Multi5SocketMsg
 	bra .t6
 
-.t2:
+.t2:								; call ClearMessageArea, call Multi5ScopeMsg, go to .t6
 	jsl.l ClearMessageArea
 	jsl.l Multi5ScopeMsg
 	bra .t6
 
-.t3:
+.t3:								; call ClearMessageArea, call Multi5MouseMsg, go to .t6
 	jsl.l ClearMessageArea
 	jsl.l Multi5MouseMsg
 	bra .t6
 
-.t4:
+.t4:								; call Multi5Init, call ClearTextMapBottom, call .10, ...
 	jsl.l Multi5Init
 	jsl.l ClearTextMapBottom
 	jsr.w .10
 	stz.b d1
 	jmp.w .6
 
-.t6:
+.t6:								; if mp5warning = 0 go to .t1x, ...
 	lda.w mp5warning
 	beq .t1x
 	jmp.w .2
 
-.t1x:
+.t1x:								; mp5warning = 0: call ReadPads, lastframevc = vcount, oldvcount = vcou...
 	jsl.l ReadPads
 	lda.b vcount
 	sta.w lastframevc
@@ -171,7 +171,7 @@ setoptions:
 	beq .t2x
 	jmp.w .6
 
-.t2x:
+.t2x:								; call .11, call QueueTextDMA, decrement d6, ...
 	jsr.w .11
 	jsl.l QueueTextDMA
 	dec.b d6
@@ -179,12 +179,12 @@ setoptions:
 	bmi .t1xx
 	jmp.w .2
 
-.t1xx:
+.t1xx:								; d6 counted below 0: call randoma8, OptTeam1 = A, HomeTeam = A
 	lda.w #$001C
 	jsl.l randoma8
 	sta.l OptTeam1
 	sta.w HomeTeam
-.loop:
+.loop:								; loop: call randoma8, if zero go to .loop, ...
 	lda.w #$001C
 	jsl.l randoma8
 	cmp.l OptTeam1
@@ -196,7 +196,7 @@ setoptions:
 	lda.w #$0000
 	sta.l OptPlayMode
 	sta.l OptPlayers
-.5:
+.5:									; p0 = BigLetterTiles, p1 = bigtextbuf, call Decompress, ...
 	lda.w #BigLetterTiles>>16
 	sta.b p0+2
 	lda.w #BigLetterTiles
@@ -223,9 +223,9 @@ setoptions:
 	beq .1x
 	cmp.w #$0003
 	bne .2x
-.1x:
+.1x:								; call NewPO
 	jsl.l NewPO
-.2x:
+.2x:								; OptPlayers = $0001, if OptPlayMode < $0001 go to .3x, ...
 	lda.w #$0001
 	sta.l OptPlayers
 	lda.l OptPlayMode
@@ -235,7 +235,7 @@ setoptions:
 	bcs .3x
 	lda.w #$0005
 	sta.l OptPlayers
-.3x:
+.3x:								; pojoy = OptPlayers - $0005, if OptPlayMode != $0001 go to .4, ...
 	lda.l OptPlayers
 	sec
 	sbc.w #$0005
@@ -244,19 +244,19 @@ setoptions:
 	cmp.w #$0001
 	bne .4
 	jsl.l PasswordScreen
-.4:
+.4:									; ora PassWord, PassWord = A, call maketree, ...
 	lda.w #$0080
 	ora.l PassWord
 	sta.l PassWord
 	jsl.l maketree
 	jmp.w PlayerSelect
-.6:
+.6:									; if d1 bits $1000 clear go to .t2xx, ...
 	lda.b d1
 	bit.w #$1000
 	beq .t2xx
 	jmp.w .5
 
-.t2xx:
+.t2xx:								; d1 bits $1000 clear: if zero go to .t1xxx, ...
 	bit.w #$0400
 	beq .t1xxx
 	lda.w #$0002
@@ -265,16 +265,16 @@ setoptions:
 	jsr.w .10
 	jmp.w .3
 
-.t1xxx:
+.t1xxx:								; if zero go to .2xx, ...
 	bit.w #$0800
 	beq .2xx
 	lda.w #$FFFE
 	sta.b d0
 	jsr.w .12
 	jsr.w .10
-.1xx:
+.1xx:								; go to .3
 	jmp.w .3
-.2xx:
+.2xx:								; d2 = $0001, if d1 bit $0100 set go to .1xxx, ...
 	lda.w #$0001
 	sta.b d2
 	lda.b d1
@@ -284,11 +284,11 @@ setoptions:
 	beq .1xx
 	lda.w #$FFFF
 	sta.b d2
-.1xxx:
+.1xxx:								; call .7, call .10, go to .3
 	jsr.w .7
 	jsr.w .10
 	jmp.w .3
-.7:
+.7:									; subroutine: if d7 = $0000 go to .1xxxx, ...
 	lda.b d7
 	cmp.w #$0000
 	beq .1xxxx
@@ -296,7 +296,7 @@ setoptions:
 	beq .1xxxx
 	cmp.w #$0004
 	bne .2xxx
-.1xxxx:
+.1xxxx:								; if d2 = 0 go to .2xxx, ...
 	lda.b d2
 	beq .2xxx
 	lda.w #$0005
@@ -304,7 +304,7 @@ setoptions:
 	lda.w #$0001
 	sta.l teamschanged
 	sta.l cardtimer
-.2xxx:
+.2xxx:								; a2 = OptPlayMode, a3+2 = $009D, a3 = .14, ...
 	lda.w #OptPlayMode>>16
 	sta.b a2+2
 	lda.w #OptPlayMode
@@ -328,14 +328,14 @@ setoptions:
 	bne .3xx
 	lda.w #$001A
 	sta.b d4
-.3xx:
+.3xx:								; call .9, [a2],y = d3
 	jsr.w .9
 	lda.b d3
 	sta.b [a2],y
 	lda.b d2
-.8:
+.8:									; return
 	rts
-.9:
+.9:									; subroutine: d3 = d3 + d2, if minus go to .t1xxxx, ...
 	lda.b d3
 	clc
 	adc.b d2
@@ -346,13 +346,13 @@ setoptions:
 	bvs .1xxxxx
 	bra .2xxxx
 
-.t1xxxx:
+.t1xxxx:							; if overflow set go to .2xxxx
 	bvs .2xxxx
-.1xxxxx:
+.1xxxxx:							; d3 = d4 - 1
 	lda.b d4
 	dec a
 	sta.b d3
-.2xxxx:
+.2xxxx:								; if minus go to .t1xxxxx, ...
 	lda.b d3
 	sec
 	sbc.b d4
@@ -360,14 +360,14 @@ setoptions:
 	bvc .3xxx
 	bra .8
 
-.t1xxxxx:
+.t1xxxxx:							; if overflow clear go to .8
 	bvc .8
-.3xxx:
+.3xxx:								; d3 = d5, return
 	lda.b d5
 	sta.b d3
 	rts
 
-.t1xxxxxx:
+.t1xxxxxx:							; if zero go to .5x, ...
 	lda.b d3
 	clc
 	adc.b d2
@@ -377,19 +377,19 @@ setoptions:
 	beq .5x
 	cmp.w #$0005
 	beq .5x
-.4x:
+.4x:								; d3 = A, [a2],y = d3, go to .8
 	sta.b d3
 	lda.b d3
 	sta.b [a2],y
 	bra .8
-.5x:
+.5x:								; increment a, if carry clear go to .4x, ...
 	inc a
 	cmp.w #$0005
 	bcc .4x
 	lda.w #$0001
 	sta.b d3
 	bra .4x
-.10:
+.10:								; subroutine: if teamschanged = 0 go to .1xxxxxx, ...
 	lda.l teamschanged
 	beq .1xxxxxx
 	lda.l OptTeam1
@@ -399,7 +399,7 @@ setoptions:
 	jsl.l setteams
 	lda.w #$0000
 	sta.l teamschanged
-.1xxxxxx:
+.1xxxxxx:							; d2 = blankchar, d0 = $0020, d1 = $000E, ...
 	lda.l blankchar
 	sta.b d2
 	lda.w #$0020
@@ -416,7 +416,7 @@ setoptions:
 	sta.w printy
 	stz.b d2
 	ldx.w #$0000
-.4xx:
+.4xx:								; loop: printa = $3800, a1 = GameSetupNames, d0 = X, ...
 	lda.w #$3800
 	sta.w printa
 	lda.w #GameSetupNames>>16
@@ -440,7 +440,7 @@ setoptions:
 	sta.b a1+2
 	lda.w #PlayoffSetupNames
 	sta.b a1
-.2xxxxx:
+.2xxxxx:							; printx = $0003, d0 = X / 2, call PrintStringFromList, ...
 	lda.w #$0003
 	sta.w printx
 	txa
@@ -465,7 +465,7 @@ setoptions:
 	clc
 	adc.b [a0],y
 	sta.b a0
-.loopx:
+.loopx:								; loop: a1+2 = a0+2, a1 = a0, a0 = a0 + [a0], ...
 	lda.b a0+2
 	sta.b a1+2
 	lda.b a0
@@ -479,28 +479,28 @@ setoptions:
 	bne .3xxxx
 	lda.w #$2000
 	sta.w printa
-.3xxxx:
+.3xxxx:								; d7 = X, if zero go to .7x, ...
 	stx.b d7
 	cpx.w #$0002
 	beq .7x
 	cpx.w #$0004
 	beq .7x
 	jsl.l print
-.5xx:
+.5xx:								; increment printy, increment printy
 	inc.w printy
 	inc.w printy
-.6x:
+.6x:								; X + 1, X + 1, if carry set go to .t1xxxxxxx, ...
 	inx
 	inx
 	cpx.w #$000E
 	bcs .t1xxxxxxx
 	jmp.w .4xx
 
-.t1xxxxxxx:
+.t1xxxxxxx:							; d7 = d6, return
 	lda.b d6
 	sta.b d7
 	rts
-.7x:
+.7x:								; a1 = OptPlayMode, d3 = [a1],y, call GetTeamLongName, ...
 	ldy.b d7
 	lda.w #OptPlayMode>>16
 	sta.b a1+2
@@ -511,7 +511,7 @@ setoptions:
 	jsl.l GetTeamLongName
 	jsl.l print
 	bra .5xx
-.11:
+.11:								; subroutine: if .13,x != 0 go to .t1xxxxxxxx, ...
 	lda.l OptPlayMode
 	asl a
 	asl a
@@ -538,10 +538,10 @@ setoptions:
 	sta.l redrawblocks
 	bra .1xxxxxxx
 
-.t1xxxxxxxx:
+.t1xxxxxxxx:						; .13,x != 0: setupvis = VisTeam
 	lda.w VisTeam
 	sta.l setupvis
-.1xxxxxxx:
+.1xxxxxxx:							; X - 1, X - 1, if .13,x != 0 go to .t1xxxxxxxxx, ...
 	dex
 	dex
 	lda.l .13,x
@@ -563,10 +563,10 @@ setoptions:
 	sta.l redrawblocks
 	bra .5xxx
 
-.t1xxxxxxxxx:
+.t1xxxxxxxxx:						; .13,x != 0: setuphome = HomeTeam
 	lda.w HomeTeam
 	sta.l setuphome
-.5xxx:
+.5xxx:								; cardtimer = cardtimer - 1 - 1, if minus go to .t1xxxxxxxxxx, ...
 	lda.l cardtimer
 	dec a
 	dec a
@@ -574,7 +574,7 @@ setoptions:
 	bmi .t1xxxxxxxxxx
 	rts
 
-.t1xxxxxxxxxx:
+.t1xxxxxxxxxx:						; call SpriteFrameStart, call .t2xxx, a1 = GameSetupAlt, ...
 	jsl.l SpriteFrameStart
 	jsr.w .t2xxx
 	ldx.w #$004F
@@ -594,7 +594,7 @@ setoptions:
 	lda.w VisTeam
 	sta.b d1
 	jsl.l DrawTeamBlocks
-.1xxxxxxxx:
+.1xxxxxxxx:							; if setuphome - $001C >= 0 go to .2xxxxxx, ...
 	lda.l setuphome
 	cmp.w #$001C
 	bpl .2xxxxxx
@@ -605,7 +605,7 @@ setoptions:
 	lda.w HomeTeam
 	sta.b d1
 	jsl.l DrawTeamBlocks
-.2xxxxxx:
+.2xxxxxx:							; if setuphome >= 0 go to .3xxxxx, ...
 	lda.l setuphome
 	bpl .3xxxxx
 	lda.w #$0000
@@ -618,7 +618,7 @@ setoptions:
 	ldx.w #$0008
 	ldy.w #$0043
 	jsl.l PrintTeamSprites
-.3xxxxx:
+.3xxxxx:							; if setupvis >= 0 go to .4xxx, ...
 	lda.l setupvis
 	bpl .4xxx
 	lda.w #mesarea>>16
@@ -632,13 +632,13 @@ setoptions:
 	ldx.w #$0008
 	ldy.w #$0043
 	jsl.l PrintTeamSprites
-.4xxx:
+.4xxx:								; call DrawMatchupPictures, call SpriteFrameEnd, call SendColours, ...
 	jsl.l DrawMatchupPictures
 	jsl.l SpriteFrameEnd
 	jsl.l SendColours
 	rts
 
-.t2xxx:
+.t2xxx:								; subroutine: cardtimer = $0078, if carry clear go to .1xxxxxxxxx, ...
 	lda.w #$0078
 	sta.l cardtimer
 	lda.l setupmatchup
@@ -646,7 +646,7 @@ setoptions:
 	cmp.w #$0007
 	bcc .1xxxxxxxxx
 	lda.w #$0000
-.1xxxxxxxxx:
+.1xxxxxxxxx:						; setupmatchup = A, if zero go to .rts, ...
 	sta.l setupmatchup
 	cmp.w #$0006
 	beq .rts
@@ -657,7 +657,7 @@ setoptions:
 	sta.l setuphome
 	ldx.w #$0000
 	jsr.w .t1xxxxxxxxxxx
-.2xxxxxxx:
+.2xxxxxxx:							; if setupvis - $001C >= 0 go to .3xxxxxx, ...
 	lda.l setupvis
 	cmp.w #$001C
 	bpl .3xxxxxx
@@ -665,7 +665,7 @@ setoptions:
 	sta.l setupvis
 	ldx.w #$0002
 	jsr.w .t1xxxxxxxxxxx
-.3xxxxxx:
+.3xxxxxx:							; a2 = 0, matchuphome = setupmatchup, a2 = $0002, ...
 	stz.b a2
 	lda.l setupmatchup
 	sta.l matchuphome
@@ -673,10 +673,10 @@ setoptions:
 	sta.b a2
 	lda.l setupmatchup
 	sta.l matchupvis
-.rts:
+.rts:								; return
 	rts
 
-.t1xxxxxxxxxxx:
+.t1xxxxxxxxxxx:						; subroutine: a2 = X, call GetMatchupPlayer, call PlayerShortName, ...
 	stx.b a2
 	lda.l setupmatchup
 	jsl.l GetMatchupPlayer
@@ -693,20 +693,20 @@ setoptions:
 	sta.b p1
 	ldx.w #$0031
 	jsl.l MemCopy
-.rtsx:
+.rtsx:								; return
 	rts
-.12:
+.12:								; subroutine: d3 = d7
 	phx
 	lda.b d7
 	sta.b d3
-.2xxxxxxxx:
+.2xxxxxxxx:							; d7 = d7 + d0, if plus go to .1xxxxxxxxxx, ...
 	lda.b d7
 	clc
 	adc.b d0
 	sta.b d7
 	bpl .1xxxxxxxxxx
 	stz.b d7
-.1xxxxxxxxxx:
+.1xxxxxxxxxx:						; if d7 < $000E go to .t1xxxxxxxxxxxx, ...
 	lda.b d7
 	cmp.w #$000E
 	bcc .t1xxxxxxxxxxxx
@@ -714,7 +714,7 @@ setoptions:
 	sta.b d7
 	bra .3xxxxxxx
 
-.t1xxxxxxxxxxxx:
+.t1xxxxxxxxxxxx:					; d7 < $000E: if .13,x = 0 go to .2xxxxxxxx
 	lda.l OptPlayMode
 	asl a
 	asl a
@@ -724,17 +724,17 @@ setoptions:
 	tax
 	lda.l .13,x
 	beq .2xxxxxxxx
-.3xxxxxxx:
+.3xxxxxxx:							; return
 	plx
 	rts
-.13:
+.13:								; dw $0001,$0001,$0001,$0001,$0001,$0001,$0001,$0000, dw $0001,$0000,$0...
 	dw $0001,$0001,$0001,$0001,$0001,$0001,$0001,$0000
 	dw $0001,$0000,$0000,$0001,$0001,$0001,$0001,$0000
 	dw $0001,$FFFF,$0000,$0001,$0001,$0001,$0001,$0000
 	dw $0001,$FFFF,$0000,$0001,$0001,$0001,$0001,$0000
 	dw $0001,$0001,$0001,$0000,$0000,$0000,$0001,$0000
 	dw $0000
-.14:
+.14:								; dw $0005,$001C,$001C,$0003,$0003,$0003,$0002
 	dw $0005,$001C,$001C,$0003,$0003,$0003,$0002
-.15:
+.15:								; dw $000E,$005E,$005E,$005E,$009E,$00CE,$00FE
 	dw $000E,$005E,$005E,$005E,$009E,$00CE,$00FE

@@ -1,5 +1,5 @@
 ; Build the scoring summary page in the stats page buffer: a line per goal ($7E313C, 6 bytes each)
-FillScoringPage:
+FillScoringPage:					; called from ShowScoringSummary
 	lda.w #$007F
 	sta.b p1+2
 	lda.w #$2780
@@ -16,10 +16,10 @@ FillScoringPage:
 	lda.w #$0000
 	sta.w printy
 	pha
-.loop:
+.loop:								; loop: if zero go to .t1
 	cmp.w listend
 	beq .t1
-.1:
+.1:									; call .t4, a3 = a3 + $0006, increment printy, ...
 	jsr.w .t4
 	lda.b a3
 	clc
@@ -31,11 +31,11 @@ FillScoringPage:
 	pha
 	bra .loop
 
-.t1:
+.t1:								; return
 	pla
 	rts
 
-.t4:
+.t4:								; subroutine: printx = $0001, printa = $2000, xba, ...
 	lda.w #$0001
 	sta.w printx
 	lda.w #$2000
@@ -69,7 +69,7 @@ FillScoringPage:
 	cmp.w #$0006
 	bne .1x
 	inc.w printx
-.1x:
+.1x:								; call PrintToStatsPage, printx = $000A, Y + 1, ...
 	jsl.l PrintToStatsPage
 	lda.w #$000A
 	sta.w printx
@@ -89,7 +89,7 @@ FillScoringPage:
 	beq .2
 	lda.w #$0002
 	sta.b a2
-.2:
+.2:									; call PrintTeamAbbrev, decrement printy, decrement printy, ...
 	jsl.l PrintTeamAbbrev
 	dec.w printy
 	dec.w printy
@@ -120,7 +120,7 @@ FillScoringPage:
 	sta.b a1+2
 	bra .3
 
-.t1x:
+.t1x:								; a1 = ScoringPP, call PrintToStatsPage, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -136,7 +136,7 @@ FillScoringPage:
 	sta.b a1+2
 	bra .3
 
-.t2:
+.t2:								; a1 = ScoringSH, call PrintToStatsPage, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -152,7 +152,7 @@ FillScoringPage:
 	sta.b a1+2
 	bra .3
 
-.t3:
+.t3:								; a1 = ScoringSH2, call PrintToStatsPage, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -166,7 +166,7 @@ FillScoringPage:
 	sta.b a1
 	pla
 	sta.b a1+2
-.3:
+.3:									; Y + 1, d0 = [a3],y & $00FF, printx = $000E, ...
 	ply
 	iny
 	sep #$20
@@ -196,7 +196,7 @@ FillScoringPage:
 	sta.w printx
 	jsl.l PlayerInitialName
 	jsl.l PrintToStatsPage
-.1xx:
+.1xx:								; Y + 1, increment printy, if zero go to .rts, ...
 	ply
 	iny
 	sep #$20
@@ -211,5 +211,5 @@ FillScoringPage:
 	sta.w printx
 	jsl.l PlayerInitialName
 	jsl.l PrintToStatsPage
-.rts:
+.rts:								; return
 	rts

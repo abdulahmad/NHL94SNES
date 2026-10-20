@@ -1,5 +1,5 @@
 ; Print the Select Left hint on the password screen.
-PrintSelectLeft:
+PrintSelectLeft:					; called from PasswordRedraw, PasswordScreen
 	lda.b a1+2
 	pha
 	lda.b a1

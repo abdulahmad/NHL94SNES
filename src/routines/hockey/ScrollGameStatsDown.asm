@@ -1,5 +1,5 @@
 ; Scroll the game stats down one row.
-ScrollGameStatsDown:
+ScrollGameStatsDown:				; called from GameStatsInput, GameStatsKeys
 	jsr.w ClearGameStatBraces
 	lda.w listtop
 	clc
@@ -8,7 +8,7 @@ ScrollGameStatsDown:
 	bmi .t2
 	jmp.w MarkGameStatRows
 
-.t2:
+.t2:								; increment listrows, call SendGameStatsPage, decrement listrows, ...
 	inc.w listrows
 	jsr.w SendGameStatsPage
 	dec.w listrows
@@ -16,7 +16,7 @@ ScrollGameStatsDown:
 	inc.w listtop
 	lda.w #$0001
 	sta.w irqvscroll1
-.loop:
+.loop:								; loop: call WaitFrame, increment irqvscroll1, increment irqvscroll1, ...
 	jsl.l WaitFrame
 	inc.w irqvscroll1
 	inc.w irqvscroll1
@@ -29,10 +29,10 @@ ScrollGameStatsDown:
 	sta.w irqvscroll1
 	jmp.w GameStatsKeys
 
-.t1:
+.t1:								; scrollirqdone = $0000
 	lda.w #$0000
 	sta.w scrollirqdone
-.loopx:
+.loopx:								; loop: if scrollirqdone != $FFFF go to .loopx, ...
 	lda.w scrollirqdone
 	cmp.w #$FFFF
 	bne .loopx

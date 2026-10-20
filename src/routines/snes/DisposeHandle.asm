@@ -20,15 +20,15 @@ DisposeHandle:						; free handle A and its block, joined with free neighbours
 	ldy.w HeapStart7F
 	cpx.w #$007F
 	beq .heap
-.exit:
+.exit:								; return
 	rtl
-.heap:
+.heap:								; sbc #$0008, r3 = A, p0+2 = X, ...
 	sec
 	sbc.w #$0008
 	sta.b r3
 	stx.b p0+2
 	stz.b p0
-.find:
+.find:								; loop: if zero go to .found, ...
 	cpy.b r3
 	beq .found
 	iny
@@ -39,7 +39,7 @@ DisposeHandle:						; free handle A and its block, joined with free neighbours
 	beq .exit
 	tay
 	bra .find
-.found:
+.found:								; Y + 1, Y + 1, Y + 1, ...
 	iny
 	iny
 	iny
@@ -72,7 +72,7 @@ DisposeHandle:						; free handle A and its block, joined with free neighbours
 	iny
 	iny
 	sta.b [p0],y
-.size:
+.size:								; [p0],y = [p0],y + r0 + $0008, Y + 1, Y + 1, ...
 	tay
 	lda.b [p0],y
 	clc
@@ -85,7 +85,7 @@ DisposeHandle:						; free handle A and its block, joined with free neighbours
 	iny
 	lda.b r1
 	sta.b [p0],y
-.prev:
+.prev:								; Y + 1, Y + 1, [p0],y = $0000, ...
 	ldy.b r3
 	iny
 	iny
@@ -124,7 +124,7 @@ DisposeHandle:						; free handle A and its block, joined with free neighbours
 	iny
 	iny
 	sta.b [p0],y
-.size2:
+.size2:								; [p0],y = [p0],y + r0 + $0008, Y + 1, Y + 1, ...
 	tay
 	lda.b [p0],y
 	clc
@@ -137,5 +137,5 @@ DisposeHandle:						; free handle A and its block, joined with free neighbours
 	iny
 	lda.b r1
 	sta.b [p0],y
-.done:
+.done:								; return
 	rtl

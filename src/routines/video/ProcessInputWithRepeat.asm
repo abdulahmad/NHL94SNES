@@ -1,5 +1,5 @@
 ; Read the pads with key repeat. A held button repeats after a delay
-ProcessInputWithRepeat:
+ProcessInputWithRepeat:				; called from EditLinesMenu, EditLinesScreen, PasswordRedraw, PenaltySu...
 	lda.b d3
 	beq .rtl
 	lda.b d2
@@ -10,10 +10,10 @@ ProcessInputWithRepeat:
 	sta.w repeatdelay
 	lda.b d3
 	sta.b d1
-.rtl:
+.rtl:								; return
 	rtl
 
-.t1:
+.t1:								; d2 != 0: repeatdelay = $0014, return
 	lda.w #$0014
 	sta.w repeatdelay
 	rtl

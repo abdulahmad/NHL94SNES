@@ -1,5 +1,5 @@
 ; Copy part of map [p0] into the map at [p1], column X, row Y, adding A to each entry
-PasteMapPart:
+PasteMapPart:						; called from SetupScreen
 	sta.b r7+2
 	stx.b r5
 	tya
@@ -26,10 +26,10 @@ PasteMapPart:
 	adc.w #$0006
 	adc.b p0
 	sta.b p0
-.loop:
+.loop:								; loop: falls through
 	ldx.b r4
 	ldy.w #$0000
-.loop2:
+.loop2:								; loop: [p1],y = [p0],y + r7+2, Y + 1, Y + 1, ...
 	lda.b [p0],y
 	clc
 	adc.b r7+2
@@ -50,11 +50,11 @@ PasteMapPart:
 	bne .loop
 	rtl
 
-.t1:
+.t1:								; Y - 1
 	php
 	sep #$20
 	dey
-.loopx:
+.loopx:								; loop: [p1],y = A, Y - 1, if Y not yet 0 go to .loopx, ...
 	sta.b [p1],y
 	dey
 	bne .loopx

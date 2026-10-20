@@ -5,7 +5,7 @@ SetColours:							; copy X colours from [p0] into the colour buffer $7F7500, fro
 	asl a
 	tax
 	ldy.w #$0000
-.loop:
+.loop:								; loop: colourbuf,x = [p0],y, Y + 1, Y + 1, ...
 	lda.b [p0],y
 	sta.l colourbuf,x
 	iny

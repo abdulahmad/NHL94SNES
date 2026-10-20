@@ -1,10 +1,10 @@
 ; Start a period: reset the teams, the rink and the clock, then the game loop
-StartPer:
+StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	lda.w shootoutmode
 	bne .1
 	lda.w #$1FFF
 	tcs
-.1:
+.1:									; a2 = 0, call reenergizeteam, a2 = $0002, ...
 	stz.b a2
 	jsl.l reenergizeteam
 	lda.w #$0002
@@ -20,17 +20,17 @@ StartPer:
 	lda.w #$FFFF
 	sta.w pausepad
 	ldy.w #$FFFE
-.loop:
+.loop:								; loop: Y + 1, Y + 1, if carry set go to .2, ...
 	iny
 	iny
 	cpy.w #$000A
 	bcs .2
 	lda.w cont1team,y
 	beq .loop
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.w pausepad
-.2:
+.2:									; ora cont2team, ora cont3team, ora cont4team, ...
 	lda.w cont1team
 	ora.w cont2team
 	ora.w cont3team
@@ -38,9 +38,9 @@ StartPer:
 	ora.w cont5team
 	bne .3
 	stz.w pausepad
-.3:
+.3:									; call startpause
 	jsl.l startpause
-.4:
+.4:									; a3 = $001C, fox = $0000, foy = $0000, ...
 	ldx.w #$001C
 	stx.b a3
 	lda.w #$0000
@@ -67,11 +67,11 @@ StartPer:
 	sta.w ReplayBufferPtr
 	bra .5
 
-.t1:
+.t1:								; OptPlayMode = $0004: if pregamepause != 0 go to .5, ...
 	lda.w pregamepause
 	bne .5
 	stz.w percue
-.5:
+.5:									; textdirtylo = $FFFF, textdirtyhi = 0, vcount = 0, ...
 	lda.w #$FFFF
 	sta.w textdirtylo
 	stz.w textdirtyhi

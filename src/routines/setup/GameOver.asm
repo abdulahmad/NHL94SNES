@@ -2,7 +2,7 @@
 ;
 ; Takes nothing, never returns. Jumped to from PeriodOver after the last period. Continues at Restart or at
 ; the scouting report of the next game.
-GameOver:
+GameOver:							; called from PeriodOver
 	stz.w FrameByNumber				; clear the frame cache flag
 	jsl.l EncodePW					; save the password
 	jsl.l PlayoffScreen				; show the playoff screen

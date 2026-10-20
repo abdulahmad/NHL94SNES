@@ -1,5 +1,5 @@
 ; mesarea = the first initial, a period and the last name of roster player d0 of team a2 (no number)
-PlayerInitialName:
+PlayerInitialName:					; called from FillPenaltyPage, FillPlayerStatsPage, FillScoringPage, Ge...
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -37,13 +37,13 @@ PlayerInitialName:
 	lda.w #$002E
 	sta.b [a1]
 	inc.b a1
-.loop:
+.loop:								; loop: increment a0, if not zero go to .loop
 	lda.b [a0]
 	inc.b a0
 	and.w #$00FF
 	cmp.w #$0020
 	bne .loop
-.loop2:
+.loop2:								; loop: increment a0, [a1] = [a0], increment a1, ...
 	lda.b [a0]
 	inc.b a0
 	sta.b [a1]

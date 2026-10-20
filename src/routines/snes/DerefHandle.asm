@@ -1,5 +1,5 @@
 ; address of handle A in A, bank in X; 0 and 0 for a bad handle
-DerefHandle:
+DerefHandle:						; entry point, no direct callers found
 	cmp.w #$2000
 	bcc .bad
 	cmp.w #$2100
@@ -14,8 +14,8 @@ DerefHandle:
 	lda.l Ram7E,x
 	plx
 	bra .exit
-.bad:
+.bad:								; falls through
 	lda.w #$0000
 	tax
-.exit:
+.exit:								; return
 	rtl

@@ -1,5 +1,5 @@
 ; Other scores screen
-ShowOtherScores:
+ShowOtherScores:					; called from PauseOtherScores
 	lda.w #$001C
 	sta.l setupvis
 	lda.w #$001D
@@ -18,9 +18,9 @@ ShowOtherScores:
 	lda.w #$0000
 	cmp.l gamenum
 	bne .2
-.1:
+.1:									; increment a
 	inc a
-.2:
+.2:									; listtop = A, call GetShifter, listend = d1 + 1, ...
 	sta.w listtop
 	jsl.l GetShifter
 	lda.b d1
@@ -37,31 +37,31 @@ ShowOtherScores:
 	lda.w #$0005
 	sta.w listrows
 	jsl.l DrawOtherScoresPage
-OtherScoresLoop:
+OtherScoresLoop:					; called from OtherScoresNext, ScrollOtherScoresDown, ScrollOtherScoresUp
 	jsl.l ReadPausePad
 	lda.b d3
 	bit.w #$1000
 	beq .t2
 	jmp.w OtherScoresRtl
 
-.t2:
+.t2:								; d3 bits $1000 clear: if zero go to .t1
 	bit.w #$0800
 	beq .t1
-.1:
+.1:									; go to ScrollOtherScoresUp
 	jmp.w ScrollOtherScoresUp
 
-.t1:
+.t1:								; if not zero go to ScrollOtherScoresDown
 	bit.w #$0400
 	bne ScrollOtherScoresDown
-OtherScoresNext:
+OtherScoresNext:					; called from ScrollOtherScoresDown, ScrollOtherScoresUp
 	lda.w listtop
 	beq .3
 	dec a
 	bne .2
-.1:
+.1:									; if zero go to .3
 	cmp.l gamenum
 	beq .3
-.2:
+.2:									; printx = $0004, printy = listtop * 2 + listtop, printa = $2000, ...
 	lda.w #$0004
 	sta.w printx
 	lda.w listtop
@@ -75,7 +75,7 @@ OtherScoresNext:
 	lda.w #LineBraces
 	sta.b a1
 	jsl.l PrintToStatsPage
-.3:
+.3:									; if plus go to .4, ...
 	lda.w listtop
 	clc
 	adc.w listrows
@@ -101,7 +101,7 @@ OtherScoresNext:
 	lda.w #LineBraces+3
 	sta.b a1
 	jsl.l PrintToStatsPage
-.4:
+.4:									; call DrawOtherScoresPage, call WaitFrame, go to OtherScoresLoop
 	jsl.l DrawOtherScoresPage
 	jsl.l WaitFrame
 	jmp.w OtherScoresLoop

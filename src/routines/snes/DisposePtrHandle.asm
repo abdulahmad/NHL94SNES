@@ -13,5 +13,5 @@ DisposePtrHandle:					; free handle A unless it is a heap block
 	lda.w #$0000
 	sta.l Ram7E,x
 	sta.l Ram7E+2,x
-.exit:
+.exit:								; return
 	rtl

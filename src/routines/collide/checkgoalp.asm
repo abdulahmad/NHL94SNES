@@ -1,13 +1,13 @@
 ; Player X runs into the goal a2
-checkgoalp:
+checkgoalp:							; called from checkgoal
 	lda.w pflags,x
 	bit.w #$8000
 	bne .1
 	cpx.w #$0017
 	bcc .11
-.1:
+.1:									; return
 	rtl
-.11:
+.11:								; if a2 = $0018 go to .t1, ...
 	ldy.b a2
 	cpy.w #$0018
 	beq .t1
@@ -18,19 +18,19 @@ checkgoalp:
 	bpl .1
 	bra .8
 
-.t1:
+.t1:								; a2 = $0018: if minus go to .1
 	lda.b d3
 	clc
 	adc.w wcradiusy
 	cmp.w #$00EA
 	bmi .1
-.8:
+.8:									; if d2 bits $8000 clear go to .1x, ...
 	lda.b d2
 	bit.w #$8000
 	beq .1x
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.1x:
+.1x:								; sbc wcradiusx, if plus go to .1, ...
 	sec
 	sbc.w wcradiusx
 	cmp.w #$0040
@@ -68,7 +68,7 @@ checkgoalp:
 	clc
 	adc.b d2
 	cmp.w #$0101
-.2:
+.2:									; if carry set go to .7, ...
 	bcs .7
 	pla								; restore x
 	sta.b d2
@@ -93,11 +93,11 @@ checkgoalp:
 	cmp.w #$00FF
 	bmi .3
 	lda.w #$00FF
-.3:
+.3:									; if plus go to .4, ...
 	cmp.w #$FF01
 	bpl .4
 	lda.w #$FF01
-.4:
+.4:									; d0 = A, xba, and #$FF00, ...
 	sta.b d0
 	lda.b d1
 	xba
@@ -108,22 +108,22 @@ checkgoalp:
 	cmp.w #$00FF
 	bmi .5
 	lda.w #$00FF
-.5:
+.5:									; if plus go to .6, ...
 	cmp.w #$FF01
 	bpl .6
 	lda.w #$FF01
-.6:
+.6:									; d1 = A, call wallcoll
 	sta.b d1
 	ldx.b a3
 	jsl.l wallcoll
-.7:
+.7:									; d2 = pulled value, d3 = pulled value, return
 	pla								; restore x
 	sta.b d2
 	pla								; restore y
 	sta.b d3
 	rtl
 
-.t1x:
+.t1x:								; subroutine: if seed & $01C0 != 0 go to .1xx, ...
 	lda.b d0
 	pha
 	lda.b d1
@@ -155,14 +155,14 @@ checkgoalp:
 	bmi .10
 	cmp.w #$2001
 	bpl .10
-.1xx:
+.1xx:								; d1 = pulled value, d0 = pulled value
 	pla
 	sta.b d1
 	pla
 	sta.b d0
-.9:
+.9:									; return
 	rts
-.10:
+.10:								; if zero go to .1xxx, ...
 	pla
 	pla
 	lda.b d0
@@ -172,7 +172,7 @@ checkgoalp:
 	bit.w #$1000
 	beq .1xxx
 	ora.w #$E000
-.1xxx:
+.1xxx:								; d0 = A, ror a, adc d0, ...
 	sta.b d0
 	cmp.w #$8000
 	ror a
@@ -188,7 +188,7 @@ checkgoalp:
 	bit.w #$1000
 	beq .2x
 	ora.w #$E000
-.2x:
+.2x:								; d1 = A, ror a, adc d1, ...
 	sta.b d1
 	cmp.w #$8000
 	ror a

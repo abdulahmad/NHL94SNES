@@ -26,7 +26,7 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	bpl .1
 	inc.b d0
 	inc.b d0
-.1:
+.1:									; call getlinee, d1 = d0, d0 = r0+1,s + 1, ...
 	lda.b d0
 	pha
 	jsl.l getlinee
@@ -43,11 +43,11 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	pla
 	inc a
 	pha
-.2:
+.2:									; tmline,y = pulled value
 	pla
 	ldy.b a2
 	sta.w tmline,y
-.3:
+.3:									; a0+2 = pulled value, a0 = pulled value, d2+2 = pulled value, ...
 	pla
 	sta.b a0+2
 	pla
@@ -65,7 +65,7 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	pla
 	sta.b d0
 	rtl
-.4:
+.4:									; a1 = tmap,y: if a2 = 0 go to .t2, ...
 	ldy.b a2
 	beq .t2
 	jmp.w .6
@@ -103,7 +103,7 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	sta.b a0+2
 	lda.w #.5+28
 	sta.b a0
-.1x:
+.1x:								; d1 = tmline,y * 2, d0 = [a0],y, call getlinee, ...
 	ldy.b a1
 	lda.w tmline,y
 	asl a
@@ -120,11 +120,11 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	ldy.b a2
 	sta.w tmline,y
 	jmp.w .3
-.5:
+.5:									; dw 0,1,2,0,1,0,1, dw 2,0,1,2,0,2,0, dw 0,1,0,0,1,0,1
 	dw 0,1,2,0,1,0,1
 	dw 2,0,1,2,0,2,0
 	dw 0,1,0,0,1,0,1
-.6:
+.6:									; d1 = $0002, a0+2 = $009F, a0 = .7, ...
 	lda.w #$0002
 	sta.b d1
 	lda.w #$009F
@@ -150,7 +150,7 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	sta.b a0+2
 	lda.w #.7+12
 	sta.b a0
-.1xx:
+.1xx:								; loop: increment a0, increment a0, d0 = [a0], ...
 	lda.b [a0]
 	inc.b a0
 	inc.b a0
@@ -161,12 +161,12 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	bcs .2x
 	dec.b d1
 	bpl .1xx
-.2x:
+.2x:								; decrement a0, decrement a0, tmline,y = [a0], ...
 	dec.b a0
 	dec.b a0
 	ldy.b a2
 	lda.b [a0]
 	sta.w tmline,y
 	jmp.w .3
-.7:
+.7:									; dw 0,1,2,0,2,1,0,1,0
 	dw 0,1,2,0,2,1,0,1,0

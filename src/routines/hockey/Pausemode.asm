@@ -1,5 +1,5 @@
 ; Pause mode: save the screen, stop the sound, show the pause menu, then restore
-Pausemode:
+Pausemode:							; called from Gameloop, PlayShootout
 	phx
 	lda.w #textmap>>16
 	sta.b p0+2
@@ -32,7 +32,7 @@ Pausemode:
 	jsl.l SpriteFrameEnd
 	stz.w psfirst
 	stz.w psitem
-.loop:
+.loop:								; loop: a1 = PausemodePos, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -83,7 +83,7 @@ Pausemode:
 	sta.w sfhormode
 	bne .1
 	jsl.l ClrHor
-.1:
+.1:									; trb sflags, call printscores1, call InitSprites, ...
 	lda.w #$0001
 	trb.w sflags
 	jsl.l printscores1

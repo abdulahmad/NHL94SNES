@@ -1,6 +1,6 @@
 ; Penalty shot set up: the puck at centre ice, every player reassigned, the defending goalie to his pad, the
 ; shooter ($1E8D) gets the puck, $163A = 1, timer $1E9F = 1000, ClearPenaltyBuffer
-SetupPenaltyShot:
+SetupPenaltyShot:					; called from puckfaceoff2
 	stz.w puckx
 	stz.w pucky
 	stz.w puckz
@@ -16,7 +16,7 @@ SetupPenaltyShot:
 	ldx.w #$000C
 	lda.w #$0000
 	sta.b d4
-.1:
+.1:									; d0 = $0010, call .4, call .4, ...
 	lda.w #$0010
 	sta.b d0
 	jsl.l .4
@@ -32,22 +32,22 @@ org $9FB003
 	lda.w goaliemode1,x
 	beq .3
 	ldy.w #$0000
-.loop:
+.loop:								; loop: if padside,y negative go to .2, ...
 	lda.w padside,y
 	bmi .2
 	cmp.b d4
 	beq .t1
-.2:
+.2:									; Y + 1, Y + 1, if carry clear go to .loop, ...
 	iny
 	iny
 	cpy.w #$000A
 	bcc .loop
 	bra .3
 
-.t1:
+.t1:								; d4 = Y, call PadTakeGoalie
 	sty.b d4
 	jsl.l PadTakeGoalie
-.3:
+.3:									; tmtouch1,y = $FFFF, tmtouch2,y = $FFFF, tmtouch3,y = $FFFF, ...
 	plx
 	ldy.w BA_Team
 	lda.w #$FFFF
@@ -59,14 +59,14 @@ org $9FB003
 	adc.w #$0014
 	bmi .1x
 	sta.w CwdExciteLvl
-.1x:
+.1x:								; puckc = BA_Sktr_SCnum, if pspad negative go to .2x, ...
 	lda.w BA_Sktr_SCnum
 	sta.w puckc
 	tay
 	lda.w pspad
 	bmi .2x
 	sta.w playerpad,y
-.2x:
+.2x:								; PenShotActive = 0, increment PenShotActive, penshotlive = $0001, ...
 	stz.w PenShotActive
 	inc.w PenShotActive
 	lda.w #$0001
@@ -75,7 +75,7 @@ org $9FB003
 	sta.w pstimer
 	jsl.l ClearPenaltyBuffer
 	rtl
-.4:
+.4:									; subroutine: puckc = X, call assinsert, call assinsert, ...
 	stx.w puckc
 	jsl.l assinsert
 	jsl.l assinsert

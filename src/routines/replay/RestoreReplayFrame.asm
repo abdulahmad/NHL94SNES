@@ -1,5 +1,5 @@
 ; Put one recorded replay frame back into the objects, the puck and the screen
-RestoreReplayFrame:
+RestoreReplayFrame:					; called from ReplayMode, adda4, suba4
 	lda.b d1
 	pha
 	inc.w replaynewframe
@@ -11,7 +11,7 @@ RestoreReplayFrame:
 	lda.b #$0F
 	sta.b d1
 	ldx.w #$0000
-.loop:
+.loop:								; loop: Xpos,x = WMDATA, r3 = WMDATA, if zero go to .1, ...
 	lda.w WMDATA
 	sta.w Xpos,x
 	lda.w WMDATA
@@ -20,7 +20,7 @@ RestoreReplayFrame:
 	bit.b #$08
 	beq .1
 	ora.b #$F0
-.1:
+.1:									; Xpos+1,x = A, Ypos,x = WMDATA, if zero go to .2, ...
 	sta.w Xpos+1,x
 	lda.w WMDATA
 	sta.w Ypos,x
@@ -32,7 +32,7 @@ RestoreReplayFrame:
 	bit.b #$08
 	beq .2
 	ora.b #$F0
-.2:
+.2:									; Ypos+1,x = A, frame,x = WMDATA, r3 = WMDATA, ...
 	sta.w Ypos+1,x
 	lda.w WMDATA
 	sta.w frame,x
@@ -57,7 +57,7 @@ RestoreReplayFrame:
 	lda.b #$05
 	sta.b d1
 	ldx.w #$0000
-.loop2:
+.loop2:								; loop: rostnum,x = WMDATA, rostnum+2,x = WMDATA, position+1,x = 0, ...
 	lda.w WMDATA
 	sta.w rostnum,x
 	lda.w WMDATA
@@ -70,7 +70,7 @@ RestoreReplayFrame:
 	bne .3
 	lda.b #$FF
 	sta.w position+1,x
-.3:
+.3:									; position,x = A, position+3,x = 0, if not zero go to .4, ...
 	sta.w position,x
 	stz.w position+3,x
 	lda.b r3
@@ -83,7 +83,7 @@ RestoreReplayFrame:
 	bne .4
 	lda.b #$FF
 	sta.w position+3,x
-.4:
+.4:									; position+2,x = A, X + 1, X + 1, ...
 	sta.w position+2,x
 	inx
 	inx
@@ -97,9 +97,9 @@ RestoreReplayFrame:
 	lda.b #$FF
 	bra .5
 
-.t1:
+.t1:								; falls through
 	lda.b #$00
-.5:
+.5:									; puckz+1 = A, shadowz = WMDATA, if plus go to .t1x, ...
 	sta.w puckz+1
 	lda.w WMDATA
 	sta.w shadowz
@@ -107,9 +107,9 @@ RestoreReplayFrame:
 	lda.b #$FF
 	bra .6
 
-.t1x:
+.t1x:								; falls through
 	lda.b #$00
-.6:
+.6:									; shadowz+1 = A, recsfx = WMDATA, recsfxpitch = WMDATA, ...
 	sta.w shadowz+1
 	lda.w WMDATA
 	sta.w recsfx
@@ -169,9 +169,9 @@ RestoreReplayFrame:
 	lda.b #$FF
 	bra .7
 
-.t1xx:
+.t1xx:								; falls through
 	lda.b #$00
-.7:
+.7:									; PBnum+1 = A, if sflags bit $20 set go to .t1xxx, ...
 	sta.w PBnum+1
 	lda.w sflags
 	bit.b #$20
@@ -190,7 +190,7 @@ RestoreReplayFrame:
 	sta.w benchframe+1
 	bra .8
 
-.t1xxx:
+.t1xxx:								; sflags bit $20 set: benchframe = WMDATA, benchframe+1 = WMDATA
 	lda.w WMDATA
 	lda.w WMDATA
 	lda.w WMDATA
@@ -199,21 +199,21 @@ RestoreReplayFrame:
 	sta.w benchframe
 	lda.w WMDATA
 	sta.w benchframe+1
-.8:
+.8:									; if carry clear go to .1x, ...
 	rep #$20
 	lda.w recsfx
 	and.w #$00FF
 	cmp.w #$0080
 	bcc .1x
 	ora.w #$FF00
-.1x:
+.1x:								; recsfx = A, if carry clear go to .2x, ...
 	sta.w recsfx
 	lda.w recsfx2
 	and.w #$00FF
 	cmp.w #$0080
 	bcc .2x
 	ora.w #$FF00
-.2x:
+.2x:								; recsfx2 = A, d1 = pulled value, return
 	sta.w recsfx2
 	pla
 	sta.b d1

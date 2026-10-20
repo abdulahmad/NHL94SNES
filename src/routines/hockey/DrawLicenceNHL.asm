@@ -1,6 +1,6 @@
 ; Licence screen: the NHL shield, the NHLPA logo and "Officially licensed product of the National Hockey
 ; League" (title sprites 9, 10, 11)
-DrawLicenceNHL:
+DrawLicenceNHL:						; called from TitleScreen
 	jsl.l SpriteFrameStart
 	lda.w #$007F
 	sta.b p1+2

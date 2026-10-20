@@ -1,11 +1,11 @@
 ; Player a2 falls or stumbles from a hit
-FallDown:
+FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$000F
 	bmi .1
 	sta.w CwdExciteLvl
-.1:
+.1:									; if a2 >= $0018 go to .t1, ...
 	ldy.b a2
 	cpy.w #$0018
 	bcs .t1
@@ -40,10 +40,10 @@ FallDown:
 	sta.w nopuckb,y
 	jmp.w .21
 
-.t1:
+.t1:								; return
 	rtl
 
-.t2:
+.t2:								; if position,x = 0 go to .2, ...
 	lda.w position,x
 	beq .2
 	stz.b a0
@@ -51,14 +51,14 @@ FallDown:
 	beq .1x
 	lda.w #$0002
 	sta.b a0
-.1x:
+.1x:								; if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
 	ldy.b a0
 	lda.w tmchecks,y				; team checks
 	inc a
 	sta.w tmchecks,y				; count it
-.2:
+.2:									; nopuck,y = $0078, d0 = Xpos,x - Xpos,y, d1 = Ypos,x - Ypos,y, ...
 	ldy.b a2						; nopuck 120 for a2
 	lda.w #$0078					; puck lockout 120
 	sta.w nopuck,y
@@ -81,15 +81,15 @@ FallDown:
 	bpl .5
 	cmp.w #$FEED
 	bmi .4
-.3:
+.3:									; go to .20
 	jmp.w .20
-.4:
+.4:									; go to .17
 	jmp.w .17
-.5:
+.5:									; Ypos,y - $0112 >= 0: go to .15
 	jmp.w .15
-.6:
+.6:									; go to .27
 	jmp.w .27
-.7:
+.7:									; Xpos,y - $0068 >= 0: if Ypos,y - $00F0 >= 0 go to .6, ...
 	lda.w Ypos,y
 	cmp.w #$00F0
 	bpl .6
@@ -102,14 +102,14 @@ FallDown:
 	sta.w Xpos,y
 	lda.w #$0000
 	sta.w Xvel,y
-.8:
+.8:									; if attribute,y bit $0800 set go to .12
 	lda.w attribute,y
 	bit.w #$0800
 	bne .12
-.9:
+.9:									; go to .13
 	lda.w #SPAboardright
 	bra .13
-.10:
+.10:								; if Ypos,y - $00F0 >= 0 go to .6, ...
 	lda.w Ypos,y
 	cmp.w #$00F0
 	bpl .6
@@ -128,13 +128,13 @@ FallDown:
 	bpl .11
 	cmp.w #$FFA8
 	bpl .14
-.11:
+.11:								; if attribute,y bit $0800 set go to .9
 	lda.w attribute,y
 	bit.w #$0800
 	bne .9
-.12:
+.12:								; falls through
 	lda.w #SPAboardleft
-.13:
+.13:								; pfalock,x = A, call SetSPAUpdate, if minus go to .1xx, ...
 	ldx.b a2
 	sta.w pfalock,x
 	jsl.l SetSPAUpdate
@@ -143,13 +143,13 @@ FallDown:
 	adc.w #$000A
 	bmi .1xx
 	sta.w CwdExciteLvl
-.1xx:
+.1xx:								; benchcheer = 0, if pfteam,y = 0 go to .2x, ...
 	stz.w benchcheer
 	ldy.b a2
 	lda.w pfteam,y
 	beq .2x
 	lda.w #$0002
-.2x:
+.2x:								; adc #$0006, call StartBenchCheer, benchrounds = $0002, ...
 	clc
 	adc.w #$0006
 	jsl.l StartBenchCheer
@@ -158,9 +158,9 @@ FallDown:
 	ldx.b a3
 	ldy.b a2
 	jmp.w .24
-.14:
+.14:								; go to .26
 	jmp.w .26
-.15:
+.15:								; if Xpos,y - $0050 >= 0 go to .19, ...
 	lda.w Xpos,y
 	cmp.w #$0050
 	bpl .19
@@ -176,10 +176,10 @@ FallDown:
 	sta.w Ypos,y
 	lda.w #$0000
 	sta.w Yvel,y
-.16:
+.16:								; go to .13
 	lda.w #SPAboardfront
 	bra .13
-.17:
+.17:								; if Xpos,y - $0050 >= 0 go to .19, ...
 	lda.w Xpos,y
 	cmp.w #$0050
 	bpl .19
@@ -194,17 +194,17 @@ FallDown:
 	sta.w Ypos,y
 	lda.w #$0000
 	sta.w Yvel,y
-.18:
+.18:								; go to .13
 	lda.w #SPAboardback
 	jmp.w .13
-.19:
+.19:								; go to .27
 	jmp.w .27
-.20:
+.20:								; if pfteam,y = 0 go to .1xxx, ...
 	ldy.b a3
 	lda.w pfteam,y
 	beq .1xxx
 	lda.w #$0002
-.1xxx:
+.1xxx:								; increment a, increment a, call StartBenchCheer, ...
 	inc a
 	inc a
 	jsl.l StartBenchCheer
@@ -233,7 +233,7 @@ FallDown:
 	bcs .21
 	lda.w #SPAflip
 	sta.b d1
-.21:
+.21:								; pfalock,x = $0001, call SetSPA, if position,x != 0 go to .24, ...
 	ldx.b a2
 	lda.w #$0001					; pfalock
 	sta.w pfalock,x
@@ -244,11 +244,11 @@ FallDown:
 	cpx.w #$0018
 	bcs .24
 	bra .24
-.22:
+.22:								; go to CollisionSfx
 	jmp.w CollisionSfx
-.23:
+.23:								; go to .25
 	jmp.w .25
-.24:
+.24:								; crowdlevel = crowdlevel + $012C, crowdhold = $002D, d0 = puckc, ...
 	lda.l crowdlevel
 	clc
 	adc.w #$012C
@@ -296,7 +296,7 @@ FallDown:
 	lda.w pfteam,y
 	beq .1xxxx
 	lda.w #$0002
-.1xxxx:
+.1xxxx:								; adc #$0006, call StartBenchCheer, call SetSPAFromA, ...
 	clc
 	adc.w #$0006
 	jsl.l StartBenchCheer
@@ -305,13 +305,13 @@ FallDown:
 	jsl.l SetSPAFromA
 	ldx.b a3
 	lda.w Xvel,x
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	cmp.w #$8000
 	ror a
 	sta.w Xvel,x
 	lda.w Yvel,x
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	cmp.w #$8000
 	ror a
@@ -326,12 +326,12 @@ FallDown:
 	adc.w #$001E
 	bmi .2xx
 	sta.w CwdExciteLvl
-.2xx:
+.2xx:								; if position,x != 0 go to .t2x, ...
 	lda.w position,x
 	bne .t2x
 	jmp.w AddPenalty2
 
-.t2x:
+.t2x:								; position,x != 0: if OptPen != 0 go to .t1x, ...
 	lda.l OptPen
 	bne .t1x
 	jmp.w AddPenalty2
@@ -341,14 +341,14 @@ FallDown:
 	sta.b d0
 	jsl.l AddPenalty2
 	jmp.w Stop4Pen					; stop play
-.25:
+.25:								; if SPA,y = SPAstumble go to .1xxxxx, ...
 	ldy.b a2
 	lda.w SPA,y
 	cmp.w #SPAstumble
 	beq .1xxxxx
 	lda.w #$FFFF
 	sta.w puckc
-.1xxxxx:
+.1xxxxx:							; if pfteam,y != 0 go to .t1xx, ...
 	ldy.b a2
 	lda.w pfteam,y
 	bne .t1xx
@@ -356,7 +356,7 @@ FallDown:
 	jsl.l StreamSfx
 	rtl
 
-.t1xx:
+.t1xx:								; pfteam,y != 0: crowdlevel = crowdlevel + $0258, crowdhold = $002D, re...
 	lda.l crowdlevel
 	clc
 	adc.w #$0258
@@ -364,13 +364,13 @@ FallDown:
 	lda.w #$002D
 	sta.b crowdhold
 	rtl
-.26:
+.26:								; if minus go to .1xxxxxx, ...
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$000A
 	bmi .1xxxxxx
 	sta.w CwdExciteLvl
-.1xxxxxx:
+.1xxxxxx:							; Xpos,x = $FF7E, Xvel,x = $0000, if attribute,x bit $0800 set go to .t...
 	ldx.b a2
 	lda.w #$FF7E
 	sta.w Xpos,x
@@ -382,15 +382,15 @@ FallDown:
 	lda.w #SPAbenchcheckl
 	bra .2xxx
 
-.t1xxx:
+.t1xxx:								; attribute,x bit $0800 set: falls through
 	lda.w #SPAbenchcheckr
-.2xxx:
+.2xxx:								; pfalock,x = A, call SetSPAFromA, go to .24
 	sta.w pfalock,x
 	jsl.l SetSPAFromA
 	ldx.b a3
 	ldy.b a2
 	jmp.w .24
-.27:
+.27:								; d5 = d0, d2 = Xpos,y, d3 = Ypos,y, ...
 	lda.b d0
 	sta.b d5
 	lda.w Xpos,y
@@ -402,11 +402,11 @@ FallDown:
 	lda.b d2
 	bpl .1xxxxxxx
 	ldx.w #$FFB8
-.1xxxxxxx:
+.1xxxxxxx:							; if d3 >= 0 go to .2xxxx, ...
 	lda.b d3
 	bpl .2xxxx
 	ldy.w #$FF16
-.2xxxx:
+.2xxxx:								; d0+2 = X, d1+2 = Y, d0 = d2 - d0+2, ...
 	stx.b d0+2
 	sty.b d1+2
 	lda.b d2
@@ -426,7 +426,7 @@ FallDown:
 	ldx.b a3
 	jmp.w .20
 
-.t1xxxx:
+.t1xxxx:							; xba, call DivX8S, lsr a, ...
 	lda.b d0
 	xba
 	tax
@@ -437,13 +437,13 @@ FallDown:
 	bit.w #$2000
 	beq .1xxxxxxxx
 	ora.w #$C000
-.1xxxxxxxx:
+.1xxxxxxxx:							; d0 = A, if zero go to .2xxxxx, ...
 	sta.b d0
 	bit.w #$8000
 	beq .2xxxxx
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.2xxxxx:
+.2xxxxx:							; d2+2 = A, xba, call DivX8S, ...
 	sta.b d2+2
 	lda.b d1
 	xba
@@ -456,13 +456,13 @@ FallDown:
 	bit.w #$2000
 	beq .3x
 	ora.w #$C000
-.3x:
+.3x:								; d1 = A, if zero go to .4x, ...
 	sta.b d1
 	bit.w #$8000
 	beq .4x
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.4x:
+.4x:								; if carry set go to .30, ...
 	cmp.b d2+2
 	bcs .30
 	lda.b d0+2
@@ -485,9 +485,9 @@ FallDown:
 	sta.w Xvel,y
 	sta.w Yvel,y
 	jmp.w .11
-.28:
+.28:								; go to .20
 	jmp.w .20
-.29:
+.29:								; d0+2 >= 0: if d5 < $0005 go to .28, ...
 	lda.b d5
 	cmp.w #$0005
 	bcc .28
@@ -505,7 +505,7 @@ FallDown:
 	sta.w Xvel,y
 	sta.w Yvel,y
 	jmp.w .8
-.30:
+.30:								; if d1+2 >= 0 go to .t1xxxxx, ...
 	lda.b d1+2
 	bpl .t1xxxxx
 	lda.b d5
@@ -526,7 +526,7 @@ FallDown:
 	sta.w Yvel,y
 	jmp.w .18
 
-.t1xxxxx:
+.t1xxxxx:							; d1+2 >= 0: if carry clear go to .28, ...
 	lda.b d5
 	inc a
 	inc a

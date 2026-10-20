@@ -1,6 +1,6 @@
 ; Draw the two 6 x 6 pictures, visitors at x 1 and home at x $18: a team logo ($7E3454 / $7E3452) or, when
 ; that is negative, the matchup player picture ($7E345C / $7E345A)
-DrawMatchupPictures:
+DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, PasswordScreen, Play...
 	lda.b a2
 	pha
 	lda.l setupvis
@@ -10,7 +10,7 @@ DrawMatchupPictures:
 	bpl .1
 	lda.w #$0002
 	sta.b a2
-.1:
+.1:									; call DrawPlayerPicture, p0+2 = $007F, p0 = $7780, ...
 	lda.l matchupvis
 	ldx.w #$0001
 	ldy.w #$0001
@@ -31,7 +31,7 @@ DrawMatchupPictures:
 	jsl.l PasteMap
 	bra .2
 
-.t1:
+.t1:								; p0+2 = LogoPaletteTable+2,x, p0 = LogoPaletteTable,x, call SetColours...
 	lda.l setupvis
 	asl a
 	asl a
@@ -68,14 +68,14 @@ DrawMatchupPictures:
 	ldy.w #$0001
 	lda.w #$0000
 	jsl.l PasteMap
-.2:
+.2:									; r0 = setuphome, if plus go to .t1x, ...
 	lda.l setuphome
 	sta.b r0
 	bpl .t1x
 	lda.l setupvis
 	bpl .1x
 	stz.b a2
-.1x:
+.1x:								; call DrawPlayerPicture, p0+2 = $007F, p0 = $7780, ...
 	lda.l matchuphome
 	ldx.w #$0018
 	ldy.w #$0001
@@ -96,7 +96,7 @@ DrawMatchupPictures:
 	jsl.l PasteMap
 	bra .3
 
-.t1x:
+.t1x:								; p0+2 = LogoPaletteTable+2,x, p0 = LogoPaletteTable,x, call SetColours...
 	lda.l setuphome
 	asl a
 	asl a
@@ -133,14 +133,14 @@ DrawMatchupPictures:
 	ldy.w #$0001
 	lda.w #$0000
 	jsl.l PasteMap
-.3:
+.3:									; if playerstatson != 0 go to .5, ...
 	lda.l playerstatson
 	bne .5
 	lda.l setupvis
 	bmi .1xx
 	lda.l setuphome
 	bpl .t1xx
-.1xx:
+.1xx:								; p0+2 = $007F, p0 = homepicaddr, call WaitFrame, ...
 	lda.w #$007F
 	sta.b p0+2
 	lda.l homepicaddr
@@ -172,12 +172,12 @@ DrawMatchupPictures:
 	jsl.l DMAToVRAM
 	bra .4
 
-.t1xx:
+.t1xx:								; setuphome >= 0: call WaitFrame
 	jsl.l WaitFrame
-.4:
+.4:									; call SendTextMapRows, call SendTextMap2Rows
 	jsl.l SendTextMapRows
 	jsl.l SendTextMap2Rows
-.5:
+.5:									; a2 = pulled value, return
 	pla
 	sta.b a2
 	rtl

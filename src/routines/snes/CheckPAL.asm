@@ -1,5 +1,5 @@
 ; Set the frame time step for a 50 Hz (PAL) console
-CheckPAL:
+CheckPAL:							; called from IntroSequence, Opening, Restart
 	lda.w #$0000
 	sta.l vcountstep
 	lda.w STAT78
@@ -7,5 +7,5 @@ CheckPAL:
 	beq .rtl
 	lda.w #$3333
 	sta.l vcountstep
-.rtl:
+.rtl:								; return
 	rtl
