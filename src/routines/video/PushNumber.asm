@@ -1,12 +1,12 @@
 ; a1 = d0 as a decimal string, no leading zeros.
-PushNumber:
+PushNumber:							; called from AttribWeight, PrintTeamStatRows, TickerTeam, printscores1
 	phx
 	lda.w #$0000
 	sta.b a1+2
 	lda.w #mesareaEnd
 	sta.b a1
 	lda.b d0
-.0:
+.0:									; loop: r2 = A, r1 = $000A, call Div16x8U, ...
 	sta.b r2
 	lda.w #$000A
 	sta.b r1
