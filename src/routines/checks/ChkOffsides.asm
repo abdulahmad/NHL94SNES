@@ -1,6 +1,6 @@
 ; Clear each team's offsides flag once it is back onside; when the puck crosses a blue line into the zone with
 ; an attacker past it, flag that team offsides
-ChkOffsides:
+ChkOffsides:						; check both teams for offsides; called from pucknorm, no inputs
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
@@ -15,7 +15,7 @@ ChkOffsides:
 	bpl .t2
 	jmp.w ChkOffsides_other
 
-.t2:
+.t2:								; puck not past the blue line y: flag only if it was past last frame
 	lda.b d0
 	sec
 	sbc.w pucky
@@ -26,19 +26,19 @@ ChkOffsides:
 	bpl ChkOffsides_rtl
 	bra ChkOffsides_blue
 
-.t1:
+.t1:								; puck past the line: flag only if it was not past it last frame
 	lda.b d0
 	sec
 	sbc.w OldYpos+puckobj
 	bmi ChkOffsides_rtl
-ChkOffsides_blue:
+ChkOffsides_blue:					; puck crossed the line: StartBreakaway, go on if gmoffs is set
 	jsl.l StartBreakaway
 	lda.w gmode
 	bit.w #gmoffs
 	bne .t2
 	jmp.w ChkOffsides_rtl
 
-.t2:
+.t2:								; offsides on: line = $5E (the blue line plus $0A)
 	lda.w #$005E
 	sta.b d0
 	lda.w gmode
@@ -60,16 +60,16 @@ ChkOffsides_blue:
 	beq ChkOffsides_team
 	bra ChkOffsides_rtl
 
-.t1:
+.t1:								; puck holder on the second team (index $0C+): go on if a2 != 0
 	lda.b a2
 	beq ChkOffsides_rtl
-ChkOffsides_team:
+ChkOffsides_team:					; check the six skaters of team a2 against the line d0
 	lda.w #$0005
 	sta.b d2
 	ldy.b a2
 	lda.w tmsort,y
 	sta.b a0
-ChkOffsides_loop:
+ChkOffsides_loop:					; skater a0: skip empty spots, flag if his Ypos is past the line
 	ldy.b a0
 	lda.w position,y
 	bmi ChkOffsides_next
@@ -81,15 +81,15 @@ ChkOffsides_loop:
 	lda.w tmflags,y
 	ora.w #tmfoside
 	sta.w tmflags,y
-ChkOffsides_rtl:
+ChkOffsides_rtl:					; return
 	rtl
-ChkOffsides_next:
+ChkOffsides_next:					; next skater (a0 += 2) until the six are done
 	inc.b a0
 	inc.b a0
 	dec.b d2
 	bpl ChkOffsides_loop
 	rtl
-ChkOffsides_other:
+ChkOffsides_other:					; puck in the negative half: same test with the line negated
 	lda.w #$0000
 	sec
 	sbc.b d0
@@ -104,7 +104,7 @@ ChkOffsides_other:
 	bpl ChkOffsides_rtl
 	bra .3
 
-.t1:
+.t1:								; puck past the line: flag only if it was not past it last frame
 	lda.b d0
 	sec
 	sbc.w OldYpos+puckobj
@@ -116,7 +116,7 @@ ChkOffsides_other:
 	bne .t1x
 	jmp.w ChkOffsides_rtl
 
-.t1x:
+.t1x:								; offsides on: line = line - $0A
 	lda.b d0
 	sec
 	sbc.w #$000A
@@ -140,7 +140,7 @@ ChkOffsides_other:
 	beq .4
 	bra ChkOffsides_rtl
 
-.t2:
+.t2:								; puck holder on the second team (index $0C+): go on if a2 != 0
 	lda.b a2
 	beq ChkOffsides_rtl
 .4:
@@ -163,7 +163,7 @@ ChkOffsides_other:
 	sta.w tmflags,y
 	rtl
 
-.t1xx:
+.t1xx:								; next skater (a0 += 2) until the six are done
 	inc.b a0
 	inc.b a0
 	dec.b d2

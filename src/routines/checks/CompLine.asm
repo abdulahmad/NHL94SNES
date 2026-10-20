@@ -1,5 +1,5 @@
 ; The computer team picks a line by the man advantage, the score and the line energies
-CompLine:
+CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -70,7 +70,7 @@ CompLine:
 	beq .t2
 	jmp.w .6
 
-.t2:
+.t2:								; a2 = 0: with OptLine 2 and c1playernum >= 0, use .6 below
 	lda.l OptLine
 	cmp.w #$0002
 	bne .t1
@@ -78,7 +78,7 @@ CompLine:
 	bmi .t1
 	jmp.w .6
 
-.t1:
+.t1:								; same men on ice: choose from the line table by period and score
 	lda.w #$0002
 	sta.b d1
 	lda.w #$009F

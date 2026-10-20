@@ -1,5 +1,5 @@
 ; Assignment: the player nearest the puck who does not have it
-assnearest:
+assnearest:							; X = player; asstab entry
 	lda.w pflags,x
 	bit.w #pfna
 	beq .1
@@ -21,13 +21,13 @@ assnearest:
 	bpl .t1
 	jmp.w assinsert
 
-.t1:
+.t1:								; pad-controlled player (playerpad >= 0): return
 	rtl
 
-.t2:
+.t2:								; position 0 (goalie): jump to assgoalie
 	jml.l assgoalie
 
-.t3:
+.t3:								; X is not the puck carrier: run the temp1 timer
 	lda.w temp1,x
 	sec
 	sbc.b d7
@@ -35,7 +35,7 @@ assnearest:
 	bmi .t2x
 	jmp.w .9
 
-.t2x:
+.t2x:								; temp1 ran out: add aioff,x to it and reload
 	adc.w aioff,x
 	bpl .1x
 	lda.w #$0000
@@ -51,7 +51,7 @@ assnearest:
 	bne .t1x
 	jmp.w .2
 
-.t1x:
+.t1x:								; puck not held by a teammate: use the team's nearest player
 	ldy.b a2
 	lda.w tmnear,y
 	sta.b d2
@@ -110,7 +110,7 @@ assnearest:
 	sta.b d0
 	lda.b d1
 	sta.b tmp0
-.loop:
+.loop:								; shift d0 left once per count in tmp0 (from d1)
 	dec.b tmp0
 	bmi .8
 	asl.b d0
@@ -224,7 +224,7 @@ assnearest:
 	sta.b d1
 	bra .4x
 
-.t1xx:
+.t1xx:								; pfgoal clear: if d1 < $FFAD then d1 = $FFBC
 	lda.b d1
 	sec
 	sbc.w #$FFAD

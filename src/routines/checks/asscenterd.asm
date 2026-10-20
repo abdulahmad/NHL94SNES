@@ -1,5 +1,5 @@
 ; Assignment: the center on defense, halfway between the puck and his goal
-asscenterd:
+asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	ldy.w puckc
 	bmi .4
 	lda.w pfteam,x
@@ -62,10 +62,10 @@ asscenterd:
 	sta.b d1
 	bra .3
 
-.t1:
+.t1:								; bare return, not branched to in this file
 	rtl
 
-.t2:
+.t2:								; pfgoal clear: target y from $0058 - pucky, halved
 	lda.w #$0058
 	sec
 	sbc.w pucky

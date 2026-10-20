@@ -1,5 +1,5 @@
 ; Assignment: the puck carrier on a breakaway (asstab $10): skate in on the goal and shoot; anyone else exits
-assbreakaway:
+assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $10)
 	cpx.w puckc
 	bne .1
 	lda.w playerpad,x
@@ -7,7 +7,7 @@ assbreakaway:
 .1:
 	jmp.w assexit
 
-.t1:
+.t1:								; bare return, not branched to in this file
 	rtl
 .2:
 	jsl.l GlideBack
@@ -84,7 +84,7 @@ assbreakaway:
 	bne .3
 	bra .5
 
-.t1x:
+.t1x:								; facing 2+ steps off sopathface: random test with $0600
 	jsl.l RandomWord
 	and.w #$0600
 	bne .3
@@ -117,7 +117,7 @@ assbreakaway:
 	sta.b d1
 	bra .6
 
-.t1xx:
+.t1xx:								; pfgoal set: shoot at y = $0108 - Ypos instead of $FEF8 - Ypos
 	lda.w #$0108
 	sec
 	sbc.w Ypos,x
@@ -129,7 +129,7 @@ assbreakaway:
 	lda.w #SPAonetimerb
 	bra .7
 
-.t1xxx:
+.t1xxx:								; Findhittype gave 0: use SPAonetimerf instead of SPAonetimerb
 	lda.w #SPAonetimerf
 .7:
 	jsl.l SetSPAFromA
@@ -185,7 +185,7 @@ assbreakaway:
 	bne .1xxxxx
 	bra .2xx
 
-.t1xxxx:
+.t1xxxx:							; random bits $00C0 are 0: roll another value, else decide by attribute
 	jsl.l RandomWord
 	and.w #$00F0
 	sta.b d0
@@ -226,7 +226,7 @@ assbreakaway:
 	bne .1xxxxxxx
 	bra .5x
 
-.t1xxxxx:
+.t1xxxxx:							; random bits $00C0 are 0: roll another value, else decide by attribute
 	jsl.l RandomWord
 	and.w #$00F0
 	sta.b d0
