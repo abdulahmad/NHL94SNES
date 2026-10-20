@@ -1,5 +1,5 @@
 ; Title: draw sprite A of the title set at $7F5000 at its position from the .1 / .2 tables
-DrawTitleSprite:
+DrawTitleSprite:					; called from DrawLicenceNHL, DrawLicenceNHLPA, RollCredits, TitleScreen
 	sta.b r0
 	asl a
 	tax
@@ -14,7 +14,7 @@ DrawTitleSprite:
 	lda.w #$3000
 	jsl.l DrawSprite
 	rts
-.1:
+.1:									; dw $0058,$0040,$0028,$0070,$0060,$0050,$0080,$0080,$0080,$0007,$00D0
 	dw $0058,$0040,$0028,$0070,$0060,$0050,$0080,$0080,$0080,$0007,$00D0
-.2:
+.2:									; dw $0058,$0040,$0028,$0060,$0048,$0028,$0060,$0048,$0028,$00B0,$00B0
 	dw $0058,$0040,$0028,$0060,$0048,$0028,$0060,$0048,$0028,$00B0,$00B0

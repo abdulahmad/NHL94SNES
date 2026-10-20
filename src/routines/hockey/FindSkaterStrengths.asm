@@ -3,7 +3,7 @@
 ;
 ; Called from DrawPlayerCard with the skater selected for the card. Each AddStrength call (d1 = rating
 ; column) keeps the best three (column, rating) pairs.
-FindSkaterStrengths:
+FindSkaterStrengths:				; called from DrawPlayerCard
 	lda.w #$FFFF					; clear the three (column, rating) pairs to $FFFF
 	sta.w strengths
 	sta.w strengths+2

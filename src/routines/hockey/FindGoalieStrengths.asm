@@ -1,6 +1,6 @@
 ; The player card strengths of goalie $1D9B: the best three goalie rating columns into $1E79-$1E83
 ; (AddStrength)
-FindGoalieStrengths:
+FindGoalieStrengths:				; called from DrawPlayerCard
 	lda.w #$FFFF
 	sta.w strengths
 	sta.w strengths+2
@@ -31,12 +31,12 @@ FindGoalieStrengths:
 	jsl.l AddStrength
 	bra .1
 
-.t1:
+.t1:								; d0 < $0032: d1 = $0007, call AddStrength, d1 = $000A, ...
 	lda.w #$0007
 	sta.b d1
 	jsl.l AddStrength
 	lda.w #$000A
 	sta.b d1
 	jsl.l AddStrength
-.1:
+.1:									; return
 	rtl

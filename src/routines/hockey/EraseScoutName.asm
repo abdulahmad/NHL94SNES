@@ -1,5 +1,5 @@
 ; Erase the scouting report name line
-EraseScoutName:
+EraseScoutName:						; entry point, no direct callers found
 	jsl.l ScoutNamePos
 	lda.w #$000B
 	sta.b d0

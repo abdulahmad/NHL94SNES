@@ -1,5 +1,5 @@
 ; Build the penalty summary page in the stats page buffer
-FillPenaltyPage:
+FillPenaltyPage:					; called from ShowPenaltySummary
 	lda.w #$007F
 	sta.b p1+2
 	lda.w #$2780
@@ -16,10 +16,10 @@ FillPenaltyPage:
 	lda.w #$0000
 	sta.w printy
 	pha
-.loop:
+.loop:								; loop: if zero go to .t1
 	cmp.w listend
 	beq .t1
-.1:
+.1:									; call .t2, a3 = a3 + $0004, increment printy, ...
 	jsr.w .t2
 	lda.b a3
 	clc
@@ -32,11 +32,11 @@ FillPenaltyPage:
 	pha
 	bra .loop
 
-.t1:
+.t1:								; return
 	pla
 	rts
 
-.t2:
+.t2:								; subroutine: printx = $0001, printa = $2000, xba, ...
 	lda.w #$0001
 	sta.w printx
 	lda.w #$2000
@@ -70,7 +70,7 @@ FillPenaltyPage:
 	cmp.w #$0006
 	bne .1x
 	inc.w printx
-.1x:
+.1x:								; call PrintToStatsPage, printx = $000A, Y + 1, ...
 	jsl.l PrintToStatsPage
 	lda.w #$000A
 	sta.w printx
@@ -90,7 +90,7 @@ FillPenaltyPage:
 	beq .2
 	lda.w #$0002
 	sta.b a2
-.2:
+.2:									; call PrintTeamAbbrev, decrement printy, decrement printy, ...
 	jsl.l PrintTeamAbbrev
 	dec.w printy
 	dec.w printy
@@ -149,6 +149,6 @@ FillPenaltyPage:
 	and.w #$00FF
 	bne .3
 	dec.b d0
-.3:
+.3:									; call PrintToStatsPage, return
 	jsl.l PrintToStatsPage
 	rts

@@ -1,9 +1,9 @@
 ; Draw the visible scoring rows, or No Scoring when the list is empty.
-DrawScoringPage:
+DrawScoringPage:					; called from ScrollScoringDown, ScrollScoringUp, ShowScoringSummary
 	lda.w listend
 	cmp.w #$0000
 	beq .t1
-.1:
+.1:									; xba, lsr a, lsr a, ...
 	lda.w listtop
 	asl a
 	adc.w listtop
@@ -25,7 +25,7 @@ DrawScoringPage:
 	jsl.l DMAToVRAM
 	rts
 
-.t1:
+.t1:								; listend = $0000: a1 = NoScoring, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1

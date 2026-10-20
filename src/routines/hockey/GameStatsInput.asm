@@ -1,6 +1,6 @@
 ; Game stats input. Start leaves, up and down scroll the rows.
 ; Input loop of the game stats screen. Called from MarkGameStatRows (jump).
-GameStatsInput:
+GameStatsInput:						; called from MarkGameStatRows
 	jsl.l WaitFrame					; wait a frame and read the pad
 	jsl.l ReadPausePad
 	lda.b d3
