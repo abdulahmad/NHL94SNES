@@ -1,5 +1,5 @@
 ; Should the computer call a line change? Then shoot the puck in
-chk4lc:
+chk4lc:								; called from asspuckc
 	lda.l OptLine
 	cmp.w #$0002
 	beq .t1
@@ -11,7 +11,7 @@ chk4lc:
 	sec
 	sbc.b d0
 	sta.b d0
-.1:
+.1:									; if d0 negative go to .t1, ...
 	lda.b d0
 	bmi .t1
 	sec
@@ -25,7 +25,7 @@ chk4lc:
 	lda.w pfteam,x
 	beq .2
 	ldy.w #$0002
-.2:
+.2:									; if not zero go to .t1, ...
 	lda.w tmflags,y
 	ply
 	bit.w #$0008
@@ -38,7 +38,7 @@ chk4lc:
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
-.3:
+.3:									; call AvgCline, if d0 >= $0C01 go to .t1, ...
 	jsl.l AvgCline
 	lda.b d0
 	cmp.w #$0C01
@@ -52,5 +52,5 @@ chk4lc:
 	jsl.l printscores1
 	jml.l CompShoot
 
-.t1:
+.t1:								; return
 	rtl

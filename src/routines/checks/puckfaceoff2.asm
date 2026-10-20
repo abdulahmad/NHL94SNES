@@ -1,11 +1,11 @@
 ; Assignment: the face off and the setup for play
-puckfaceoff2:
+puckfaceoff2:						; called from asstab
 	lda.w pflags,x					; new assignment?
 	bit.w #pfna
 	bne .t2
 	jmp.w .18
 
-.t2:
+.t2:								; pflags,x bit pfna set: and #$FFFD, pflags,x = A, xsave = X, ...
 	and.w #$FFFD
 	sta.w pflags,x
 	stx.b xsave						; keep X
@@ -44,13 +44,13 @@ puckfaceoff2:
 	bcc .1
 	lda.w #$0258
 	sta.l crowdlevel
-.1:
+.1:									; if brightness = 0 go to .2, ...
 	lda.w brightness
 	beq .2
 	jsl.l FadeOut
 	jsl.l WaitFadeOut
 	stz.w brightness
-.2:
+.2:									; call FadeIn, fadestep = $000A, if MusicOn != 0 go to .4, ...
 	jsl.l FadeIn
 	lda.w #$000A
 	sta.w fadestep
@@ -68,17 +68,17 @@ puckfaceoff2:
 	cmp.b r3
 	beq .t3
 	bcs .t1
-.3:
+.3:									; call PlayTeamSong, go to .4
 	lda.w #$0004
 	jsl.l PlayTeamSong
 	bra .4
 
-.t1:
+.t1:								; call PlayTeamSong, go to .4
 	lda.w #$0001
 	jsl.l PlayTeamSong
 	bra .4
 
-.t3:
+.t3:								; if percue != 0 go to .1x, ...
 	ldy.w percue
 	bne .1x
 	lda.l OptPlayMode
@@ -87,16 +87,16 @@ puckfaceoff2:
 	jsl.l RandomWord
 	and.w #$0003
 	bne .4
-.1x:
+.1x:								; if percue != 0 go to .3x
 	lda.w #$0000
 	ldy.w percue
 	bne .3x
-.2x:
+.2x:								; falls through
 	lda.w #$0002
-.3x:
+.3x:								; call PlayTeamSong, percue = 0
 	jsl.l PlayTeamSong
 	stz.w percue
-.4:
+.4:									; trb sflags, trb sflags3, iflags = 0, ...
 	lda.w #$000D
 	trb.w sflags
 	lda.w #$0001
@@ -176,7 +176,7 @@ puckfaceoff2:
 	sta.b d2
 	lda.b d2
 	pha
-.14:
+.14:								; if a3 >= $0018 go to .1xx, ...
 	ldx.b a3
 	cpx.w #$0018
 	bcs .1xx
@@ -187,14 +187,14 @@ puckfaceoff2:
 	lsr a
 	eor.w #$0001
 	sta.w pfgoal,x
-.1xx:
+.1xx:								; if carry clear go to .2xx, ...
 	lda.w pnum,x
 	asl a
 	cpx.w #$000C
 	bcc .2xx
 	clc
 	adc.w #$0034
-.2xx:
+.2xx:								; if tmpdst,x negative go to .t2x, ...
 	tax
 	lda.w tmpdst,x
 	bmi .t2x
@@ -214,7 +214,7 @@ puckfaceoff2:
 	bpl .t1x
 	jmp.w .16
 
-.t1x:
+.t1x:								; if zero go to .5, ...
 	beq .5
 	lda.w penshot
 	beq .2xxx
@@ -223,12 +223,12 @@ puckfaceoff2:
 	lda.w BA_Team
 	beq .1xxx
 	ldx.w #$0014
-.1xxx:
+.1xxx:								; pnum,x = BA_Skater_Offset, d3 = BA_Skater_Offset
 	lda.w BA_Skater_Offset
 	sta.w pnum,x
 	sta.b d3
 	plx
-.2xxx:
+.2xxx:								; d0 = $0016, if d1 != $0004 go to .4x, ...
 	lda.w #$0016
 	sta.b d0
 	lda.b d1						; centers take the faceoff
@@ -239,7 +239,7 @@ puckfaceoff2:
 	beq .3xx
 	inc.b a2
 	inc.b a2
-.3xx:
+.3xx:								; tmtouch1,y = pnum,x & $00FF, tmflags,y = $0004, d0 = $0017
 	ldy.b a2
 	lda.w pnum,x
 	and.w #$00FF
@@ -248,9 +248,9 @@ puckfaceoff2:
 	sta.w tmflags,y
 	lda.w #$0017
 	sta.b d0
-.4x:
+.4x:								; call assinsert
 	jsl.l assinsert
-.5:
+.5:									; d4 = tmap, if pfteam,x = 0 go to .6, ...
 	lda.w tmap						; d4 = (6-tmap)*8: .apl row
 	sta.b d4
 	ldx.b a3
@@ -258,7 +258,7 @@ puckfaceoff2:
 	beq .6
 	lda.w tmap+2
 	sta.b d4
-.6:
+.6:									; d4 = -(d4) + $0006 * 2 * 2 * 2, a1+2 = $009F, a1 = .19 + d4, ...
 	lda.b d4
 	eor.w #$FFFF					; negate
 	inc a
@@ -280,7 +280,7 @@ puckfaceoff2:
 	sta.b a1+2
 	lda.w #.20
 	sta.b a1
-.7:
+.7:									; d4 = [a1],y & $00FF * 2 * 2, a1+2 = $009F, a1 = .21, ...
 	ldy.b d1
 	lda.b [a1],y					; table entry for the position
 	and.w #$00FF
@@ -308,7 +308,7 @@ puckfaceoff2:
 	sec
 	sbc.b d1
 	sta.b d1
-.8:
+.8:									; if position,x = 0 go to .13, ...
 	lda.w position,x
 	beq .13
 	lda.b d4
@@ -324,26 +324,26 @@ puckfaceoff2:
 	bit.w #$1000
 	beq .9
 	ora.w #$E000
-.9:
+.9:									; eor #$FFFF, increment a, adc d1, ...
 	eor.w #$FFFF					; negate
 	inc a
 	clc
 	adc.b d1
 	sta.b d1
-.10:
+.10:								; if zero go to .11, ...
 	lda.l fox
 	lsr a
 	lsr a
 	bit.w #$2000
 	beq .11
 	ora.w #$C000
-.11:
+.11:								; d3 = A, d0 = d0 - d3
 	sta.b d3
 	lda.b d0
 	sec
 	sbc.b d3
 	sta.b d0
-.12:
+.12:								; d0 = d0 + fox, d1 = d1 + foy
 	lda.b d0
 	clc
 	adc.l fox
@@ -352,7 +352,7 @@ puckfaceoff2:
 	clc
 	adc.l foy
 	sta.b d1
-.13:
+.13:								; Xpos,x = d0, d0 = -(d0 - puckx), Ypos,x = d1, ...
 	lda.b d0						; store X
 	sta.w Xpos,x
 	sec
@@ -382,12 +382,12 @@ puckfaceoff2:
 	lda.w #SPAgready
 	bra .15
 
-.t3x:
+.t3x:								; position,x != 0: falls through
 	lda.w #SPAglide
-.15:
+.15:								; call SetSPAFromA, call updateanim
 	jsl.l SetSPAFromA
 	jsl.l updateanim
-.16:
+.16:								; increment a3, increment a3, d2 = pulled value, ...
 	inc.b a3
 	inc.b a3
 	pla
@@ -398,7 +398,7 @@ puckfaceoff2:
 	bmi .t1xx
 	jmp.w .14
 
-.t1xx:
+.t1xx:								; d2 = pulled value, call SprSort, a3 = pulled value, ...
 	pla
 	sta.b d2
 	jsl.l SprSort					; SprSort
@@ -409,17 +409,17 @@ puckfaceoff2:
 	lda.w penshot
 	beq .6x
 	ldx.w #$0008
-.loopxx:
+.loopxx:							; loop: if padside,x != BA_Team go to .2xxxx, ...
 	lda.w padside,x
 	cmp.w BA_Team
 	bne .2xxxx
 	cpx.w pspad
 	beq .2xxxx
-.1xxxx:
+.1xxxx:								; ora #$8000, padside,x = A, cont1team,x = 0
 	ora.w #$8000
 	sta.w padside,x
 	stz.w cont1team,x
-.2xxxx:
+.2xxxx:								; X - 1, X - 1, if X still >= 0 go to .loopxx, ...
 	dex
 	dex
 	bpl .loopxx
@@ -430,13 +430,13 @@ puckfaceoff2:
 	lda.w teampads,x
 	beq .6x
 	ldy.w puckpadnext,x
-.loop2x:
+.loop2x:							; loop: Y + 1, Y + 1, if not zero go to .3xxx, ...
 	iny
 	iny
 	cpy.w #$000A
 	bne .3xxx
 	ldy.w #$0000
-.3xxx:
+.3xxx:								; if padside,y != d0 go to .loop2x, ...
 	lda.w padside,y
 	cmp.b d0
 	bne .loop2x
@@ -444,21 +444,21 @@ puckfaceoff2:
 	tya
 	sta.w puckpadnext,x
 	ldx.w #$0008
-.loop3:
+.loop3:								; loop: if padside,x != d0 go to .5x, ...
 	lda.w padside,x
 	cmp.b d0
 	bne .5x
 	cpx.b d1
 	beq .5x
-.4xx:
+.4xx:								; ora #$8000, padside,x = A, cont1team,x = 0
 	ora.w #$8000
 	sta.w padside,x
 	stz.w cont1team,x
-.5x:
+.5x:								; X - 1, X - 1, if X still >= 0 go to .loop3
 	dex
 	dex
 	bpl .loop3
-.6x:
+.6x:								; call FaceoffPads, a1 = puckfaceoff2Pos, call print, ...
 	ldx.b a3
 	jsl.l FaceoffPads
 	lda.b a1+2
@@ -480,7 +480,7 @@ puckfaceoff2:
 	bpl .7x
 	lda.w #$00BE
 	sta.b d0
-.7x:
+.7x:								; fodropx = d0, printx = d0 - $002E / 2 / 2 / 2, fodropy = $005C, ...
 	lda.b d0
 	sta.l fodropx
 	sec
@@ -535,7 +535,7 @@ puckfaceoff2:
 	clc
 	lda.w penshot
 	bne .t2xx
-.loop4:
+.loop4:								; loop: tmp2+1 = FaceOffMap
 	lda.l FaceOffMap
 	sta.b tmp2+1
 .loop5:								; copy the faceoff map columns with the tile set added
@@ -561,7 +561,7 @@ puckfaceoff2:
 	bne .loop4
 	jmp.w .17
 
-.t2xx:
+.t2xx:								; penshot != 0: printy = $0001, printx = $0006, d0 = $0014, ...
 	lda.w #$0001
 	sta.w printy
 	lda.w #$0006
@@ -631,17 +631,17 @@ puckfaceoff2:
 	jsl.l printbig
 	bra .17
 
-.t1xxx:
+.t1xxx:								; shootoutmode = 0: a1 = ShootoutPenShot+10, call printbig
 	lda.w #ShootoutPenShot>>16
 	sta.b a1+2
 	lda.w #ShootoutPenShot+10
 	sta.b a1
 	jsl.l printbig
-.17:
+.17:								; if OptLine = 0 go to .3xxxx
 	ldx.b a3
 	lda.l OptLine
 	beq .3xxxx
-.1xxxxx:
+.1xxxxx:							; ora penshotlive, if not zero go to .3xxxx, ...
 	lda.w penshot
 	ora.w penshotlive
 	bne .3xxxx
@@ -665,7 +665,7 @@ puckfaceoff2:
 	sta.b d1
 	lda.w tmline+2
 	sta.b d0
-.2xxxxx:
+.2xxxxx:							; increment printx, decrement printy, decrement printy, ...
 	inc.w printx
 	dec.w printy
 	dec.w printy
@@ -685,7 +685,7 @@ puckfaceoff2:
 	lda.w #linelist
 	sta.b a1
 	jsl.l PrintStringFromList
-.3xxxx:
+.3xxxx:								; call RandomWord, and #$007F, adc #$00B4, ...
 	jsl.l RandomWord
 	and.w #$007F
 	adc.w #$00B4
@@ -696,7 +696,7 @@ puckfaceoff2:
 	beq .4xxx
 	lda.w #$00B4
 	sta.w temp1,x
-.4xxx:
+.4xxx:								; fofdata2 = $0001, fofdata2+2 = $8000, fofdata+2 = $8000, ...
 	lda.w #$0001
 	sta.l fofdata2
 	lda.w #$8000
@@ -715,7 +715,7 @@ puckfaceoff2:
 	sta.l fofdata2+2
 	lda.w #$A000
 	sta.l fofdata2+6
-.5xx:
+.5xx:								; fodir1 = $FFFF, fodir2 = $FFFF, xsave = X, ...
 	lda.w #$FFFF
 	sta.l fodir1
 	sta.l fodir2
@@ -739,14 +739,14 @@ puckfaceoff2:
 	ldx.b xsave						; restore X
 	ldx.b a3
 	rtl
-.18:
+.18:								; tmp0 = d7, if minus go to .1xxxxxx, ...
 	lda.b d7
 	sta.b tmp0
 	cmp.w temp1,x
 	bmi .1xxxxxx
 	lda.w #$0001
 	sta.b tmp0
-.1xxxxxx:
+.1xxxxxx:							; temp1,x = temp1,x - tmp0, if plus go to updatefaceoff, ...
 	lda.w temp1,x
 	sec
 	sbc.b tmp0
@@ -757,17 +757,17 @@ puckfaceoff2:
 	jsl.l Endfaceoff
 	jmp.w SetupPenaltyShot
 
-.t1xxxx:
+.t1xxxx:							; penshot = 0: PenShotActive = 0, BA_Sktr_SCnum = $FFFF, go to Endfaceoff
 	stz.w PenShotActive
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
 	jmp.w Endfaceoff
-.19:
+.19:								; db $00,$01,$02,$03,$04,$05,$06,$00, db $00,$01,$05,$03,$04,$02,$00,$0...
 	db $00,$01,$02,$03,$04,$05,$06,$00
 	db $00,$01,$05,$03,$04,$02,$00,$00
 	db $00,$03,$05,$01,$04,$00,$00,$00
-.20:
+.20:								; db $00,$04,$04,$04,$04,$04,$04,$00
 	db $00,$04,$04,$04,$04,$04,$04,$00
-.21:
+.21:								; db $00,$00,$06,$FF,$DD,$FF,$CE,$FF,$23,$00,$CE,$FF,$CE,$FF,$F6,$FF, ...
 	db $00,$00,$06,$FF,$DD,$FF,$CE,$FF,$23,$00,$CE,$FF,$CE,$FF,$F6,$FF
 	db $00,$00,$F1,$FF,$32,$00,$F6,$FF,$00,$00,$C4,$FF

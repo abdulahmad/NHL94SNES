@@ -1,5 +1,5 @@
 ; Player a2 body checks a3: a3 falls if he is in front, and a charging penalty may be called
-Bcheck:
+Bcheck:								; called from checkcheck
 	ldy.b a2						; y = the checker
 	lda.w pfalock,x					; animation locked?
 	bne .t1
@@ -17,7 +17,7 @@ Bcheck:
 	jsl.l randoma8
 	cmp.w #$000C
 	bcc .t1
-.1:
+.1:									; d0 = Xpos,x - Xpos,y, d1 = Ypos,x - Ypos,y, call vtoa, ...
 	lda.w Xpos,x					; x of X
 	sec
 	sbc.w Xpos,y					; minus the checker's x
@@ -53,10 +53,10 @@ Bcheck:
 	jsl.l AddPenalty
 	bra .2
 
-.t1:
+.t1:								; return
 	rtl
 
-.t2:
+.t2:								; call checkagr, if d0 >= $0005 go to .2, ...
 	jsl.l checkagr					; aggression check
 	lda.b d0
 	cmp.w #$0005					; aggression under 5?
@@ -64,7 +64,7 @@ Bcheck:
 	lda.w #PenTripping				; penalty $20
 	sta.b d0
 	jsl.l AddPenalty				; call it
-.2:
+.2:									; a2 = a3, a3 = a2, collflag = $FFFF, ...
 	ldx.b a2
 	ldy.b a3
 	sty.b a2

@@ -10,15 +10,15 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	lda.w #$0003
 	sta.b d0
 	jmp.w assreplace
-.1:
+.1:									; playerpad,x >= 0: return
 	rtl
-.2:
+.2:									; gmclock != 0: go to assnothing
 	jmp.w assnothing
-.3:
+.3:									; d0 = $0011, go to assinsert
 	lda.w #$0011
 	sta.b d0
 	jmp.w assinsert
-.8:
+.8:									; if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
 	jsl.l check4bench
@@ -35,7 +35,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x
-.1x:
+.1x:								; temp1,x = temp1,x - d7, if minus go to .t1, ...
 	lda.w temp1,x
 	sec
 	sbc.b d7
@@ -47,9 +47,9 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	clc
 	adc.w aidef,x
 	bpl .2x
-.1xx:
+.1xx:								; falls through
 	lda.w #$0000
-.2x:
+.2x:								; temp1,x = A, d0 = pucky, if zero go to .3x, ...
 	sta.w temp1,x
 	lda.w pucky
 	sta.b d0
@@ -63,7 +63,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	bit.w #$0200
 	beq .3x
 	ora.w #$FC00
-.3x:
+.3x:								; adc d0, d3 = A, if pfgoal,x != 0 go to .4, ...
 	clc
 	adc.b d0
 	sta.b d3
@@ -77,7 +77,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	sec
 	sbc.b d3
 	sta.b d3
-.4:
+.4:									; d2 = 0, if minus go to .5, ...
 	stz.b d2
 	lda.b d3
 	sec
@@ -100,14 +100,14 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	bmi .5
 	lda.w #$0018
 	sta.b d2
-.5:
+.5:									; if d2 != temp5,x go to .6, ...
 	lda.b d2
 	cmp.w temp5,x
 	bne .6
 	lda.w seed
 	cmp.w #$0200
 	bcs .7
-.6:
+.6:									; temp5,x = d2, a0+2 = $009E, a0 = .9, ...
 	lda.b d2
 	sta.w temp5,x
 	tay
@@ -133,7 +133,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	jsl.l randomd0s
 	adc.b [a0],y
 	sta.w temp4,x
-.7:
+.7:									; d0 = temp3,x, if position,x = $0005 go to .1xxx, ...
 	lda.w temp3,x
 	sta.b d0
 	lda.w position,x
@@ -143,7 +143,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	sec
 	sbc.b d0
 	sta.b d0
-.1xxx:
+.1xxx:								; d1 = temp4,x, if pfgoal,x != 0 go to .2xx, ...
 	lda.w temp4,x
 	sta.b d1
 	lda.w pfgoal,x
@@ -156,7 +156,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	sec
 	sbc.b d1
 	sta.b d1
-.2xx:
+.2xx:								; a0 = EvadePC, go to skateto
 	lda.w #EvadePC>>16
 	sta.b a0+2
 	lda.w #EvadePC
@@ -165,7 +165,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 
 .t1x:								; bare return, not branched to in this file
 	rtl
-.9:
+.9:									; dw $0050,$0014,$FFBA,$000A, dw $0064,$0014,$003C,$000A, dw $003C,$003...
 	dw $0050,$0014,$FFBA,$000A
 	dw $0064,$0014,$003C,$000A
 	dw $003C,$0032,$00E6,$0014

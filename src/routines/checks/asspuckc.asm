@@ -4,15 +4,15 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	bne .1
 	lda.w playerpad,x
 	bmi .clk
-.1:
+.1:									; go to assexit
 	jmp.w assexit
 
 .t1:								; bare return, not branched to in this file
 	rtl
-.2:
+.2:									; gmclock != 0: call GlideBack, go to assnothing
 	jsl.l GlideBack
 	jmp.w assnothing
-.clk:
+.clk:								; playerpad,x negative: if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
 	lda.w pflags,x
@@ -27,7 +27,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	lda.w seed
 	and.w #$0003
 	sta.w temp3,x
-.1x:
+.1x:								; temp1,x = temp1,x - d7, if plus go to .3, ...
 	lda.w temp1,x
 	sec
 	sbc.b d7
@@ -35,9 +35,9 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	bpl .3
 	adc.w aioff,x
 	bpl .3x
-.2x:
+.2x:								; falls through
 	lda.w #$0000
-.3x:
+.3x:								; temp1,x = A, call checkob, if breakaway = 0 go to .t1x, ...
 	sta.w temp1,x
 	jsl.l checkob
 	lda.w breakaway
@@ -49,7 +49,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	sec
 	sbc.b d0
 	sta.b d0
-.4:
+.4:									; if plus go to .t1x, ...
 	cmp.w #$0090
 	bpl .t1x
 	lda.w #$0010
@@ -64,7 +64,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	cmp.w #$0011
 	bne .3
 	jsl.l chk4pass
-.3:
+.3:									; d0 = $0006 + temp3,x, a0 = PuckcSpots, if sflags bits $8000 clear go...
 	lda.w #$0006
 	clc
 	adc.w temp3,x
@@ -76,10 +76,10 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	lda.w sflags
 	bit.w #$8000
 	beq .2xx
-.1xx:
+.1xx:								; d0 = position,x
 	lda.w position,x
 	sta.b d0
-.2xx:
+.2xx:								; d0 = [a0],y, Y + 1, Y + 1, ...
 	lda.b d0
 	asl a
 	asl a
@@ -100,29 +100,29 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	sec
 	sbc.b d1
 	sta.b d1
-.3xx:
+.3xx:								; a0 = .chkdir, go to skateto
 	lda.w #.chkdir>>16
 	sta.b a0+2
 	lda.w #.chkdir
 	sta.b a0
 	jml.l skateto
-.10:
+.10:								; return
 	rtl
 .chkdir:							; skateto callback: turn away from an opponent near where the puck will be
 	lda.b d0
 	and.w #$00FF
 	bit.w #$0080
 	beq .2xxx
-.1xxx:
+.1xxx:								; ora #$FF00
 	ora.w #$FF00
-.2xxx:
+.2xxx:								; d0 = A, if zero go to .3xxx, ...
 	sta.b d0
 	lda.w Xvel+1,x
 	and.w #$00FF
 	bit.w #$0080
 	beq .3xxx
 	ora.w #$FF00
-.3xxx:
+.3xxx:								; adc puckx, d2 = A, if zero go to .4x, ...
 	clc
 	adc.w puckx
 	sta.b d2
@@ -131,7 +131,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	bit.w #$0080
 	beq .4x
 	ora.w #$FF00
-.4x:
+.4x:								; adc pucky, d3 = A, threat = 0, ...
 	clc
 	adc.w pucky
 	sta.b d3
@@ -141,17 +141,17 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	stz.b a0
 	cpx.w #$000C
 	bcs .6
-.5:
+.5:									; a0 = $000C
 	lda.w #$000C
 	sta.b a0
-.6:
+.6:									; loop: if zero go to .7, ...
 	ldy.b a0
 	lda.w Xvel+1,y
 	and.w #$00FF
 	bit.w #$0080
 	beq .7
 	ora.w #$FF00
-.7:
+.7:									; adc Xpos,y, sbc d2, if minus go to .9, ...
 	clc
 	adc.w Xpos,y
 	sec
@@ -165,7 +165,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	bit.w #$0080
 	beq .8
 	ora.w #$FF00
-.8:
+.8:									; adc Ypos,y, sbc d3, if minus go to .9, ...
 	clc
 	adc.w Ypos,y
 	sec
@@ -194,7 +194,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	adc.b d0
 	and.w #$0007
 	sta.b d0
-.9:
+.9:									; increment a0, increment a0, decrement d4, ...
 	inc.b a0
 	inc.b a0
 	dec.b d4

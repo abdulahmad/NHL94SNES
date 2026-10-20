@@ -1,5 +1,5 @@
 ; Assignment: the puck at the start of play
-puckfaceoff:
+puckfaceoff:						; called from asstab
 	stz.w CrowdLoud
 	lda.w shootoutmode
 	beq .t4
@@ -8,36 +8,36 @@ puckfaceoff:
 	inc.w shootoutturnover
 	rtl
 
-.t4:
+.t4:								; puckc = $FFFF, call pucknorm_move, if pflags,x bit pfna set go to .t1x
 	lda.w #$FFFF
 	sta.w puckc
 	jsl.l pucknorm_move
 	lda.w pflags,x
 	bit.w #pfna
 	bne .t1x
-.1x:
+.1x:								; go to .9
 	jmp.w .9
 
-.t1x:
+.t1x:								; pflags,x bit pfna set: and #$FFFD, pflags,x = A, if gameclock != 0 go...
 	and.w #$FFFD
 	sta.w pflags,x
 	lda.w gameclock
 	bne .t2x
-.1xx:
+.1xx:								; go to PeriodOver
 	jml.l PeriodOver
 
 .t2x:								; end of the period
 	lda.w gmode
 	bit.w #$0040
 	beq .t1xx
-.1x2:
+.1x2:								; go to PeriodOver
 	jml.l PeriodOver
 
 .t1xx:								; overtime and not tied: clock control
 	lda.w gsp						; overtime and not tied: clockcont_0
 	cmp.w #$0003
 	bne .t3
-.1xxx:
+.1xxx:								; if tmscore = tmscore+2 go to .t3, ...
 	lda.w tmscore
 	cmp.w tmscore+2
 	beq .t3
@@ -47,7 +47,7 @@ puckfaceoff:
 	lda.w gmode
 	bit.w #$0008
 	beq .t1x2
-.1x3:
+.1x3:								; go to Stop4Pen
 	jml.l Stop4Pen
 
 .t1x2:								; computer may put the goalie back / pull it
@@ -59,13 +59,13 @@ puckfaceoff:
 	bne .t2xx
 	jmp.w .9
 
-.t2xx:
+.t2xx:								; OptLine != 0: ora penshotlive, if zero go to .t1xxx, ...
 	lda.w penshot
 	ora.w penshotlive
 	beq .t1xxx
 	jmp.w .9
 
-.t1xxx:
+.t1xxx:								; lcpad = $FFFF, lcpad+2 = $FFFF, trb tmflags, ...
 	lda.w #$FFFF
 	sta.w lcpad
 	sta.w lcpad+2
@@ -83,7 +83,7 @@ puckfaceoff:
 	lda.w #$0040
 	tsb.w sflags
 	jsl.l ClrHor
-.1xx2:
+.1xx2:								; if newperiod != 0 go to .2, ...
 	lda.l newperiod
 	bne .2
 	lda.w teampads
@@ -92,7 +92,7 @@ puckfaceoff:
 	lsr a
 	sta.b d0
 	jsl.l .5
-.2:
+.2:									; if newperiod != 0 go to .3, ...
 	lda.l newperiod
 	bne .3
 	lda.w teampads+2
@@ -101,7 +101,7 @@ puckfaceoff:
 	lsr a
 	sta.b d0
 	jsl.l .6
-.3:
+.3:									; newperiod = $0000, a1 = 0, a2 = $0002, ...
 	lda.w #$0000
 	sta.l newperiod
 	stz.b a1						; a1 = home, a2 = away
@@ -110,41 +110,41 @@ puckfaceoff:
 	sta.b d0
 	jsl.l .1
 	jmp.w .9
-.1:
+.1:									; subroutine: if OptLine != 0 go to .t1, ...
 	lda.l OptLine
 	bne .t1
 	jmp.w .8
 
-.t1:
+.t1:								; OptLine != 0: if d0 != cont1team go to .t3x, ...
 	lda.b d0
 	cmp.w cont1team
 	bne .t3x
 	jmp.w .8
 
-.t3x:
+.t3x:								; d0 != cont1team: if not zero go to .t1xxxx, ...
 	cmp.w cont2team
 	bne .t1xxxx
 	jmp.w .8
 
-.t1xxxx:
+.t1xxxx:							; if not zero go to .t2, ...
 	cmp.w cont3team
 	bne .t2
 	jmp.w .8
 
-.t2:
+.t2:								; if not zero go to .t1xxxxx, ...
 	cmp.w cont4team
 	bne .t1xxxxx
 	jmp.w .8
 
-.t1xxxxx:
+.t1xxxxx:							; if not zero go to .4, ...
 	cmp.w cont5team
 	bne .4
 	jmp.w .8
-.4:
+.4:									; call CompLine, call setpersonel, go to printscores1
 	jsl.l CompLine
 	jsl.l setpersonel				; update the players on the ice
 	jml.l printscores1
-.5:
+.5:									; subroutine: if OptLine != $0002 go to .7, ...
 	lda.l OptLine
 	cmp.w #$0002
 	bne .7
@@ -154,7 +154,7 @@ puckfaceoff:
 	lda.w #$0001
 	sta.b d0
 	bra .4
-.6:
+.6:									; subroutine: if OptLine != $0002 go to .7, ...
 	lda.l OptLine
 	cmp.w #$0002
 	bne .7
@@ -163,7 +163,7 @@ puckfaceoff:
 	sta.b a2
 	sta.b d0
 	bra .4
-.7:
+.7:									; a2 = a3, d0 = d0 * 2, a3 = d0 * 2, ...
 	ldy.b a3
 	sty.b a2
 	lda.b d0
@@ -176,7 +176,7 @@ puckfaceoff:
 	lda.w pfteam,x
 	beq .1xxxx
 	ldy.w #$0002
-.1xxxx:
+.1xxxx:								; lcpad,y = $FFFF, call SetLCmode, a2 = Y, ...
 	lda.w #$FFFF
 	sta.w lcpad,y
 	jsl.l SetLCmode
@@ -188,7 +188,7 @@ puckfaceoff:
 	lda.w pfteam,x
 	beq .2x
 	ldy.w #$0002
-.2x:
+.2x:								; if zero go to .3x, ...
 	lda.w tmflags,y
 	ply
 	bit.w #$0008
@@ -208,14 +208,14 @@ puckfaceoff:
 	txa
 	lsr a
 	sta.w temp3,y
-.3x:
+.3x:								; a2 = a3, a3 = a2
 	ldx.b a2
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-.8:
+.8:									; return
 	rtl
-.9:
+.9:									; penshotlive = 0, d0 = 0, call .t1xxxxxxx, ...
 	stz.w penshotlive
 	stz.b d0
 	jsl.l .t1xxxxxxx
@@ -245,7 +245,7 @@ puckfaceoff:
 	tay
 	lda.w temp1,y
 	bmi .8
-.1xxxxx:
+.1xxxxx:							; d1 = temp3,y * 2, a0 = 0, a2 = 0, ...
 	lda.w temp3,y					; temp3/temp4 = SCnum of the box owner
 	asl a
 	sta.b d1
@@ -256,7 +256,7 @@ puckfaceoff:
 	beq .2xx
 	lda.w #$0002
 	sta.b a2
-.2xx:
+.2xx:								; if not zero go to .t2xxx, ...
 	phy
 	ldy.b a2
 	lda.w tmflags,y
@@ -295,7 +295,7 @@ puckfaceoff:
 	lda.w pfteam,x
 	beq .1xxxxxx
 	ldy.w #$0002
-.1xxxxxx:
+.1xxxxxx:							; if zero go to .2xxx, ...
 	lda.w tmflags,y
 	ply
 	bit.w #$0008
@@ -303,13 +303,13 @@ puckfaceoff:
 	stz.b d2
 	jsl.l lcfound
 	jsl.l SetLCmode2
-.2xxx:
+.2xxx:								; a3 = X, return
 	plx
 	stx.b a3
 	rtl
-.10:
+.10:								; subroutine: falls through
 	ldy.w #$0000
-.loop:
+.loop:								; loop: if padside,y = a2 go to .t1xxxxxxxxx, ...
 	lda.w padside,y
 	cmp.b a2
 	beq .t1xxxxxxxxx
@@ -320,18 +320,18 @@ puckfaceoff:
 	lda.w #$FFFF
 	bra .1xxxxxxx
 
-.t1xxxxxxxxx:
+.t1xxxxxxxxx:						; padside,y = a2: falls through
 	tya
-.1xxxxxxx:
+.1xxxxxxx:							; return
 	rtl
-.11:
+.11:								; subroutine: a2 = $0000, call .10, return
 	lda.w #$0000
 	sta.b a2
 	jsl.l .10
 	tay
 	lda.w c1playernum,y
 	rtl
-.12:
+.12:								; subroutine: a2 = $0002, call .10, return
 	lda.w #$0002
 	sta.b a2
 	jsl.l .10

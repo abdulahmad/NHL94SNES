@@ -1,5 +1,5 @@
 ; Look for a good chance to check an opponent
-check4check:
+check4check:						; called from assdefd, assnearest
 	lda.w #$0014
 	sec
 	sbc.w aggress,x
@@ -7,7 +7,7 @@ check4check:
 	lda.l OptPen
 	beq .1
 	asl.b d0
-.1:
+.1:									; call randoma, if carry clear go to .2, ...
 	lda.b d0
 	jsl.l randoma
 	cmp.w #$0004
@@ -16,14 +16,14 @@ check4check:
 	jsl.l randoma
 	cmp.w #$0004
 	bcs .6
-.2:
+.2:									; d2 = $0005, if $0000 >= $000C go to .4, ...
 	lda.w #$0005
 	sta.b d2
 	ldy.w #$0000
 	cpx.w #$000C
 	bcs .4
 	ldy.w #$000C
-.4:
+.4:									; loop: a0 = Y, if position,y = 0 go to .5, ...
 	sty.b a0
 	lda.w position,y
 	beq .5
@@ -32,18 +32,18 @@ check4check:
 	bcc .3
 	cmp.w #$F46B
 	bcc .7
-.3:
+.3:									; if pfalock,y = 0 go to .7
 	lda.w pfalock,y
 	beq .7
-.5:
+.5:									; Y + 1, Y + 1, decrement d2, ...
 	ldy.b a0
 	iny
 	iny
 	dec.b d2
 	bpl .4
-.6:
+.6:									; return
 	rtl
-.7:
+.7:									; d0 = Xpos,y - Xpos,x, if minus go to .5, ...
 	lda.w Xpos,y
 	sec
 	sbc.w Xpos,x
@@ -76,28 +76,28 @@ check4check:
 	bmi .5x
 	cmp.w #$0108
 	bpl .5x
-.2x:
+.2x:								; if SPA,y < SPAHold2 go to .1x, ...
 	lda.w SPA,y
 	cmp.w #SPAHold2
 	bcc .1x
 	cmp.w #$F46B
 	bcc .8
-.1x:
+.1x:								; if seed+1 & $0007 = 0 go to .8
 	lda.w seed+1
 	and.w #$0007
 	beq .8
-.3x:
+.3x:								; go to Acheck
 	jml.l Acheck
-.4x:
+.4x:								; pfgoal,x != 0: if Ypos,x - $FFA8 >= 0 go to .5x, ...
 	lda.w Ypos,x
 	cmp.w #$FFA8
 	bpl .5x
 	cmp.w #$FEF8
 	bpl .2x
-.5x:
+.5x:								; if seed+1 & $0007 != 0 go to .8, ...
 	lda.w seed+1
 	and.w #$0007
 	bne .8
 	jmp.w .3x
-.8:
+.8:									; go to burst
 	jml.l burst
