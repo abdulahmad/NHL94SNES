@@ -4,11 +4,11 @@ SetPlList:
 	sta.b a4+2
 	lda.w #PlList
 	sta.b a4
-	lda.w #$0000
-	sta.b [a4]
-	ldy.w #$0002
+	lda.w #$0000					; clear the list
+	sta.b [a4]						; three words
+	ldy.w #$0002					; second word
 	sta.b [a4],y
-	ldy.w #$0004
+	ldy.w #$0004					; third word
 	sta.b [a4],y
 	lda.w #priolist>>16
 	sta.b a0+2
@@ -46,26 +46,26 @@ SetPlList:
 	pla
 	sta.b a3+2
 	ldy.b a2
-	lda.w tmline,y
-	asl a
+	lda.w tmline,y					; current line
+	asl a							; times 8
 	asl a
 	asl a
 	sta.b d0
-	adc.b a1
+	adc.b a1						; plus the line offset
 	sta.b a1
-	lda.w tmap,y
-	sta.b d4
+	lda.w tmap,y					; tmap: players on ice
+	sta.b d4						; slots to fill
 	bra .7
 .3:
 	ldy.b d4
-	lda.b [a0],y
+	lda.b [a0],y					; priority entry
 	and.w #$00FF
-	sta.b d5
+	sta.b d5						; keep the slot index
 	tay
-	sep #$20
-	lda.b [a1],y
+	sep #$20						; 8-bit A
+	lda.b [a1],y					; roster number from the line
 	ldy.b d4
-	sta.b [a4],y
+	sta.b [a4],y					; store it in the list
 	lda.b d5
 	beq .1x
 	lda.w penshot
@@ -81,12 +81,12 @@ SetPlList:
 	iny
 	iny
 	lda.b d5
-	sta.b [a4],y
-	rep #$20
+	sta.b [a4],y					; and the slot index
+	rep #$20						; 16-bit A
 	lda.b d5
 	bne .7
-	ldy.b a2
-	lda.w tmgoalie,y
+	ldy.b a2						; goalie: 1 + tmgoalie
+	lda.w tmgoalie,y				; team goalie
 	inc a
 	sta.b d3
 	bne .2
@@ -94,11 +94,11 @@ SetPlList:
 	beq .2
 	inc.b d3
 .2:
-	ldy.b d4
-	sep #$20
+	ldy.b d4						; slot
+	sep #$20						; 8-bit A
 	lda.b d3
-	sta.b [a4],y
-	rep #$20
+	sta.b [a4],y					; store it
+	rep #$20						; 16-bit A
 .7:
 	dec.b d4
 	bpl .3
@@ -106,9 +106,9 @@ SetPlList:
 	sta.b d4
 .4:
 	ldy.b d4
-	lda.b [a4],y
+	lda.b [a4],y					; list entry
 	and.w #$00FF
-	sta.b d3
+	sta.b d3						; player number
 	bne .t1x
 	jmp.w .5
 
@@ -118,7 +118,7 @@ SetPlList:
 	beq .1xx
 	ora.w #$FF00
 .1xx:
-	dec a
+	dec a							; player index
 	asl a
 	sta.b d3
 	lda.b a2
@@ -126,9 +126,9 @@ SetPlList:
 	lda.w #$0034
 .2x:
 	clc
-	adc.b d3
+	adc.b d3						; plus the player index
 	tay
-	lda.w tmpdst,y
+	lda.w tmpdst,y					; player state
 	cmp.w #$FFFD
 	beq .3x
 	cmp.w #$FFFC
@@ -150,11 +150,11 @@ SetPlList:
 	sta.b a3
 	pla
 	sta.b a3+2
-	lda.b d4
+	lda.b d4						; slot
 	clc
-	adc.w #$0006
+	adc.w #$0006					; entry offset
 	tay
-	lda.b [a4],y
+	lda.b [a4],y					; wanted position
 	and.w #$00FF
 	asl a
 	sta.b d0
@@ -163,22 +163,22 @@ SetPlList:
 	lda.w #sublist
 	sta.b a0
 	ldy.b d0
-	lda.b [a0],y
+	lda.b [a0],y					; offset of the list
 	clc
 	adc.b a0
 	sta.b a0
-.loop:
-	lda.b [a0]
+.loop:								; next substitute position from sublist
+	lda.b [a0]						; next candidate position
 	inc.b a0
 	and.w #$00FF
 	sta.b d0
-	bit.w #$0080
+	bit.w #$0080					; $80: try everyone
 	bne .6
-	ldy.b d0
-	lda.b [a1],y
+	ldy.b d0						; roster index
+	lda.b [a1],y					; player from the line sets
 	and.w #$00FF
 	sta.b d0
-	jsl.l TryAddPlayerToList
+	jsl.l TryAddPlayerToList		; try to add him
 	beq .loop
 .5:
 	dec.b d4
@@ -188,10 +188,10 @@ SetPlList:
 .t1xx:
 	rtl
 .6:
-	jsl.l GetPlayerCount
-	lda.b d0
+	jsl.l GetPlayerCount			; GetPlayerCount
+	lda.b d0						; player count
 	sta.b d3
-.loopx:
+.loopx:								; try the previous slot
 	lda.b d3
 	sta.b d0
 	dec.b d3

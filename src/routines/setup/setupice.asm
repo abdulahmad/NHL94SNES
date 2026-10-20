@@ -1,251 +1,260 @@
 ; Set up the rink: the rink and text graphics, the palettes and the objects
-setupice:
-	lda.w brightness
+;
+; Takes nothing, returns nothing. Called from StartGame. Waits for the screen to fade out, sets the video
+; mode,
+; unpacks every tile set into VRAM one after the other (each set starts where the last ended, counting
+; 32 byte tiles) and falls into setupice_reset.
+setupice:							; set up the rink screen
+	lda.w brightness				; wait until the screen is faded out
 	bne setupice
-	jsl.l forceblack
-	lda.w #$FF00
+	jsl.l forceblack				; black screen
+	lda.w #$FF00					; text map tile offset $FF00, second offset 0
 	sta.l charofs
 	lda.w #$0000
 	sta.l charofs2
-	sep #$20
-	lda.b #$03
+	sep #$20						; 8 bit A
+	lda.b #$03						; OBSEL = 3: sprite sizes and tile base
 	sta.w OBSEL
-	lda.b #$01
+	lda.b #$01						; BGMODE = 1
 	sta.w BGMODE
-	lda.b #$00
+	lda.b #$00						; BG1SC = 0: BG1 map
 	sta.w BG1SC
-	lda.b #$05
+	lda.b #$05						; BG2SC = 5: BG2 map
 	sta.w BG2SC
-	lda.b #$12
+	lda.b #$12						; BG12NBA = $12: tile bases of BG1 and BG2
 	sta.w BG12NBA
-	lda.b #$13
+	lda.b #$13						; TM = $13: BG1, BG2 and sprites on the main screen
 	sta.w TM
-	rep #$30
-	ldx.w #$00FE
-.loop:
+	rep #$30						; 16 bit again
+	ldx.w #$00FE					; X = last word of the rink palette
+.loop:								; copy RinkPalette into palbuffer, twice ($100 bytes apart)
 	lda.l RinkPalette,x
 	sta.l palbuffer,x
 	sta.l palbuffer+$100,x
 	dex
 	dex
 	bpl .loop
-	jsl.l FadeOutSound
-.loop2:
+	jsl.l FadeOutSound				; fade the music out
+.loop2:								; wait for the fade
 	lda.w SoundFadeSpeed
 	bne .loop2
-	jsl.l SPCGameUpload
-	lda.w #IceRinkTiles>>16
+	jsl.l SPCGameUpload				; load the game music driver
+	lda.w #IceRinkTiles>>16			; p0 = IceRinkTiles
 	sta.b p0+2
 	lda.w #IceRinkTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #$007F					; p1 = $7F0000: unpack to WRAM
 	sta.b p1+2
 	lda.w #$0000
 	sta.b p1
-	jsl.l Decompress
-	txa
+	jsl.l Decompress				; unpack, X = size in bytes
+	txa								; tile count = size / 32
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	sta.l centericechars
-	lda.w #$007F
+	sta.l centericechars			; centericechars: the centre ice logo goes after the rink tiles
+	lda.w #$007F					; p0 = the unpacked tiles
 	sta.b p0+2
 	lda.w #$0000
 	sta.b p0
-	ldy.w #$1000
-	jsl.l DMAToVRAM
-	jsl.l LoadCenterIce
-	lda.w #FaceOffTiles>>16
+	ldy.w #$1000					; VRAM address $1000
+	jsl.l DMAToVRAM					; send them to VRAM
+	jsl.l LoadCenterIce				; unpack the home team's centre ice logo to VRAM
+	lda.w #FaceOffTiles>>16			; p0 = FaceOffTiles
 	sta.b p0+2
 	lda.w #FaceOffTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #$007F					; p1 = $7F0000
 	sta.b p1+2
 	lda.w #$0000
 	sta.b p1
-	jsl.l Decompress
-	txa
+	jsl.l Decompress				; unpack
+	txa								; tile count of the face off tiles
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	adc.l faceoffvrcset
-	sta.l EASNcset
-	lda.w #$007F
+	adc.l faceoffvrcset				; plus the first free tile after the logo
+	sta.l EASNcset					; EASNcset: first tile of RinkLogoTiles
+	lda.w #$007F					; p0 = unpacked tiles
 	sta.b p0+2
 	lda.w #$0000
 	sta.b p0
-	ldy.w #$FFFF
-	jsl.l DMAToVRAM
-	lda.w #RinkLogoTiles>>16
+	ldy.w #$FFFF					; Y negative: continue at the current VRAM address
+	jsl.l DMAToVRAM					; send them to VRAM
+	lda.w #RinkLogoTiles>>16		; p0 = RinkLogoTiles
 	sta.b p0+2
 	lda.w #RinkLogoTiles
 	sta.b p0
-	jsl.l Decompress
-	txa
+	jsl.l Decompress				; unpack
+	txa								; tile count
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	adc.l EASNcset
-	sta.l refcharshor
-	lda.w #$007F
+	adc.l EASNcset					; plus EASNcset
+	sta.l refcharshor				; refcharshor: first tile of RefTilesHor
+	lda.w #$007F					; send the logo tiles to VRAM
 	sta.b p0+2
 	lda.w #$0000
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
-	lda.w #RefTilesHor>>16
+	lda.w #RefTilesHor>>16			; p0 = RefTilesHor
 	sta.b p0+2
 	lda.w #RefTilesHor
 	sta.b p0
-	jsl.l Decompress
-	txa
+	jsl.l Decompress				; unpack
+	txa								; tile count
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	adc.l refcharshor
-	sta.l refchars
-	lda.w #$007F
+	adc.l refcharshor				; plus refcharshor
+	sta.l refchars					; refchars: first tile of RefTiles
+	lda.w #$007F					; send the horizontal ref tiles to VRAM
 	sta.b p0+2
 	lda.w #$0000
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
-	lda.w #RefTiles>>16
+	lda.w #RefTiles>>16				; p0 = RefTiles
 	sta.b p0+2
 	lda.w #RefTiles
 	sta.b p0
-	jsl.l Decompress
-	txa
+	jsl.l Decompress				; unpack
+	txa								; tile count
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	adc.l refchars
-	sta.l blankchar
+	adc.l refchars					; plus refchars
+	sta.l blankchar					; blankchar: the tile after the ref tiles
 	inc a
-	sta.l smallfontchars
-	lda.w #$007F
+	sta.l smallfontchars			; smallfontchars: the tile after the blank one
+	lda.w #$007F					; send the ref tiles to VRAM
 	sta.b p0+2
 	lda.w #$0000
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
-	lda.w #$0000
+	lda.w #$0000					; fill 32 bytes of VRAM with 0: the blank tile
 	ldy.w #$FFFF
 	ldx.w #$0020
 	jsl.l FillVRAM
-	lda.w #SmallFontTiles>>16
+	lda.w #SmallFontTiles>>16		; p0 = SmallFontTiles
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
-	jsl.l Decompress
-	txa
+	jsl.l Decompress				; unpack
+	txa								; tile count
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	sta.b d0
-	adc.l smallfontchars
-	sta.l Framercset
-	adc.w #$0004
-	sta.l BigFontChars
-	lda.w #$007F
+	sta.b d0						; kept in d0
+	adc.l smallfontchars			; plus smallfontchars
+	sta.l Framercset				; Framercset: first tile of the Framer box
+	adc.w #$0004					; 4 tiles for the Framer box
+	sta.l BigFontChars				; BigFontChars: first tile of the big font
+	lda.w #$007F					; a0 = unpacked small font tiles
 	sta.b a0+2
 	lda.w #$0000
 	sta.b a0
-	lda.w #PixelRemap83>>16
+	lda.w #PixelRemap83>>16			; a1 = pixel remap table
 	sta.b a1+2
 	lda.w #PixelRemap83
 	sta.b a1
-	jsl.l RemapTiles
-	lda.w #FramerTiles>>16
+	jsl.l RemapTiles				; remap the small font tiles into VRAM
+	lda.w #FramerTiles>>16			; a0 = FramerTiles
 	sta.b a0+2
 	lda.w #FramerTiles
 	sta.b a0
-	lda.w #PixelRemap87>>16
+	lda.w #PixelRemap87>>16			; a1 = the other pixel remap table
 	sta.b a1+2
 	lda.w #PixelRemap87
 	sta.b a1
-	lda.w #$0004
+	lda.w #$0004					; 4 tiles
 	sta.b d0
-	jsl.l RemapTiles
-	lda.w #BigFontTiles>>16
+	jsl.l RemapTiles				; remap them into VRAM
+	lda.w #BigFontTiles>>16			; p0 = BigFontTiles
 	sta.b p0+2
 	lda.w #BigFontTiles
 	sta.b p0
-	jsl.l Decompress
-	txa
+	jsl.l Decompress				; unpack
+	txa								; tile count
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	sta.b d0
-	adc.l BigFontChars
-	sta.l scorechars
-	lda.w #$007F
+	sta.b d0						; kept in d0
+	adc.l BigFontChars				; plus BigFontChars
+	sta.l scorechars				; scorechars: first tile of the score tiles
+	lda.w #$007F					; send the big font tiles to VRAM
 	sta.b p0+2
 	lda.w #$0000
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
-	lda.w #TeamBlocksTiles>>16
+	lda.w #TeamBlocksTiles>>16		; p0 = TeamBlocksTiles
 	sta.b p0+2
 	lda.w #TeamBlocksTiles
 	sta.b p0
-	jsl.l Decompress
-	txa
+	jsl.l Decompress				; unpack
+	txa								; tile count
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	adc.l scorechars
-	sta.l ExtraChars
-	lda.w #$007F
+	adc.l scorechars				; plus scorechars
+	sta.l ExtraChars				; ExtraChars: the tile after the last set
+	lda.w #$007F					; send the team block tiles to VRAM
 	sta.b p0+2
 	lda.w #$0000
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
-setupice_reset:
-	jsl.l forceblack
-	lda.w #$03E7
+;
+; Takes nothing, returns nothing. Called from SaveRegsStartHL2 and StartPer, and falls through from
+; setupice. Resets the rink view and the sort objects, turns the goals around for the second half, sets the
+; colours and fades in.
+setupice_reset:						; reset the rink state and fade in
+	jsl.l forceblack				; black screen
+	lda.w #$03E7					; last rink map row = $03E7
 	sta.w Oldrow
-	lda.w #$0001
+	lda.w #$0001					; sflags $0001 (sfpz): clear pause mode
 	trb.w sflags
-	stz.w Hpos
+	stz.w Hpos						; scroll position 0, 0
 	stz.w Vpos
-	lda.b vcount+2
+	lda.b vcount+2					; vcountmark+2 = vcount+2 - 2
 	dec a
 	dec a
 	sta.w vcountmark+2
-	jsl.l InitSortObjects
-	jsl.l nullrtl
-	lda.w gmode
+	jsl.l InitSortObjects			; set up the sort objects
+	jsl.l nullrtl					; no-op hook
+	lda.w gmode						; direction of play (gmdir) set?
 	bit.w #gmdir
 	beq .1
-	ldx.w #$0016
-.loop:
+	ldx.w #$0016					; 12 players
+.loop:								; flip the goal each player shoots at
 	lda.w pfgoal,x
 	eor.w #$0001
 	sta.w pfgoal,x
 	dex
 	dex
 	bpl .loop
-.1:
+.1:									; set the colours
 	jsl.l setplayercolors
-	stz.w fadestep
+	stz.w fadestep					; fade in
 	jsl.l FadeIn
-	jsl.l ScreenOn
+	jsl.l ScreenOn					; show the screen
 	rtl

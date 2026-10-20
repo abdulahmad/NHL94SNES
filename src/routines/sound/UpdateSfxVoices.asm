@@ -1,22 +1,28 @@
 ; Each frame: step the sound effect voices (owner $08FA $10 and up): their time and envelope counters, the
 ; voice commands, and StopVoice when one ends
-UpdateSfxVoices:
+; Takes nothing. For each of the 8 voices in use (Y = voice, X = 2*voice): voices of tracks $10 and up are
+; updated with UpdateVoice, VoiceAge counts up, and between the instrument's vibrato start and end ages the
+; vibrato offset VoiceVibOfs is stepped. Then by voice state: state 2 sends the pitch (SeqCmd0B), state 4
+; (releasing) lowers the gain by instrument byte $10 and stops the voice at 0, others send gain and pitch.
+;
+; Called from SoundUpdate.
+UpdateSfxVoices:					; step the sound effect voices
 	ldx.b #$00
 	txy
-.3:
+.3:									; each voice
 	sty.b CurVoice
 	stx.w VoiceOfs
 	lda.w VoiceState,y
 	bne .t1
 	jmp.w .6
 
-.t1:
+.t1:								; voice in use: keep its state
 	pha
 	lda.w VoiceTrack,y
 	cmp.b #$10
 	bcc .1
 	jsr.w UpdateVoice
-.1:
+.1:									; copy the instrument, pitch and gain of the voice
 	rep #$20
 	lda.w VoiceInst,x
 	sta.b InstPtr
@@ -35,10 +41,10 @@ UpdateSfxVoices:
 	bcc .2
 	dec.w VoiceVibCount,x
 	bmi .t3
-.2:
+.2:									; outside the vibrato ages
 	jmp.w .5
 
-.t3:
+.t3:								; vibrato counter ran out: advance rate, depth and speed
 	ldy.b #$2A
 	lda.b (InstPtr),y
 	clc
@@ -82,15 +88,15 @@ UpdateSfxVoices:
 	lda.b (InstPtr),y
 	and.w #$4000
 	bne .t1x
-.1x:
+.1x:								; restart the vibrato offset
 	stz.w VoiceVibOfs,x
 	bra .4
 
-.t1x:
+.t1x:								; vibrato goes back down
 	dec.w VoiceVibDir,x
 	bra .4
 
-.t2:
+.t2:								; vibrato offset going down
 	lda.w VoiceVibOfs,x
 	sec
 	sbc.w VoiceVibSpeed,x
@@ -106,23 +112,23 @@ UpdateSfxVoices:
 	stz.w VoiceVibOfs,x
 	bra .4
 
-.t1xx:
+.t1xx:								; vibrato goes up again
 	inc.w VoiceVibDir,x
-.4:
+.4:									; add the vibrato offset to the pitch
 	lda.w VoiceVibOfs,x
 	clc
 	adc.b SendPitch
 	sta.b SendPitch
-.5:
+.5:									; act on the voice state
 	ply
 	cpy.b #$02
 	bne .7
 	sep #$20
 	ldy.b CurVoice
 	jsr.w SeqCmd0B
-.6:
+.6:									; unused voice
 	jmp.w .8
-.7:
+.7:									; state 4 (releasing)?
 	cpy.b #$04
 	bne .t2x
 	rep #$20
@@ -137,17 +143,17 @@ UpdateSfxVoices:
 	jsr.w StopVoice
 	bra .8
 
-.t1xxx:
+.t1xxx:								; gain still above 0: send it
 	sep #$20
 	ldy.b CurVoice
 	jsr.w SeqCmd0B
 	bra .8
 
-.t2x:
+.t2x:								; other states: send gain and pitch
 	sep #$20
 	ldy.b CurVoice
 	jsr.w SeqCmd0C0B
-.8:
+.8:									; next voice
 	sep #$20
 	inx
 	inx
@@ -156,5 +162,5 @@ UpdateSfxVoices:
 	bcs .t1xxxx
 	jmp.w .3
 
-.t1xxxx:
+.t1xxxx:							; all voices done
 	rts

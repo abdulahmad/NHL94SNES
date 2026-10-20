@@ -1,8 +1,13 @@
 ; As GetPlayerRating without the hot / cold adjustment
-GetPlayerBaseRating:
+; Takes d1 = rating column number, a2 = team offset, curplayer = player. Saves d0 to d9 and the pointers,
+; picks the AttribMenuGoalie list for a goalie (curplayer past the skaters) or AttribMenuSkater, finds the
+; d1-th entry and gets the value with CalcAttrib. Returns d0 = rating, the other registers restored.
+;
+; Called from ScoutingReport.
+GetPlayerBaseRating:				; rating of curplayer without hot / cold
 	stx.b xsave
 	ldx.w #$0000
-.loop:
+.loop:								; save d0 to d9 on the stack
 	lda.b d0,x
 	pha
 	inx
@@ -18,13 +23,13 @@ GetPlayerBaseRating:
 	pha
 	lda.b a1+2
 	pha
-	lda.w #AttribMenuSkater>>16
+	lda.w #AttribMenuSkater>>16		; default: the skater attribute menu
 	sta.b a1+2
 	lda.w #AttribMenuSkater
 	sta.b a1
 	stz.b r2
-	jsl.l GoalieCount
-	lda.w curplayer
+	jsl.l GoalieCount				; number of goalies
+	lda.w curplayer					; curplayer is a skater when below that
 	cmp.b d0
 	bpl .1
 	lda.w #AttribMenuGoalie>>16
@@ -33,10 +38,10 @@ GetPlayerBaseRating:
 	sta.b a1
 	lda.w #$0010
 	sta.b r2
-.1:
+.1:									; goalie: use the goalie menu and r2 = $10
 	phx
 	ldx.b d1
-.loop2:
+.loop2:								; skip the entries before column d1
 	dex
 	bmi .t1
 	lda.b a1
@@ -46,7 +51,7 @@ GetPlayerBaseRating:
 	sta.b a1
 	bra .loop2
 
-.t1:
+.t1:								; found the entry: d4 = its attribute and word
 	lda.b a1
 	clc
 	adc.b [a1]
@@ -57,9 +62,9 @@ GetPlayerBaseRating:
 	lda.b [a1],y
 	sta.b d4
 	plx
-	lda.w curplayer
+	lda.w curplayer					; the player for CalcAttrib
 	sta.b d0
-	lda.w #$0000
+	lda.w #$0000					; no hot / cold adjustment
 	sta.l usehotcold
 	jsl.l CalcAttrib
 	lda.b d0
@@ -74,7 +79,7 @@ GetPlayerBaseRating:
 	sta.b a0
 	stx.b xsave
 	ldx.w #$0012
-.loopx:
+.loopx:								; restore d0 to d9
 	pla
 	sta.b d0,x
 	dex

@@ -1,99 +1,104 @@
 ; Put team a2's wanted players on the ice, keeping the ones already there
-setpersonel:
-	stx.b xsave
+;
+; Takes a2 = team offset (tmsort index) and the wanted lines in PlList (built by SetPlList). Fills newpos and
+; newpnum of the team's 6 sort objects; a player already on the ice keeps his object. Saves and restores
+; d0-d5 and a0-a4 around the work. Returns X = a3, the last object of the team.
+; Called from puckfaceoff2 and chk4lc.
+setpersonel:						; put the wanted players of team a2 on the ice
+	stx.b xsave						; keep X
 	ldx.w #$0000
-.save:
+.save:								; save d0 and the words after it (12 words)
 	lda.b d0,x
 	pha
 	inx
 	inx
 	cpx.w #$0018
 	bne .save
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	stx.b xsave
 	ldx.w #$0000
-.savea:
+.savea:								; save a0 and the words after it (10 words)
 	lda.b a0,x
 	pha
 	inx
 	inx
 	cpx.w #$0014
 	bne .savea
-	ldx.b xsave
-	ldy.b a2
-	ldx.w tmsort,y
+	ldx.b xsave						; restore X
+	ldy.b a2						; team of the list
+	ldx.w tmsort,y					; first object of the team
 	stx.b a3
-	lda.w #$0005
+	lda.w #$0005					; 6 players
 	sta.b d4
-.l0:
-	lda.w #$FFFF
+.l0:								; clear the request of each of the 6 sort objects
+	lda.w #$FFFF					; newpos = newpnum = -1 for the object
 	sta.w newpos,x
 	sta.w newpnum,x
 	inx
 	inx
-	stx.b a3
+	stx.b a3						; next object
 	dec.b d4
 	bpl .l0
-	jsl.l SetPlList
-	lda.w #$0005
+	jsl.l SetPlList					; build the wanted player list
+	lda.w #$0005					; 6 slots
 	sta.b d4
-	lda.w #PlList>>16
+	lda.w #PlList>>16				; a4 = pointer to PlList
 	sta.b a4+2
 	lda.w #PlList
 	sta.b a4
-.3:
-	ldy.b d4
-	lda.b [a4],y
+.3:									; first pass: wanted players already on the ice keep their object
+	ldy.b d4						; slot
+	lda.b [a4],y					; wanted player number
 	and.w #$00FF
 	sta.b d5
-	beq .4
-	dec.b d5
-	lda.w #$0005
+	beq .4							; none: next slot
+	dec.b d5						; zero based
+	lda.w #$0005					; search 6 objects
 	sta.b d3
 	ldy.b a2
 	ldx.w tmsort,y
 	dex
 	dex
-.2:
+.2:									; next object
 	inx
 	inx
 	stx.b a3
-	lda.w pnum,x
+	lda.w pnum,x					; player number of the object
 	and.w #$00FF
 	sta.b tmp0
 	lda.b d5
 	and.w #$00FF
-	cmp.b tmp0
-	beq .t1
+	cmp.b tmp0						; same player?
+	beq .t1							; already on the ice: keep the object
 	dec.b d3
 	bpl .2
 	bra .4
 
-.t1:
-	lda.b d4
+.t1:								; already on the ice: keep the object
+	lda.b d4						; slot
 	clc
-	adc.w #$0006
+	adc.w #$0006					; position entry offset in PlList
 	tay
-	lda.b [a4],y
+	lda.b [a4],y					; wanted position
 	and.w #$00FF
 	bit.w #$0080
 	beq .1
-	ora.w #$FF00
-.1:
-	sta.w newpos,x
+	ora.w #$FF00					; sign extend
+.1:									; set the new position
+	sta.w newpos,x					; new position
 	lda.b d5
 	and.w #$00FF
 	bit.w #$0080
 	beq .2x
 	ora.w #$FF00
-.2x:
-	sta.w newpnum,x
+.2x:								; set the new player number
+	sta.w newpnum,x					; new player number
 	ldy.b d4
-	sep #$20
+	sep #$20						; 8-bit A
 	lda.b #$00
-	sta.b [a4],y
-	rep #$20
-.4:
+	sta.b [a4],y					; clear the list entry
+	rep #$20						; 16-bit A
+.4:									; next PlList slot
 	dec.b d4
 	bpl .3
 	lda.w #$0005
@@ -102,38 +107,38 @@ setpersonel:
 	sta.b a4+2
 	lda.w #PlList
 	sta.b a4
-.5:
+.5:									; second pass: the rest go to objects with no requested player
 	ldy.b d4
-	lda.b [a4],y
+	lda.b [a4],y					; wanted player number
 	and.w #$00FF
 	sta.b d5
 	beq .8
 	dec.b d5
-	lda.w #$0005
+	lda.w #$0005					; search 6 objects
 	sta.b d3
 	ldy.b a2
 	ldx.w tmsort,y
 	dex
 	dex
-.6:
+.6:									; next object
 	inx
 	inx
 	stx.b a3
-	lda.w newpnum,x
+	lda.w newpnum,x					; free object (no requested player)?
 	bit.w #$0080
-	bne .t1x
+	bne .t1x						; free: remember it
 	dec.b d3
 	bpl .6
 	bra .7
 
-.t1x:
-	stx.b a0
-.7:
-	lda.w position,x
+.t1x:								; free object: remember it
+	stx.b a0						; keep it
+.7:									; does this object have a position yet?
+	lda.w position,x				; position
 	bpl .1x
 	dec.b d3
 	bpl .6
-.1x:
+.1x:								; put the wanted player in the free object
 	lda.b d4
 	clc
 	adc.w #$0006
@@ -143,41 +148,41 @@ setpersonel:
 	bit.w #$0080
 	beq .2xx
 	ora.w #$FF00
-.2xx:
+.2xx:								; sign extend the position
 	ldy.b a0
-	sta.w newpos,y
+	sta.w newpos,y					; new position
 	lda.b d5
 	and.w #$00FF
 	bit.w #$0080
 	beq .3x
 	ora.w #$FF00
-.3x:
-	sta.w newpnum,y
+.3x:								; set the new player number
+	sta.w newpnum,y					; new player number
 	ldy.b d4
 	sep #$20
 	lda.b #$00
 	sta.b [a4],y
 	rep #$20
-.8:
+.8:									; next PlList slot
 	dec.b d4
 	bpl .5
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0012
-.loop:
+.loop:								; pull a0 and the words after it back
 	pla
 	sta.b a0,x
 	dex
 	dex
 	bpl .loop
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	stx.b xsave
 	ldx.w #$0016
-.loop2:
+.loop2:								; pull d0 and the words after it back
 	pla
 	sta.b d0,x
 	dex
 	dex
 	bpl .loop2
-	ldx.b xsave
-	ldx.b a3
+	ldx.b xsave						; restore X
+	ldx.b a3						; last object of the team
 	rtl

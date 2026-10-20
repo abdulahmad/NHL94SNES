@@ -1,25 +1,29 @@
 ; d0 / d1 = where the puck will be soon.
-skatetopuckinit:
-	lda.w puckvx
-	xba
-	lsr a
-	and.w #$007F
-	bit.w #$0040
+;
+; Returns d0 / d1 = the puck position plus half the high byte of its velocity (a short lead).
+;
+; Called from assnearest and skatetopuck.
+skatetopuckinit:					; d0 / d1 = where the puck will be soon
+	lda.w puckvx					; puckvx high byte / 2
+	xba								; high byte
+	lsr a							; / 2
+	and.w #$007F					; 7 bits
+	bit.w #$0040					; sign bit of the 7 bits
 	beq .x
-	ora.w #$FF80
-.x:
+	ora.w #$FF80					; sign extend
+.x:									; puck x plus the lead
 	clc
-	adc.w puckx
-	sta.b d0
+	adc.w puckx						; plus the puck x
+	sta.b d0						; d0 = predicted x
 	lda.w puckvy
-	xba
-	lsr a
+	xba								; high byte
+	lsr a							; / 2
 	and.w #$007F
 	bit.w #$0040
-	beq .y
+	beq .y							; negative
 	ora.w #$FF80
-.y:
+.y:									; puck y plus the lead
 	clc
-	adc.w pucky
-	sta.b d1
+	adc.w pucky						; plus the puck y
+	sta.b d1						; d1 = predicted y
 	rtl

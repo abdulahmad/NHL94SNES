@@ -1,15 +1,19 @@
 ; Wait until every pad that has a side ($1C84) has no button down
-WaitSidePadsRelease:
+; Takes nothing. Loops over the pads (X = 0..8): a pad without a team (cont1team = 0) is ignored, a pad with a
+; team that has anything held restarts the scan. Registers are preserved.
+;
+; Called from ScoutingReport.
+WaitSidePadsRelease:				; wait until the pads that have a team are released
 	phx
 	pha
-.loop:
-	ldx.w #$0008
-.loop2:
-	lda.w cont1team,x
-	beq .1
-	lda.w JoyPad,x
-	bne .loop
-.1:
+.loop:								; rescan from the last pad
+	ldx.w #$0008					; pad offset
+.loop2:								; next pad
+	lda.w cont1team,x				; team of pad X
+	beq .1							; no team: ignore the pad
+	lda.w JoyPad,x					; buttons held on the pad
+	bne .loop						; still held: rescan
+.1:									; next pad
 	dex
 	dex
 	bpl .loop2

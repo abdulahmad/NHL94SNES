@@ -1,38 +1,38 @@
 ; Face offs: move team a2's players straight to their new positions
 forcepldata:
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
-.save:
+.save:								; save d0 and the words after it (10 words)
 	lda.b d0,x
 	pha
 	inx
 	inx
 	cpx.w #$0014
 	bne .save
-	ldx.b xsave
-	stx.b xsave
+	ldx.b xsave						; restore X
+	stx.b xsave						; keep X
 	ldx.w #$0000
-.savea:
+.savea:								; save a0 and the words after it (8 words)
 	lda.b a0,x
 	pha
 	inx
 	inx
 	cpx.w #$0010
 	bne .savea
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	ldy.b a2
 	lda.w tmsort,y
 	sta.b a3
 	lda.w #$0005
 	sta.b d4
-.top:
+.top:								; each object: take its new position
 	ldx.b a3
-	lda.w newpos,x
+	lda.w newpos,x					; position = newpos (byte)
 	and.w #$00FF
 	bit.w #$0080
 	beq .pos
 	ora.w #$FF00
-.pos:
+.pos:								; store the position
 	sta.b d0
 	sta.w position,x
 	cmp.w #$0000
@@ -40,14 +40,14 @@ forcepldata:
 	jsl.l Setplass
 	ldx.b a3
 	lda.w position,x
-	cmp.w #$0004
+	cmp.w #$0004					; center
 	bne .notnear
 	lda.w #$0012
 	sta.b d0
-	jsl.l assinsert
-.notnear:
+	jsl.l assinsert					; insert assignment d0
+.notnear:							; not near the bench: the player number
 	ldx.b a3
-	lda.w newpnum,x
+	lda.w newpnum,x					; tmpdst of newpnum = TMPDICE: on the ice
 	and.w #$00FF
 	asl a
 	sta.b d3
@@ -61,33 +61,33 @@ forcepldata:
 	lda.w #TMPDICE
 	sta.w tmpdst,y
 	lsr.b d3
-	jsl.l setplayer
-.next:
+	jsl.l setplayer					; setplayer
+.next:								; next object
 	ldx.b a3
-	lda.w #$FFFF
+	lda.w #$FFFF					; newpnum = newpos = -1
 	sta.w newpnum,x
 	sta.w newpos,x
 	inc.b a3
 	inc.b a3
 	dec.b d4
 	bpl .top
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$000E
-.resta:
+.resta:								; pull a0 and the words after it back
 	pla
 	sta.b a0,x
 	dex
 	dex
 	bpl .resta
-	ldx.b xsave
-	stx.b xsave
+	ldx.b xsave						; restore X
+	stx.b xsave						; keep X
 	ldx.w #$0012
-.restore:
+.restore:							; pull d0 and the words after it back
 	pla
 	sta.b d0,x
 	dex
 	dex
 	bpl .restore
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	ldx.b a3
 	rtl

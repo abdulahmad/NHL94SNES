@@ -1,12 +1,14 @@
 ; While $19CE is not 0: lower four hot / cold bytes of each of 52 entries ($1A12, 12 bytes apart) by 2, and
 ; count $19CE down
-LowerHotColdTable:
-	lda.w HotColdRaised
+;
+; Called from CheckCrowdMeter.
+LowerHotColdTable:					; lower the raised hot/cold bytes and count HotColdRaised down
+	lda.w HotColdRaised				; nothing to do when HotColdRaised is 0
 	beq .rtl
-	ldy.w #$0033
+	ldy.w #$0033					; 52 entries (y = 51 down to 0), 12 bytes apart
 	ldx.w #$0000
-.loop:
-	sep #$20
+.loop:								; one entry
+	sep #$20						; lower the four bytes of the entry by 2
 	lda.w HotColdTable+1,x
 	dec a
 	dec a
@@ -30,6 +32,6 @@ LowerHotColdTable:
 	tax
 	dey
 	bpl .loop
-	dec.w HotColdRaised
-.rtl:
+	dec.w HotColdRaised				; one step less raised
+.rtl:								; return
 	rtl

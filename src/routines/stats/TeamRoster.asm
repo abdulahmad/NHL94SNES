@@ -1,5 +1,10 @@
 ; Team roster for the team in a2. Y switches team, start leaves.
-TeamRoster:
+; Takes a2 = team offset. Draws the roster screen (title, frames, team blocks, line and column) and then loops
+; on the pads: start leaves, Y switches team, left/right change the attribute column, up/down change the
+; line (0-7).
+;
+; Called from PauseTeamRoster.
+TeamRoster:							; roster screen of a team
 	jsl.l GetPauseTeam
 	ldy.b a2
 	lda.w tmline,y
@@ -72,7 +77,7 @@ TeamRoster:
 	lda.w #$0003
 	sta.b d1
 	jsl.l FramerOutline
-TeamRosterRedraw:
+TeamRosterRedraw:					; redraw the screen for the team in a2
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -93,7 +98,7 @@ TeamRosterRedraw:
 	lda.w VisTeam
 	sta.b d1
 	lda.w #$0030
-.1:
+.1:									; home team blocks; for the visitors d0 = $30
 	sta.b d0
 	jsl.l DrawTeamBlocks
 	jsl.l SpriteFrameEnd
@@ -103,43 +108,43 @@ TeamRosterRedraw:
 	sta.l colourbuf+$42
 	jsl.l SendColours
 	jsl.l ShowRosterLine
-TeamRosterLoop:
+TeamRosterLoop:						; main loop: read the pads
 	jsl.l SendTextMap
 	jsl.l WaitFrame
 	jsl.l ReadPads
 	jsl.l ReadPausePad
 	jsl.l ProcessInputWithRepeat
 	lda.b d1
-	bit.w #$1000
+	bit.w #$1000					; start button
 	beq .t1
 	jmp.w RosterRtl
 
-.t1:
-	bit.w #$4000
+.t1:								; not start
+	bit.w #$4000					; Y button: switch team
 	bne SwapRosterTeam
 	stz.b d0
 	inc.b d0
-	bit.w #$0100
+	bit.w #$0100					; right: next column
 	bne MoveRosterColumn
 	dec.b d0
 	dec.b d0
-	bit.w #$0200
+	bit.w #$0200					; left: previous column
 	bne MoveRosterColumn
-	bit.w #$0800
+	bit.w #$0800					; up: previous line
 	bne .1
 	inc.b d0
 	inc.b d0
-	bit.w #$0400
+	bit.w #$0400					; down: next line
 	beq TeamRosterShowLine
-.1:
+.1:									; up / down: new line = line + step
 	lda.b d0
 	clc
 	adc.w SelectedPlayerIdx
 	sta.b d0
 	bmi TeamRosterShowLine
-	cmp.w #$0008
+	cmp.w #$0008					; only lines 0-7
 	bcs TeamRosterShowLine
 	sta.w SelectedPlayerIdx
 	jsl.l ShowRosterLine
-TeamRosterShowLine:
+TeamRosterShowLine:					; back to the main loop
 	jmp.w TeamRosterLoop

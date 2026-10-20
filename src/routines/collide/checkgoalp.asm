@@ -35,19 +35,19 @@ checkgoalp:
 	sbc.w wcradiusx
 	cmp.w #$0040
 	bpl .1
-	lda.b d3
+	lda.b d3						; keep y
 	pha
 	sec
-	sbc.w Ypos,y
+	sbc.w Ypos,y					; minus the goal y
 	sta.b d3
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
-	sta.b d0
-	lda.b d2
+	sta.b d0						; d0 = -dy
+	lda.b d2						; keep x
 	pha
 	sec
-	sbc.w Xpos,y
-	sta.b d1
+	sbc.w Xpos,y					; minus the goal x
+	sta.b d1						; d1 = dx
 	sta.b r1
 	tax
 	jsl.l Mul8S
@@ -70,14 +70,14 @@ checkgoalp:
 	cmp.w #$0101
 .2:
 	bcs .7
-	pla
+	pla								; restore x
 	sta.b d2
-	pla
+	pla								; restore y
 	sta.b d3
 	jsr.w .t1x
-	lda.b d3
+	lda.b d3						; keep y
 	pha
-	lda.b d2
+	lda.b d2						; and x
 	pha
 	lda.b r1
 	ldy.b r1+2
@@ -117,9 +117,9 @@ checkgoalp:
 	ldx.b a3
 	jsl.l wallcoll
 .7:
-	pla
+	pla								; restore x
 	sta.b d2
-	pla
+	pla								; restore y
 	sta.b d3
 	rtl
 

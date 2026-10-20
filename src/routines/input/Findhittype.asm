@@ -1,28 +1,31 @@
 ; Swing type of player X for direction d0: forehand or backhand
-Findhittype:
-	lda.b d0
-	eor.w #$FFFF
+;
+; Takes X = player, d0 = direction. Returns A = 0 forehand, 1 backhand (d0 is changed to the direction
+; relative to his facing). Called from doshot, dopass, asspassrec and assbreakaway.
+Findhittype:						; swing type of player X for direction d0
+	lda.b d0						; direction
+	eor.w #$FFFF					; negate it
 	inc a
 	clc
-	adc.w facedir,x
-	and.w #$0007
-	sta.b d0
-	lda.w attribute,x
-	bit.w #$0800
-	beq .t1
-	phx
-	ldx.b d0
-	lda.l .1,x
-	plx
-	and.w #$00FF
-	rtl
+	adc.w facedir,x					; plus the player's facing
+	and.w #$0007					; 0-7
+	sta.b d0						; relative direction
+	lda.w attribute,x				; player attributes
+	bit.w #$0800					; x flip attribute (bit $0800)?
+	beq .t1							; no: use the table at .1+3
+	phx								; keep X
+	ldx.b d0						; X = relative direction
+	lda.l .1,x						; x flip table
+	plx								; restore X
+	and.w #$00FF					; byte
+	rtl								; return
 
-.t1:
+.t1:								; not flipped
 	phx
 	ldx.b d0
-	lda.l .1+3,x
+	lda.l .1+3,x					; unflipped table (starts 3 bytes in)
 	plx
 	and.w #$00FF
 	rtl
-.1:
+.1:									; 1 = backhand; the x flip table starts here, the unflipped one at .1+3
 	db $00,$00,$00,$00,$01,$01,$01,$01,$00,$00,$00

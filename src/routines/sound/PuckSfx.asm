@@ -1,5 +1,11 @@
 ; Play sound A with half the puck velocity in $0C / $0E, then sfx
-PuckSfx:
+; Takes A = sound number. p0 = puckvx/2 and p0+2 = puckvy/2 (arithmetic shift) are set up, then the flow
+; continues in sfx. The "sfx" entry takes A = sound number and the velocity words in p0 / p0+2: the loudness
+; is (vx^2 + vy^2) / 8 of their high bytes, limited to $70, and the pitch is the instrument pitch scaled by a
+; random factor $C0-$FF. The sound is queued with QueueSound and a voice just started gets that pitch.
+;
+; Called from dopass, doshot, puckgoalie, puckglue, checkgoal and puckstick.
+PuckSfx:							; play sound A with half the puck velocity
 	pha
 	lda.w puckvx
 	cmp.w #$8000
@@ -10,7 +16,7 @@ PuckSfx:
 	ror a
 	sta.b p0+2
 	pla
-sfx:
+sfx:								; play sound A with the velocity in p0 / p0+2
 	phx
 	sta.b p1+2
 	asl a
@@ -24,7 +30,7 @@ sfx:
 	cmp.w #$0080
 	bcc .1
 	ora.w #$FF00
-.1:
+.1:									; sign extend the X velocity byte
 	tax
 	jsl.l Mul8S
 	sta.b SfxVelocity
@@ -33,7 +39,7 @@ sfx:
 	cmp.w #$0080
 	bcc .2
 	ora.w #$FF00
-.2:
+.2:									; sign extend the Y velocity byte
 	tax
 	jsl.l Mul8S
 	clc
@@ -48,10 +54,10 @@ sfx:
 	sta.b SfxVelocity
 	bra .3
 
-.t1:
+.t1:								; loudness limit
 	lda.w #$7000
 	sta.b SfxVelocity
-.3:
+.3:									; pitch: instrument pitch times a random factor
 	ldy.w #$0002
 	lda.b [InstPtr],y
 	tax
@@ -79,7 +85,7 @@ sfx:
 	lda.b p0
 	sta.w VoicePitch,y
 	sta.w recsfxpitch
-.1x:
+.1x:								; voice started: take the pitch from p0
 	sep #$20
 	inc.w SoundLock
 	rep #$20

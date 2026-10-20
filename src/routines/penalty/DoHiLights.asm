@@ -1,25 +1,29 @@
 ; Playoffs: play the highlight of each game of the round that has one
-DoHiLights:
-	lda.l OptPlayMode
-	beq .rtl
-	jsl.l GetShifter
+;
+; Playoffs: for each game of the round that still has a highlight pending (and is not played out),
+; clears that flag and plays the highlight through SaveRegsStartHL2. Does nothing in a regular season.
+; Called from IntermissionTick.
+DoHiLights:							; play the pending highlights
+	lda.l OptPlayMode				; play mode of the game options
+	beq .rtl						; not playoffs: nothing to do
+	jsl.l GetShifter				; d1 = number of games
 	lda.b d1
 	asl a
-	sta.b a0
-.loop:
+	sta.b a0						; a0 = game offset (word entries)
+.loop:								; loop over the games, last to first
 	ldx.b a0
-	lda.l gsflags,x
-	bit.w #$0004
-	bne .1
-	bit.w #$0002
-	beq .1
-	and.w #$FFFD
+	lda.l gsflags,x					; game flags
+	bit.w #$0004					; flag $0004: game already played out
+	bne .1							; played: next game
+	bit.w #$0002					; flag $0002: highlight pending
+	beq .1							; none: next game
+	and.w #$FFFD					; clear the highlight flag
 	sta.l gsflags,x
-	jsl.l SaveRegsStartHL2
-.1:
+	jsl.l SaveRegsStartHL2			; play the highlight
+.1:									; previous game
 	dec.b a0
 	dec.b a0
 	dec.b d1
-	bpl .loop
-.rtl:
+	bpl .loop						; until game 0 is done
+.rtl:								; return
 	rtl

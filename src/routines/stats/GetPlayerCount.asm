@@ -1,5 +1,9 @@
 ; d0 = the number of players on team a2's roster.
-GetPlayerCount:
+; Takes a2 = team offset, returns d0 = number of players (counts the players of the roster list until the
+; terminator word $0002). a0 is preserved.
+;
+; Called from ScoutingReport, ShowStars, SwapPlayerCardTeam, ShowPlayerCards and ShooterSelectList.
+GetPlayerCount:						; count the players of the team
 	lda.b a0
 	pha
 	lda.b a0+2
@@ -15,7 +19,7 @@ GetPlayerCount:
 	adc.b a0
 	sta.b a0
 	stz.b d0
-.count:
+.count:								; next player record
 	inc.b d0
 	lda.b [a0]
 	clc

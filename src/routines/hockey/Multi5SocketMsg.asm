@@ -1,6 +1,8 @@
 ; Print "The MultiPlayer 5 must be connected to Controller Socket #2."
-Multi5SocketMsg:
-	lda.b a1+2
+;
+; Same structure as Multi5MouseMsg.
+Multi5SocketMsg:					; print the MultiPlayer 5 socket warning
+	lda.b a1+2						; line 1: save a1, print the text, restore a1
 	pha
 	lda.b a1
 	pha
@@ -13,7 +15,7 @@ Multi5SocketMsg:
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.b a1+2
+	lda.b a1+2						; line 2: "connected to Controller"
 	pha
 	lda.b a1
 	pha
@@ -26,7 +28,7 @@ Multi5SocketMsg:
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.b a1+2
+	lda.b a1+2						; line 3: "Socket #2."
 	pha
 	lda.b a1
 	pha
@@ -40,5 +42,5 @@ Multi5SocketMsg:
 	pla
 	sta.b a1+2
 org $9DB000
-	jsl.l SendTextMap
+	jsl.l SendTextMap				; show the text map
 	rtl

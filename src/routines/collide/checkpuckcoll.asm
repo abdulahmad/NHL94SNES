@@ -12,9 +12,9 @@ checkpuckcoll:
 	lda.w OOlist+1,y
 	and.w #$00FF
 	tay
-	lda.w Ylist,y
+	lda.w Ylist,y					; y of the next higher object
 	sec
-	sbc.w pucky
+	sbc.w pucky						; minus the puck's y
 	sec
 	sbc.w #$0028
 	bpl .t1
@@ -31,9 +31,9 @@ checkpuckcoll:
 	lda.w OOlist-1,y
 	and.w #$00FF
 	tay
-	lda.w pucky
+	lda.w pucky						; puck's y
 	sec
-	sbc.w Ylist,y
+	sbc.w Ylist,y					; minus the y of the next lower object
 	sec
 	sbc.w #$0028
 	bpl .1

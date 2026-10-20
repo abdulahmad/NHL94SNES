@@ -1,12 +1,14 @@
 ; d3 = the next game for the ticker, or negative when none is left
-NewTicker2:
-	lda.w TickerNum
-	sta.b d3
-	bmi .rtl
-	dec.w TickerNum
+;
+; Called from InitTicker, TickerNext, NewTicker and NewTicker3.
+NewTicker2:							; picks the next game
+	lda.w TickerNum					; ticker game
+	sta.b d3						; d3 = it
+	bmi .rtl						; negative: none left
+	dec.w TickerNum					; following game next time
 	lda.b d3
-	cmp.l gamenum
-	beq NewTicker2
-	bra NewTicker3
-.rtl:
-	rtl
+	cmp.l gamenum					; the game being played?
+	beq NewTicker2					; yes: skip it
+	bra NewTicker3					; no: show it
+.rtl:								; return
+	rtl								; return

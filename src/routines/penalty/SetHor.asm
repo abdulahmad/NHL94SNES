@@ -1,67 +1,71 @@
 ; Switch to the horizontal rink (the scoreboard screen)
-SetHor:
-	stx.b xsave
+;
+; Called from SaveRegsStartHL2, ReloadRink, Pausemode, chkprogress, ReplayMode and PeriodOver. Saves
+; the d0 and a0 register blocks, halves the puck speed, blanks the screen, resets the scroll and the row
+; counters, sorts the sprites and runs StatsReport. Restores the registers and returns with x = a3.
+SetHor:								; switches to the horizontal rink
+	stx.b xsave						; keep x
 	ldx.w #$0000
-.save:
+.save:								; save d0 and the next 13 words
 	lda.b d0,x
 	pha
 	inx
 	inx
 	cpx.w #$001C
 	bne .save
-	ldx.b xsave
+	ldx.b xsave						; restore x
 	stx.b xsave
 	ldx.w #$0000
-.savea:
+.savea:								; save a0 and the next 13 words
 	lda.b a0,x
 	pha
 	inx
 	inx
 	cpx.w #$001C
 	bne .savea
-	ldx.b xsave
-	lda.w puckvx
+	ldx.b xsave						; restore x
+	lda.w puckvx					; puck x speed
 	pha
-	asl a
+	asl a							; sign into carry
 	pla
-	ror a
+	ror a							; arithmetic shift right: half
 	sta.w puckvx
-	lda.w puckvy
+	lda.w puckvy					; puck y speed
 	pha
-	asl a
+	asl a							; sign into carry
 	pla
-	ror a
+	ror a							; arithmetic shift right: half
 	sta.w puckvy
-	lda.w #$0001
+	lda.w #$0001					; the rink blocks must be redrawn
 	sta.l redrawblocks
-	jsl.l forceblack
-	lda.w #$0001
+	jsl.l forceblack				; blank the screen
+	lda.w #$0001					; horizontal mode on
 	sta.w sfhormode
-	stz.w Hscroll
-	lda.w #$FFFF
+	stz.w Hscroll					; scroll x = 0
+	lda.w #$FFFF					; scroll y = -1
 	sta.w Vscroll
-	lda.w #$002E
+	lda.w #$002E					; row to draw from
 	sta.w Oldrow
-	stz.w vramrow
-	jsl.l SprSort
-	jsl.l StatsReport
-	stx.b xsave
+	stz.w vramrow					; VRAM row = 0
+	jsl.l SprSort					; sort the sprites
+	jsl.l StatsReport				; draw the stats screen
+	stx.b xsave						; keep x
 	ldx.w #$001A
-.resta:
+.resta:								; pull back a0 and the next 13 words
 	pla
 	sta.b a0,x
 	dex
 	dex
 	bpl .resta
-	ldx.b xsave
+	ldx.b xsave						; restore x
 	stx.b xsave
 	ldx.w #$001A
-.restore:
+.restore:							; pull back d0 and the next 13 words
 	pla
 	sta.b d0,x
 	dex
 	dex
 	bpl .restore
-	ldx.b xsave
-	ldx.b a3
+	ldx.b xsave						; restore x
+	ldx.b a3						; x = a3
 	rtl

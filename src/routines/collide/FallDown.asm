@@ -34,7 +34,7 @@ FallDown:
 	adc.w #$000A
 	sta.b d0
 	sec
-	sbc.w impact,y
+	sbc.w impact,y					; minus the impact
 	bmi .t2
 	lda.w #$003C
 	sta.w nopuckb,y
@@ -55,22 +55,22 @@ FallDown:
 	lda.w gmclock
 	bne .2
 	ldy.b a0
-	lda.w tmchecks,y
+	lda.w tmchecks,y				; team checks
 	inc a
-	sta.w tmchecks,y
+	sta.w tmchecks,y				; count it
 .2:
-	ldy.b a2
-	lda.w #$0078
+	ldy.b a2						; nopuck 120 for a2
+	lda.w #$0078					; puck lockout 120
 	sta.w nopuck,y
-	lda.w Xpos,x
+	lda.w Xpos,x					; direction from a2 to the hitter
 	sec
-	sbc.w Xpos,y
+	sbc.w Xpos,y					; minus x of a2
 	sta.b d0
-	lda.w Ypos,x
+	lda.w Ypos,x					; y of the hitter
 	sec
-	sbc.w Ypos,y
+	sbc.w Ypos,y					; minus y of a2
 	sta.b d1
-	jsl.l vtoa
+	jsl.l vtoa						; vector to direction
 	lda.w Xpos,y
 	cmp.w #$0068
 	bpl .7
@@ -210,24 +210,24 @@ FallDown:
 	jsl.l StartBenchCheer
 	lda.w #$0002
 	sta.w benchrounds
-	lda.w #SPAfallback
+	lda.w #SPAfallback				; fall back
 	sta.b d1
-	ldy.b a2
-	lda.b d0
+	ldy.b a2						; hit from the front: fall back
+	lda.b d0						; direction to the hitter
 	sec
 	sbc.w facedir,y
 	inc a
 	and.w #$0007
-	cmp.w #$0003
+	cmp.w #$0003					; within 2 of the facing?
 	bcc .21
-	lda.w #SPAfallfwd
+	lda.w #SPAfallfwd				; else fall forward
 	sta.b d1
-	lda.w facedir,y
+	lda.w facedir,y					; facedir 0 or 4 and hitter aggress >= 10: third fall
 	and.w #$0003
 	bne .21
-	lda.w aggress,x
+	lda.w aggress,x					; hitter's aggression
 	sec
-	sbc.w #$000A
+	sbc.w #$000A					; minus 10
 	bmi .21
 	cpx.w #$0018
 	bcs .21
@@ -235,9 +235,9 @@ FallDown:
 	sta.b d1
 .21:
 	ldx.b a2
-	lda.w #$0001
+	lda.w #$0001					; pfalock
 	sta.w pfalock,x
-	jsl.l SetSPA
+	jsl.l SetSPA					; start animation d1
 	ldx.b a3
 	lda.w position,x
 	bne .24
@@ -282,7 +282,7 @@ FallDown:
 	asl a
 	ldy.b a2
 	sec
-	sbc.w impact,y
+	sbc.w impact,y					; minus the impact
 	bpl .23
 	lda.w gmclock
 	bne .23
@@ -316,8 +316,8 @@ FallDown:
 	cmp.w #$8000
 	ror a
 	sta.w Yvel,x
-	jsl.l setInjuryType
-	lda.w #$0004
+	jsl.l setInjuryType				; setInjuryType
+	lda.w #$0004					; injury countdown
 	sta.w InjCntDown
 	lda.w #$0016
 	sta.b d0
@@ -336,11 +336,11 @@ FallDown:
 	bne .t1x
 	jmp.w AddPenalty2
 
-.t1x:
-	lda.w #PenRoughing2
+.t1x:								; roughing penalty
+	lda.w #PenRoughing2				; roughing penalty
 	sta.b d0
 	jsl.l AddPenalty2
-	jmp.w Stop4Pen
+	jmp.w Stop4Pen					; stop play
 .25:
 	ldy.b a2
 	lda.w SPA,y

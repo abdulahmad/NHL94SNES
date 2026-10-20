@@ -1,7 +1,7 @@
 ; Player a2 body checks a3: a3 falls if he is in front, and a charging penalty may be called
 Bcheck:
-	ldy.b a2
-	lda.w pfalock,x
+	ldy.b a2						; y = the checker
+	lda.w pfalock,x					; animation locked?
 	bne .t1
 	lda.w position,x
 	beq .t1
@@ -18,17 +18,17 @@ Bcheck:
 	cmp.w #$000C
 	bcc .t1
 .1:
-	lda.w Xpos,x
+	lda.w Xpos,x					; x of X
 	sec
-	sbc.w Xpos,y
+	sbc.w Xpos,y					; minus the checker's x
 	sta.b d0
-	lda.w Ypos,x
+	lda.w Ypos,x					; y of X
 	sec
-	sbc.w Ypos,y
+	sbc.w Ypos,y					; minus the checker's y
 	sta.b d1
-	jsl.l vtoa
-	ldy.b a2
-	lda.b d0
+	jsl.l vtoa						; vector to direction
+	ldy.b a2						; checker
+	lda.b d0						; within one direction of a2 facing
 	sec
 	sbc.w facedir,y
 	inc a
@@ -57,13 +57,13 @@ Bcheck:
 	rtl
 
 .t2:
-	jsl.l checkagr
+	jsl.l checkagr					; aggression check
 	lda.b d0
-	cmp.w #$0005
+	cmp.w #$0005					; aggression under 5?
 	bcs .2
-	lda.w #PenTripping
+	lda.w #PenTripping				; penalty $20
 	sta.b d0
-	jsl.l AddPenalty
+	jsl.l AddPenalty				; call it
 .2:
 	ldx.b a2
 	ldy.b a3

@@ -1,6 +1,8 @@
 ; Add the sizes of the free blocks of the heap chain at [p0], from block Y, to $14-$17
-HeapFreeBank:
-	iny
+;
+; Takes: p0+2 = bank, Y = first block header. Called by HeapFree (jsr).
+HeapFreeBank:						; add the sizes of the free blocks of the chain
+	iny								; free block (flags 0)?
 	iny
 	lda.b [p0],y
 	bne .next
@@ -15,12 +17,12 @@ HeapFreeBank:
 	sta.b r3+2
 	iny
 	iny
-.next:
+.next:								; used block: go to the next one
 	iny
 	iny
 	lda.b [p0],y
 	beq .done
 	tay
 	bra HeapFreeBank
-.done:
+.done:								; end of the chain
 	rts

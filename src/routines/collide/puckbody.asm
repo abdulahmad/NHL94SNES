@@ -41,13 +41,13 @@ puckbody:
 	sta.b d2
 	lda.w Yvel,x
 	sta.b d3
-	sep #$20
+	sep #$20						; puck velocity high bytes = offset
 	lda.b d0
 	sta.w Xvel+1,x
 	lda.b d1
 	sta.w Yvel+1,x
-	rep #$30
-	jsl.l puckflip
+	rep #$30						; 16-bit registers
+	jsl.l puckflip					; puckflip
 	lda.w puckz
 	cmp.w #$0008
 	bmi .3
@@ -70,7 +70,7 @@ org $9EF000
 	lda.b r2+2
 	adc.b d2+2
 	sta.b d2+2
-	cmp.w #$0900
+	cmp.w #$0900					; $3000^2
 	bcc .4
 	lda.w puckz
 	cmp.w #$000C

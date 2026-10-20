@@ -1,48 +1,51 @@
 ; A skateto callback near the puck carrier: d0 = the direction away from him
-EvadePC:
-	lda.w puckc
-	bmi .rtl
-	lda.w Xvel+1,x
+; Takes: X = player object. Used as the a0 callback of skateto (assdefo, assbench, asscentero, asswingo,
+; and others). If the puck carrier will be less than 40 away next frame in x and y, d0 = the direction away
+; from him (vtoa of the difference); otherwise returns with d0/d1 unchanged.
+EvadePC:							; callback: steer away from the puck carrier
+	lda.w puckc						; puck carrier
+	bmi .rtl						; nobody: nothing to evade
+	lda.w Xvel+1,x					; x speed (high byte) of this player
 	sec
-	sbc.w Xvel+$1D
-	and.w #$00FF
+	sbc.w Xvel+$1D					; minus the carrier's x speed
+	and.w #$00FF					; signed byte
 	bit.w #$0080
 	beq .2xx
-	ora.w #$FF00
+	ora.w #$FF00					; sign extend
 .2xx:
 	clc
-	adc.w Xpos,x
+	adc.w Xpos,x					; plus x: where he is next frame
 	sec
-	sbc.w puckx
-	cmp.w #$FFD7
+	sbc.w puckx						; minus the carrier's x
+	cmp.w #$FFD7					; more than 40 left of him: leave
 	bmi .rtl
-	cmp.w #$0029
+	cmp.w #$0029					; more than 40 right of him: leave
 	bpl .rtl
-	lda.w Yvel+1,x
+	lda.w Yvel+1,x					; y speed (high byte) of this player
 	sec
-	sbc.w Yvel+$1D
-	and.w #$00FF
+	sbc.w Yvel+$1D					; minus the carrier's y speed
+	and.w #$00FF					; signed byte
 	bit.w #$0080
 	beq .3x
-	ora.w #$FF00
+	ora.w #$FF00					; sign extend
 .3x:
 	clc
-	adc.w Ypos,x
+	adc.w Ypos,x					; plus y: where he is next frame
 	sec
-	sbc.w pucky
-	cmp.w #$FFD7
+	sbc.w pucky						; minus the carrier's y
+	cmp.w #$FFD7					; more than 40 above him: leave
 	bmi .rtl
-	cmp.w #$0029
+	cmp.w #$0029					; more than 40 below him: leave
 	bpl .rtl
-	lda.w Xpos,x
+	lda.w Xpos,x					; d0 = dx from the carrier
 	sec
 	sbc.w puckx
 	sta.b d0
-	lda.w Ypos,x
+	lda.w Ypos,x					; d1 = dy from the carrier
 	sec
 	sbc.w pucky
 	sta.b d1
-	jml.l vtoa
+	jml.l vtoa						; direction away from him
 
-.rtl:
+.rtl:								; return
 	rtl

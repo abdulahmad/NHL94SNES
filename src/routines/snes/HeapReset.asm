@@ -1,4 +1,6 @@
 ; HeapInit at the same starts
+;
+; Keeps all registers. No caller found in the ROM.
 HeapReset:							; HeapInit at the same starts
 	pha
 	phx

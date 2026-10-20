@@ -8,9 +8,9 @@ checkplcoll:
 .rtl:
 	rtl
 
-.t2:
-	lda.w OOlistpos,x
-	sta.b d1
+.t2:								; X's index in the sorted list
+	lda.w OOlistpos,x				; d1 = position of X in OOlist
+	sta.b d1						; X's index in the sorted list
 .loop:
 	ldy.b d1
 	cpy.w #$000F
@@ -18,17 +18,17 @@ checkplcoll:
 	lda.w OOlist+1,y
 	and.w #$00FF
 	tay
-	lda.w Ylist,y
+	lda.w Ylist,y					; its y
 	sec
-	sbc.b d3
+	sbc.b d3						; minus the y of X
 	sec
 	sbc.w #$000E
 	bpl .t1
 	lda.w position,y
 	bmi .1
-	lda.w Xpos,y
+	lda.w Xpos,y					; its x
 	sec
-	sbc.b d2
+	sbc.b d2						; minus the x of X
 	cmp.w #$FFF1
 	bmi .1
 	cmp.w #$000F
@@ -50,20 +50,20 @@ checkplcoll:
 	sta.b d1
 .loopx:
 	ldy.b d1
-	lda.w OOlist-1,y
+	lda.w OOlist-1,y				; next object down the list
 	and.w #$00FF
 	tay
 	lda.b d3
 	sec
-	sbc.w Ylist,y
+	sbc.w Ylist,y					; y of X minus its y
 	sec
 	sbc.w #$000E
 	bpl .rtlx
 	lda.w position,y
 	bmi .1x
-	lda.w Xpos,y
+	lda.w Xpos,y					; its x
 	sec
-	sbc.b d2
+	sbc.b d2						; minus the x of X
 	cmp.w #$FFF1
 	bmi .1x
 	cmp.w #$000F

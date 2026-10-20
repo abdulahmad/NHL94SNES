@@ -1,6 +1,8 @@
 ; Print "The MultiPlayer 5 is not designed for use with the Super NES Super Scope."
-Multi5ScopeMsg:
-	lda.b a1+2
+;
+; Same structure as Multi5MouseMsg.
+Multi5ScopeMsg:						; print the MultiPlayer 5 Super Scope warning
+	lda.b a1+2						; line 1: save a1, print the text, restore a1
 	pha
 	lda.b a1
 	pha
@@ -13,7 +15,7 @@ Multi5ScopeMsg:
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.b a1+2
+	lda.b a1+2						; line 2: "designed for use with the"
 	pha
 	lda.b a1
 	pha
@@ -26,7 +28,7 @@ Multi5ScopeMsg:
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.b a1+2
+	lda.b a1+2						; line 3: "Super NES Super Scope."
 	pha
 	lda.b a1
 	pha
@@ -39,5 +41,5 @@ Multi5ScopeMsg:
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l SendTextMap
+	jsl.l SendTextMap				; show the text map
 	rtl

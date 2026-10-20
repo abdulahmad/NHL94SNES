@@ -1,5 +1,8 @@
 ; d0 = defensemen on team a2 (low nibble of team data byte 3 at +8)
-GetDefenseCount:
+; Takes a2 = team offset, returns d0.
+;
+; Called from SelectLinePlayer.
+GetDefenseCount:					; count the defensemen of the team
 	ldy.b a2
 	lda.w #$009C
 	sta.b a3+2

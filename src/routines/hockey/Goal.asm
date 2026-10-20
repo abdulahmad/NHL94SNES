@@ -1,44 +1,48 @@
 ; The puck is in the goal: the siren, the score, the log, the scoreboard and the celebration (shootout goals
 ; through EndPenaltyShot)
-Goal:
-	lda.w gmclock
+;
+; Takes no registers; the puck position and gmdir decide which team scored. Called from checkgoal.
+Goal:								; the puck is in the net: score, log, scoreboard, celebration
+	lda.w gmclock					; game clock stopped: no goal, just kill the puck velocity
 	beq .t3
 	stz.w puckvz
 	stz.w puckvx
 	stz.w puckvy
 	rtl
 
-.t3:
+.t3:								; penalty shot in progress?
 	lda.w PenShotActive
 	beq .6
-	lda.w pucky
+	lda.w pucky						; puck at the far or near end, with gmdir this says which team shot at
+									; which net
 	bpl .t1
 	lda.w gmode
 	bit.w #gmdir
 	beq .in
 	bra .t2
 
-.t1:
+.t1:								; same test with the ends swapped
 	lda.w gmode
 	bit.w #gmdir
 	beq .t2
 	bra .in
 
-.t2:
+.t2:								; shot at the wrong net: BA_Team 0 goes on to count the goal
 	lda.w BA_Team
 	beq .6
-.1:
+.1:									; penalty shot ends without a goal
 	jsl.l EndPenaltyShot
 	jmp.w .16
-.in:
+.in:								; shot at the right net
 	lda.w BA_Team
 	beq .1
-.6:
+.6:									; count the goal. Log the shot, freeze the window, replay delay 30
+									; frames
 	jsl.l ChkShotStat
 	jsl.l freezewindow
 	lda.w #$001E
 	sta.w replaydelay
-	stz.b a2
+	stz.b a2						; a2 = scoring team (0 home, 2 visitors), a1 = the other
 	lda.w #$0002
 	sta.b a1
 	lda.w pucky
@@ -46,7 +50,7 @@ Goal:
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
-.1x:
+.1x:								; gmdir set (ends swapped in this period): swap scorer and other
 	lda.w gmode
 	bit.w #gmdir
 	beq .2x
@@ -54,12 +58,13 @@ Goal:
 	sta.b a2
 	eor.w #$0002
 	sta.b a1
-.2x:
+.2x:								; scoring team's score +1
 	ldy.b a2
 	lda.w tmscore,y
 	inc a
 	sta.w tmscore,y
-	lda.w tmap
+	lda.w tmap						; short handed? compare tmap of the two teams (home - visitors, probably
+									; skaters on ice)
 	sec
 	sbc.w tmap+2
 	beq .4
@@ -68,14 +73,14 @@ Goal:
 	beq .4
 	bra .3
 
-.t1x:
+.t1x:								; visitors have fewer skaters: only a visitor goal counts
 	ldy.b a2
 	bne .4
-.3:
+.3:									; short handed goal +1
 	lda.w tmSHGoals,y
 	inc a
 	sta.w tmSHGoals,y
-.4:
+.4:									; penalty shot goal or breakaway goal counters
 	lda.w penshot
 	bne .t1xx
 	lda.w breakaway
@@ -86,19 +91,19 @@ Goal:
 	sta.w tmBreakawayGoals,y
 	bra .5
 
-.t1xx:
+.t1xx:								; penalty shot goal +1
 	ldy.b a2
 	lda.w tmPenShotGoals,y
 	inc a
 	sta.w tmPenShotGoals,y
-.5:
+.5:									; one timer goal +1
 	lda.w onetimer
 	beq .1xx
 	ldy.b a2
 	lda.w tmOneTimerGoals,y
 	inc a
 	sta.w tmOneTimerGoals,y
-.1xx:
+.1xx:								; music off, siren sound, bench cheer
 	jsl.l MusicStop
 	lda.w #$0002
 	jsl.l StreamSfx
@@ -116,7 +121,7 @@ Goal:
 	sta.l crowdlevel
 	bra .score
 
-.t1xxx:
+.t1xxx:								; home scored: crowd +$1F4, hold, play the goal song
 	inc a
 	inc a
 	jsl.l StartBenchCheer
@@ -128,7 +133,8 @@ Goal:
 	sta.b crowdhold
 	lda.w #$0003
 	jsl.l PlayTeamSong
-.score:
+.score:								; remember the frame of the goal (sfx mute time), end the penalty
+									; shot, clear breakaway and one timer
 	lda.b vcount
 	sta.w sfxmutetime
 	jsl.l EndPenaltyShot
@@ -144,7 +150,7 @@ Goal:
 	adc.w #$001E
 	bmi .1xxx
 	sta.w CwdExciteLvl
-.1xxx:
+.1xxx:								; crowd excitement +30, -50 more if the visitors scored
 	lda.b a2
 	beq .2xxx
 	inx
@@ -154,7 +160,7 @@ Goal:
 	adc.w #$FFCE
 	bmi .2xxx
 	sta.w CwdExciteLvl
-.2xxx:
+.2xxx:								; goals this period +1 for the scoring team
 	lda.w tmPerGoals,x
 	inc a
 	sta.w tmPerGoals,x
@@ -165,7 +171,7 @@ Goal:
 	sec
 	sbc.w #$0006
 	sta.l ScoreSumbytes
-.3x:
+.3x:								; append to the score summary (6 bytes per goal, 100 goals at most)
 	lda.w #$007E
 	sta.b a0+2
 	lda.w #ScoreSum
@@ -175,12 +181,12 @@ Goal:
 	lda.l ScoreSumbytes
 	adc.w #$0006
 	sta.l ScoreSumbytes
-	jsl.l GetPeriodTimeRemaining
+	jsl.l GetPeriodTimeRemaining	; entry word 0 = time left in the period
 	lda.b d0
 	sta.b [a0]
 	inc.b a0
 	inc.b a0
-	lda.w #$0002
+	lda.w #$0002					; entry word 1 = 2 + tmap difference, bit 7 set for a visitor goal
 	clc
 	ldy.b a2
 	adc.w tmap,y
@@ -190,7 +196,7 @@ Goal:
 	ldy.b a2
 	beq .4x
 	ora.w #$0080
-.4x:
+.4x:								; entry word 2 = scorer, then $FFFF end marker
 	sta.b [a0]
 	inc.b a0
 	lda.w tmtouch1,y
@@ -199,21 +205,21 @@ Goal:
 	inc.b a0
 	lda.w #$FFFF
 	sta.b [a0]
-	ldx.b a2
+	ldx.b a2						; scorer (d0) is not the team goalie: count his goal
 	lda.w tmgoalie,x
 	cmp.b d0
 	beq .6x
 	lda.b a2
 	beq .5x
 	lda.w #$001A
-.5x:
+.5x:								; index the scorer in the team stat table (visitors +$1A)
 	clc
 	adc.b d0
 	tax
 	sep #$20
 	inc.w tmgoals,x
 	rep #$20
-.6x:
+.6x:								; first assist
 	ldy.b a2
 	lda.w tmtouch2,y
 	sta.b d0
@@ -224,7 +230,7 @@ Goal:
 	lda.b a2
 	beq .7
 	lda.w #$001A
-.7:
+.7:									; assists +1
 	clc
 	adc.b d0
 	tax
@@ -241,14 +247,14 @@ Goal:
 	lda.b a2
 	beq .8
 	lda.w #$001A
-.8:
+.8:									; second assist, same
 	clc
 	adc.b d0
 	tax
 	sep #$20
 	inc.w passists,x
 	rep #$20
-.9:
+.9:									; other team's goalie
 	ldy.b a1
 	lda.w tmgoalie,y
 	sta.b d0
@@ -261,12 +267,12 @@ Goal:
 	adc.b d0
 	tax
 	inc.w tmgoals,x
-.11:
+.11:								; penalty goal handling, redraw the score
 	jsl.l PenGoalStuff
 	jsl.l printscores1
 	lda.w #$0008
 	sta.b d0
-	jsl.l .t1xxxx
+	jsl.l .t1xxxx					; d0 = 8: give team a2's skaters assignment 8 (routine below)
 	lda.b a2
 	bne .12
 	lda.w tmscore+2
@@ -275,7 +281,7 @@ Goal:
 	bmi .12
 	cmp.w #$0003
 	bcs .12
-.12:
+.12:								; puck stops at the goal line and pops up
 	stz.w collflag
 	stz.w puckvx
 	stz.w puckvy
@@ -283,13 +289,13 @@ Goal:
 	lda.w puckx
 	bpl .13
 	ldy.w #$FFFA
-.13:
+.13:								; puck x +-6
 	sty.w puckx
 	ldy.w #$0110
 	lda.w pucky
 	bpl .14
 	ldy.w #$FEF0
-.14:
+.14:								; puck y +-$110, z speed $600
 	sty.w pucky
 	lda.w #$0600
 	sta.w puckvz
@@ -301,11 +307,11 @@ Goal:
 	lda.w #$001A
 	sta.b d0
 	jsl.l assreplace
-	inx
+	inx								; siren sprite animation
 	inx
 	lda.w #SPAsiren
 	jsl.l SetSPAFromA
-	ldy.b a2
+	ldy.b a2						; scoring team's first skater gets the penalty goal assignment
 	ldx.w tmsort,y
 	stx.b a3
 	lda.w #PenGoal
@@ -315,7 +321,8 @@ Goal:
 	stx.b a3
 	rtl
 
-.t1xxxx:
+.t1xxxx:							; give each non-absent skater of team a2 assignment d0 (6
+									; players)
 	phx
 	ldy.b a2
 	lda.w tmsort,y
@@ -328,11 +335,11 @@ Goal:
 	beq .1xxxx
 	stz.w pfnc,x
 	jsl.l assinsert
-.1xxxx:
+.1xxxx:								; next skater
 	inx
 	inx
 	dec.b d3
 	bpl .loop
 	plx
-.16:
+.16:								; return
 	rtl

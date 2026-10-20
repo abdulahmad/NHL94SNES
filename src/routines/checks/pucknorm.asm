@@ -3,14 +3,14 @@ pucknorm:
 	lda.w #$0002
 	trb.w pflags+puckobj
 	beq pucknorm_move
-	stz.w temp1+puckobj
+	stz.w temp1+puckobj				; temp1 = 0, temp2b = still puck timer 120
 	stz.w temp2+puckobj
 	lda.w #$0078
 	sta.w temp2b+puckobj
 	lda.w #$0000
 	sta.l pspuckback
 pucknorm_move:
-	lda.w puckcross+2
+	lda.w puckcross+2				; puckcross times count down
 	sec
 	sbc.b d7
 	sta.w puckcross+2
@@ -18,7 +18,7 @@ pucknorm_move:
 	sec
 	sbc.b d7
 	sta.w puckcross+6
-	lda.w temp1+puckobj
+	lda.w temp1+puckobj				; every 5 frames: findpc
 	sec
 	sbc.b d7
 	sta.w temp1+puckobj
@@ -41,7 +41,7 @@ pucknorm_move:
 	sbc.w puckx
 	lsr a
 	lsr a
-	bit.w #$2000
+	bit.w #$2000					; asr #2
 	beq .2
 	ora.w #$C000
 .2:
@@ -62,14 +62,14 @@ pucknorm_move:
 	clc
 	adc.w pucky
 	sta.w pucky
-	lda.w Xvel,y
+	lda.w Xvel,y					; puck velocity = carrier velocity
 	sta.w puckvx
 	lda.w Yvel,y
 	sta.w puckvy
 .4:
 	jsl.l PuckIChk
 	jsl.l ChkOffsides
-	lda.w gmclock
+	lda.w gmclock					; clock stopped
 	bne .13
 	lda.w puckc
 	bpl .11
@@ -111,7 +111,7 @@ pucknorm_move:
 	lda.w pucky
 	cmp.w OldYpos+puckobj
 	bne .12
-	lda.w #PenOOP
+	lda.w #PenOOP					; PenOOP: whistle
 	sta.b d0
 	dec.w temp2b+puckobj
 	bpl .13
@@ -131,9 +131,9 @@ pucknorm_move:
 	beq .t1x
 	jmp.w checkpuckcoll
 
-.t1x:
-	jsl.l pucknothing
-	jmp.w checkpuckcoll
+.t1x:								; stop spinning, check collisions
+	jsl.l pucknothing				; pucknothing: stop spinning
+	jmp.w checkpuckcoll				; bra checkpuckcoll
 .14:
 	phx
 	lda.w #$0108

@@ -1,5 +1,8 @@
 ; Print one ticker line: team d0's name and score d1
-TickerTeam:
+;
+; Prints one ticker line: d0 = team, d1 = its score. Takes the printx on the stack from NewTicker3.
+; Called from NewTicker3. Ends in a jump to print.
+TickerTeam:							; prints one team line of the ticker
 	lda.b r1,s
 	sta.w printx
 	inc.w printy
@@ -13,4 +16,4 @@ TickerTeam:
 	lda.b d1
 	sta.b d0
 	jsl.l PushNumber
-	jml.l print
+	jml.l print						; printx saved by NewTicker3

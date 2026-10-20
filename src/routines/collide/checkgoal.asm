@@ -14,9 +14,9 @@ checkgoal:
 	cmp.w #$000D
 	bpl .t1
 	ldy.b a2
-	lda.b d2
+	lda.b d2						; x of the object
 	sec
-	sbc.w Xpos,y
+	sbc.w Xpos,y					; minus the goal x
 	sta.b d2
 	cmp.w #$0017
 	bpl .t1
@@ -25,9 +25,9 @@ checkgoal:
 	bmi .t1
 	lda.w #$0009
 	sta.b d5
-	lda.b d3
+	lda.b d3						; y of the object
 	sec
-	sbc.w Ypos,y
+	sbc.w Ypos,y					; minus the goal y
 	sta.b d3
 	cmp.w #$000A
 	bpl .t1
@@ -50,18 +50,18 @@ checkgoal:
 .t1:
 	rtl
 
-.t2:
-	stz.w pfgoal+puckobj
-	lda.w puckc
+.t2:								;pfgoal of the puck = the carrier shot into his own goal
+	stz.w pfgoal+puckobj			; clear pfgoal
+	lda.w puckc						; carrier: loses the puck, nopuck 8
 	bmi .2
 	tay
-	lda.w #$FFFF
+	lda.w #$FFFF					; puck is loose
 	sta.w puckc
 	lda.w #$0008
-	sta.w nopuck,y
-	lda.w pucky
+	sta.w nopuck,y					; lockout 8
+	lda.w pucky						; puck y
 	sta.b d1
-	lda.w pfgoal,y
+	lda.w pfgoal,y					; carrier's end
 	bne .1x
 	lda.w #$0000
 	sec
@@ -77,15 +77,15 @@ checkgoal:
 	sta.b d0
 	lda.w #$FF01
 	sta.b p0
-	lda.w Yfrac,x
+	lda.w Yfrac,x					; y movement
 	sec
 	sbc.w OldYfrac,x
 	sta.b d1
-	lda.w Ypos,x
-	sbc.w OldYpos,x
+	lda.w Ypos,x					; new y
+	sbc.w OldYpos,x					; minus old y
 	sta.b d1+2
-	lda.b d1+1
-	sta.b d1
+	lda.b d1+1						; high byte
+	sta.b d1						; d1 = y movement
 	cmp.w #$0000
 	beq .6
 	bmi .3
@@ -102,12 +102,12 @@ checkgoal:
 	sbc.b d5
 	sta.b d5
 .3:
-	lda.b d5
+	lda.b d5						; crossing depth
 	clc
 	adc.b d3
 	sta.b d5
 	sta.b r2
-	lda.w Xfrac,x
+	lda.w Xfrac,x					; d3 = (Xpos - OldXpos) >> 8; d5*d3
 	sec
 	sbc.w OldXfrac,x
 	sta.b d3
@@ -140,9 +140,9 @@ checkgoal:
 	lda.b r0
 	sta.b d5
 	ldx.b a3
-	lda.b d2
+	lda.b d2						; d2 = crossing x
 	sec
-	sbc.b d5
+	sbc.b d5						; minus
 	sta.b d2
 	cmp.w #$FFEA
 	bmi .6
@@ -228,13 +228,13 @@ checkgoal:
 	and.w #$1FFF
 	sec
 	sbc.w #$1000
-	sta.w puckvx
+	sta.w puckvx					; puck x velocity
 	jsl.l RandomWord
 	and.w #$1FFF
 	sec
 	sbc.w #$1000
-	sta.w puckvz
-	jmp.w puckflip
+	sta.w puckvz					; puck z velocity
+	jmp.w puckflip					; flip the puck
 .10:
 	lda.w puckvz
 	bit.w #$8000
@@ -263,9 +263,9 @@ checkgoal:
 	stz.b d0
 	lda.w #$00FF
 	sta.b d1
-	lda.w puckx
+	lda.w puckx						; puck x
 	sec
-	sbc.w OldXpos+puckobj
+	sbc.w OldXpos+puckobj			; minus the old x
 	sta.b d2
 	bmi .1xxxxx
 	lda.w #$FF01

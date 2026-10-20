@@ -1,15 +1,15 @@
 ; Set player X's first assignment from his position
 Setplass:
-	lda.w position,x
+	lda.w position,x				; position
 	sta.b d0
 	bmi .t1
 	lda.w #$009F
 	sta.b a0+2
 	lda.w #.1
 	sta.b a0
-	ldy.b d0
+	ldy.b d0						; index by position
 	lda.b [a0],y
-	and.w #$00FF
+	and.w #$00FF					; assignment
 	sta.b d0
 	jml.l assreplace
 

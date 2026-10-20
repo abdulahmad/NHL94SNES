@@ -1,6 +1,6 @@
 ; Assignment: the face off and the setup for play
 puckfaceoff2:
-	lda.w pflags,x
+	lda.w pflags,x					; new assignment?
 	bit.w #pfna
 	bne .t2
 	jmp.w .18
@@ -8,19 +8,19 @@ puckfaceoff2:
 .t2:
 	and.w #$FFFD
 	sta.w pflags,x
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
-.loop:
+.loop:								; save d0 and the words after it (16 words)
 	lda.b d0,x
 	pha
 	inx
 	inx
 	cpx.w #$0020
 	bne .loop
-	ldx.b xsave
-	stx.b xsave
+	ldx.b xsave						; restore X
+	stx.b xsave						; keep X
 	ldx.w #$0000
-.loop2:
+.loop2:								; save a0 and the words after it (14 words)
 	lda.b a0,x
 	pha
 	inx
@@ -103,7 +103,7 @@ puckfaceoff2:
 	trb.w sflags3
 	stz.w iflags
 	stz.w replaydelay
-	lda.w #$FFFF
+	lda.w #$FFFF					; -1 marks the ref count, crossings, puck carrier and receiver as none
 	sta.w RefCnt
 	sta.w puckcross+2
 	sta.w puckcross+6
@@ -118,8 +118,8 @@ puckfaceoff2:
 	sta.l penmsgbox
 	lda.w #$0500
 	tsb.w sflags
-	jsl.l ClrHor
-	stz.w Vpos
+	jsl.l ClrHor					; back to the vertical rink
+	stz.w Vpos						; Vpos = Hpos = 0
 	stz.w Hpos
 	lda.l fox
 	sta.w puckx
@@ -128,51 +128,51 @@ puckfaceoff2:
 	stz.w puckvx
 	stz.w puckvy
 	stz.w puckvz
-	stz.w Xvel+$18
+	stz.w Xvel+$18					; goal nets (objects 12/13) at y +-268
 	stz.w Yvel+$18
 	stz.w Xpos+$18
 	lda.w #$010C
 	sta.w Ypos+$18
-	stz.w Xvel+$1A
+	stz.w Xvel+$1A					; goal net 2 at y -268
 	stz.w Yvel+$1A
 	stz.w Xpos+$1A
 	lda.w #$FEF4
 	sta.w Ypos+$1A
-	lda.w #SPFpuck
+	lda.w #SPFpuck					; object 15 (puck shadow) = SPFpuck
 	sta.w frame+$1E
 	stz.w SPA+$1E
 	stz.w attribute+$1E
 	stz.w attribute+puckobj
 	lda.w #$0040
 	trb.w sflags
-	lda.w #$0064
+	lda.w #$0064					; 100 scroll steps
 	sta.b d4
-.loopx:
+.loopx:								;scroll to the faceoff spot
 	jsl.l checkwindow
 	dec.b d4
 	bpl .loopx
-	lda.w #$003C
+	lda.w #$003C					; yleader = 60
 	sta.w yleader
-	jsl.l ResetBench
+	jsl.l ResetBench				; ResetBench
 	stz.b a2
-	jsl.l setpersonel
+	jsl.l setpersonel				; update the players on the ice
 	jsl.l forcepldata
 	inc.b a2
 	inc.b a2
-	jsl.l setpersonel
+	jsl.l setpersonel				; update the players on the ice
 	jsl.l forcepldata
-	jsl.l resetplstuff
+	jsl.l resetplstuff				; resetplstuff
 	lda.w #$FFFF
 	sta.w tmtouch2
 	sta.w tmtouch3
 	sta.w tmtouch2+2
 	sta.w tmtouch3+2
-	lda.b a3+2
+	lda.b a3+2						; push a3
 	pha
 	lda.b a3
 	pha
 	stz.b a3
-	lda.w #$000B
+	lda.w #$000B					; 12 objects
 	sta.b d2
 	lda.b d2
 	pha
@@ -202,9 +202,9 @@ puckfaceoff2:
 	bne .t2x
 	jmp.w .16
 
-.t2x:
+.t2x:								;each player: assignment and faceoff position
 	ldx.b a3
-	lda.w #$FF10
+	lda.w #$FF10					; Xpos = -240, off the screen
 	sta.w Xpos,x
 	stz.w Ypos,x
 	lda.w #$0001
@@ -231,7 +231,7 @@ puckfaceoff2:
 .2xxx:
 	lda.w #$0016
 	sta.b d0
-	lda.b d1
+	lda.b d1						; centers take the faceoff
 	cmp.w #$0004
 	bne .4x
 	stz.b a2
@@ -251,7 +251,7 @@ puckfaceoff2:
 .4x:
 	jsl.l assinsert
 .5:
-	lda.w tmap
+	lda.w tmap						; d4 = (6-tmap)*8: .apl row
 	sta.b d4
 	ldx.b a3
 	lda.w pfteam,x
@@ -260,7 +260,7 @@ puckfaceoff2:
 	sta.b d4
 .6:
 	lda.b d4
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	clc
 	adc.w #$0006
@@ -282,9 +282,9 @@ puckfaceoff2:
 	sta.b a1
 .7:
 	ldy.b d1
-	lda.b [a1],y
+	lda.b [a1],y					; table entry for the position
 	and.w #$00FF
-	asl a
+	asl a							; entry to a .ptab offset
 	asl a
 	sta.b d4
 	lda.w #$009F
@@ -292,13 +292,13 @@ puckfaceoff2:
 	lda.w #.21
 	sta.b a1
 	ldy.b d4
-	lda.b [a1],y
+	lda.b [a1],y					; X and Y offsets of the position
 	sta.b d0
 	iny
 	iny
 	lda.b [a1],y
 	sta.b d1
-	lda.w pfgoal,x
+	lda.w pfgoal,x					; mirror for the top goal
 	bne .8
 	lda.w #$0000
 	sec
@@ -325,7 +325,7 @@ puckfaceoff2:
 	beq .9
 	ora.w #$E000
 .9:
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	clc
 	adc.b d1
@@ -353,23 +353,23 @@ puckfaceoff2:
 	adc.l foy
 	sta.b d1
 .13:
-	lda.b d0
+	lda.b d0						; store X
 	sta.w Xpos,x
 	sec
 	sbc.w puckx
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	sta.b d0
-	lda.b d1
+	lda.b d1						; store Y
 	sta.w Ypos,x
 	sec
 	sbc.w pucky
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	sta.b d1
-	stz.w Xvel,x
+	stz.w Xvel,x					; stand still
 	stz.w Yvel,x
-	jsl.l vtoa
+	jsl.l vtoa						; face the puck
 	lda.b d0
 	sta.w facedir,x
 	lda.w pflags,x
@@ -401,7 +401,7 @@ puckfaceoff2:
 .t1xx:
 	pla
 	sta.b d2
-	jsl.l SprSort
+	jsl.l SprSort					; SprSort
 	pla
 	sta.b a3
 	pla
@@ -489,18 +489,18 @@ puckfaceoff2:
 	lsr a
 	lsr a
 	sta.w printx
-	lda.w #$005C
+	lda.w #$005C					; (3*8)+68
 	sta.l fodropy
 	lda.w #$0003
 	sta.w printy
-	lda.w printy
+	lda.w printy					; box row offset
 	asl a
 	asl a
 	asl a
 	asl a
 	asl a
 	adc.w printx
-	jsl.l marktextlo
+	jsl.l marktextlo				; mark the box rows dirty
 	lda.w printy
 	clc
 	adc.l FaceOffMap+2
@@ -529,7 +529,7 @@ puckfaceoff2:
 	adc.w printx
 	asl a
 	tax
-	ldy.w #$0000
+	ldy.w #$0000					; start of the map
 	lda.l FaceOffMap+2
 	sta.b tmp1+1
 	clc
@@ -538,7 +538,7 @@ puckfaceoff2:
 .loop4:
 	lda.l FaceOffMap
 	sta.b tmp2+1
-.loop5:
+.loop5:								; copy the faceoff map columns with the tile set added
 	lda.b [tmp0],y
 	clc
 	adc.l faceoffvrcset
@@ -653,15 +653,15 @@ puckfaceoff2:
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l Framer
-	lda.w tmline
+	jsl.l Framer					; d0/d1 size
+	lda.w tmline					; line numbers of the two teams
 	sta.b d0
 	lda.w tmline+2
 	sta.b d1
-	lda.w gmode
+	lda.w gmode						; gmdir
 	bit.w #gmdir
 	bne .2xxxxx
-	lda.w tmline
+	lda.w tmline					; swap the teams if the home team is below
 	sta.b d1
 	lda.w tmline+2
 	sta.b d0
@@ -678,7 +678,7 @@ puckfaceoff2:
 	inc.w printx
 	inc.w printx
 	inc.w printx
-	lda.b d1
+	lda.b d1						; then the visitor line name
 	sta.b d0
 	lda.w #linelist>>16
 	sta.b a1+2
@@ -690,7 +690,7 @@ puckfaceoff2:
 	and.w #$007F
 	adc.w #$00B4
 	sta.b d0
-	ldx.b a3
+	ldx.b a3						; temp1 = frames to the drop
 	sta.w temp1,x
 	lda.w penshot
 	beq .4xxx
@@ -719,24 +719,24 @@ puckfaceoff2:
 	lda.w #$FFFF
 	sta.l fodir1
 	sta.l fodir2
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$001A
-.loopxxx:
+.loopxxx:							; pull a0 and the words after it back
 	pla
 	sta.b a0,x
 	dex
 	dex
 	bpl .loopxxx
-	ldx.b xsave
-	stx.b xsave
+	ldx.b xsave						; restore X
+	stx.b xsave						; keep X
 	ldx.w #$001E
-.loop2xx:
+.loop2xx:							; pull d0 and the words after it back
 	pla
 	sta.b d0,x
 	dex
 	dex
 	bpl .loop2xx
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	ldx.b a3
 	rtl
 .18:

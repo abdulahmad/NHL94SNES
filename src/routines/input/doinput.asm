@@ -1,214 +1,218 @@
 ; Pad input for player X
-doinput:
-	jsl.l setpads
+;
+; Takes X = player, d0 = pad direction (bit 3 = none), d1 = new presses, d3 = buttons held, d4 = pad. Buttons:
+; Start $1000, Select $2000, Y $4000, B $8000, A $0080, X $0040, L $0020, R $0010. It dispatches by state:
+; faceoff, line change box, puck carrier (pass / shot / burst) or not (hold, change player, defense, goalie).
+doinput:							; pad input for player X
+	jsl.l setpads					; pad marker follows X
+	dec.b d4						; pad number
 	dec.b d4
-	dec.b d4
-	lda.b d3
-	bit.w #$1000
-	beq .5
-	lda.b d4
-	jmp.w PauseFromPad
-.1:
+	lda.b d3						; buttons held
+	bit.w #$1000					; Start?
+	beq .5							; no
+	lda.b d4						; pad number
+	jmp.w PauseFromPad				; pause from this pad
+.1:									; leave
 	rtl
-.5:
-	lda.w sfhormode
+.5:									; not paused
+	lda.w sfhormode					; horizontal screen?
 	beq .1x
-	lda.b d0
-	bit.w #$0008
+	lda.b d0						; pad direction
+	bit.w #$0008					; none?
 	bne .1x
-	inc a
+	inc a							; horizontal: turn the direction by 2 (90 degrees)
 	inc a
 	and.w #$0007
 	sta.b d0
-.1x:
-	lda.w sflags
-	bit.w #$0100
+.1x:								; face off in progress?
+	lda.w sflags					; game flags
+	bit.w #$0100					; bit $0100 (face off)?
 	beq .t2
-	jmp.w .7
+	jmp.w .7						; face off input
 
-.t2:
+.t2:								; assignment running
 	lda.w asscur,x
-	cmp.w #$BCC7
-	beq .1
-	phy
+	cmp.w #$BCC7					; probably an assignment that ignores the pad
+	beq .1							; leave
+	phy								; keep Y
 	ldy.w #$0000
-	lda.w pfteam,x
-	beq .1xx
-	ldy.w #$0002
+	lda.w pfteam,x					; team of X
+	beq .1xx						; home: team offset 0
+	ldy.w #$0002					; away: team offset 2
 .1xx:
-	lda.w lcpad,y
-	ply
-	cmp.w #$0000
+	lda.w lcpad,y					; the pad that owns the line change box of the team
+	ply								; restore Y
+	cmp.w #$0000					; nobody owns it?
 	bmi .2
-	cmp.b d4
-	bne .4
-.2:
+	cmp.b d4						; owned by this pad?
+	bne .4							; no: another pad has it
+.2:									; box owner is this pad or nobody
 	phy
 	ldy.w #$0000
 	lda.w pfteam,x
 	beq .3
 	ldy.w #$0002
 .3:
-	lda.w tmflags,y
+	lda.w tmflags,y					; team flags
 	ply
-	bit.w #$0008
-	bne .8
-.4:
-	lda.b d1
-	bit.w #$2000
-	bne .15
-	cpx.w puckc
+	bit.w #$0008					; line change box open (bit 3)?
+	bne .8							; yes: line change input
+.4:									; not in the line change box
+	lda.b d1						; new presses
+	bit.w #$2000					; Select?
+	bne .15							; yes: open the line change box
+	cpx.w puckc						; puck carrier?
 	bne .t1
-	jmp.w .18
+	jmp.w .18						; yes
 
-.t1:
+.t1:								; no puck: other controls
+	lda.b d1						; new presses
+	bit.w #$4000					; Y?
+	bne .9							; hold
+	lda.w pfalock,x					; animation locked?
+	bne .6							; yes
 	lda.b d1
-	bit.w #$4000
-	bne .9
-	lda.w pfalock,x
-	bne .6
+	bit.w #$0040					; X button?
+	bne .17							; yes: take the goalie
+	bit.w #$8000					; B?
+	bne .10							; yes: change player
+	lda.w position,x				; position
+	beq .13							; goalie
 	lda.b d1
-	bit.w #$0040
-	bne .17
-	bit.w #$8000
-	bne .10
-	lda.w position,x
-	beq .13
-	lda.b d1
-	bit.w #$0020
-	bne .11
-	bit.w #$0010
-	bne .12
-	lda.w passReceiverPlayerNum
+	bit.w #$0020					; L?
+	bne .11							; left defense
+	bit.w #$0010					; R?
+	bne .12							; right defense
+	lda.w passReceiverPlayerNum		; the pass receiver is this player?
 	cmp.b curobj
-	beq .6
+	beq .6							; yes
 	lda.b d1
-	bit.w #$0080
-	bne .16
-	jml.l doplayeracc
-.6:
+	bit.w #$0080					; A?
+	bne .16							; burst
+	jml.l doplayeracc				; skate
+.6:									; locked: the same limited actions as the puck carrier
 	jmp.w .22
-.7:
+.7:									; face off
 	jml.l faceoffinput
-.8:
+.8:									; line change box
 	jml.l lineinput
-.9:
+.9:									; hold the opposing player
 	jml.l Holdplayer
-.10:
+.10:								; change player
 	jml.l findpc
-.11:
+.11:								; take the left defense
 	jml.l PadTakeLeftDefense
-.12:
+.12:								; take the right defense
 	jml.l PadTakeRightDefense
-.13:
+.13:								; goalie input
 	lda.w goalieflags,x
-	bit.w #$0001
-	bne .1xxx
-	and.w #$0002
-	bne .14
+	bit.w #$0001					; goalie flag bit 0 set?
+	bne .1xxx						; yes: skate
+	and.w #$0002					; flag bit 1?
+	bne .14							; yes: no input
 .1xxx:
-	jml.l doplayeracc
-.14:
+	jml.l doplayeracc				; skate
+.14:								; nothing to do
 	rtl
-.15:
-	lda.w gmclock
-	bne .14
+.15:								; Select, no puck
+	lda.w gmclock					; clock stopped?
+	bne .14							; yes: leave
 	ldy.w #$0000
-	lda.w pfteam,x
+	lda.w pfteam,x					; team of X
 	beq .1xxxx
 	ldy.w #$0002
 .1xxxx:
-	lda.w lcpad,y
-	bpl .14
-	lda.b d4
+	lda.w lcpad,y					; line change box owner
+	bpl .14							; someone has it: leave
+	lda.b d4						; this pad
 	sta.w lcpad,y
-	jmp.w SetLCmode
+	jmp.w SetLCmode					; open the line change box
 .16:
-	jml.l burst
+	jml.l burst						; speed burst
 .17:
-	ldy.w #$0000
-	cpx.w #$000C
+	ldy.w #$0000					; goalie control
+	cpx.w #$000C					; X is on team 0?
 	bmi .1xxxxx
-	ldy.w #$0002
+	ldy.w #$0002					; team 1
 .1xxxxx:
-	lda.w goaliemode1,y
-	beq .14
-	jml.l PadTakeGoalie
-.18:
-	lda.w pfalock,x
-	bne .6
-	jsl.l checkob
-	lda.w position,x
-	bne .1xxxxxx
-	lda.w pf2aip,x
-	bne .14
+	lda.w goaliemode1,y				; manual goalie flag of the team
+	beq .14							; not set: leave
+	jml.l PadTakeGoalie				; take over the goalie
+.18:								; puck carrier
+	lda.w pfalock,x					; animation locked?
+	bne .6							; yes
+	jsl.l checkob					; check the boards?
+	lda.w position,x				; position
+	bne .1xxxxxx					; not the goalie
+	lda.w pf2aip,x					; goalie in an animation?
+	bne .14							; yes: leave
 .1xxxxxx:
-	lda.w sflags
-	bit.w #sfspdir
-	bne .t1x
-	bit.w #$0008
-	bne .t2x
-	lda.w dumpinplayer
+	lda.w sflags					; game flags
+	bit.w #sfspdir					; pass direction set?
+	bne .t1x						; yes: pass mode
+	bit.w #$0008					; shot direction set (bit 3)?
+	bne .t2x						; yes: shot mode
+	lda.w dumpinplayer				; puck dumped in by this player?
 	cmp.b curobj
-	beq .23
+	beq .23							; yes: nothing
+	lda.b d1						; new presses
+	bit.w #$8000					; B?
+	bne .t4							; yes: pass
+	bit.w #$4000					; Y?
+	bne .t3							; yes: assignment $14
+	lda.w position,x				; goalie?
+	beq .21							; yes: goalie control
 	lda.b d1
-	bit.w #$8000
-	bne .t4
-	bit.w #$4000
-	bne .t3
-	lda.w position,x
-	beq .21
-	lda.b d1
-	bit.w #$0080
-	bne .20
-	jml.l doplayeracc
+	bit.w #$0080					; A?
+	bne .20							; shot
+	jml.l doplayeracc				; skate
 
 .t1x:
-	jml.l passmode
+	jml.l passmode					; pass input
 
 .t2x:
-	jml.l ShotMode
+	jml.l ShotMode					; shot input
 
 .t3:
-	lda.w #$0014
+	lda.w #$0014					; assignment $14
 	sta.b d0
-	jml.l assinsert
+	jml.l assinsert					; give it to X
 
 .t4:
-	jml.l setpassmode
+	jml.l setpassmode				; set the pass direction
 .19:
-	jml.l findpc
+	jml.l findpc					; change player
 .20:
-	jml.l SetShotMode
+	jml.l SetShotMode				; start a shot
 .21:
-	jmp.w .13
+	jmp.w .13						; goalie
 .22:
-	cpx.w puckc
-	beq .23
+	cpx.w puckc						; puck carrier?
+	beq .23							; yes: nothing
 	lda.b d1
-	bit.w #$8000
-	bne .19
-	bit.w #$0040
-	beq .t1xx
-	jmp.w .17
+	bit.w #$8000					; B?
+	bne .19							; yes: change player
+	bit.w #$0040					; X button?
+	beq .t1xx						; no
+	jmp.w .17						; goalie control
 
 .t1xx:
-	bit.w #$0080
-	beq .23
-	ldy.w passReceiverPlayerNum
-	bmi .23
-	lda.w pflags,y
-	and.w #$1000
+	bit.w #$0080					; A?
+	beq .23							; no
+	ldy.w passReceiverPlayerNum		; pass receiver
+	bmi .23							; none
+	lda.w pflags,y					; his flags
+	and.w #$1000					; bit $1000 and his animation lock
 	ora.w pfalock,y
-	bne .23
-	lda.w playerpad,y
-	bpl .23
-	lda.w pfteam,y
+	bne .23							; set: leave
+	lda.w playerpad,y				; his pad
+	bpl .23							; he has a pad: leave
+	lda.w pfteam,y					; his team
 	cmp.w pfteam,x
-	bne .23
-	sty.b d0
-	inc.w onetimerreq
-	jsl.l AssignPadPlayer
+	bne .23							; other team: leave
+	sty.b d0						; d0 = receiver
+	inc.w onetimerreq				; one time request
+	jsl.l AssignPadPlayer			; give the pad to the receiver
 	rtl
 .23:
-	rtl
+	rtl								; return

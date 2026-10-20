@@ -1,6 +1,12 @@
 ; Line editor: pick a player for the cursor slot from the list (attribute pages, up / down); A = the player,
 ; negative when cancelled
-SelectLinePlayer:
+; Takes SelectedPlayerIdx = line, lineslots and linecursor = the slot to fill. Draws the pick screen and
+; lists the defensemen (cursor in the last rows) or the forwards, 9 rows at a time (pickfirst, picktop,
+; pickrows, listcount), starting at the player already in the slot. Returns A = chosen player
+; (roster index), or $FFFF when start cancels. Left/right change the attribute column (DispAttribCtr).
+;
+; Called from EditLinesScreen.
+SelectLinePlayer:					; pick a player for a line slot
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -70,21 +76,21 @@ SelectLinePlayer:
 	sta.w pickfirst
 	bra .3
 
-.t1:
+.t1:								; forwards are listed
 	jsl.l GetForwardCount
 	lda.b d0
 	sta.w listcount
 	jsl.l GoalieCount
 	lda.b d0
 	sta.w pickfirst
-.3:
+.3:									; first player of the list
 	sta.w picktop
 	lda.w #$0009
 	cmp.w listcount
 	beq .1
 	bmi .1
 	lda.w listcount
-.1:
+.1:									; rows shown = min(9, listcount)
 	sta.w pickrows
 	lda.w SelectedPlayerIdx
 	dec a
@@ -118,20 +124,20 @@ SelectLinePlayer:
 	clc
 	adc.w picktop
 	sta.w picktop
-.2:
+.2:									; cursor row 0
 	lda.w #$0000
 	bra .4
 
-.t1x:
+.t1x:								; cursor row from the top of the visible list
 	lda.w picktop
 	clc
 	adc.w pickrows
 	sec
 	sbc.w curplayer
-.4:
+.4:									; set the cursor row
 	sta.w curplayer
 	jsl.l .10
-.5:
+.5:									; pick loop: send the text maps and read the pads
 	jsl.l SendTextMap
 	jsl.l SendTextMap2
 	jsl.l WaitFrame
@@ -144,7 +150,7 @@ SelectLinePlayer:
 	lda.w #$FFFF
 	jmp.w SelectLinePlayerRtl
 
-.t2:
+.t2:								; not start
 	bit.w #$8080
 	beq .t1xx
 	lda.w picktop
@@ -154,7 +160,7 @@ SelectLinePlayer:
 	sbc.w curplayer
 	jmp.w SelectLinePlayerRtl
 
-.t1xx:
+.t1xx:								; left / right / up / down
 	stz.b d0
 	inc.b d0
 	bit.w #$0100
@@ -169,7 +175,7 @@ SelectLinePlayer:
 	inc.b d0
 	bit.w #$0800
 	beq .6
-.1x:
+.1x:								; up / down: move the cursor row
 	lda.b d0
 	clc
 	adc.w curplayer
@@ -178,9 +184,9 @@ SelectLinePlayer:
 	bpl .9
 	sta.w curplayer
 	jsl.l .10
-.6:
+.6:									; back to the pick loop
 	jmp.w .5
-.7:
+.7:									; left / right: change the attribute column
 	lda.b d0
 	clc
 	adc.w DispAttribCtr
@@ -189,7 +195,7 @@ SelectLinePlayer:
 	sta.w DispAttribCtr
 	jsl.l .10
 	bra .6
-.8:
+.8:									; scroll the list down one row
 	lda.w picktop
 	sec
 	sbc.w pickfirst
@@ -202,7 +208,7 @@ SelectLinePlayer:
 	lda.w #$FFFF
 	sta.w BG3VScroll
 	bra .6
-.9:
+.9:									; scroll the list up one row
 	lda.w picktop
 	cmp.w pickfirst
 	beq .6
@@ -213,7 +219,7 @@ SelectLinePlayer:
 	lda.w #$FFFF
 	sta.w BG1VScroll
 	jmp.w .6
-.10:
+.10:								; redraw the column title and the player list
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -238,7 +244,7 @@ SelectLinePlayer:
 	sta.w printx
 	lda.w #$0002
 	sta.w printy
-.1xx:
+.1xx:								; find the attribute entry of the current column
 	lda.w #SkaterAttribColumns
 	sta.b a1
 	lda.w #$009B
@@ -252,24 +258,24 @@ SelectLinePlayer:
 	lda.w #AttribMenuGoalie>>16
 	sta.b a1+2
 	bra .3x
-.2x:
+.2x:								; next entry of the menu
 	lda.b a1
 	clc
 	adc.b [a1]
 	adc.w #$0004
 	sta.b a1
-.3x:
+.3x:								; end of the menu?
 	lda.b [a1]
 	bmi .1xxx
 	dec.b d0
 	bpl .2x
-.1xxx:
+.1xxx:								; past the last column: wrap back
 	lda.b [a1]
 	bpl .t1xxx
 	dec.w DispAttribCtr
 	bra .1xx
 
-.t1xxx:
+.t1xxx:								; print the column title
 	lda.w #$3800
 	sta.w printa
 	jsl.l print
@@ -308,7 +314,7 @@ org $9B9001
 	sta.b a1
 	pla
 	sta.b a1+2
-.1xxxx:
+.1xxxx:								; right arrow when more players follow
 	lda.w picktop
 	sec
 	sbc.w pickfirst
@@ -329,6 +335,6 @@ org $9B9001
 	sta.b a1
 	pla
 	sta.b a1+2
-.2xx:
+.2xx:								; print the player list
 	jsr.w PrintLinePlayerList
 	rtl

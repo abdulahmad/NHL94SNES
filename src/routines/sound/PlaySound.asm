@@ -1,6 +1,10 @@
 ; Play sound A at once on the sound effect voices (the QueueSound set up without the replay record or the
 ; already-playing test)
-PlaySound:
+; Takes A = sound number. Sets up the sound effect track (track $10) for that sound entry and starts it on
+; a voice with StartSoundVoice at the volume of the instrument and the velocity SfxVelocity.
+;
+; Called from TitleScreen, IntroSequence and others.
+PlaySound:							; play sound A at once
 	phx
 	phy
 	phb
@@ -24,7 +28,7 @@ PlaySound:
 	adc.b SoundTable
 	sta.b InstPtr
 	sta.w TrackInst,x
-PlaySoundEntry:
+PlaySoundEntry:						; shared start of QueueSound and PlaySound: InstPtr and track $10 are set
 	ldy.b #$06
 	lda.b (InstPtr),y
 	sta.b EventData2
@@ -45,11 +49,11 @@ PlaySoundEntry:
 	lda.b (InstPtr),y
 	bra .1
 
-.t1:
+.t1:								; mono sound: other volume byte of the instrument
 	ldy.b #$17
 	lda.b (InstPtr),y
 	sta.w TrackVolL+$10
-.1:
+.1:									; right volume of the effect track
 	sta.w TrackVolR+$10
 	lda.b SfxVelocity+1
 	sta.b EventData1
@@ -85,20 +89,20 @@ PlaySoundEntry:
 	sta.b InstPtr
 	ldx.b #$00
 	txy
-.2:
+.2:									; each voice
 	lda.w VoiceInst,x
 	cmp.b InstPtr
 	bne .t1xx
 	jsr.w ReleaseVoice
 	bra .3
 
-.t1xx:
+.t1xx:								; next voice
 	inx
 	inx
 	iny
 	cpy.b #$08
 	bne .2
-.3:
+.3:									; done
 	sep #$20
 	inc.w SoundLock
 	plp

@@ -1,5 +1,9 @@
 ; Switch the roster to the other team and redraw it.
-SwapRosterTeam:
+; Toggles a2 between the two teams, redraws the sprites and prints the swap text, then jumps to
+; TeamRosterRedraw.
+;
+; Called from TeamRoster.
+SwapRosterTeam:						; switch the roster to the other team
 	lda.b a2
 	eor.w #$0002
 	sta.b a2

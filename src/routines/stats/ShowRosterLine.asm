@@ -1,6 +1,11 @@
 ; Print the selected line name and attribute column ($0D47, wrapping) and each player of the line with
 ; GetNameandAttrib
-ShowRosterLine:
+; Takes a2 = team offset, SelectedPlayerIdx = line (0 = goalies), DispAttribCtr = attribute column. Prints
+; the line name and the column title, clears the area below and prints each player of the line with
+; GetNameandAttrib, with the position names (PositionNames) of the line or the goalie marks.
+;
+; Called from MoveRosterColumn and TeamRoster.
+ShowRosterLine:						; print the roster line with the chosen attribute
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -26,7 +31,7 @@ ShowRosterLine:
 	sta.w printx
 	lda.w #$0009
 	sta.w printy
-.col:
+.col:								; find the attribute entry of the current column
 	lda.w #AttribMenuSkater>>16
 	sta.b a1+2
 	lda.w #AttribMenuSkater
@@ -40,24 +45,24 @@ ShowRosterLine:
 	lda.w #AttribMenuGoalie
 	sta.b a1
 	bra .top
-.next:
+.next:								; skip to the next entry of the menu
 	lda.b a1
 	clc
 	adc.b [a1]
 	adc.w #$0004
 	sta.b a1
-.top:
+.top:								; end of the menu?
 	lda.b [a1]
 	bmi .1
 	dec.b d0
 	bpl .next
-.1:
+.1:									; past the last column: wrap back
 	lda.b [a1]
 	bpl .t2
 	dec.w DispAttribCtr
 	bra .col
 
-.t2:
+.t2:								; print the column title
 	jsl.l print
 	lda.b [a1]
 	sta.b d4+2
@@ -140,14 +145,14 @@ ShowRosterLine:
 	beq .3
 	bmi .t1
 	bvc .2
-.1x:
+.1x:								; compare result: keep the row count
 	bra .3
 
-.t1:
+.t1:								; line is the last one (overflow test)
 	bvc .3
-.2:
+.2:									; fewer rows
 	dec.b d1
-.3:
+.3:									; print the next player row
 	lda.w #$0001
 org $9DA000
 	sta.w printx
@@ -175,7 +180,7 @@ org $9DA000
 	bpl .1xx
 	lda.w #$0010
 	sta.b r2
-.1xx:
+.1xx:								; a goalie when r1 is not below the goalie count
 	lda.b r1
 	sta.b d0
 	jsl.l GetNameandAttrib
@@ -183,7 +188,7 @@ org $9DA000
 	inc.w printy
 	dec.b d1
 	bpl .3
-RosterRtl:
+RosterRtl:							; shared return of the roster routines
 	rtl
 RosterGoalieList:					;the roster players shown on the goalie page (with RosterGoalieMarks):
 									;1-4, the goalies come first

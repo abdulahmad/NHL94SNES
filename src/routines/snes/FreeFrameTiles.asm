@@ -1,5 +1,8 @@
 ; Free the VRAM tiles of the frame at [p0]
-FreeFrameTiles:
+;
+; Takes: p0 = frame (or DrawFrameNum with FrameByNumber set). Gives back the VRAM tiles of the frame and
+; drops its tile cache entry; nothing happens if the frame is not cached. Called by PrintShooterNames.
+FreeFrameTiles:						; free the tiles of the frame at [p0]: save registers, data bank $7E
 	phx
 	phy
 	phb
@@ -29,7 +32,7 @@ FreeFrameTiles:
 	pea.w $7E7E
 	plb
 	plb
-.1:
+.1:									; find the cache entry of the frame
 	ldy.w FrameCacheCount
 	beq .2
 	ldx.w FrameByNumber
@@ -37,48 +40,54 @@ FreeFrameTiles:
 	ldy.w DrawFrameNum
 	lda.w FrameCacheOf,y
 	bpl FreeCacheEntryA
-.2:
+.2:									; not cached: restore the registers and return
 	plb
 	ply
 	plx
 	rtl
-.3:
+.3:									; search the entries for the frame address and bank
 	lda.b p0
 	cmp.w FrameCacheAddr,x
 	bne .1x
 	lda.b p0+2
 	cmp.w FrameCacheBank,x
 	beq FreeCacheEntry_go
-.1x:
+.1x:								; next entry
 	inx
 	inx
 	dey
 	bne .3
 	bra .2
 ; FreeCacheEntry for the entry number in the high byte of A
-FreeCacheEntryA:
+;
+; Takes: A = entry number in the high byte (as in FrameCacheOf).
+FreeCacheEntryA:					; entry number to entry offset
 	xba
 	and.w #$00FF
 	asl a
 	tax
 ; Free tile cache entry X and its VRAM
-FreeCacheEntry:
+;
+; Takes: X = entry offset, Y = DrawFrameNum.
+FreeCacheEntry:						; free the entry X; mark the frame as not cached
 	sep #$20
 	lda.b #$FF
 	sta.w FrameCacheOf+1,y
 	rep #$20
 ; FreeCacheEntry after the slot byte is cleared; FreeFrameTiles enters here
-FreeCacheEntry_go:
+;
+; Takes: X = entry offset.
+FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 	lda.w FrameCacheAlloc,x
 	sta.b r0
 	dec.w FrameCacheCount
-	beq .1
+	beq .1							; the entry was the last one: nothing to move
 	stx.b r0+2
 	lda.w FrameCacheCount
 	asl a
 	cmp.b r0+2
 	beq .1
-	tay
+	tay								; move the last entry into the freed slot, field by field
 	lda.w FrameCacheAddr,y
 	sta.w FrameCacheAddr,x
 	lda.w FrameCacheBank,y
@@ -91,36 +100,36 @@ FreeCacheEntry_go:
 	sta.w FrameCacheTile,x
 	lda.w FrameCacheUse,y
 	sta.w FrameCacheUse,x
-	ldy.w FrameCacheNum,x
+	ldy.w FrameCacheNum,x			; point the moved frame at its new entry number
 	txa
 	lsr a
 	sep #$20
 	sta.w FrameCacheOf+1,y
 	rep #$20
-.1:
+.1:									; give back the tiles: negative allocation = 16x16 block run
 	ldx.b r0
 	bmi .t2
 	jmp.w .3
 
-.t2:
+.t2:								; block run: a run with the $40 bit is a chain of 8-unit runs
 	sep #$30
 	lda.w BlockRuns,x
 	and.b #$40
 	bne .2
-	lda.w BlockRuns,x
+	lda.w BlockRuns,x				; single run: its length
 	and.b #$3F
 	sta.b r3+2
 	clc
 	adc.b r0
 	tay
 	and.b #$07
-	beq .1x
+	beq .1x							; join with the run after it if that is free and in the same row of 8
 	lda.w BlockRuns,y
 	bmi .1x
 	clc
 	adc.b r3+2
 	sta.b r3+2
-.1x:
+.1x:								; join with the run before it if that is free and in the same row of 8
 	txa
 	and.b #$07
 	beq .t1
@@ -143,7 +152,7 @@ FreeCacheEntry_go:
 	plx
 	rtl
 
-.t1:
+.t1:								; no run before to join: this run is free with the length found
 	lda.b r3+2
 	sta.w BlockRuns,x
 	txa
@@ -157,7 +166,7 @@ FreeCacheEntry_go:
 	ply
 	plx
 	rtl
-.2:
+.2:									; chain of runs: free each 8-unit run of the chain
 	lda.w BlockRuns,x
 	and.b #$40
 	beq .t1x
@@ -169,7 +178,7 @@ FreeCacheEntry_go:
 	tax
 	bra .2
 
-.t1x:
+.t1x:								; last run of the chain: free it, joining the run after it if free
 	lda.w BlockRuns,x
 	and.b #$3F
 	sta.b r3+2
@@ -184,7 +193,7 @@ FreeCacheEntry_go:
 	clc
 	adc.b r3+2
 	sta.b r3+2
-.1xx:
+.1xx:								; store the length of the freed run
 	lda.b r3+2
 	sta.w BlockRuns,x
 	txa
@@ -198,7 +207,7 @@ FreeCacheEntry_go:
 	ply
 	plx
 	rtl
-.3:
+.3:									; tile run: its length
 	sep #$30
 	lda.w TileRuns,x
 	and.b #$7F
@@ -211,7 +220,7 @@ FreeCacheEntry_go:
 	clc
 	adc.b r3+2
 	sta.b r3+2
-.1xxx:
+.1xxx:								; join with the previous run if it is free
 	lda.w TileRunPrev,x
 	bmi .t1xx
 	tay
@@ -231,7 +240,7 @@ FreeCacheEntry_go:
 	plx
 	rtl
 
-.t1xx:
+.t1xx:								; no free previous run: this run is free with its length
 	lda.b r3+2
 	sta.w TileRuns,x
 	txa
@@ -254,7 +263,7 @@ FreeCacheEntry_go:
 	plb
 	stz.b r3
 	lda.w SpriteBlockTiles
-.loop:
+.loop:								; walk the block runs
 	tax
 	lda.w BlockRuns,x
 	and.w #$00FF
@@ -264,7 +273,7 @@ FreeCacheEntry_go:
 	clc
 	adc.b r3
 	sta.b r3
-.1xxxx:
+.1xxxx:								; used runs are not counted; step to the next run
 	and.w #$003F
 	sta.b r8+2
 	txa
@@ -272,7 +281,7 @@ FreeCacheEntry_go:
 	adc.b r8+2
 	bra .loop
 
-.t1xxx:
+.t1xxx:								; end of the list: return the sum
 	plb
 	lda.b r3
 	rtl

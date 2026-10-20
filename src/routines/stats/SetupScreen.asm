@@ -1,10 +1,16 @@
 ; Common start of the stats screens: blank, the fonts, the team logos and the background
-SetupScreen:
-	stz.w FrameByNumber
-	lda.b a2
+; Takes a2 = team offset (saved and restored), setupvis = team of the logos shown (a value of $21 and up
+; selects the extra background of SetupBackTiles and is reduced by $21). Fades out, sets up the video
+; registers and loads fonts, frame tiles, team blocks and the menu background into VRAM and the palettes,
+; then clears the text map and starts the sprites and the matchup pictures.
+;
+; Called from TeamRoster, setoptions, ShowPeriodStats, ShowGameStats, ShowOtherScores and EditLinesScreen.
+SetupScreen:						; common setup of the stats screens
+	stz.w FrameByNumber				; no frame picture
+	lda.b a2						; keep the team offset
 	pha
-	jsl.l FadeOut
-	lda.w #TeamLogoSprites>>16
+	jsl.l FadeOut					; fade the old screen out
+	lda.w #TeamLogoSprites>>16		; decompress the team logo sprites to the work RAM
 	sta.b p0+2
 	lda.w #TeamLogoSprites
 	sta.b p0
@@ -13,9 +19,10 @@ SetupScreen:
 	lda.w #$7800
 	sta.b p1
 	jsl.l Decompress
-	jsl.l WaitFadeOut
-	jsl.l forceblack
-	sep #$20
+	jsl.l WaitFadeOut				; wait for black
+	jsl.l forceblack				; force the screen black
+	sep #$20						; BG1 map, BG2 map, BG1/2 character base, sprite size and TM
+									; (BG1, BG2, sprites)
 	lda.b #$00
 	sta.w BG1SC
 	lda.b #$04
@@ -27,12 +34,12 @@ SetupScreen:
 	lda.b #$13
 	sta.w TM
 	rep #$30
-	lda.w #$FF00
+	lda.w #$FF00					; character offset and font set for printing
 	sta.l charofs
 	sta.l printfontset
 	lda.w #$0000
 	sta.l charofs2
-	lda.l smallfontchars
+	lda.l smallfontchars			; next free character after the small font
 	sta.l nextfreechar
 	asl a
 	asl a
@@ -40,7 +47,7 @@ SetupScreen:
 	asl a
 	adc.w #$1000
 	sta.w VMADDL
-	lda.w #SmallFontTiles>>16
+	lda.w #SmallFontTiles>>16		; small font tiles are decompressed and sent to VRAM
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
@@ -49,7 +56,7 @@ SetupScreen:
 	lda.w #$0000
 	sta.b p1
 	jsl.l Decompress
-	txa
+	txa								; tile count = X / 32
 	lsr a
 	lsr a
 	lsr a
@@ -59,17 +66,17 @@ SetupScreen:
 	clc
 	adc.l nextfreechar
 	sta.l nextfreechar
-	sta.l Framercset
+	sta.l Framercset				; first character of the frame tiles
 	lda.w #$007F
 	sta.b a0+2
 	lda.w #$0000
 	sta.b a0
-	lda.w #PixelRemap8F>>16
+	lda.w #PixelRemap8F>>16			; remap the pixels of the frame tiles
 	sta.b a1+2
 	lda.w #PixelRemap8F
 	sta.b a1
 	jsl.l RemapTiles
-	lda.w #FramerTiles>>16
+	lda.w #FramerTiles>>16			; frame tiles
 	sta.b a0+2
 	lda.w #FramerTiles
 	sta.b a0
@@ -84,7 +91,7 @@ SetupScreen:
 	sta.l nextfreechar
 	sta.l scorechars
 	jsl.l RemapTiles
-	lda.w #TeamBlocksTiles>>16
+	lda.w #TeamBlocksTiles>>16		; team blocks tiles
 	sta.b p0+2
 	lda.w #TeamBlocksTiles
 	sta.b p0
@@ -107,11 +114,11 @@ SetupScreen:
 	sta.b p0+2
 	lda.w #$0000
 	sta.b p0
-	ldy.w #$FFFF
+	ldy.w #$FFFF					; send the tiles to VRAM
 	jsl.l DMAToVRAM
 	lda.l nextfreechar
 	sta.l ninetilechars
-	lda.w #FramerNineTileTiles>>16
+	lda.w #FramerNineTileTiles>>16	; nine tile frame tiles
 	sta.b p0+2
 	lda.w #FramerNineTileTiles
 	sta.b p0
@@ -130,7 +137,7 @@ SetupScreen:
 	jsl.l DMAToVRAM
 	lda.l nextfreechar
 	sta.l outlinechars
-	lda.w #FramerOutlineTiles>>16
+	lda.w #FramerOutlineTiles>>16	; outline tiles
 	sta.b p0+2
 	lda.w #FramerOutlineTiles
 	sta.b p0
@@ -150,7 +157,7 @@ SetupScreen:
 	sec
 	sbc.w #$0100
 	sta.l picchars
-	lda.w #MenuBackTiles>>16
+	lda.w #MenuBackTiles>>16		; menu background tiles
 	sta.b p0+2
 	lda.w #MenuBackTiles
 	sta.b p0
@@ -172,7 +179,7 @@ SetupScreen:
 	sta.b p0
 	ldy.w #$1000
 	jsl.l DMAToVRAM
-	lda.w #MenuBackMap>>16
+	lda.w #MenuBackMap>>16			; menu background map, pasted twice below
 	sta.b p0+2
 	lda.w #MenuBackMap
 	sta.b p0
@@ -221,7 +228,7 @@ SetupScreen:
 	clc
 	adc.w #$0C00
 	jsl.l PasteMap
-	lda.w #SetupScreenPalette>>16
+	lda.w #SetupScreenPalette>>16	; palette of the setup screen
 	sta.b p0+2
 	lda.w #SetupScreenPalette
 	sta.b p0
@@ -242,7 +249,7 @@ SetupScreen:
 	bcs .t1
 	jmp.w .3
 
-.t1:
+.t1:								; extra background for setupvis of $21 and up
 	sbc.w #$0021
 	sta.l setupvis
 	lda.w #SetupBackTiles>>16
@@ -277,7 +284,7 @@ SetupScreen:
 	clc
 	adc.w #$0006
 	sta.b p1
-.loop:
+.loop:								; add the character offset to the map entries
 	lda.b [p1],y
 	beq .1
 	clc
@@ -288,7 +295,7 @@ SetupScreen:
 	adc.w #$0800
 	tyx
 	sta.l textmap2,x
-.1:
+.1:									; next map entry
 	dey
 	dey
 	bpl .loop
@@ -331,13 +338,13 @@ SetupScreen:
 	ldy.w #$0020
 	ldx.w #$0010
 	jsl.l SetColours
-.3:
+.3:									; common end: colour 0 is black
 	sep #$20
 	stz.w CGADD
 	stz.w CGDATA
 	stz.w CGDATA
 	rep #$20
-	lda.w #MenuBackPalette>>16
+	lda.w #MenuBackPalette>>16		; menu background palette
 	sta.b p0+2
 	lda.w #MenuBackPalette
 	sta.b p0
@@ -365,13 +372,13 @@ SetupScreen:
 	cmp.w #$0018
 	bcs .1x
 	stz.b a2
-.1x:
+.1x:								; visitors: below $18 (a2 = 2) when they are a real team
 	lda.w VisTeam
 	cmp.w #$0018
 	bcs .2
 	lda.w #$0002
 	sta.b a2
-.2:
+.2:									; sprite palettes
 	lda.w #SetupSpritePalette>>16
 	sta.b p0+2
 	lda.w #SetupSpritePalette
@@ -386,18 +393,18 @@ SetupScreen:
 	ldy.w #$00C0
 	ldx.w #$0010
 	jsl.l SetColours
-	jsl.l ClearTextMap
+	jsl.l ClearTextMap				; clear the text map
 	jsl.l SendTextMap2
 	jsl.l WaitFrame
-	ldx.w #$0000
+	ldx.w #$0000					; set up the sprites
 	ldy.w #$0180
 	lda.w #$6000
 	jsl.l InitSprites
 	jsl.l SpriteFrameStart
-	jsl.l LoadPictureMap
+	jsl.l LoadPictureMap			; draw the matchup pictures
 	lda.w #$3568
 	sta.l colourbuf
 	jsl.l DrawMatchupPictures
-	pla
+	pla								; restore the team offset
 	sta.b a2
 	rtl

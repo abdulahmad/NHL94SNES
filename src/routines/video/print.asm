@@ -1,8 +1,15 @@
 ; Print string [a1] into the text map at printx / printy
-print:
+; Takes a1 = pointer to a string: a length word (offset after the last byte, counted from the start of the
+; word), then bytes. A byte with bit 7 set is a control record (colour/priority/font in its bits, followed by
+; the new printx and printy); $40 prints a blank; the others are tiles of SmallFontMap. The tiles are written
+; to textmap at printx / printy (the position of the map entry is (printy * 32 + printx) * 2 + printm) and
+; textdirtylo / textdirtyhi keep the changed range. Returns a1 advanced to the end of the string.
+;
+; Called from AttribWeight, AttribStatus, ShowRosterLine, SelectLinePlayer and many others.
+print:								; print a string
 	phx
 	ldy.w #$0002
-.1:
+.1:									; X = text map offset of the print position
 	lda.w printy
 	asl a
 	asl a
@@ -17,13 +24,13 @@ print:
 	adc.l printfontset
 	ora.w printa
 	sta.b r3
-.2:
+.2:									; next byte of the string
 	tya
 	cmp.b [a1]
 	bne .t2
 	jmp.w .5
 
-.t2:
+.t2:								; not the end: a control record?
 	lda.b [a1],y
 	bit.w #$0080
 	bne .4
@@ -32,14 +39,14 @@ print:
 	bne .t1
 	jmp.w .6
 
-.t1:
+.t1:								; ordinary character
 	phx
 	asl a
 	tax
 	lda.l SmallFontMap+6,x
 	adc.b r3
 	plx
-.3:
+.3:									; write the tile when it differs from the map
 	cmp.l textmap,x
 	beq .2x
 	sta.l textmap,x
@@ -48,17 +55,17 @@ print:
 	cmp.w textdirtylo
 	bcs .1x
 	sta.w textdirtylo
-.1x:
+.1x:								; update the end of the dirty range
 	cmp.w textdirtyhi
 	bcc .2x
 	sta.w textdirtyhi
-.2x:
+.2x:								; next print position
 	inc.w printx
 	inx
 	inx
 	iny
 	bra .2
-.4:
+.4:									; control record: palette and priority into printa, font set, position
 	eor.w #$FFFF
 	inc a
 	pha
@@ -67,7 +74,7 @@ print:
 	bne .1xx
 	clc
 	adc.w #$0050
-.1xx:
+.1xx:								; shift the palette bits into place
 	asl a
 	asl a
 	asl a
@@ -110,13 +117,13 @@ print:
 	sta.w printy
 	iny
 	jmp.w .1
-.5:
+.5:									; end of string: step a1 past it
 	clc
 	adc.b a1
 	sta.b a1
 	plx
 	rtl
-.6:
+.6:									; blank character
 	lda.l blankchar
 	clc
 	adc.l printfontset

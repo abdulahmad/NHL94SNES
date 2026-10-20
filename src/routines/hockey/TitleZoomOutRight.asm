@@ -1,39 +1,39 @@
 ; Title: raise the mode 7 scale $0BFB to $200 while the BG1 scroll ($0BF7 / $0BF9) moves to $1E8, $140
-TitleZoomOutRight:
-	lda.w TitleM7Scale
-	inc a
-	cmp.w #$0200
-	bcs .t1
-	sta.w TitleM7Scale
+TitleZoomOutRight:					; no input; called from TitleScreen
+	lda.w TitleM7Scale				; current scale
+	inc a							; larger
+	cmp.w #$0200					; reached $200?
+	bcs .t1							; yes, stop
+	sta.w TitleM7Scale				; store
 	sec
-	sbc.w #$0100
-	pha
-	ldx.w #$0058
+	sbc.w #$0100					; scale - $100
+	pha								; keep it
+	ldx.w #$0058					; times $58
 	jsl.l Mul8U
-	xba
+	xba								; high byte: /256
 	and.w #$00FF
 	clc
-	adc.w #$0190
-	sta.w TitleM7HOfs
-	pla
-	ldx.w #$0040
+	adc.w #$0190					; $190 plus the product
+	sta.w TitleM7HOfs				; horizontal offset
+	pla								; scale - $100
+	ldx.w #$0040					; times $40
 	jsl.l Mul8U
 	xba
 	and.w #$00FF
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	clc
-	adc.w #$0180
-	sta.w TitleM7VOfs
-	ldx.w #$03E8
-	jsr.w TitleDelay
-	bra TitleZoomOutRight
+	adc.w #$0180					; $180 minus the product
+	sta.w TitleM7VOfs				; vertical offset
+	ldx.w #$03E8					; delay of 1000 loops
+	jsr.w TitleDelay				; wait
+	bra TitleZoomOutRight			; next step
 
-.t1:
-	lda.w #$0200
+.t1:								; end positions
+	lda.w #$0200					; scale $200
 	sta.w TitleM7Scale
-	lda.w #$01E8
+	lda.w #$01E8					; horizontal offset $1E8
 	sta.w TitleM7HOfs
-	lda.w #$0140
+	lda.w #$0140					; vertical offset $140
 	sta.w TitleM7VOfs
 	rts
