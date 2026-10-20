@@ -1,5 +1,5 @@
 ; Scroll the penalty summary down one page.
-ScrollPenaltyDown:
+ScrollPenaltyDown:					; called from PenaltySummaryLoop
 	lda.w #$0006
 	sta.w listrows
 	jsr.w DrawPenaltyPage
@@ -17,7 +17,7 @@ ScrollPenaltyDown:
 	sta.w irqvscroll1
 	lda.w #$0018
 	sta.w irqvscroll2
-.loop:
+.loop:								; loop: call WaitFrame, increment irqvscroll1, increment irqvscroll1, ...
 	jsl.l WaitFrame
 	inc.w irqvscroll1
 	inc.w irqvscroll1

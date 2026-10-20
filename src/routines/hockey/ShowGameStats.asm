@@ -1,5 +1,5 @@
 ; Game stats screen: both teams and the stat rows
-ShowGameStats:
+ShowGameStats:						; called from PauseGameStats
 	lda.w VisTeam
 	sta.l setupvis
 	lda.w HomeTeam
@@ -59,12 +59,12 @@ ShowGameStats:
 	sta.w statpenrows
 	lda.l OptPen
 	bne .2
-.1:
+.1:									; listcount = $000B, statpenrows = $0000
 	lda.w #$000B
 	sta.w listcount
 	lda.w #$0000
 	sta.w statpenrows
-.2:
+.2:									; decrement listcount, call SetupScrollIRQ, irqvscroll2 = $0010, ...
 	dec.w listcount
 	lda.w #$0060
 	ldx.w #$00C8

@@ -1,5 +1,5 @@
 ; Matchups screen
-ShowMatchups:
+ShowMatchups:						; called from ScoutingReport
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -64,7 +64,7 @@ ShowMatchups:
 	bne .t1
 	jmp.w .t2
 
-.t1:
+.t1:								; curitem != 0: decrement curitem, setupvis = $FFFF, setuphome = $FFFF...
 	dec.w curitem
 	lda.w #$FFFF
 	sta.l setupvis
@@ -176,7 +176,7 @@ ShowMatchups:
 	inc.w curitem
 	jmp.w .1
 
-.t2:
+.t2:								; setuphome = HomeTeam, setupvis = VisTeam, call DrawMatchupPictures, ...
 	lda.w HomeTeam
 	sta.l setuphome
 	lda.w VisTeam
@@ -226,7 +226,7 @@ ShowMatchups:
 	sta.b d1
 	jsl.l PushNumberWrap
 	jsl.l print
-.1:
+.1:									; a1 = ShowMatchupsPos8, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -282,7 +282,7 @@ ShowMatchups:
 	sta.b a1+2
 	bra .2
 
-.t1x:
+.t1x:								; a1 = DownArrowsTxt, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -298,7 +298,7 @@ ShowMatchups:
 	sta.b a1+2
 	bra .2
 
-.t2x:
+.t2x:								; a1 = NoneTxt, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -312,7 +312,7 @@ ShowMatchups:
 	sta.b a1
 	pla
 	sta.b a1+2
-.2:
+.2:									; call WaitFrame, call SpriteFrameEnd, return
 	jsl.l WaitFrame
 	jsl.l SpriteFrameEnd
 	rtl

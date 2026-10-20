@@ -1,21 +1,21 @@
 ; Scroll the other-scores list up one page.
-ScrollOtherScoresUp:
+ScrollOtherScoresUp:				; called from OtherScoresLoop
 	jsr.w ClearOtherScoreBraces
 	lda.w listtop
 	dec a
 	bpl .t2
 	jmp.w OtherScoresNext
 
-.t2:
+.t2:								; a still >= 0: if not zero go to .1, ...
 	cmp.l gamenum
 	bne .1
 	cmp.w #$0000
 	bne .t1
 	jmp.w OtherScoresNext
 
-.t1:
+.t1:								; decrement a
 	dec a
-.1:
+.1:									; listtop = A, listrows = $0006, call DrawOtherScoresPage, ...
 	sta.w listtop
 	lda.w #$0006
 	sta.w listrows
@@ -25,7 +25,7 @@ ScrollOtherScoresUp:
 	sta.w irqvscroll1
 	lda.w #$0018
 	sta.w irqvscroll2
-.loop:
+.loop:								; loop: call WaitFrame, decrement irqvscroll1, decrement irqvscroll1, ...
 	jsl.l WaitFrame
 	dec.w irqvscroll1
 	dec.w irqvscroll1

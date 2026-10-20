@@ -1,5 +1,5 @@
 ; Crowd meter screen
-ShowCrowdMeter:
+ShowCrowdMeter:						; called from PauseCrowdLevel
 	lda.w VisTeam
 	sta.l setupvis
 	lda.w HomeTeam
@@ -82,7 +82,7 @@ ShowCrowdMeter:
 	jsl.l SendColours
 	stz.w curitem
 	jsl.l ScreenOn
-.1:
+.1:									; call SpriteFrameStart, a1 = CrowdMeter, call PrintLetterSprites, ...
 	jsl.l SpriteFrameStart
 	ldx.w #$0048
 	ldy.w #$0018
@@ -94,7 +94,7 @@ ShowCrowdMeter:
 	jsl.l DrawMatchupPictures
 	jsl.l .6
 	jsl.l SpriteFrameEnd
-.2:
+.2:									; loop: call SendTextMap, call WaitFrame, call ReadPads, ...
 	jsl.l SendTextMap
 	jsl.l WaitFrame
 	jsl.l ReadPads
@@ -109,27 +109,27 @@ ShowCrowdMeter:
 	bne .t3
 	bra .2
 
-.t1:
+.t1:								; d1 bit $1000 set: return
 	rtl
 
-.t2:
+.t2:								; if a counted below 0 go to .2, ...
 	lda.w curitem
 	dec a
 	bmi .2
 	sta.w curitem
 	bra .1
 
-.t3:
+.t3:								; if carry set go to .2, ...
 	lda.w curitem
 	inc a
 	cmp.w #$0003
 	bcs .2
 	sta.w curitem
 	bra .1
-.6:
+.6:									; subroutine: if curitem = 0 go to .t1x
 	lda.w curitem
 	beq .t1x
-.1x:
+.1x:								; a1 = CurrentTxt, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -158,7 +158,7 @@ ShowCrowdMeter:
 	sta.b a1+2
 	bra .2x
 
-.t1x:
+.t1x:								; curitem = 0: a1 = CurrentTxt2, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -185,7 +185,7 @@ ShowCrowdMeter:
 	sta.b a1
 	pla
 	sta.b a1+2
-.2x:
+.2x:								; printx = $0014, printy = $0011, d0 = CurCrowdMeter, ...
 	lda.w #$0014
 	sta.w printx
 	lda.w #$0011
@@ -227,7 +227,7 @@ ShowCrowdMeter:
 	sta.b a1+2
 	bra .3
 
-.t1xx:
+.t1xx:								; curitem = $0001: a1 = PeakTxt2, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -254,7 +254,7 @@ ShowCrowdMeter:
 	sta.b a1
 	pla
 	sta.b a1+2
-.3:
+.3:									; printx = $0014, printy = $0013, d0 = CrowdPeak, ...
 	lda.w #$0014
 	sta.w printx
 	lda.w #$0013
@@ -296,7 +296,7 @@ ShowCrowdMeter:
 	sta.b a1+2
 	bra .4
 
-.t1xxx:
+.t1xxx:								; curitem = $0002: a1 = AverageTxt2, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -323,7 +323,7 @@ ShowCrowdMeter:
 	sta.b a1
 	pla
 	sta.b a1+2
-.4:
+.4:									; printx = $0014, printy = $0015, d0 = CrowdAvg, ...
 	lda.w #$0014
 	sta.w printx
 	lda.w #$0015
@@ -336,22 +336,22 @@ ShowCrowdMeter:
 	jsl.l print
 	lda.w curitem
 	beq .t2x
-.1xx:
+.1xx:								; if zero go to .t1xxxx, ...
 	cmp.w #$0001
 	beq .t1xxxx
 	lda.w CrowdAvg
 	bra .5
 
-.t1xxxx:
+.t1xxxx:							; go to .5
 	lda.w CrowdPeak
 	bra .5
 
-.t2x:
+.t2x:								; curitem = 0: falls through
 	lda.w CurCrowdMeter
-.5:
+.5:									; call .8, return
 	jsl.l .8
 	rtl
-.7:
+.7:									; subroutine: r7+2 = A, r5 = X, call Mul16U, ...
 	sta.b r7+2
 	stx.b r5
 	tya
@@ -375,10 +375,10 @@ ShowCrowdMeter:
 	clc
 	adc.w #$0006
 	sta.b p0
-.loop:
+.loop:								; loop: falls through
 	ldx.w crowdmeterlit
 	ldy.w #$0000
-.loop2:
+.loop2:								; loop: [p1],y = [p0],y + r7+2, Y + 1, Y + 1, ...
 	lda.b [p0],y
 	clc
 	adc.b r7+2
@@ -398,18 +398,18 @@ ShowCrowdMeter:
 	dec.b r4+2
 	bne .loop
 	rtl
-.8:
+.8:									; subroutine: sbc #$0032, if plus go to .1xxx, ...
 	sec
 	sbc.w #$0032
 	bpl .1xxx
 	lda.w #$0000
-.1xxx:
+.1xxx:								; lsr a, lsr a, r1 = A, ...
 	lsr a
 	lsr a
 	sta.b r1
 	cmp.w #$0013
 	bmi .t1xxxxx
-.2xx:
+.2xx:								; r1 = $0000, p0 = CrowdMeterBrokenMap, go to .3x
 	lda.w #$0000
 	sta.b r1
 	lda.w #CrowdMeterBrokenMap>>16
@@ -418,12 +418,12 @@ ShowCrowdMeter:
 	sta.b p0
 	bra .3x
 
-.t1xxxxx:
+.t1xxxxx:							; p0 = CrowdMeterMap
 	lda.w #CrowdMeterMap>>16
 	sta.b p0+2
 	lda.w #CrowdMeterMap
 	sta.b p0
-.3x:
+.3x:								; p1+2 = $007F, p1 = $0000, call Decompress, ...
 	lda.b r1
 	pha
 	lda.w #$007F
@@ -456,7 +456,7 @@ ShowCrowdMeter:
 	sta.b r1
 	sta.w crowdmeterlit
 	beq .rtl
-.1xxxx:
+.1xxxx:								; p0 = CrowdMeterLitMap, p1+2 = $007F, p1 = $0000, ...
 	lda.w #CrowdMeterLitMap>>16
 	sta.b p0+2
 	lda.w #CrowdMeterLitMap
@@ -486,9 +486,9 @@ ShowCrowdMeter:
 	clc
 	adc.w #$1C00
 	jsl.l .7
-.rtl:
+.rtl:								; return
 	rtl
-.9:
+.9:									; loop: db $EF,$E7,$E3,$E0
 	db $EF,$E7,$E3,$E0
 .10:								; records of a byte and a pointer into .9; $00 ends them
 	db $0C : dw .9+3
@@ -499,12 +499,12 @@ ShowCrowdMeter:
 	db $18 : dw .9+1
 	db $14 : dw .9+3
 	db $00
-.11:
+.11:								; if HotColdRaised != 0 go to .rtlx, ...
 	lda.w HotColdRaised
 	bne .rtlx
 	ldy.w #$0033
 	ldx.w #$0000
-.loopx:
+.loopx:								; loop: HotColdTable+1,x = HotColdTable+1,x + 1 + 1, HotColdTable,x = H...
 	sep #$20
 	lda.w HotColdTable+1,x
 	inc a
@@ -530,5 +530,5 @@ ShowCrowdMeter:
 	dey
 	bpl .loopx
 	inc.w HotColdRaised
-.rtlx:
+.rtlx:								; return
 	rtl

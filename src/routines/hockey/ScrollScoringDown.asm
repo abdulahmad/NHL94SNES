@@ -1,5 +1,5 @@
 ; Scroll the scoring summary down one page.
-ScrollScoringDown:
+ScrollScoringDown:					; called from ScoringSummaryLoop
 	lda.w #$0006
 	sta.w listrows
 	jsr.w DrawScoringPage
@@ -10,7 +10,7 @@ ScrollScoringDown:
 	adc.w #$0005
 	cmp.w listend
 	bpl ScoringSummaryWait
-.1:
+.1:									; sbc #$0004, listtop = A, irqvscroll1 = $0001, ...
 	sec
 	sbc.w #$0004
 	sta.w listtop
@@ -18,7 +18,7 @@ ScrollScoringDown:
 	sta.w irqvscroll1
 	lda.w #$0018
 	sta.w irqvscroll2
-.loop:
+.loop:								; loop: call WaitFrame, increment irqvscroll1, increment irqvscroll1, ...
 	jsl.l WaitFrame
 	inc.w irqvscroll1
 	inc.w irqvscroll1
