@@ -1,3 +1,3 @@
 ; Does nothing (Reset_Fast calls it)
-ResetStub:
+ResetStub:							; called from Reset_Fast
 	rtl

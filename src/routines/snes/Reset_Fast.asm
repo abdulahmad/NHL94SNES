@@ -1,6 +1,6 @@
 ; Reset in FastROM: clear the PPU and CPU registers, then start the game
-Reset_Fast:
-	phk
+Reset_Fast:							; called from Reset
+	phk								; data bank = program bank
 	plb
 	sep #$20
 	lda.b #$01
@@ -14,12 +14,12 @@ Reset_Fast:
 	stz.w OAMDATA
 	stz.w OAMDATA
 	ldx.w #BGMODE
-.loop:
+.loop:								; loop: r0,x = 0, X + 1, if not zero go to .loop
 	stz.b r0,x
 	inx
 	cpx.w #BG1HOFS
 	bne .loop
-.loop2:
+.loop2:								; loop: r0,x = 0, r0,x = 0, X + 1, ...
 	stz.b r0,x
 	stz.b r0,x
 	inx
@@ -28,13 +28,13 @@ Reset_Fast:
 	lda.b #$80
 	sta.w VMAIN
 	inx
-.loop3:
+.loop3:								; loop: r0,x = 0, X + 1, if not zero go to .loop3, ...
 	stz.b r0,x
 	inx
 	cpx.w #M7A
 	bne .loop3
 	ldy.w #$0000
-.loop4:
+.loop4:								; loop: r0,x = 0, r0,x = Mode7Identity,y, Y + 1, ...
 	stz.b r0,x
 	lda.w Mode7Identity,y
 	sta.b r0,x
@@ -42,7 +42,7 @@ Reset_Fast:
 	inx
 	cpx.w #CGADD
 	bne .loop4
-.loop5:
+.loop5:								; loop: r0,x = 0, X + 1, if not zero go to .loop5, ...
 	stz.b r0,x
 	inx
 	cpx.w #CGWSEL
@@ -65,7 +65,7 @@ Reset_Fast:
 	lda.b #$FF
 	sta.w WRIO
 	ldx.w #WRMPYA
-.loop6:
+.loop6:								; loop: r0,x = 0, X + 1, if not zero go to .loop6, ...
 	stz.b r0,x
 	inx
 	cpx.w #HDMAEN
@@ -79,7 +79,7 @@ Reset_Fast:
 	rep #$20
 	lda.w #$0000
 	tax
-.loop7:
+.loop7:								; loop: Ram7E,x = A, Ram7F,x = A, X - 1, ...
 	sta.l Ram7E,x
 	sta.l Ram7F,x
 	dex
@@ -87,7 +87,7 @@ Reset_Fast:
 	bne .loop7
 	sep #$20
 	ldx.w #$0005
-.loop8:
+.loop8:								; loop: RAMTag,x = InitTag,x, RAMTag2,x = InitTag,x, ReplayBufferEnd,x...
 	lda.w InitTag,x
 	sta.w RAMTag,x
 	sta.w RAMTag2,x
@@ -96,25 +96,25 @@ Reset_Fast:
 	bpl .loop8
 	ldx.w #$0010
 	beq .1
-.loop9:
+.loop9:								; loop: OAMHiMasks-1,x = OAMHighMasks-1,x, X - 1, if X not yet 0 go to...
 	lda.l OAMHighMasks-1,x
 	sta.l OAMHiMasks-1,x
 	dex
 	bne .loop9
-.1:
+.1:									; call ResetStub, IniDispShadow = $8F
 	jsl.l ResetStub
 	sep #$20
 	rep #$10
 	lda.b #$8F
 	sta.w IniDispShadow
 	ldx.w #$000C
-.loop10:
+.loop10:							; loop: FrameHook,x = InitHooks,x, X - 1, if X still >= 0 go to .loop10...
 	lda.w InitHooks,x
 	sta.w FrameHook,x
 	dex
 	bpl .loop10
 	ldx.w #$0024
-.loop11:
+.loop11:							; loop: FrameCount,x = 0, X - 1, if X still >= 0 go to .loop11, ...
 	stz.w FrameCount,x
 	dex
 	bpl .loop11

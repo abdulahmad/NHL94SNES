@@ -1,5 +1,5 @@
 ; Reset vector: native mode, stack $1FFF, direct page 0, then Reset_Fast
-Reset:
+Reset:								; entry point, no direct callers found
 	clc
 	xce
 	rep #$30

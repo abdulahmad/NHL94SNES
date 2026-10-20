@@ -1,6 +1,6 @@
 ; Store at [y:x] the colour for frame $83 of a 60 frame pulse: white to $7E10 and back, each component
 ; interpolated over 30 frames
-PulseColour:
+PulseColour:						; called from PlayoffScreen, PulsePauseSide
 	phx
 	phy
 	lda.b vcount
@@ -106,5 +106,5 @@ PulseColour:
 	sty.b p1+2
 	sta.b [p1]
 	rtl
-.1:
+.1:									; dw $7FFF,$7E10,$7FFF
 	dw $7FFF,$7E10,$7FFF

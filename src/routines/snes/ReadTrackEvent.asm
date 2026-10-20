@@ -1,5 +1,5 @@
 ; Read the next event of the track at $4C
-ReadTrackEvent:
+ReadTrackEvent:						; called from StepTrack
 	lda.b CurTrackPtr
 	sta.b EventPtr
 	jsr.w ReadVarLen
@@ -18,7 +18,7 @@ ReadTrackEvent:
 	sta.b EventPtr
 	jmp.w .2
 
-.t1:
+.t1:								; if zero go to .2, ...
 	cpy.b #$D9
 	beq .2
 	cpy.b #$DA
@@ -37,14 +37,14 @@ ReadTrackEvent:
 	beq .1
 	cpy.b #$E2
 	bne .t2
-.1:
+.1:									; increment EventPtr, EventData1 = [EventPtr], go to .2
 	lda.b [EventPtr]
 	inc.b EventPtr
 	tay
 	sty.b EventData1
 	jmp.w .2
 
-.t2:
+.t2:								; if not zero go to .t1x, ...
 	cpy.b #$DF
 	bne .t1x
 	lda.b [EventPtr]
@@ -57,7 +57,7 @@ ReadTrackEvent:
 	sty.b EventData2
 	jmp.w .2
 
-.t1x:
+.t1x:								; if not zero go to .2, ...
 	cpy.b #$E5
 	bne .2
 	lda.b [EventPtr]
@@ -66,12 +66,12 @@ ReadTrackEvent:
 	sta.b EventData2
 	jmp.w .2
 
-.t3:
+.t3:								; increment EventPtr, EventData1 = [EventPtr], call ReadVarLen, ...
 	lda.b [EventPtr]
 	inc.b EventPtr
 	tay
 	sty.b EventData1
 	jsr.w ReadVarLen
 	sta.b EventData2
-.2:
+.2:									; return
 	rts
