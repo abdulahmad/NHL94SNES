@@ -11,9 +11,9 @@ assgoalietopuck:					; X = goalie; asstab entry
 	lda.w Ypos,x
 	bit.w #$8000
 	beq .1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.1:
+.1:									; r0 = A, if minus go to .2, ...
 	sta.b r0
 	cmp.w #$00E4
 	bmi .2
@@ -22,7 +22,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	lda.w #$FFFB
 	and.w goalieflags,x
 	sta.w goalieflags,x
-.2:
+.2:									; if Xpos,x - $FFD0 negative go to .4, ...
 	lda.w Xpos,x
 	cmp.w #$FFD0
 	bmi .4
@@ -31,15 +31,15 @@ assgoalietopuck:					; X = goalie; asstab entry
 	lda.w Ypos,x
 	bit.w #$8000
 	beq .3
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.3:
+.3:									; if minus go to .4, ...
 	cmp.w #$00E4
 	bmi .4
 	lda.w #$FFFD
 	and.w goalieflags,x
 	sta.w goalieflags,x
-.4:
+.4:									; if playerpad,x >= 0 go to .6, ...
 	lda.w playerpad,x
 	bpl .6
 	lda.w gmclock
@@ -52,7 +52,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	sta.w pflags,x
 	stz.w temp1,x
 	stz.w GoalieUnused
-.5:
+.5:									; temp1,x = temp1,x - d7, if plus go to .8, ...
 	lda.w temp1,x
 	sec
 	sbc.b d7
@@ -66,18 +66,18 @@ assgoalietopuck:					; X = goalie; asstab entry
 	bpl .7
 	lda.w #$0000
 	bra .7
-.6:
+.6:									; go to assexit
 	jmp.w assexit
-.7:
+.7:									; temp1,x = A, if puckc >= 0 go to .6, ...
 	sta.w temp1,x
 	lda.w puckc
 	bpl .6
 	lda.w puckvy
 	ldy.w pfgoal,x
 	beq .1x
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
-.1x:
+.1x:								; if minus go to .6, ...
 	cmp.w #$F800
 	bmi .6
 	stz.b a1
@@ -88,12 +88,12 @@ assgoalietopuck:					; X = goalie; asstab entry
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
-.2x:
+.2x:								; if tmnear,y < $0096 go to .6
 	ldy.b a2
 	lda.w tmnear,y
 	cmp.w #$0096
 	bcc .6
-.8:
+.8:									; call GoaliePuckVector, call vtoa, call AdjustFacingDirection, ...
 	jsr.w GoaliePuckVector
 	jsl.l vtoa
 	jsl.l AdjustFacingDirection
@@ -119,7 +119,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	bit.w #$0080
 	beq .1xx
 	ora.w #$FF00
-.1xx:
+.1xx:								; adc puckx, d0 = A, xba, ...
 	clc
 	adc.w puckx
 	sta.b d0
@@ -129,7 +129,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	bit.w #$0080
 	beq .2xx
 	ora.w #$FF00
-.2xx:
+.2xx:								; adc pucky, d1 = A, call avdgoal, ...
 	clc
 	adc.w pucky
 	sta.b d1
@@ -141,7 +141,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	txa
 	jsl.l GetHot
 	lda.b d0
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sec
 	sbc.w Xvel+1,x
@@ -149,14 +149,14 @@ assgoalietopuck:					; X = goalie; asstab entry
 	bit.w #$0080
 	beq .3x
 	ora.w #$FF00
-.3x:
+.3x:								; adc r0+1,s, sbc Xpos,x, d0 = A, ...
 	clc
 	adc.b r0+1,s
 	sec
 	sbc.w Xpos,x
 	sta.b d0
 	lda.b d1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sec
 	sbc.w Yvel+1,x
@@ -164,7 +164,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	bit.w #$0080
 	beq .4x
 	ora.w #$FF00
-.4x:
+.4x:								; adc r0+3,s, sbc Ypos,x, d1 = A, ...
 	clc
 	adc.b r0+3,s
 	sec
@@ -175,7 +175,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	jsl.l vtoa
 	lda.b d0
 	sta.w temp2b,x
-.5x:
+.5x:								; d0 = temp2b,x, go to doplayeracc
 	lda.w temp2b,x
 	sta.b d0
 	jml.l doplayeracc

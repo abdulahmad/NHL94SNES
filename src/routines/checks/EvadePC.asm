@@ -12,7 +12,7 @@ EvadePC:							; callback: steer away from the puck carrier
 	bit.w #$0080
 	beq .2xx
 	ora.w #$FF00					; sign extend
-.2xx:
+.2xx:								; adc Xpos,x, sbc puckx, if minus go to .rtl, ...
 	clc
 	adc.w Xpos,x					; plus x: where he is next frame
 	sec
@@ -28,7 +28,7 @@ EvadePC:							; callback: steer away from the puck carrier
 	bit.w #$0080
 	beq .3x
 	ora.w #$FF00					; sign extend
-.3x:
+.3x:								; adc Ypos,x, sbc pucky, if minus go to .rtl, ...
 	clc
 	adc.w Ypos,x					; plus y: where he is next frame
 	sec

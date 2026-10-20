@@ -21,7 +21,7 @@ GetHot:								; takes A = object, returns d0 / d1 (many callers)
 	cmp.w #$0080
 	bcc .1
 	ora.w #$FF00
-.1:
+.1:									; d0 = A, Y + 1, if carry clear go to .2, ...
 	sta.b d0
 	iny
 	lda.b [p0],y
@@ -29,7 +29,7 @@ GetHot:								; takes A = object, returns d0 / d1 (many callers)
 	cmp.w #$0080
 	bcc .2
 	ora.w #$FF00
-.2:
+.2:									; d1 = A, if attribute,x bits $0800 clear go to .3, ...
 	sta.b d1
 	lda.w attribute,x
 	bit.w #$0800
@@ -38,7 +38,7 @@ GetHot:								; takes A = object, returns d0 / d1 (many callers)
 	sec
 	sbc.b d0
 	sta.b d0
-.3:
+.3:									; if attribute,x bit $1000 set go to .4, ...
 	lda.w attribute,x
 	bit.w #$1000
 	bne .4
@@ -46,15 +46,15 @@ GetHot:								; takes A = object, returns d0 / d1 (many callers)
 	sec
 	sbc.b d1
 	sta.b d1
-.4:
+.4:									; if sfhormode = 0 go to .5, ...
 	lda.w sfhormode
 	beq .5
 	lda.b d0
 	ldy.b d1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.b d1
 	sty.b d0
-.5:
+.5:									; return
 	plx
 	rtl

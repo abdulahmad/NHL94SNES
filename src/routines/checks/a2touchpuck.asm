@@ -18,7 +18,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	beq .1
 	inc.b a0
 	inc.b a0
-.1:
+.1:									; d0 = pnum,y, if a0 = tmtouch1,y go to .4, ...
 	lda.w pnum,y
 	sta.b d0
 	ldy.b a0
@@ -36,7 +36,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	adc.w #$000A
 	bmi .2
 	sta.w CwdExciteLvl
-.2:
+.2:									; go to .3
 	bra .3
 
 .t1:								; team flag $0004 clear: shift the touch history down by one
@@ -44,14 +44,14 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	sta.w tmtouch3,y
 	lda.w tmtouch1,y
 	sta.w tmtouch2,y
-.3:
+.3:									; tmtouch1,y = d0, if not zero go to .4, ...
 	lda.b d0
 	sta.w tmtouch1,y
 	cmp.w tmtouch3,y
 	bne .4
 	lda.w #$FFFF
 	sta.w tmtouch3,y
-.4:
+.4:									; trb sflags, call a2offsides, if iflags bits $0004 clear go to .8, ...
 	lda.w #$1000
 	trb.w sflags
 	jsl.l a2offsides
@@ -68,7 +68,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	bne .7
 	lda.w pfgoal,y
 	beq .8
-.5:
+.5:									; a3 = iflags+1 & $00FF * 2, d0 = PenIcing, call AddPenalty, ...
 	phx
 	lda.w iflags+1
 	and.w #$00FF
@@ -80,12 +80,12 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	jsl.l AddPenalty
 	plx
 	stx.b a3
-.6:
+.6:									; return
 	rtl
-.7:
+.7:									; iflags bit $0002 set: if pfgoal,y = 0 go to .5
 	lda.w pfgoal,y
 	beq .5
-.8:
+.8:									; xba, iflags = A, d0 = pucky, ...
 	tya
 	lsr a
 	xba
@@ -100,7 +100,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	sec
 	sbc.b d0
 	sta.b d0
-.1x:
+.1x:								; if d0 negative go to .6, ...
 	lda.b d0
 	bmi .6
 	lda.w tmap
@@ -113,7 +113,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	sec
 	sbc.b d0
 	sta.b d0
-.2x:
+.2x:								; if d0 negative go to .6, ...
 	lda.b d0
 	bmi .6
 	lda.w #$0004

@@ -10,15 +10,15 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	lda.w #$0005
 	sta.b d0
 	jmp.w assreplace
-.1:
+.1:									; playerpad,x >= 0: return
 	rtl
-.2:
+.2:									; gmclock != 0: go to assnothing
 	jmp.w assnothing
-.3:
+.3:									; d0 = $0011, go to assinsert
 	lda.w #$0011
 	sta.b d0
 	jmp.w assinsert
-.7:
+.7:									; if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
 	jsl.l check4bench
@@ -35,7 +35,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x
-.1x:
+.1x:								; temp1,x = temp1,x - d7, if minus go to .t1, ...
 	lda.w temp1,x
 	sec
 	sbc.b d7
@@ -47,9 +47,9 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	clc
 	adc.w aidef,x
 	bpl .2x
-.1xx:
+.1xx:								; falls through
 	lda.w #$0000
-.2x:
+.2x:								; temp1,x = A, d0 = pucky, if pfgoal,x != 0 go to .3x, ...
 	sta.w temp1,x
 	lda.w pucky
 	sta.b d0
@@ -59,7 +59,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	sec
 	sbc.b d0
 	sta.b d0
-.3x:
+.3x:								; d2 = 0, if minus go to .4, ...
 	stz.b d2
 	lda.b d0
 	sec
@@ -82,14 +82,14 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	bmi .4
 	lda.w #$0018
 	sta.b d2
-.4:
+.4:									; if d2 != temp5,x go to .5, ...
 	lda.b d2
 	cmp.w temp5,x
 	bne .5
 	lda.w seed+2
 	cmp.w #$0200
 	bcs .6
-.5:
+.5:									; temp5,x = d2, a0 = CenterOSpots, Y + 1, ...
 	lda.b d2
 	sta.w temp5,x
 	tay
@@ -115,7 +115,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	jsl.l randomd0s
 	adc.b [a0],y
 	sta.w temp4,x
-.6:
+.6:									; d0 = temp3,x, d1 = temp4,x, if pfgoal,x != 0 go to .1xxx, ...
 	lda.w temp3,x
 	sta.b d0
 	lda.w temp4,x
@@ -126,7 +126,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	sec
 	sbc.b d1
 	sta.b d1
-.1xxx:
+.1xxx:								; a0 = EvadePC, go to skateto
 	lda.w #EvadePC>>16
 	sta.b a0+2
 	lda.w #EvadePC

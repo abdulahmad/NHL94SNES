@@ -48,12 +48,12 @@ ChkOffsides_blue:					; puck crossed the line: StartBreakaway, go on if gmoffs i
 	ldy.b a1
 	sty.b a2
 	sta.b a1
-.1:
+.1:									; if puckc >= 0 go to .2, ...
 	lda.w puckc
 	bpl .2
 	lda.w lastplayer
 	asl a
-.2:
+.2:									; if plus go to .t1, ...
 	cmp.w #$000C
 	bpl .t1
 	lda.b a2
@@ -109,7 +109,7 @@ ChkOffsides_other:					; puck in the negative half: same test with the line nega
 	sec
 	sbc.w OldYpos+puckobj
 	bmi ChkOffsides_rtl
-.3:
+.3:									; call StartBreakaway, if gmode bit gmoffs set go to .t1x, ...
 	jsl.l StartBreakaway
 	lda.w gmode
 	bit.w #gmoffs
@@ -128,12 +128,12 @@ ChkOffsides_other:					; puck in the negative half: same test with the line nega
 	ldy.b a1
 	sty.b a2
 	sta.b a1
-.1:
+.1:									; if puckc >= 0 go to .2, ...
 	lda.w puckc
 	bpl .2
 	lda.w lastplayer
 	asl a
-.2:
+.2:									; if plus go to .t2, ...
 	cmp.w #$000C
 	bpl .t2
 	lda.b a2
@@ -143,13 +143,13 @@ ChkOffsides_other:					; puck in the negative half: same test with the line nega
 .t2:								; puck holder on the second team (index $0C+): go on if a2 != 0
 	lda.b a2
 	beq ChkOffsides_rtl
-.4:
+.4:									; d2 = $0005, a0 = tmsort,y
 	lda.w #$0005
 	sta.b d2
 	ldy.b a2
 	lda.w tmsort,y
 	sta.b a0
-.5:
+.5:									; if position,y negative go to .t1xx, ...
 	ldy.b a0
 	lda.w position,y
 	bmi .t1xx

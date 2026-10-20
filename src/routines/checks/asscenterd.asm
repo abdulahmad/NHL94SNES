@@ -8,11 +8,11 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	lda.w #$0006
 	sta.b d0
 	jmp.w assreplace
-.1:
+.1:									; playerpad,x >= 0: return
 	rtl
-.2:
+.2:									; gmclock != 0: go to assnothing
 	jmp.w assnothing
-.4:
+.4:									; if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
 	jsl.l check4bench
@@ -27,7 +27,7 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x
-.1x:
+.1x:								; temp1,x = temp1,x - d7, if plus go to .2x, ...
 	lda.w temp1,x
 	sec
 	sbc.b d7
@@ -35,7 +35,7 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	bpl .2x
 	lda.w aidef,x
 	sta.w temp1,x
-.2x:
+.2x:								; ror a, d0 = A, d1 = $0080, ...
 	lda.w puckx
 	pha
 	asl a
@@ -78,7 +78,7 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	pla
 	ror a
 	sta.b d1
-.3:
+.3:									; a0 = rtss, go to skateto
 	lda.w #rtss>>16
 	sta.b a0+2
 	lda.w #rtss

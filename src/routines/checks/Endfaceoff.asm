@@ -28,10 +28,10 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	and.w #$00FF
 	bit.w #$0080
 	beq .2
-.1:
+.1:									; ora #$FF00
 	ora.w #$FF00
-.2:
-	eor.w #$FFFF
+.2:									; eor #$FFFF, increment a, adc d2, ...
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
 	adc.b d2
@@ -42,9 +42,9 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	and.w #$00FF
 	bit.w #$0080
 	beq .4
-.3:
+.3:									; ora #$FF00
 	ora.w #$FF00
-.4:
+.4:									; adc d2, d2 = A, call RandomWord, ...
 	clc
 	adc.b d2
 	sta.b d2
@@ -55,7 +55,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	bcs .5
 	lda.w #$0004
 	sta.b a1
-.5:
+.5:									; if fofdata2+2,x bits $0800 clear go to .6, ...
 	ldx.b a1
 	lda.l fofdata2+2,x
 	bit.w #$0800
@@ -64,7 +64,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	sta.b d3
 	lda.w #$F800
 	sta.b d4
-.6:
+.6:									; if d3 bit $0008 set go to .7, ...
 	lda.b d3
 	bit.w #$0008
 	bne .7
@@ -73,7 +73,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	lda.w seed
 	and.w #$0003
 	bne .8
-.7:
+.7:									; call randoma8, decrement a, decrement a, ...
 	lda.w #$0005
 	jsl.l randoma8
 	dec a
@@ -85,7 +85,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	lda.b d0
 	eor.w #$0004
 	sta.b d0
-.8:
+.8:									; asl d0, asl d0, Xvel,x = dirtab,x * 2 * 2 * 2 * 2 * 2, ...
 	asl.b d0
 	asl.b d0
 	ldx.b d0
@@ -116,20 +116,20 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	bpl .10
 	lda.w pfgoal,y
 	bne .11
-.9:
+.9:									; call .13, if minus go to .12, ...
 	lda.w #$0004
 	ldy.w #$000C
 	jsr.w .13
 	bmi .12
 	bra .11
-.10:
+.10:								; puckvy >= 0: if pfgoal,y != 0 go to .9
 	lda.w pfgoal,y
 	bne .9
-.11:
+.11:								; a2 = Y, call a2touchpuck
 	sty.b a2
 	ldx.b a3
 	jsl.l a2touchpuck
-.12:
+.12:								; tmflags = tmflags & $FFFB, tmflags+2 = tmflags+2 & $FFFB, call Random...
 	lda.w tmflags
 	and.w #$FFFB
 	sta.w tmflags
@@ -145,7 +145,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	lda.w #$0018
 	sta.b d0
 	jml.l assreplace
-.13:
+.13:								; subroutine: d0 = $0006
 	pha
 	lda.w #$0006
 	sta.b d0
@@ -158,8 +158,8 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	dec.b d0
 	bne .loop
 	ldy.w #$FFFF
-.1x:
+.1x:								; return
 	cpy.w #$0000
 	rts
-.14:
+.14:								; db $00,$08,$10,$00,$08,$10
 	db $00,$08,$10,$00,$08,$10
