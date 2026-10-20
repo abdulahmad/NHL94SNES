@@ -1,5 +1,5 @@
 ; Pass the puck in the pass direction, to the best teammate there if any
-dopass:
+dopass:								; called from chk4pass, passmode
 	stz.w onetimerreq
 	lda.w #$0004
 	trb.w sflags
@@ -16,7 +16,7 @@ dopass:
 	beq .1
 	lda.w passacc,x
 	sta.b d0
-.1:
+.1:									; passspeed = d0 * 2 * 2 + $0090, d4 = $FFFF, d3 = $0005, ...
 	lda.b d0
 	asl a
 	asl a
@@ -31,7 +31,7 @@ dopass:
 	bcc .2
 	lda.w #$000C
 	sta.b a1
-.2:
+.2:									; loop: if zero go to .5, ...
 	cpx.b a1
 	beq .5
 	ldy.b a1
@@ -53,10 +53,10 @@ dopass:
 	beq .3
 	cmp.w #$0007
 	bne .5
-.3:
+.3:									; r0 = $1000
 	lda.w #$1000
 	sta.b r0
-.4:
+.4:									; if carry set go to .5, ...
 	lda.b r0
 	clc
 	adc.w puckdist2,y
@@ -66,14 +66,14 @@ dopass:
 	sta.b d4
 	lda.b a1
 	sta.b a0
-.5:
+.5:									; increment a1, increment a1, decrement d3, ...
 	inc.b a1
 	inc.b a1
 	dec.b d3
 	bmi .t1
 	jmp.w .2
 
-.t1:
+.t1:								; d3 counted below 0: if d4 negative go to .t2, ...
 	ldx.b a3
 	lda.b d4
 	bmi .t2
@@ -82,7 +82,7 @@ dopass:
 	jsl.l PuckSfx
 	jmp.w dopass_swing
 
-.t2:
+.t2:								; d4 negative: a0 = passdir * 2 * 2 + $DA08, a0+2 = $0080, ror a, ...
 	lda.w passdir
 	asl a
 	asl a
@@ -127,7 +127,7 @@ dopass:
 	sta.w puckvz
 ; dopass once the puck velocity is set: a goalie never passes back toward his net, then the pass animation
 ; (SPAgswing / SPApassf); assdumpin ends here too
-dopass_swing:
+dopass_swing:						; called from assdumpin, dopass
 	lda.w position,x
 	bne .2
 	lda.w pfgoal,x
@@ -136,14 +136,14 @@ dopass_swing:
 	bmi .1
 	bra .2
 
-.t1:
+.t1:								; pfgoal,x = 0: if puckvy negative go to .2
 	lda.w puckvy
 	bmi .2
-.1:
-	eor.w #$FFFF
+.1:									; eor #$FFFF, increment a, puckvy = A
+	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.w puckvy
-.2:
+.2:									; d0 = puckvx, d1 = puckvy, call vtoa, ...
 	lda.w puckvx
 	sta.b d0
 	lda.w puckvy
@@ -156,7 +156,7 @@ dopass_swing:
 	jsl.l Findhittype
 	beq .1x
 	ldy.w #SPApassb
-.1x:
+.1x:								; d1 = Y, call SetSPA, pfalock,x = $0001, ...
 	sty.b d1
 	jsl.l SetSPA
 	lda.w #$0001
@@ -169,9 +169,9 @@ dopass_swing:
 	stz.w Yvel,x
 	sta.b d4
 	jsl.l findpc
-.rtl:
+.rtl:								; return
 	rtl
-dopass_count:
+dopass_count:						; called from dopass
 	jsl.l loadTeamStruct
 	lda.w gmclock
 	bne .1
@@ -179,7 +179,7 @@ dopass_count:
 	lda.w tmpassatt,y
 	inc a
 	sta.w tmpassatt,y
-.1:
+.1:									; temp1,x = aidef,x / 2 + $0001 + temp1,x, passReceiverPlayerNum = a0, ...
 	ldx.w topgoalie,y
 	lda.w aidef,x
 	lsr a
@@ -205,9 +205,9 @@ dopass_count:
 	sbc.w facedir,y
 	bra .2
 
-.t1:
+.t1:								; attribute,y bits $0800 clear: falls through
 	lda.w facedir,y
-.2:
+.2:									; and #$0007, asl a, frame,y = SPAonetimerf&$FF0000,x, ...
 	and.w #$0007
 	asl a
 	tax
@@ -278,13 +278,13 @@ dopass_count:
 	lda.w #$0050
 	bra .3
 
-.t1x:
+.t1x:								; d6 = d4 / 2 / 2
 	lda.b d4
 	lsr a
 	lsr a
 	sta.b d6
 	lda.w #$0040
-.3:
+.3:									; call Mul16XS, d2 = r2+2 + d0, call Mul16XS, ...
 	pha
 	lda.b d6
 	asl a
@@ -313,7 +313,7 @@ dopass_count:
 	jsl.l ApproxLength
 	sta.b d4
 	pla
-.4:
+.4:									; d5 = A, passspeed = A, call randomd0s, ...
 	sta.b d5
 	sta.w passspeed
 	ldx.b curobj
@@ -383,5 +383,5 @@ dopass_count:
 	lda.w playerpad,x
 	bmi .rtl
 	jsl.l findpc
-.rtl:
+.rtl:								; return
 	rtl

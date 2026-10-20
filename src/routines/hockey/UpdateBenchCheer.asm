@@ -1,5 +1,5 @@
 ; Each frame: step the cheering bench through its frames (benchframe), and end it ($FFFF) after its rounds
-UpdateBenchCheer:
+UpdateBenchCheer:					; called from DoGameFrame
 	lda.w benchcheer
 	beq .5
 	lda.w benchframe
@@ -28,19 +28,19 @@ org $9CA002
 	lda.w #$0002
 	bra .3
 
-.t1:
+.t1:								; benchtimer = A, go to .4
 	sta.w benchtimer
 	bra .4
-.1:
+.1:									; a counted below 0: benchcheer = 0, go to .5
 	stz.w benchcheer
 	bra .5
-.2:
+.2:									; benchrounds = $0004: if a counted below 0 go to .1
 	lda.w benchframe
 	dec a
 	bmi .1
-.3:
+.3:									; benchframe = A
 	sta.w benchframe
-.4:
+.4:									; benchframe = benchcheer * 2 * 2 * 2 + benchframe, return
 	lda.w benchcheer
 	asl a
 	asl a
@@ -48,7 +48,7 @@ org $9CA002
 	adc.w benchframe
 	sta.w benchframe
 	rtl
-.5:
+.5:									; benchframe = $FFFF, return
 	lda.w #$FFFF
 	sta.w benchframe
 	rtl

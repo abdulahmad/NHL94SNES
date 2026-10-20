@@ -1,6 +1,6 @@
 ; Player stats: print the column name, sort the player order ($1DFB) by stat column $1DF9
 ; (ComparePlayerStats), then FillPlayerStatsPage
-SortPlayerStats:
+SortPlayerStats:					; called from ShowPlayerStats, ShowPlayerStats_column, ShowPlayerStats_...
 	lda.w statcolumn
 	sta.b d0
 	lda.b a1+2
@@ -23,14 +23,14 @@ SortPlayerStats:
 	jsl.l AdvanceStringPtr
 	jsl.l print
 	ldx.w listtop
-.loop:
+.loop:								; loop: txy
 	txy
-.loop2:
+.loop2:								; loop: Y + 1, call ComparePlayerStats, if statstemp = 0 go to .2
 	iny
 	jsl.l ComparePlayerStats
 	lda.w statstemp
 	beq .2
-.1:
+.1:									; statstemp = statsorder,y, statsorder,y = statsorder,x, statsorder,x =...
 	sep #$20
 	lda.w statsorder,y
 	sta.w statstemp
@@ -39,7 +39,7 @@ SortPlayerStats:
 	lda.w statstemp
 	sta.w statsorder,x
 	rep #$20
-.2:
+.2:									; if carry clear go to .loop2, ...
 	cpy.w listend
 	bcc .loop2
 	inx

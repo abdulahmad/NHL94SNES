@@ -1,5 +1,5 @@
 ; Player stats for the team in a2.
-ShowPlayerStats:
+ShowPlayerStats:					; called from PausePlayerStats
 	jsl.l GetPauseTeam
 	lda.b a2
 	pha
@@ -70,7 +70,7 @@ ShowPlayerStats:
 	jsl.l DrawPlayerStatsPage
 	jsl.l MenuScreenHDMA
 	jsl.l ScreenOn
-ShowPlayerStats_loop:
+ShowPlayerStats_loop:				; called from ShowPlayerStats_down, ShowPlayerStats_redraw, ShowPlayerS...
 	jsl.l ReadPads
 	jsl.l ReadPausePad
 	jsl.l ProcessInputWithRepeat
@@ -79,37 +79,37 @@ ShowPlayerStats_loop:
 	beq .t2
 	jmp.w ShowPlayerStats_exit
 
-.t2:
+.t2:								; d3 bits $1000 clear: if zero go to .t1
 	bit.w #$0800
 	beq .t1
-.1:
+.1:									; go to ShowPlayerStats_up
 	jmp.w ShowPlayerStats_up
 
-.t1:
+.t1:								; if zero go to .t3, ...
 	bit.w #$0400
 	beq .t3
 	jmp.w ShowPlayerStats_down
 
-.t3:
+.t3:								; if d1 bits $0200 clear go to .t1x
 	lda.b d1
 	bit.w #$0200
 	beq .t1x
-.1x:
+.1x:								; go to ShowPlayerStats_left
 	jmp.w ShowPlayerStats_left
 
-.t1x:
+.t1x:								; d1 bits $0200 clear: if zero go to .t2x
 	bit.w #$0100
 	beq .t2x
-.1xx:
+.1xx:								; go to ShowPlayerStats_right
 	jmp.w ShowPlayerStats_right
 
-.t2x:
+.t2x:								; if zero go to ShowPlayerStats_redraw
 	bit.w #$4000
 	beq ShowPlayerStats_redraw
-.1x2:
+.1x2:								; go to SwapPlayerStatsTeam
 	jmp.w SwapPlayerStatsTeam
 
-ShowPlayerStats_redraw:
+ShowPlayerStats_redraw:				; called from ShowPlayerStats_column, ShowPlayerStats_down, ShowPlayerS...
 	lda.w statcolumn
 	cmp.w #$0000
 	beq .4
@@ -128,14 +128,14 @@ ShowPlayerStats_redraw:
 	lda.w #LineBraces
 	sta.b a1
 	jsl.l PrintToStatsPage
-.1xxx:
+.1xxx:								; if zero go to .3
 	lda.w curitem
 	clc
 	adc.w listrows
 	dec a
 	cmp.w listend
 	beq .3
-.2:
+.2:									; printx = $0001, printy = curitem + listrows - 1 * 2, printa = $2000, ...
 	lda.w #$0001
 	sta.w printx
 	lda.w curitem
@@ -151,20 +151,20 @@ ShowPlayerStats_redraw:
 	lda.w #LineBraces+3
 	sta.b a1
 	jsl.l PrintToStatsPage
-.3:
+.3:									; call DrawPlayerStatsPage
 	jsl.l DrawPlayerStatsPage
-.4:
+.4:									; call WaitFrame, go to ShowPlayerStats_loop
 	jsl.l WaitFrame
 	jmp.w ShowPlayerStats_loop
 
-ShowPlayerStats_exit:
+ShowPlayerStats_exit:				; called from ShowPlayerStats_loop
 	lda.w #$0000
 	sta.l playerstatson
 	pla
 	sta.b a2
 	rtl
 
-ShowPlayerStats_down:
+ShowPlayerStats_down:				; called from ShowPlayerStats_loop
 	jsl.l ClearPlayerStatBraces
 	lda.w curitem
 	clc
@@ -174,7 +174,7 @@ ShowPlayerStats_down:
 	bmi .t1x2
 	jmp.w ShowPlayerStats_redraw
 
-.t1x2:
+.t1x2:								; increment listrows, call DrawPlayerStatsPage, decrement listrows, ...
 	inc.w listrows
 	jsl.l DrawPlayerStatsPage
 	dec.w listrows
@@ -182,7 +182,7 @@ ShowPlayerStats_down:
 	inc.w curitem
 	lda.w #$0001
 	sta.w irqvscroll1
-.loop:
+.loop:								; loop: call WaitFrame, increment irqvscroll1, increment irqvscroll1, ...
 	jsl.l WaitFrame
 	inc.w irqvscroll1
 	inc.w irqvscroll1
@@ -195,7 +195,7 @@ ShowPlayerStats_down:
 	sta.w irqvscroll1
 	jmp.w ShowPlayerStats_loop
 
-ShowPlayerStats_up:
+ShowPlayerStats_up:					; called from ShowPlayerStats_loop
 	jsl.l ClearPlayerStatBraces
 	lda.w curitem
 	dec a
@@ -203,7 +203,7 @@ ShowPlayerStats_up:
 	bpl .t1x3
 	jmp.w ShowPlayerStats_redraw
 
-.t1x3:
+.t1x3:								; curitem = A, increment listrows, call DrawPlayerStatsPage, ...
 	sta.w curitem
 	inc.w listrows
 	jsl.l DrawPlayerStatsPage
@@ -211,7 +211,7 @@ ShowPlayerStats_up:
 	jsl.l WaitFrame
 	lda.w #$000D
 	sta.w irqvscroll1
-.loopx:
+.loopx:								; loop: call WaitFrame, decrement irqvscroll1, decrement irqvscroll1, ...
 	jsl.l WaitFrame
 	dec.w irqvscroll1
 	dec.w irqvscroll1
@@ -224,33 +224,33 @@ ShowPlayerStats_up:
 	sta.w irqvscroll1
 	jmp.w ShowPlayerStats_loop
 
-ShowPlayerStats_left:
+ShowPlayerStats_left:				; called from ShowPlayerStats_loop
 	lda.w statcolumn
 	dec a
 	bpl .t1x4
 	jmp.w ShowPlayerStats_redraw
 
-.t1x4:
+.t1x4:								; a still >= 0: if zero go to ShowPlayerStats_setrange, ...
 	cmp.w #$0000
 	beq ShowPlayerStats_setrange
 	bra ShowPlayerStats_column
 
-ShowPlayerStats_right:
+ShowPlayerStats_right:				; called from ShowPlayerStats_loop
 	lda.w statcolumn
 	cmp.w #$0005
 	bmi .t1x5
 	jmp.w ShowPlayerStats_redraw
 
-.t1x5:
+.t1x5:								; statcolumn - $0005 negative: increment a, if zero go to ShowPlayerSta...
 	inc a
 	cmp.w #$0001
 	beq ShowPlayerStats_setrange
-ShowPlayerStats_column:
+ShowPlayerStats_column:				; called from ShowPlayerStats_left
 	sta.w statcolumn
 	jsl.l SortPlayerStats
 	jsl.l DrawPlayerStatsPage
 	jmp.w ShowPlayerStats_redraw
-ShowPlayerStats_setrange:
+ShowPlayerStats_setrange:			; called from ShowPlayerStats_left, ShowPlayerStats_right
 	sta.w statcolumn
 	jsl.l SetPlayerStatsRange
 	jsl.l InitStatsOrder

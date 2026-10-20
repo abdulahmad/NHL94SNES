@@ -1,5 +1,5 @@
 ; Scoring summary for both teams. Start leaves.
-ShowScoringSummary:
+ShowScoringSummary:					; called from PauseScoringSummary
 	lda.w VisTeam
 	sta.l setupvis
 	lda.w HomeTeam
@@ -40,22 +40,22 @@ ShowScoringSummary:
 	lda.w #$0000
 	sta.w listend
 	lda.l ScoreSumbytes
-.loop:
+.loop:								; loop: if minus go to .t1
 	cmp.w #$0006
 	bmi .t1
-.1:
+.1:									; increment listend, sbc #$0006, go to .loop
 	inc.w listend
 	sec
 	sbc.w #$0006
 	bra .loop
 
-.t1:
+.t1:								; if listend < $0006 go to .2
 	lda.w listend
 	cmp.w #$0006
 	bcc .2
-.1x:
+.1x:								; call PrintScrollHint
 	jsl.l PrintScrollHint
-.2:
+.2:									; call FillScoringPage, call SendTextMap, call SetupScrollIRQ, ...
 	jsr.w FillScoringPage
 	jsl.l SendTextMap
 	lda.w #$0058
@@ -67,18 +67,18 @@ ShowScoringSummary:
 	lda.w #$0005
 	sta.w listrows
 	jsr.w DrawScoringPage
-ScoringSummaryLoop:
+ScoringSummaryLoop:					; called from ScoringSummaryWait, ScrollScoringDown, ScrollScoringUp
 	jsl.l ReadPausePad
 	lda.b d3
 	bit.w #$1000
 	beq .t1
 	rtl
 
-.t1:
+.t1:								; d3 bits $1000 clear: if not zero go to ScrollScoringUp, ...
 	bit.w #$0800
 	bne ScrollScoringUp
 	bit.w #$0400
 	bne ScrollScoringDown
-ScoringSummaryWait:
+ScoringSummaryWait:					; called from ScrollScoringDown, ScrollScoringUp
 	jsl.l WaitFrame
 	bra ScoringSummaryLoop
