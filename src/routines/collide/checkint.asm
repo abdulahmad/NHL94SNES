@@ -48,7 +48,7 @@ checkint:							; called from checkplcoll
 	bne .rtl
 	lda.w #$0014
 	sec
-	sbc.w GGSleft,x					; 20 minus the games left
+	sbc.w aggress,x					; 20 minus aggression
 	jsl.l randoma8
 	cmp.w #$0002
 	bcs .rtl

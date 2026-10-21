@@ -6526,9 +6526,9 @@ $13C3,rostnum,,93S,RAM,src/ram94s.asm
 $13E3,spodds,,93S,RAM; shot / pass odds,src/ram94s.asm
 $1403,stickhand,,93S,RAM,src/ram94s.asm
 $1423,endurance,,93S,RAM; endurance (goalies: stick save right),src/ram94s.asm
-$1443,GGSleft,,93S,RAM; goalie glove save left,src/ram94s.asm
-$1463,fightagg,,93S,RAM; fighting aggression (stored; 94S has no fights),src/ram94s.asm
-$1483,aggress,,93S,RAM,src/ram94s.asm
+$1443,aggress,,92G/93G,"RAM; aggression (penalty odds), goalies: glove save left; was GGSleft, kept as the goalie alias in puckgoalie",src/ram94s.asm
+$1463,fighting,,93G,RAM; fighting aggression (stored; 94S has no fights),src/ram94s.asm
+$1483,checking,,93G,RAM; checking rating,src/ram94s.asm
 $14A3,handed,,93S,RAM; nonzero: right handed,src/ram94s.asm
 $1523,pfrev,,93S,RAM; nonzero: skating backwards. pflags bit pfrev,src/ram94s.asm
 $1543,pf2aip,,93S,RAM; nonzero: animation in progress. pflags2 bit pf2aip,src/ram94s.asm
