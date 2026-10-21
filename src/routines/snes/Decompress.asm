@@ -14,10 +14,10 @@ Decompress:							; called from BuildRinkMap, DrawEditLinesBack, DrawPlayerPictu
 	plb
 	plb
 	ldy.b p0
-	lda.w $0003,y
+	lda.w cmpsizelow,y
 	xba
 	pha
-	lda.w $0000,y
+	lda.w cmpformat,y
 	iny
 	iny
 	cmp.w #$FB10

@@ -285,6 +285,7 @@ OptPen				=	$7E34C4		; penalties (0 = off)
 PassWord			=	$7E34F4		; password characters
 passbits			=	$7E3508		; password bits, low word first
 PlList				=	$7E3114		; players wanted on the ice
+pausesavebuf		=	$7E4F7E		; Pausemode saves textmap here ($800 bytes, up to ReplayBufferStart)
 ReplayBufferStart	=	$7E577E		; first replay frame record
 ReplayBufferEnd		=	$7EE676		; replay buffer end
 VertLineScrolling	=	$0D49		; scouting report vertical scroll
@@ -1290,6 +1291,7 @@ SoundBank			=	$50			;Bank of the sound entries: SoundInit ldx $36 : stx $50 (Sou
 									;16-bit store)
 VarLenAcc			=	$52			;ReadVarLen: sta $52 = value so far, then ($52 << 7) or $54 for each
 									;continuation byte (top bit ...
+TrackLoopEnd		=	$52			; ClearTracks: the track number to stop at (shares VarLenAcc's slot)
 VarLenByte			=	$54			; ReadVarLen: the next byte and #$7F, ORed into the shifted VarLenAcc
 EventPtr			=	$56			;Long read pointer into the song ($58 = EventPtr+2 = song bank: MusicStart
 									;lda $0E : sta $58, 8-bit)
@@ -1339,3 +1341,20 @@ BlockRuns		=	$7E2F40			;16x16 block area of sprite VRAM (InitSprites: one free r
 BlockRunPrev	=	$7E2FB9			; previous run of each block run ($FF = none)
 TileRuns		=	$7E3032			; single 8x8 tile area (from SpriteBlockTiles to $200)
 TileRunPrev		=	$7E3093			; previous run of each tile run ($FF = none)
+
+; Record fields (names shared with 93G, 93S and 94G)
+cmpformat			=	0			;Decompress header: word format ($FB10 LZ, $FB46, $FB30, $FB7A)
+cmpsizelow			=	3			;low word of the unpacked size (24-bit, high byte first, at bytes 2-4)
+sstime				=	0			;ScoreSum entry (6 bytes per goal): word period / time
+ssflags				=	2			;byte 2 + skater difference (goal type); bit 7 = away team scored
+ssscorer			=	3			;byte scorer
+ssassist1			=	4			;byte first assist (negative none)
+ssassist2			=	5			;byte second assist (negative none)
+sssize				=	6
+pstime				=	0			;PenSum entry: word period / time
+pcx					=	0			;puckcross entry (4 bytes; entry 0 top, 1 bottom): word x
+pcframes			=	2			;word frames
+pcsize				=	4
+foframe				=	0			;fofdata2, fofdata: 4 bytes per big faceoff sprite (centers, ref): frame
+foattr				=	2			;word attribute (bit 11 x flip)
+fosize				=	4

@@ -5,9 +5,9 @@ Pausemode:							; called from Gameloop, PlayShootout
 	sta.b p0+2
 	lda.w #textmap
 	sta.b p0
-	lda.w #Ram7E>>16
+	lda.w #pausesavebuf>>16
 	sta.b p1+2
-	lda.w #$4F7E
+	lda.w #pausesavebuf
 	sta.b p1
 	ldx.w #$0800
 	jsl.l MemCopy
@@ -63,9 +63,9 @@ Pausemode:							; called from Gameloop, PlayShootout
 	jsl.l forceblack
 	jsl.l SoundInit
 	phx
-	lda.w #Ram7E>>16
+	lda.w #pausesavebuf>>16
 	sta.b p0+2
-	lda.w #$4F7E
+	lda.w #pausesavebuf
 	sta.b p0
 	lda.w #textmap>>16
 	sta.b p1+2
