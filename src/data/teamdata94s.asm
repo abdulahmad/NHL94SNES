@@ -37,11 +37,11 @@ TeamList:							; a long pointer to each team record (team number = index)
 	dd Winnipeg						; 25
 	dd AllStarsEast					; 26
 	dd AllStarsWest					; 27
-AllStarsEast:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
+AllStarsEast:						; team record: All Stars East (ASE), team 26
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
 .sr:								; the scouting report
 	db $77,$20,$00,$E8,$5B
-.godds:
+.godds:								; starting goalie weights
 	db 203,192
 .ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
 	db 01,19,18,07,04,16,09,00		; line 1 NLC (no line changes)
@@ -87,22 +87,22 @@ AllStarsEast:
 	dw 2							; an empty String
 .ar:								; arena
 	%String("Madison Square Garden")
-AllStarsWest:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+AllStarsWest:						; team record: All Stars West (ASW), team 27
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $77,$20,$00,$E8,$59
-.godds:
+.godds:								; starting goalie weights
 	db 237,144
-.ls:
-	db 01,20,22,11,04,15,14,00
-	db 01,24,22,11,04,15,13,00
-	db 01,20,23,14,06,13,04,00
-	db 01,18,21,10,08,12,04,00
-	db 01,20,19,11,09,13,04,00
-	db 01,18,22,06,04,15,09,00
-	db 01,25,21,08,12,09,17,00
-	db 01,23,24,09,17,08,12,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,20,22,11,04,15,14,00		; line 1 NLC (no line changes)
+	db 01,24,22,11,04,15,13,00		; line 2 Sc1
+	db 01,20,23,14,06,13,04,00		; line 3 Sc2
+	db 01,18,21,10,08,12,04,00		; line 4 Chk
+	db 01,20,19,11,09,13,04,00		; line 5 PP1
+	db 01,18,22,06,04,15,09,00		; line 6 PP2
+	db 01,25,21,08,12,09,17,00		; line 7 PK1
+	db 01,23,24,09,17,08,12,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Ed Belfour", $3066,$4665,$0000,$6655)
 	%Player("Tim Cheveldae", $3264,$4444,$0000,$4344)
 	%Player("Felix Potvin", $2964,$4664,$0000,$4444)
@@ -129,30 +129,30 @@ AllStarsWest:
 	%Player("Steve Smith", $05B4,$4344,$4641,$5244)
 	%Player("Steve Chiasson", $0394,$3444,$3641,$4234)
 	dw 2
-.tn:
+.tn:								; city
 	%String("All Stars West")
-.ta:
+.ta:								; abbreviation
 	%String("ASW")
-.tm:
+.tm:								; nickname
 	dw 2
-.ar:
+.ar:								; arena
 	%String("Madison Square Garden")
-Boston:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Boston:								; team record: Boston (BOS), team 1
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $41,$21,$21,$F7,$4C
-.godds:
+.godds:								; starting goalie weights
 	db 180,0
-.ls:
-	db 01,19,18,07,03,12,08,00
-	db 01,19,18,08,03,12,05,00
-	db 01,20,21,07,05,13,03,00
-	db 01,22,23,09,04,14,03,00
-	db 01,20,18,08,03,12,05,00
-	db 01,22,21,07,05,13,03,00
-	db 01,18,19,09,04,03,06,00
-	db 01,20,21,03,06,09,04,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,19,18,07,03,12,08,00		; line 1 NLC (no line changes)
+	db 01,19,18,08,03,12,05,00		; line 2 Sc1
+	db 01,20,21,07,05,13,03,00		; line 3 Sc2
+	db 01,22,23,09,04,14,03,00		; line 4 Chk
+	db 01,20,18,08,03,12,05,00		; line 5 PP1
+	db 01,22,21,07,05,13,03,00		; line 6 PP2
+	db 01,18,19,09,04,03,06,00		; line 7 PK1
+	db 01,20,21,03,06,09,04,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Andy Moog", $3544,$4224,$0000,$4343)
 	%Player("John Blue", $3963,$4553,$0000,$4343)
 	%Player("Adam Oates", $1275,$4653,$3154,$5061)
@@ -178,30 +178,30 @@ Boston:
 	%Player("Glen Feathrston", $06B3,$3222,$4823,$2324)
 	%Player("Jim Wiemer", $36A2,$1221,$2820,$2324)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Boston")
-.ta:
+.ta:								; abbreviation
 	%String("BOS")
-.tm:
+.tm:								; nickname
 	%String("Bruins")
-.ar:
+.ar:								; arena
 	%String("Boston Garden")
-Buffalo:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Buffalo:							; team record: Buffalo (BUF), team 2
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $64,$10,$21,$D8,$49
-.godds:
+.godds:								; starting goalie weights
 	db 178,80
-.ls:
-	db 01,17,18,05,04,13,06,00
-	db 01,17,19,09,04,13,05,00
-	db 01,18,21,11,05,15,04,00
-	db 01,20,22,08,06,14,04,00
-	db 01,17,18,05,04,13,06,00
-	db 01,20,21,08,06,15,04,00
-	db 01,19,21,09,06,08,04,00
-	db 01,17,18,08,04,09,06,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,17,18,05,04,13,06,00		; line 1 NLC (no line changes)
+	db 01,17,19,09,04,13,05,00		; line 2 Sc1
+	db 01,18,21,11,05,15,04,00		; line 3 Sc2
+	db 01,20,22,08,06,14,04,00		; line 4 Chk
+	db 01,17,18,05,04,13,06,00		; line 5 PP1
+	db 01,20,21,08,06,15,04,00		; line 6 PP2
+	db 01,19,21,09,06,08,04,00		; line 7 PK1
+	db 01,17,18,08,04,09,06,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Grant Fuhr", $3175,$4555,$0100,$4455)
 	%Player("Tom Draper", $3562,$3332,$0000,$2222)
 	%Player("Dominik Hasek", $3943,$3552,$0000,$2222)
@@ -227,30 +227,30 @@ Buffalo:
 	%Player("Randy Moller", $24A3,$2212,$3921,$1124)
 	%Player("Keith Carney", $0692,$3212,$3622,$1424)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Buffalo")
-.ta:
+.ta:								; abbreviation
 	%String("BUF")
-.tm:
+.tm:								; nickname
 	%String("Sabres")
-.ar:
+.ar:								; arena
 	%String("Memorial Auditorium")
-Calgary:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Calgary:							; team record: Calgary (CGY), team 3
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $42,$00,$00,$C9,$4B
-.godds:
+.godds:								; starting goalie weights
 	db 197,0
-.ls:
-	db 01,15,16,06,03,11,04,00
-	db 01,19,16,06,03,12,04,00
-	db 01,15,21,07,04,11,03,00
-	db 01,17,22,09,05,14,03,00
-	db 01,15,16,06,03,12,04,00
-	db 01,22,21,04,05,11,03,00
-	db 01,15,21,07,11,06,05,00
-	db 01,22,18,06,05,07,11,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,15,16,06,03,11,04,00		; line 1 NLC (no line changes)
+	db 01,19,16,06,03,12,04,00		; line 2 Sc1
+	db 01,15,21,07,04,11,03,00		; line 3 Sc2
+	db 01,17,22,09,05,14,03,00		; line 4 Chk
+	db 01,15,16,06,03,12,04,00		; line 5 PP1
+	db 01,22,21,04,05,11,03,00		; line 6 PP2
+	db 01,15,21,07,11,06,05,00		; line 7 PK1
+	db 01,22,18,06,05,07,11,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Mike Vernon", $3043,$4444,$0000,$4433)
 	%Player("Jeff Reese", $3542,$3442,$0000,$2233)
 	%Player("Joe Nieuwendyk", $2584,$4434,$3444,$4322)
@@ -275,30 +275,30 @@ Calgary:
 	%Player("Chris Dahlquist", $0583,$3143,$3431,$3523)
 	%Player("Greg Smyth", $06A0,$0100,$1901,$1404)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Calgary")
-.ta:
+.ta:								; abbreviation
 	%String("CGY")
-.tm:
+.tm:								; nickname
 	%String("Flames")
-.ar:
+.ar:								; arena
 	%String("Olympic Saddledome")
-Chicago:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Chicago:							; team record: Chicago (CHI), team 4
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $20,$10,$21,$E8,$4E
-.godds:
+.godds:								; starting goalie weights
 	db 228,0
-.ls:
-	db 01,18,17,07,03,11,05,00
-	db 01,18,17,07,03,11,04,00
-	db 01,19,20,09,04,13,03,00
-	db 01,21,23,10,05,12,03,00
-	db 01,18,17,07,03,11,04,00
-	db 01,19,20,04,05,13,03,00
-	db 01,18,17,05,11,03,12,00
-	db 01,20,22,03,12,05,11,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,18,17,07,03,11,05,00		; line 1 NLC (no line changes)
+	db 01,18,17,07,03,11,04,00		; line 2 Sc1
+	db 01,19,20,09,04,13,03,00		; line 3 Sc2
+	db 01,21,23,10,05,12,03,00		; line 4 Chk
+	db 01,18,17,07,03,11,04,00		; line 5 PP1
+	db 01,19,20,04,05,13,03,00		; line 6 PP2
+	db 01,18,17,05,11,03,12,00		; line 7 PK1
+	db 01,20,22,03,12,05,11,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Ed Belfour", $3066,$4665,$0000,$6655)
 	%Player("Jim Waite", $2963,$3332,$0000,$2233)
 	%Player("Jeremy Roenick", $2745,$5445,$2355,$5253)
@@ -324,30 +324,30 @@ Chicago:
 	%Player("Cam Russell", $0853,$3132,$3431,$3524)
 	%Player("Adam Bennett", $4792,$2111,$2520,$1412)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Chicago")
-.ta:
+.ta:								; abbreviation
 	%String("CHI")
-.tm:
+.tm:								; nickname
 	%String("Blackhawks")
-.ar:
+.ar:								; arena
 	%String("Chicago Stadium")
-Detroit:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Detroit:							; team record: Detroit (DET), team 6
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $73,$21,$00,$F8,$4B
-.godds:
+.godds:								; starting goalie weights
 	db 212,0
-.ls:
-	db 01,19,18,04,03,13,08,00
-	db 01,21,25,11,03,13,04,00
-	db 01,18,23,08,04,14,03,00
-	db 01,19,20,09,05,15,03,00
-	db 01,18,20,08,03,13,15,00
-	db 01,19,21,15,04,14,03,00
-	db 01,19,23,08,04,03,05,00
-	db 01,21,25,05,03,08,04,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,19,18,04,03,13,08,00		; line 1 NLC (no line changes)
+	db 01,21,25,11,03,13,04,00		; line 2 Sc1
+	db 01,18,23,08,04,14,03,00		; line 3 Sc2
+	db 01,19,20,09,05,15,03,00		; line 4 Chk
+	db 01,18,20,08,03,13,15,00		; line 5 PP1
+	db 01,19,21,15,04,14,03,00		; line 6 PP2
+	db 01,19,23,08,04,03,05,00		; line 7 PK1
+	db 01,21,25,05,03,08,04,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Tim Cheveldae", $3264,$4444,$0000,$4344)
 	%Player("Vincent Riendeau", $3763,$3222,$0000,$3223)
 	%Player("Steve Yzerman", $1966,$5644,$1155,$6152)
@@ -374,30 +374,30 @@ Detroit:
 	%Player("Steve Konroyd", $0883,$3232,$4421,$3233)
 	%Player("Brad McCrimmon", $0283,$2242,$4610,$3133)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Detroit")
-.ta:
+.ta:								; abbreviation
 	%String("DET")
-.tm:
+.tm:								; nickname
 	%String("Red Wings")
-.ar:
+.ar:								; arena
 	%String("Joe Louis Arena")
-Edmonton:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Edmonton:							; team record: Edmonton (EDM), team 7
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $16,$02,$12,$E8,$43
-.godds:
+.godds:								; starting goalie weights
 	db 208,0
-.ls:
-	db 01,16,17,08,02,14,09,00
-	db 01,16,17,09,02,14,03,00
-	db 01,19,18,08,03,15,02,00
-	db 01,20,21,10,11,04,02,00
-	db 01,16,17,09,08,14,06,00
-	db 01,20,18,10,06,15,09,00
-	db 01,16,18,08,04,11,02,00
-	db 01,19,21,11,02,08,04,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,16,17,08,02,14,09,00		; line 1 NLC (no line changes)
+	db 01,16,17,09,02,14,03,00		; line 2 Sc1
+	db 01,19,18,08,03,15,02,00		; line 3 Sc2
+	db 01,20,21,10,11,04,02,00		; line 4 Chk
+	db 01,16,17,09,08,14,06,00		; line 5 PP1
+	db 01,20,18,10,06,15,09,00		; line 6 PP2
+	db 01,16,18,08,04,11,02,00		; line 7 PK1
+	db 01,19,21,11,02,08,04,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Bill Ranford", $3044,$3334,$0000,$4454)
 	%Player("Doug Weight", $3963,$3343,$3443,$3132)
 	%Player("Todd Elik", $3473,$4332,$2433,$3123)
@@ -422,30 +422,30 @@ Edmonton:
 	%Player("Chris Joseph", $02A3,$3313,$3531,$1233)
 	%Player("Brad Werenka", $3693,$3223,$2633,$2523)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Edmonton")
-.ta:
+.ta:								; abbreviation
 	%String("EDM")
-.tm:
+.tm:								; nickname
 	%String("Oilers")
-.ar:
+.ar:								; arena
 	%String("Northlands Coliseum")
-Hartford:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Hartford:							; team record: Hartford (HFD), team 9
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $17,$02,$00,$E6,$42
-.godds:
+.godds:								; starting goalie weights
 	db 163,96
-.ls:
-	db 01,18,19,08,04,13,05,00
-	db 01,18,23,08,04,13,06,00
-	db 01,21,19,10,06,14,04,00
-	db 01,20,22,09,05,15,04,00
-	db 01,18,19,08,04,13,05,00
-	db 01,20,21,09,05,06,04,00
-	db 01,20,19,15,14,08,04,00
-	db 01,18,23,08,04,15,14,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,18,19,08,04,13,05,00		; line 1 NLC (no line changes)
+	db 01,18,23,08,04,13,06,00		; line 2 Sc1
+	db 01,21,19,10,06,14,04,00		; line 3 Sc2
+	db 01,20,22,09,05,15,04,00		; line 4 Chk
+	db 01,18,19,08,04,13,05,00		; line 5 PP1
+	db 01,20,21,09,05,06,04,00		; line 6 PP2
+	db 01,20,19,15,14,08,04,00		; line 7 PK1
+	db 01,18,23,08,04,15,14,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Sean Burke", $01A4,$3224,$0000,$4444)
 	%Player("Mario Gosselin", $3132,$3442,$0000,$1122)
 	%Player("Frank Pietrngelo", $4063,$3113,$0000,$2222)
@@ -470,30 +470,30 @@ Hartford:
 	%Player("Doug Houda", $2772,$2122,$2921,$2414)
 	%Player("Allen Pedersen", $41A2,$3132,$3621,$2123)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Hartford")
-.ta:
+.ta:								; abbreviation
 	%String("HFD")
-.tm:
+.tm:								; nickname
 	%String("Whalers")
-.ar:
+.ar:								; arena
 	%String("Hartford Civic Center")
-LosAngeles:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+LosAngeles:							; team record: Los Angeles (LA), team 10
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $66,$12,$11,$C9,$4A
-.godds:
+.godds:								; starting goalie weights
 	db 150,32
-.ls:
-	db 01,16,17,08,04,12,05,00
-	db 01,16,18,08,04,12,05,00
-	db 01,17,20,09,05,13,04,00
-	db 01,19,21,10,06,14,04,00
-	db 01,18,16,08,04,13,05,00
-	db 01,19,17,09,05,12,04,00
-	db 01,20,17,09,14,04,13,00
-	db 01,18,21,04,13,09,14,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,16,17,08,04,12,05,00		; line 1 NLC (no line changes)
+	db 01,16,18,08,04,12,05,00		; line 2 Sc1
+	db 01,17,20,09,05,13,04,00		; line 3 Sc2
+	db 01,19,21,10,06,14,04,00		; line 4 Chk
+	db 01,18,16,08,04,13,05,00		; line 5 PP1
+	db 01,19,17,09,05,12,04,00		; line 6 PP2
+	db 01,20,17,09,14,04,13,00		; line 7 PK1
+	db 01,18,21,04,13,09,14,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Kelly Hrudey", $3263,$3444,$0000,$2223)
 	%Player("Robb Stauber", $3562,$3553,$0000,$2222)
 	%Player("Rick Knickle", $0122,$3332,$0000,$2221)
@@ -519,30 +519,30 @@ LosAngeles:
 	%Player("Tim Watters", $0562,$2121,$2620,$2122)
 	%Player("Rene Chapdlaine", $0881,$1010,$1510,$1313)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Los Angeles")
-.ta:
+.ta:								; abbreviation
 	%String("LA")
-.tm:
+.tm:								; nickname
 	%String("Kings")
-.ar:
+.ar:								; arena
 	%String("Great Western Forum")
-Dallas:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Dallas:								; team record: Dallas (DAL), team 5
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $14,$10,$00,$D9,$43
-.godds:
+.godds:								; starting goalie weights
 	db 181,0
-.ls:
-	db 01,16,17,04,03,10,11,00
-	db 01,16,19,03,11,15,04,00
-	db 01,18,20,07,04,13,11,00
-	db 01,21,17,08,05,10,11,00
-	db 01,16,17,11,03,10,04,00
-	db 01,21,18,07,04,12,10,00
-	db 01,23,19,05,10,07,08,00
-	db 01,16,20,07,08,05,10,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,16,17,04,03,10,11,00		; line 1 NLC (no line changes)
+	db 01,16,19,03,11,15,04,00		; line 2 Sc1
+	db 01,18,20,07,04,13,11,00		; line 3 Sc2
+	db 01,21,17,08,05,10,11,00		; line 4 Chk
+	db 01,16,17,11,03,10,04,00		; line 5 PP1
+	db 01,21,18,07,04,12,10,00		; line 6 PP2
+	db 01,23,19,05,10,07,08,00		; line 7 PK1
+	db 01,16,20,07,08,05,10,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Jon Casey", $3024,$3443,$0000,$2234)
 	%Player("Darcy Wakaluk", $3562,$3333,$0000,$2232)
 	%Player("Mike Modano", $0975,$5445,$2452,$5243)
@@ -568,30 +568,30 @@ Dallas:
 	%Player("Brad Berry", $0572,$2032,$3420,$3514)
 	%Player("Enrico Ciccone", $3991,$1022,$2820,$3525)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Dallas")
-.ta:
+.ta:								; abbreviation
 	%String("DAL")
-.tm:
+.tm:								; nickname
 	%String("Stars")
-.ar:
+.ar:								; arena
 	%String("Dallas Arena")
-Montreal:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Montreal:							; team record: Montreal (MTL), team 11
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $52,$11,$21,$E8,$49
-.godds:
+.godds:								; starting goalie weights
 	db 197,0
-.ls:
-	db 01,18,17,07,03,12,04,00
-	db 01,23,18,07,03,12,04,00
-	db 01,22,17,08,04,14,03,00
-	db 01,19,20,09,05,13,03,00
-	db 01,18,17,07,03,12,05,00
-	db 01,19,20,08,04,05,03,00
-	db 01,17,23,07,06,03,13,00
-	db 01,22,19,03,13,07,06,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,18,17,07,03,12,04,00		; line 1 NLC (no line changes)
+	db 01,23,18,07,03,12,04,00		; line 2 Sc1
+	db 01,22,17,08,04,14,03,00		; line 3 Sc2
+	db 01,19,20,09,05,13,03,00		; line 4 Chk
+	db 01,18,17,07,03,12,05,00		; line 5 PP1
+	db 01,19,20,08,04,05,03,00		; line 6 PP2
+	db 01,17,23,07,06,03,13,00		; line 7 PK1
+	db 01,22,19,03,13,07,06,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Patrick Roy", $3366,$4446,$0000,$5566)
 	%Player("Andre Racicot", $3742,$3333,$0000,$2222)
 	%Player("Kirk Muller", $1194,$4444,$4444,$4143)
@@ -617,30 +617,30 @@ Montreal:
 	%Player("Lyle Odelein", $2493,$2242,$3620,$3324)
 	%Player("Donald Dufresne", $3492,$2122,$3921,$2313)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Montreal")
-.ta:
+.ta:								; abbreviation
 	%String("MTL")
-.tm:
+.tm:								; nickname
 	%String("Canadiens")
-.ar:
+.ar:								; arena
 	%String("Montreal Forum")
-NewJersey:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+NewJersey:							; team record: New Jersey (NJ), team 12
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $34,$11,$12,$F7,$44
-.godds:
+.godds:								; starting goalie weights
 	db 152,0
-.ls:
-	db 01,19,18,12,03,13,08,00
-	db 01,18,21,08,04,12,03,00
-	db 01,19,23,07,03,15,04,00
-	db 01,20,22,09,05,13,04,00
-	db 01,18,20,12,05,13,07,00
-	db 01,22,21,08,09,07,13,00
-	db 01,18,22,07,17,08,03,00
-	db 01,20,19,08,03,07,17,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,19,18,12,03,13,08,00		; line 1 NLC (no line changes)
+	db 01,18,21,08,04,12,03,00		; line 2 Sc1
+	db 01,19,23,07,03,15,04,00		; line 3 Sc2
+	db 01,20,22,09,05,13,04,00		; line 4 Chk
+	db 01,18,20,12,05,13,07,00		; line 5 PP1
+	db 01,22,21,08,09,07,13,00		; line 6 PP2
+	db 01,18,22,07,17,08,03,00		; line 7 PK1
+	db 01,20,19,08,03,07,17,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Chris Terreri", $3124,$4443,$0000,$3333)
 	%Player("Craig Billington", $0143,$4221,$0000,$2222)
 	%Player("Alexnder Semak", $2064,$3443,$3144,$3242)
@@ -666,30 +666,30 @@ NewJersey:
 	%Player("Tommy Albelin", $0673,$2232,$2230,$3322)
 	%Player("Myles O'Connor", $0571,$1011,$1210,$1303)
 	dw 2
-.tn:
+.tn:								; city
 	%String("New Jersey")
-.ta:
+.ta:								; abbreviation
 	%String("NJ")
-.tm:
+.tm:								; nickname
 	%String("Devils")
-.ar:
+.ar:								; arena
 	%String("Meadowlands Arena")
-NYIslanders:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+NYIslanders:						; team record: New York (NYI), team 13
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $53,$21,$00,$D8,$42
-.godds:
+.godds:								; starting goalie weights
 	db 144,0
-.ls:
-	db 01,16,15,08,02,03,10,00
-	db 01,20,17,08,02,11,03,00
-	db 01,15,16,09,03,12,02,00
-	db 01,18,19,10,06,13,02,00
-	db 01,15,19,08,02,09,03,00
-	db 01,18,17,06,03,11,08,00
-	db 01,20,18,12,11,03,13,00
-	db 01,15,22,03,13,11,12,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,16,15,08,02,03,10,00		; line 1 NLC (no line changes)
+	db 01,20,17,08,02,11,03,00		; line 2 Sc1
+	db 01,15,16,09,03,12,02,00		; line 3 Sc2
+	db 01,18,19,10,06,13,02,00		; line 4 Chk
+	db 01,15,19,08,02,09,03,00		; line 5 PP1
+	db 01,18,17,06,03,11,08,00		; line 6 PP2
+	db 01,20,18,12,11,03,13,00		; line 7 PK1
+	db 01,15,22,03,13,11,12,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Glenn Healy", $3552,$4442,$0000,$2222)
 	%Player("Pierre Turgeon", $7794,$4534,$3445,$5141)
 	%Player("Benoit Hogue", $3374,$5433,$2445,$4143)
@@ -713,30 +713,30 @@ NYIslanders:
 	%Player("Dennis Vaske", $37A1,$1212,$2611,$1113)
 	%Player("Richard Pilon", $4793,$3123,$3821,$2515)
 	dw 2
-.tn:
+.tn:								; city
 	%String("New York")
-.ta:
+.ta:								; abbreviation
 	%String("NYI")
-.tm:
+.tm:								; nickname
 	%String("Islanders")
-.ar:
+.ar:								; arena
 	%String("Nassau Coliseum")
-NYRangers:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+NYRangers:							; team record: New York (NYR), team 14
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $34,$11,$11,$E7,$4A
-.godds:
+.godds:								; starting goalie weights
 	db 144,0
-.ls:
-	db 01,17,16,06,02,10,07,00
-	db 01,16,19,07,02,11,05,00
-	db 01,17,20,06,05,12,02,00
-	db 01,18,22,08,03,10,02,00
-	db 01,16,17,11,02,10,04,00
-	db 01,18,21,07,04,12,10,00
-	db 01,16,19,07,02,04,03,00
-	db 01,17,20,04,03,07,02,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,17,16,06,02,10,07,00		; line 1 NLC (no line changes)
+	db 01,16,19,07,02,11,05,00		; line 2 Sc1
+	db 01,17,20,06,05,12,02,00		; line 3 Sc2
+	db 01,18,22,08,03,10,02,00		; line 4 Chk
+	db 01,16,17,11,02,10,04,00		; line 5 PP1
+	db 01,18,21,07,04,12,10,00		; line 6 PP2
+	db 01,16,19,07,02,04,03,00		; line 7 PK1
+	db 01,17,20,04,03,07,02,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Mike Richter", $3573,$4443,$0000,$4444)
 	%Player("Mark Messier", $11A5,$4443,$5453,$4053)
 	%Player("Sergei Nemchinov", $1364,$3353,$4034,$5232)
@@ -760,30 +760,30 @@ NYRangers:
 	%Player("Peter Andersson", $0592,$3322,$2231,$2432)
 	%Player("Jay Wells", $24A2,$2222,$3620,$2124)
 	dw 2
-.tn:
+.tn:								; city
 	%String("New York")
-.ta:
+.ta:								; abbreviation
 	%String("NYR")
-.tm:
+.tm:								; nickname
 	%String("Rangers")
-.ar:
+.ar:								; arena
 	%String("Madison Square Garden")
-Ottawa:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Ottawa:								; team record: Ottawa (OTW), team 15
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $07,$02,$13,$F8,$37
-.godds:
+.godds:								; starting goalie weights
 	db 197,0
-.ls:
-	db 01,20,19,10,03,15,11,00
-	db 01,20,19,10,03,15,07,00
-	db 01,22,25,12,07,17,03,00
-	db 01,21,23,11,04,16,03,00
-	db 01,20,19,15,03,16,05,00
-	db 01,23,22,10,05,08,16,00
-	db 01,19,23,06,07,12,04,00
-	db 01,20,25,12,04,07,06,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,20,19,10,03,15,11,00		; line 1 NLC (no line changes)
+	db 01,20,19,10,03,15,07,00		; line 2 Sc1
+	db 01,22,25,12,07,17,03,00		; line 3 Sc2
+	db 01,21,23,11,04,16,03,00		; line 4 Chk
+	db 01,20,19,15,03,16,05,00		; line 5 PP1
+	db 01,23,22,10,05,08,16,00		; line 6 PP2
+	db 01,19,23,06,07,12,04,00		; line 7 PK1
+	db 01,20,25,12,04,07,06,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Peter Sidorkwicz", $3162,$3112,$0000,$2222)
 	%Player("Daniel Berthiaume", $3213,$3112,$0000,$2222)
 	%Player("Jamie Baker", $1373,$3333,$2433,$4232)
@@ -810,30 +810,30 @@ Ottawa:
 	%Player("Gord Dineen", $0681,$1221,$2311,$2513)
 	%Player("Brad Marsh", $14B2,$2031,$3610,$2522)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Ottawa")
-.ta:
+.ta:								; abbreviation
 	%String("OTW")
-.tm:
+.tm:								; nickname
 	%String("Senators")
-.ar:
+.ar:								; arena
 	%String("Ottawa Civic Center")
-Philadelphia:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Philadelphia:						; team record: Philadelphia (PHI), team 16
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $36,$02,$22,$D7,$45
-.godds:
+.godds:								; starting goalie weights
 	db 134,48
-.ls:
-	db 01,18,17,05,04,14,15,00
-	db 01,18,17,10,04,14,08,00
-	db 01,20,22,08,05,15,04,00
-	db 01,19,21,11,06,16,04,00
-	db 01,17,19,05,04,14,06,00
-	db 01,20,18,10,06,15,04,00
-	db 01,17,22,08,14,10,05,00
-	db 01,20,18,10,05,08,14,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,18,17,05,04,14,15,00		; line 1 NLC (no line changes)
+	db 01,18,17,10,04,14,08,00		; line 2 Sc1
+	db 01,20,22,08,05,15,04,00		; line 3 Sc2
+	db 01,19,21,11,06,16,04,00		; line 4 Chk
+	db 01,17,19,05,04,14,06,00		; line 5 PP1
+	db 01,20,18,10,06,15,04,00		; line 6 PP2
+	db 01,17,22,08,14,10,05,00		; line 7 PK1
+	db 01,20,18,10,05,08,14,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Tommy Soderstrom", $3034,$4554,$0000,$3434)
 	%Player("Dominic Roussel", $3363,$3333,$0000,$3322)
 	%Player("Steph Beauregard", $3572,$3001,$0100,$2222)
@@ -858,30 +858,30 @@ Philadelphia:
 	%Player("Ryan McGill", $2782,$2232,$2721,$3414)
 	%Player("Shawn Cronin", $44A1,$1111,$2C13,$1513)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Philadelphia")
-.ta:
+.ta:								; abbreviation
 	%String("PHI")
-.tm:
+.tm:								; nickname
 	%String("Flyers")
-.ar:
+.ar:								; arena
 	%String("Spectrum")
-Pittsburgh:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Pittsburgh:							; team record: Pittsburgh (PIT), team 17
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $71,$20,$21,$D9,$4B
-.godds:
+.godds:								; starting goalie weights
 	db 197,0
-.ls:
-	db 01,16,17,07,03,10,11,00
-	db 01,16,17,07,03,10,04,00
-	db 01,20,18,09,04,11,03,00
-	db 01,22,19,08,05,12,03,00
-	db 01,16,19,07,03,10,12,00
-	db 01,22,17,04,12,11,03,00
-	db 01,16,17,11,03,04,12,00
-	db 01,22,21,04,12,03,11,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,16,17,07,03,10,11,00		; line 1 NLC (no line changes)
+	db 01,16,17,07,03,10,04,00		; line 2 Sc1
+	db 01,20,18,09,04,11,03,00		; line 3 Sc2
+	db 01,22,19,08,05,12,03,00		; line 4 Chk
+	db 01,16,19,07,03,10,12,00		; line 5 PP1
+	db 01,22,17,04,12,11,03,00		; line 6 PP2
+	db 01,16,17,11,03,04,12,00		; line 7 PK1
+	db 01,22,21,04,12,03,11,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Tom Barrasso", $35A4,$4554,$0100,$4444)
 	%Player("Ken Wregget", $3182,$3442,$0000,$3232)
 	%Player("Mario Lemieux", $66A5,$4644,$3366,$6062)
@@ -907,30 +907,30 @@ Pittsburgh:
 	%Player("Grant Jennings", $0392,$2132,$3820,$2313)
 	%Player("Bryan Fogarty", $3381,$1211,$2220,$1011)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Pittsburgh")
-.ta:
+.ta:								; abbreviation
 	%String("PIT")
-.tm:
+.tm:								; nickname
 	%String("Penguins")
-.ar:
+.ar:								; arena
 	%String("Civic Arena")
-Quebec:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Quebec:								; team record: Quebec (QUE), team 18
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $75,$21,$00,$D8,$47
-.godds:
+.godds:								; starting goalie weights
 	db 166,0
-.ls:
-	db 01,17,16,03,12,13,15,00
-	db 01,17,16,07,03,12,04,00
-	db 01,18,19,08,04,13,03,00
-	db 01,20,21,06,05,14,03,00
-	db 01,17,16,04,03,13,14,00
-	db 01,18,19,07,14,12,03,00
-	db 01,18,20,03,15,05,12,00
-	db 01,17,16,05,12,03,15,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,17,16,03,12,13,15,00		; line 1 NLC (no line changes)
+	db 01,17,16,07,03,12,04,00		; line 2 Sc1
+	db 01,18,19,08,04,13,03,00		; line 3 Sc2
+	db 01,20,21,06,05,14,03,00		; line 4 Chk
+	db 01,17,16,04,03,13,14,00		; line 5 PP1
+	db 01,18,19,07,14,12,03,00		; line 6 PP2
+	db 01,18,20,03,15,05,12,00		; line 7 PK1
+	db 01,17,16,05,12,03,15,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Ron Hextall", $2774,$4444,$0000,$4433)
 	%Player("Stephane Fiset", $3553,$4332,$0000,$2222)
 	%Player("Joe Sakic", $1964,$4544,$2045,$5252)
@@ -955,30 +955,30 @@ Quebec:
 	%Player("Mikhail Tatarinov", $0483,$3225,$4641,$2443)
 	%Player("Craig Wolanin", $0692,$2221,$2811,$2114)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Quebec")
-.ta:
+.ta:								; abbreviation
 	%String("QUE")
-.tm:
+.tm:								; nickname
 	%String("Nordiques")
-.ar:
+.ar:								; arena
 	%String("Colisee de Quebec")
-SanJose:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+SanJose:							; team record: San Jose (SJ), team 19
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $07,$02,$12,$C8,$38
-.godds:
+.godds:								; starting goalie weights
 	db 102,48
-.ls:
-	db 01,17,16,09,04,13,05,00
-	db 01,17,20,09,04,13,05,00
-	db 01,18,21,11,05,14,04,00
-	db 01,16,23,10,06,15,04,00
-	db 01,16,18,09,04,13,06,00
-	db 01,17,20,10,06,05,04,00
-	db 01,20,22,04,13,05,07,00
-	db 01,17,21,07,05,04,13,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,17,16,09,04,13,05,00		; line 1 NLC (no line changes)
+	db 01,17,20,09,04,13,05,00		; line 2 Sc1
+	db 01,18,21,11,05,14,04,00		; line 3 Sc2
+	db 01,16,23,10,06,15,04,00		; line 4 Chk
+	db 01,16,18,09,04,13,06,00		; line 5 PP1
+	db 01,17,20,10,06,05,04,00		; line 6 PP2
+	db 01,20,22,04,13,05,07,00		; line 7 PK1
+	db 01,17,21,07,05,04,13,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Arturs Irbe", $3252,$4443,$0000,$3322)
 	%Player("Jeff Hackett", $3052,$3112,$0000,$2222)
 	%Player("Brian Hayward", $0162,$3002,$0000,$2222)
@@ -1003,30 +1003,30 @@ SanJose:
 	%Player("Peter Ahola", $2192,$2132,$3621,$3422)
 	%Player("Rob Zettler", $0272,$2132,$2430,$3434)
 	dw 2
-.tn:
+.tn:								; city
 	%String("San Jose")
-.ta:
+.ta:								; abbreviation
 	%String("SJ")
-.tm:
+.tm:								; nickname
 	%String("Sharks")
-.ar:
+.ar:								; arena
 	%String("San Jose Arena")
-StLouis:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+StLouis:							; team record: St. Louis (STL), team 20
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $22,$20,$21,$D9,$45
-.godds:
+.godds:								; starting goalie weights
 	db 208,0
-.ls:
-	db 01,16,15,10,02,11,03,00
-	db 01,15,16,09,05,11,02,00
-	db 01,18,22,06,02,10,05,00
-	db 01,17,19,08,03,13,05,00
-	db 01,15,17,10,02,11,04,00
-	db 01,19,20,03,04,12,10,00
-	db 01,18,22,05,04,08,13,00
-	db 01,19,16,08,13,04,05,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,16,15,10,02,11,03,00		; line 1 NLC (no line changes)
+	db 01,15,16,09,05,11,02,00		; line 2 Sc1
+	db 01,18,22,06,02,10,05,00		; line 3 Sc2
+	db 01,17,19,08,03,13,05,00		; line 4 Chk
+	db 01,15,17,10,02,11,04,00		; line 5 PP1
+	db 01,19,20,03,04,12,10,00		; line 6 PP2
+	db 01,18,22,05,04,08,13,00		; line 7 PK1
+	db 01,19,16,08,13,04,05,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Curtis Joseph", $3164,$4664,$0000,$3344)
 	%Player("Craig Janney", $1574,$3543,$2044,$4040)
 	%Player("Nelson Emerson", $0744,$4433,$2343,$4132)
@@ -1051,30 +1051,30 @@ StLouis:
 	%Player("Curt Giles", $0253,$2131,$2220,$3312)
 	%Player("Murray Baron", $34A3,$3122,$2621,$2513)
 	dw 2
-.tn:
+.tn:								; city
 	%String("St. Louis")
-.ta:
+.ta:								; abbreviation
 	%String("STL")
-.tm:
+.tm:								; nickname
 	%String("Blues")
-.ar:
+.ar:								; arena
 	%String("St. Louis Arena")
-TampaBay:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+TampaBay:							; team record: Tampa Bay (TB), team 21
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $05,$02,$00,$E7,$38
-.godds:
+.godds:								; starting goalie weights
 	db 104,64
-.ls:
-	db 01,19,18,11,04,05,06,00
-	db 01,21,22,12,04,14,06,00
-	db 01,20,23,11,06,16,04,00
-	db 01,18,19,13,05,15,04,00
-	db 01,19,20,12,04,14,05,00
-	db 01,18,21,11,06,05,04,00
-	db 01,21,18,11,16,14,15,00
-	db 01,19,20,15,14,11,16,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,19,18,11,04,05,06,00		; line 1 NLC (no line changes)
+	db 01,21,22,12,04,14,06,00		; line 2 Sc1
+	db 01,20,23,11,06,16,04,00		; line 3 Sc2
+	db 01,18,19,13,05,15,04,00		; line 4 Chk
+	db 01,19,20,12,04,14,05,00		; line 5 PP1
+	db 01,18,21,11,06,05,04,00		; line 6 PP2
+	db 01,21,18,11,16,14,15,00		; line 7 PK1
+	db 01,19,20,15,14,11,16,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Wendell Young", $0163,$3223,$0000,$3233)
 	%Player("Pat Jablonski", $3552,$3222,$0100,$2222)
 	%Player("J.C. Bergeron", $3072,$3222,$0000,$1111)
@@ -1100,30 +1100,30 @@ TampaBay:
 	%Player("Chris Lipuma", $4061,$1211,$0210,$1114)
 	%Player("Matt Hervey", $2691,$1211,$2910,$1304)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Tampa Bay")
-.ta:
+.ta:								; abbreviation
 	%String("TB")
-.tm:
+.tm:								; nickname
 	%String("Lightning")
-.ar:
+.ar:								; arena
 	%String("Expo Hall")
-Toronto:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Toronto:							; team record: Toronto (TOR), team 22
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $20,$20,$11,$E8,$48
-.godds:
+.godds:								; starting goalie weights
 	db 150,0
-.ls:
-	db 01,17,18,08,03,12,14,00
-	db 01,20,16,08,03,12,05,00
-	db 01,22,21,10,05,13,03,00
-	db 01,17,18,09,04,14,03,00
-	db 01,17,16,08,03,12,14,00
-	db 01,18,20,14,04,13,03,00
-	db 01,17,22,05,03,11,06,00
-	db 01,20,16,11,06,03,05,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,17,18,08,03,12,14,00		; line 1 NLC (no line changes)
+	db 01,20,16,08,03,12,05,00		; line 2 Sc1
+	db 01,22,21,10,05,13,03,00		; line 3 Sc2
+	db 01,17,18,09,04,14,03,00		; line 4 Chk
+	db 01,17,16,08,03,12,14,00		; line 5 PP1
+	db 01,18,20,14,04,13,03,00		; line 6 PP2
+	db 01,17,22,05,03,11,06,00		; line 7 PK1
+	db 01,20,16,11,06,03,05,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Felix Potvin", $2964,$4664,$0000,$4444)
 	%Player("Daren Puppa", $0193,$4552,$0100,$2233)
 	%Player("Doug Gilmour", $9345,$4554,$4444,$6043)
@@ -1149,30 +1149,30 @@ Toronto:
 	%Player("Sylvain Lefebvre", $0292,$2131,$3420,$4433)
 	%Player("Bob McGill", $0882,$2023,$3523,$2324)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Toronto")
-.ta:
+.ta:								; abbreviation
 	%String("TOR")
-.tm:
+.tm:								; nickname
 	%String("Maple Leafs")
-.ar:
+.ar:								; arena
 	%String("Maple Leaf Gardens")
-Vancouver:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Vancouver:							; team record: Vancouver (VAN), team 23
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $61,$02,$11,$E8,$47
-.godds:
+.godds:								; starting goalie weights
 	db 166,0
-.ls:
-	db 01,18,17,06,03,12,04,00
-	db 01,18,21,09,03,13,05,00
-	db 01,23,17,08,05,12,03,00
-	db 01,19,24,06,04,15,03,00
-	db 01,17,19,13,04,12,08,00
-	db 01,18,22,06,03,08,12,00
-	db 01,23,17,12,07,04,15,00
-	db 01,18,22,04,15,07,12,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,18,17,06,03,12,04,00		; line 1 NLC (no line changes)
+	db 01,18,21,09,03,13,05,00		; line 2 Sc1
+	db 01,23,17,08,05,12,03,00		; line 3 Sc2
+	db 01,19,24,06,04,15,03,00		; line 4 Chk
+	db 01,17,19,13,04,12,08,00		; line 5 PP1
+	db 01,18,22,06,03,08,12,00		; line 6 PP2
+	db 01,23,17,12,07,04,15,00		; line 7 PK1
+	db 01,18,22,04,15,07,12,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Kirk McLean", $0184,$4444,$0000,$4433)
 	%Player("Kay Whitmore", $3552,$3552,$0000,$2323)
 	%Player("Cliff Ronning", $0755,$5432,$2043,$5141)
@@ -1198,30 +1198,30 @@ Vancouver:
 	%Player("Dana Murzyn", $0592,$3234,$4621,$4424)
 	%Player("Robert Dirk", $22B2,$2132,$3632,$3324)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Vancouver")
-.ta:
+.ta:								; abbreviation
 	%String("VAN")
-.tm:
+.tm:								; nickname
 	%String("Canucks")
-.ar:
+.ar:								; arena
 	%String("Pacific Coliseum")
-Winnipeg:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Winnipeg:							; team record: Winnipeg (WPG), team 25
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $45,$11,$11,$F8,$48
-.godds:
+.godds:								; starting goalie weights
 	db 214,0
-.ls:
-	db 01,19,18,04,03,13,09,00
-	db 01,22,18,08,03,13,04,00
-	db 01,19,21,09,04,14,03,00
-	db 01,20,24,10,06,17,03,00
-	db 01,20,18,08,03,13,04,00
-	db 01,19,21,09,04,14,03,00
-	db 01,19,21,10,06,05,16,00
-	db 01,24,22,05,16,10,06,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,19,18,04,03,13,09,00		; line 1 NLC (no line changes)
+	db 01,22,18,08,03,13,04,00		; line 2 Sc1
+	db 01,19,21,09,04,14,03,00		; line 3 Sc2
+	db 01,20,24,10,06,17,03,00		; line 4 Chk
+	db 01,20,18,08,03,13,04,00		; line 5 PP1
+	db 01,19,21,09,04,14,03,00		; line 6 PP2
+	db 01,19,21,10,06,05,16,00		; line 7 PK1
+	db 01,24,22,05,16,10,06,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Bob Essensa", $3534,$4554,$0000,$4444)
 	%Player("Jim Hrivnak", $3062,$3222,$0000,$2222)
 	%Player("Alexei Zhamnov", $1075,$3433,$3054,$4152)
@@ -1248,30 +1248,30 @@ Winnipeg:
 	%Player("Dean Kennedy", $2692,$2132,$3320,$4423)
 	%Player("Randy Carlyle", $0892,$2122,$3621,$2522)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Winnipeg")
-.ta:
+.ta:								; abbreviation
 	%String("WPG")
-.tm:
+.tm:								; nickname
 	%String("Jets")
-.ar:
+.ar:								; arena
 	%String("Winnipeg Arena")
-Washington:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Washington:							; team record: Washington (WSH), team 24
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $52,$20,$11,$E8,$46
-.godds:
+.godds:								; starting goalie weights
 	db 181,0
-.ls:
-	db 01,18,17,04,03,12,13,00
-	db 01,18,17,10,04,14,03,00
-	db 01,19,20,09,03,12,04,00
-	db 01,21,22,11,05,13,04,00
-	db 01,20,17,04,03,12,06,00
-	db 01,18,19,06,05,13,04,00
-	db 01,21,17,03,14,10,06,00
-	db 01,19,20,10,06,03,14,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,18,17,04,03,12,13,00		; line 1 NLC (no line changes)
+	db 01,18,17,10,04,14,03,00		; line 2 Sc1
+	db 01,19,20,09,03,12,04,00		; line 3 Sc2
+	db 01,21,22,11,05,13,04,00		; line 4 Chk
+	db 01,20,17,04,03,12,06,00		; line 5 PP1
+	db 01,18,19,06,05,13,04,00		; line 6 PP2
+	db 01,21,17,03,14,10,06,00		; line 7 PK1
+	db 01,19,20,10,06,03,14,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Don Beaupre", $3343,$4333,$0000,$3333)
 	%Player("Rick Tabaracci", $3162,$3112,$0000,$3322)
 	%Player("Mike Ridley", $1794,$4433,$2044,$4042)
@@ -1297,30 +1297,30 @@ Washington:
 	%Player("Jason Woolley", $2562,$2111,$2220,$1212)
 	%Player("Rod Langway", $05B3,$2022,$3230,$2323)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Washington")
-.ta:
+.ta:								; abbreviation
 	%String("WSH")
-.tm:
+.tm:								; nickname
 	%String("Capitals")
-.ar:
+.ar:								; arena
 	%String("Capital Centre")
-Florida:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Florida:							; team record: Florida (FLA), team 8
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $07,$02,$13,$96,$33
-.godds:
+.godds:								; starting goalie weights
 	db 214,0
-.ls:
-	db 01,14,12,08,05,04,07,00
-	db 01,14,17,08,05,03,04,00
-	db 01,16,12,06,10,11,05,00
-	db 01,13,15,07,09,04,05,00
-	db 01,14,12,08,05,04,10,00
-	db 01,13,17,06,10,03,05,00
-	db 01,14,12,09,05,07,08,00
-	db 01,13,17,07,08,09,05,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,14,12,08,05,04,07,00		; line 1 NLC (no line changes)
+	db 01,14,17,08,05,03,04,00		; line 2 Sc1
+	db 01,16,12,06,10,11,05,00		; line 3 Sc2
+	db 01,13,15,07,09,04,05,00		; line 4 Chk
+	db 01,14,12,08,05,04,10,00		; line 5 PP1
+	db 01,13,17,06,10,03,05,00		; line 6 PP2
+	db 01,14,12,09,05,07,08,00		; line 7 PK1
+	db 01,13,17,07,08,09,05,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("John Vanbiesbrk", $3453,$4553,$0000,$3434)
 	%Player("Mark Fitzpatrik", $3072,$4223,$0000,$2222)
 	%Player("Tom Fitzgerald", $1482,$2232,$2122,$3222)
@@ -1339,30 +1339,30 @@ Florida:
 	%Player("Milan Tichy", $4383,$2112,$3821,$2224)
 	%Player("Stephane Richer", $2593,$3333,$3332,$3322)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Florida")
-.ta:
+.ta:								; abbreviation
 	%String("FLA")
-.tm:
+.tm:								; nickname
 	%String("Panthers")
-.ar:
+.ar:								; arena
 	%String("Miami Arena")
-Anaheim:
-.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0
-.sr:
+Anaheim:							; team record: Anaheim (ANH), team 0
+.0:	dw .pld-.0,.sr-.0,.tn-.0,.ls+8-.0,.sr-.0,.godds-.0,.ls-.0	; offsets to the parts (from .0)
+.sr:								; the scouting report
 	db $07,$02,$13,$97,$34
-.godds:
+.godds:								; starting goalie weights
 	db 214,0
-.ls:
-	db 01,12,14,04,06,08,03,00
-	db 01,12,16,03,06,11,04,00
-	db 01,14,15,09,08,07,03,00
-	db 01,13,18,04,10,05,03,00
-	db 01,12,16,04,06,08,04,00
-	db 01,13,15,03,09,11,03,00
-	db 01,12,14,06,07,04,08,00
-	db 01,17,16,04,08,07,06,00
-.pld:
+.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+	db 01,12,14,04,06,08,03,00		; line 1 NLC (no line changes)
+	db 01,12,16,03,06,11,04,00		; line 2 Sc1
+	db 01,14,15,09,08,07,03,00		; line 3 Sc2
+	db 01,13,18,04,10,05,03,00		; line 4 Chk
+	db 01,12,16,04,06,08,04,00		; line 5 PP1
+	db 01,13,15,03,09,11,03,00		; line 6 PP2
+	db 01,12,14,06,07,04,08,00		; line 7 PK1
+	db 01,17,16,04,08,07,06,00		; line 8 PK2
+.pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Guy Hebert", $2962,$3332,$0000,$2222)
 	%Player("Ron Tugnutt", $0122,$3331,$0000,$1112)
 	%Player("Steven King", $2772,$2322,$1323,$3422)
@@ -1382,13 +1382,13 @@ Anaheim:
 	%Player("Bobby Dollas", $32B2,$1121,$2110,$2111)
 	%Player("Dennis Vial", $17B1,$1121,$3810,$2113)
 	dw 2
-.tn:
+.tn:								; city
 	%String("Anaheim")
-.ta:
+.ta:								; abbreviation
 	%String("ANH")
-.tm:
+.tm:								; nickname
 	%String("Mighty Ducks")
-.ar:
+.ar:								; arena
 	%String("Pond in Anaheim")
 playoffseats:						; the playoff tree seedings: 32 rows of 16 team numbers (TeamList index)
 	db 02,01,11,18, 13,24,12,17, 22,06,20,04, 10,03,25,23
