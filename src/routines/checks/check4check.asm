@@ -2,7 +2,7 @@
 check4check:						; called from assdefd, assnearest
 	lda.w #$0014
 	sec
-	sbc.w aggress,x
+	sbc.w checking,x
 	sta.b d0
 	lda.l OptPen
 	beq .1
