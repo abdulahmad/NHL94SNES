@@ -566,6 +566,8 @@ replaymusic		=	$0CBB			;PauseReplay saves MusicOn here; at the end of ReplayMode
 replayHpos		=	$0CBD			;ReplayMode: the replay camera x, eased toward the locked object / cursor
 									;(4 or 2 a frame, clamped) and ...
 replayVpos		=	$0CBF			; ReplayMode: the replay camera y, eased the same way and written to Vpos.
+camobj			=	$0020			; ReplayMode: object slot used as the replay camera (Xpos / Ypos and the
+									; wall check, as 93G CameraPosStruct)
 percue			=	$0CC1			;StartPer sets $FFFF (cleared in some modes); puckfaceoff2 then plays team
 									;song slot 0 (the period start ...
 cursong			=	$0CC3			;PlayTeamSong stores the TeamSongs slot + 1 of the song started; the SPC
