@@ -68,7 +68,7 @@ print:								; print a string
 .4:									; control record: palette and priority into printa, font set, position
 	eor.w #$FFFF
 	inc a
-	pha
+	pha								; 1,s = the control record value, negated
 	and.w #$0030
 	cmp.w #$0010
 	bne .1xx

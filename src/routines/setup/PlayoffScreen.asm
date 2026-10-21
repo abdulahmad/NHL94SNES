@@ -193,7 +193,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1
 	ldx.w #$001B
 .loopx:								; loop: p0+2 = TeamBlockPalettes+2,x, p0 = TeamBlockPalettes,x, [p1],y...
-	phx
+	phx								; 1,s = x (the team slot); 3,s while the palette word is pushed
 	txa
 	asl a
 	asl a
@@ -204,7 +204,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0
 	ldy.w #$0008
 	lda.b [p0],y
-	pha
+	pha								; 1,s = this palette word
 	lda.b 3,s
 	asl a
 	tax
@@ -886,7 +886,7 @@ org $9D9000
 	asl a
 	asl a
 	asl a
-	pha
+	pha								; 1,s = A * 4
 	sep #$20
 	txa
 	lsr a
@@ -925,7 +925,7 @@ org $9D9000
 
 .t1xxxxx:							; subroutine: falls through
 	lda.b #$01
-	pha
+	pha								; 3,s = the bit mask byte (above the pushed x)
 	ldy.w #$0007
 .2xx:								; if 3,s & $01 = 0 go to .t1xxxxxx, ...
 	phx
@@ -990,7 +990,7 @@ org $9D9000
 	rts
 .7x:								; subroutine: falls through
 	lda.b #$01
-	pha
+	pha								; 3,s = the bit mask byte (above the pushed x)
 	ldy.w #$0007
 .1xxx:								; if 3,s & $01 = 0 go to .t1xxxxxxxxxx, ...
 	phx

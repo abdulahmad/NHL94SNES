@@ -33,7 +33,7 @@ SetLCmode2:							; draw the line change box of team a2
 	lda.w #$0002					; three rows (2 down to 0)
 	sta.b d4						; d4 = row counter
 	lda.w printx					; keep the starting column
-	pha								; on the stack
+	pha								; 1,s = the starting column
 .loop:								; one row per pass
 	lda.b 1,s						; reload the column from the stack
 	sta.w printx

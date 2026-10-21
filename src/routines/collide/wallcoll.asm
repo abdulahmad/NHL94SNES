@@ -11,13 +11,13 @@ wallcoll:							; bounce object X off a wall
 	lda.b d1
 	sta.w Wallsin,x					; Wallsin = sin
 	lda.b d2						; save d2, d3, d1 and d0 (cos and sin stay on the stack)
-	pha
+	pha								; 7,s = d2
 	lda.b d3
-	pha
+	pha								; 5,s = d3
 	lda.b d1
-	pha
+	pha								; 3,s = d1, sin
 	lda.b d0
-	pha
+	pha								; 1,s = d0, cos
 	txy								; Y = object
 	ldx.w Yvel,y					; Yvel * cos / 256 (A = cos)
 	jsl.l Mul16x8S

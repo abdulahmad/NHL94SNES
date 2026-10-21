@@ -61,7 +61,7 @@ NewTicker3:							; shows the ticker box
 	sbc.w #$0004
 	sta.w printy
 	lda.w printx					; keep x on the stack
-	pha
+	pha								; 1,s = x once a1 is restored
 	jsl.l GetShifter				; GetShifter
 	lda.w #$2400					; text palette
 	sta.w printa

@@ -28,7 +28,7 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	inc.b d0
 .1:									; call getlinee, d1 = d0, d0 = 1,s + 1, ...
 	lda.b d0
-	pha
+	pha								; 1,s = the saved d0
 	jsl.l getlinee
 	lda.b d0
 	sta.b d1
