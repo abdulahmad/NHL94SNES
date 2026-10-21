@@ -5,7 +5,7 @@
 ; Called from SelectLinePlayer, TeamRoster, setoptions, ShowPeriodStats and SaveRegsStartHL2.
 SpriteFrameEnd:						;move the unused entries off screen, swap the OAM buffers and set OAMReady
 	phb								; save the data bank
-	pea.w $7E7E						; data bank = $7E
+	pea.w (Ram7E>>16)*$0101			; data bank = $7E (pushed twice)
 	plb
 	plb
 	lda.w SpritesLeft				; (SpritesLeft value is not used)

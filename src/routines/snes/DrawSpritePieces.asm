@@ -149,7 +149,7 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 	phx
 	phy
 	phb
-	pea.w $7E7E
+	pea.w (Ram7E>>16)*$0101
 	plb
 	plb
 	jmp.w .7
@@ -172,7 +172,7 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 	adc.b p1+2
 	sta.b p0+2
 	phb
-	pea.w $7E7E
+	pea.w (Ram7E>>16)*$0101
 	plb
 	plb
 .7:									; shared tail of the two unused entries

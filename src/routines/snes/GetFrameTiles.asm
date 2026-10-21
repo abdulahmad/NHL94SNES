@@ -68,7 +68,7 @@ GetFrameTiles:						; look the frame up in the tile cache, load it if it is not 
 	stx.b r5
 	sty.b r5+2
 	phb
-	pea.w $7E7E
+	pea.w (Ram7E>>16)*$0101
 	plb
 	plb
 	jmp.w DrawSprite_draw

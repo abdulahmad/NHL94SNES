@@ -5,7 +5,7 @@ DrawSprite:							; called from DrawLicenceNHL, DrawLicenceNHLPA, DrawLogoSprite
 	stx.b r5
 	sty.b r5+2
 	phb
-	pea.w $7E7E
+	pea.w (Ram7E>>16)*$0101
 	plb
 	plb
 	lda.b r0

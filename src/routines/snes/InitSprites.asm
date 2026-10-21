@@ -4,7 +4,7 @@ InitSprites:						;A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block a
 		;   empties the tile allocators, then ends an empty frame
 	sta.w SpriteVRAM
 	phb
-	pea.w $7E7E
+	pea.w (Ram7E>>16)*$0101
 	plb
 	plb
 	stx.w SpritesReserved
