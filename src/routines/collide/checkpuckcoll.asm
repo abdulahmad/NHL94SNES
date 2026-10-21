@@ -18,7 +18,7 @@ checkpuckcoll:						; called from pucknorm_move
 	sec
 	sbc.w #$0028
 	bpl .t1
-	jsl.l checkpuckcoll_ccx
+	jsl.l checkpuckcoll_ccx			; puck contact with a player's stick, body or the goalie
 	ldy.b d1
 	iny
 	bra .loop
@@ -37,7 +37,7 @@ checkpuckcoll:						; called from pucknorm_move
 	sec
 	sbc.w #$0028
 	bpl .1
-	jsl.l checkpuckcoll_ccx
+	jsl.l checkpuckcoll_ccx			; puck contact with a player's stick, body or the goalie
 	ldy.b d1
 	dey
 	bne .loopx

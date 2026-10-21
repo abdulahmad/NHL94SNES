@@ -1,6 +1,6 @@
 ; The game setup screen: up and down pick a line, left and right change it, Start goes on
 setoptions:							; called from Restart
-	jsl.l FadeOut
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
 	lda.w #$0001
 	sta.l matchupphotos
 	lda.w #$0000
@@ -14,21 +14,21 @@ setoptions:							; called from Restart
 	sta.l teamschanged
 	lda.w #$0005
 	sta.l setupmatchup
-	jsl.l forceblack
-	jsl.l ClearTextMap
-	jsl.l InitSetupChars
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
+	jsl.l ClearTextMap				; fill the text map with the blank tile
+	jsl.l InitSetupChars			; set the tile numbers and load the font of the setup screen
 	lda.l OptTeam1
 	sta.w HomeTeam
 	lda.l OptTeam2
 	sta.w VisTeam
-	jsl.l setteams
+	jsl.l setteams					; set up both team structures from the home and visiting teams
 	lda.w VisTeam
 	clc
 	adc.w #$0021
 	sta.l setupvis
 	lda.w HomeTeam
 	sta.l setuphome
-	jsl.l SetupScreen
+	jsl.l SetupScreen				; common setup of the stats screens
 	sep #$20
 	lda.b #$01
 	sta.w BGMODE
@@ -39,7 +39,7 @@ setoptions:							; called from Restart
 	sta.b a1+2
 	lda.w #GameSetupTitle
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites GameSetupTitle
 	lda.w #$1D47
 	sta.l colourbuf+$A
 	lda.w #$FFFF
@@ -48,11 +48,11 @@ setoptions:							; called from Restart
 	sta.l colourbuf+$182
 	lda.w #$6F7B
 	sta.l colourbuf+$C2
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	jsl.l SpriteFrameEnd
 	jsl.l SendTextMap
-	jsl.l ReadPads
-	jsl.l ReadAnyPad
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadAnyPad				; d1 = the buttons that changed on any pad
 	lda.w #$0000
 	sta.w sprpriority
 	lda.b a1+2
@@ -63,7 +63,7 @@ setoptions:							; called from Restart
 	sta.b a1+2
 	lda.w #setoptionsPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print setoptionsPos
 	pla
 	sta.b a1
 	pla
@@ -78,10 +78,10 @@ setoptions:							; called from Restart
 	pha
 	lda.w #$0000
 	sta.b a2
-	jsl.l LoadTeamLines
+	jsl.l LoadTeamLines				; copy team a2's lines from the team data into RAM
 	lda.w #$0002
 	sta.b a2
-	jsl.l LoadTeamLines
+	jsl.l LoadTeamLines				; copy team a2's lines from the team data into RAM
 	pla
 	sta.b a2
 	stz.b d7
@@ -89,17 +89,17 @@ setoptions:							; called from Restart
 	jsr.w .12
 	jsr.w .10
 	jsr.w .11
-	jsl.l ReadPads
-	jsl.l MenuScreenHDMA
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l MenuScreenHDMA			; start the window and COLDATA HDMA
 	jsl.l ScreenOn
 	lda.w #$0008
 	ldx.w #$0040
-	jsl.l SetupBandIRQ
+	jsl.l SetupBandIRQ				; set up the band IRQ pair
 	jsl.l SendTextMap
 	ldx.w #$0000
-	jsl.l LoadMatchupPhotos
+	jsl.l LoadMatchupPhotos			; unpack the matchup player photos of team x
 	ldx.w #$0002
-	jsl.l LoadMatchupPhotos
+	jsl.l LoadMatchupPhotos			; unpack the matchup player photos of team x
 .3:									; d6 = $12C0
 	lda.w #$12C0
 	sta.b d6
@@ -131,23 +131,23 @@ setoptions:							; called from Restart
 	bra .t6
 
 .t1:								; call ClearMessageArea, call Multi5SocketMsg, go to .t6
-	jsl.l ClearMessageArea
-	jsl.l Multi5SocketMsg
+	jsl.l ClearMessageArea			; clear the message rows
+	jsl.l Multi5SocketMsg			; print the MultiPlayer 5 socket warning
 	bra .t6
 
 .t2:								; call ClearMessageArea, call Multi5ScopeMsg, go to .t6
-	jsl.l ClearMessageArea
-	jsl.l Multi5ScopeMsg
+	jsl.l ClearMessageArea			; clear the message rows
+	jsl.l Multi5ScopeMsg			; print the MultiPlayer 5 Super Scope warning
 	bra .t6
 
 .t3:								; call ClearMessageArea, call Multi5MouseMsg, go to .t6
-	jsl.l ClearMessageArea
-	jsl.l Multi5MouseMsg
+	jsl.l ClearMessageArea			; clear the message rows
+	jsl.l Multi5MouseMsg			; print the MultiPlayer 5 mouse warning
 	bra .t6
 
 .t4:								; call Multi5Init, call ClearTextMapBottom, call .10, ...
-	jsl.l Multi5Init
-	jsl.l ClearTextMapBottom
+	jsl.l Multi5Init				; check for the multitap, then clear the multitap pads and state
+	jsl.l ClearTextMapBottom		; fill the text map from row 12 down with the blank tile
 	jsr.w .10
 	stz.b d1
 	jmp.w .6
@@ -158,13 +158,13 @@ setoptions:							; called from Restart
 	jmp.w .2
 
 .t1x:								; mp5warning = 0: call ReadPads, lastframevc = vcount, oldvcount = vcou...
-	jsl.l ReadPads
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	lda.b vcount
 	sta.w lastframevc
 	sta.w oldvcount
-	jsl.l ReadJoy1
+	jsl.l ReadJoy1					; read pad 1: d0 = direction, d1 = new presses, d2 = changed buttons
 	dec.w repeatdelay
-	jsl.l ProcessInputWithRepeat
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1
 	and.w #$FFF0
 	sta.b d1
@@ -173,7 +173,7 @@ setoptions:							; called from Restart
 
 .t2x:								; call .11, call QueueTextDMA, decrement d6, ...
 	jsr.w .11
-	jsl.l QueueTextDMA
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 	dec.b d6
 	dec.b d6
 	bmi .t1xx
@@ -181,12 +181,12 @@ setoptions:							; called from Restart
 
 .t1xx:								; d6 counted below 0: call randoma8, OptTeam1 = A, HomeTeam = A
 	lda.w #$001C
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	sta.l OptTeam1
 	sta.w HomeTeam
 .loop:								; loop: call randoma8, if zero go to .loop, ...
 	lda.w #$001C
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	cmp.l OptTeam1
 	beq .loop
 	sta.l OptTeam2
@@ -205,7 +205,7 @@ setoptions:							; called from Restart
 	sta.b p1+2
 	lda.w #bigtextbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack BigLetterTiles
 	lda.w #bigtextbuf>>16
 	sta.b p0+2
 	lda.w #bigtextbuf
@@ -224,7 +224,7 @@ setoptions:							; called from Restart
 	cmp.w #$0003
 	bne .2x
 .1x:								; call NewPO
-	jsl.l NewPO
+	jsl.l NewPO						; start new playoffs with team 1 and build the tree
 .2x:								; OptPlayers = $0001, if OptPlayMode < $0001 go to .3x, ...
 	lda.w #$0001
 	sta.l OptPlayers
@@ -243,13 +243,13 @@ setoptions:							; called from Restart
 	lda.l OptPlayMode
 	cmp.w #$0001
 	bne .4
-	jsl.l PasswordScreen
+	jsl.l PasswordScreen			; password entry screen
 .4:									; ora PassWord, PassWord = A, call maketree, ...
 	lda.w #$0080
 	ora.l PassWord
 	sta.l PassWord
-	jsl.l maketree
-	jmp.w PlayerSelect
+	jsl.l maketree					; build the playoff tree from the seeds and the series wins
+	jmp.w PlayerSelect				; the player select screen after the game setup
 .6:									; if d1 bits $1000 clear go to .t2xx, ...
 	lda.b d1
 	bit.w #$1000
@@ -396,7 +396,7 @@ setoptions:							; called from Restart
 	sta.w HomeTeam
 	lda.l OptTeam2
 	sta.w VisTeam
-	jsl.l setteams
+	jsl.l setteams					; set up both team structures from the home and visiting teams
 	lda.w #$0000
 	sta.l teamschanged
 .1xxxxxx:							; d2 = blankchar, d0 = $0020, d1 = $000E, ...
@@ -446,7 +446,7 @@ setoptions:							; called from Restart
 	txa
 	lsr a
 	sta.b d0
-	jsl.l PrintStringFromList
+	jsl.l PrintStringFromList		; prints a string from a list
 	lda.w #$0011
 	sta.w printx
 	stx.b d7
@@ -583,7 +583,7 @@ setoptions:							; called from Restart
 	sta.b a1+2
 	lda.w #GameSetupAlt
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites GameSetupAlt
 	lda.l setupvis
 	cmp.w #$001C
 	bpl .1xxxxxxxx
@@ -593,7 +593,7 @@ setoptions:							; called from Restart
 	sta.w printy
 	lda.w VisTeam
 	sta.b d1
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 .1xxxxxxxx:							; if setuphome - $001C >= 0 go to .2xxxxxx, ...
 	lda.l setuphome
 	cmp.w #$001C
@@ -604,7 +604,7 @@ setoptions:							; called from Restart
 	sta.w printy
 	lda.w HomeTeam
 	sta.b d1
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 .2xxxxxx:							; if setuphome >= 0 go to .3xxxxx, ...
 	lda.l setuphome
 	bpl .3xxxxx
@@ -617,7 +617,7 @@ setoptions:							; called from Restart
 	sta.b d1
 	ldx.w #$0008
 	ldy.w #$0043
-	jsl.l PrintTeamSprites
+	jsl.l PrintTeamSprites			; draw the place name of team d1, or string [a1] when d1 is negative
 .3xxxxx:							; if setupvis >= 0 go to .4xxx, ...
 	lda.l setupvis
 	bpl .4xxx
@@ -631,11 +631,11 @@ setoptions:							; called from Restart
 	sta.b d1
 	ldx.w #$0008
 	ldy.w #$0043
-	jsl.l PrintTeamSprites
+	jsl.l PrintTeamSprites			; draw the place name of team d1, or string [a1] when d1 is negative
 .4xxx:								; call DrawMatchupPictures, call SpriteFrameEnd, call SendColours, ...
 	jsl.l DrawMatchupPictures
 	jsl.l SpriteFrameEnd
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	rts
 
 .t2xxx:								; subroutine: cardtimer = $0078, if carry clear go to .1xxxxxxxxx, ...
@@ -679,8 +679,8 @@ setoptions:							; called from Restart
 .t1xxxxxxxxxxx:						; subroutine: a2 = X, call GetMatchupPlayer, call PlayerShortName, ...
 	stx.b a2
 	lda.l setupmatchup
-	jsl.l GetMatchupPlayer
-	jsl.l PlayerShortName
+	jsl.l GetMatchupPlayer			; d0 = the roster slot of team a2's player for matchup A
+	jsl.l PlayerShortName			; mesarea = the number
 	cpx.w #$0000
 	bne .rtsx
 	lda.b a1+2
@@ -692,7 +692,7 @@ setoptions:							; called from Restart
 	lda.w #$0A5C
 	sta.b p1
 	ldx.w #$0031
-	jsl.l MemCopy
+	jsl.l MemCopy					; copy X bytes from [p0] to [p1]
 .rtsx:								; return
 	rts
 .12:								; subroutine: d3 = d7

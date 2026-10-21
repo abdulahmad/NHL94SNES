@@ -1,6 +1,6 @@
 ; Change the lines on the ice. Start opens the line menu.
 EditLinesScreen:					; called from PauseEditLines
-	jsl.l GetPauseTeam
+	jsl.l GetPauseTeam				; team of the pause controller
 	ldy.b a2
 	lda.w tmline,y
 	inc a
@@ -12,34 +12,34 @@ EditLinesScreen:					; called from PauseEditLines
 	sta.l setupvis
 	lda.w #$FFFF
 	sta.l setuphome
-	jsl.l SetupScreen
-	jsl.l DrawEditLinesTop
+	jsl.l SetupScreen				; common setup of the stats screens
+	jsl.l DrawEditLinesTop			; line editor: clear the top, the title and the line frame
 	lda.w #$0005
 	sta.w lineslots
 	dec a
 	sta.w linecursor
-	jsl.l PrintLineNames
+	jsl.l PrintLineNames			; print the current line name
 	lda.w #$0005
 	ldx.w #$0068
-	jsl.l SetupBandIRQ
-	jsl.l MenuScreenHDMA
+	jsl.l SetupBandIRQ				; set up the band IRQ pair
+	jsl.l MenuScreenHDMA			; start the window and COLDATA HDMA
 	jsl.l ScreenOn
 .3:									; call SendTextMap, call WaitFrame, call ReadPads, ...
 	jsl.l SendTextMap
 	jsl.l WaitFrame
-	jsl.l ReadPads
-	jsl.l ReadPausePad
-	jsl.l ProcessInputWithRepeat
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1
 	bit.w #$1000
 	beq .t2
-	jsr.w EditLinesMenu
+	jsr.w EditLinesMenu				; edit Lines menu: Return to Game and Restore default lines
 	cmp.w #$0000
 	beq .t1
-	jmp.w EditLinesRtl
+	jmp.w EditLinesRtl				; the rtl EditLinesScreen leaves through
 
 .t1:								; call PrintLineNames, go to .3
-	jsl.l PrintLineNames
+	jsl.l PrintLineNames			; print the current line name
 	bra .3
 
 .t2:								; d1 bits $1000 clear: if not zero go to .t1x, ...
@@ -48,14 +48,14 @@ EditLinesScreen:					; called from PauseEditLines
 	jmp.w .t3
 
 .t1x:								; call SelectLinePlayer, if minus go to .1, ...
-	jsl.l SelectLinePlayer
+	jsl.l SelectLinePlayer			; pick a player for a line slot
 	cmp.w #$0000
 	bmi .1
-	jsr.w SetLineSlot
+	jsr.w SetLineSlot				; put a player in the cursor slot of the line
 .1:									; drawlinesback = $0001, call PrintLineNames, a1 = EditLinesScreenPos, ...
 	lda.w #$0001
 	sta.l drawlinesback
-	jsl.l PrintLineNames
+	jsl.l PrintLineNames			; print the current line name
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -64,7 +64,7 @@ EditLinesScreen:					; called from PauseEditLines
 	sta.b a1+2
 	lda.w #EditLinesScreenPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print EditLinesScreenPos
 	pla
 	sta.b a1
 	pla
@@ -82,7 +82,7 @@ EditLinesScreen:					; called from PauseEditLines
 	lda.w #BestLineNames
 	sta.b a1
 .2:									; call AdvanceStringPtr, call print, call SendTextMap, ...
-	jsl.l AdvanceStringPtr
+	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	jsl.l print
 	jsl.l SendTextMap
 	lda.b a1+2
@@ -93,7 +93,7 @@ EditLinesScreen:					; called from PauseEditLines
 	sta.b a1+2
 	lda.w #EditLinesScreenPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print EditLinesScreenPos2
 	pla
 	sta.b a1
 	pla
@@ -123,7 +123,7 @@ EditLinesScreen:					; called from PauseEditLines
 	cmp.w lineslots
 	bpl .5
 	sta.w linecursor
-	jsl.l PrintLineNames
+	jsl.l PrintLineNames			; print the current line name
 	jmp.w .5
 
 .t2x:								; if OptLine = 0 go to .5, ...
@@ -156,6 +156,6 @@ EditLinesScreen:					; called from PauseEditLines
 	inc.w lineslots
 	inc.w linecursor
 .4:									; call PrintLineNames
-	jsl.l PrintLineNames
+	jsl.l PrintLineNames			; print the current line name
 .5:									; go to .3
 	jmp.w .3

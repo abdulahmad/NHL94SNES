@@ -16,6 +16,6 @@ puckflip:							; spin the puck, facing from d0 bit 0
 	phx
 	ldx.w #$001C
 	lda.w #SPApflip
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	plx
 	rtl

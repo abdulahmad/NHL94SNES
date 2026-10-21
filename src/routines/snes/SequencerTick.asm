@@ -7,14 +7,14 @@ SequencerTick:						; called from SoundUpdate
 	sta.w TempoAcc
 	cmp.w TempoTick
 	bcc .t1
-	jsr.w UpdateVoices
+	jsr.w UpdateVoices				; update the music voices
 	lda.w MusicPause
 	bne .1
 	ldx.w TrackCount
 	beq .t1
 	dex
 .loop2:								; loop: call StepTrack, if MusicOn = 0 go to .t1, ...
-	jsr.w StepTrack
+	jsr.w StepTrack					; step one sequencer track
 	lda.w MusicOn
 	beq .t1
 	dex

@@ -10,7 +10,7 @@ Multi5MouseMsg:						; print the MultiPlayer 5 mouse warning
 	sta.b a1+2
 	lda.w #TheMultiPlayer5IsNotTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print TheMultiPlayer5IsNotTxt2
 	pla
 	sta.b a1
 	pla
@@ -23,7 +23,7 @@ Multi5MouseMsg:						; print the MultiPlayer 5 mouse warning
 	sta.b a1+2
 	lda.w #DesignedForUseWithTheTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DesignedForUseWithTheTxt2
 	pla
 	sta.b a1
 	pla
@@ -36,7 +36,7 @@ Multi5MouseMsg:						; print the MultiPlayer 5 mouse warning
 	sta.b a1+2
 	lda.w #SuperNesMouseTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print SuperNesMouseTxt
 	pla
 	sta.b a1
 	pla

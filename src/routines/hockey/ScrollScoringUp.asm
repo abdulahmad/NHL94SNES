@@ -6,7 +6,7 @@ ScrollScoringUp:					; called from ScoringSummaryLoop
 	sta.w listtop
 	lda.w #$0006
 	sta.w listrows
-	jsr.w DrawScoringPage
+	jsr.w DrawScoringPage			; draw the visible scoring rows, or No Scoring when the list is empty
 	jsl.l WaitFrame
 	lda.w #$0015
 	sta.w irqvscroll1
@@ -19,10 +19,10 @@ ScrollScoringUp:					; called from ScoringSummaryLoop
 	lda.w irqvscroll1
 	cmp.w #$0001
 	bne .loop
-	jsl.l PrintScrollArrows
+	jsl.l PrintScrollArrows			; show or clear the scroll arrows beside a summary list
 	lda.w #$0005
 	sta.w listrows
-	jsr.w DrawScoringPage
+	jsr.w DrawScoringPage			; draw the visible scoring rows, or No Scoring when the list is empty
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1

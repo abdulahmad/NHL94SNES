@@ -10,7 +10,7 @@ StartBreakaway:						; called from ChkOffsides_blue, ChkOffsides_other
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.w #$0005
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 .1:									; if minus go to .2, ...
 	lda.w CwdExciteLvl
 	clc

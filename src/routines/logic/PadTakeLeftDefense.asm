@@ -47,7 +47,7 @@ PadTakePosition:					; called from PadTakeGoalie, PadTakeLeftDefense, PadTakeRig
 	inc a
 	sta.w padinputdone,y
 	stx.b d0
-	jsl.l AssignPadPlayer
+	jsl.l AssignPadPlayer			; pad d4 takes control of player d0: its old player is released
 .2:									; return
 	plx
 	rtl

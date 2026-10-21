@@ -35,7 +35,7 @@ adda4:								; called from ReplayMode
 	rtl
 
 .t1:								; call RestoreReplayFrame
-	jsl.l RestoreReplayFrame
+	jsl.l RestoreReplayFrame		; put one recorded replay frame back into the objects
 adda43:								; called from adda4
 	lda.b a4
 	clc								; next frame

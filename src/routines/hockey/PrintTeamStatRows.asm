@@ -8,7 +8,7 @@ PrintTeamStatRows:					; called from ShowGameStats
 	lda.l smallfontchars
 	clc
 	adc.l printfontset
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	lda.w #$0000
 	sta.w printy
 	lda.w #$0000
@@ -44,7 +44,7 @@ PrintTeamStatRows:					; called from ShowGameStats
 org $9C9000
 	sta.b a1
 .2:									; call AdvanceStringPtr, call PrintToStatsPage, printa = $2400, ...
-	jsl.l AdvanceStringPtr
+	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	jsl.l PrintToStatsPage
 	lda.w #$2400
 	sta.w printa
@@ -107,7 +107,7 @@ org $9C9000
 	tay
 	lda.w $0000,y
 	sta.b d0
-	jsl.l PushNumber
+	jsl.l PushNumber				; a1 = d0 as a decimal string, no leading zeros
 	jmp.w .7
 
 .t2xx:								; d0 = $0000,y, increment a0, increment a0, ...
@@ -129,11 +129,11 @@ org $9C9000
 	cmp.b d1
 	bpl .t1xxx
 	ldx.w #$0064
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	tax
 	lda.b d1
 	beq .4
-	jsl.l DivX8U
+	jsl.l DivX8U					; X / A into A with the hardware divider
 	bra .4
 
 .t1xxx:								; d0 - d1 >= 0: if d0 = 0 go to .4, ...
@@ -142,19 +142,19 @@ org $9C9000
 	lda.w #$0064
 .4:									; d0 = A, call PushNumber, a3 = mesarea, ...
 	sta.b d0
-	jsl.l PushNumber
+	jsl.l PushNumber				; a1 = d0 as a decimal string, no leading zeros
 	lda.w #mesarea>>16
 	sta.b a3+2
 	lda.w #mesarea
 	sta.b a3
 	lda.w #$0002
 	sta.b [a3]
-	jsl.l appstring
+	jsl.l appstring					; append string [a1] to string [a3]
 	lda.w #StatPercent>>16
 	sta.b a1+2
 	lda.w #StatPercent
 	sta.b a1
-	jsl.l appstring
+	jsl.l appstring					; append string [a1] to string [a3]
 	lda.b a3+2
 	sta.b a1+2
 	lda.b a3
@@ -169,7 +169,7 @@ org $9C9000
 	tay
 	lda.w $0000,y
 	sta.b d0
-	jsl.l PushNumber
+	jsl.l PushNumber				; a1 = d0 as a decimal string, no leading zeros
 	lda.b [a0]
 	sta.b d1
 	lda.w #mesarea>>16
@@ -178,20 +178,20 @@ org $9C9000
 	sta.b a3
 	lda.w #$0002
 	sta.b [a3]
-	jsl.l appstring
+	jsl.l appstring					; append string [a1] to string [a3]
 	lda.w #StatSlash>>16
 	sta.b a1+2
 	lda.w #StatSlash
 	sta.b a1
-	jsl.l appstring
+	jsl.l appstring					; append string [a1] to string [a3]
 	lda.b a2
 	clc
 	adc.b d1
 	tay
 	lda.w $0000,y
 	sta.b d0
-	jsl.l PushNumber
-	jsl.l appstring
+	jsl.l PushNumber				; a1 = d0 as a decimal string, no leading zeros
+	jsl.l appstring					; append string [a1] to string [a3]
 	lda.b a3+2
 	sta.b a1+2
 	lda.b a3
@@ -204,7 +204,7 @@ org $9C9000
 	tay
 	lda.w $0000,y
 	sta.b d0
-	jsl.l PushTime
+	jsl.l PushTime					; a1 = the time d0 as a minutes:seconds string
 .7:									; printx = -([a1] + 1 / 2) + printx, call PrintToStatsPage
 	lda.b [a1]
 	inc a

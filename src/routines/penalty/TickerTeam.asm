@@ -15,5 +15,5 @@ TickerTeam:							; prints one team line of the ticker
 	sta.w printx
 	lda.b d1
 	sta.b d0
-	jsl.l PushNumber
+	jsl.l PushNumber				; a1 = d0 as a decimal string, no leading zeros
 	jml.l print						; printx saved by NewTicker3

@@ -7,7 +7,7 @@ CollisionSfx:						; play the collision sound
 	phy								; 1,s = Y, the other object
 	ldy.w Xvel,x
 	lda.w Yvel,x
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	sta.b r3
 	lda.b 1,s
 	tay
@@ -16,7 +16,7 @@ CollisionSfx:						; play the collision sound
 	lda.w Yvel,y
 	tay
 	pla
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	ply
 	cmp.b r3
 	bcs .t1
@@ -35,5 +35,5 @@ CollisionSfx:						; play the collision sound
 	asl.b p0
 	asl.b p0+2
 	lda.w #$000F
-	jsl.l sfx
+	jsl.l sfx						; play sound A with the velocity in p0 / p0+2
 	rtl

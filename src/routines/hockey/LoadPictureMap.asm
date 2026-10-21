@@ -11,7 +11,7 @@ LoadPictureMap:						; unpack the picture map and add the tile base
 	sta.b p1+2
 	lda.w #picboxmap
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack PictureMap
 	lda.l picboxmap					; r3 = bytes per row, x = number of rows (from picboxmap); skip the 3
 									; header words
 	asl a

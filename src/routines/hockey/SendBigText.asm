@@ -19,7 +19,7 @@ SendBigText:						; called from PlayerSelect
 	ldy.w printy
 	sty.b r7+2
 	ldx.w #$0000
-	jsl.l MapPartToVRAM
+	jsl.l MapPartToVRAM				; copy part of map [p0] into the screen map in video memory at column X
 	lda.w #bigtextbuf>>16
 	sta.b p0+2
 	lda.w #bigtextbuf
@@ -32,5 +32,5 @@ SendBigText:						; called from PlayerSelect
 	asl a
 	asl a
 	tax
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	rts

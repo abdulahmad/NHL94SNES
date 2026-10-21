@@ -14,7 +14,7 @@ MusicStop:							; stop the song: release its voices and clear its tracks
 	bcs .1
 	lda.w VoiceState,y
 	beq .1
-	jsr.w StopVoice
+	jsr.w StopVoice					; stop voice Y
 .1:									; X - 1, X - 1, Y - 1, ...
 	dex
 	dex
@@ -22,7 +22,7 @@ MusicStop:							; stop the song: release its voices and clear its tracks
 	bpl .loop
 	ldy.b #$00
 	ldx.b #$10
-	jsr.w ClearTracks
+	jsr.w ClearTracks				; clear the track pointers and waits of tracks Y up to X
 	stz.w SoundLock
 	plp
 	rtl

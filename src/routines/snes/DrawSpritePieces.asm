@@ -138,7 +138,7 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 	ldy.w PieceNext
 	dec.b r0
 	beq .t1xxxxx
-	jmp.w DrawSpritePieces
+	jmp.w DrawSpritePieces			; flipped sprite: one OAM entry per piece
 
 .t1xxxxx:							; all pieces drawn: restore the bank and return
 	plb

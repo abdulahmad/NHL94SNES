@@ -22,7 +22,7 @@ ClearPictureBox:					; called from DrawMatchupPictures, DrawPlayerCard
 	clc
 	adc.l charofs
 	ldx.w #$000C
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	lda.b p1
 	clc
 	adc.w #$0040

@@ -59,7 +59,7 @@ Reset_Fast:							; called from Reset
 	lda.w #$0000
 	tax
 	tay
-	jsl.l FillVRAM
+	jsl.l FillVRAM					; fill VRAM with a word
 	sep #$20
 	stz.w NMITIMEN
 	lda.b #$FF
@@ -74,7 +74,7 @@ Reset_Fast:							; called from Reset
 	lda.w #SoundDriver
 	sta.b p0
 	stz.b p0+2
-	jsl.l SPCIPLUpload
+	jsl.l SPCIPLUpload				; send the stream at [p0] through the boot loader: blocks of length
 	sep #$20
 	rep #$20
 	lda.w #$0000
@@ -102,7 +102,7 @@ Reset_Fast:							; called from Reset
 	dex
 	bne .loop9
 .1:									; call ResetStub, IniDispShadow = $8F
-	jsl.l ResetStub
+	jsl.l ResetStub					; does nothing
 	sep #$20
 	rep #$10
 	lda.b #$8F
@@ -127,7 +127,7 @@ Reset_Fast:							; called from Reset
 	lda.b #$81
 	sta.w NMITIMEN
 	rep #$30
-	jsl.l SoundInit
+	jsl.l SoundInit					; reset the sound player
 	stz.w brightness
-	jsl.l forceblack
-	jml.l Opening
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
+	jml.l Opening					; the cold start after Reset_Fast: password and default options

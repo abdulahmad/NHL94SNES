@@ -1,16 +1,16 @@
 ; Password entry screen
 PasswordScreen:						; called from setoptions
-	jsl.l FadeOut
-	jsl.l WaitFadeOut
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l WaitFadeOut				; wait until the screen is black
 	lda.w #$FF7F
 	and.l PassWord
 	sta.l PassWord
-	jsl.l ClearTextMap
+	jsl.l ClearTextMap				; fill the text map with the blank tile
 	stz.w textdirtylo
 	lda.w #$03FF
 	sta.w textdirtyhi
-	jsl.l ReadPads
-	jsl.l ReadAnyPad
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadAnyPad				; d1 = the buttons that changed on any pad
 	jsl.l SpriteFrameStart
 	ldx.w #$0053
 	ldy.w #$0018
@@ -18,14 +18,14 @@ PasswordScreen:						; called from setoptions
 	sta.b a1+2
 	lda.w #PasswordLabel
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites PasswordLabel
 	lda.w #$001C
 	sta.l setupvis
 	lda.w #$001D
 	sta.l setuphome
 	jsl.l DrawMatchupPictures
 	jsl.l SpriteFrameEnd
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -34,7 +34,7 @@ PasswordScreen:						; called from setoptions
 	sta.b a1+2
 	lda.w #PasswordScreenPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PasswordScreenPos
 	pla
 	sta.b a1
 	pla
@@ -52,7 +52,7 @@ PasswordScreen:						; called from setoptions
 	sta.b a1+2
 	lda.w #PasswordTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PasswordTxt
 	pla
 	sta.b a1
 	pla
@@ -90,7 +90,7 @@ PasswordScreen:						; called from setoptions
 	sta.b a1+2
 	lda.w #mesarea
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print mesarea
 	inc.w printy
 	inc.w printy
 	lda.w printx
@@ -100,7 +100,7 @@ PasswordScreen:						; called from setoptions
 	dec.b d0
 	bpl .loop
 	stz.b d4
-	jsl.l PrintSelectLeft
+	jsl.l PrintSelectLeft			; print the Select Left hint on the password screen
 	stz.b d5
 	lda.l PassWord
 	and.w #$00FF
@@ -108,7 +108,7 @@ PasswordScreen:						; called from setoptions
 	bcs .1
 	sta.b d5
 .1:									; call PlacePasswordCursor, call FramerOutline, PWCharStr = $0003, ...
-	jsl.l PlacePasswordCursor
+	jsl.l PlacePasswordCursor		; move the password cursor to character d5
 	jsl.l FramerOutline
 	lda.w #$0003
 	sta.w PWCharStr
@@ -129,7 +129,7 @@ PasswordScreen:						; called from setoptions
 	lda.w #$000A
 	sta.w fadestep
 PasswordRedraw:						; called from BadPasswordPrompt
-	jsr.w PrintPasswordHelp
+	jsr.w PrintPasswordHelp			; print the password screen keys: Select, A Next, Y Back, Press start
 .1:									; a1 = PasswordScreenPos2, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
@@ -139,24 +139,24 @@ PasswordRedraw:						; called from BadPasswordPrompt
 	sta.b a1+2
 	lda.w #PasswordScreenPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PasswordScreenPos2
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l PWprint
-	jsl.l QueueTextDMA
+	jsl.l PWprint					; print the password, unless it is hidden
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 .loop:								; loop: call WaitFrame, call ReadPads, call ReadJoy1, ...
 	jsl.l WaitFrame
-	jsl.l ReadPads
-	jsl.l ReadJoy1
-	jsl.l ProcessInputWithRepeat
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadJoy1					; read pad 1: d0 = direction, d1 = new presses, d2 = changed buttons
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1
 	beq .loop
 	sta.b d1
 	bit.w #$1000
 	beq .t3
-	jmp.w BadPasswordPrompt
+	jmp.w BadPasswordPrompt			; bad password: wait for a button, then offer retry or exit
 
 .t3:								; d0 = 0, decrement d0, if not zero go to .t1, ...
 	stz.b d0
@@ -193,7 +193,7 @@ PasswordRedraw:						; called from BadPasswordPrompt
 
 .t2:								; d4 = A, call PrintSelectLeft, a0 = PassWord, ...
 	sta.b d4
-	jsl.l PrintSelectLeft
+	jsl.l PrintSelectLeft			; print the Select Left hint on the password screen
 	lda.w #PassWord>>16
 	sta.b a0+2
 	lda.w #PassWord
@@ -217,7 +217,7 @@ PasswordRedraw:						; called from BadPasswordPrompt
 
 .t1x:								; call PlacePasswordCursor, d2 = blankchar, call eraser, ...
 	pha
-	jsl.l PlacePasswordCursor
+	jsl.l PlacePasswordCursor		; move the password cursor to character d5
 	lda.l blankchar
 	sta.b d2
 	jsl.l eraser
@@ -239,7 +239,7 @@ PasswordRedraw:						; called from BadPasswordPrompt
 	jsl.l print
 	pla
 	sta.b d5
-	jsl.l PlacePasswordCursor
+	jsl.l PlacePasswordCursor		; move the password cursor to character d5
 	jsl.l FramerOutline
 	phx
 	ldy.b d5

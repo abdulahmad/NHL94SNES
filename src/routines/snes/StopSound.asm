@@ -28,7 +28,7 @@ StopSound:							; stop all voices playing sound A
 	lda.w VoiceInst,x
 	cmp.b InstPtr
 	bne .1							; not this sound
-	jsr.w StopVoice
+	jsr.w StopVoice					; stop voice Y
 .1:									; next voice
 	inx
 	inx

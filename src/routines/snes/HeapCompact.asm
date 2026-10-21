@@ -9,12 +9,12 @@ HeapCompact:						; compact the banks $7E and $7F heaps
 	sta.b p0+2
 	stz.b p0
 	ldy.w HeapStart7E
-	jsr.w HeapCompactBank
+	jsr.w HeapCompactBank			; join free blocks and move unlocked blocks down over them, fixing their
 	lda.w #Ram7F>>16				; bank $7F from its first block
 	sta.b p0+2
 	stz.b p0
 	ldy.w HeapStart7F
-	jsr.w HeapCompactBank
+	jsr.w HeapCompactBank			; join free blocks and move unlocked blocks down over them, fixing their
 	ply
 	plx
 	pla

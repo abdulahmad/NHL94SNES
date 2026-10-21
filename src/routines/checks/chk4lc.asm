@@ -39,7 +39,7 @@ chk4lc:								; called from asspuckc
 	lda.w #$0002
 	sta.b a2
 .3:									; call AvgCline, if d0 >= $0C01 go to .t1, ...
-	jsl.l AvgCline
+	jsl.l AvgCline					; d0 = the average energy of team a2's current line
 	lda.b d0
 	cmp.w #$0C01
 	bcs .t1
@@ -47,10 +47,10 @@ chk4lc:								; called from asspuckc
 	bne .t1
 	lda.l OptLine
 	beq .t1
-	jsl.l CompLine
-	jsl.l setpersonel
-	jsl.l printscores1
-	jml.l CompShoot
+	jsl.l CompLine					; the computer team picks a line by the man advantage
+	jsl.l setpersonel				; put the wanted players of team a2 on the ice
+	jsl.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
+	jml.l CompShoot					; computer player X shoots
 
 .t1:								; return
 	rtl

@@ -88,7 +88,7 @@ org $9FC002
 	sta.b p0
 	ldy.b tmp2
 	ldx.w #$0040
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.b tmp0
 	clc
 	adc.w #$0040
@@ -98,7 +98,7 @@ org $9FC002
 	adc.w #$0400
 	tay
 	ldx.w #$0020
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.b tmp0
 	clc
 	adc.w #$0060

@@ -9,7 +9,7 @@ BuildRinkMap:						; called from LoadCenterIce, ReloadRink
 	sta.b p1+2
 	lda.w #rinkmapbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack IceRinkMap
 	lda.w HomeTeam
 	asl a
 	asl a

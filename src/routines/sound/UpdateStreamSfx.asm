@@ -47,7 +47,7 @@ UpdateStreamSfx:					; stream the sound effect asked for
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.l StreamSfxSounds-2,x
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	lda.w #$0003
 	sta.l streamstate
 .3:									; leave
@@ -97,7 +97,7 @@ UpdateStreamSfx:					; stream the sound effect asked for
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.l StreamSfxSounds-2,x
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	rtl
 
 .t1xx:								; streaming finished

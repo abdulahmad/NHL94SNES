@@ -87,7 +87,7 @@ asspenalty:							; assignment: skate to the penalty box
 .2x:								; glide into the door
 	lda.w #SPAglide
 	sta.w pfnc,x					; no collisions
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	lda.w #$0006					; face: 6 (2 for a right handed player)
 	sta.b d2
 	lda.w handed,x					; handed set = right handed
@@ -123,7 +123,7 @@ asspenalty:							; assignment: skate to the penalty box
 	sta.w facedir,x
 	sta.w pfalock,x					; lock the assignment
 	lda.w #SPAwallright				; wall animation
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	lda.w pflags,x					; player flags
 	and.w #$BFFF					; clear bit $4000 (pf2pen)
 	sta.w pflags,x

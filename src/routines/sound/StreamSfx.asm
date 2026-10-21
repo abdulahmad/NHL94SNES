@@ -20,7 +20,7 @@ StreamSfx:							; request streamed sound A
 	asl a
 	tax
 	lda.l StreamSfxSounds-2,x
-	jsl.l StopSound
+	jsl.l StopSound					; stop all voices playing sound A
 .1:									; start the new stream
 	lda.w #$0000
 	sta.l streamstate

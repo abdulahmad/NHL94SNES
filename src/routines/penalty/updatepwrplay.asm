@@ -11,7 +11,7 @@ updatepwrplay:						; called from periodicevents, printscores1
 	sbc.w tmap+2
 	sta.b d0						; d0 = home - away
 	bne .ne
-	jmp.w updatepwrplay_clr
+	jmp.w updatepwrplay_clr			; power play over: put the EASN logo back
 .ne:								; if plus go to .t0, ...
 	bpl .t0
 	lda.w sflags					; negative: away team on the power play
@@ -49,12 +49,12 @@ updatepwrplay:						; called from periodicevents, printscores1
 	sta.b a1+2
 	lda.w #updatepwrplayPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print updatepwrplayPos
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l GetLowestPen
+	jsl.l GetLowestPen				; time left of the power play -> d0
 	lda.w gmclock
 	bne .time
 	lda.b d0
@@ -65,13 +65,13 @@ updatepwrplay:						; called from periodicevents, printscores1
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.w #$0005
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	bra .time
 .one:								; SfxVelocity = $7000, call QueueSound, if VoiceState,y != $02 go to .w...
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.w #$0005
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	phx
 	tay
 	sep #$20
@@ -108,7 +108,7 @@ updatepwrplay:						; called from periodicevents, printscores1
 	sta.b a1+2
 	lda.w #updatepwrplayPos2
 	sta.b a1
-	jsl.l appstring
+	jsl.l appstring					; append string [a1] to string [a3]
 	lda.b a0						; team name offset
 	ldy.w #$0004					; short name offset
 	clc

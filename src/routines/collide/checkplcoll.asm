@@ -106,7 +106,7 @@ checkplcoll:						; called from checkcoll
 	sbc.w Ypos,x
 	sta.b d3
 	ldy.b d2
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	cmp.w #$0010
 	bmi .t1x
 	jmp.w .10
@@ -244,7 +244,7 @@ checkplcoll:						; called from checkcoll
 	cpy.w puckc
 	bne .2x
 .1xx:								; call CollisionSfx
-	jsl.l CollisionSfx
+	jsl.l CollisionSfx				; play the collision sound
 .2x:								; call checkint, call checkcheck, d3 = pulled value, ...
 	lda.b d1
 	pha
@@ -252,8 +252,8 @@ checkplcoll:						; called from checkcoll
 	pha
 	lda.b d3
 	pha
-	jsl.l checkint
-	jsl.l checkcheck
+	jsl.l checkint					; A goalie and another player collide: the skater falls
+	jsl.l checkcheck				; two players are in contact: check what happens each way
 	pla
 	sta.b d3
 	pla

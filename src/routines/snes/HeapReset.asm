@@ -7,7 +7,7 @@ HeapReset:							; HeapInit at the same starts
 	phy
 	ldx.w HeapStart7E
 	ldy.w HeapStart7F
-	jsl.l HeapInit
+	jsl.l HeapInit					; set up both heaps
 	ply
 	plx
 	pla

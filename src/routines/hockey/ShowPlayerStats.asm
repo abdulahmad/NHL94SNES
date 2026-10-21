@@ -1,6 +1,6 @@
 ; Player stats for the team in a2.
 ShowPlayerStats:					; called from PausePlayerStats
-	jsl.l GetPauseTeam
+	jsl.l GetPauseTeam				; team of the pause controller
 	lda.b a2
 	pha
 	ldx.b a2
@@ -8,16 +8,16 @@ ShowPlayerStats:					; called from PausePlayerStats
 	sta.l setupvis
 	lda.w #$001D
 	sta.l setuphome
-	jsl.l SetupScreen
+	jsl.l SetupScreen				; common setup of the stats screens
 	ldx.w #$0049
 	ldy.w #$0018
 	lda.w #PlayerStatsTitle>>16
 	sta.b a1+2
 	lda.w #PlayerStatsTitle
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites PlayerStatsTitle
 	jsl.l SpriteFrameEnd
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -26,7 +26,7 @@ ShowPlayerStats:					; called from PausePlayerStats
 	sta.b a1+2
 	lda.w #ShowPlayerStatsPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowPlayerStatsPos
 	pla
 	sta.b a1
 	pla
@@ -46,34 +46,34 @@ ShowPlayerStats:					; called from PausePlayerStats
 	sta.b a1+2
 	lda.w #YSwitchTeamsTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print YSwitchTeamsTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w #$0001
 	sta.w statcolumn
-	jsl.l SetPlayerStatsRange
+	jsl.l SetPlayerStatsRange		; set the row range of the player stats list
 	lda.w #$0007
 	sta.w listrows
-	jsl.l InitStatsOrder
-	jsl.l SortPlayerStats
+	jsl.l InitStatsOrder			; statsorder[i] = i for the rows of the list
+	jsl.l SortPlayerStats			; player stats: print the column name
 	lda.w #$0058
 	ldx.w #$00C0
 	ldy.w #$00D0
-	jsl.l SetupScrollIRQ
+	jsl.l SetupScrollIRQ			; set up the three-way scroll IRQ
 	lda.w #$0018
 	sta.w irqvscroll2
 	lda.w #$0001
 	sta.l playerstatson
 	jsl.l SendTextMap
-	jsl.l DrawPlayerStatsPage
-	jsl.l MenuScreenHDMA
+	jsl.l DrawPlayerStatsPage		; player stats
+	jsl.l MenuScreenHDMA			; start the window and COLDATA HDMA
 	jsl.l ScreenOn
 ShowPlayerStats_loop:				; called from ShowPlayerStats_down, ShowPlayerStats_redraw, ShowPlayerS...
-	jsl.l ReadPads
-	jsl.l ReadPausePad
-	jsl.l ProcessInputWithRepeat
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d3
 	bit.w #$1000
 	beq .t2
@@ -107,7 +107,7 @@ ShowPlayerStats_loop:				; called from ShowPlayerStats_down, ShowPlayerStats_red
 	bit.w #$4000
 	beq ShowPlayerStats_redraw
 .1x2:								; go to SwapPlayerStatsTeam
-	jmp.w SwapPlayerStatsTeam
+	jmp.w SwapPlayerStatsTeam		; switch player stats to the other team and redraw the heading
 
 ShowPlayerStats_redraw:				; called from ShowPlayerStats_column, ShowPlayerStats_down, ShowPlayerS...
 	lda.w statcolumn
@@ -152,7 +152,7 @@ ShowPlayerStats_redraw:				; called from ShowPlayerStats_column, ShowPlayerStats
 	sta.b a1
 	jsl.l PrintToStatsPage
 .3:									; call DrawPlayerStatsPage
-	jsl.l DrawPlayerStatsPage
+	jsl.l DrawPlayerStatsPage		; player stats
 .4:									; call WaitFrame, go to ShowPlayerStats_loop
 	jsl.l WaitFrame
 	jmp.w ShowPlayerStats_loop
@@ -165,7 +165,7 @@ ShowPlayerStats_exit:				; called from ShowPlayerStats_loop
 	rtl
 
 ShowPlayerStats_down:				; called from ShowPlayerStats_loop
-	jsl.l ClearPlayerStatBraces
+	jsl.l ClearPlayerStatBraces		; erase the braces around the visible player-stat rows
 	lda.w curitem
 	clc
 	adc.w listrows
@@ -176,7 +176,7 @@ ShowPlayerStats_down:				; called from ShowPlayerStats_loop
 
 .t1x2:								; increment listrows, call DrawPlayerStatsPage, decrement listrows, ...
 	inc.w listrows
-	jsl.l DrawPlayerStatsPage
+	jsl.l DrawPlayerStatsPage		; player stats
 	dec.w listrows
 	jsl.l WaitFrame
 	inc.w curitem
@@ -189,14 +189,14 @@ ShowPlayerStats_down:				; called from ShowPlayerStats_loop
 	lda.w irqvscroll1
 	cmp.w #$000D
 	bne .loop
-	jsl.l DrawPlayerStatsPage
+	jsl.l DrawPlayerStatsPage		; player stats
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1
 	jmp.w ShowPlayerStats_loop
 
 ShowPlayerStats_up:					; called from ShowPlayerStats_loop
-	jsl.l ClearPlayerStatBraces
+	jsl.l ClearPlayerStatBraces		; erase the braces around the visible player-stat rows
 	lda.w curitem
 	dec a
 	cmp.w listtop
@@ -206,7 +206,7 @@ ShowPlayerStats_up:					; called from ShowPlayerStats_loop
 .t1x3:								; curitem = A, increment listrows, call DrawPlayerStatsPage, ...
 	sta.w curitem
 	inc.w listrows
-	jsl.l DrawPlayerStatsPage
+	jsl.l DrawPlayerStatsPage		; player stats
 	dec.w listrows
 	jsl.l WaitFrame
 	lda.w #$000D
@@ -218,7 +218,7 @@ ShowPlayerStats_up:					; called from ShowPlayerStats_loop
 	lda.w irqvscroll1
 	cmp.w #$0001
 	bne .loopx
-	jsl.l DrawPlayerStatsPage
+	jsl.l DrawPlayerStatsPage		; player stats
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1
@@ -247,13 +247,13 @@ ShowPlayerStats_right:				; called from ShowPlayerStats_loop
 	beq ShowPlayerStats_setrange
 ShowPlayerStats_column:				; called from ShowPlayerStats_left
 	sta.w statcolumn
-	jsl.l SortPlayerStats
-	jsl.l DrawPlayerStatsPage
+	jsl.l SortPlayerStats			; player stats: print the column name
+	jsl.l DrawPlayerStatsPage		; player stats
 	jmp.w ShowPlayerStats_redraw
 ShowPlayerStats_setrange:			; called from ShowPlayerStats_left, ShowPlayerStats_right
 	sta.w statcolumn
-	jsl.l SetPlayerStatsRange
-	jsl.l InitStatsOrder
-	jsl.l SortPlayerStats
-	jsl.l DrawPlayerStatsPage
+	jsl.l SetPlayerStatsRange		; set the row range of the player stats list
+	jsl.l InitStatsOrder			; statsorder[i] = i for the rows of the list
+	jsl.l SortPlayerStats			; player stats: print the column name
+	jsl.l DrawPlayerStatsPage		; player stats
 	jmp.w ShowPlayerStats_redraw

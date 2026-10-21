@@ -77,7 +77,7 @@ resetplstuff:						; reset the players of both teams
 .t1x:								; other positions: glide animation
 	lda.w #SPAglide					; SPAglide
 .2:									; start the animation
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	stz.w impact,x					; no impact, no puck collision block
 	stz.w nopuck,x
 	lda.w pflags,x					; pflags: clear bits $0009

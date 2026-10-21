@@ -54,34 +54,34 @@ chkprogress:						; called from PenaltyManager
 	tsb.w sflags
 	lda.w brightness
 	beq .1x
-	jsl.l FadeOut
-	jsl.l WaitFadeOut
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l WaitFadeOut				; wait until the screen is black
 .1x:								; call SetHor, tsb puckc, a3 = $001C, ...
-	jsl.l SetHor
+	jsl.l SetHor					; switches to the horizontal rink
 	lda.w #$FF00
 	tsb.w puckc
 	ldx.w #$001C
 	stx.b a3
 	lda.w #$001A
 	sta.b d0
-	jsl.l assinsert
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
 	ldx.b a3
 	lda.w #$1C20
 	sta.w temp1,x					; temp1 = 120*60
 	lda.w #$FF00					; RefStep negative, RefCnt 0; UpdatePA; RefCnt 50; PushRef 0
 	tsb.w RefStep
 	stz.w RefCnt
-	jsl.l UpdatePA
+	jsl.l UpdatePA					; animates the referee and the message line
 	lda.w #$0032
 	sta.w RefCnt
 	stz.b d0
-	jsl.l PushRef
-	jsl.l FadeIn
+	jsl.l PushRef					; draws a referee frame
+	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	jsl.l ScreenOn
 	rtl
 
 .t3:								; call SeatPenaltyBox, if RefCnt negative go to .t2, ...
-	jsl.l SeatPenaltyBox
+	jsl.l SeatPenaltyBox			; puts the box players at their box spots
 	lda.w RefCnt
 	bmi .t2
 	jmp.w InProgress_rtl
@@ -122,4 +122,4 @@ chkprogress_find:					; called from InProgress
 	beq .loop
 	cmp.w #$0000
 	bne InProgress
-	jmp.w InProgress_exit
+	jmp.w InProgress_exit			; the penalty list is empty: end the penalty mode

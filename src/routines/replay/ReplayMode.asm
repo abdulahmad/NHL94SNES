@@ -2,12 +2,12 @@
 ReplayMode:							; called from PauseReplay
 	lda.w SoundFadeSpeed
 	bne ReplayMode
-	jsl.l SPCGameUpload
+	jsl.l SPCGameUpload				; upload the Game sample set
 	lda.w #$0000
 	sta.l Crowdlevel
 	lda.w #$0800
 	tsb.w sflags
-	jsl.l ClrHor
+	jsl.l ClrHor					; switch back from the horizontal rink to the vertical ice rink
 	lda.w #$FFFF
 	sta.w textdirtylo
 	stz.w textdirtyhi
@@ -16,7 +16,7 @@ ReplayMode:							; called from PauseReplay
 	adc.l charofs
 	ldx.w #$0400
 	ldy.w #$0000
-	jsl.l FillVRAMSplit
+	jsl.l FillVRAMSplit				; fill VRAM with the low bytes, then the high bytes
 	lda.w #$FFFF
 	sta.w replaylock
 	sta.l replaypanel
@@ -39,7 +39,7 @@ ReplayMode:							; called from PauseReplay
 	lda.l charofs
 	ldx.w #$0002
 	ldy.w #$0002
-	jsl.l MapPartToVRAMOffset
+	jsl.l MapPartToVRAMOffset		; copy part of map [p0] into the screen map at column X, row Y
 	lda.w ReplayBufferPtr
 	pha
 	lda.w ReplayBufferPtr+2
@@ -85,7 +85,7 @@ ReplayMode:							; called from PauseReplay
 	lda.w #$0000
 	pha
 .loop2:								; loop: call suba4, if d7 != 0 go to .loop2, ...
-	jsl.l suba4
+	jsl.l suba4						; move the replay one frame back
 	pla
 	inc a
 	pha
@@ -97,7 +97,7 @@ ReplayMode:							; called from PauseReplay
 .loop3:								; loop: if 1,s = 0 go to .t1, ...
 	lda.b 1,s
 	beq .t1
-	jsl.l adda4
+	jsl.l adda4						; move the replay one frame forward
 	pla
 	dec a
 	pha
@@ -118,11 +118,11 @@ ReplayMode:							; called from PauseReplay
 	sta.w fadestep
 	ldx.w #BrightnessHook>>16
 	lda.w #BrightnessHook
-	jsl.l SetFrameHook
+	jsl.l SetFrameHook				; run the routine at X:A as the frame hook of the next NMI
 	jsl.l ScreenOn
-	jsl.l SprSort
+	jsl.l SprSort					; sort the objects by screen position
 	jsl.l SpriteFrameStart
-	jsl.l setvideo
+	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l SpriteFrameEnd
 	lda.w #$0001
 	sta.b d7
@@ -281,9 +281,9 @@ ReplayMode:							; called from PauseReplay
 .12:								; timestep = d7, call SprSort, call SpriteFrameStart, ...
 	lda.b d7
 	sta.w timestep
-	jsl.l SprSort
+	jsl.l SprSort					; sort the objects by screen position
 	jsl.l SpriteFrameStart
-	jsl.l setvideo
+	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l SpriteFrameEnd
 	stz.w replaynewframe
 .13:								; if d7 != 0 go to .2xxxxx
@@ -293,9 +293,9 @@ ReplayMode:							; called from PauseReplay
 	inx
 .2xxxxx:							; call WaitFrames_Inc, call ReadPads, call ReadPausePad, ...
 	ldy.w #$0000
-	jsl.l WaitFrames_Inc
-	jsl.l ReadPads
-	jsl.l ReadPausePad
+	jsl.l WaitFrames_Inc			; wait X frames, Y rounds
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
 	lda.w #$0001
 	sta.b d7
 	lda.b d0
@@ -325,7 +325,7 @@ ReplayMode:							; called from PauseReplay
 	sbc.w Ypos+camobj
 	sta.b d1
 	sta.b d3
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	cmp.w #$0008
 	beq .4xxx
 	sec
@@ -345,7 +345,7 @@ ReplayMode:							; called from PauseReplay
 	ora.w #$E000
 .2xxxxxx:							; call Mul8S, d0 = A, if zero go to .3xxxx, ...
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	sta.b d0
 	lda.b d3
 	lsr a
@@ -356,7 +356,7 @@ ReplayMode:							; called from PauseReplay
 	ora.w #$E000
 .3xxxx:								; call Mul8S, adc d0, if carry set go to .4xxx, ...
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	clc
 	adc.b d0
 	cmp.b d4+2
@@ -384,7 +384,7 @@ ReplayMode:							; called from PauseReplay
 .t1xxxx:							; call ReadPausePad, replaylock = $FFFE, tsb sflags, ...
 	phk								; data bank = program bank
 	plb
-	jsl.l ReadPausePad
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
 	lda.w #$FFFE
 	sta.w replaylock
 	lda.w #$0020
@@ -418,7 +418,7 @@ ReplayMode:							; called from PauseReplay
 	lda.w #$0001
 	sta.w wcradiusx
 	sta.w wcradiusy
-	jsl.l checkwallcoll
+	jsl.l checkwallcoll				; collision of object X with the corners, the goals and the boards
 	pla
 	sta.b d3
 	pla
@@ -519,7 +519,7 @@ ReplayMode:							; called from PauseReplay
 	adc.l charofs
 	ldx.w #$0180
 	ldy.w #$0000
-	jsl.l FillVRAMSplit
+	jsl.l FillVRAMSplit				; fill VRAM with the low bytes, then the high bytes
 	jsl.l WaitFrame
 	lda.w #$0000
 	sta.l replaypanel
@@ -543,12 +543,12 @@ ReplayMode:							; called from PauseReplay
 	bne .t4
 	bit.w #$4000
 	beq .12x
-	jsl.l suba4
-	jsl.l suba4
+	jsl.l suba4						; move the replay one frame back
+	jsl.l suba4						; move the replay one frame back
 	bra .11x
 
 .t1xxxxxx:							; d3 bit $0020 set: call suba4, go to .10x
-	jsl.l suba4
+	jsl.l suba4						; move the replay one frame back
 	ldx.w #$0006
 	bra .10x
 
@@ -563,12 +563,12 @@ ReplayMode:							; called from PauseReplay
 	jmp.w .13
 
 .t4:								; d3 bit $0080 set: call adda4, call adda4, go to .11x
-	jsl.l adda4
-	jsl.l adda4
+	jsl.l adda4						; move the replay one frame forward
+	jsl.l adda4						; move the replay one frame forward
 	bra .11x
 
 .t5:								; call adda4, if d3 bit $0010 set go to .10x, ...
-	jsl.l adda4
+	jsl.l adda4						; move the replay one frame forward
 	ldx.w #$0006
 	lda.b d3
 	bit.w #$0010
@@ -576,9 +576,9 @@ ReplayMode:							; called from PauseReplay
 	ldx.w #$000C
 .10x:								; call WaitFrames_Inc
 	ldy.w #$0000
-	jsl.l WaitFrames_Inc
+	jsl.l WaitFrames_Inc			; wait X frames, Y rounds
 .11x:								; call SoundVoicesOff, d7 = $0001, trb sflags3, ...
-	jsl.l SoundVoicesOff
+	jsl.l SoundVoicesOff			; release every voice
 	lda.w #$0001
 	sta.b d7
 	lda.w #$0002
@@ -591,7 +591,7 @@ ReplayMode:							; called from PauseReplay
 	jmp.w .13
 
 .t1xxxxxxx:							; sflags3 bit $0002 set: call adda4, if d7 = 0 go to .11x, ...
-	jsl.l adda4
+	jsl.l adda4						; move the replay one frame forward
 	lda.b d7
 	beq .11x
 	lda.w recsfx2
@@ -604,7 +604,7 @@ ReplayMode:							; called from PauseReplay
 	sta.b SfxVelocity
 	lda.w recsfx2
 	and.w #$00FF
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	tay
 	sep #$20
 	lda.w VoiceState,y
@@ -625,7 +625,7 @@ ReplayMode:							; called from PauseReplay
 .t2xxxx:							; sbc #$0015, call StreamSfx
 	sec
 	sbc.w #$0015
-	jsl.l StreamSfx
+	jsl.l StreamSfx					; request streamed sound A
 .13x:								; if zero go to .14x, ...
 	lda.w recsfx
 	and.w #$00FF
@@ -637,7 +637,7 @@ ReplayMode:							; called from PauseReplay
 	sta.b SfxVelocity
 	lda.w recsfx
 	and.w #$00FF
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	tay
 	sep #$20
 	lda.w VoiceState,y
@@ -659,13 +659,13 @@ org $9BB001
 .t1xxxxxxxx:						; sbc #$0015, call StreamSfx
 	sec
 	sbc.w #$0015
-	jsl.l StreamSfx
+	jsl.l StreamSfx					; request streamed sound A
 .14x:								; go to .10
 	jmp.w .10
 .15:								; PadControlObj+$C = $000F, call SoundVoicesOff, Hpos = pulled value, ...
 	lda.w #$000F
 	sta.w PadControlObj+$C
-	jsl.l SoundVoicesOff
+	jsl.l SoundVoicesOff			; release every voice
 	pla
 	sta.w Hpos
 	pla
@@ -680,29 +680,29 @@ org $9BB001
 	sta.b a4+2
 	lda.w ReplayBufferPtr
 	sta.b a4
-	jsl.l RestoreReplayFrame
+	jsl.l RestoreReplayFrame		; put one recorded replay frame back into the objects
 	lda.w #$0800
 	trb.w sflags
-	jsl.l SetHor
+	jsl.l SetHor					; switches to the horizontal rink
 	jsl.l SpriteFrameStart
-	jsl.l setvideo
+	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l SpriteFrameEnd
 	stz.w textdirtylo
 	lda.w #$03FF
 	sta.w textdirtyhi
-	jsl.l FadeOut
-	jsl.l FadeOutSound
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l FadeOutSound				; start the sound fade out
 .loopxx:							; loop: if brightness != 0 go to .loopxx, ...
 	lda.w brightness
 	bne .loopxx
 	lda.w SoundFadeSpeed
 	bne .loopxx
-	jsl.l forceblack
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	lda.w shootoutmode
 	bne .1xxxxxxxxxxxxxx
 	lda.w replaymusic
 	beq .1xxxxxxxxxxxxxx
-	jsl.l SPCMenuUpload
+	jsl.l SPCMenuUpload				; upload the Menu sample set
 	lda.l OptPlayMode
 	beq .t1xxxxxxxxx
 	cmp.w #$0004
@@ -714,7 +714,7 @@ org $9BB001
 	sta.b p0+2
 	lda.w #PlayoffSong
 	sta.b p0
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 	jmp.w .1xxxxxxxxxxxxxx
 
 .t1xxxxxxxxx:						; p0 = MenuSong, call MusicStart
@@ -722,6 +722,6 @@ org $9BB001
 	sta.b p0+2
 	lda.w #MenuSong
 	sta.b p0
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 .1xxxxxxxxxxxxxx:					; return
 	rtl

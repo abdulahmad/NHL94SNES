@@ -31,9 +31,9 @@ puckfaceoff2:						; called from asstab
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.w #$0012
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	lda.w #$0013
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	lda.w #$FFFF
 	sta.w recsfx
 	sta.w recsfx2
@@ -47,11 +47,11 @@ puckfaceoff2:						; called from asstab
 .1:									; if brightness = 0 go to .2, ...
 	lda.w brightness
 	beq .2
-	jsl.l FadeOut
-	jsl.l WaitFadeOut
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l WaitFadeOut				; wait until the screen is black
 	stz.w brightness
 .2:									; call FadeIn, fadestep = $000A, if MusicOn != 0 go to .4, ...
-	jsl.l FadeIn
+	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	lda.w #$000A
 	sta.w fadestep
 	lda.w MusicOn
@@ -70,12 +70,12 @@ puckfaceoff2:						; called from asstab
 	bcs .t1
 .3:									; call PlayTeamSong, go to .4
 	lda.w #$0004
-	jsl.l PlayTeamSong
+	jsl.l PlayTeamSong				; play song slot A of the home team
 	bra .4
 
 .t1:								; call PlayTeamSong, go to .4
 	lda.w #$0001
-	jsl.l PlayTeamSong
+	jsl.l PlayTeamSong				; play song slot A of the home team
 	bra .4
 
 .t3:								; if percue != 0 go to .1x, ...
@@ -94,7 +94,7 @@ puckfaceoff2:						; called from asstab
 .2x:								; falls through
 	lda.w #$0002
 .3x:								; call PlayTeamSong, percue = 0
-	jsl.l PlayTeamSong
+	jsl.l PlayTeamSong				; play song slot A of the home team
 	stz.w percue
 .4:									; trb sflags, trb sflags3, iflags = 0, ...
 	lda.w #$000D
@@ -148,7 +148,7 @@ puckfaceoff2:						; called from asstab
 	lda.w #$0064					; 100 scroll steps
 	sta.b d4
 .loopx:								;scroll to the faceoff spot
-	jsl.l checkwindow
+	jsl.l checkwindow				; move the view so the screen follows the puck
 	dec.b d4
 	bpl .loopx
 	lda.w #$003C					; yleader = 60
@@ -156,11 +156,11 @@ puckfaceoff2:						; called from asstab
 	jsl.l ResetBench				; ResetBench
 	stz.b a2
 	jsl.l setpersonel				; update the players on the ice
-	jsl.l forcepldata
+	jsl.l forcepldata				; face offs: move team a2's players straight to their new positions
 	inc.b a2
 	inc.b a2
 	jsl.l setpersonel				; update the players on the ice
-	jsl.l forcepldata
+	jsl.l forcepldata				; face offs: move team a2's players straight to their new positions
 	jsl.l resetplstuff				; resetplstuff
 	lda.w #$FFFF
 	sta.w tmtouch2
@@ -385,8 +385,8 @@ puckfaceoff2:						; called from asstab
 .t3x:								; position,x != 0: falls through
 	lda.w #SPAglide
 .15:								; call SetSPAFromA, call updateanim
-	jsl.l SetSPAFromA
-	jsl.l updateanim
+	jsl.l SetSPAFromA				; start sprite animation A on object X
+	jsl.l updateanim				; step object X's sprite animation, looping or ending it
 .16:								; increment a3, increment a3, d2 = pulled value, ...
 	inc.b a3
 	inc.b a3
@@ -460,7 +460,7 @@ puckfaceoff2:						; called from asstab
 	bpl .loop3
 .6x:								; call FaceoffPads, a1 = puckfaceoff2Pos, call print, ...
 	ldx.b a3
-	jsl.l FaceoffPads
+	jsl.l FaceoffPads				; at a faceoff: CalcPuckDistances, restore the pad sides kept in padside
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -469,7 +469,7 @@ puckfaceoff2:						; called from asstab
 	sta.b a1+2
 	lda.w #puckfaceoff2Pos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print puckfaceoff2Pos
 	pla
 	sta.b a1
 	pla
@@ -513,8 +513,8 @@ puckfaceoff2:						; called from asstab
 	adc.w printx
 	adc.l FaceOffMap
 	dec a
-	jsl.l marktexthi
-	jsl.l SeatPenaltyBox
+	jsl.l marktexthi				; raise the high end of the changed text map area to A
+	jsl.l SeatPenaltyBox			; puts the box players at their box spots
 	lda.w #FaceOffMap+6
 	sta.l fobox
 	sta.b tmp0
@@ -570,14 +570,14 @@ puckfaceoff2:						; called from asstab
 	sta.b d0
 	lda.w #$0008
 	sta.b d1
-	jsl.l Framer
+	jsl.l Framer					; draw a frame and fill it
 	lda.w BA_Team
 	sta.b a2
 	lda.w #$0005
 	sta.w printy
 	lda.w BA_Skater_Offset
 	sta.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	lda.w #$0014
 	sec
 	sbc.b [a1]
@@ -597,7 +597,7 @@ puckfaceoff2:						; called from asstab
 	sta.b a1+2
 	lda.w #VersusText
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print VersusText
 	pla
 	sta.b a1
 	pla
@@ -609,7 +609,7 @@ puckfaceoff2:						; called from asstab
 	tay
 	lda.w tmgoalie,y
 	sta.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	lda.w #$0014
 	sec
 	sbc.b [a1]
@@ -628,7 +628,7 @@ puckfaceoff2:						; called from asstab
 	sta.b a1+2
 	lda.w #ShootoutPenShot
 	sta.b a1
-	jsl.l printbig
+	jsl.l printbig					; printbig ShootoutPenShot
 	bra .17
 
 .t1xxx:								; shootoutmode = 0: a1 = ShootoutPenShot+10, call printbig
@@ -673,7 +673,7 @@ puckfaceoff2:						; called from asstab
 	sta.b a1+2
 	lda.w #linelist
 	sta.b a1
-	jsl.l PrintStringFromList
+	jsl.l PrintStringFromList		; prints a string from a list
 	inc.w printx
 	inc.w printx
 	inc.w printx
@@ -684,7 +684,7 @@ puckfaceoff2:						; called from asstab
 	sta.b a1+2
 	lda.w #linelist
 	sta.b a1
-	jsl.l PrintStringFromList
+	jsl.l PrintStringFromList		; prints a string from a list
 .3xxxx:								; call RandomWord, and #$007F, adc #$00B4, ...
 	jsl.l RandomWord
 	and.w #$007F
@@ -754,14 +754,14 @@ puckfaceoff2:						; called from asstab
 	bpl updatefaceoff
 	lda.w penshot
 	beq .t1xxxx
-	jsl.l Endfaceoff
-	jmp.w SetupPenaltyShot
+	jsl.l Endfaceoff				; drop the puck: pick the face off winner and send the puck off
+	jmp.w SetupPenaltyShot			; penalty shot set up: the puck at centre ice, every player reassigned
 
 .t1xxxx:							; penshot = 0: PenShotActive = 0, BA_Sktr_SCnum = $FFFF, go to Endfaceoff
 	stz.w PenShotActive
 	lda.w #$FFFF
 	sta.w BA_Sktr_SCnum
-	jmp.w Endfaceoff
+	jmp.w Endfaceoff				; drop the puck: pick the face off winner and send the puck off
 .19:								; db $00,$01,$02,$03,$04,$05,$06,$00, db $00,$01,$05,$03,$04,$02,$00,$0...
 	db $00,$01,$02,$03,$04,$05,$06,$00
 	db $00,$01,$05,$03,$04,$02,$00,$00

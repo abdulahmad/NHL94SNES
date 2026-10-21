@@ -12,7 +12,7 @@ PlayerInitialName:					; called from FillPenaltyPage, FillPlayerStatsPage, FillS
 	pha
 	lda.b a0+2
 	pha
-	jsl.l GetPlayerRecord
+	jsl.l GetPlayerRecord			; a0 = the roster record of player d0 of team a2
 	lda.w #mesarea>>16
 	sta.b a1+2
 	lda.w #mesarea
@@ -51,7 +51,7 @@ PlayerInitialName:					; called from FillPenaltyPage, FillPlayerStatsPage, FillS
 	lda.b a0
 	cmp.b a2
 	bne .loop2
-	jsl.l MesAreaDone
+	jsl.l MesAreaDone				; end the string built in mesarea
 	pla
 	sta.b a0+2
 	pla

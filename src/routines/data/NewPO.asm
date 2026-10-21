@@ -65,4 +65,4 @@ NewPO:								; start new playoffs with team 1 and build the tree
 	dec.b d0						; count down
 	bpl .loopx
 .1x:								; build the tree
-	jml.l maketree
+	jml.l maketree					; build the playoff tree from the seeds and the series wins

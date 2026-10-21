@@ -22,7 +22,7 @@ DrawPenaltyPage:					; called from ScrollPenaltyDown, ScrollPenaltyUp, ShowPenal
 	lsr a
 	tax
 	ldy.w #$0160
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	rts
 
 .t1:								; listend = $0000: a1 = NoPenalties, call print, a1 = pulled value, ...
@@ -34,10 +34,10 @@ DrawPenaltyPage:					; called from ScrollPenaltyDown, ScrollPenaltyUp, ShowPenal
 	sta.b a1+2
 	lda.w #NoPenalties
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print NoPenalties
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l QueueTextDMA
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 	rts

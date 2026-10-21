@@ -22,7 +22,7 @@ StartSoundVoice:					; start the note on a voice
 	beq .3
 .2:									; find a voice
 	sep #$30
-	jsr.w FindFreeVoice
+	jsr.w FindFreeVoice				; find a free voice, else take the best voice of lower priority
 	stx.b CurVoice
 	txa
 	bpl .t1
@@ -124,12 +124,12 @@ StartSoundVoice:					; start the note on a voice
 	ldx.b CurTrack
 	xba
 	lda.w TrackVolL,x
-	jsr.w MulFrac8
+	jsr.w MulFrac8					; A * B / 128 into A
 	sta.w VoiceVolL
 	lda.b EventData1
 	xba
 	lda.w TrackVolR,x
-	jsr.w MulFrac8
+	jsr.w MulFrac8					; A * B / 128 into A
 	sta.w VoiceVolR
 .7:									; music ducking
 	lda.w MusicDuck

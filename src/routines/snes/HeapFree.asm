@@ -8,11 +8,11 @@ HeapFree:							; free bytes of both heaps in X:A
 	lda.w #Ram7E>>16
 	sta.b p0+2
 	ldy.w HeapStart7E
-	jsr.w HeapFreeBank
+	jsr.w HeapFreeBank				; add the sizes of the free blocks of the chain
 	lda.w #Ram7F>>16				; bank $7F from its first block
 	sta.b p0+2
 	ldy.w HeapStart7F
-	jsr.w HeapFreeBank
+	jsr.w HeapFreeBank				; add the sizes of the free blocks of the chain
 	ldx.b r3+2
 	lda.b r3
 	rtl

@@ -36,7 +36,7 @@ SetPlList:							; called from setpersonel
 	pha
 	lda.b a3
 	pha
-	jsl.l GetTeamLines
+	jsl.l GetTeamLines				; a3 = the RAM lines of team a2
 	lda.b a3+2
 	sta.b a1+2
 	lda.b a3
@@ -141,7 +141,7 @@ SetPlList:							; called from setpersonel
 	pha
 	lda.b a3
 	pha
-	jsl.l GetTeamLines
+	jsl.l GetTeamLines				; a3 = the RAM lines of team a2
 	lda.b a3+2
 	sta.b a1+2
 	lda.b a3

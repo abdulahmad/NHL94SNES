@@ -63,7 +63,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	lda.w pflags,x
 	and.w #$FFFE
 	sta.w pflags,x
-	jmp.w assexit
+	jmp.w assexit					; end the player's current assignment and go back to the one under it
 .7:									; return
 	rtl
 .8:									; if SPA,x = SPAonetimerf go to .10, ...
@@ -100,8 +100,8 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	sbc.w passtargety
 	sta.b d1
 .2x:								; call vtoa, call Findhittype, if zero go to .t1xx, ...
-	jsl.l vtoa
-	jsl.l Findhittype
+	jsl.l vtoa						; direction of the vector d0 / d1
+	jsl.l Findhittype				; swing type of player X for direction d0
 	beq .t1xx
 	lda.w #SPAonetimerb
 	bra .3x
@@ -109,7 +109,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 .t1xx:								; Findhittype gave 0: use SPAonetimerf instead of SPAonetimerb
 	lda.w #SPAonetimerf
 .3x:								; call SetSPAFromA, go to .7
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	jmp.w .7
 .9:									; SPAnum,x >= $0010: go to .6
 	jmp.w .6
@@ -134,7 +134,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	sbc.w pucky
 	sta.b d1
 	ldy.b d0
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	cmp.w #$0008
 	bcs .5x
 	stz.w SPAcnt,x
@@ -182,7 +182,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	jsl.l a2touchpuck
 	pla
 	sta.b a2
-	jsl.l doshot
+	jsl.l doshot					; the stick is at the puck: launch it toward the goal
 	jmp.w .6
 .5x:								; if puckc negative go to .t1xxxx
 	lda.w puckc

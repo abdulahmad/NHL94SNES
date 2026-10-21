@@ -22,8 +22,8 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lda.w SongPtr
 	cmp.w #$ED31
 	beq .t2
-	jsl.l FadeOutSound
-	jsl.l forceblack
+	jsl.l FadeOutSound				; start the sound fade out
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 .loop:								; loop: if MusicOn != 0 go to .loop, ...
 	lda.w MusicOn
 	bne .loop
@@ -31,11 +31,11 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0+2
 	lda.w #PlayoffSong
 	sta.b p0
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 	jmp.w .2
 
 .t2:								; call forceblack
-	jsl.l forceblack
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 .2:									; BGMODE = $09, BG1SC = $01, BG2SC = $08, ...
 	sep #$20
 	lda.b #$09
@@ -63,18 +63,18 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackTiles
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$3000
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #MenuBackMap>>16
 	sta.b p0+2
 	lda.w #MenuBackMap
 	sta.b p0
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackMap
 	lda.w #(unpackbuf+$246)>>16
 	sta.b p0+2
 	lda.w #unpackbuf+$246
@@ -82,25 +82,25 @@ PlayoffScreen:						; called from GameOver, StartGame
 	phx
 	ldx.w #$0240
 	ldy.w #$0800
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	pla
 	sec
 	sbc.w #$0240
 	tax
 	ldy.w #$0920
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #MenuBackPalette>>16
 	sta.b p0+2
 	lda.w #MenuBackPalette
 	sta.b p0
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0010
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	lda.w #PlayoffTiles>>16
 	sta.b p0+2
 	lda.w #PlayoffTiles
@@ -109,7 +109,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack PlayoffTiles
 	txa
 	lsr a
 	lsr a
@@ -122,7 +122,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$1000
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #PlayoffPalette>>16
 	sta.b p0+2
 	lda.w #PlayoffPalette
@@ -131,7 +131,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1+2
 	lda.w #palbuffer
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack PlayoffPalette
 	lda.w #SmallFontTiles>>16
 	sta.b p0+2
 	lda.w #SmallFontTiles
@@ -140,7 +140,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SmallFontTiles
 	txa
 	lsr a
 	lsr a
@@ -167,7 +167,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SmallFontTiles
 	txa
 	lsr a
 	lsr a
@@ -181,7 +181,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #$031A
 	sta.l palbuffer+(4*$20)+(1*2)
 	sta.l palbuffer+(5*$20)+(1*2)
@@ -251,7 +251,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0
 	ldx.w #$0E00
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #StanleyCupPalette>>16
 	sta.b p0+2
 	lda.w #StanleyCupPalette
@@ -260,7 +260,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack StanleyCupPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -270,7 +270,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lda.w #palbuffer+(3*$20)		; palette 3
 	sta.b p1
 	ldx.w #$0020
-	jsl.l MemCopy
+	jsl.l MemCopy					; copy X bytes from [p0] to [p1]
 	lda.w #StanleyCupTiles>>16
 	sta.b p0+2
 	lda.w #StanleyCupTiles
@@ -279,13 +279,13 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack StanleyCupTiles
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #BigLetterTiles>>16
 	sta.b p0+2
 	lda.w #BigLetterTiles
@@ -294,7 +294,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1+2
 	lda.w #bigtextbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack BigLetterTiles
 	lda.w #bigtextbuf>>16
 	sta.b p0+2
 	lda.w #bigtextbuf
@@ -311,14 +311,14 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p1
 	lda.w #$0000
 	ldx.w #$8000
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	lda.w #screenmap>>16
 	sta.b p1+2
 	lda.w #screenmap+6
 	sta.b p1
 	lda.w #$0000
 	ldx.w #$4002
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	lda.w #potree>>16
 	sta.b a1+2
 	lda.w #potree
@@ -345,7 +345,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b a1+2
 	lda.w #PlayoffScreenPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PlayoffScreenPos
 	pla
 	sta.b a1
 	pla
@@ -392,7 +392,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.w jmlvector+1
 	lda.w #BigLetterPlayoff>>16
 	sta.w jmlvector+3
-	jsl.l RenderBigText
+	jsl.l RenderBigText				; draw string [p0] in the big proportional font
 	pla
 	sta.w printx
 	lda.b tmp4
@@ -479,7 +479,7 @@ org $9D9000
 	asl a
 	asl a
 	tax
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 .loopxx:							; loop: increment a0, if zero go to .7, ...
 	lda.b [a0]
 	inc.b a0
@@ -541,7 +541,7 @@ org $9D9000
 	sta.b a1+2
 	lda.w #PlayoffScreenPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PlayoffScreenPos2
 	pla
 	sta.b a1
 	pla
@@ -597,7 +597,7 @@ org $9D9000
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack StanleyCupMap
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -612,7 +612,7 @@ org $9D9000
 	ldy.w #$0008
 	lda.l cupchars
 	ora.w #$0C00
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -621,14 +621,14 @@ org $9D9000
 	sta.b a1+2
 	lda.w #N8hTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print N8hTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w #$6E82
 	sta.w printm
-	jsl.l PWprint
+	jsl.l PWprint					; print the password, unless it is hidden
 	lda.w #$0080
 	sta.l screenmap
 	sta.l screenmap2
@@ -650,7 +650,7 @@ org $9D9000
 	sta.b r4+2
 	ldx.w #$0000
 	ldy.w #$0000
-	jsl.l MapPartToVRAM
+	jsl.l MapPartToVRAM				; copy part of map [p0] into the screen map in video memory at column X
 	lda.w #screenmap>>16
 	sta.b p0+2
 	lda.w #screenmap
@@ -665,7 +665,7 @@ org $9D9000
 	sta.b r4+2
 	ldx.w #$0000
 	ldy.w #$0000
-	jsl.l MapPartToVRAM
+	jsl.l MapPartToVRAM				; copy part of map [p0] into the screen map in video memory at column X
 	lda.w #$0180
 	sta.w Hscroll
 	sec
@@ -688,11 +688,11 @@ org $9D9000
 	sta.b p0
 	ldy.w #$0010
 	ldx.w #$0070
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	jsl.l ScreenOn
 .2x:								; call WaitFrame, call ReadPads, ora padnew+2, ...
 	jsl.l WaitFrame
-	jsl.l ReadPads
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	lda.w padnew
 	ora.w padnew+2
 	cmp.w #$1000
@@ -713,7 +713,7 @@ org $9D9000
 	sta.b p0
 	ldy.w #$0010
 	ldx.w #$0010
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	lda.w JoyPad
 	ora.w JoyPad+2
 	bit.w #$0200
@@ -784,7 +784,7 @@ org $9D9000
 	tax
 	phx
 	ldy.w #$0000
-	jsl.l MapPartToVRAM
+	jsl.l MapPartToVRAM				; copy part of map [p0] into the screen map in video memory at column X
 	lda.w #screenmap2>>16
 	sta.b p0+2
 	lda.w #screenmap2
@@ -800,7 +800,7 @@ org $9D9000
 	lda.w #$0020
 	sta.b r4+2
 	ldy.w #$0000
-	jsl.l MapPartToVRAM
+	jsl.l MapPartToVRAM				; copy part of map [p0] into the screen map in video memory at column X
 	bra .4
 
 .t2xxx:								; d3+2 negative: if carry clear go to .4, ...
@@ -830,7 +830,7 @@ org $9D9000
 	tax
 	phx
 	ldy.w #$0000
-	jsl.l MapPartToVRAM
+	jsl.l MapPartToVRAM				; copy part of map [p0] into the screen map in video memory at column X
 	lda.w #screenmap2>>16
 	sta.b p0+2
 	lda.w #screenmap2
@@ -846,7 +846,7 @@ org $9D9000
 	lda.w #$0020
 	sta.b r4+2
 	ldy.w #$0000
-	jsl.l MapPartToVRAM
+	jsl.l MapPartToVRAM				; copy part of map [p0] into the screen map in video memory at column X
 .4:									; if Hscroll = $0058 go to .5, ...
 	lda.w Hscroll
 	cmp.w #$0058

@@ -13,7 +13,7 @@ PrintScrollArrows:					; called from ScrollPenaltyDown, ScrollPenaltyUp, ScrollS
 	sta.b a1+2
 	lda.w #RightArrowTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print RightArrowTxt2
 	pla
 	sta.b a1
 	pla
@@ -29,7 +29,7 @@ PrintScrollArrows:					; called from ScrollPenaltyDown, ScrollPenaltyUp, ScrollS
 	sta.b a1+2
 	lda.w #PrintScrollArrowsPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PrintScrollArrowsPos
 	pla
 	sta.b a1
 	pla
@@ -46,7 +46,7 @@ PrintScrollArrows:					; called from ScrollPenaltyDown, ScrollPenaltyUp, ScrollS
 	sta.b a1+2
 	lda.w #LeftArrowTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print LeftArrowTxt2
 	pla
 	sta.b a1
 	pla
@@ -62,11 +62,11 @@ PrintScrollArrows:					; called from ScrollPenaltyDown, ScrollPenaltyUp, ScrollS
 	sta.b a1+2
 	lda.w #PrintScrollArrowsPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PrintScrollArrowsPos2
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 .2:									; call QueueTextDMA, return
-	jsl.l QueueTextDMA
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 	rtl

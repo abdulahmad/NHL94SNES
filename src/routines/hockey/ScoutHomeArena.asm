@@ -13,8 +13,8 @@ ScoutHomeArena:						; Script code %r entry
 	pha								; keep the column in d0 across the call
 	lda.w #$0003
 	sta.b d0						; skip 3 strings (city, name, nickname)
-	jsl.l AdvanceStringPtr
+	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	pla								; AdvanceStringPtr leaves a1 at the arena string
 	sta.b d0						; restore the column
-	jmp.w ScoutAppend
+	jmp.w ScoutAppend				; append the string at a1 to a fresh mesarea and type it
 ; append and type it

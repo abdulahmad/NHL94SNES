@@ -9,7 +9,7 @@ TitlePathY:							; A = step, returns A = y scroll; called from BuildTitlePath
 	sta.b r2
 	lda.w #$0005					; divided by 5
 	sta.b r1
-	jsl.l Div16S
+	jsl.l Div16S					; divides
 	lda.w #$01B0					; y = $01B0 minus the quotient
 	sec
 	sbc.b r0

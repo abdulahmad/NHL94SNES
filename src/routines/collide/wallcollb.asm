@@ -1,9 +1,9 @@
 ; wallcollb: not over the glass, bounce off the wall
 wallcollb_bounce:					; branch target: bounce off the wall
-	jmp.w wallcoll
+	jmp.w wallcoll					; bounce object X off a wall
 ; wallcollb: over the glass, out of play
 wallcollb_over:						; branch target: over the glass
-	jmp.w wallcollb_out
+	jmp.w wallcollb_out				; puck out of play
 ; Object X hits a wall: the puck may go over the glass and out of play, else it bounces
 ;
 ; Takes X = object. Called from checkwallcoll. Only the puck can go over the glass; anything else, and a
@@ -45,7 +45,7 @@ wallcollb:							; object X hits a wall
 	plx								; restore X and a3
 	stx.b a3
 	lda.w #$0006					; streamed sound 6 (over the glass)
-	jsl.l StreamSfx
+	jsl.l StreamSfx					; request streamed sound A
 	lda.l Crowdlevel				; crowd level +$258
 	clc
 	adc.w #$0258

@@ -5,13 +5,13 @@ BuildTitlePath:						; called from TitleScreen
 	ldy.w #$0000
 .loop:								; loop: call TitlePathScale, titlescale,x = A, call TitlePathX, ...
 	tya
-	jsr.w TitlePathScale
+	jsr.w TitlePathScale			; A = the mode 7 scale of title path step A
 	sta.l titlescale,x
 	tya
-	jsr.w TitlePathX
+	jsr.w TitlePathX				; A = the x offset of title path step A
 	sta.l titlexofs,x
 	tya
-	jsr.w TitlePathY
+	jsr.w TitlePathY				; A = the y scroll of title path step A
 	sta.l titleyscroll,x
 	inx
 	inx

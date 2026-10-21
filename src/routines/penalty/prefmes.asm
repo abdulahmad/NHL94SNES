@@ -31,7 +31,7 @@ prefmes:							; called from PushRef, SetPA
 	sta.b a1+2
 	lda.w #prefmesPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print prefmesPos
 	pla
 	sta.b a1
 	pla
@@ -59,7 +59,7 @@ prefmes:							; called from PushRef, SetPA
 	sta.b a1+2
 	lda.w #prefmesPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print prefmesPos2
 	pla
 	sta.b a1
 	pla
@@ -129,7 +129,7 @@ prefmes:							; called from PushRef, SetPA
 	sta.l penmsgbox
 	lda.w #$0003
 	sta.b d1
-	jsl.l Framer
+	jsl.l Framer					; draw a frame and fill it
 	dec.w printy
 	dec.w printy
 	inc.w printx
@@ -148,7 +148,7 @@ prefmes:							; called from PushRef, SetPA
 	sta.b a1+2
 	lda.w #prefmesPos3
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print prefmesPos3
 	pla
 	sta.b a1
 	pla

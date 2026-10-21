@@ -26,10 +26,10 @@ ShowGoalBox:						; called from SetPA
 	sta.w lcpad
 	sta.w lcpad+2
 	stz.b a2						; find the line change data for both teams
-	jsl.l lcfound2
+	jsl.l lcfound2					; close the line change box and redraw the scoreboard
 	inc.b a2
 	inc.b a2
-	jsl.l lcfound2
+	jsl.l lcfound2					; close the line change box and redraw the scoreboard
 	lda.w #ScoreSum>>16
 	sta.b a4+2
 	lda.w #ScoreSum-6
@@ -44,7 +44,7 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1+2
 	lda.w #ShowGoalBoxPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowGoalBoxPos
 	pla
 	sta.b a1
 	pla
@@ -89,7 +89,7 @@ ShowGoalBox:						; called from SetPA
 	and.w #$00FF
 	cmp.w #$0003					; third goal: hat trick text
 	bne .4
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	ldy.w #ssscorer
 	lda.b [a4],y
 	and.w #$00FF
@@ -101,7 +101,7 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1
 	ldy.b a2
 	bne .4
-	jsl.l StartHatTrick
+	jsl.l StartHatTrick				; start the hat trick sprites: clear the ten slots and set hattrick
 	lda.w Pencntdwn
 	clc
 	adc.w #$000A
@@ -112,7 +112,7 @@ ShowGoalBox:						; called from SetPA
 	lda.b [a4],y
 	and.w #$00FF
 	sta.b d0
-	jsl.l PlayerShortName
+	jsl.l PlayerShortName			; mesarea = the number
 	jsl.l print
 	ldy.w #ssassist1
 	lda.b [a4],y
@@ -128,12 +128,12 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1+2
 	lda.w #AssistByTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print AssistByTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l PlayerShortName
+	jsl.l PlayerShortName			; mesarea = the number
 	jsl.l print
 	ldy.w #ssassist2
 	lda.b [a4],y
@@ -149,12 +149,12 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1+2
 	lda.w #ShowGoalBoxPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowGoalBoxPos2
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l PlayerShortName
+	jsl.l PlayerShortName			; mesarea = the number
 	jsl.l print						; print it
 .5:									; xsave = X
 	stx.b xsave						; keep X

@@ -32,8 +32,8 @@ EncodePW:							; work out the winners and the new password after a playoff game
 	eor.w #$0001					; and the joystick
 	sta.l pojoy
 .1:									; password bits, then to characters
-	jsl.l WritePassBits
-	jsl.l BitstoPW
+	jsl.l WritePassBits				; turn the playoff state into the password bits, with a checksum
+	jsl.l BitstoPW					; turn the password bits into the password characters
 	lda.w sflags3					; sflags3 bit $0004: use the saved passbits
 	bit.w #$0004
 	beq .2							; normal tree
@@ -46,7 +46,7 @@ EncodePW:							; work out the winners and the new password after a playoff game
 	bpl .loop
 	jsl.l ReadPassBits				; read the bits back
 .2:									; build the tree
-	jml.l maketree
+	jml.l maketree					; build the playoff tree from the seeds and the series wins
 
 .t1:								; the user won: reset the password
 	jsl.l ResetPassWord

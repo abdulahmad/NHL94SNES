@@ -56,7 +56,7 @@ org $9ED002
 	beq .3							; yes: no turn needed
 	sta.b d2						; d2 = direction for playeracc
 	lda.w #SPAgready				; ready animation
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	jml.l playeracc					; accelerate
 
 .t3:								; friction only

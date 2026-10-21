@@ -5,15 +5,15 @@ assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $
 	lda.w playerpad,x
 	bmi .8
 .1:									; go to assexit
-	jmp.w assexit
+	jmp.w assexit					; end the player's current assignment and go back to the one under it
 
 .t1:								; bare return, not branched to in this file
 	rtl
 .2:									; gmclock != 0: call GlideBack, nopuck,x = $003C, go to assnothing
-	jsl.l GlideBack
+	jsl.l GlideBack					; start SPAglideback on player X unless his animation is locked
 	lda.w #$003C
 	sta.w nopuck,x
-	jmp.w assnothing
+	jmp.w assnothing				; computer player stands still
 .8:									; playerpad,x negative: if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
@@ -69,7 +69,7 @@ assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $
 	sec
 	sbc.w impactstep
 	sta.w temp2,x
-	jml.l skateto
+	jml.l skateto					; player X skates toward d0 / d1
 .4:									; sopathnext negative: if zero go to .3, ...
 	lda.w facedir,x
 	sec
@@ -123,8 +123,8 @@ assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $
 	sbc.w Ypos,x
 	sta.b d1
 .6:									; call vtoa, call Findhittype, if zero go to .t1xxx, ...
-	jsl.l vtoa
-	jsl.l Findhittype
+	jsl.l vtoa						; direction of the vector d0 / d1
+	jsl.l Findhittype				; swing type of player X for direction d0
 	beq .t1xxx
 	lda.w #SPAonetimerb
 	bra .7
@@ -132,11 +132,11 @@ assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $
 .t1xxx:								; Findhittype gave 0: use SPAonetimerf instead of SPAonetimerb
 	lda.w #SPAonetimerf
 .7:									; call SetSPAFromA, call updateanim, SPAcnt,x = $0002, ...
-	jsl.l SetSPAFromA
-	jsl.l updateanim
+	jsl.l SetSPAFromA				; start sprite animation A on object X
+	jsl.l updateanim				; step object X's sprite animation, looping or ending it
 	lda.w #$0002
 	sta.w SPAcnt,x
-	jsl.l doshot
+	jsl.l doshot					; the stick is at the puck: launch it toward the goal
 	rtl
 .nocallback:						; the skateto callback that does nothing
 	rtl

@@ -155,12 +155,12 @@ doplayeracc:						; player X skates toward d0
 	ldx.b a3
 	cmp.w #$0000					; no turn: noturn0
 	bne .t2xx
-	jmp.w noturn0
+	jmp.w noturn0					; direction needs no turn: skate, stop or turn one step
 
 .t2xx:								; turning: build the speed measure d3 from the velocity high bytes
 	tax
 	lda.b d7
-	jsl.l Mul8XS
+	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	ldx.b a3
 	sta.b tmp0
 	lda.w Xvel,x
@@ -171,7 +171,7 @@ doplayeracc:						; player X skates toward d0
 	ora.w #$FF00
 .1xxx:								; x velocity high byte, sign extended
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	sta.b d4
 	ldx.b a3
 	lda.w Yvel,x
@@ -182,7 +182,7 @@ doplayeracc:						; player X skates toward d0
 	ora.w #$FF00
 .2x:								; y velocity high byte, sign extended
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	clc
 	adc.b d4
 	sta.b d3						; d3 = speed class

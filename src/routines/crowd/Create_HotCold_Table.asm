@@ -6,7 +6,7 @@ Create_HotCold_Table:				; fill HotColdTable with random values -12 to 12
 	ldx.w #$026F					; X = last byte of the table
 .2:									; next byte
 	lda.w #$000E					; random 0 to 13
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	cmp.w #$000C					; limit to 12
 	bcc .1
 	lda.w #$000C

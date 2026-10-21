@@ -6,7 +6,7 @@ makepde:							; called from doshot, puckstick
 	lda.b a2
 	pha
 	ldx.b a0
-	jsl.l getpde
+	jsl.l getpde					; d0 = the energy of player X
 	pla
 	sta.b a2
 	pla

@@ -4,7 +4,7 @@ ClearFrameHook:						; called from BlankScreen
 	phx
 	ldx.w #NullHook>>16
 	lda.w #NullHook
-	jsl.l SetFrameHook
+	jsl.l SetFrameHook				; run the routine at X:A as the frame hook of the next NMI
 	plx
 	pla
 	rtl

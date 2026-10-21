@@ -85,7 +85,7 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	jsl.l ChkShotStat				; ChkShotStat
 	jsl.l a2touchpuck				; goalie touches the puck
 	lda.w #$0006
-	jsl.l PuckSfx
+	jsl.l PuckSfx					; play sound A with half the puck velocity
 	lda.w puckvy
 	cmp.w #$3000
 	bpl .1x
@@ -102,7 +102,7 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	lda.w pfteam,y
 	beq .t1x
 	lda.w #$0004
-	jsl.l StreamSfx
+	jsl.l StreamSfx					; request streamed sound A
 	bra .5
 
 .t1x:								; pfteam,y = 0: Crowdlevel = Crowdlevel + $0258, crowdhold = $003C
@@ -219,4 +219,4 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	bit.w #$1000
 	bne .8
 	stz.w puckvz
-	jmp.w puckglue
+	jmp.w puckglue					; player a2 takes the puck

@@ -24,4 +24,4 @@ ScoutPlayerName:					; A = nothing, d0 = player, a2 = team (0 home, 2 visitors),
 	sta.b a0
 	plx								; restore the column into d0
 	stx.b d0						; type the name
-	jmp.w ScoutTypeText
+	jmp.w ScoutTypeText				; type the string at a1 word by word

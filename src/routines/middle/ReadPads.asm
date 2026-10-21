@@ -35,7 +35,7 @@ ReadPads:							; called from AskExitGame, BadPasswordPrompt, EditLinesMenu, Edi
 	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w paddir+8
-	jsr.w GetNewPresses
+	jsr.w GetNewPresses				; compare the 5 pads with the last frame
 	lda.w padchange
 	ora.w padchange+2
 	ora.w padchange+4

@@ -4,7 +4,7 @@ MapPartToVRAMOffset:				; called from ReplayMode
 	lda.w IniDispShadow-1
 	bmi .t1
 .1:									; go to MapPartToVRAMOffset
-	jmp.w MapPartToVRAMOffset
+	jmp.w MapPartToVRAMOffset		; copy part of map [p0] into the screen map at column X, row Y
 
 .t1:								; IniDispShadow-1 negative: if carry clear go to .2
 	cpx.w #$0020

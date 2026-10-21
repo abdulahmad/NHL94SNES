@@ -8,7 +8,7 @@ DrawExitPrompt:						; called from AskExitGame
 	sta.b a1+2
 	lda.w #DrawExitPromptPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawExitPromptPos
 	pla
 	sta.b a1
 	pla
@@ -17,7 +17,7 @@ DrawExitPrompt:						; called from AskExitGame
 	sta.b d0
 	lda.w #$0007
 	sta.b d1
-	jsl.l Framer
+	jsl.l Framer					; draw a frame and fill it
 	ldy.w #$000D
 .loop:								; loop: printa = $2400, printx = $0006, printy = Y, ...
 	phy
@@ -30,7 +30,7 @@ DrawExitPrompt:						; called from AskExitGame
 	sta.b a1+2
 	lda.w #ExitPromptClear
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ExitPromptClear
 	ply
 	iny
 	cpy.w #$0012
@@ -43,7 +43,7 @@ DrawExitPrompt:						; called from AskExitGame
 	sta.b a1+2
 	lda.w #DrawExitPromptPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawExitPromptPos2
 	pla
 	sta.b a1
 	pla
@@ -70,7 +70,7 @@ DrawExitPrompt:						; called from AskExitGame
 	sta.b a1+2
 	lda.w #DrawExitPromptPos3
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawExitPromptPos3
 	pla
 	sta.b a1
 	pla
@@ -86,7 +86,7 @@ DrawExitPrompt:						; called from AskExitGame
 	sta.b a1+2
 	lda.w #ExitNo
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ExitNo
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -95,7 +95,7 @@ DrawExitPrompt:						; called from AskExitGame
 	sta.b a1+2
 	lda.w #DrawExitPromptPos4
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawExitPromptPos4
 	pla
 	sta.b a1
 	pla
@@ -111,5 +111,5 @@ DrawExitPrompt:						; called from AskExitGame
 	sta.b a1+2
 	lda.w #ExitYes
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ExitYes
 	rtl

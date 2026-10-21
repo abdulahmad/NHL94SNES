@@ -4,7 +4,7 @@ Decompress:							; called from BuildRinkMap, DrawEditLinesBack, DrawPlayerPictu
 	php
 	phb
 	rep #$30
-	jsl.l WaitDMAQueue
+	jsl.l WaitDMAQueue				; wait until the DMA queue is empty
 	lda.b p1+1
 	sta.w WMADDM
 	lda.b p1
@@ -28,7 +28,7 @@ Decompress:							; called from BuildRinkMap, DrawEditLinesBack, DrawPlayerPictu
 .t3:								; if not zero go to .t1, ...
 	cmp.w #$FB46
 	bne .t1
-	jsr.w DecompressPairs
+	jsr.w DecompressPairs			; byte pair data at Y to WRAM
 	bra .t4
 
 .t1:								; if not zero go to .t2, ...

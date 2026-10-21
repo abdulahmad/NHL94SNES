@@ -42,7 +42,7 @@ updateplayers:						; called from DoGameFrame
 .t3:								; Ypos,x >= 0: topgoalie = X
 	stx.w topgoalie
 .8:									; call updateanim, if plus go to .1x, ...
-	jsl.l updateanim
+	jsl.l updateanim				; step object X's sprite animation, looping or ending it
 	lda.w nopuck,x
 	sec
 	sbc.w timestep
@@ -70,7 +70,7 @@ updateplayers:						; called from DoGameFrame
 	cmp.w #$0000
 	bmi .4
 	asl.b d0
-	jsl.l loadTeamStruct
+	jsl.l loadTeamStruct			; a2 = player X's team, a1 = the other team
 .4:									; if goaliedivewait,x = 0 go to .6, ...
 	lda.w goaliedivewait,x
 	beq .6
@@ -192,7 +192,7 @@ updateplayers:						; called from DoGameFrame
 	sta.b p0
 	stz.b p0+2
 	lda.w #$0007
-	jsl.l sfx
+	jsl.l sfx						; play sound A with the velocity in p0 / p0+2
 .11:								; d0 = puckx - Xpos,x, if plus go to .1xxxx, ...
 	lda.w puckx
 	sec
@@ -206,7 +206,7 @@ updateplayers:						; called from DoGameFrame
 	lsr a
 	lsr a
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	ldx.b curobj
 	sta.w puckdist2,x
 	lda.w pucky
@@ -221,7 +221,7 @@ updateplayers:						; called from DoGameFrame
 	lsr a
 	lsr a
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	ldx.b curobj
 	clc
 	adc.w puckdist2,x
@@ -286,7 +286,7 @@ updateplayers:						; called from DoGameFrame
 	lda.w #$0005
 	trb.w iflags
 .14:								; call vtoa, puckdir,x = A, X - 1, ...
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	sta.w puckdir,x
 	dex
 	dex
@@ -351,7 +351,7 @@ updateplayers:						; called from DoGameFrame
 	bne .1xxxxxxx
 	lda.w #$0000
 	sta.b d4
-	jsl.l setpads
+	jsl.l setpads					; pad marker d4 follows player X
 .1xxxxxxx:							; if carry set go to .t1xxxxx, ...
 	cpx.w #$0018
 	bcs .t1xxxxx
@@ -373,7 +373,7 @@ updateplayers:						; called from DoGameFrame
 	iny
 	iny
 	sty.b d4
-	jsl.l doinput
+	jsl.l doinput					; pad input for player X
 	bra .t1xxxxx
 
 .t1xxxxx:							; if pfalock,x != 0 go to .1xxxxxxxx, ...
@@ -388,7 +388,7 @@ updateplayers:						; called from DoGameFrame
 	lda.l asstab+1,x
 	sta.w jmlvector+2
 	ldx.b curobj
-	jsl.l loadTeamStruct
+	jsl.l loadTeamStruct			; a2 = player X's team, a1 = the other team
 	jsl.l jmlvector
 .1xxxxxxxx:							; ora gmclock, if not zero go to .17, ...
 	lda.w position,x
@@ -453,7 +453,7 @@ updateplayers:						; called from DoGameFrame
 	jmp.w .18
 
 .t1xxxxxxx:							; call checkcoll, if carry set go to .18, ...
-	jsl.l checkcoll
+	jsl.l checkcoll					; move object X to its new x / y, checking wall and player collisions
 	cpx.w #$0018
 	bcs .18
 	lda.w position,x

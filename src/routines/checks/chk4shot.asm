@@ -5,12 +5,12 @@ chk4shot:							; called from asspuckc
 	lda.w gameclock
 	cmp.w #$0005
 	bcs .t2
-	jmp.w CompShoot
+	jmp.w CompShoot					; computer player X shoots
 
 .t2:								; if PenShotActive != 0 go to .t1, ...
 	lda.w PenShotActive
 	bne .t1
-	jsl.l chkpk
+	jsl.l chkpk						; Z if X is killing a penalty
 	bne .t1
 	lda.w threat
 	beq .t1
@@ -56,11 +56,11 @@ chk4shot:							; called from asspuckc
 	inc a
 	pha
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	sta.b d0
 	lda.b d1
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	ldx.b curobj
 	clc
 	adc.b d0
@@ -73,7 +73,7 @@ chk4shot:							; called from asspuckc
 	lsr.b d4
 	lsr.b d4
 	lsr.b d4
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	sta.b d5
 	lda.w #$0005
 	sta.b d3
@@ -107,7 +107,7 @@ chk4shot:							; called from asspuckc
 	bpl .2
 .6:									; call randoma, if carry set go to .t1x, ...
 	lda.b d4
-	jsl.l randoma
+	jsl.l randoma					; A = a random number from 0 to A-1
 	cmp.w #$0009
 	bcs .t1x
 	lda.w pucky
@@ -139,7 +139,7 @@ chk4shot:							; called from asspuckc
 	lda.w sflags
 	bit.w #$8000
 	bne .t1x
-	jmp.w CompShoot
+	jmp.w CompShoot					; computer player X shoots
 
 .t1x:								; return
 	rtl

@@ -8,7 +8,7 @@ FillPenaltyPage:					; called from ShowPenaltySummary
 	lda.l smallfontchars
 	clc
 	adc.l printfontset
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	lda.w #$0000
 	sta.b a3+2
 	lda.w #PenSum
@@ -58,14 +58,14 @@ FillPenaltyPage:					; called from ShowPenaltySummary
 	sta.b a1+2
 	lda.w #PerLabels
 	sta.b a1
-	jsl.l AdvanceStringPtr
+	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	jsl.l PrintToStatsPage
 	lda.w #$0004
 	sta.w printx
 	pla
 	and.w #$0FFF
 	sta.b d0
-	jsl.l PushTime
+	jsl.l PushTime					; a1 = the time d0 as a minutes:seconds string
 	lda.b [a1]
 	cmp.w #$0006
 	bne .1x
@@ -99,7 +99,7 @@ FillPenaltyPage:					; called from ShowPenaltySummary
 	pla
 	and.w #$007F
 	sta.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	jsl.l PrintToStatsPage
 	ply
 	iny
@@ -127,7 +127,7 @@ FillPenaltyPage:					; called from ShowPenaltySummary
 	pha
 	lda.w #$0002
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	pla
 	sta.b a1+2

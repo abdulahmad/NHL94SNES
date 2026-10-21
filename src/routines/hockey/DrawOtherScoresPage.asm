@@ -12,12 +12,12 @@ DrawOtherScoresPage:				; called from OtherScoresNext, ScrollOtherScoresDown, Sc
 	sta.b a1+2
 	lda.w #NoOtherGames
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print NoOtherGames
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l QueueTextDMA
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 	bra .2
 
 .t1:								; listend != $0001: xba, lsr a, lsr a, ...
@@ -39,6 +39,6 @@ DrawOtherScoresPage:				; called from OtherScoresNext, ScrollOtherScoresDown, Sc
 	lsr a
 	tax
 	ldy.w #$0140
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 .2:									; return
 	rtl

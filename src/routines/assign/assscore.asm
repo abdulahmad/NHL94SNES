@@ -88,7 +88,7 @@ assscore:							; assignment: celebrate a goal
 	jsl.l SetSPA
 .6:									; temp1 = random countdown (up to 120)
 	lda.w #$0078
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	sta.w temp1,x
 	rtl								; return
 

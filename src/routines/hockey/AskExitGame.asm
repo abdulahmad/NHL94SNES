@@ -3,11 +3,11 @@ AskExitGame:						; called from PauseExitGame
 	lda.w #$0000
 	sta.w curitem
 .1:									; loop: call DrawExitPrompt, call SendTextMap, call WaitFrame, ...
-	jsl.l DrawExitPrompt
+	jsl.l DrawExitPrompt			; draw the exit question and the Yes and No lines
 	jsl.l SendTextMap
 	jsl.l WaitFrame
-	jsl.l ReadPads
-	jsl.l ReadPausePad
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
 	lda.b d1
 	bit.w #$1000
 	bne .t4
@@ -40,6 +40,6 @@ AskExitGame:						; called from PauseExitGame
 	lda.w #$0000
 	sta.w curitem
 .2:									; call WaitButtonRelease, return
-	jsl.l WaitButtonRelease
+	jsl.l WaitButtonRelease			; wait until the pause pad has no button down
 	lda.w curitem
 	rtl

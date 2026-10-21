@@ -22,7 +22,7 @@ DrawScoringPage:					; called from ScrollScoringDown, ScrollScoringUp, ShowScori
 	lsr a
 	tax
 	ldy.w #$0160
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	rts
 
 .t1:								; listend = $0000: a1 = NoScoring, call print, a1 = pulled value, ...
@@ -34,10 +34,10 @@ DrawScoringPage:					; called from ScrollScoringDown, ScrollScoringUp, ShowScori
 	sta.b a1+2
 	lda.w #NoScoring
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print NoScoring
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l QueueTextDMA
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 	rts

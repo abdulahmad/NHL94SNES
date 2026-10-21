@@ -11,7 +11,7 @@ EndPenaltyShot:						; called from Gameloop, Goal, clockcont_0, puckglue, puckno
 	sta.w BA_Sktr_SCnum
 	lda.w #$000A
 	sta.b d0
-	jsl.l ShootoutWonBy
+	jsl.l ShootoutWonBy				; "<team> Wins!" once the shootout is decided
 	lda.w psfoxsave
 	sta.l ltx
 	lda.w psfoysave

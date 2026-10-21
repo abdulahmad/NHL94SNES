@@ -19,13 +19,13 @@ assnearest:							; X = player; asstab entry
 	sta.b d0
 	lda.w playerpad,x
 	bpl .t1
-	jmp.w assinsert
+	jmp.w assinsert					; give player X assignment d0 on top of the current one
 
 .t1:								; pad-controlled player (playerpad >= 0): return
 	rtl
 
 .t2:								; position 0 (goalie): jump to assgoalie
-	jml.l assgoalie
+	jml.l assgoalie					; Assignment: the goalie
 
 .t3:								; X is not the puck carrier: run the temp1 timer
 	lda.w temp1,x
@@ -79,9 +79,9 @@ assnearest:							; X = player; asstab entry
 	sta.w pflags,x
 	lda.w #$0012
 	sta.b d0
-	jsl.l assinsert
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
 	ldx.b curobj
-	jmp.w assexit
+	jmp.w assexit					; end the player's current assignment and go back to the one under it
 .3:									; d1 = $0002, if d2 >= $00E2 go to .1xx, ...
 	lda.w #$0002
 	sta.b d1
@@ -97,7 +97,7 @@ assnearest:							; X = player; asstab entry
 	beq .2x
 	dec.b d1
 	dec.b d1
-	jsl.l chkpk2
+	jsl.l chkpk2					; Z if X is on the shorthanded team
 	bne .2x
 	inc.b d1
 	inc.b d1
@@ -134,16 +134,16 @@ assnearest:							; X = player; asstab entry
 	sta.b a0+2
 	lda.w #rtss
 	sta.b a0
-	jsl.l skateto
-	jmp.w check4check
+	jsl.l skateto					; player X skates toward d0 / d1
+	jmp.w check4check				; look for a good chance to check an opponent
 .6:									; gmclock != 0: call GlideBack, go to assnothing
-	jsl.l GlideBack
-	jmp.w assnothing
+	jsl.l GlideBack					; start SPAglideback on player X unless his animation is locked
+	jmp.w assnothing				; computer player stands still
 .7:									; call skatetopuck, go to check4check
-	jsl.l skatetopuck
-	jmp.w check4check
+	jsl.l skatetopuck				; player X skates to the puck
+	jmp.w check4check				; look for a good chance to check an opponent
 .8:									; tmp0 counted below 0: call randomd0, if d0 >= $0002 go to .9, ...
-	jsl.l randomd0
+	jsl.l randomd0					; d0 = a random number from 0 to d0-1
 	lda.b d0
 	cmp.w #$0002
 	bcs .9
@@ -168,7 +168,7 @@ assnearest:							; X = player; asstab entry
 	bpl .5
 	stz.w temp3,x
 .1xxxx:								; call skatetopuckinit, d0 = -(d0), d1 = -(d1) + $00F4, ...
-	jsl.l skatetopuckinit
+	jsl.l skatetopuckinit			; d0 / d1 = where the puck will be soon
 	lda.b d1
 	pha
 	lda.b d0
@@ -236,5 +236,5 @@ assnearest:							; X = player; asstab entry
 	sta.b a0+2
 	lda.w #rtss
 	sta.b a0
-	jsl.l skateto
-	jmp.w check4check
+	jsl.l skateto					; player X skates toward d0 / d1
+	jmp.w check4check				; look for a good chance to check an opponent

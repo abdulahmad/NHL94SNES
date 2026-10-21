@@ -1,12 +1,12 @@
 ; Scroll the game stats down one row.
 ScrollGameStatsDown:				; called from GameStatsInput, GameStatsKeys
-	jsr.w ClearGameStatBraces
+	jsr.w ClearGameStatBraces		; erase the braces around the visible game-stat rows
 	lda.w listtop
 	clc
 	adc.w listrows
 	cmp.w listcount
 	bmi .t2
-	jmp.w MarkGameStatRows
+	jmp.w MarkGameStatRows			; draw the braces around the visible rows, then wait for input
 
 .t2:								; increment listrows, call SendGameStatsPage, decrement listrows, ...
 	inc.w listrows
@@ -27,7 +27,7 @@ ScrollGameStatsDown:				; called from GameStatsInput, GameStatsKeys
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1
-	jmp.w GameStatsKeys
+	jmp.w GameStatsKeys				; scroll routines of the game stats screen return here: read pad, act
 
 .t1:								; scrollirqdone = $0000
 	lda.w #$0000

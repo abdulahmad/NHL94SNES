@@ -108,5 +108,5 @@ updateanim:							; called from SetSPAUpdate, assbreakaway, puckfaceoff2, update
 	sta.w facedir,x
 	sta.w pfalock,x
 	lda.w #SPAwallright
-	jsl.l SetSPAUpdate
+	jsl.l SetSPAUpdate				; start sprite animation A on object X and update it at once
 	bra .5

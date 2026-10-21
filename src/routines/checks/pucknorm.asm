@@ -67,8 +67,8 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	lda.w Yvel,y
 	sta.w puckvy
 .4:									; call PuckIChk, call ChkOffsides, if gmclock != 0 go to .13, ...
-	jsl.l PuckIChk
-	jsl.l ChkOffsides
+	jsl.l PuckIChk					; icing check
+	jsl.l ChkOffsides				; check both teams for offsides
 	lda.w gmclock					; clock stopped
 	bne .13
 	lda.w puckc
@@ -100,7 +100,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	sta.l pspuckback
 	cmp.w #$0030
 	bcc .10
-	jsl.l EndPenaltyShot
+	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
 .9:									; pspuckback = $0000
 	lda.w #$0000
 	sta.l pspuckback
@@ -116,7 +116,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	dec.w temp2b+puckobj
 	bpl .13
 .1x:								; call AddPenalty2, go to .13
-	jsl.l AddPenalty2
+	jsl.l AddPenalty2				; call penalty d0 on player X without the checks
 	bra .13
 .11:								; puckc >= 0: pspuckback = $0000
 	lda.w #$0000
@@ -129,7 +129,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	and.w #$FF00
 	ora.w puckz
 	beq .t1x
-	jmp.w checkpuckcoll
+	jmp.w checkpuckcoll				; puck collision with the players near it
 
 .t1x:								; stop spinning, check collisions
 	jsl.l pucknothing				; pucknothing: stop spinning

@@ -1,13 +1,13 @@
 ; Reset the game state for a new game, then start the first period
 StartGame:							; called from GameOver, Restart
-	jsl.l PlayoffScreen
+	jsl.l PlayoffScreen				; the playoff tree screen
 StartGame_scout:					; called from GameOver
-	jsl.l Create_HotCold_Table
-	jsl.l ScoutingReport
+	jsl.l Create_HotCold_Table		; fill HotColdTable with random values -12 to 12
+	jsl.l ScoutingReport			; the scouting report screen: both teams
 StartGame_go:						; called from PlayShootout
 	lda.w #$FFFF
 	sta.w FrameByNumber
-	jsl.l FadeOut
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
 	ldx.w #$0AD7
 	lda.w #$0000
 .loop:								; loop: r0,x = A, X + 1, if not zero go to .loop, ...
@@ -31,9 +31,9 @@ StartGame_go:						; called from PlayShootout
 	lda.w #$0020
 	tsb.w gmode
 .1:									; call clearTeamStats, call restoreteams, call InitScores, ...
-	jsl.l clearTeamStats
-	jsl.l restoreteams
-	jsl.l InitScores
+	jsl.l clearTeamStats			; clear the team stats and set up the teams
+	jsl.l restoreteams				; all players of both teams on the bench
+	jsl.l InitScores				; random scores for the other games of the round
 	lda.w #ReplayBufferStart>>16
 	sta.w ReplayBufferPtr+2
 	lda.w #ReplayBufferStart
@@ -44,10 +44,10 @@ StartGame_go:						; called from PlayShootout
 	pha
 	lda.w #$0000
 	sta.b a2
-	jsl.l LoadTeamLines
+	jsl.l LoadTeamLines				; copy team a2's lines from the team data into RAM
 	lda.w #$0002
 	sta.b a2
-	jsl.l LoadTeamLines
+	jsl.l LoadTeamLines				; copy team a2's lines from the team data into RAM
 	pla
 	sta.b a2
 	lda.l OptGoalie
@@ -79,7 +79,7 @@ StartGame_go:						; called from PlayShootout
 	dex
 	dex
 	bpl .2
-	jsl.l setupice
+	jsl.l setupice					; set up the rink screen
 	stz.w pregamepause
 	ldx.w #$0000
 .loopx:								; loop: padside,x = cont1team,x - 1 * 2, X + 1, X + 1, ...

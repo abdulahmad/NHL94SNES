@@ -22,7 +22,7 @@ updatepentime:						; called from PenaltyManager
 	lda.w #$0020					; set flag $20
 	tsb.w sflags3
 	jsl.l chkatop					; attack zone time
-	jsl.l CountPowerPlayTime
+	jsl.l CountPowerPlayTime		; on a penalty clock tick
 	stz.b a2
 	jsl.l .1
 	lda.w #$0002					; team 1
@@ -68,7 +68,7 @@ updatepentime:						; called from PenaltyManager
 	dec a							; one second less
 	sta.w tmpdst,y
 	bne .2x
-	jsl.l RemovePlayerFromList
+	jsl.l RemovePlayerFromList		; removes a player from a box list
 .2x:								; go to .3
 	bra .3
 .4:									; return
@@ -120,9 +120,9 @@ org $9EC000
 	bne .t1xx
 	lda.w #$1000
 	sta.w tmpdst,y
-	jml.l RemovePlayerFromList
+	jml.l RemovePlayerFromList		; removes a player from a box list
 
 .t1xx:								; tmpdst,y = $0000, go to RemovePlayerFromList
 	lda.w #$0000
 	sta.w tmpdst,y
-	jml.l RemovePlayerFromList
+	jml.l RemovePlayerFromList		; removes a player from a box list

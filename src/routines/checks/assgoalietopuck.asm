@@ -44,7 +44,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	bpl .6
 	lda.w gmclock
 	bne .6
-	jsl.l check4bench
+	jsl.l check4bench				; check whether a line change wants this player off
 	lda.w pflags,x
 	bit.w #pfna
 	beq .5
@@ -67,7 +67,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	lda.w #$0000
 	bra .7
 .6:									; go to assexit
-	jmp.w assexit
+	jmp.w assexit					; end the player's current assignment and go back to the one under it
 .7:									; temp1,x = A, if puckc >= 0 go to .6, ...
 	sta.w temp1,x
 	lda.w puckc
@@ -95,8 +95,8 @@ assgoalietopuck:					; X = goalie; asstab entry
 	bcc .6
 .8:									; call GoaliePuckVector, call vtoa, call AdjustFacingDirection, ...
 	jsr.w GoaliePuckVector
-	jsl.l vtoa
-	jsl.l AdjustFacingDirection
+	jsl.l vtoa						; direction of the vector d0 / d1
+	jsl.l AdjustFacingDirection		; turn the goalie one step toward d0
 	asl.w legstr,x
 	jsl.l .t2
 	lsr.w legstr,x
@@ -133,7 +133,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	clc
 	adc.w pucky
 	sta.b d1
-	jsl.l avdgoal
+	jsl.l avdgoal					; do not skate through the goal
 	lda.b d1
 	pha								; 3,s = the avoid-goal target y (d1)
 	lda.b d0
@@ -172,10 +172,10 @@ assgoalietopuck:					; X = goalie; asstab entry
 	sta.b d1
 	pla
 	pla
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	lda.b d0
 	sta.w temp2b,x
 .5x:								; d0 = temp2b,x, go to doplayeracc
 	lda.w temp2b,x
 	sta.b d0
-	jml.l doplayeracc
+	jml.l doplayeracc				; player X skates toward d0

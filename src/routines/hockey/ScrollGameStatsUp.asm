@@ -1,6 +1,6 @@
 ; Scroll the game stats up one row.
 ScrollGameStatsUp:					; called from GameStatsInput, GameStatsKeys
-	jsr.w ClearGameStatBraces
+	jsr.w ClearGameStatBraces		; erase the braces around the visible game-stat rows
 	lda.w listtop
 	dec a
 	bmi MarkGameStatRows
@@ -22,4 +22,4 @@ ScrollGameStatsUp:					; called from GameStatsInput, GameStatsKeys
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1
-	jmp.w GameStatsKeys
+	jmp.w GameStatsKeys				; scroll routines of the game stats screen return here: read pad, act

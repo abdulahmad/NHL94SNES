@@ -83,4 +83,4 @@ ScoutTypeText:						; Type the string at a1 word by word; d0 = column, d1 = leng
 
 .t1:								; one character less
 	dec.b d1
-	jmp.w ScoutTypeWord
+	jmp.w ScoutTypeWord				; type the word at a1: d0 = column, d1 = characters

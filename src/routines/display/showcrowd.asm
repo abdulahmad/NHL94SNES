@@ -126,7 +126,7 @@ org $9BA000
 	bmi .5
 	tax
 	lda.b [p1]
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	ldy.w #$0004
 	clc
 	adc.b [p1],y
@@ -156,7 +156,7 @@ org $9BA000
 	asl a
 	asl a
 	tax
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	ldx.b r2
 	cpx.w #$0028
 	bne .8

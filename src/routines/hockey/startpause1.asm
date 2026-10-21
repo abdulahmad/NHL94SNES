@@ -6,4 +6,4 @@ startpause1:						; pause from pad 1
 	jmp.w startpause				; set the pause flag
 
 .t1:								; unreferenced second jump to startpause
-	jmp.w startpause
+	jmp.w startpause				; set the pause mode flag and return

@@ -38,7 +38,7 @@ LoadTeamLines:						; copy team a2's lines from the team data into RAM
 	bmi .loop
 	lda.l OptLine					; OptLine nonzero: done, else copy 8 more bytes from the offset at +$C
 	bne .1
-	jsl.l GetTeamLines
+	jsl.l GetTeamLines				; a3 = the RAM lines of team a2
 	ldy.b a2
 	lda.w #TeamList>>16
 	sta.b a1+2

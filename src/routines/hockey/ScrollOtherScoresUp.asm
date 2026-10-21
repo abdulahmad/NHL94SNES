@@ -1,6 +1,6 @@
 ; Scroll the other-scores list up one page.
 ScrollOtherScoresUp:				; called from OtherScoresLoop
-	jsr.w ClearOtherScoreBraces
+	jsr.w ClearOtherScoreBraces		; erase the braces around the visible other-scores rows
 	lda.w listtop
 	dec a
 	bpl .t2
@@ -19,7 +19,7 @@ ScrollOtherScoresUp:				; called from OtherScoresLoop
 	sta.w listtop
 	lda.w #$0006
 	sta.w listrows
-	jsl.l DrawOtherScoresPage
+	jsl.l DrawOtherScoresPage		; draw the other-scores rows
 	jsl.l WaitFrame
 	lda.w #$0015
 	sta.w irqvscroll1
@@ -34,7 +34,7 @@ ScrollOtherScoresUp:				; called from OtherScoresLoop
 	bne .loop
 	lda.w #$0005
 	sta.w listrows
-	jsl.l DrawOtherScoresPage
+	jsl.l DrawOtherScoresPage		; draw the other-scores rows
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1

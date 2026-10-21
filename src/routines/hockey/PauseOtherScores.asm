@@ -6,6 +6,6 @@ PauseOtherScores:					; called from PauseMenuHandlers
 	jmp.w PauseMenuPoll
 
 .t1:								; d1 bit $8080 set: call ShowOtherScores, call ReloadRink, go to PauseS...
-	jsl.l ShowOtherScores
-	jsl.l ReloadRink
+	jsl.l ShowOtherScores			; other scores screen
+	jsl.l ReloadRink				; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

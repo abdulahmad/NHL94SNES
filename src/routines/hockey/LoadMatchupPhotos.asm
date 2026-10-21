@@ -17,12 +17,12 @@ LoadMatchupPhotos:					; unpack the matchup player photos of team x
 	phx								; 1,s = x, the loop counter
 	txa
 	lsr a
-	jsl.l GetMatchupPlayer
+	jsl.l GetMatchupPlayer			; d0 = the roster slot of team a2's player for matchup A
 	ldx.b a2
 	lda.w HomeTeam,x
 	sta.l phototeams,x
 	ldx.w #$001A					; photo table index = (team * $1A + d0) * 4
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	clc
 	adc.b d0
 	asl a

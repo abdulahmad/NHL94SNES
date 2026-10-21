@@ -41,7 +41,7 @@ assgoalie:							; called from assnearest, asstab
 	and.w goalieflags,x
 	sta.w goalieflags,x
 .4:									; call check4bench, if pflags,x bits pfna clear go to .5, ...
-	jsl.l check4bench
+	jsl.l check4bench				; check whether a line change wants this player off
 	lda.w pflags,x
 	bit.w #pfna
 	beq .5
@@ -89,7 +89,7 @@ assgoalie:							; called from assnearest, asstab
 	lda.w #$FF0C
 	sta.b d1
 .9:									; go to skateto
-	jml.l skateto
+	jml.l skateto					; player X skates toward d0 / d1
 
 .t1:								; return
 	rtl
@@ -126,7 +126,7 @@ assgoalie:							; called from assnearest, asstab
 	sta.b d1
 .2x:								; temp2,x = 0, go to skateto
 	stz.w temp2,x
-	jml.l skateto
+	jml.l skateto					; player X skates toward d0 / d1
 .12:								; if goalieflags,x bit $0001 set go to .10, ...
 	lda.w goalieflags,x
 	bit.w #$0001
@@ -137,12 +137,12 @@ assgoalie:							; called from assnearest, asstab
 	lda.w paddir,y
 	cmp.w #$0008
 	bne .13
-	jsl.l StopNA
+	jsl.l StopNA					; slow player X: no animation change
 .13:								; if pf2aip,x != 0 go to .1xx, ...
 	lda.w pf2aip,x
 	bne .1xx
 	lda.w #SPAgready
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 .1xx:								; if gmclock != 0 go to .14, ...
 	lda.w gmclock
 	bne .14
@@ -172,7 +172,7 @@ assgoalie:							; called from assnearest, asstab
 	bpl .16
 	lda.w #PenGhold
 	sta.b d0
-	jsl.l AddPenalty2
+	jsl.l AddPenalty2				; call penalty d0 on player X without the checks
 .16:								; if pf2aip,x = 0 go to .t1xxx, ...
 	lda.w pf2aip,x
 	beq .t1xxx
@@ -261,7 +261,7 @@ assgoalie:							; called from assnearest, asstab
 	bpl .2xxx
 	lda.w #$0001
 	sta.w threat
-	jsl.l chk4pass
+	jsl.l chk4pass					; A computer player looks for a good pass
 	lda.w puckc
 	bmi .20
 .18:								; go to .24
@@ -273,17 +273,17 @@ assgoalie:							; called from assnearest, asstab
 	lda.w #$005A
 	sta.w pf2aip,x
 	lda.w #SPAgcover
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 .20:								; return
 	rtl
 .21:								; call vtoa
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	lda.b d0
 .22:								; facedir,x = A, pfalock,x = A, call SetSPAFromA, ...
 	sta.w facedir,x
 	sta.w pfalock,x
 	lda.w #SPAgpoke
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	lda.w #$00F0
 	sta.w goaliedivewait,x
 	rtl
@@ -382,13 +382,13 @@ assgoalie:							; called from assnearest, asstab
 	jmp.w .24
 
 .t4:								; call vtoa
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	lda.b d0
 .2xxxx:								; facedir,x = A, call SetSPAFromA, goaliedivewait,x = $0168, ...
 	sta.w facedir,x
 	ldy.w #SPAgdive
 	tya
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	lda.w #$0168
 	sta.w goaliedivewait,x
 	lda.w CwdExciteLvl
@@ -429,8 +429,8 @@ assgoalie:							; called from assnearest, asstab
 	cpx.w puckc
 	beq .t1xxxxxxxx
 	jsr.w GoaliePuckVector
-	jsl.l vtoa
-	jsl.l AdjustFacingDirection
+	jsl.l vtoa						; direction of the vector d0 / d1
+	jsl.l AdjustFacingDirection		; turn the goalie one step toward d0
 	bra .2xxxxx
 
 .t1xxxxxxxx:						; if playerpad,x >= 0 go to .2xxxxx, ...
@@ -441,7 +441,7 @@ assgoalie:							; called from assnearest, asstab
 	asl a
 	asl a
 	sta.b d0
-	jsl.l AdjustFacingDirection
+	jsl.l AdjustFacingDirection		; turn the goalie one step toward d0
 .2xxxxx:							; if Ypos,x - $FEFB negative go to .4x, ...
 	lda.w Ypos,x
 	cmp.w #$FEFB
@@ -565,7 +565,7 @@ assgoalie:							; called from assnearest, asstab
 .31:								; call ApproxLength, d0 = A, if carry set go to .t1xxxxxxxxx, ...
 	lda.b d0
 	ldy.b d1
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	sta.b d0
 	cmp.w #$001E
 	bcs .t1xxxxxxxxx
@@ -709,7 +709,7 @@ assgoalie:							; called from assnearest, asstab
 	inc a
 .4xx:								; r1 = A, call vtoa, if d0 = $0008 go to .33, ...
 	sta.b r1
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	lda.b d0
 	cmp.w #$0008
 	beq .33
@@ -835,7 +835,7 @@ assgoalie:							; called from assnearest, asstab
 	ldy.b d0
 	lda.b [a1],y
 	sta.w pfalock,x
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	lda.l Crowdlevel
 	clc
 	adc.w #$0096
@@ -964,7 +964,7 @@ assgoalie:							; called from assnearest, asstab
 	stz.b d0
 	stz.b d1
 .6x:								; call vtoa, temp2b,x = d0
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	lda.b d0
 	sta.w temp2b,x
 .45:								; if playerpad,x >= 0 go to .47, ...
@@ -976,10 +976,10 @@ assgoalie:							; called from assnearest, asstab
 	sbc.w #$0007
 	beq .t1xxxxxxxxxxxxxx
 	bmi .t1xxxxxxxxxxxxxx
-	jmp.w StopNA
+	jmp.w StopNA					; slow player X: no animation change
 
 .t1xxxxxxxxxxxxxx:					; go to playeracc
-	jml.l playeracc
+	jml.l playeracc					; player X accelerates toward direction d2
 .46:								; go to .44
 	jmp.w .44
 .47:								; playerpad,x >= 0: return
@@ -1040,7 +1040,7 @@ assgoalie:							; called from assnearest, asstab
 	bcc .t1xxxxxxxxxxxxxxx
 	lda.w #$000F
 	sta.b d0
-	jmp.w assinsert
+	jmp.w assinsert					; give player X assignment d0 on top of the current one
 
 .t1xxxxxxxxxxxxxxx:					; go to .44
 	jmp.w .44

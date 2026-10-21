@@ -1,17 +1,17 @@
 ; Pick the controller that owns the pause menu, and rebuild the menu when it changes.
 SelectPauseController:				; called from PauseMenuPoll
-	jsl.l ShowMP5Warning
-	jsr.w PulsePauseSide
-	jsl.l IntermissionTick
+	jsl.l ShowMP5Warning			; draw the MultiPlayer 5 warning for the controller, Super Scope
+	jsr.w PulsePauseSide			; returns nothing
+	jsl.l IntermissionTick			; the intermission ticker timer
 	beq .t1
 	jmp.w .6
 
 .t1:								; call SpriteFrameStart, call setvideo, call WaitFrame, ...
 	jsl.l SpriteFrameStart
-	jsl.l setvideo
+	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l WaitFrame
 	jsl.l SpriteFrameEnd
-	jsl.l ReadPads
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	lda.w pausepad
 	bpl .4
 	lda.w #$0000
@@ -26,7 +26,7 @@ SelectPauseController:				; called from PauseMenuPoll
 	lda.w cont1team,x
 	beq .1
 	lda.b 1,s
-	jsl.l ReadjoyA
+	jsl.l ReadjoyA					; read pad A: d0 = direction, d1 = new presses, d2 = changed buttons
 	lda.b d3
 	bne .t2
 .1:									; 1,s = 1,s + 1, if carry clear go to .loop, ...
@@ -50,7 +50,7 @@ SelectPauseController:				; called from PauseMenuPoll
 	stx.w pausepad
 	stz.w psitem
 	stz.w psfirst
-	jsl.l Pmenu
+	jsl.l Pmenu						; draw the pause menu: five items of the current list from item psfirst
 	jsl.l SendTextMap
 	jsr.w PulseUntilRelease
 	lda.w #$003C
@@ -64,7 +64,7 @@ SelectPauseController:				; called from PauseMenuPoll
 	bra .2
 
 .t1x:								; call ChoosePauseMenu
-	jsl.l ChoosePauseMenu
+	jsl.l ChoosePauseMenu			; use the longer pause menu when this side still has a timeout
 .2:									; return
 	rtl
 .3:									; pausepad = X, pausepadidle = $003C
@@ -74,10 +74,10 @@ SelectPauseController:				; called from PauseMenuPoll
 	txa
 .4:									; lsr a, call ReadjoyA, decrement repeatdelay, ...
 	lsr a
-	jsl.l ReadjoyA
+	jsl.l ReadjoyA					; read pad A: d0 = direction, d1 = new presses, d2 = changed buttons
 	dec.w repeatdelay
 	dec.w repeatdelay
-	jsl.l ProcessInputWithRepeat
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d3
 	bne .t1xx
 	lda.w pausepadidle
@@ -117,7 +117,7 @@ SelectPauseController:				; called from PauseMenuPoll
 	lda.b d1
 	ora.b d3
 	bne .t1xxx
-	jmp.w SelectPauseController
+	jmp.w SelectPauseController		; pick the controller that owns the pause menu
 
 .t1xxx:								; ora cont2team, ora cont3team, ora cont4team, ...
 	lda.w cont1team

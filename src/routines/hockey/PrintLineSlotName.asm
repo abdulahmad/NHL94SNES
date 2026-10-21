@@ -4,7 +4,7 @@ PrintLineSlotName:					; called from DrawPlayerCard
 	and.w #$00FF
 	dec a
 	sta.b d0
-	jsl.l PlayerShortName
+	jsl.l PlayerShortName			; mesarea = the number
 	txa
 	sta.b d1
 	lda.b [a1]
@@ -19,5 +19,5 @@ PrintLineSlotName:					; called from DrawPlayerCard
 	adc.b d1
 	tax
 	ldy.w printy
-	jsl.l PrintSmallLetterSprites
+	jsl.l PrintSmallLetterSprites	; draw string [a1] with the small letter sprites at X / Y
 	rtl

@@ -39,7 +39,7 @@ MarkGameStatRows:					; draw the braces around the visible rows, then wait for i
 .2:									; send the page
 	jsr.w SendGameStatsPage			; send the page, wait a frame and go to the input loop
 	jsl.l WaitFrame
-	jmp.w GameStatsInput
+	jmp.w GameStatsInput			; game stats input
 ; The rtl the game stats screen leaves through
 GameStatsRtl:						; the rtl the game stats screen leaves through
 	rtl

@@ -11,4 +11,4 @@ ScoutExtremely:						; Script code %e entry
 	sta.b a1+2
 	lda.w #ScoutFragments
 	sta.b a1						; type it via the shared append tail
-	jmp.w ScoutAppend
+	jmp.w ScoutAppend				; append the string at a1 to a fresh mesarea and type it

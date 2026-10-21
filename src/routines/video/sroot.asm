@@ -70,7 +70,7 @@ sroot:								; called from UpdateCrowdMeter
 	beq .t2xx
 	pha
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	cmp.b d0
 	bcc .t1xx
 	pla

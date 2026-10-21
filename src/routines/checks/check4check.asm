@@ -9,11 +9,11 @@ check4check:						; called from assdefd, assnearest
 	asl.b d0
 .1:									; call randoma, if carry clear go to .2, ...
 	lda.b d0
-	jsl.l randoma
+	jsl.l randoma					; A = a random number from 0 to A-1
 	cmp.w #$0004
 	bcc .2
 	lda.b d0
-	jsl.l randoma
+	jsl.l randoma					; A = a random number from 0 to A-1
 	cmp.w #$0004
 	bcs .6
 .2:									; d2 = $0005, if $0000 >= $000C go to .4, ...
@@ -60,7 +60,7 @@ check4check:						; called from assdefd, assnearest
 	bmi .5
 	cmp.w #$0022
 	bpl .5
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	lda.b d0
 	cmp.w facedir,x
 	bne .5
@@ -87,7 +87,7 @@ check4check:						; called from assdefd, assnearest
 	and.w #$0007
 	beq .8
 .3x:								; go to Acheck
-	jml.l Acheck
+	jml.l Acheck					; hook or hold the chosen player
 .4x:								; pfgoal,x != 0: if Ypos,x - $FFA8 >= 0 go to .5x, ...
 	lda.w Ypos,x
 	cmp.w #$FFA8
@@ -100,4 +100,4 @@ check4check:						; called from assdefd, assnearest
 	bne .8
 	jmp.w .3x
 .8:									; go to burst
-	jml.l burst
+	jml.l burst						; speed burst by player X

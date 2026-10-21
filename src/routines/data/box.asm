@@ -8,7 +8,7 @@ box:								; called from SetLCmode2
 	sta.b a1+2
 	lda.w #boxPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print boxPos
 	pla
 	sta.b a1
 	pla

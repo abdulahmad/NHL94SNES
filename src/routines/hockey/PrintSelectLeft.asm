@@ -8,7 +8,7 @@ PrintSelectLeft:					; called from PasswordRedraw, PasswordScreen
 	sta.b a1+2
 	lda.w #PrintSelectLeftPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PrintSelectLeftPos
 	pla
 	sta.b a1
 	pla
@@ -25,7 +25,7 @@ PrintSelectLeft:					; called from PasswordRedraw, PasswordScreen
 	sta.b a1+2
 	lda.w #SelectLeft
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print SelectLeft
 	pla
 	sta.b a1
 	pla

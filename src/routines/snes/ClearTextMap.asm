@@ -8,5 +8,5 @@ ClearTextMap:						; called from ClrHor, LoadPlayerCardScreen, LoadScoutingScree
 	clc
 	adc.l charofs
 	ldx.w #$0800
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	rtl

@@ -12,7 +12,7 @@ waitxsr:							; called from StartHL2
 	lda.w cont1team,y
 	beq .1
 	txa
-	jsl.l ReadjoyA
+	jsl.l ReadjoyA					; read pad A: d0 = direction, d1 = new presses, d2 = changed buttons
 	lda.b d3
 	bne .2
 .1:									; X + 1, if carry clear go to .loop2, ...
@@ -20,13 +20,13 @@ waitxsr:							; called from StartHL2
 	cpx.w #$0005
 	bcc .loop2
 	jsl.l SpriteFrameStart
-	jsl.l setvideo
+	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l SpriteFrameEnd
 	lda.b vcount
 .loop3:								; loop: if zero go to .loop3, ...
 	cmp.b vcount
 	beq .loop3
-	jsl.l ReadPads
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	pla
 	dec a
 	pha

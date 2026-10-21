@@ -8,7 +8,7 @@ DrawShootersBack:					; called from ShootersBackground
 	sta.b a1+2
 	lda.w #DrawShootersBackPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawShootersBackPos
 	pla
 	sta.b a1
 	pla
@@ -28,7 +28,7 @@ DrawShootersBack:					; called from ShootersBackground
 	sta.b a1+2
 	lda.w #DrawShootersBackPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawShootersBackPos2
 	pla
 	sta.b a1
 	pla
@@ -48,7 +48,7 @@ DrawShootersBack:					; called from ShootersBackground
 	sta.b a1+2
 	lda.w #LineupTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print LineupTxt2
 	pla
 	sta.b a1
 	pla
@@ -61,7 +61,7 @@ DrawShootersBack:					; called from ShootersBackground
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackMap
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -79,5 +79,5 @@ DrawShootersBack:					; called from ShootersBackground
 	lda.l charofs2
 	clc
 	adc.w #$0C00
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	rtl

@@ -13,9 +13,9 @@ PlayerSelect:						; called from setoptions
 .t1:								; notdemo != 0: mp5readall = $FFFF, call FadeOut, call WaitFadeOut, ...
 	lda.w #$FFFF
 	sta.w mp5readall
-	jsl.l FadeOut
-	jsl.l WaitFadeOut
-	jsl.l forceblack
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l WaitFadeOut				; wait until the screen is black
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	sep #$20
 	lda.b #$09
 	sta.w BGMODE
@@ -34,7 +34,7 @@ PlayerSelect:						; called from setoptions
 	sta.b p1
 	lda.w #$0000
 	ldx.w #$0800
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	lda.w #screenmap>>16
 	sta.b p0+2
 	lda.w #$A676
@@ -42,10 +42,10 @@ PlayerSelect:						; called from setoptions
 	lda.w #$0000
 	ldx.w #$0800
 	ldy.w #$0800
-	jsl.l DMAToVRAM
-	jsl.l MenuScreenHDMA
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
+	jsl.l MenuScreenHDMA			; start the window and COLDATA HDMA
 	jsl.l ScreenOn
-	jsl.l FadeIn
+	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	lda.w #$000A
 	sta.w fadestep
 	stz.b d1
@@ -57,7 +57,7 @@ PlayerSelect:						; called from setoptions
 	bcs .2
 	lda.w #$0001
 	sta.w cont1team
-	jsl.l FigureJoy
+	jsl.l FigureJoy					; set which team each controller plays
 	lda.w cont1team
 	dec a
 	beq .1
@@ -72,7 +72,7 @@ PlayerSelect:						; called from setoptions
 .3:									; call ClearTextMapBottom, call ClearBigText
 	lda.b d1
 	pha
-	jsl.l ClearTextMapBottom
+	jsl.l ClearTextMapBottom		; fill the text map from row 12 down with the blank tile
 	jsr.w ClearBigText
 	ldx.w #$0000
 	lda.w #$0000
@@ -93,7 +93,7 @@ PlayerSelect:						; called from setoptions
 	lda.b d1+2
 	pha
 	bne .1x
-	jsr.w DrawSelectTeam
+	jsr.w DrawSelectTeam			; draw team d1 on the player select screen at printx: its palette
 .1x:								; d1+2 = pulled value, printx = $0016, d1 = HomeTeam, ...
 	pla
 	sta.b d1+2
@@ -101,8 +101,8 @@ PlayerSelect:						; called from setoptions
 	sta.w printx
 	lda.w HomeTeam
 	sta.b d1
-	jsr.w DrawSelectTeam
-	jsr.w SendBigText
+	jsr.w DrawSelectTeam			; draw team d1 on the player select screen at printx: its palette
+	jsr.w SendBigText				; send the RenderBigText map and the letter tiles (bigtextbuf,
 	jsl.l SendTextMap
 	pla
 	sta.b d1
@@ -112,7 +112,7 @@ PlayerSelect:						; called from setoptions
 	sta.b p0
 	ldy.w #$0090
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.b d1+2
 	beq .t1x
 	lda.b a1+2
@@ -123,7 +123,7 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #NotTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print NotTxt
 	pla
 	sta.b a1
 	pla
@@ -136,7 +136,7 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #PlayingTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PlayingTxt
 	pla
 	sta.b a1
 	pla
@@ -152,7 +152,7 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #NotTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print NotTxt2
 	pla
 	sta.b a1
 	pla
@@ -165,7 +165,7 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #PlayingTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PlayingTxt2
 	pla
 	sta.b a1
 	pla
@@ -181,7 +181,7 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #UseToSelectTeamTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print UseToSelectTeamTxt
 	pla
 	sta.b a1
 	pla
@@ -194,12 +194,12 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #PressStartWhenDoneTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PressStartWhenDoneTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l QueueTextDMA
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 .4:									; call WaitFrame, eor d2, if not zero go to .t5, ...
 	jsl.l WaitFrame
 	ldx.w mp5warning
@@ -222,21 +222,21 @@ PlayerSelect:						; called from setoptions
 
 .t1xx:								; call RedrawPlayerSelect, call Multi5SocketMsg, go to .t6
 	jsl.l RedrawPlayerSelect
-	jsl.l Multi5SocketMsg
+	jsl.l Multi5SocketMsg			; print the MultiPlayer 5 socket warning
 	bra .t6
 
 .t2x:								; call RedrawPlayerSelect, call Multi5ScopeMsg, go to .t6
 	jsl.l RedrawPlayerSelect
-	jsl.l Multi5ScopeMsg
+	jsl.l Multi5ScopeMsg			; print the MultiPlayer 5 Super Scope warning
 	bra .t6
 
 .t3:								; call RedrawPlayerSelect, call Multi5MouseMsg, go to .t6
 	jsl.l RedrawPlayerSelect
-	jsl.l Multi5MouseMsg
+	jsl.l Multi5MouseMsg			; print the MultiPlayer 5 mouse warning
 	bra .t6
 
 .t4:								; call Multi5Init, go to .3
-	jsl.l Multi5Init
+	jsl.l Multi5Init				; check for the multitap, then clear the multitap pads and state
 	jmp.w .3
 
 .t6:								; if mp5warning = 0 go to .t1xxx, ...
@@ -245,7 +245,7 @@ PlayerSelect:						; called from setoptions
 	jmp.w .4
 
 .t1xxx:								; mp5warning = 0: call ReadPads
-	jsl.l ReadPads
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	ldx.w #$0000
 .5:									; if mp5warning != 0 go to .1xx, ...
 	lda.w mp5warning
@@ -277,7 +277,7 @@ PlayerSelect:						; called from setoptions
 	bcc .loopx
 	bit.w #$0001
 	beq .t1xxxxx
-	jsl.l FigureJoy
+	jsl.l FigureJoy					; set which team each controller plays
 .1xxx:								; if OptPlayMode != $0004 go to .3x, ...
 	lda.l OptPlayMode
 	cmp.w #$0004
@@ -318,7 +318,7 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #AtLeastOnePersonMustTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print AtLeastOnePersonMustTxt
 	pla
 	sta.b a1
 	pla
@@ -331,13 +331,13 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #PlayInPlayoffModeTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PlayInPlayoffModeTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l QueueTextDMA
-	jsl.l WaitPadsRelease
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
+	jsl.l WaitPadsRelease			; wait until no standard pad has a button down
 	bra .4x
 
 .t2xx:								; cont1team,y = r3: a1 = OnlyOnePlayerPerTeamTxt, call print, a1 = pull...
@@ -349,7 +349,7 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #OnlyOnePlayerPerTeamTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print OnlyOnePlayerPerTeamTxt
 	pla
 	sta.b a1
 	pla
@@ -362,15 +362,15 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #IsAllowedInShootoutTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print IsAllowedInShootoutTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l QueueTextDMA
-	jsl.l WaitPadsRelease
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
+	jsl.l WaitPadsRelease			; wait until no standard pad has a button down
 .4x:								; loop: call ReadPads
-	jsl.l ReadPads
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	ldx.w #$0008
 .loopxx:							; loop: if mp5warning != 0 go to .1xxxx, ...
 	lda.w mp5warning
@@ -395,7 +395,7 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #UseToSelectTeamTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print UseToSelectTeamTxt2
 	pla
 	sta.b a1
 	pla
@@ -408,12 +408,12 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #PressStartWhenDoneTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PressStartWhenDoneTxt2
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l QueueTextDMA
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 .loopxxx:							; loop: falls through
 	ldx.w #$0008
 .loop2x:							; loop: if JoyPad,x bit $000F set go to .1xxxxx, ...
@@ -484,9 +484,9 @@ PlayerSelect:						; called from setoptions
 	sta.b a1+2
 	lda.w #PlayerSelectTitle
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites PlayerSelectTitle
 	jsl.l DrawMatchupPictures
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.b p1
 	pha
 	lda.b p1+2

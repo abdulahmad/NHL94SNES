@@ -91,7 +91,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	bne .1x2x
 	lda.w #SPAgready
 .1x2x:								; start the animation
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	lda.w #$0001					; no collisions while gliding
 	sta.w pfnc,x
 	lda.w facedir,x					; turn one step towards facedir 4 (the wall)
@@ -123,7 +123,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	bne .4
 	lda.w #SPAgwallleft
 .4:									; start the animation
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	lda.w #$0064					; door timer 100: arrived
 	sta.w temp1,x					; door timer 100: at the door
 	sta.w pfalock,x					; lock the assignment
@@ -166,7 +166,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	sta.b a0+2
 	lda.w #EvadePC
 	sta.b a0
-	jml.l skateto
+	jml.l skateto					; player X skates toward d0 / d1
 .7:									; same player: clear the unavailable flag
 	lda.w pflags,x
 	and.w #$EFFF					; clear pf2unav ($1000)

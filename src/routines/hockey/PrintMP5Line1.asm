@@ -8,7 +8,7 @@ PrintMP5Line1:						; called from ShowMP5Warning
 	sta.b a1+2
 	lda.w #PrintMP5Line1Pos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PrintMP5Line1Pos
 	pla
 	sta.b a1
 	pla

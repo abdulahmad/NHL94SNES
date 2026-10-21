@@ -5,7 +5,7 @@
 ;
 ; Called from PauseTeamRoster.
 TeamRoster:							; roster screen of a team
-	jsl.l GetPauseTeam
+	jsl.l GetPauseTeam				; team of the pause controller
 	ldy.b a2
 	lda.w tmline,y
 	inc a
@@ -17,16 +17,16 @@ TeamRoster:							; roster screen of a team
 	sta.l setupvis
 	lda.w #$001D
 	sta.l setuphome
-	jsl.l SetupScreen
+	jsl.l SetupScreen				; common setup of the stats screens
 	ldx.w #$004C
 	ldy.w #$0018
 	lda.w #TeamRosterTitle>>16
 	sta.b a1+2
 	lda.w #TeamRosterTitle
 	sta.b a1
-	jsl.l PrintLetterSprites
-	jsl.l FadeIn
-	jsl.l MenuScreenHDMA
+	jsl.l PrintLetterSprites		; PrintLetterSprites TeamRosterTitle
+	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
+	jsl.l MenuScreenHDMA			; start the window and COLDATA HDMA
 	jsl.l ScreenOn
 	lda.w #textmap>>16
 	sta.b p1+2
@@ -36,7 +36,7 @@ TeamRoster:							; roster screen of a team
 	clc
 	adc.l charofs
 	ldx.w #$0800
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -45,7 +45,7 @@ TeamRoster:							; roster screen of a team
 	sta.b a1+2
 	lda.w #PlayerRatingTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PlayerRatingTxt
 	pla
 	sta.b a1
 	pla
@@ -65,7 +65,7 @@ TeamRoster:							; roster screen of a team
 	sta.b a1+2
 	lda.w #TeamRosterPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print TeamRosterPos
 	pla
 	sta.b a1
 	pla
@@ -86,7 +86,7 @@ TeamRosterRedraw:					; redraw the screen for the team in a2
 	sta.b a1+2
 	lda.w #TeamRosterPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print TeamRosterPos2
 	pla
 	sta.b a1
 	pla
@@ -100,24 +100,24 @@ TeamRosterRedraw:					; redraw the screen for the team in a2
 	lda.w #$0030
 .1:									; home team blocks; for the visitors d0 = $30
 	sta.b d0
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 	jsl.l SpriteFrameEnd
 	lda.w #$7F97
 	sta.l colourbuf+2
 	lda.w #$FFFF
 	sta.l colourbuf+$42
-	jsl.l SendColours
-	jsl.l ShowRosterLine
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
+	jsl.l ShowRosterLine			; print the roster line with the chosen attribute
 TeamRosterLoop:						; main loop: read the pads
 	jsl.l SendTextMap
 	jsl.l WaitFrame
-	jsl.l ReadPads
-	jsl.l ReadPausePad
-	jsl.l ProcessInputWithRepeat
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1
 	bit.w #$1000					; start button
 	beq .t1
-	jmp.w RosterRtl
+	jmp.w RosterRtl					; shared return of the roster routines
 
 .t1:								; not start
 	bit.w #$4000					; Y button: switch team
@@ -145,6 +145,6 @@ TeamRosterLoop:						; main loop: read the pads
 	cmp.w #$0008					; only lines 0-7
 	bcs TeamRosterShowLine
 	sta.w SelectedPlayerIdx
-	jsl.l ShowRosterLine
+	jsl.l ShowRosterLine			; print the roster line with the chosen attribute
 TeamRosterShowLine:					; back to the main loop
-	jmp.w TeamRosterLoop
+	jmp.w TeamRosterLoop			; main loop: read the pads

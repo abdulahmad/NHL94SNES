@@ -2,14 +2,14 @@
 DrawPeriodStats:					; called from ShowPeriodStats
 	jsl.l SpriteFrameStart
 	jsl.l DrawMatchupPictures
-	jsl.l WaitDMAQueue
+	jsl.l WaitDMAQueue				; wait until the DMA queue is empty
 	ldx.w #$004C
 	ldy.w #$0018
 	lda.w #PeriodStats>>16
 	sta.b a1+2
 	lda.w #PeriodStats
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites PeriodStats
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -18,7 +18,7 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b a1+2
 	lda.w #DrawPeriodStatsPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawPeriodStatsPos
 	pla
 	sta.b a1
 	pla
@@ -38,14 +38,14 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b a1+2
 	lda.w #DrawPeriodStatsPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawPeriodStatsPos2
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w VisTeam
 	sta.b d1
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -54,14 +54,14 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b a1+2
 	lda.w #DrawPeriodStatsPos3
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawPeriodStatsPos3
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w HomeTeam
 	sta.b d1
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 	lda.w #$000A
 	sta.w printx
 	ldx.w #$0000
@@ -104,7 +104,7 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b a1+2
 	lda.w #TotalShotsLine
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print TotalShotsLine
 	pla
 	sta.b a1
 	pla
@@ -124,7 +124,7 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	lda.w #PerLabels
 	sta.b a1
 	stx.b d0
-	jsl.l AdvanceStringPtr
+	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	jsl.l print
 .2:									; printa = $2000, if curitem = 0 go to .t1x
 	txa
@@ -144,7 +144,7 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	lda.b d4
 	sta.w printx
@@ -154,7 +154,7 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	inc.w printy
 	lda.w #$2400
@@ -190,7 +190,7 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	lda.b d4
 	sta.w printx
@@ -200,7 +200,7 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	ldx.w #$0068
 	ldy.w #$0040
@@ -208,7 +208,7 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b a1+2
 	lda.w #GoalsLabel
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites GoalsLabel
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -217,7 +217,7 @@ DrawPeriodStats:					; called from ShowPeriodStats
 	sta.b a1+2
 	lda.w #YShotsTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print YShotsTxt
 	pla
 	sta.b a1
 	pla

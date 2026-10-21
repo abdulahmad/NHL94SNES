@@ -251,7 +251,7 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	jsl.l p1						; mvn written to $10-$13 above, then rtl
 	plb
 	lda.b r2
-	jsl.l DisposeHandle
+	jsl.l DisposeHandle				; free handle A and its block, joined with free neighbours
 	ldx.b r2+2
 	lda.l Ram7E,x
 	tay

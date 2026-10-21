@@ -39,5 +39,5 @@ PrevPlayerCard:						; called from PlayerCardsLoop
 	adc.w #$0007
 	sta.w curitem
 .2:									; call DrawPlayerCard, go to PlayerCardsRedraw
-	jsl.l DrawPlayerCard
+	jsl.l DrawPlayerCard			; draw the player card
 	jmp.w PlayerCardsRedraw

@@ -3,7 +3,7 @@
 CheckCrowdMeter:					; called from Gameloop
 	lda.b d0
 	pha
-	jsl.l UpdateCrowdMeter
+	jsl.l UpdateCrowdMeter			; d0 = the crowd meter: sroot + 65, at most 128
 	lda.b d0
 	sta.w CurCrowdMeter
 	cmp.w #$0069
@@ -17,7 +17,7 @@ CheckCrowdMeter:					; called from Gameloop
 .t1:								; if CrowdLoud = 0 go to .1, ...
 	lda.w CrowdLoud
 	beq .1
-	jsl.l LowerHotColdTable
+	jsl.l LowerHotColdTable			; lower the raised hot/cold bytes and count HotColdRaised down
 	stz.w CrowdLoud
 .1:									; d0 = pulled value, return
 	pla

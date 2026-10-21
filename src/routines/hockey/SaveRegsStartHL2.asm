@@ -30,7 +30,7 @@ StartHL2:							; entry point, no direct callers found
 	jsl.l .18
 	lda.b d1
 	sta.b d3
-	jsl.l NewTicker3
+	jsl.l NewTicker3				; shows the ticker box
 	lda.w sflags3
 	bit.w #$0008
 	beq .t3
@@ -45,7 +45,7 @@ StartHL2:							; entry point, no direct callers found
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l Framer
+	jsl.l Framer					; draw a frame and fill it
 	inc.w printx
 	dec.w printy
 	dec.w printy
@@ -57,14 +57,14 @@ StartHL2:							; entry point, no direct callers found
 	sta.b a1+2
 	lda.w #HighlightFrom
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print HighlightFrom
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w #$00B4
 	sta.b d0
-	jsl.l waitxsr
+	jsl.l waitxsr					; wait d0 frames or until a button in d1 is pressed
 	lda.b d3
 	bit.w #$1000
 	beq .t1x
@@ -72,14 +72,14 @@ StartHL2:							; entry point, no direct callers found
 
 .t1x:								; d3 bits $1000 clear: padchangeany = 0, call FadeOut, call WaitFadeOut...
 	stz.w padchangeany
-	jsl.l FadeOut
-	jsl.l WaitFadeOut
-	jsl.l forceblack
-	jsl.l FadeOutSound
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l WaitFadeOut				; wait until the screen is black
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
+	jsl.l FadeOutSound				; start the sound fade out
 	lda.w sndbank					;the sample set loaded in the SPC
 	cmp.w #SoundBankGame
 	beq .1							;already loaded
-	jsl.l SPCGameUpload
+	jsl.l SPCGameUpload				; upload the Game sample set
 .1:									; HomeTeam = gst1,x, VisTeam = gst2,x, call clearTeamStats, ...
 	ldx.b a0
 	lda.l gst1,x
@@ -90,20 +90,20 @@ StartHL2:							; entry point, no direct callers found
 	pha
 	lda.b a0+2
 	pha
-	jsl.l clearTeamStats
-	jsl.l restoreteams
+	jsl.l clearTeamStats			; clear the team stats and set up the teams
+	jsl.l restoreteams				; all players of both teams on the bench
 	lda.w #$0000
 	sta.b a2
-	jsl.l LoadTeamLines
+	jsl.l LoadTeamLines				; copy team a2's lines from the team data into RAM
 	lda.w #$0002
 	sta.b a2
-	jsl.l LoadTeamLines
+	jsl.l LoadTeamLines				; copy team a2's lines from the team data into RAM
 	stz.b a2
-	jsl.l reenergizeteam
+	jsl.l reenergizeteam			; give every player of team a2 full energy
 	lda.w #$0002
 	sta.b a2
-	jsl.l reenergizeteam
-	jsl.l LoadCenterIce
+	jsl.l reenergizeteam			; give every player of team a2 full energy
+	jsl.l LoadCenterIce				; unpack the home team's centre ice logo to VRAM
 	ldx.w #$0008
 	lda.w #$FFFF
 .loop:								; loop: c1playernum,x = A, padside,x = A, X - 1, ...
@@ -118,7 +118,7 @@ StartHL2:							; entry point, no direct callers found
 	stz.w cont4team
 	stz.w cont5team
 	lda.w #$0078
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	adc.w #$0078
 	sta.w gameclock
 	pla
@@ -156,16 +156,16 @@ StartHL2:							; entry point, no direct callers found
 	sta.w puckcross+pcframes
 	sta.w puckcross+pcsize+pcframes
 	jsl.l setupice_reset
-	jsl.l ClrHor
+	jsl.l ClrHor					; switch back from the horizontal rink to the vertical ice rink
 	stz.w Vpos
 	stz.w Hpos
-	jsl.l ResetBench
+	jsl.l ResetBench				; empty the penalty boxes and put every player on his own bench
 	stz.b a2
 	jsl.l .16
 	lda.w #$0002
 	sta.b a2
 	jsl.l .16
-	jsl.l resetplstuff
+	jsl.l resetplstuff				; reset the players of both teams
 	lda.w #$0000
 	sta.l hattrick
 	lda.w #$000B
@@ -204,7 +204,7 @@ StartHL2:							; entry point, no direct callers found
 	lda.w puckc
 	bpl .4
 	lda.w #$000C
-	jsl.l randoma
+	jsl.l randoma					; A = a random number from 0 to A-1
 	asl a
 	sta.w puckc
 .4:									; if position,x != 0 go to .5, ...
@@ -216,7 +216,7 @@ StartHL2:							; entry point, no direct callers found
 	txa
 	sta.w puckc
 .5:									; call SprSort, oldvcount = vcount
-	jsl.l SprSort
+	jsl.l SprSort					; sort the objects by screen position
 org $9F9001
 	lda.w #$00B4
 	pha
@@ -244,7 +244,7 @@ org $9F9001
 	sta.w gravstep
 	stx.w lastframevc
 	stx.w oldvcount
-	jsl.l ReadPads
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	lda.w sflags
 	bit.w #$0001
 	bne .7
@@ -266,7 +266,7 @@ org $9F9001
 .7:									; call DoGameFrame, d7 = pulled value, timestep = pulled value, ...
 	lda.b d7
 	pha
-	jsl.l DoGameFrame
+	jsl.l DoGameFrame				; run one frame of game logic
 	pla
 	sta.b d7
 	sta.w timestep
@@ -278,7 +278,7 @@ org $9F9001
 	pha
 	bmi .9
 .8:									; call ReadAnyPad, if d1 bits $9080 clear go to .loop3, ...
-	jsl.l ReadAnyPad
+	jsl.l ReadAnyPad				; d1 = the buttons that changed on any pad
 	lda.b d1
 	bit.w #$9080
 	beq .loop3
@@ -295,13 +295,13 @@ org $9F9001
 	sta.b a0+2
 	pla
 	sta.b a0
-	jsl.l FadeOutSound
+	jsl.l FadeOutSound				; start the sound fade out
 	ldx.b a0
 	lda.w tmscore
 	sta.l gss1,x
 	lda.w tmscore+2
 	sta.l gss2,x
-	jsl.l SetupTeamForIntermission
+	jsl.l SetupTeamForIntermission	; sets both teams up for a period
 	ldx.w #$0000
 .loop5:								; loop: Xpos,x = $FF10, Ypos,x = 0, frame,x = $0001, ...
 	lda.w #$FF10
@@ -313,21 +313,21 @@ org $9F9001
 	inx
 	cpx.w #$0018
 	bcc .loop5
-	jsl.l FadeOut
-	jsl.l WaitFadeOut
-	jsl.l forceblack
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l WaitFadeOut				; wait until the screen is black
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	jsl.l .19
-	jsl.l setplayercolors
-	jsl.l SetHor
+	jsl.l setplayercolors			; set the team colours and send the whole palette to CGRAM
+	jsl.l SetHor					; switches to the horizontal rink
 	jsl.l SpriteFrameStart
-	jsl.l setvideo
+	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l SpriteFrameEnd
 .loop6:								; loop: if SoundFadeSpeed != 0 go to .loop6, ...
 	lda.w SoundFadeSpeed
 	bne .loop6
 	lda.w MusicOn
 	bne .loop6
-	jsl.l SPCMenuUpload
+	jsl.l SPCMenuUpload				; upload the Menu sample set
 	lda.l OptPlayMode
 	beq .t2
 	cmp.w #$0004
@@ -339,7 +339,7 @@ org $9F9001
 	sta.b p0+2
 	lda.w #PlayoffSong
 	sta.b p0
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 	bra .10
 
 .t2:								; p0 = MenuSong, call MusicStart
@@ -347,7 +347,7 @@ org $9F9001
 	sta.b p0+2
 	lda.w #MenuSong
 	sta.b p0
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 .10:								; a1 = SaveRegsStartHL2Pos, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
@@ -357,7 +357,7 @@ org $9F9001
 	sta.b a1+2
 	lda.w #SaveRegsStartHL2Pos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print SaveRegsStartHL2Pos
 	pla
 	sta.b a1
 	pla
@@ -366,10 +366,10 @@ org $9F9001
 	sta.b d0
 	lda.w #$0007
 	sta.b d1
-	jsl.l Framer
-	jsl.l printscores1
-	jsl.l Pmenu
-	jsl.l FadeIn
+	jsl.l Framer					; draw a frame and fill it
+	jsl.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
+	jsl.l Pmenu						; draw the pause menu: five items of the current list from item psfirst
+	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	jsl.l ScreenOn
 	stx.b xsave
 	ldx.w #$001A
@@ -423,10 +423,10 @@ org $9F9001
 	sta.l gsper,x
 	lda.b d1
 	sta.b d3
-	jsl.l NewTicker3
+	jsl.l NewTicker3				; shows the ticker box
 	lda.w #$00B4
 	sta.b d0
-	jsl.l waitxsr
+	jsl.l waitxsr					; wait d0 frames or until a button in d1 is pressed
 	lda.b d1
 	bit.w #$1000
 	beq .12
@@ -438,7 +438,7 @@ org $9F9001
 	lda.w #$0008
 	trb.w sflags3
 .13:								; call LoadCenterIce, p0 = FaceOffTiles, p1+2 = $007F, ...
-	jsl.l LoadCenterIce
+	jsl.l LoadCenterIce				; unpack the home team's centre ice logo to VRAM
 	lda.w #FaceOffTiles>>16
 	sta.b p0+2
 	lda.w #FaceOffTiles
@@ -447,7 +447,7 @@ org $9F9001
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack FaceOffTiles
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -459,7 +459,7 @@ org $9F9001
 	asl a
 	adc.w #$1000
 	tay
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	stx.b xsave
 	ldx.w #$001A
 .loopxx:							; loop: a0,x = pulled value, X - 1, X - 1, ...
@@ -501,9 +501,9 @@ org $9F9001
 	jsl.l .17
 	jmp.w .12
 .16:								; subroutine: call reenergizeteam, call setpersonel, call forcepldata, ...
-	jsl.l reenergizeteam
-	jsl.l setpersonel
-	jsl.l forcepldata
+	jsl.l reenergizeteam			; give every player of team a2 full energy
+	jsl.l setpersonel				; put the wanted players of team a2 on the ice
+	jsl.l forcepldata				; face offs: move team a2's players straight to their new positions
 	ldy.b a2
 	lda.w #$FFFF
 	sta.w tmtouch1,y
@@ -555,7 +555,7 @@ org $9F9001
 	inx
 	cpx.w #$0018
 	bcc .loop2xxx
-	jsl.l ClearPenaltyBuffer
+	jsl.l ClearPenaltyBuffer		; clear the list of called penalties
 	rtl
 .19:								; subroutine: falls through
 	ldx.w #$0000

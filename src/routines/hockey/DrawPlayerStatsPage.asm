@@ -13,7 +13,7 @@ DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, S
 	sta.b a1+2
 	lda.w #PlayerGAPtShPmTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PlayerGAPtShPmTxt
 	pla
 	sta.b a1
 	pla
@@ -27,7 +27,7 @@ DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, S
 	sta.b p0
 	ldy.w #$00E0
 	ldx.w #$00C0
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	bra .1
 
 .t1:								; statcolumn = 0: a1 = GoalieGaShPtgTxt, call print, a1 = pulled value...
@@ -39,7 +39,7 @@ DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, S
 	sta.b a1+2
 	lda.w #GoalieGaShPtgTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print GoalieGaShPtgTxt
 	pla
 	sta.b a1
 	pla
@@ -52,7 +52,7 @@ DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, S
 	sta.b p0
 	ldy.w #$00E0
 	ldx.w #$04C0
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 .1:									; xba, lsr a, adc #$2780, ...
 	lda.w curitem
 	xba
@@ -67,7 +67,7 @@ DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, S
 	adc.w #$0040
 	tax
 	ldy.w #$0160
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	pla
 	sta.b d1
 	rtl

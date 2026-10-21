@@ -6,6 +6,6 @@ PauseScoringSummary:				; called from PauseMenuHandlers
 	jmp.w PauseMenuPoll
 
 .t1:								; d1 bit $8080 set: call ShowScoringSummary, call ReloadRink, go to Pau...
-	jsl.l ShowScoringSummary
-	jsl.l ReloadRink
+	jsl.l ShowScoringSummary		; scoring summary for both teams
+	jsl.l ReloadRink				; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

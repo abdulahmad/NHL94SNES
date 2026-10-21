@@ -42,5 +42,5 @@ SendGameStatsPage:					; called from MarkGameStatRows, ScrollGameStatsDown, Scro
 	lsr a
 	tax
 	ldy.w #$0180
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	rts

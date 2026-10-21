@@ -4,8 +4,8 @@ puckglue:							; called from puckgoalie, puckstick
 	cpy.w puckc
 	beq .1
 	lda.w #$0003
-	jsl.l PuckSfx
-	jsl.l EndPenaltyShot
+	jsl.l PuckSfx					; play sound A with half the puck velocity
+	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
 	stz.w breakaway
 	stz.w onetimer
 .1:									; puckc = a2, d0 = a2, a0 = 0, ...
@@ -75,11 +75,11 @@ puckglue:							; called from puckgoalie, puckstick
 	lda.w passpad,y
 	sta.b d4
 	bmi .t1
-	jsl.l AssignPadIfFree
+	jsl.l AssignPadIfFree			; AssignPadPlayer when player d0 has no pad yet
 	bra .7
 
 .t1:								; call PuckCarrierPad
-	jsl.l PuckCarrierPad
+	jsl.l PuckCarrierPad			; when player d0 has the puck and no pad
 .7:									; passReceiverPlayerNum = $FFFF, return
 	lda.w #$FFFF
 	sta.w passReceiverPlayerNum

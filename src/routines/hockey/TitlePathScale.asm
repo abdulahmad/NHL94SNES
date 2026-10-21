@@ -10,7 +10,7 @@ TitlePathScale:						; A = step, returns A = scale; called from BuildTitlePath
 	sta.b r2
 	lda.w #$0008					; divided by 8
 	sta.b r1
-	jsl.l Div16S
+	jsl.l Div16S					; divides
 	asl.b r0						; times 2
 	lda.w #$0F00					; scale = $0F00 - that
 	bra .1							; subtract
@@ -24,7 +24,7 @@ TitlePathScale:						; A = step, returns A = scale; called from BuildTitlePath
 	sta.b r2
 	lda.w #$0002					; divided by 2
 	sta.b r1
-	jsl.l Div16S
+	jsl.l Div16S					; divides
 	asl.b r0						; times 2
 	lda.w #$0100					; scale = $0100 - that
 .1:									; A = start scale - r0

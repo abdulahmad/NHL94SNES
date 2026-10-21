@@ -10,7 +10,7 @@ Mul16x8HiXS_TestX:					; called from Mul16x8HiS
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 Mul16x8HiXS_Neg:					; called from Mul16x8HiS
-	jsl.l Mul16x8HiU_Pre
+	jsl.l Mul16x8HiU_Pre			; multiplies
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.b r2+1

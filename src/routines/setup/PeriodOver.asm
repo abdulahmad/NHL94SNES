@@ -6,7 +6,7 @@
 ; ends in GameOver or the next period (StartPer).
 PeriodOver:							; end of a period
 	jsl.l FadeOut					; fade the screen and the sound out
-	jsl.l FadeOutSound
+	jsl.l FadeOutSound				; start the sound fade out
 	jsl.l WaitFrame					; let two frames pass
 	jsl.l WaitFrame
 .loop:								; wait until the screen and the sound are faded out
@@ -29,7 +29,7 @@ PeriodOver:							; end of a period
 	sta.b p0+2
 	lda.w #PlayoffSong
 	sta.b p0
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 	jmp.w .5						; song started
 
 .t1:								; menu song
@@ -37,7 +37,7 @@ PeriodOver:							; end of a period
 	sta.b p0+2
 	lda.w #MenuSong
 	sta.b p0
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 .5:									; music is set
 	lda.w gmode						; swap the direction of play (gmdir)
 	eor.w #gmdir
@@ -62,7 +62,7 @@ PeriodOver:							; end of a period
 	jsl.l FadeIn					; fade in and show the screen
 	jsl.l ScreenOn
 	jsl.l SpriteFrameStart			; draw one frame
-	jsl.l setvideo
+	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l SpriteFrameEnd
 	inc.w gsp						; next period
 	lda.w gsp
@@ -89,13 +89,13 @@ PeriodOver:							; end of a period
 	cmp.w #$0004					; game over?
 	bne .t1x
 .4:									; game over
-	jml.l GameOver
+	jml.l GameOver					; after a game: the password and the playoff screen
 
 .t1x:								; next period
 	lda.w gsp
 	sta.w lastperiod				; remember the period just finished
 	jsl.l FadeOutSound				; fade out again
-	jsl.l FadeOut
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
 .loopxx:							; wait for the sound fade
 	lda.w SoundFadeSpeed
 	bne .loopxx

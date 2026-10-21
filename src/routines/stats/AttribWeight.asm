@@ -20,7 +20,7 @@ AttribWeight:						; print the weight
 	sta.b a1+2
 	lda.w #AttribWeightPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print AttribWeightPos
 	pla
 	sta.b a1
 	pla

@@ -17,7 +17,7 @@ PauseMenu:							; called from Intermission, Pausemode
 	bra .t1
 
 .t1:								; call ChoosePauseMenu, go to .t7
-	jsl.l ChoosePauseMenu
+	jsl.l ChoosePauseMenu			; use the longer pause menu when this side still has a timeout
 	bra .t7
 
 .t2:								; gsp = $0004: pmenucount = $000F, pmenulist = $0001, go to .t7
@@ -50,7 +50,7 @@ PauseMenu:							; called from Intermission, Pausemode
 
 .t7:								; call SpriteFrameStart, call setvideo, call WaitFrame, ...
 	jsl.l SpriteFrameStart
-	jsl.l setvideo
+	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l WaitFrame
 	jsl.l SpriteFrameEnd
 	lda.w #$0002
@@ -59,8 +59,8 @@ PauseMenu:							; called from Intermission, Pausemode
 	sta.l colourbuf+$1DE
 	sta.l colourbuf+$1FE
 PauseMenuPoll:						; called from PauseCrowdLevel, PauseDefStore, PauseEditLines, PauseExit...
-	jsl.l Pmenu
-	jsl.l SelectPauseController
+	jsl.l Pmenu						; draw the pause menu: five items of the current list from item psfirst
+	jsl.l SelectPauseController		; pick the controller that owns the pause menu
 	lda.b d3
 	bit.w #$1000
 	beq .t3

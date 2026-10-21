@@ -4,7 +4,7 @@ ShowPenaltySummary:					; called from PausePenaltySummary
 	sta.l setupvis
 	lda.w HomeTeam
 	sta.l setuphome
-	jsl.l SetupScreen
+	jsl.l SetupScreen				; common setup of the stats screens
 	lda.w #$0000
 	sta.w curitem
 	sta.w listtop
@@ -15,7 +15,7 @@ ShowPenaltySummary:					; called from PausePenaltySummary
 	sta.b a1+2
 	lda.w #PenaltiesLabel
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites PenaltiesLabel
 	jsl.l SpriteFrameEnd
 	lda.w #$FFFF
 	sta.l colourbuf+$C2
@@ -23,7 +23,7 @@ ShowPenaltySummary:					; called from PausePenaltySummary
 	sta.l colourbuf+2
 	lda.w #$6F7B
 	sta.l colourbuf+$22
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -32,7 +32,7 @@ ShowPenaltySummary:					; called from PausePenaltySummary
 	sta.b a1+2
 	lda.w #PenaltySummaryHead
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PenaltySummaryHead
 	pla
 	sta.b a1
 	pla
@@ -43,22 +43,22 @@ ShowPenaltySummary:					; called from PausePenaltySummary
 	cmp.w #$0006
 	bcc .2
 .1:									; call PrintScrollHint
-	jsl.l PrintScrollHint
+	jsl.l PrintScrollHint			; print the scroll hint under a summary list
 .2:									; call FillPenaltyPage, call SendTextMap, call SetupScrollIRQ, ...
-	jsr.w FillPenaltyPage
+	jsr.w FillPenaltyPage			; build the penalty summary page in the stats page buffer
 	jsl.l SendTextMap
 	lda.w #$0058
 	ldx.w #$00D0
 	ldy.w #$00E0
-	jsl.l SetupScrollIRQ
-	jsl.l MenuScreenHDMA
+	jsl.l SetupScrollIRQ			; set up the three-way scroll IRQ
+	jsl.l MenuScreenHDMA			; start the window and COLDATA HDMA
 	jsl.l ScreenOn
 	lda.w #$0005
 	sta.w listrows
-	jsr.w DrawPenaltyPage
+	jsr.w DrawPenaltyPage			; draw the visible penalty rows, or No Penalties when the list is empty
 PenaltySummaryLoop:					; called from PenaltySummaryWait, ScrollPenaltyDown, ScrollPenaltyUp
-	jsl.l ReadPausePad
-	jsl.l ProcessInputWithRepeat
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d3
 	bit.w #$1000
 	beq .t1

@@ -9,7 +9,7 @@ SwapLineSlots:						; d0 = slot offset; called from SetLineSlot
 	sta.w lineswap					; keep it
 	inc.b a3						; a3 = second slot
 	inc.b a3
-	jsr.w ReadLineSlot
+	jsr.w ReadLineSlot				; returns A = the byte at [a3]
 	dec.b a3						; back to the first slot
 	dec.b a3
 	jsr.w WriteLineSlot				; the second slot's byte goes to the first

@@ -17,6 +17,6 @@ SwapRosterTeam:						; switch the roster to the other team
 	sta.b a1+2
 	lda.w #TeamRosterSwap
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites TeamRosterSwap
 	jsl.l DrawMatchupPictures
-	jmp.w TeamRosterRedraw
+	jmp.w TeamRosterRedraw			; redraw the screen for the team in a2

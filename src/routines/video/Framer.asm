@@ -11,7 +11,7 @@ Framer:								; called from ClearPenaltyMessage, DrawExitPrompt, Intermission, 
 	sta.b p0+2
 	lda.w #FramerMap+6
 	sta.b p0
-	jsr.w FramerRow
+	jsr.w FramerRow					; draw one row of a frame into the text map at printx / printy: a corner
 	lda.b tmp2
 	lsr a
 	cmp.w textdirtylo
@@ -23,12 +23,12 @@ Framer:								; called from ClearPenaltyMessage, DrawExitPrompt, Intermission, 
 .loop:								; loop: p0 = FramerMap+12, call FramerRow, decrement d1, ...
 	lda.w #FramerMap+12
 	sta.b p0
-	jsr.w FramerRow
+	jsr.w FramerRow					; draw one row of a frame into the text map at printx / printy: a corner
 	dec.b d1
 	bne .loop
 	lda.w #FramerMap+18
 	sta.b p0
-	jsr.w FramerRow
+	jsr.w FramerRow					; draw one row of a frame into the text map at printx / printy: a corner
 	inx
 	inx
 	txa

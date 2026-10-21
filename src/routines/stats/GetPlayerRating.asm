@@ -29,7 +29,7 @@ GetPlayerRating:					; rating of curplayer with hot / cold
 	lda.w #AttribMenuSkater
 	sta.b a1
 	stz.b r2
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	lda.w curplayer
 	cmp.b d0
 	bpl .1
@@ -67,7 +67,7 @@ GetPlayerRating:					; rating of curplayer with hot / cold
 	sta.b d0
 	lda.w #$0001
 	sta.l usehotcold
-	jsl.l CalcAttrib
+	jsl.l CalcAttrib				; overall rating of a player from his attributes and hot / cold values
 	lda.b d0
 	sta.b r0
 	pla

@@ -23,7 +23,7 @@ DrawSprite:							; called from DrawLicenceNHL, DrawLicenceNHLPA, DrawLogoSprite
 	adc.b p1+2
 	sta.b p0+2
 DrawSprite_draw:					; called from GetFrameTiles
-	jsr.w GetFrameTiles
+	jsr.w GetFrameTiles				; look the frame up in the tile cache, load it if it is not there
 	bmi .1
 	sta.b r3+2
 	ldx.w OAMNext
@@ -40,7 +40,7 @@ DrawSprite_draw:					; called from GetFrameTiles
 	lda.b r3
 	bit.w #$8000
 	beq .t1
-	jmp.w DrawSpritePieces
+	jmp.w DrawSpritePieces			; flipped sprite: one OAM entry per piece
 
 .t1:								; r3 bits $8000 clear: if zero go to .2, ...
 	bit.w #$4000

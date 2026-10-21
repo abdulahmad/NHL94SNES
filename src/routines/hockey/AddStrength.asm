@@ -1,7 +1,7 @@
 ; Insert rating column d1 of player curplayer (GetPlayerRating) into the best-three list at strengths-$1E83
 ; (column, rating pairs)
 AddStrength:						; called from FindGoalieStrengths, FindSkaterStrengths
-	jsl.l GetPlayerRating
+	jsl.l GetPlayerRating			; rating of curplayer with hot / cold
 	lda.b d0
 	dec a
 	cmp.w strengths+2

@@ -58,7 +58,7 @@ PWprint:							; called from PasswordRedraw, PlayoffScreen
 	sta.b a1+2
 	lda.w #mesarea
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print mesarea
 	pla
 	sta.b a2+2
 	pla

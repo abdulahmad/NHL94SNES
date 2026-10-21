@@ -50,7 +50,7 @@ checkgoalp:							; called from checkgoal
 	sta.b d1						; d1 = dx
 	sta.b r1
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	sta.b r2
 	ldx.b a3
 	lsr a
@@ -61,7 +61,7 @@ checkgoalp:							; called from checkgoal
 	lda.b d3
 	sta.b r1+2
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	asl a
 	sta.b r2+2
 	ldx.b a3
@@ -81,7 +81,7 @@ checkgoalp:							; called from checkgoal
 	pha
 	lda.b r1
 	ldy.b r1+2
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	inc a
 	sta.b d2
 	lda.b d0
@@ -89,7 +89,7 @@ checkgoalp:							; called from checkgoal
 	and.w #$FF00
 	tax
 	lda.b d2
-	jsl.l DivX8S
+	jsl.l DivX8S					; X / A into A, X signed
 	cmp.w #$00FF
 	bmi .3
 	lda.w #$00FF
@@ -104,7 +104,7 @@ checkgoalp:							; called from checkgoal
 	and.w #$FF00
 	tax
 	lda.b d2
-	jsl.l DivX8S
+	jsl.l DivX8S					; X / A into A, X signed
 	cmp.w #$00FF
 	bmi .5
 	lda.w #$00FF
@@ -115,7 +115,7 @@ checkgoalp:							; called from checkgoal
 .6:									; d1 = A, call wallcoll
 	sta.b d1
 	ldx.b a3
-	jsl.l wallcoll
+	jsl.l wallcoll					; bounce object X off a wall
 .7:									; d2 = pulled value, d3 = pulled value, return
 	pla								; restore x
 	sta.b d2
@@ -205,4 +205,4 @@ checkgoalp:							; called from checkgoal
 	pla
 	lda.w #PenGhold
 	sta.b d0
-	jmp.w AddPenalty2
+	jmp.w AddPenalty2				; call penalty d0 on player X without the checks

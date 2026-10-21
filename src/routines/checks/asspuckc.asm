@@ -5,13 +5,13 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	lda.w playerpad,x
 	bmi .clk
 .1:									; go to assexit
-	jmp.w assexit
+	jmp.w assexit					; end the player's current assignment and go back to the one under it
 
 .t1:								; bare return, not branched to in this file
 	rtl
 .2:									; gmclock != 0: call GlideBack, go to assnothing
-	jsl.l GlideBack
-	jmp.w assnothing
+	jsl.l GlideBack					; start SPAglideback on player X unless his animation is locked
+	jmp.w assnothing				; computer player stands still
 .clk:								; playerpad,x negative: if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
@@ -59,7 +59,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 
 .t1x:								; no breakaway (or d0 >= $90): check line change and shot
 	jsl.l chk4lc
-	jsl.l chk4shot
+	jsl.l chk4shot					; A computer player looks for a shot
 	lda.w asscur,x
 	cmp.w #$0011
 	bne .3

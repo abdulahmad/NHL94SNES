@@ -115,5 +115,5 @@ checkfornewpen:						; called from PenaltyManager
 	bne .5
 	lda.w #$0030
 	sta.b d0
-	jsl.l SetPA
+	jsl.l SetPA						; starts the referee animation for penalty d0
 	jmp.w .4

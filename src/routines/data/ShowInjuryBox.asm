@@ -30,7 +30,7 @@ ShowInjuryBox:						; called from CheckInjury
 	sta.b a1+2
 	lda.w #ShowInjuryBoxPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowInjuryBoxPos
 	pla
 	sta.b a1
 	pla
@@ -39,7 +39,7 @@ ShowInjuryBox:						; called from CheckInjury
 	sta.b d0
 	lda.w #$0005
 	sta.b d1
-	jsl.l Framer
+	jsl.l Framer					; draw a frame and fill it
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -48,7 +48,7 @@ ShowInjuryBox:						; called from CheckInjury
 	sta.b a1+2
 	lda.w #InjuryToOutForPeriodTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print InjuryToOutForPeriodTxt
 	pla
 	sta.b a1
 	pla
@@ -66,13 +66,13 @@ ShowInjuryBox:						; called from CheckInjury
 	sta.b a1+2
 	lda.w #TheGameTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print TheGameTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 .1:									; call GetPlayerNumInitial, call print, xsave = X, ...
-	jsl.l GetPlayerNumInitial
+	jsl.l GetPlayerNumInitial		; the number, first initial and last name of player TempPlOffset
 	jsl.l print
 	stx.b xsave
 	ldx.w #$0012

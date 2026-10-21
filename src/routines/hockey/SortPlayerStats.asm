@@ -11,7 +11,7 @@ SortPlayerStats:					; called from ShowPlayerStats, ShowPlayerStats_column, Show
 	sta.b a1+2
 	lda.w #SortPlayerStatsPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print SortPlayerStatsPos
 	pla
 	sta.b a1
 	pla
@@ -20,14 +20,14 @@ SortPlayerStats:					; called from ShowPlayerStats, ShowPlayerStats_column, Show
 	sta.b a1+2
 	lda.w #StatColumnNames
 	sta.b a1
-	jsl.l AdvanceStringPtr
+	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	jsl.l print
 	ldx.w listtop
 .loop:								; loop: txy
 	txy
 .loop2:								; loop: Y + 1, call ComparePlayerStats, if statstemp = 0 go to .2
 	iny
-	jsl.l ComparePlayerStats
+	jsl.l ComparePlayerStats		; compare stat column statcolumn of the players at order slots x and y
 	lda.w statstemp
 	beq .2
 .1:									; statstemp = statsorder,y, statsorder,y = statsorder,x, statsorder,x =...
@@ -45,5 +45,5 @@ SortPlayerStats:					; called from ShowPlayerStats, ShowPlayerStats_column, Show
 	inx
 	cpx.w listend
 	bcc .loop
-	jsl.l FillPlayerStatsPage
+	jsl.l FillPlayerStatsPage		; build the player stats page in the stats page buffer
 	rtl

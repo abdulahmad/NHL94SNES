@@ -80,7 +80,7 @@ wallcoll:							; bounce object X off a wall
 	bcs .2
 	lda.w #$0004
 .2:									; play the puck sound
-	jsl.l PuckSfx
+	jsl.l PuckSfx					; play sound A with half the puck velocity
 .3:									; reduce the tangent speed of the puck
 	lda.b d3						; v1t / 64
 	lsr a
@@ -127,7 +127,7 @@ org $9E9000
 	lda.w Yvel,x
 	sta.b p0+2
 	lda.w #$000D					; play sound $0D (board hit)
-	jsl.l sfx
+	jsl.l sfx						; play sound A with the velocity in p0 / p0+2
 .1x:								; player: v1n / 4
 	lda.b d2
 	lsr a

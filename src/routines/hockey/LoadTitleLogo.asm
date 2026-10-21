@@ -15,7 +15,7 @@ LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 m
 	sta.w MapVRAM
 	ldx.w #$003C
 	ldy.w #$003C
-	jsl.l Mode7MapToVRAM
+	jsl.l Mode7MapToVRAM			; copy byte map [p0] into the mode 7 map at column X, row Y
 	pla								; CenterIceTable entry = team * 8; x kept on the stack
 	asl a
 	asl a
@@ -49,7 +49,7 @@ LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 m
 	sta.b p0
 	lda.w #$0000
 	sta.w MapVRAM
-	jsl.l Mode7MapToVRAM
+	jsl.l Mode7MapToVRAM			; copy byte map [p0] into the mode 7 map at column X, row Y
 	plx								; first pointer (the logo graphics): unpack to unpackbuf, convert with .t2
 	lda.l CenterIceTable,x
 	sta.b p0
@@ -70,7 +70,7 @@ LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 m
 	lda.w #titlelogobuf
 	sta.b p0
 	ldy.w #$0000
-	jsl.l DMAToVRAMHigh
+	jsl.l DMAToVRAMHigh				; DMA X bytes from [p0] to the high bytes of video memory at Y
 	rts								; done
 
 .t2:								; convert the unpacked logo graphics (called above)
@@ -167,7 +167,7 @@ LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 m
 	sta.l titlelogobuf,x
 	lda.b d0						; d1 = width * height + 6: end of the data
 	ldx.b d0+2
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	clc
 	adc.w #$0006
 	sta.b d1

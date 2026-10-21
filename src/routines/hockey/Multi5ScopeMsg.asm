@@ -10,7 +10,7 @@ Multi5ScopeMsg:						; print the MultiPlayer 5 Super Scope warning
 	sta.b a1+2
 	lda.w #TheMultiPlayer5IsNotTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print TheMultiPlayer5IsNotTxt
 	pla
 	sta.b a1
 	pla
@@ -23,7 +23,7 @@ Multi5ScopeMsg:						; print the MultiPlayer 5 Super Scope warning
 	sta.b a1+2
 	lda.w #DesignedForUseWithTheTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DesignedForUseWithTheTxt
 	pla
 	sta.b a1
 	pla
@@ -36,7 +36,7 @@ Multi5ScopeMsg:						; print the MultiPlayer 5 Super Scope warning
 	sta.b a1+2
 	lda.w #SuperNesSuperScopeTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print SuperNesSuperScopeTxt
 	pla
 	sta.b a1
 	pla

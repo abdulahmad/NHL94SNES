@@ -3,7 +3,7 @@
 DrawEditLinesTitle:					; called from DrawEditLinesTop, PrintLinePlayers
 	lda.l drawlinesback
 	beq .1
-	jsr.w DrawEditLinesBack
+	jsr.w DrawEditLinesBack			; redraw the line editor background: clear the top, the frame
 .1:									; call SpriteFrameStart, a1 = EditLinesLabel, call PrintLetterSprites, ...
 	jsl.l SpriteFrameStart
 	ldx.w #$0058
@@ -12,7 +12,7 @@ DrawEditLinesTitle:					; called from DrawEditLinesTop, PrintLinePlayers
 	sta.b a1+2
 	lda.w #EditLinesLabel
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites EditLinesLabel
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -21,7 +21,7 @@ DrawEditLinesTitle:					; called from DrawEditLinesTop, PrintLinePlayers
 	sta.b a1+2
 	lda.w #DrawEditLinesTitlePos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawEditLinesTitlePos
 	pla
 	sta.b a1
 	pla
@@ -36,7 +36,7 @@ DrawEditLinesTitle:					; called from DrawEditLinesTop, PrintLinePlayers
 	lda.w #$0030
 .3:									; d0 = A, call DrawTeamBlocks, call DrawMatchupPictures, ...
 	sta.b d0
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 	jsl.l DrawMatchupPictures
 	jsl.l SpriteFrameEnd
 	lda.l drawlinesback
@@ -47,5 +47,5 @@ DrawEditLinesTitle:					; called from DrawEditLinesTop, PrintLinePlayers
 	lda.w #$0000
 	sta.l drawlinesback
 .4:									; call SendColours, return
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	rtl

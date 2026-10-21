@@ -102,7 +102,7 @@ FigureJoy:							; set which team each controller plays
 	iny
 	iny
 .4:									; build the other games
-	jsl.l InitializeGameStructures
+	jsl.l InitializeGameStructures	; build the other games of the day
 	rtl
 .5:									; controller team pairs: by pojoy, then by OptPlayers
 	dw $0001,$0000,$0001,$0001,$0001,$0002,$0002,$0001,$0002,$0000,$0002,$0002,$0002

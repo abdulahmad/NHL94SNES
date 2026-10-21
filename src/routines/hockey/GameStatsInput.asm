@@ -2,7 +2,7 @@
 ; Input loop of the game stats screen. Called from MarkGameStatRows (jump).
 GameStatsInput:						; called from MarkGameStatRows
 	jsl.l WaitFrame					; wait a frame and read the pad
-	jsl.l ReadPausePad
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
 	lda.b d3
 	bit.w #$1000
 	beq .t1							; not Start (d3 bit $1000 = new press)
@@ -23,7 +23,7 @@ GameStatsInput:						; called from MarkGameStatRows
 	bra GameStatsInput
 ; Game stats: Start leaves, up / down scroll, else MarkGameStatRows; the scroll routines come back here
 GameStatsKeys:						; scroll routines of the game stats screen return here: read pad, act
-	jsl.l ReadPausePad
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
 	lda.b d3
 	bit.w #$1000
 	bne GameStatsRtl
@@ -31,4 +31,4 @@ GameStatsKeys:						; scroll routines of the game stats screen return here: read
 	bne ScrollGameStatsUp
 	bit.w #$0400
 	beq MarkGameStatRows
-	jmp.w ScrollGameStatsDown
+	jmp.w ScrollGameStatsDown		; scroll the game stats down one row

@@ -22,7 +22,7 @@ InitScores:							; random scores for the other games of the round
 	lda.w #$0000					; period 0
 	sta.l gsper,x
 	lda.w #$0003					; random number from 0 to 3
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	inc a							; plus 1
 	sta.b d0						; d0 = number of scoring rounds
 	bra .3							; start counting

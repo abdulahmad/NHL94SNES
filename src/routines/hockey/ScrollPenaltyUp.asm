@@ -6,7 +6,7 @@ ScrollPenaltyUp:					; called from PenaltySummaryLoop
 	sta.w listtop
 	lda.w #$0006
 	sta.w listrows
-	jsr.w DrawPenaltyPage
+	jsr.w DrawPenaltyPage			; draw the visible penalty rows, or No Penalties when the list is empty
 	jsl.l WaitFrame
 	lda.w #$0015
 	sta.w irqvscroll1
@@ -19,10 +19,10 @@ ScrollPenaltyUp:					; called from PenaltySummaryLoop
 	lda.w irqvscroll1
 	cmp.w #$0001
 	bne .loop
-	jsl.l PrintScrollArrows
+	jsl.l PrintScrollArrows			; show or clear the scroll arrows beside a summary list
 	lda.w #$0005
 	sta.w listrows
-	jsr.w DrawPenaltyPage
+	jsr.w DrawPenaltyPage			; draw the visible penalty rows, or No Penalties when the list is empty
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1

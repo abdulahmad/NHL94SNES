@@ -49,7 +49,7 @@ checkcoll:							; called from updateplayers
 	sta.b d3
 	lda.w position,x
 	bmi .3
-	jsl.l checkplcoll
+	jsl.l checkplcoll				; check object X against the objects near it in y
 .3:									; if collflag = 0 go to .t2, ...
 	lda.w collflag
 	beq .t2

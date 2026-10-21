@@ -12,4 +12,4 @@ AttribHanded:						; print left or right handed
 	sta.b a1+2
 	lda.w #HandedTextTbl
 	sta.b a1
-	jml.l PrintStringFromList
+	jml.l PrintStringFromList		; prints a string from a list

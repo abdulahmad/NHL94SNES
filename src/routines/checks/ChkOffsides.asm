@@ -4,16 +4,16 @@ ChkOffsides:						; check both teams for offsides; called from pucknorm, no inpu
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
-	jsl.l ClearOffsidesIfAllPlayers
+	jsl.l ClearOffsidesIfAllPlayers	; clear the offsides flag when nobody is offside any more
 	stz.b a2
 	lda.w #$0002
 	sta.b a1
-	jsl.l ClearOffsidesIfAllPlayers
+	jsl.l ClearOffsidesIfAllPlayers	; clear the offsides flag when nobody is offside any more
 	lda.w #$0054
 	sta.b d0
 	lda.w pucky
 	bpl .t2
-	jmp.w ChkOffsides_other
+	jmp.w ChkOffsides_other			; puck in the negative half: same test with the line negated
 
 .t2:								; puck not past the blue line y: flag only if it was past last frame
 	lda.b d0
@@ -32,11 +32,11 @@ ChkOffsides:						; check both teams for offsides; called from pucknorm, no inpu
 	sbc.w OldYpos+puckobj
 	bmi ChkOffsides_rtl
 ChkOffsides_blue:					; puck crossed the line: StartBreakaway, go on if gmoffs is set
-	jsl.l StartBreakaway
+	jsl.l StartBreakaway			; at the blue line: CheckBreakaway into breakaway
 	lda.w gmode
 	bit.w #gmoffs
 	bne .t2
-	jmp.w ChkOffsides_rtl
+	jmp.w ChkOffsides_rtl			; return
 
 .t2:								; offsides on: line = $5E (the blue line plus $0A)
 	lda.w #$005E
@@ -110,11 +110,11 @@ ChkOffsides_other:					; puck in the negative half: same test with the line nega
 	sbc.w OldYpos+puckobj
 	bmi ChkOffsides_rtl
 .3:									; call StartBreakaway, if gmode bit gmoffs set go to .t1x, ...
-	jsl.l StartBreakaway
+	jsl.l StartBreakaway			; at the blue line: CheckBreakaway into breakaway
 	lda.w gmode
 	bit.w #gmoffs
 	bne .t1x
-	jmp.w ChkOffsides_rtl
+	jmp.w ChkOffsides_rtl			; return
 
 .t1x:								; offsides on: line = line - $0A
 	lda.b d0

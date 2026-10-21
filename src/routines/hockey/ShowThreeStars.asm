@@ -30,7 +30,7 @@ ShowThreeStars:						; called from InProgress
 	sta.b a1+2
 	lda.w #ShowStarsPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowStarsPos
 	pla
 	sta.b a1
 	pla
@@ -50,7 +50,7 @@ ShowThreeStars:						; called from InProgress
 	sta.b a1+2
 	lda.w #ShowStarsPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowStarsPos2
 	pla
 	sta.b a1
 	pla
@@ -59,7 +59,7 @@ ShowThreeStars:						; called from InProgress
 	sta.b d0
 	lda.w #$0007
 	sta.b d1
-	jsl.l Framer
+	jsl.l Framer					; draw a frame and fill it
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -68,7 +68,7 @@ ShowThreeStars:						; called from InProgress
 	sta.b a1+2
 	lda.w #StarsOfTheGame
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print StarsOfTheGame
 	pla
 	sta.b a1
 	pla
@@ -90,14 +90,14 @@ ShowThreeStars:						; called from InProgress
 	lda.w #$0002
 	sta.b a2
 .1:									; call printteamname, printy = $0005, printx = $0011, ...
-	jsl.l printteamname
+	jsl.l printteamname				; print team d3's name, then move down two rows
 	lda.w #$0005
 	sta.w printy
 	lda.w #$0011
 	sta.w printx
 	lda.w star1
 	sta.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	jsl.l print
 	inc.w printy
 	lda.w #$000D
@@ -114,14 +114,14 @@ ShowThreeStars:						; called from InProgress
 	lda.w #$0002
 	sta.b a2
 .2:									; call printteamname, printy = $0006, printx = $0011, ...
-	jsl.l printteamname
+	jsl.l printteamname				; print team d3's name, then move down two rows
 	lda.w #$0006
 	sta.w printy
 	lda.w #$0011
 	sta.w printx
 	lda.w star2
 	sta.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	jsl.l print
 	inc.w printy
 	lda.w #$000D
@@ -138,14 +138,14 @@ ShowThreeStars:						; called from InProgress
 	lda.w #$0002
 	sta.b a2
 .3:									; call printteamname, printy = $0007, printx = $0011, ...
-	jsl.l printteamname
+	jsl.l printteamname				; print team d3's name, then move down two rows
 	lda.w #$0007
 	sta.w printy
 	lda.w #$0011
 	sta.w printx
 	lda.w star3
 	sta.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	jsl.l print
 	stx.b xsave
 	ldx.w #$0012
@@ -216,10 +216,10 @@ ShowThreeStars:						; called from InProgress
 	sta.w otgoalscorer
 .1x:								; a2 = 0, call GetPlayerCount, starplayerend = d0, ...
 	stz.b a2
-	jsl.l GetPlayerCount
+	jsl.l GetPlayerCount			; count the players of the team
 	lda.b d0
 	sta.w starplayerend
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	lda.b d0
 	sta.w stargoalieend
 	ldx.w #$0000
@@ -369,12 +369,12 @@ ShowThreeStars:						; called from InProgress
 	bmi .1xxx
 	lda.w #$0002
 	sta.b a2
-	jsl.l GetPlayerCount
+	jsl.l GetPlayerCount			; count the players of the team
 	lda.b d0
 	clc
 	adc.w #$001A
 	sta.w starplayerend
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	lda.b d0
 	clc
 	adc.w #$001A
@@ -447,11 +447,11 @@ ShowThreeStars:						; called from InProgress
 .t1xxxxxxxxxx:						; call GetPeriodTime, call DivX8U, d1 = A, ...
 	lda.b d0
 	pha
-	jsl.l GetPeriodTime
+	jsl.l GetPeriodTime				; d0 = the period length in seconds for the period length option
 	lda.b d0
 	phx
 	ldx.w #$0028
-	jsl.l DivX8U
+	jsl.l DivX8U					; X / A into A with the hardware divider
 	plx
 	sta.b d1
 	pla
@@ -469,7 +469,7 @@ ShowThreeStars:						; called from InProgress
 	and.w #$00FF
 	phx
 	ldx.w #$0064
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	sta.b r2
 	jsl.l Div16U
 	plx

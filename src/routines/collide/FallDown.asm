@@ -137,7 +137,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 .13:								; pfalock,x = A, call SetSPAUpdate, if minus go to .1xx, ...
 	ldx.b a2
 	sta.w pfalock,x
-	jsl.l SetSPAUpdate
+	jsl.l SetSPAUpdate				; start sprite animation A on object X and update it at once
 	lda.w CwdExciteLvl
 	clc
 	adc.w #$000A
@@ -152,7 +152,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 .2x:								; adc #$0006, call StartBenchCheer, benchrounds = $0002, ...
 	clc
 	adc.w #$0006
-	jsl.l StartBenchCheer
+	jsl.l StartBenchCheer			; start bench A cheering, unless one already is: benchcheer = A
 	lda.w #$0002
 	sta.w benchrounds
 	ldx.b a3
@@ -207,7 +207,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 .1xxx:								; increment a, increment a, call StartBenchCheer, ...
 	inc a
 	inc a
-	jsl.l StartBenchCheer
+	jsl.l StartBenchCheer			; start bench A cheering, unless one already is: benchcheer = A
 	lda.w #$0002
 	sta.w benchrounds
 	lda.w #SPAfallback				; fall back
@@ -245,7 +245,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	bcs .24
 	bra .24
 .22:								; go to CollisionSfx
-	jmp.w CollisionSfx
+	jmp.w CollisionSfx				; play the collision sound
 .23:								; go to .25
 	jmp.w .25
 .24:								; Crowdlevel = Crowdlevel + $012C, crowdhold = $002D, d0 = puckc, ...
@@ -278,7 +278,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	bit.w #$4000
 	bne .23
 	lda.w #$0096
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	asl a
 	ldy.b a2
 	sec
@@ -299,10 +299,10 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 .1xxxx:								; adc #$0006, call StartBenchCheer, call SetSPAFromA, ...
 	clc
 	adc.w #$0006
-	jsl.l StartBenchCheer
+	jsl.l StartBenchCheer			; start bench A cheering, unless one already is: benchcheer = A
 	ldx.b a2
 	lda.w #SPAinjury1
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	ldx.b a3
 	lda.w Xvel,x
 	eor.w #$FFFF					; negate: two's complement
@@ -329,17 +329,17 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 .2xx:								; if position,x != 0 go to .t2x, ...
 	lda.w position,x
 	bne .t2x
-	jmp.w AddPenalty2
+	jmp.w AddPenalty2				; call penalty d0 on player X without the checks
 
 .t2x:								; position,x != 0: if OptPen != 0 go to .t1x, ...
 	lda.l OptPen
 	bne .t1x
-	jmp.w AddPenalty2
+	jmp.w AddPenalty2				; call penalty d0 on player X without the checks
 
 .t1x:								; roughing penalty
 	lda.w #PenRoughing2				; roughing penalty
 	sta.b d0
-	jsl.l AddPenalty2
+	jsl.l AddPenalty2				; call penalty d0 on player X without the checks
 	jmp.w Stop4Pen					; stop play
 .25:								; if SPA,y = SPAstumble go to .1xxxxx, ...
 	ldy.b a2
@@ -353,7 +353,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	lda.w pfteam,y
 	bne .t1xx
 	lda.w #$0003
-	jsl.l StreamSfx
+	jsl.l StreamSfx					; request streamed sound A
 	rtl
 
 .t1xx:								; pfteam,y != 0: Crowdlevel = Crowdlevel + $0258, crowdhold = $002D, re...
@@ -386,7 +386,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	lda.w #SPAbenchcheckr
 .2xxx:								; pfalock,x = A, call SetSPAFromA, go to .24
 	sta.w pfalock,x
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	ldx.b a3
 	ldy.b a2
 	jmp.w .24
@@ -418,7 +418,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	sbc.b d1+2
 	sta.b d1
 	ldy.b d0
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	ldy.b a2
 	sta.b d4
 	cmp.w #$0014
@@ -431,7 +431,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	xba
 	tax
 	lda.b d4
-	jsl.l DivX8S
+	jsl.l DivX8S					; X / A into A, X signed
 	lsr a
 	lsr a
 	bit.w #$2000
@@ -449,7 +449,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	xba
 	tax
 	lda.b d4
-	jsl.l DivX8S
+	jsl.l DivX8S					; X / A into A, X signed
 	ldx.b a3
 	lsr a
 	lsr a

@@ -38,7 +38,7 @@ assepen:							; assignment: leave the penalty box
 	sta.w facedir,x
 	sta.w pfalock,x					; lock the assignment
 	lda.w #SPAwallleft				; wall animation
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	jml.l SprSort					; sort the sprites
 
 .t2:								; animation over: out on the ice

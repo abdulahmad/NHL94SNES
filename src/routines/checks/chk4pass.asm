@@ -5,12 +5,12 @@ chk4pass:							; called from assgoalie, asspuckc
 	lda.w #$0010
 	clc
 	adc.w spodds,x
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	cmp.w #$0009
 	bcs .4
 .1:									; call randoma8, d0 = A, if carry clear go to .2, ...
 	lda.w #$0006
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	sta.b d0
 	cpx.w #$000C
 	bcc .2
@@ -113,14 +113,14 @@ chk4pass:							; called from assgoalie, asspuckc
 	iny
 	dec.b d3
 	bpl .4x
-	jsl.l dopass
+	jsl.l dopass					; pass the puck in the pass direction, to the best teammate there if any
 	lda.w position,x
 	beq .t1
 	pla
 	sep #$20
 	pla
 	rep #$30
-	jmp.w assexit
+	jmp.w assexit					; end the player's current assignment and go back to the one under it
 
 .t1:								; return
 	rtl

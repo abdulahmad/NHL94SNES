@@ -10,7 +10,7 @@ Mul16x8XS_neg:						; called from Mul16x8S
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 Mul16x8XS_mul:						; called from Mul16x8S
-	jsl.l Mul16x8U_Pre
+	jsl.l Mul16x8U_Pre				; Mul16x8U from its second step, with Y saved
 Mul16x8XS_negres:					; called from Mul16XS_Neg
 	lda.w #$0000
 	sec

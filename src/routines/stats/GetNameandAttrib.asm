@@ -43,7 +43,7 @@ GetNameandAttrib:					; print player name and one attribute
 .t1:								; attributes 3 and up are calculated
 	lda.w #$0001
 	sta.l usehotcold
-	jsl.l CalcAttrib
+	jsl.l CalcAttrib				; overall rating of a player from his attributes and hot / cold values
 .2:									; handler for the attribute from attribjmp
 	lda.w #attribjmp>>16
 	sta.b a0+2

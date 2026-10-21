@@ -49,7 +49,7 @@ checkint:							; called from checkplcoll
 	lda.w #$0014
 	sec
 	sbc.w aggress,x					; 20 minus aggression
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	cmp.w #$0002
 	bcs .rtl
 	lda.w gmode						; not in highlights

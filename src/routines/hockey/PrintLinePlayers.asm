@@ -8,7 +8,7 @@ PrintLinePlayers:					; called from PrintLineNames
 	sta.b a1+2
 	lda.w #PrintLinePlayersPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PrintLinePlayersPos
 	pla
 	sta.b a1
 	pla
@@ -28,12 +28,12 @@ PrintLinePlayers:					; called from PrintLineNames
 	sta.b a1+2
 	lda.w #PrintLinePlayersPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PrintLinePlayersPos2
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	lda.b d0
 	dec a
 	sta.b d1
@@ -53,7 +53,7 @@ PrintLinePlayers:					; called from PrintLineNames
 	asl a
 	asl a
 	sta.b d0
-	jsl.l GetTeamLines
+	jsl.l GetTeamLines				; a3 = the RAM lines of team a2
 	sec
 	adc.b d0
 	sta.b a3
@@ -110,7 +110,7 @@ PrintLinePlayers:					; called from PrintLineNames
 	and.w #$00FF
 	dec a
 	sta.b d0
-	jsl.l PlayerNumName
+	jsl.l PlayerNumName				; mesarea = the uniform number and name of roster player d0 of team a2
 	jsl.l print
 	inc.b a3
 	pla
@@ -124,7 +124,7 @@ PrintLinePlayers:					; called from PrintLineNames
 	jmp.w .3
 
 .t1x:								; d1 counted below 0: call DrawEditLinesTitle, return
-	jsl.l DrawEditLinesTitle
+	jsl.l DrawEditLinesTitle		; line editor: the EditLinesLabel title sprites
 	rts
 .4:									; db $01,$02,$03,$04
 	db $01,$02,$03,$04

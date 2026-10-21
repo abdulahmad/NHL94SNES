@@ -6,12 +6,12 @@ ClearBigText:						; called from PlayerSelect
 	sta.b p1
 	lda.w #$0000
 	ldx.w #$0300
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	lda.w #screenmap>>16
 	sta.b p1+2
 	lda.w #screenmap+$28C
 	sta.b p1
 	ldx.w #$0080
 	lda.w #$0000
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	rts

@@ -14,7 +14,7 @@ ShowRosterLine:						; print the roster line with the chosen attribute
 	sta.b a1+2
 	lda.w #ShowRosterLinePos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowRosterLinePos
 	pla
 	sta.b a1
 	pla
@@ -25,7 +25,7 @@ ShowRosterLine:						; print the roster line with the chosen attribute
 	sta.b a1+2
 	lda.w #RosterLineNames
 	sta.b a1
-	jsl.l AdvanceStringPtr
+	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	jsl.l print
 	lda.w #$0011
 	sta.w printx
@@ -77,7 +77,7 @@ ShowRosterLine:						; print the roster line with the chosen attribute
 	sta.b a1+2
 	lda.w #ShowRosterLinePos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowRosterLinePos2
 	pla
 	sta.b a1
 	pla
@@ -97,12 +97,12 @@ ShowRosterLine:						; print the roster line with the chosen attribute
 	sta.b a1+2
 	lda.w #YSwitchTeamsTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print YSwitchTeamsTxt2
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	lda.b d0
 	dec a
 	sta.b d1
@@ -174,7 +174,7 @@ org $9DA000
 	sta.b d0
 	sta.b r1
 	stz.b r2
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	lda.b r1
 	cmp.b d0
 	bpl .1xx
@@ -183,7 +183,7 @@ org $9DA000
 .1xx:								; a goalie when r1 is not below the goalie count
 	lda.b r1
 	sta.b d0
-	jsl.l GetNameandAttrib
+	jsl.l GetNameandAttrib			; print player name and one attribute
 	inc.w printy
 	inc.w printy
 	dec.b d1

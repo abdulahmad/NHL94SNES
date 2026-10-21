@@ -39,7 +39,7 @@ PushRef:							; draws a referee frame
 .1:									; call Mul8U, d0 = A, a0 = RefsMap, ...
 	lda.b d0						; frame offset
 	ldx.w #$0070					; times $70 (a frame: 8 rows of 7 words)
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	sta.b d0
 	lda.w #RefsMap>>16				; a0 = RefsMap
 	sta.b a0+2

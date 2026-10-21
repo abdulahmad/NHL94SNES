@@ -47,5 +47,5 @@ ReleaseVoice:						; called from PlaySoundEntry, StepTrack, UpdateVoice
 .3:									; return
 	rts
 .4:									; call StopVoice, return
-	jsr.w StopVoice
+	jsr.w StopVoice					; stop voice Y
 	rts

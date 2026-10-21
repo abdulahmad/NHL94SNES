@@ -27,7 +27,7 @@ dostop:								; player X stops or glides
 	lda.w Yvel,x
 	sta.b p0+2
 	lda.w #$0011					; skate stop sound $11
-	jsl.l sfx
+	jsl.l sfx						; play sound A with the velocity in p0 / p0+2
 .2:									; stop animation
 	lda.w #SPAstop					; SPAstop
 	sta.w pf2aip,x					; pf2aip: animation in progress

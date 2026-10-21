@@ -104,10 +104,10 @@ Stop4Pen:							; called from FallDown, checkfornewpen, puckfaceoff
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.w #$0015
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	stz.w Pencntdwn
 	lda.w #$0004
 	tsb.w gmode
 	lda.w #$000A
 	sta.b d0
-	jml.l SetPA
+	jml.l SetPA						; starts the referee animation for penalty d0

@@ -8,7 +8,7 @@ ClearEditLinesMenu:					; called from EditLinesMenu
 	sta.b a1+2
 	lda.w #ClearEditLinesMenuPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ClearEditLinesMenuPos
 	pla
 	sta.b a1
 	pla
