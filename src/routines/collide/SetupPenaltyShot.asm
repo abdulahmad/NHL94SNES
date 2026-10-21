@@ -1,82 +1,83 @@
 ; Penalty shot set up: the puck at centre ice, every player reassigned, the defending goalie to his pad, the
 ; shooter (BA_Sktr_SCnum) gets the puck, PenShotActive = 1, timer pstimer = 1000, ClearPenaltyBuffer
 SetupPenaltyShot:					; called from puckfaceoff2
-	stz.w puckx
-	stz.w pucky
-	stz.w puckz
-	stz.w puckvx
-	stz.w puckvy
-	stz.w puckvz
-	phx
-	ldx.w #$0000
-	lda.w #$0002
-	sta.b d4
-	lda.w BA_Team
-	beq .1
-	ldx.w #$000C
-	lda.w #$0000
-	sta.b d4
-.1:									; d0 = $0010, call .4, call .4, ...
-	lda.w #$0010
-	sta.b d0
-	jsl.l .4
+	stz.w puckx						;puck at centre ice
+	stz.w pucky						;puck at centre ice
+	stz.w puckz						;puck at centre ice
+	stz.w puckvx					;puck at rest
+	stz.w puckvy					;puck at rest
+	stz.w puckvz					;puck at rest
+	phx								;save x
+	ldx.w #$0000					;home's first player
+	lda.w #$0002					;visitors defend
+	sta.b d4						;visitors defend
+	lda.w BA_Team					;shooting team
+	beq .1							;home shoots
+	ldx.w #$000C					;visitors' first player
+	lda.w #$0000					;home defends
+	sta.b d4						;home defends
+.1:									;reassign every player
+	lda.w #$0010					;assignment 16
+	sta.b d0						;d0 = 16
+	jsl.l .4						;reassign 6 players
 	jsl.l .4
 	jsl.l .4
 	jsl.l .4
 	jsl.l .4
 	jsl.l .4
 org $9FB003
-	ldx.b d4
-	lda.w teampads,x
-	beq .3
-	lda.w goaliemode1,x
-	beq .3
-	ldy.w #$0000
-.loop:								; loop: if padside,y negative go to .2, ...
-	lda.w padside,y
-	bmi .2
-	cmp.b d4
-	beq .t1
-.2:									; Y + 1, Y + 1, if carry clear go to .loop, ...
+	ldx.b d4						;defending team
+	lda.w teampads,x				;pads on the team?
+	beq .3							;no pad on the team: skip
+	lda.w goaliemode1,x				;manual goalie?
+	beq .3							;auto goalie: skip
+	ldy.w #$0000					;first pad
+.loop:								;each pad
+	lda.w padside,y					;side of pad y
+	bmi .2							;no side
+	cmp.b d4						;defending side?
+	beq .t1							;on the defending side?
+.2:									;next pad
 	iny
-	iny
-	cpy.w #$000A
-	bcc .loop
-	bra .3
+	iny								;next pad
+	cpy.w #$000A					;5 pads
+	bcc .loop						;next pad
+	bra .3							;no pad on this side
 
-.t1:								; d4 = Y, call PadTakeGoalie
-	sty.b d4
-	jsl.l PadTakeGoalie
-.3:									; tmtouch1,y = $FFFF, tmtouch2,y = $FFFF, tmtouch3,y = $FFFF, ...
-	plx
-	ldy.w BA_Team
-	lda.w #$FFFF
-	sta.w tmtouch1,y
-	sta.w tmtouch2,y
-	sta.w tmtouch3,y
-	lda.w CwdExciteLvl
+.t1:								;this pad takes the goalie
+	sty.b d4						;pad
+	jsl.l PadTakeGoalie				;the pad takes the goalie
+.3:									;clear the touches
+	plx								;restore x
+	ldy.w BA_Team					;shooting team
+	lda.w #$FFFF					;none
+	sta.w tmtouch1,y				;no last touch
+	sta.w tmtouch2,y				;no assists
+	sta.w tmtouch3,y				;no assists
+	lda.w CwdExciteLvl				;crowd excitement
 	clc
-	adc.w #$0014
-	bmi .1x
-	sta.w CwdExciteLvl
-.1x:								; puckc = BA_Sktr_SCnum, if pspad negative go to .2x, ...
-	lda.w BA_Sktr_SCnum
-	sta.w puckc
-	tay
-	lda.w pspad
-	bmi .2x
-	sta.w playerpad,y
-.2x:								; PenShotActive = 0, increment PenShotActive, penshotlive = $0001, ...
-	stz.w PenShotActive
-	inc.w PenShotActive
-	lda.w #$0001
-	sta.w penshotlive
-	lda.w #$03E8
-	sta.w pstimer
-	jsl.l ClearPenaltyBuffer
+	adc.w #$0014					;plus 20
+	bmi .1x							;overflow: keep it
+	sta.w CwdExciteLvl				;crowd excitement +20
+.1x:								;shooter takes the puck
+	lda.w BA_Sktr_SCnum				;shooter
+	sta.w puckc						;shooter has the puck
+	tay								;shooter index
+	lda.w pspad						;pad of the shooter
+	bmi .2x							;no pad
+	sta.w playerpad,y				;pad on the shooter
+.2x:								;start the penalty shot
+	stz.w PenShotActive				;penalty shot on
+	inc.w PenShotActive				;penalty shot on
+	lda.w #$0001					;live
+	sta.w penshotlive				;penalty shot live
+	lda.w #$03E8					;1000 frames
+	sta.w pstimer					;shot timer
+	jsl.l ClearPenaltyBuffer		;clear the penalty buffer
 	rtl
-.4:									; subroutine: puckc = X, call assinsert, call assinsert, ...
-	stx.w puckc
+.4:									;reassign one player
+	stx.w puckc						;player
+	jsl.l assinsert					;insert the assignments
 	jsl.l assinsert
 	jsl.l assinsert
 	jsl.l assinsert
@@ -84,7 +85,6 @@ org $9FB003
 	jsl.l assinsert
 	jsl.l assinsert
 	jsl.l assinsert
-	jsl.l assinsert
-	inx
-	inx
+	inx								;next player
+	inx								;next player
 	rtl
