@@ -1,5 +1,5 @@
-; Draw the pause menu: five items of the current list (by $1EB7) from item $0D13, the selected one (psitem)
-; highlighted, each with its value
+; Draw the pause menu: five items of the current list (by pmenulist) from item psfirst, the selected one
+; (psitem) highlighted, each with its value
 Pmenu:								; called from PauseMenuPoll, SelectPauseController, ShowMP5Warning, Sta...
 	lda.b a1+2
 	pha

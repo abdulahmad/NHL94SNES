@@ -1,5 +1,5 @@
 ; Copy the two team colours of the card's team (home colours $67-$68, visitors $77-$78) to colours $4E-$4F of
-; the $7F7500 palette
+; the colourbuf palette
 SetCardTeamColours:					; a2 = team side (0 home); returns nothing; called from DrawPlayerCard
 	ldx.w #$00CE					; home colours
 	lda.b a2						; home?

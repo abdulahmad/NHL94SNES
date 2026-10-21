@@ -1,4 +1,4 @@
-; asscentero: four words per zone ($1083,x)
+; asscentero: four words per zone (temp5,x)
 CenterOSpots:						; called from asscentero
 	dw $0000,$003C,$FFBA,$000A
 	dw $0000,$003C,$003C,$000A

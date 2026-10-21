@@ -1,4 +1,4 @@
-; Put the player at the cursor in shooter row $1DB9; if that player is already in the list, the two swap
+; Put the player at the cursor in shooter row curitem; if that player is already in the list, the two swap
 SetShooter:							; called from ShooterSelectList
 	ldy.b d1
 	phy

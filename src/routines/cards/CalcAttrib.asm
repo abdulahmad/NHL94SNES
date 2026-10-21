@@ -1,5 +1,5 @@
 ; The overall rating of player d0 of team a2 from the attribute mask $B7, with the hot / cold table when
-; $7E35F2 is set
+; usehotcold is set
 ; Takes: d0 = roster index of the player, a2 = team, d4+2 = mask of the attributes to include (bit 15 set
 ; = a weighted overall rating, otherwise one attribute), r2 = 0 for skaters, nonzero (16) for goalies
 ; (probably). Returns d0 = rating 0-100. Called from GetNameandAttrib, GetPlayerBaseRating, GetPlayerRating.

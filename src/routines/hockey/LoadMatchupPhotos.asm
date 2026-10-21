@@ -1,5 +1,5 @@
 ; Unpack the matchup players' photos of team x (0 home, 2 visitors) into the $7F photo buffer, unless that
-; team's are already there ($7E346C)
+; team's are already there (phototeams)
 ;
 ; Takes x = team (0 home, 2 visitors). Called from setoptions, ScoutingReport and DrawPlayerPicture.
 LoadMatchupPhotos:					; unpack the matchup player photos of team x
@@ -32,7 +32,7 @@ LoadMatchupPhotos:					; unpack the matchup player photos of team x
 	sta.b p0
 	lda.l PlayerPhotoTable+2,x
 	sta.b p0+2
-	lda.w #unpackbuf>>16			; unpack the photo to $7F0000
+	lda.w #unpackbuf>>16			; unpack the photo to unpackbuf
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1

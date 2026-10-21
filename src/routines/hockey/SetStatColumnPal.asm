@@ -1,4 +1,4 @@
-; Text palette $2000 for the sorted stat column (A = $1DF9), else $2400
+; Text palette $2000 for the sorted stat column (A = statcolumn), else $2400
 SetStatColumnPal:					; A = column number; sets printa; called from FillPlayerStatsPage
 	cmp.w statcolumn				; the sorted column?
 	beq .t1							; yes

@@ -28,7 +28,7 @@ NMI_Fast:							; called from NMI
 	stz.w NMIHookNext
 	ldx.w NMIHookNext+2
 	stx.w NMIHook+2
-.1:									; go to [$078C]
+.1:									; go to [NMIHook]
 	ldx.b #$80
 	phx
 	pea.w NMI_HookReturn-1			; rtl from the hook lands on the next line

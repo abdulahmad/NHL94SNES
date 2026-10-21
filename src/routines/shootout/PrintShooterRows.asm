@@ -1,4 +1,4 @@
-; Print the rows of the list from $1DA7, the row at the cursor ($1D9B) in another palette
+; Print the rows of the list from picktop, the row at the cursor (curplayer) in another palette
 PrintShooterRows:					; called from PrintShooterList
 	lda.b a1+2
 	pha

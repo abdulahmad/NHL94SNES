@@ -1,9 +1,9 @@
-; Unpack the 7 x 7 picture map (PictureMap) to $7F7780 and add the second font tile base and palette 3 to each
-; word
+; Unpack the 7 x 7 picture map (PictureMap) to picboxmap and add the second font tile base and palette 3 to
+; each word
 ;
-; Called from SetupScreen and LoadScoutingScreen. Decompresses to $7F7780.
+; Called from SetupScreen and LoadScoutingScreen. Decompresses to picboxmap.
 LoadPictureMap:						; unpack the picture map and add the tile base
-	lda.w #PictureMap>>16			; unpack PictureMap to $7F7780
+	lda.w #PictureMap>>16			; unpack PictureMap to picboxmap
 	sta.b p0+2
 	lda.w #PictureMap
 	sta.b p0

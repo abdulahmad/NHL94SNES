@@ -1,4 +1,5 @@
-; Compare stat column $1DF9 of the players at order slots x and y ($1DFB); $1DC9 is not 0 when they swap
+; Compare stat column statcolumn of the players at order slots x and y (statsorder); statstemp is not 0 when
+; they swap
 ComparePlayerStats:					; called from SortPlayerStats
 	phx
 	phy

@@ -1,4 +1,4 @@
-; Send the RenderBigText map ($7EA676, the BigLetterSelect map) and the letter tiles ($7E4EF4, $7E3466
+; Send the RenderBigText map ($7EA676, the BigLetterSelect map) and the letter tiles (bigtextbuf, bigtextchar
 ; letters) to VRAM
 SendBigText:						; called from PlayerSelect
 	lda.w #$0020

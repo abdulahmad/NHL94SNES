@@ -5,7 +5,7 @@
 ; Builds the logo from the CenterIceTable entry of the team (two pointers: a tile map and the graphics).
 ; Local routines below convert the data into titlelogobuf.
 LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 map
-	pha								; keep the team, send the map buffer at $7F4000 (60 by 60) to the
+	pha								; keep the team, send the map buffer at introbuf (60 by 60) to the
 									; Mode 7 map
 	lda.w #introbuf>>16
 	sta.b p0+2
@@ -43,14 +43,14 @@ LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 m
 	clc
 	adc.w #$0040
 	tay
-	lda.w #titlelogobuf>>16			; send the map at $7FA000 to the Mode 7 map in VRAM
+	lda.w #titlelogobuf>>16			; send the map at titlelogobuf to the Mode 7 map in VRAM
 	sta.b p0+2
 	lda.w #titlelogobuf
 	sta.b p0
 	lda.w #$0000
 	sta.w MapVRAM
 	jsl.l Mode7MapToVRAM
-	plx								; first pointer (the logo graphics): unpack to $7F0000, convert with .t2
+	plx								; first pointer (the logo graphics): unpack to unpackbuf, convert with .t2
 	lda.l CenterIceTable,x
 	sta.b p0
 	lda.l CenterIceTable+2,x

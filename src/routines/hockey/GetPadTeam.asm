@@ -1,4 +1,4 @@
-; a2 = the team of the controller that paused (0 home, 2 visitors), from its side ($1C84)
+; a2 = the team of the controller that paused (0 home, 2 visitors), from its side (cont1team)
 ;
 ; Returns a2 = 0 or 2 (the team index of the pad that paused, set from pausepad) and a2+2 = the side
 ; searched for. Called from PauseGoalieMode, PauseDefControl, PauseTimeout, PauseGoalie and Pmenu.

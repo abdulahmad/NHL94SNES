@@ -1,5 +1,5 @@
 ; d0 = the crowd meter: sroot(CwdExciteLvl * 4) + 65, at most 128; keeps CrowdPeak and the running average
-; $19C6
+; CrowdAvg
 UpdateCrowdMeter:					; called from CheckCrowdMeter
 	phx
 	phy

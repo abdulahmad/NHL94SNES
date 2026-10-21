@@ -1,4 +1,4 @@
-; Fill $7EF000 with the 26 team numbers in random order (RandomWord, no repeats)
+; Fill titleteams with the 26 team numbers in random order (RandomWord, no repeats)
 ShuffleTitleTeams:					; no input; fills titleteams; called from TitleScreen
 	stz.w TitleTeamIdx				; none chosen yet
 	ldx.w #$0000					; x = byte index of the list

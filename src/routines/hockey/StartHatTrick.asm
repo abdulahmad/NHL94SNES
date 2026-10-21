@@ -1,4 +1,4 @@
-; Start the hat trick sprites: clear the ten slots ($7E340C) and set $7E3448
+; Start the hat trick sprites: clear the ten slots (hatstep) and set hattrick
 StartHatTrick:						; called from ShowGoalBox
 	phx
 	ldx.w #$0012

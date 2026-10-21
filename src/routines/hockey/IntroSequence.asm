@@ -104,7 +104,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.l introbuf,x
 	inx
 	inx
-	cpx.w #$4000					; unpack EALogoTiles to introchars ($7F8010) and EALogoMap to introbuf
+	cpx.w #$4000					; unpack EALogoTiles to introchars (introchars) and EALogoMap to introbuf
 	bcc .loopx
 	lda.w #EALogoTiles
 	sta.b p0

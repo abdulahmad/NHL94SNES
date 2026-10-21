@@ -43,7 +43,7 @@ setupice:							; set up the rink screen
 	sta.b p0+2
 	lda.w #IceRinkTiles
 	sta.b p0
-	lda.w #unpackbuf>>16			; p1 = $7F0000: unpack to WRAM
+	lda.w #unpackbuf>>16			; p1 = unpackbuf: unpack to WRAM
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
@@ -66,7 +66,7 @@ setupice:							; set up the rink screen
 	sta.b p0+2
 	lda.w #FaceOffTiles
 	sta.b p0
-	lda.w #unpackbuf>>16			; p1 = $7F0000
+	lda.w #unpackbuf>>16			; p1 = unpackbuf
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1

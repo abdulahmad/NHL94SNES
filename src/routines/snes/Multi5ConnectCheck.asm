@@ -1,4 +1,4 @@
-; read 16 signature bits from each port; $1A00 bit 7 (port 1) or 6 (port 2) = multitap
+; read 16 signature bits from each port; mp5connect bit 7 (port 1) or 6 (port 2) = multitap
 Multi5ConnectCheck:					; called from Multi5Bios, Multi5Init
 	php
 	sep #$30

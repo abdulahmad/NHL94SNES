@@ -36,7 +36,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.l charofs2
 	jsl.l ClearTextMap
 	jsl.l ClearTextMap2
-	lda.w #SmallFontTiles>>16		; small font to VRAM at smallfontchars * 16 + $1000, unpacked at $7F0000
+	lda.w #SmallFontTiles>>16		; small font to VRAM at smallfontchars * 16 + $1000, unpacked at unpackbuf
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
@@ -159,7 +159,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
-	lda.w #CardPictureMap>>16		; card picture map unpacked at $7F7780
+	lda.w #CardPictureMap>>16		; card picture map unpacked at picboxmap
 	sta.b p0+2
 	lda.w #CardPictureMap
 	sta.b p0

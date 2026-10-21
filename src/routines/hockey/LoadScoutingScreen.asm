@@ -49,7 +49,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	ldy.w #$FFFF
 	ldx.w #$0020
 	jsl.l FillVRAM
-	lda.w #SmallFontTiles>>16		; small font unpacked at $7F0000; outlinechars and Framercset advance by
+	lda.w #SmallFontTiles>>16		; small font unpacked at unpackbuf; outlinechars and Framercset advance by
 									; its size in tiles
 	sta.b p0+2
 	lda.w #SmallFontTiles

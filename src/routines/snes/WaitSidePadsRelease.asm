@@ -1,4 +1,4 @@
-; Wait until every pad that has a side ($1C84) has no button down
+; Wait until every pad that has a side (cont1team) has no button down
 ; Takes nothing. Loops over the pads (X = 0..8): a pad without a team (cont1team = 0) is ignored, a pad with a
 ; team that has anything held restarts the scan. Registers are preserved.
 ;

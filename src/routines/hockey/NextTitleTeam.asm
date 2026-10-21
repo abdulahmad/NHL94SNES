@@ -1,4 +1,4 @@
-; A = the next team of the shuffled list ($0BD5), shuffling again after the 26th
+; A = the next team of the shuffled list (TitleTeamIdx), shuffling again after the 26th
 ;
 ; Returns A = team. Called from TitleScreen.
 NextTitleTeam:						; A = next team of the shuffled title list

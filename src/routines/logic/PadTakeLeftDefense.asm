@@ -1,5 +1,5 @@
-; L button with defense control on ($1C94): pad d4 takes the defenseman on the left of the screen (LD when the
-; team shoots at the top goal, else RD), then PadTakePosition
+; L button with defense control on (defcontrol): pad d4 takes the defenseman on the left of the screen (LD
+; when the team shoots at the top goal, else RD), then PadTakePosition
 PadTakeLeftDefense:					; called from doinput
 	ldy.w #$0000
 	cpx.w #$000C

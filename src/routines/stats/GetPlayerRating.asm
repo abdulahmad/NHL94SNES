@@ -1,5 +1,5 @@
-; d0 = rating column d1 (AttribMenuSkater / AttribMenuGoalie) of player $1D9B of team a2 through CalcAttrib,
-; with the hot / cold adjustment
+; d0 = rating column d1 (AttribMenuSkater / AttribMenuGoalie) of player curplayer of team a2 through
+; CalcAttrib, with the hot / cold adjustment
 ; Takes d1 = rating column number, a2 = team offset, curplayer = player. Saves d0 to d9 and the pointers,
 ; picks the AttribMenuGoalie list for a goalie (curplayer past the skaters) or AttribMenuSkater, finds the
 ; d1-th entry and gets the value with CalcAttrib. Returns d0 = rating, the other registers restored.

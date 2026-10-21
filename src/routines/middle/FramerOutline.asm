@@ -1,5 +1,5 @@
 ; Framer with an outline box (FramerOutlineMap: eight border tiles, the set's base tile in the middle) from
-; tile set $7E35C0
+; tile set outlinechars
 FramerOutline:						; called from DrawEditLinesBack, DrawEditLinesTop, DrawShootersBack, Pa...
 	phx
 	phy

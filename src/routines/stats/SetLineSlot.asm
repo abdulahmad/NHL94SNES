@@ -1,5 +1,5 @@
-; Put player $1D8F in the cursor slot of the selected line; if he is already in another slot of that line, the
-; old occupant moves there (swap)
+; Put player lineplayer in the cursor slot of the selected line; if he is already in another slot of that
+; line, the old occupant moves there (swap)
 ; Takes A = player (kept in lineplayer). d0 is set to the first slot of the selected line (GetTeamLines + 8 *
 ; (SelectedPlayerIdx - 1) + 1). Depending on how far the cursor row is from the end of the line (lineslots -
 ; linecursor) the neighbouring slots are searched for the same player, who then is swapped into the cursor

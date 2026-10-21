@@ -1,5 +1,5 @@
-; Pad d4 takes control of player d0: its old player is released (pflags, $19D4 = -1), the new one marked
-; (pflags bit 3, $19D4 = pad, $19EC = player)
+; Pad d4 takes control of player d0: its old player is released (pflags, playerpad = -1), the new one marked
+; (pflags bit 3, playerpad = pad, c1playernum = player)
 AssignPadPlayer:					; called from AssignPadIfFree, PadTakePosition, PuckCarrierPad, doinput...
 	lda.w #$FFFF
 	sta.w dumpinplayer

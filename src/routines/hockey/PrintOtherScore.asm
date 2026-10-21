@@ -1,4 +1,4 @@
-; Other scores: game $1DB9, its two teams with their scores and the period label (PerLabels)
+; Other scores: game curitem, its two teams with their scores and the period label (PerLabels)
 PrintOtherScore:					; called from FillOtherScores
 	lda.w curitem
 	asl a

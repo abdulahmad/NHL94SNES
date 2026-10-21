@@ -1,4 +1,4 @@
-; Turn goalie X's facing one step toward d0, at most one step per 6 ticks ($0BCB,x)
+; Turn goalie X's facing one step toward d0, at most one step per 6 ticks (goalieturnwait,x)
 ; Takes: X = goalie object, d0 = wanted direction (0-7). Turns facedir one step the short way (+1 or -1,
 ; mod 8) unless the goalie's turn wait (goalieturnwait) is still running; then the wait is set to 6.
 ; Called from assgoalie, assgoalietopuck and assdumpin.

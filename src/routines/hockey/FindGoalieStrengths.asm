@@ -1,4 +1,4 @@
-; The player card strengths of goalie $1D9B: the best three goalie rating columns into $1E79-$1E83
+; The player card strengths of goalie curplayer: the best three goalie rating columns into strengths-$1E83
 ; (AddStrength)
 FindGoalieStrengths:				; called from DrawPlayerCard
 	lda.w #$FFFF

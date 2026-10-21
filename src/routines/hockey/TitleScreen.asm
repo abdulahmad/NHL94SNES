@@ -575,7 +575,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1
 	jsl.l Decompress
 	rts
-.8:									; clear the title variables $0BCB-$0C00
+.8:									; clear the title variables TitleWH1-$0C00
 	ldx.w #$0BCB
 	lda.w #$0000
 .loopxx:							; word by word

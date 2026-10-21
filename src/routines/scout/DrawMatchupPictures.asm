@@ -1,5 +1,5 @@
-; Draw the two 6 x 6 pictures, visitors at x 1 and home at x $18: a team logo ($7E3454 / $7E3452) or, when
-; that is negative, the matchup player picture ($7E345C / $7E345A)
+; Draw the two 6 x 6 pictures, visitors at x 1 and home at x $18: a team logo (setupvis / setuphome) or, when
+; that is negative, the matchup player picture (matchupvis / matchuphome)
 DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, PasswordScreen, Play...
 	lda.b a2
 	pha

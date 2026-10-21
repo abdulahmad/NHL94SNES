@@ -1,4 +1,5 @@
-; Title: raise the mode 7 scale $0BFB to $200 while the BG1 scroll ($0BF7 / $0BF9) moves to $1E8, $140
+; Title: raise the mode 7 scale TitleM7Scale to $200 while the BG1 scroll (TitleM7HOfs / TitleM7VOfs) moves to
+; $1E8, $140
 TitleZoomOutRight:					; no input; called from TitleScreen
 	lda.w TitleM7Scale				; current scale
 	inc a							; larger
