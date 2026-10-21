@@ -1,5 +1,5 @@
 ; clear the locked bit of handle A's block
-; A = handle ($2000-$20FF index into the handle table); other values are ignored. Reads the block address of
+; A = handle (an index into HandleTable); other values are ignored. Reads the block address of
 ; the handle, finds that block in the heap list of the bank and clears the locked bit of its flags.
 ;
 ; No caller found.

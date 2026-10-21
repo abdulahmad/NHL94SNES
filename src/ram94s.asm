@@ -641,7 +641,7 @@ FrameCacheCount		=	$07BA		;Tile cache entries in use: InitSprites stz, LoadFrame
 									;FreeCacheEntry dec; ...
 FrameTilesFail		=	$07C0		;GetFrameTiles stores $FFFF here when LoadFrameTiles finds no room; never
 									;read
-CacheUseMark		=	$07C2		;InitSprites sets 2; GetFrameTiles stores it in the entry's $2D40 use
+CacheUseMark		=	$07C2		;InitSprites sets 2; GetFrameTiles stores it in the entry's FrameCacheUse
 									;word, which SpriteFrameStart shifts ...
 DrawFrameNum		=	$07C4		;DrawSprite/FreeFrameTiles/GetFrameTiles store the frame number here; with
 									;FrameByNumber set the cache ...
@@ -1057,8 +1057,8 @@ pausemenuon		=	$7E3476			;PauseMenu sets $FFFF, Pausemode / Intermission clear i
 									;DrawHorTeams leaves the pulsing side ...
 playerstatson	=	$7E3478			;ShowPlayerStats sets 1 while it runs; DrawMatchupPictures then skips the
 									;picture DMA.
-gamesstarted	=	$7E347A			;StartGame increments it right after clearing $30F4-$3478 (count of games
-									;started; no reader found).
+gamesstarted	=	$7E347A			;StartGame increments it right after clearing carriedy to playerstatson
+									;(count of games started; no reader found).
 OptPlayMode		=	$7E34BC			;Setup menu row 0 'Play Mode' (base of the 7-word option block setoptions
 									;edits; choices Regular Season .. ...
 OptTeam1		=	$7E34BE			;Setup row 1 'Home': setoptions copies it to HomeTeam; NewPO takes it as
@@ -1146,7 +1146,7 @@ screenmap		=	$7EA670			;PlayoffScreen map buffer (+0 width $80, +2 height $20, w
 screenmap2		=	$7EC676			;Second PlayoffScreen map ($80 x $20: +0 / +2 header, words from +6) for
 									;the BigLetterPlayoff letters, sent ...
 OAMHiMasks		=	$7EE67C			;Reset_Fast copies OAMHighMasks (16 bytes) here; DrawSprite /
-									;DrawSpritePieces AND with $E67C,x.
+									;DrawSpritePieces AND with it (x indexed).
 titleteams		=	$7EF000			;ShuffleTitleTeams fills it with the 26 team numbers in random order;
 									;TitleScreen / NextTitleTeam read word ...
 introbuf		=	$7F4000			;IntroSequence work buffer (it clears $4000 bytes from here): EALogoMap

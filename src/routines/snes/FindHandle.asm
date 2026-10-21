@@ -5,7 +5,7 @@
 FindHandle:							; search the handle table
 	stx.b r3+2						; bank to find
 	sta.b r3
-	ldx.w #$2000					; first entry at $2000
+	ldx.w #$2000					; first entry of HandleTable
 .loop:								; compare entry X with the address and bank
 	lda.l Ram7E,x					; compare the address word, then the bank word
 	cmp.b r3
