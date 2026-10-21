@@ -10,14 +10,14 @@ pucknorm:							; called from asstab
 	lda.w #$0000
 	sta.l pspuckback
 pucknorm_move:						; called from puckfaceoff, pucknorm
-	lda.w puckcross+2				; puckcross times count down
+	lda.w puckcross+pcframes		; puckcross times count down
 	sec
 	sbc.b d7
-	sta.w puckcross+2
-	lda.w puckcross+6
+	sta.w puckcross+pcframes
+	lda.w puckcross+pcsize+pcframes
 	sec
 	sbc.b d7
-	sta.w puckcross+6
+	sta.w puckcross+pcsize+pcframes
 	lda.w temp1+puckobj				; every 5 frames: findpc
 	sec
 	sbc.b d7
@@ -176,7 +176,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	sta.b r1
 	jsl.l Div32S
 	lda.b r0
-	sta.w puckcross+2,y
+	sta.w puckcross+pcframes,y
 	lda.b r0
 	asl a
 	asl a
@@ -200,7 +200,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	lda.b d0
 	sta.w puckcross,y
 	rtl
-.17:								; puckcross+2,y = $FFFF, return
+.17:								; puckcross+pcframes,y = $FFFF, return
 	lda.w #$FFFF
-	sta.w puckcross+2,y
+	sta.w puckcross+pcframes,y
 	rtl

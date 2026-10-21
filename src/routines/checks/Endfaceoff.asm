@@ -36,7 +36,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	clc
 	adc.b d2
 	sta.b d2
-	lda.l fofdata2+4
+	lda.l fofdata2+fosize
 	tax
 	lda.l .14-1,x
 	and.w #$00FF
@@ -55,9 +55,9 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	bcs .5
 	lda.w #$0004
 	sta.b a1
-.5:									; if fofdata2+2,x bits $0800 clear go to .6, ...
+.5:									; if fofdata2+foattr,x bits $0800 clear go to .6, ...
 	ldx.b a1
-	lda.l fofdata2+2,x
+	lda.l fofdata2+foattr,x
 	bit.w #$0800
 	beq .6
 	lda.l fodir2

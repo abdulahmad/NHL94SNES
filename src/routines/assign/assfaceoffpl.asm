@@ -18,7 +18,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	and.w #$FFFD					; clear pfna
 	sta.w pflags,x
 	stz.w temp1,x					; clear temp1
-.1xx:								; a0 = fofdata2 (home) or fofdata2+4 (visitors)
+.1xx:								; a0 = fofdata2 (home) or fofdata2+fosize (visitors)
 	lda.w #fofdata2>>16
 	sta.b a0+2
 	lda.w #fofdata2

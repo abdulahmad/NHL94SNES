@@ -301,8 +301,8 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	sta.w puckvz
 	stz.w puckz
 	lda.w #$FFFF
-	sta.w puckcross+2
-	sta.w puckcross+6
+	sta.w puckcross+pcframes
+	sta.w puckcross+pcsize+pcframes
 	sta.w pfnc+puckobj
 	lda.w #$001A
 	sta.b d0
