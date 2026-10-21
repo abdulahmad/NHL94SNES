@@ -10,7 +10,7 @@ vtoa:								; direction of the vector d0 / d1
 	ora.b d1						; zero
 	beq .nodir						; no direction
 	stz.b d7+2						;the octant index (94G builds it in d2): sign
-	;bits, then the two ratio bits
+									;bits, then the two ratio bits
 	lda.b d0						; dx
 	bpl .0							; positive
 	eor.w #$FFFF					; negate

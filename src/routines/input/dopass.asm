@@ -214,7 +214,7 @@ dopass_count:						; called from dopass
 	lda.l SPAonetimerf,x
 	tax
 	lda.l SPAonetimerf&$FF0000,x	;the first frame of SPAonetimerf in that direction:
-	;GetHot below takes its hot spot
+									;GetHot below takes its hot spot
 	ldx.b a3
 	ldy.b a0
 	sta.w frame,y
