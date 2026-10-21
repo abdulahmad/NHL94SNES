@@ -1,14 +1,14 @@
 ; Read the pads with key repeat. A held button repeats after a delay
 ProcessInputWithRepeat:				; called from EditLinesMenu, EditLinesScreen, PasswordRedraw, PenaltySu...
-	lda.b d3
-	beq .rtl
-	lda.b d2
+	lda.b d3						; buttons held
+	beq .rtl						; none: leave
+	lda.b d2						; d2 = changed buttons
 	bne .t1
 	dec.w repeatdelay
 	bpl .rtl
 	lda.w #$0006
 	sta.w repeatdelay
-	lda.b d3
+	lda.b d3						; held buttons count as new presses
 	sta.b d1
 .rtl:								; return
 	rtl

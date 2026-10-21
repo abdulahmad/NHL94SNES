@@ -2,12 +2,12 @@
 showzam:							; called from setvideo
 	lda.b vcount
 	ldy.b vcount+2
-	sbc.w vcountmark
+	sbc.w vcountmark				; minus the mark: elapsed frames
 	sta.b tmp0
 	tya
 	sbc.w vcountmark+2
-	bne .rtl
-	lda.w sfhormode
+	bne .rtl						; more than 255 frames: done
+	lda.w sfhormode					; horizontal mode
 	beq .rtl
 	lda.w InIntermission
 	beq .rtl
@@ -16,7 +16,7 @@ showzam:							; called from setvideo
 	lda.w #$2000
 	sta.w sprattr
 	lda.b tmp0
-	lsr a
+	lsr a							; elapsed / 4
 	lsr a
 	sta.w sprx
 	lda.w #$00C8

@@ -5,79 +5,79 @@ ShowRinkRows:						; called from setvideo
 	rtl
 
 .t2:								; sfhormode = 0: if not zero go to .t1, ...
-	lda.w Vscroll
+	lda.w Vscroll					; vertical scroll
 	clc
-	adc.w #$0170
+	adc.w #$0170					; plus $170
 	lsr a
 	lsr a
-	lsr a
-	tax
+	lsr a							; /8: rink row
+	tax								; X = row
 	sec
-	sbc.w Oldrow
+	sbc.w Oldrow					; minus the old row
 	bne .t1
 	jmp.w .4
 
 .t1:								; if plus go to .2, ...
 	bpl .2
-	stx.w Oldrow
+	stx.w Oldrow					; new old row
 	eor.w #$FFFF					; negate: two's complement
 	inc a
-	cmp.w #$0019
+	cmp.w #$0019					; more than 24 rows
 	bcs .1
-	sta.b tmp1
-	lda.w vramrow
+	sta.b tmp1						; rows to draw
+	lda.w vramrow					; video row
 	sec
-	sbc.b tmp1
-	and.w #$001F
-	sta.w vramrow
+	sbc.b tmp1						; minus the rows
+	and.w #$001F					; wrap at 32
+	sta.w vramrow					; store
 	sta.b tmp2
 	bra .3
 .1:									; tmp1 = $001D, vramrow = 0, tmp2 = 0, ...
-	lda.w #$001D
+	lda.w #$001D					; 30 rows
 	sta.b tmp1
-	stz.w vramrow
+	stz.w vramrow					; from video row 0
 	stz.b tmp2
 	bra .3
 .2:									; Oldrow = X, if carry set go to .1, ...
 	stx.w Oldrow
 	cmp.w #$0019
 	bcs .1
-	sta.b tmp1
-	adc.w vramrow
-	and.w #$001F
+	sta.b tmp1						; rows to draw
+	adc.w vramrow					; video row
+	and.w #$001F					; wrap at 32
 	sta.w vramrow
 	adc.w #$001D
 	sec
 	sbc.b tmp1
 	and.w #$001F
 org $9FC002
-	sta.b tmp2
+	sta.b tmp2						; first video row to fill
 	txa
 	clc
 	adc.w #$001D
 	sec
 	sbc.b tmp1
-	tax
+	tax								; map row
 .3:									; tmp0 = X * 2 * 2 * 2 * 2 * 2, tmp0 = X * 2 * 2 * 2 * 2 * 2 * 2 + tmp0...
-	txa
+	txa								; map row
 	asl a
 	asl a
 	asl a
 	asl a
-	asl a
+	asl a							; times 32
 	sta.b tmp0
-	asl a
+	asl a							; times 3
 	adc.b tmp0
 	adc.w #rinkmapbuf
 	adc.w #$0006
 	sta.b tmp0
-	lda.b tmp2
+	lda.b tmp2						; video row
 	asl a
 	asl a
 	asl a
 	asl a
-	asl a
-	adc.w #$0400
+	asl a							; times 32
+	adc.w #$0400					; plus $400
 	sta.b tmp2
 	lda.b tmp1
 	sta.b r1

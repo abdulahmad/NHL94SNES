@@ -3,26 +3,26 @@ InitSortObjects:					; called from setoptions, setupice_reset
 	phb
 	phk								; data bank = program bank
 	plb
-	ldx.w #$0000
+	ldx.w #$0000					; SortCords (all fields of the 16 objects)
 .loop:								; loop: Xpos,x = 0, X + 1, X + 1, ...
-	stz.w Xpos,x
+	stz.w Xpos,x					; clear one word at a time
 	inx
 	inx
 	cpx.w #$076E
 	bne .loop
-	stz.b d6
-	stz.b a1
-	stz.b a2
-	stz.b a3
+	stz.b d6						; object number
+	stz.b a1						; OOlist index
+	stz.b a2						; byte offset into SortObjInitTable
+	stz.b a3						; byte offset into the sort tables
 	stz.b a4
 	stz.w puckz
 .loop2:								; loop: SCnum,y = d6, oldframe,y = $FFFF, pnum,y = $FFFF, ...
 	ldx.b a2
 	ldy.b a3
 	lda.b d6
-	sta.w SCnum,y
+	sta.w SCnum,y					; SCnum = object number
 	lda.w #$FFFF
-	sta.w oldframe,y
+	sta.w oldframe,y				; oldframe and pnum = -1
 	sta.w pnum,y
 	lda.w .3,x
 	sta.w Xpos,y
@@ -46,15 +46,15 @@ InitSortObjects:					; called from setoptions, setupice_reset
 	ldy.b a3
 	sta.w asscur,y
 	lda.w .3+16,x
-	sta.w pflags,y
+	sta.w pflags,y					; object flags
 	lda.w #$0000
-	sta.w pfnc,y
-	cpy.w #$001E
+	sta.w pfnc,y					; default function 0
+	cpy.w #$001E					; object $1E (puck shadow): pfnc
 	bne .1
 	lda.w #$0001
 	sta.w pfnc,y
 .1:									; rol a, increment a, and #$0001, ...
-	cpx.w #$006C
+	cpx.w #$006C					; pfgoal for objects 6-11 and 12-15, pfteam $34 for 6-11
 	rol a
 	inc a
 	and.w #$0001
@@ -64,29 +64,29 @@ InitSortObjects:					; called from setoptions, setupice_reset
 	cpx.w #$00D8
 	bcs .2
 	lda.w #$0034
-	sta.w pfteam,y
+	sta.w pfteam,y					; pfteam = $34
 .2:									; increment a3, increment a3, OOlist,y = d6 * 2, ...
+	inc.b a3						; next sort table slot
 	inc.b a3
-	inc.b a3
-	sep #$20
+	sep #$20						; 8-bit A
 	lda.b d6
-	asl a
+	asl a							; build the OOlist entry
 	ldy.b a1
 	sta.w OOlist,y
-	inc.b a1
-	rep #$30
+	inc.b a1						; OOlist index
+	rep #$30						; 16-bit registers
 	ldy.b a4
 	lda.b d6
-	sta.w OOlistpos,y
+	sta.w OOlistpos,y				; OOlistpos[object] = object
 	inc.b a4
 	inc.b a4
 	inc.b d6
 	lda.b a2
 	clc
-	adc.w #$0012
+	adc.w #$0012					; next init table entry
 	sta.b a2
 	lda.b d6
-	cmp.w #$0010
+	cmp.w #$0010					; all 16 objects done?
 	beq .t1
 	jmp.w .loop2
 

@@ -1,10 +1,10 @@
 ; Move the view so the screen follows the puck
 checkwindow:						; called from DoGameFrame, puckfaceoff2
-	lda.w yc1
+	lda.w yc1						; previous view target y
 	sta.b d2
-	lda.w xc1
+	lda.w xc1						; previous view target x
 	sta.b d3
-	lda.w sflags
+	lda.w sflags					; sfslock: use xc1/yc1
 	bit.w #sfslock
 	bne .3
 	ldx.w #$001C
@@ -29,10 +29,10 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	sta.w yleader
 	cmp.w #$FFCF
 	bpl .2
-	lda.w #$FFCE
+	lda.w #$FFCE					; limit -50
 	sta.w yleader
 .2:									; if zero go to .1, ...
-	lda.w Yvel,x
+	lda.w Yvel,x					; y velocity / 128
 	lsr a
 	lsr a
 	lsr a
@@ -45,24 +45,24 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	ora.w #$FE00
 .1:									; adc Ypos,x, adc yleader, d2 = A, ...
 	clc
-	adc.w Ypos,x
+	adc.w Ypos,x					; plus the object's y
 	clc
-	adc.w yleader
-	sta.b d2
-	sta.w yc1
-	lda.w Xpos,x
-	sta.b d3
-	sta.w xc1
+	adc.w yleader					; plus yleader
+	sta.b d2						; d2 = target y
+	sta.w yc1						; remember it
+	lda.w Xpos,x					; object x
+	sta.b d3						; d3 = target x
+	sta.w xc1						; remember it
 .3:									; d0 = d2 - Vpos, if plus go to .t1x, ...
-	lda.b d2
+	lda.b d2						; |target - Vpos| > 10: scroll
 	sec
-	sbc.w Vpos
+	sbc.w Vpos						; distance from the current view
 	sta.b d0
 	cmp.w #$FFF7
 	bpl .t1x
 	lda.b d2
 	sec
-	sbc.w #$FFF6
+	sbc.w #$FFF6					; d1 = target - 10 (scrolling up)
 	sta.b d1
 	cmp.w #$FF39
 	bpl .4
@@ -76,18 +76,18 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	bmi .5
 	lda.b d2
 	sec
-	sbc.w #$000A
+	sbc.w #$000A					; d1 = target + 10 (scrolling down)
 	sta.b d1
 	cmp.w #$0100
 	bmi .4
-	lda.w #$0100
+	lda.w #$0100					; limit $100
 	sta.b d1
 .4:									; if zero go to .5, ...
-	lda.b d1
+	lda.b d1						; step toward d1
 	sec
 	sbc.w Vpos
 	beq .5
-	lsr a
+	lsr a							; divide by 8
 	lsr a
 	lsr a
 	lsr a
@@ -101,17 +101,17 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 .2x:								; adc Vpos, Vpos = A
 	clc
 	adc.w Vpos
-	sta.w Vpos
+	sta.w Vpos						; new vertical position
 .5:									; d0 = d3 - Hpos, if plus go to .t1xx, ...
-	lda.b d3
+	lda.b d3						; |target - Hpos| > 40: scroll
 	sec
-	sbc.w Hpos
+	sbc.w Hpos						; distance from the current view
 	sta.b d0
 	cmp.w #$FFD8
 	bpl .t1xx
 	lda.b d3
 	sec
-	sbc.w #$FFD8
+	sbc.w #$FFD8					; d1 = target + 40 (scrolling left)
 	sta.b d1
 	cmp.w #$FFC4
 	bpl .6
@@ -125,20 +125,20 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	bmi .7
 	lda.b d3
 	sec
-	sbc.w #$0028
+	sbc.w #$0028					; d1 = target - 40 (scrolling right)
 	sta.b d1
 	cmp.w #$003D
 	bmi .6
-	lda.w #$003C
+	lda.w #$003C					; limit 60
 	sta.b d1
 .6:									; if zero go to .7, ...
 	lda.b d1
 	sec
-	sbc.w Hpos
+	sbc.w Hpos						; step toward d1
 	beq .7
 	lsr a
 	lsr a
-	lsr a
+	lsr a							; divide by 8
 	lsr a
 	bit.w #$0800
 	beq .1xx
@@ -150,6 +150,6 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 .2xx:								; adc Hpos, Hpos = A
 	clc
 	adc.w Hpos
-	sta.w Hpos
+	sta.w Hpos						; new horizontal position
 .7:									; return
 	rtl

@@ -8,7 +8,7 @@ AttribHanded:						; print left or right handed
 	and.w #$0001
 	eor.w #$0001
 	sta.b d0
-	lda.w #HandedTextTbl>>16
+	lda.w #HandedTextTbl>>16		; text list for the hand
 	sta.b a1+2
 	lda.w #HandedTextTbl
 	sta.b a1

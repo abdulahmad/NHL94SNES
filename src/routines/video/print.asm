@@ -7,17 +7,17 @@
 ;
 ; Called from AttribWeight, AttribStatus, ShowRosterLine, SelectLinePlayer and many others.
 print:								; print a string
-	phx
-	ldy.w #$0002
+	phx								; keep X
+	ldy.w #$0002					; Y = 2: skip the length word
 .1:									; X = text map offset of the print position
-	lda.w printy
+	lda.w printy					; X = (printy*32+printx)*2 + printm
 	asl a
 	asl a
 	asl a
 	asl a
 	asl a
 	adc.w printx
-	asl a
+	asl a							; plus the character offset
 	adc.w printm
 	tax
 	lda.l smallfontchars
@@ -41,7 +41,7 @@ print:								; print a string
 
 .t1:								; ordinary character
 	phx
-	asl a
+	asl a							; character index
 	tax
 	lda.l SmallFontMap+6,x
 	adc.b r3
@@ -49,7 +49,7 @@ print:								; print a string
 .3:									; write the tile when it differs from the map
 	cmp.l textmap,x
 	beq .2x
-	sta.l textmap,x
+	sta.l textmap,x					; store the tile
 	txa
 	lsr a
 	cmp.w textdirtylo
@@ -60,16 +60,16 @@ print:								; print a string
 	bcc .2x
 	sta.w textdirtyhi
 .2x:								; next print position
-	inc.w printx
+	inc.w printx					; next column
+	inx								; next text map position
 	inx
-	inx
-	iny
+	iny								; next character
 	bra .2
 .4:									; control record: palette and priority into printa, font set, position
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	pha								; 1,s = the control record value, negated
-	and.w #$0030
+	and.w #$0030					; bits 4-5: palette (printa bits 10-12)
 	cmp.w #$0010
 	bne .1xx
 	clc
@@ -81,9 +81,9 @@ print:								; print a string
 	asl a
 	asl a
 	asl a
-	sta.w printa
+	sta.w printa					; printa palette
 	lda.b 1,s
-	and.w #$0040
+	and.w #$0040					; bit 6: priority
 	asl a
 	asl a
 	asl a
@@ -91,16 +91,16 @@ print:								; print a string
 	asl a
 	asl a
 	asl a
-	tsb.w printa
+	tsb.w printa					; printa priority
 	pla
-	and.w #$0003
+	and.w #$0003					; bits 0-1: font, printfontset = font table entry
 	pha
 	asl a
 	tax
 	lda.l printfontset,x
 	sta.l printfontset
 	pla
-	dec a
+	dec a							; map (font-1) * $800 bytes
 	xba
 	and.w #$FF00
 	asl a
@@ -108,20 +108,20 @@ print:								; print a string
 	asl a
 	sta.w printm
 	iny
-	lda.b [a1],y
+	lda.b [a1],y					; x
 	and.w #$007F
-	sta.w printx
+	sta.w printx					; printx
 	iny
-	lda.b [a1],y
+	lda.b [a1],y					; y
 	and.w #$007F
-	sta.w printy
+	sta.w printy					; printy
 	iny
 	jmp.w .1
 .5:									; end of string: step a1 past it
-	clc
-	adc.b a1
-	sta.b a1
-	plx
+	clc								; string length
+	adc.b a1						; plus the string start
+	sta.b a1						; a1 = end of the string
+	plx								; restore X
 	rtl
 .6:									; blank character
 	lda.l blankchar
