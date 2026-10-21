@@ -22,7 +22,7 @@ checkfo:							; called from setvideo
 	clc
 	adc.w #SPFfaceoff-1
 	sta.w sprframe
-	lda.l fofdata2+2,x
+	lda.l fofdata2+foattr,x
 	and.w #$0800
 	sta.w sprhflip
 	lda.w #$0000

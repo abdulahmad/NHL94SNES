@@ -53,7 +53,7 @@ ShowGoalBox:						; called from SetPA
 	sta.b d0
 	lda.w #$0005
 	sta.b d1
-	ldy.w #$0004
+	ldy.w #ssassist1
 	lda.b [a4],y
 	bit.w #$0080
 	bne .1
@@ -65,7 +65,7 @@ ShowGoalBox:						; called from SetPA
 .1:									; call Framer, a2 = 0, if [a4],y bits $0080 clear go to .2, ...
 	jsl.l Framer
 	stz.b a2
-	ldy.w #$0002
+	ldy.w #ssflags
 	lda.b [a4],y
 	bit.w #$0080
 	beq .2
@@ -76,7 +76,7 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1+2
 	lda.w #GoalBoxText
 	sta.b a1
-	ldy.w #$0003
+	ldy.w #ssscorer
 	lda.b [a4],y
 	and.w #$00FF
 	ldy.b a2
@@ -90,7 +90,7 @@ ShowGoalBox:						; called from SetPA
 	cmp.w #$0003
 	bne .4
 	jsl.l GoalieCount
-	ldy.w #$0003
+	ldy.w #ssscorer
 	lda.b [a4],y
 	and.w #$00FF
 	cmp.b d0
@@ -108,13 +108,13 @@ ShowGoalBox:						; called from SetPA
 	sta.w Pencntdwn
 .4:									; call printbig, d0 = [a4],y & $00FF, call PlayerShortName, ...
 	jsl.l printbig
-	ldy.w #$0003
+	ldy.w #ssscorer
 	lda.b [a4],y
 	and.w #$00FF
 	sta.b d0
 	jsl.l PlayerShortName
 	jsl.l print
-	ldy.w #$0004
+	ldy.w #ssassist1
 	lda.b [a4],y
 	and.w #$00FF
 	sta.b d0
@@ -135,7 +135,7 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1+2
 	jsl.l PlayerShortName
 	jsl.l print
-	ldy.w #$0005
+	ldy.w #ssassist2
 	lda.b [a4],y
 	and.w #$00FF
 	sta.b d0

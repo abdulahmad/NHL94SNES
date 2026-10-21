@@ -2,7 +2,7 @@
 ClearTracks:						; called from MusicStop, SoundInit
 	php
 	sep #$30
-	stx.b $52
+	stx.b TrackLoopEnd
 	tya
 	tax
 	asl a
@@ -15,7 +15,7 @@ ClearTracks:						; called from MusicStop, SoundInit
 	iny
 	iny
 	inx
-	cpx.b $52
+	cpx.b TrackLoopEnd
 	bne .loop
 	plp
 	rts

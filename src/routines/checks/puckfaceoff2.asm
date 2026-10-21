@@ -105,8 +105,8 @@ puckfaceoff2:						; called from asstab
 	stz.w replaydelay
 	lda.w #$FFFF					; -1 marks the ref count, crossings, puck carrier and receiver as none
 	sta.w RefCnt
-	sta.w puckcross+2
-	sta.w puckcross+6
+	sta.w puckcross+pcframes
+	sta.w puckcross+pcsize+pcframes
 	sta.w puckz
 	sta.w passReceiverPlayerNum
 	asl a
@@ -696,25 +696,25 @@ puckfaceoff2:						; called from asstab
 	beq .4xxx
 	lda.w #$00B4
 	sta.w temp1,x
-.4xxx:								; fofdata2 = $0001, fofdata2+2 = $8000, fofdata+2 = $8000, ...
+.4xxx:								; fofdata2 = $0001, fofdata2+foattr = $8000, fofdata+foattr = $8000, ...
 	lda.w #$0001
 	sta.l fofdata2
 	lda.w #$8000
-	sta.l fofdata2+2
-	sta.l fofdata+2
+	sta.l fofdata2+foattr
+	sta.l fofdata+foattr
 	lda.w #$0004
-	sta.l fofdata2+4
+	sta.l fofdata2+fosize
 	lda.w #$A800
-	sta.l fofdata2+6
+	sta.l fofdata2+fosize+foattr
 	lda.w #$0007
 	sta.l fofdata
 	lda.w gmode
 	bit.w #gmdir
 	bne .5xx
 	lda.w #$8800
-	sta.l fofdata2+2
+	sta.l fofdata2+foattr
 	lda.w #$A000
-	sta.l fofdata2+6
+	sta.l fofdata2+fosize+foattr
 .5xx:								; fodir1 = $FFFF, fodir2 = $FFFF, xsave = X, ...
 	lda.w #$FFFF
 	sta.l fodir1

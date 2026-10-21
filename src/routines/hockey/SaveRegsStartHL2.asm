@@ -153,8 +153,8 @@ StartHL2:							; entry point, no direct callers found
 	stz.w iflags
 	lda.w #$FFFF
 	sta.w RefCnt
-	sta.w puckcross+2
-	sta.w puckcross+6
+	sta.w puckcross+pcframes
+	sta.w puckcross+pcsize+pcframes
 	jsl.l setupice_reset
 	jsl.l ClrHor
 	stz.w Vpos
