@@ -15,9 +15,9 @@ InitSetupChars:						; set the tile numbers and load the font of the setup scree
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa								; d0 = size in tiles (bytes / 32)

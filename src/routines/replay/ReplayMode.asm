@@ -20,9 +20,9 @@ ReplayMode:							; called from PauseReplay
 	lda.w #$FFFF
 	sta.w replaylock
 	sta.l replaypanel
-	lda.w #$007F
+	lda.w #rinkmapbuf>>16
 	sta.b p0+2
-	lda.w #$C800
+	lda.w #rinkmapbuf
 	sta.b p0
 	lda.w #$0020
 	sta.b r7

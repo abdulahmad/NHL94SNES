@@ -14,9 +14,9 @@ PrintToStatsPage:					; a1 = string, printx / printy = cell; returns nothing
 	sta.b p0+2
 	lda.b a1
 	sta.b p0
-	lda.w #$007F					; p1 = stats page buffer
+	lda.w #statspage>>16			; p1 = stats page buffer
 	sta.b p1+2
-	lda.w #$2780
+	lda.w #statspage
 	sta.b p1
 	ldy.w printy					; y = row, x = column
 	ldx.w printx

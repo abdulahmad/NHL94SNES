@@ -11,10 +11,10 @@ LockHandle:							; set the locked bit of handle A's block
 	lda.l Ram7E,x
 	tyx
 	ldy.w HeapStart7E
-	cpx.w #$007E
+	cpx.w #Ram7E>>16
 	beq .heap
 	ldy.w HeapStart7F
-	cpx.w #$007F
+	cpx.w #Ram7F>>16
 	bne .exit
 .heap:								; sbc #$0008, r3 = A, p0+2 = X, ...
 	sec

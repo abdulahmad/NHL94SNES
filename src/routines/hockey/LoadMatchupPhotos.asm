@@ -32,9 +32,9 @@ LoadMatchupPhotos:					; unpack the matchup player photos of team x
 	sta.b p0
 	lda.l PlayerPhotoTable+2,x
 	sta.b p0+2
-	lda.w #$007F					; unpack the photo to $7F0000
+	lda.w #unpackbuf>>16			; unpack the photo to $7F0000
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	stx.b r0
@@ -51,9 +51,9 @@ LoadMatchupPhotos:					; unpack the matchup player photos of team x
 	clc
 	adc.l MatchupPhotoOffsets,x
 	sta.b p1
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	jsl.l LinearToPlanar
 	plx								; next player

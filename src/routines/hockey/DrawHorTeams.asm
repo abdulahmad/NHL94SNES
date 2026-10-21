@@ -34,16 +34,16 @@ DrawHorTeams:						; called from setvideo
 	sta.l colourbuf+$1DE
 	sta.l colourbuf+$1FE
 .1:									; p0+2 = $007F, p0 = $75C0, call DMAToCGRAM, ...
-	lda.w #$007F
+	lda.w #(colourbuf+$C0)>>16
 	sta.b p0+2
-	lda.w #$75C0
+	lda.w #colourbuf+$C0
 	sta.b p0
 	ldy.w #$0060
 	ldx.w #$0020
 	jsl.l DMAToCGRAM
-	lda.w #$007F
+	lda.w #(colourbuf+$1C0)>>16
 	sta.b p0+2
-	lda.w #$76C0
+	lda.w #colourbuf+$1C0
 	sta.b p0
 	ldy.w #$00E0
 	ldx.w #$0020

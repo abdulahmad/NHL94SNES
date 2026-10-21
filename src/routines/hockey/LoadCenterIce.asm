@@ -12,12 +12,12 @@ LoadCenterIce:						; unpack the home team's centre ice logo to VRAM
 	sta.b p0
 	lda.l CenterIceTable+2,x
 	sta.b p0+2
-	lda.w #$007F					; unpack the logo graphics to $7F0000
+	lda.w #unpackbuf>>16			; unpack the logo graphics to $7F0000
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F					; convert from linear to planar tiles in place
+	lda.w #unpackbuf>>16			; convert from linear to planar tiles in place
 	sta.b p1+2
 	sta.b p0+2
 	stz.b p0

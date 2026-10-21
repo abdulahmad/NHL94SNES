@@ -2,9 +2,9 @@
 ; League" (title sprites 9, 10, 11)
 DrawLicenceNHL:						; called from TitleScreen
 	jsl.l SpriteFrameStart
-	lda.w #$007F
+	lda.w #titlesprbuf>>16
 	sta.b p1+2
-	lda.w #$5000
+	lda.w #titlesprbuf
 	sta.b p1
 	lda.w #$0009
 	jsr.w DrawTitleSprite

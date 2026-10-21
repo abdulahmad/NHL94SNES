@@ -68,7 +68,7 @@ org $9FC002
 	sta.b tmp0
 	asl a
 	adc.b tmp0
-	adc.w #$C800
+	adc.w #rinkmapbuf
 	adc.w #$0006
 	sta.b tmp0
 	lda.b tmp2
@@ -82,7 +82,7 @@ org $9FC002
 	lda.b tmp1
 	sta.b r1
 .loop:								; loop: p0+2 = $007F, p0 = tmp0, call DMAToVRAM, ...
-	lda.w #$007F
+	lda.w #rinkmapbuf>>16
 	sta.b p0+2
 	lda.b tmp0
 	sta.b p0

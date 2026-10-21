@@ -15,9 +15,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0001
 	ldy.w #$0001
 	jsl.l DrawPlayerPicture
-	lda.w #$007F
+	lda.w #picboxmap>>16
 	sta.b p0+2
-	lda.w #$7780
+	lda.w #picboxmap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -43,9 +43,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldy.w #$00A0
 	ldx.w #$0010
 	jsl.l SetColours
-	lda.w #$007F
+	lda.w #logosprbuf>>16
 	sta.b p1+2
-	lda.w #$7800
+	lda.w #logosprbuf
 	sta.b p1
 	lda.w #$2400
 	ldx.w #$000C
@@ -54,9 +54,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0001
 	ldy.w #$0001
 	jsl.l ClearPictureBox
-	lda.w #$007F
+	lda.w #logoboxmap>>16
 	sta.b p0+2
-	lda.w #$7700
+	lda.w #logoboxmap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -80,9 +80,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0018
 	ldy.w #$0001
 	jsl.l DrawPlayerPicture
-	lda.w #$007F
+	lda.w #picboxmap>>16
 	sta.b p0+2
-	lda.w #$7780
+	lda.w #picboxmap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -108,9 +108,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldy.w #$00B0
 	ldx.w #$0010
 	jsl.l SetColours
-	lda.w #$007F
+	lda.w #logosprbuf>>16
 	sta.b p1+2
-	lda.w #$7800
+	lda.w #logosprbuf
 	sta.b p1
 	lda.w #$2600
 	ldx.w #$00C4
@@ -119,9 +119,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0018
 	ldy.w #$0001
 	jsl.l ClearPictureBox
-	lda.w #$007F
+	lda.w #logoboxmap>>16
 	sta.b p0+2
-	lda.w #$7700
+	lda.w #logoboxmap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -141,7 +141,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	lda.l setuphome
 	bpl .t1xx
 .1xx:								; p0+2 = $007F, p0 = homepicaddr, call WaitFrame, ...
-	lda.w #$007F
+	lda.w #Ram7F>>16
 	sta.b p0+2
 	lda.l homepicaddr
 	sta.b p0
@@ -156,7 +156,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0600
 	jsl.l WaitFrame
 	jsl.l DMAToVRAM
-	lda.w #$007F
+	lda.w #Ram7F>>16
 	sta.b p0+2
 	lda.l vispicaddr
 	sta.b p0

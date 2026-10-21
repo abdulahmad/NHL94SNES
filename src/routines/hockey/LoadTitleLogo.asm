@@ -7,9 +7,9 @@
 LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 map
 	pha								; keep the team, send the map buffer at $7F4000 (60 by 60) to the
 									; Mode 7 map
-	lda.w #$007F
+	lda.w #introbuf>>16
 	sta.b p0+2
-	lda.w #$4000
+	lda.w #introbuf
 	sta.b p0
 	lda.w #$0000
 	sta.w MapVRAM
@@ -43,9 +43,9 @@ LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 m
 	clc
 	adc.w #$0040
 	tay
-	lda.w #$007F					; send the map at $7FA000 to the Mode 7 map in VRAM
+	lda.w #titlelogobuf>>16			; send the map at $7FA000 to the Mode 7 map in VRAM
 	sta.b p0+2
-	lda.w #$A000
+	lda.w #titlelogobuf
 	sta.b p0
 	lda.w #$0000
 	sta.w MapVRAM
@@ -55,19 +55,19 @@ LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 m
 	sta.b p0
 	lda.l CenterIceTable+2,x
 	sta.b p0+2
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	jsr.w .t2
-	lda.w #$007F					; copy the converted graphics to VRAM
+	lda.w #titlelogobuf>>16			; copy the converted graphics to VRAM
 	sta.b p0+2
-	lda.w #$A000
+	lda.w #titlelogobuf
 	sta.b p0
 	ldy.w #$0000
 	jsl.l DMAToVRAMHigh

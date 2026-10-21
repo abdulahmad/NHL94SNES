@@ -7,9 +7,9 @@ LoadPictureMap:						; unpack the picture map and add the tile base
 	sta.b p0+2
 	lda.w #PictureMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #picboxmap>>16
 	sta.b p1+2
-	lda.w #$7780
+	lda.w #picboxmap
 	sta.b p1
 	jsl.l Decompress
 	lda.l picboxmap					; r3 = bytes per row, x = number of rows (from picboxmap); skip the 3

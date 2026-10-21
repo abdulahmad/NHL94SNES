@@ -8,9 +8,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #TeamLogoSprites
 	sta.b p0
-	lda.w #$007F
+	lda.w #logosprbuf>>16
 	sta.b p1+2
-	lda.w #$7800
+	lda.w #logosprbuf
 	sta.b p1
 	jsl.l Decompress
 	jsl.l WaitFadeOut
@@ -40,9 +40,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	lda.l smallfontchars
 	asl a
@@ -60,9 +60,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	lsr a
 	lsr a
 	sta.b d0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b a0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b a0
 	lda.w #PixelRemap8F>>16
 	sta.b a1+2
@@ -85,9 +85,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #TeamBlocksTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -100,9 +100,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sec
 	sbc.w #$0100
 	sta.l picchars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.l scorechars
 	asl a
@@ -119,9 +119,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #CardBackTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -132,9 +132,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	lsr a
 	adc.l cardbackchars
 	sta.w cardframechars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	stx.b p1
 	stx.b r0
@@ -148,14 +148,14 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #CardFrameTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -163,9 +163,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #CardPictureMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #picboxmap>>16
 	sta.b p1+2
-	lda.w #$7780
+	lda.w #picboxmap
 	sta.b p1
 	jsl.l Decompress
 	lda.l picboxmap					; r3 = bytes per row, x = rows; skip the 3 header words
@@ -203,14 +203,14 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #CardBackMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -232,14 +232,14 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #SetupScreenPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0040
@@ -253,14 +253,14 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #CardBackPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0040
 	ldx.w #$0010

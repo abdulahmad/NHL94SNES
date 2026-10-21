@@ -110,18 +110,18 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b p0
 	lda.w #$0094
 	sta.b p0+2
-	lda.w #$8010
+	lda.w #introchars
 	sta.b p1
-	lda.w #$007F
+	lda.w #introchars>>16
 	sta.b p1+2
 	jsl.l Decompress
 	lda.w #EALogoMap
 	sta.b p0
 	lda.w #EALogoMap>>16
 	sta.b p0+2
-	lda.w #$4000
+	lda.w #introbuf
 	sta.b p1
-	lda.w #$007F					; send the map bytes (low) and tile bytes (high) to VRAM interleaved: the
+	lda.w #introbuf>>16				; send the map bytes (low) and tile bytes (high) to VRAM interleaved: the
 									; Mode 7 layout
 	sta.b p1+2
 	jsl.l Decompress
@@ -165,9 +165,9 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b p0
 	lda.w #EALogoSprites>>16
 	sta.b p0+2
-	lda.w #$4A40
+	lda.w #introbuf+$A40
 	sta.b p1
-	lda.w #$007F
+	lda.w #(introbuf+$A40)>>16
 	sta.b p1+2
 	jsl.l Decompress
 	rts
@@ -253,9 +253,9 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 
 .t1xxx:								; all white (or skipped): reload the 16 colours from [p0], send them,
 									; continue at d5
-	lda.w #$4000
+	lda.w #introbuf
 	sta.b p1
-	lda.w #$007F
+	lda.w #introbuf>>16
 	sta.b p1+2
 	jsr.w .32
 	lda.w #$0008
@@ -303,9 +303,9 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	jmp.w .20
 .10:								; state 4: draw sprite 0 at (x $38, y $2F), next state 9
 	jsl.l SpriteFrameStart
-	lda.w #$4A40
+	lda.w #introbuf+$A40
 	sta.b p1
-	lda.w #$007F
+	lda.w #(introbuf+$A40)>>16
 	sta.b p1+2
 	lda.w #$0000
 	sta.b r0
@@ -343,9 +343,9 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	jmp.w .20
 .12:								; state 6: draw sprites 0 and 1, next state 10
 	jsl.l SpriteFrameStart
-	lda.w #$4A40
+	lda.w #introbuf+$A40
 	sta.b p1
-	lda.w #$007F
+	lda.w #(introbuf+$A40)>>16
 	sta.b p1+2
 	lda.w #$0000
 	sta.b r0
@@ -589,9 +589,9 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	pha
 	lda.b p0+2
 	pha
-	lda.w #$4040
+	lda.w #introbuf+$40
 	sta.b p0
-	lda.w #$007F
+	lda.w #(introbuf+$40)>>16
 	sta.b p0+2
 	ldx.w #$1C00
 	lda.w #$0A00
@@ -622,16 +622,16 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	rtl
 .29:								; palette job: copy 16 words from [p0] to the buffer, source tmp2/3 =
 									; buffer, tmp1 = $10
-	lda.w #$4000
+	lda.w #introbuf
 	sta.b p1
-	lda.w #$007F
+	lda.w #introbuf>>16
 	sta.b p1+2
 	jsr.w .32
 	lda.w #$0010
 	sta.b tmp1
-	lda.w #$4000
+	lda.w #introbuf
 	sta.b tmp2
-	lda.w #$007F
+	lda.w #introbuf>>16
 	sta.b tmp3
 	rts
 .30:								; one fade step on the 16 palette words in the buffer: every colour

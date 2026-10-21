@@ -15,10 +15,10 @@ DisposeHandle:						; free handle A and its block, joined with free neighbours
 	pla
 	tyx
 	ldy.w HeapStart7E
-	cpx.w #$007E
+	cpx.w #Ram7E>>16
 	beq .heap
 	ldy.w HeapStart7F
-	cpx.w #$007F
+	cpx.w #Ram7F>>16
 	beq .heap
 .exit:								; return
 	rtl

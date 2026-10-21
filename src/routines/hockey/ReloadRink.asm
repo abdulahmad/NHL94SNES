@@ -9,9 +9,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	sta.b p0+2
 	lda.w #IceRinkTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	phx
@@ -44,9 +44,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	lda.w #$0000
 	sta.l charofs2
 	plx
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$1000
 	jsl.l DMAToVRAM
@@ -59,14 +59,14 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	sta.b p0+2
 	lda.l CenterIceTable,x
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	stx.b p1
 	stx.b r0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
 	sta.b p1+2
 	stz.b p0
@@ -85,14 +85,14 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	sta.b p0+2
 	lda.w #FaceOffTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.l faceoffvrcset
 	asl a
@@ -107,9 +107,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	lda.w #RinkLogoTiles
 	sta.b p0
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -118,9 +118,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	lda.w #RefTilesHor
 	sta.b p0
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -129,9 +129,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	lda.w #RefTiles
 	sta.b p0
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -139,9 +139,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -158,9 +158,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	asl a
 	adc.w #$1000
 	sta.w VMADDL
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b a0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b a0
 	lda.w #PixelRemap83>>16
 	sta.b a1+2
@@ -182,9 +182,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	sta.b p0+2
 	lda.w #BigFontTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -196,9 +196,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	sta.b d0
 	adc.l BigFontChars
 	sta.l scorechars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -214,9 +214,9 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	lsr a
 	lsr a
 	adc.l scorechars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM

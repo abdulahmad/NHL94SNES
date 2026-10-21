@@ -6,7 +6,7 @@ DisposePtrHandle:					; free handle A unless it is a heap block
 	bcs .exit
 	tax
 	lda.l Ram7E+2,x
-	cmp.w #$007E
+	cmp.w #Ram7E>>16
 	beq .exit
 	cmp.w #$007F
 	beq .exit

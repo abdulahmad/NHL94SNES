@@ -43,9 +43,9 @@ setupice:							; set up the rink screen
 	sta.b p0+2
 	lda.w #IceRinkTiles
 	sta.b p0
-	lda.w #$007F					; p1 = $7F0000: unpack to WRAM
+	lda.w #unpackbuf>>16			; p1 = $7F0000: unpack to WRAM
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress				; unpack, X = size in bytes
 	txa								; tile count = size / 32
@@ -55,9 +55,9 @@ setupice:							; set up the rink screen
 	lsr a
 	lsr a
 	sta.l centericechars			; centericechars: the centre ice logo goes after the rink tiles
-	lda.w #$007F					; p0 = the unpacked tiles
+	lda.w #unpackbuf>>16			; p0 = the unpacked tiles
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$1000					; VRAM address $1000
 	jsl.l DMAToVRAM					; send them to VRAM
@@ -66,9 +66,9 @@ setupice:							; set up the rink screen
 	sta.b p0+2
 	lda.w #FaceOffTiles
 	sta.b p0
-	lda.w #$007F					; p1 = $7F0000
+	lda.w #unpackbuf>>16			; p1 = $7F0000
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress				; unpack
 	txa								; tile count of the face off tiles
@@ -79,9 +79,9 @@ setupice:							; set up the rink screen
 	lsr a
 	adc.l faceoffvrcset				; plus the first free tile after the logo
 	sta.l EASNcset					; EASNcset: first tile of RinkLogoTiles
-	lda.w #$007F					; p0 = unpacked tiles
+	lda.w #unpackbuf>>16			; p0 = unpacked tiles
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF					; Y negative: continue at the current VRAM address
 	jsl.l DMAToVRAM					; send them to VRAM
@@ -98,9 +98,9 @@ setupice:							; set up the rink screen
 	lsr a
 	adc.l EASNcset					; plus EASNcset
 	sta.l refcharshor				; refcharshor: first tile of RefTilesHor
-	lda.w #$007F					; send the logo tiles to VRAM
+	lda.w #unpackbuf>>16			; send the logo tiles to VRAM
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -117,9 +117,9 @@ setupice:							; set up the rink screen
 	lsr a
 	adc.l refcharshor				; plus refcharshor
 	sta.l refchars					; refchars: first tile of RefTiles
-	lda.w #$007F					; send the horizontal ref tiles to VRAM
+	lda.w #unpackbuf>>16			; send the horizontal ref tiles to VRAM
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -138,9 +138,9 @@ setupice:							; set up the rink screen
 	sta.l blankchar					; blankchar: the tile after the ref tiles
 	inc a
 	sta.l smallfontchars			; smallfontchars: the tile after the blank one
-	lda.w #$007F					; send the ref tiles to VRAM
+	lda.w #unpackbuf>>16			; send the ref tiles to VRAM
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -164,9 +164,9 @@ setupice:							; set up the rink screen
 	sta.l Framercset				; Framercset: first tile of the Framer box
 	adc.w #$0004					; 4 tiles for the Framer box
 	sta.l BigFontChars				; BigFontChars: first tile of the big font
-	lda.w #$007F					; a0 = unpacked small font tiles
+	lda.w #unpackbuf>>16			; a0 = unpacked small font tiles
 	sta.b a0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b a0
 	lda.w #PixelRemap83>>16			; a1 = pixel remap table
 	sta.b a1+2
@@ -198,9 +198,9 @@ setupice:							; set up the rink screen
 	sta.b d0						; kept in d0
 	adc.l BigFontChars				; plus BigFontChars
 	sta.l scorechars				; scorechars: first tile of the score tiles
-	lda.w #$007F					; send the big font tiles to VRAM
+	lda.w #unpackbuf>>16			; send the big font tiles to VRAM
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -217,9 +217,9 @@ setupice:							; set up the rink screen
 	lsr a
 	adc.l scorechars				; plus scorechars
 	sta.l ExtraChars				; ExtraChars: the tile after the last set
-	lda.w #$007F					; send the team block tiles to VRAM
+	lda.w #unpackbuf>>16			; send the team block tiles to VRAM
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM

@@ -1,8 +1,8 @@
 ; Fill the other-scores rows, skipping this game.
 FillOtherScores:					; called from ShowOtherScores
-	lda.w #$007F
+	lda.w #statspage>>16
 	sta.b p1+2
-	lda.w #$2780
+	lda.w #statspage
 	sta.b p1
 	ldx.w #$4D80
 	lda.l smallfontchars

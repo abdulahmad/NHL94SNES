@@ -14,9 +14,9 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #TeamLogoSprites
 	sta.b p0
-	lda.w #$007F
+	lda.w #logosprbuf>>16
 	sta.b p1+2
-	lda.w #$7800
+	lda.w #logosprbuf
 	sta.b p1
 	jsl.l Decompress
 	jsl.l WaitFadeOut				; wait for black
@@ -51,9 +51,9 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa								; tile count = X / 32
@@ -67,9 +67,9 @@ SetupScreen:						; common setup of the stats screens
 	adc.l nextfreechar
 	sta.l nextfreechar
 	sta.l Framercset				; first character of the frame tiles
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b a0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b a0
 	lda.w #PixelRemap8F>>16			; remap the pixels of the frame tiles
 	sta.b a1+2
@@ -95,9 +95,9 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #TeamBlocksTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -110,9 +110,9 @@ SetupScreen:						; common setup of the stats screens
 	adc.l nextfreechar
 	sta.l nextfreechar
 	sta.l ninetilechars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF					; send the tiles to VRAM
 	jsl.l DMAToVRAM
@@ -161,9 +161,9 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #MenuBackTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -173,9 +173,9 @@ SetupScreen:						; common setup of the stats screens
 	lsr a
 	lsr a
 	sta.l backchars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$1000
 	jsl.l DMAToVRAM
@@ -183,18 +183,18 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #MenuBackMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
-	lda.w #$007F
+	lda.w #(logoboxmap+$6)>>16
 	sta.b p1+2
-	lda.w #$7706
+	lda.w #logoboxmap+$6
 	sta.b p1
 	lda.w #$0007
 	sta.b r7
@@ -210,9 +210,9 @@ SetupScreen:						; common setup of the stats screens
 	lda.w #$0007
 	sta.l logoboxmap
 	sta.l logoboxmap+2
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -232,14 +232,14 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #SetupScreenPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0030
@@ -256,14 +256,14 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #SetupBackTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -271,9 +271,9 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #SetupBackMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -303,14 +303,14 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #SetupScreenPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0010
@@ -326,14 +326,14 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #SetupBackPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0020
 	ldx.w #$0010
@@ -348,14 +348,14 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #MenuBackPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0030
 	ldx.w #$0020

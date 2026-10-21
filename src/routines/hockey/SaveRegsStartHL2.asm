@@ -443,14 +443,14 @@ org $9F9001
 	sta.b p0+2
 	lda.w #FaceOffTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.l faceoffvrcset
 	asl a

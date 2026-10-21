@@ -123,7 +123,7 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	adc.w #$0008
 	tay
 	lda.b p0+2
-	cmp.w #$007E
+	cmp.w #Ram7E>>16
 	beq .mvn7E
 	lda.b r1
 	dec a
