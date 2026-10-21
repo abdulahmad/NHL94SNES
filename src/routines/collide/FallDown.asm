@@ -1,44 +1,44 @@
 ; Player a2 falls or stumbles from a hit
 FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
-	lda.w CwdExciteLvl
+	lda.w CwdExciteLvl				;crowd excitement
 	clc
-	adc.w #$000F
-	bmi .1
-	sta.w CwdExciteLvl
-.1:									; if a2 >= $0018 go to .t1, ...
-	ldy.b a2
-	cpy.w #$0018
-	bcs .t1
-	lda.w SPA,y
-	cmp.w #SPAinjury1
+	adc.w #$000F					;plus 15
+	bmi .1							;overflow: keep
+	sta.w CwdExciteLvl				;crowd excitement +15
+.1:									;the player falls
+	ldy.b a2						;the player hit
+	cpy.w #$0018					;a player?
+	bcs .t1							;not a player: done
+	lda.w SPA,y						;his animation
+	cmp.w #SPAinjury1				;injured: done
 	beq .t1
-	cmp.w #SPAstumble
+	cmp.w #SPAstumble				;already falling: done
+	beq .t1							;stumbling?
+	cmp.w #SPAfallfwd				;already falling: done
 	beq .t1
-	cmp.w #SPAfallfwd
+	cmp.w #SPAfallback				;already falling: done
+	beq .t1							;flipping?
+	cmp.w #SPAflip					;already falling: done
 	beq .t1
-	cmp.w #SPAfallback
-	beq .t1
-	cmp.w #SPAflip
-	beq .t1
-	lda.w #SPAstumble
-	sta.b d1
-	lda.w gmclock
-	bne .t2
-	lda.w stickhand,y
-	cmp.w #$000C
-	bcc .t2
-	lda.w nopuckb,y
-	bne .t2
-	lda.w seed
-	and.w #$000F
-	adc.w #$000A
-	sta.b d0
+	lda.w #SPAstumble				;stumble
+	sta.b d1						;stumble by default
+	lda.w gmclock					;clock stopped?
+	bne .t2							;clock stopped: fall
+	lda.w stickhand,y				;stick handling
+	cmp.w #$000C					;stick handling 12+?
+	bcc .t2							;weak puck handler: fall
+	lda.w nopuckb,y					;puck lockout
+	bne .t2							;already cannot touch the puck: fall
+	lda.w seed						;random roll
+	and.w #$000F					;random 0-15
+	adc.w #$000A					;plus 10
+	sta.b d0						;random 10-25
 	sec
 	sbc.w impact,y					; minus the impact
-	bmi .t2
-	lda.w #$003C
-	sta.w nopuckb,y
-	jmp.w .21
+	bmi .t2							;hit harder than the roll: fall
+	lda.w #$003C					;60 frames
+	sta.w nopuckb,y					;no puck for 60 frames
+	jmp.w .21						;start the stumble
 
 .t1:								; return
 	rtl
@@ -71,477 +71,477 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	sbc.w Ypos,y					; minus y of a2
 	sta.b d1
 	jsl.l vtoa						; vector to direction
-	lda.w Xpos,y
-	cmp.w #$0068
-	bpl .7
-	cmp.w #$FF98
-	bmi .10
-	lda.w Ypos,y
-	cmp.w #$0112
-	bpl .5
-	cmp.w #$FEED
-	bmi .4
-.3:									; go to .20
-	jmp.w .20
-.4:									; go to .17
-	jmp.w .17
-.5:									; Ypos,y - $0112 >= 0: go to .15
-	jmp.w .15
-.6:									; go to .27
-	jmp.w .27
-.7:									; Xpos,y - $0068 >= 0: if Ypos,y - $00F0 >= 0 go to .6, ...
-	lda.w Ypos,y
-	cmp.w #$00F0
-	bpl .6
-	cmp.w #$FF0A
-	bmi .6
-	lda.b d0
-	cmp.w #$0005
-	bcc .3
-	lda.w #$0082
-	sta.w Xpos,y
+	lda.w Xpos,y					;his x
+	cmp.w #$0068					;right of $68?
+	bpl .7							;near the right boards
+	cmp.w #$FF98					;left of $-68?
+	bmi .10							;near the left boards
+	lda.w Ypos,y					;his y
+	cmp.w #$0112					;past the front?
+	bpl .5							;near the front boards
+	cmp.w #$FEED					;behind the back?
+	bmi .4							;near the back boards?
+.3:									;open ice
+	jmp.w .20						;open ice
+.4:									;near the back boards
+	jmp.w .17						;near the back boards
+.5:									;near the front boards
+	jmp.w .15						;near the front boards
+.6:									;corner
+	jmp.w .27						;corner: the corner fall
+.7:									;near the right boards
+	lda.w Ypos,y					;his y
+	cmp.w #$00F0					;corner?
+	bpl .6							;corner
+	cmp.w #$FF0A					;corner?
+	bmi .6							;corner
+	lda.b d0						;direction to the hitter
+	cmp.w #$0005					;directions 0-4?
+	bcc .3							;not facing the boards: open ice
+	lda.w #$0082					;right boards x
+	sta.w Xpos,y					;against the right boards
 	lda.w #$0000
-	sta.w Xvel,y
-.8:									; if attribute,y bit $0800 set go to .12
-	lda.w attribute,y
-	bit.w #$0800
-	bne .12
-.9:									; go to .13
-	lda.w #SPAboardright
+	sta.w Xvel,y					;stop in x
+.8:									;pick the side by his flip
+	lda.w attribute,y				;attribute
+	bit.w #$0800					;sprite flipped?
+	bne .12							;flipped: left wall
+.9:									;right wall
+	lda.w #SPAboardright			;boards animation: right wall
 	bra .13
-.10:								; if Ypos,y - $00F0 >= 0 go to .6, ...
-	lda.w Ypos,y
-	cmp.w #$00F0
-	bpl .6
-	cmp.w #$FF0A
-	bmi .6
-	lda.b d0
-	dec a
-	cmp.w #$0003
-	bcs .3
-	lda.w #$FF7E
-	sta.w Xpos,y
+.10:								;near the left boards
+	lda.w Ypos,y					;his y
+	cmp.w #$00F0					;corner?
+	bpl .6							;corner
+	cmp.w #$FF0A					;corner?
+	bmi .6							;corner
+	lda.b d0						;direction to the hitter
+	dec a							;direction - 1
+	cmp.w #$0003					;directions 1-3?
+	bcs .3							;not facing the boards: open ice
+	lda.w #$FF7E					;left boards x
+	sta.w Xpos,y					;against the left boards
 	lda.w #$0000
-	sta.w Xvel,y
-	lda.w Ypos,y
-	cmp.w #$0058
-	bpl .11
-	cmp.w #$FFA8
-	bpl .14
-.11:								; if attribute,y bit $0800 set go to .9
-	lda.w attribute,y
-	bit.w #$0800
-	bne .9
-.12:								; falls through
-	lda.w #SPAboardleft
-.13:								; pfalock,x = A, call SetSPAUpdate, if minus go to .1xx, ...
-	ldx.b a2
-	sta.w pfalock,x
-	jsl.l SetSPAUpdate				; start sprite animation A on object X and update it at once
-	lda.w CwdExciteLvl
+	sta.w Xvel,y					;stop in x
+	lda.w Ypos,y					;his y
+	cmp.w #$0058					;along the boards?
+	bpl .11							;high: boards fall
+	cmp.w #$FFA8					;middle zone?
+	bpl .14							;in the middle: right side check
+.11:								;pick the side by his flip
+	lda.w attribute,y				;attribute
+	bit.w #$0800					;sprite flipped?
+	bne .9							;flipped: right wall
+.12:								;boards animation: left wall
+	lda.w #SPAboardleft				;boards on his left
+.13:								;into the boards
+	ldx.b a2						;the falling player
+	sta.w pfalock,x					;lock the animation
+	jsl.l SetSPAUpdate				;start it
+	lda.w CwdExciteLvl				;crowd excitement
 	clc
-	adc.w #$000A
-	bmi .1xx
-	sta.w CwdExciteLvl
-.1xx:								; benchcheer = 0, if pfteam,y = 0 go to .2x, ...
-	stz.w benchcheer
+	adc.w #$000A					;plus 10
+	bmi .1xx						;overflow: keep
+	sta.w CwdExciteLvl				;crowd excitement
+.1xx:								;the faller's bench cheers
+	stz.w benchcheer				;no bench cheer
 	ldy.b a2
-	lda.w pfteam,y
-	beq .2x
-	lda.w #$0002
+	lda.w pfteam,y					;his team
+	beq .2x							;home?
+	lda.w #$0002					;visitors' bench
 .2x:								; adc #$0006, call StartBenchCheer, benchrounds = $0002, ...
 	clc
-	adc.w #$0006
-	jsl.l StartBenchCheer			; start bench A cheering, unless one already is: benchcheer = A
+	adc.w #$0006					;bench 6 or 8
+	jsl.l StartBenchCheer			;that bench cheers
 	lda.w #$0002
-	sta.w benchrounds
+	sta.w benchrounds				;two rounds
 	ldx.b a3
 	ldy.b a2
-	jmp.w .24
+	jmp.w .24						;finish
 .14:								; go to .26
 	jmp.w .26
-.15:								; if Xpos,y - $0050 >= 0 go to .19, ...
-	lda.w Xpos,y
-	cmp.w #$0050
-	bpl .19
-	cmp.w #$FFB0
-	bmi .19
-	lda.b d0
+.15:								;near the front boards
+	lda.w Xpos,y					;his x
+	cmp.w #$0050					;corner?
+	bpl .19							;corner: open ice
+	cmp.w #$FFB0					;corner?
+	bmi .19							;corner: open ice
+	lda.b d0						;direction to the hitter
 	inc a
 	inc a
-	and.w #$0007
-	cmp.w #$0005
-	bcc .20
-	lda.w #$0128
-	sta.w Ypos,y
+	and.w #$0007					;mod 8
+	cmp.w #$0005					;facing the boards?
+	bcc .20							;not toward the boards: open ice fall
+	lda.w #$0128					;front boards y
+	sta.w Ypos,y					;against the front boards
 	lda.w #$0000
-	sta.w Yvel,y
+	sta.w Yvel,y					;stop in y
 .16:								; go to .13
-	lda.w #SPAboardfront
+	lda.w #SPAboardfront			;boards animation: front wall
 	bra .13
-.17:								; if Xpos,y - $0050 >= 0 go to .19, ...
-	lda.w Xpos,y
-	cmp.w #$0050
-	bpl .19
-	cmp.w #$FFB0
-	bmi .19
-	lda.b d0
+.17:								;near the back boards
+	lda.w Xpos,y					;his x
+	cmp.w #$0050					;corner?
+	bpl .19							;in the corner: open ice
+	cmp.w #$FFB0					;corner?
+	bmi .19							;in the corner: open ice
+	lda.b d0						;direction to the hitter
 	inc a
-	and.w #$0007
-	cmp.w #$0003
-	bcs .20
-	lda.w #$FED8
-	sta.w Ypos,y
+	and.w #$0007					;mod 8
+	cmp.w #$0003					;facing the boards?
+	bcs .20							;not toward the boards: open ice fall
+	lda.w #$FED8					;back boards y
+	sta.w Ypos,y					;against the back boards
 	lda.w #$0000
-	sta.w Yvel,y
+	sta.w Yvel,y					;stop in y
 .18:								; go to .13
-	lda.w #SPAboardback
+	lda.w #SPAboardback				;boards animation: back wall
 	jmp.w .13
 .19:								; go to .27
 	jmp.w .27
-.20:								; if pfteam,y = 0 go to .1xxx, ...
-	ldy.b a3
-	lda.w pfteam,y
-	beq .1xxx
-	lda.w #$0002
-.1xxx:								; increment a, increment a, call StartBenchCheer, ...
+.20:								;open ice: fall, the hitter's bench cheers
+	ldy.b a3						;hitter
+	lda.w pfteam,y					;team of the hitter
+	beq .1xxx						;home hitter?
+	lda.w #$0002					;visitors' bench
+.1xxx:								;the hitter's bench
 	inc a
 	inc a
-	jsl.l StartBenchCheer			; start bench A cheering, unless one already is: benchcheer = A
+	jsl.l StartBenchCheer			;that bench cheers
 	lda.w #$0002
-	sta.w benchrounds
+	sta.w benchrounds				;two rounds
 	lda.w #SPAfallback				; fall back
 	sta.b d1
 	ldy.b a2						; hit from the front: fall back
-	lda.b d0						; direction to the hitter
+	lda.b d0						;direction to the hitter
 	sec
-	sbc.w facedir,y
+	sbc.w facedir,y					;minus his facing
 	inc a
-	and.w #$0007
+	and.w #$0007					;mod 8
 	cmp.w #$0003					; within 2 of the facing?
-	bcc .21
+	bcc .21							;within one step: fall back
 	lda.w #SPAfallfwd				; else fall forward
-	sta.b d1
-	lda.w facedir,y					; facedir 0 or 4 and hitter checking >= 10: third fall
-	and.w #$0003
-	bne .21
+	sta.b d1						;fall forward
+	lda.w facedir,y					;his facing
+	and.w #$0003					;facing 0 or 4?
+	bne .21							;not straight up or down: fall forward
 	lda.w checking,x				; hitter's checking rating
 	sec
 	sbc.w #$000A					; minus 10
-	bmi .21
+	bmi .21							;checking under 10: fall forward
 	cpx.w #$0018
-	bcs .21
-	lda.w #SPAflip
-	sta.b d1
+	bcs .21							;not a player: no flip
+	lda.w #SPAflip					;big hit on a straight skater: flip
+	sta.b d1						;flip
 .21:								; pfalock,x = $0001, call SetSPA, if position,x != 0 go to .24, ...
-	ldx.b a2
+	ldx.b a2						;the falling player
 	lda.w #$0001					; pfalock
 	sta.w pfalock,x
 	jsl.l SetSPA					; start animation d1
 	ldx.b a3
-	lda.w position,x
+	lda.w position,x				;goalie hit?
 	bne .24
-	cpx.w #$0018
+	cpx.w #$0018					;(the test is not used)
 	bcs .24
 	bra .24
 .22:								; go to CollisionSfx
 	jmp.w CollisionSfx				; play the collision sound
 .23:								; go to .25
 	jmp.w .25
-.24:								; Crowdlevel = Crowdlevel + $012C, crowdhold = $002D, d0 = puckc, ...
-	lda.l Crowdlevel
+.24:								;crowd reaction, then the injury check on the carrier
+	lda.l Crowdlevel				;crowd level
 	clc
 	adc.w #$012C
-	sta.l Crowdlevel
-	lda.w #$002D
-	sta.b crowdhold
-	lda.w puckc
-	sta.b d0
-	bmi .22
-	cpy.b d0
-	bne .22
-	lda.w gmode
-	bit.w #gmhl
-	bne .23
-	lda.l OptPlayMode
-	cmp.w #$0004
-	beq .23
-	lda.w position,x
-	beq .23
-	lda.w SPA,y
-	cmp.w #SPAfallback
-	bne .23
-	lda.w facedir,y
-	and.w #$0003
-	bne .23
-	lda.w pflags,y
-	bit.w #$4000
-	bne .23
-	lda.w #$0096
-	jsl.l randoma8					; random number below A
-	asl a
-	ldy.b a2
+	sta.l Crowdlevel				;crowd +300
+	lda.w #$002D					;45 frames
+	sta.b crowdhold					;crowd hold 45
+	lda.w puckc						;puck carrier
+	sta.b d0						;carrier
+	bmi .22							;loose puck: sound only
+	cpy.b d0						;faller had the puck?
+	bne .22							;not the carrier: sound only
+	lda.w gmode						;game mode
+	bit.w #gmhl						;highlight?
+	bne .23							;highlight: no injury
+	lda.l OptPlayMode				;play mode
+	cmp.w #$0004					;shootout?
+	beq .23							;shootout: no injury
+	lda.w position,x				;position of the hitter
+	beq .23							;goalie hitter: no injury
+	lda.w SPA,y						;his animation
+	cmp.w #SPAfallback				;fell back?
+	bne .23							;not falling back: no injury
+	lda.w facedir,y					;his facing
+	and.w #$0003					;facing 0 or 4?
+	bne .23							;not facing straight: no injury
+	lda.w pflags,y					;flags
+	bit.w #$4000					;injured flag?
+	bne .23							;already injured: no
+	lda.w #$0096					;150
+	jsl.l randoma8					;random 0-149
+	asl a							;random 0-298
+	ldy.b a2						;faller
 	sec
-	sbc.w impact,y					; minus the impact
-	bpl .23
-	lda.w gmclock
-	bne .23
-	lda.w position,y
-	bmi .25
-	beq .25
-	lda.w #$FFFF
-	sta.w puckc
-	stz.w benchcheer
-	ldy.b a2
-	lda.w pfteam,y
-	beq .1xxxx
-	lda.w #$0002
+	sbc.w impact,y					;minus the impact
+	bpl .23							;hit too small: no injury
+	lda.w gmclock					;clock stopped?
+	bne .23							;clock stopped: no injury
+	lda.w position,y				;his position
+	bmi .25							;no position: no injury
+	beq .25							;goalie: no injury
+	lda.w #$FFFF					;none
+	sta.w puckc						;puck loose
+	stz.w benchcheer				;no bench cheer
+	ldy.b a2						;faller
+	lda.w pfteam,y					;team
+	beq .1xxxx						;home?
+	lda.w #$0002					;visitors
 .1xxxx:								; adc #$0006, call StartBenchCheer, call SetSPAFromA, ...
 	clc
-	adc.w #$0006
-	jsl.l StartBenchCheer			; start bench A cheering, unless one already is: benchcheer = A
-	ldx.b a2
-	lda.w #SPAinjury1
-	jsl.l SetSPAFromA				; start sprite animation A on object X
-	ldx.b a3
-	lda.w Xvel,x
-	eor.w #$FFFF					; negate: two's complement
+	adc.w #$0006					;bench 6 or 8
+	jsl.l StartBenchCheer			;the faller's bench reacts
+	ldx.b a2						;the faller
+	lda.w #SPAinjury1				;injury animation
+	jsl.l SetSPAFromA				;start it
+	ldx.b a3						;hitter
+	lda.w Xvel,x					;reverse the hitter's x speed
+	eor.w #$FFFF					;reverse
 	inc a
-	cmp.w #$8000
-	ror a
-	sta.w Xvel,x
-	lda.w Yvel,x
-	eor.w #$FFFF					; negate: two's complement
+	cmp.w #$8000					;half
+	ror a							;half
+	sta.w Xvel,x					;hitter bounces back
+	lda.w Yvel,x					;reverse the hitter's y speed
+	eor.w #$FFFF					;reverse
 	inc a
-	cmp.w #$8000
-	ror a
-	sta.w Yvel,x
-	jsl.l setInjuryType				; setInjuryType
-	lda.w #$0004					; injury countdown
-	sta.w InjCntDown
-	lda.w #$0016
-	sta.b d0
-	lda.w CwdExciteLvl
+	cmp.w #$8000					;half
+	ror a							;half
+	sta.w Yvel,x					;hitter bounces back
+	jsl.l setInjuryType				;pick the injury
+	lda.w #$0004					;4
+	sta.w InjCntDown				;injury countdown
+	lda.w #$0016					;penalty $16
+	sta.b d0						;penalty $16 (injury)
+	lda.w CwdExciteLvl				;crowd excitement
 	clc
-	adc.w #$001E
-	bmi .2xx
-	sta.w CwdExciteLvl
-.2xx:								; if position,x != 0 go to .t2x, ...
-	lda.w position,x
-	bne .t2x
-	jmp.w AddPenalty2				; call penalty d0 on player X without the checks
+	adc.w #$001E					;plus 30
+	bmi .2xx						;overflow: keep
+	sta.w CwdExciteLvl				;crowd excitement
+.2xx:								;the penalty
+	lda.w position,x				;hitter's position
+	bne .t2x						;goalie?
+	jmp.w AddPenalty2				;goalie hit: the injury stoppage
 
-.t2x:								; position,x != 0: if OptPen != 0 go to .t1x, ...
-	lda.l OptPen
-	bne .t1x
-	jmp.w AddPenalty2				; call penalty d0 on player X without the checks
+.t2x:								;skater hit: roughing if penalties are on
+	lda.l OptPen					;penalty option
+	bne .t1x						;penalties on?
+	jmp.w AddPenalty2				;penalties off: injury stop
 
-.t1x:								; roughing penalty
-	lda.w #PenRoughing2				; roughing penalty
+.t1x:								;penalties on: roughing
+	lda.w #PenRoughing2				;roughing
 	sta.b d0
-	jsl.l AddPenalty2				; call penalty d0 on player X without the checks
-	jmp.w Stop4Pen					; stop play
-.25:								; if SPA,y = SPAstumble go to .1xxxxx, ...
-	ldy.b a2
-	lda.w SPA,y
-	cmp.w #SPAstumble
-	beq .1xxxxx
-	lda.w #$FFFF
-	sta.w puckc
-.1xxxxx:							; if pfteam,y != 0 go to .t1xx, ...
-	ldy.b a2
-	lda.w pfteam,y
-	bne .t1xx
-	lda.w #$0003
-	jsl.l StreamSfx					; request streamed sound A
+	jsl.l AddPenalty2				;call it
+	jmp.w Stop4Pen					;stop play
+.25:								;no injury: crowd reaction
+	ldy.b a2						;the faller
+	lda.w SPA,y						;his animation
+	cmp.w #SPAstumble				;stumbling?
+	beq .1xxxxx						;stumble: keeps the puck
+	lda.w #$FFFF					;no puck carrier
+	sta.w puckc						;puck loose
+.1xxxxx:							;home player fell: groan
+	ldy.b a2						;the faller
+	lda.w pfteam,y					;team of the faller
+	bne .t1xx						;visitors?
+	lda.w #$0003					;sound 3
+	jsl.l StreamSfx					;request it
 	rtl
 
-.t1xx:								; pfteam,y != 0: Crowdlevel = Crowdlevel + $0258, crowdhold = $002D, re...
-	lda.l Crowdlevel
+.t1xx:								;visitors fell: the crowd roars
+	lda.l Crowdlevel				;crowd level
 	clc
 	adc.w #$0258
-	sta.l Crowdlevel
+	sta.l Crowdlevel				;crowd +$258
 	lda.w #$002D
-	sta.b crowdhold
+	sta.b crowdhold					;crowd hold 45
 	rtl
-.26:								; if minus go to .1xxxxxx, ...
-	lda.w CwdExciteLvl
+.26:								;hit at the bench: crowd +10
+	lda.w CwdExciteLvl				;crowd excitement
 	clc
-	adc.w #$000A
-	bmi .1xxxxxx
-	sta.w CwdExciteLvl
-.1xxxxxx:							; Xpos,x = $FF7E, Xvel,x = $0000, if attribute,x bit $0800 set go to .t...
-	ldx.b a2
-	lda.w #$FF7E
-	sta.w Xpos,x
+	adc.w #$000A					;plus 10
+	bmi .1xxxxxx					;overflow: keep
+	sta.w CwdExciteLvl				;crowd excitement
+.1xxxxxx:							;into the bench
+	ldx.b a2						;the faller
+	lda.w #$FF7E					;bench boards x
+	sta.w Xpos,x					;against the bench boards
 	lda.w #$0000
-	sta.w Xvel,x
-	lda.w attribute,x
+	sta.w Xvel,x					;stop in x
+	lda.w attribute,x				;attribute
 	bit.w #$0800
-	bne .t1xxx
-	lda.w #SPAbenchcheckl
+	bne .t1xxx						;flipped?
+	lda.w #SPAbenchcheckl			;left
 	bra .2xxx
 
-.t1xxx:								; attribute,x bit $0800 set: falls through
-	lda.w #SPAbenchcheckr
-.2xxx:								; pfalock,x = A, call SetSPAFromA, go to .24
-	sta.w pfalock,x
-	jsl.l SetSPAFromA				; start sprite animation A on object X
-	ldx.b a3
-	ldy.b a2
-	jmp.w .24
-.27:								; d5 = d0, d2 = Xpos,y, d3 = Ypos,y, ...
+.t1xxx:								;flipped: right
+	lda.w #SPAbenchcheckr			;right
+.2xxx:								;bench check animation
+	sta.w pfalock,x					;lock the animation
+	jsl.l SetSPAFromA				;start it
+	ldx.b a3						;the hitter
+	ldy.b a2						;the faller
+	jmp.w .24						;finish
+.27:								;hit in a corner: fall along the curve
 	lda.b d0
-	sta.b d5
+	sta.b d5						;direction to the hitter
 	lda.w Xpos,y
-	sta.b d2
+	sta.b d2						;his x
 	lda.w Ypos,y
-	sta.b d3
-	ldx.w #$0048
-	ldy.w #$00EA
-	lda.b d2
-	bpl .1xxxxxxx
-	ldx.w #$FFB8
+	sta.b d3						;his y
+	ldx.w #$0048					;corner centre x $48
+	ldy.w #$00EA					;corner centre y $EA
+	lda.b d2						;his x
+	bpl .1xxxxxxx					;right corner
+	ldx.w #$FFB8					;left corner
 .1xxxxxxx:							; if d3 >= 0 go to .2xxxx, ...
-	lda.b d3
-	bpl .2xxxx
-	ldy.w #$FF16
+	lda.b d3						;his y
+	bpl .2xxxx						;top corner
+	ldy.w #$FF16					;bottom corner
 .2xxxx:								; d0+2 = X, d1+2 = Y, d0 = d2 - d0+2, ...
-	stx.b d0+2
-	sty.b d1+2
+	stx.b d0+2						;corner x
+	sty.b d1+2						;corner y
 	lda.b d2
 	sec
-	sbc.b d0+2
+	sbc.b d0+2						;dx to the corner centre
 	sta.b d0
 	lda.b d3
 	sec
-	sbc.b d1+2
+	sbc.b d1+2						;dy to the corner centre
 	sta.b d1
 	ldy.b d0
-	jsl.l ApproxLength				; A = the approximate length of the vector
+	jsl.l ApproxLength				;distance to the corner centre
 	ldy.b a2
-	sta.b d4
-	cmp.w #$0014
-	bcs .t1xxxx
-	ldx.b a3
-	jmp.w .20
+	sta.b d4						;distance
+	cmp.w #$0014					;within 20 of the curve?
+	bcs .t1xxxx						;off the curve: corner fall
+	ldx.b a3						;hitter
+	jmp.w .20						;open ice fall
 
-.t1xxxx:							; xba, call DivX8S, lsr a, ...
+.t1xxxx:							;push along the curve
 	lda.b d0
 	xba
-	tax
-	lda.b d4
-	jsl.l DivX8S					; X / A into A, X signed
+	tax								;dx, high byte
+	lda.b d4						;length
+	jsl.l DivX8S					;dx / length
 	lsr a
-	lsr a
+	lsr a							;scale
 	bit.w #$2000
 	beq .1xxxxxxxx
-	ora.w #$C000
+	ora.w #$C000					;sign extend
 .1xxxxxxxx:							; d0 = A, if zero go to .2xxxxx, ...
-	sta.b d0
+	sta.b d0						;unit dx
 	bit.w #$8000
 	beq .2xxxxx
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 .2xxxxx:							; d2+2 = A, xba, call DivX8S, ...
-	sta.b d2+2
+	sta.b d2+2						;|dx|
 	lda.b d1
 	xba
-	tax
-	lda.b d4
-	jsl.l DivX8S					; X / A into A, X signed
+	tax								;dy, high byte
+	lda.b d4						;length
+	jsl.l DivX8S					;dy / length
 	ldx.b a3
-	lsr a
+	lsr a							;scale
 	lsr a
 	bit.w #$2000
 	beq .3x
-	ora.w #$C000
+	ora.w #$C000					;sign extend
 .3x:								; d1 = A, if zero go to .4x, ...
-	sta.b d1
+	sta.b d1						;unit dy
 	bit.w #$8000
 	beq .4x
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 .4x:								; if carry set go to .30, ...
-	cmp.b d2+2
-	bcs .30
-	lda.b d0+2
-	bpl .29
-	lda.b d5
-	dec a
-	cmp.w #$0003
-	bcs .28
+	cmp.b d2+2						;|dy| against |dx|
+	bcs .30							;more in y: the end-boards case
+	lda.b d0+2						;which corner side?
+	bpl .29							;right corner
+	lda.b d5						;direction to the hitter
+	dec a							;direction - 1
+	cmp.w #$0003					;directions 1-3?
+	bcs .28							;not toward the curve: open ice
 	lda.b d0
 	clc
-	adc.w #$0006
+	adc.w #$0006					;plus 6
 	clc
-	adc.b d0+2
-	sta.w Xpos,y
+	adc.b d0+2						;plus the corner x
+	sta.w Xpos,y					;pushed out of the corner in x
 	lda.b d1
 	clc
-	adc.b d1+2
-	sta.w Ypos,y
+	adc.b d1+2						;plus the corner y
+	sta.w Ypos,y					;on the curve in y
 	lda.w #$0000
 	sta.w Xvel,y
-	sta.w Yvel,y
-	jmp.w .11
+	sta.w Yvel,y					;stopped
+	jmp.w .11						;left boards animation
 .28:								; go to .20
 	jmp.w .20
-.29:								; d0+2 >= 0: if d5 < $0005 go to .28, ...
-	lda.b d5
-	cmp.w #$0005
-	bcc .28
+.29:								;right corner
+	lda.b d5						;direction to the hitter
+	cmp.w #$0005					;directions 0-4?
+	bcc .28							;not toward the curve: open ice
 	lda.b d0
 	sec
-	sbc.w #$0006
+	sbc.w #$0006					;minus 6
 	clc
 	adc.b d0+2
-	sta.w Xpos,y
+	sta.w Xpos,y					;on the curve in x
 	lda.b d1
 	clc
 	adc.b d1+2
-	sta.w Ypos,y
+	sta.w Ypos,y					;on the curve in y
 	lda.w #$0000
 	sta.w Xvel,y
-	sta.w Yvel,y
-	jmp.w .8
-.30:								; if d1+2 >= 0 go to .t1xxxxx, ...
-	lda.b d1+2
-	bpl .t1xxxxx
-	lda.b d5
+	sta.w Yvel,y					;stopped
+	jmp.w .8						;right boards animation
+.30:								;end-boards side of the corner
+	lda.b d1+2						;corner y
+	bpl .t1xxxxx					;front corner?
+	lda.b d5						;direction to the hitter
 	inc a
 	and.w #$0007
-	cmp.w #$0003
-	bcs .28
+	cmp.w #$0003					;directions 0-1, 7?
+	bcs .28							;not toward the curve: open ice
 	lda.b d0
 	clc
 	adc.b d0+2
-	sta.w Xpos,y
+	sta.w Xpos,y					;on the curve in x
 	lda.b d1
 	clc
 	adc.b d1+2
-	sta.w Ypos,y
+	sta.w Ypos,y					;on the curve in y
 	lda.w #$0000
 	sta.w Xvel,y
-	sta.w Yvel,y
-	jmp.w .18
+	sta.w Yvel,y					;stopped
+	jmp.w .18						;back boards animation
 
-.t1xxxxx:							; d1+2 >= 0: if carry clear go to .28, ...
-	lda.b d5
+.t1xxxxx:							;front corner
+	lda.b d5						;direction to the hitter
 	inc a
 	inc a
 	and.w #$0007
-	cmp.w #$0005
-	bcc .28
+	cmp.w #$0005					;directions 4-6?
+	bcc .28							;not toward the curve: open ice
 	lda.b d0
 	clc
 	adc.b d0+2
-	sta.w Xpos,y
+	sta.w Xpos,y					;on the curve in x
 	lda.b d1
 	clc
 	adc.b d1+2
-	sta.w Ypos,y
+	sta.w Ypos,y					;on the curve in y
 	lda.w #$0000
 	sta.w Xvel,y
-	sta.w Yvel,y
-	jmp.w .16
+	sta.w Yvel,y					;stopped
+	jmp.w .16						;front boards animation
