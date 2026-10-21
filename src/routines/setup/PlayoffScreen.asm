@@ -59,14 +59,14 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0+2
 	lda.w #MenuBackTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$3000
 	jsl.l DMAToVRAM
@@ -75,9 +75,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lda.w #MenuBackMap
 	sta.b p0
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #(unpackbuf+$246)>>16
 	sta.b p0+2
-	lda.w #$0246
+	lda.w #unpackbuf+$246
 	sta.b p0
 	phx
 	ldx.w #$0240
@@ -94,9 +94,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lda.w #MenuBackPalette
 	sta.b p0
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0010
@@ -105,9 +105,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0+2
 	lda.w #PlayoffTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -117,9 +117,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lsr a
 	lsr a
 	sta.l smallfontchars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$1000
 	jsl.l DMAToVRAM
@@ -136,9 +136,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -150,9 +150,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b d0
 	adc.l smallfontchars
 	sta.l BigFontChars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b a0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b a0
 	lda.w #PixelRemap8F>>16
 	sta.b a1+2
@@ -163,9 +163,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -176,9 +176,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lsr a
 	adc.l BigFontChars
 	sta.l scorechars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -256,14 +256,14 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0+2
 	lda.w #StanleyCupPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #(palbuffer+(3*$20))>>16
 	sta.b p1+2
@@ -275,14 +275,14 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0+2
 	lda.w #StanleyCupTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -593,14 +593,14 @@ org $9D9000
 	sta.b p0+2
 	lda.w #StanleyCupMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #$007E
 	sta.b p1+2

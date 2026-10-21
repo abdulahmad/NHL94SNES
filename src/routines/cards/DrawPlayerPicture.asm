@@ -38,9 +38,9 @@ DrawPlayerPicture:					; draw the picture of a player
 	sta.b p0
 	lda.l PlayerPhotoTable+2,x
 	sta.b p0+2
-	lda.w #$007F					; decompress to the work buffer
+	lda.w #unpackbuf>>16			; decompress to the work buffer
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress				; decompress it
 	stx.b r0						; keep X returned by Decompress
@@ -56,9 +56,9 @@ DrawPlayerPicture:					; draw the picture of a player
 	sta.b p1
 	sta.l homepicaddr
 .2:									; convert the photo to planar tiles
-	lda.w #$007F					; from the work buffer
+	lda.w #unpackbuf>>16			; from the work buffer
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	jsl.l LinearToPlanar			; convert
 	jsl.l .6						; mirrored or not?

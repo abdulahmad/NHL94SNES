@@ -164,9 +164,9 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.w TitleM7VOfs
 	jsl.l SpriteFrameEnd			; close the frame
 	jsl.l WaitFrame					; show
-	lda.w #$007F					; p0 = the licence mode 7 map
+	lda.w #unpackbuf>>16			; p0 = the licence mode 7 map
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #$0000
 	sta.w MapVRAM					; map to VRAM address 0
@@ -210,14 +210,14 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p0+2
 	lda.w #TitlePuckTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress				; unpack them
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$2000					; 8 KB
 	jsl.l DMAToVRAMHigh				; to VRAM
@@ -441,23 +441,23 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p0+2
 	lda.w #TitlePalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	lda.w #TitleSpritePalette>>16
 	sta.b p0+2
 	lda.w #TitleSpritePalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #(unpackbuf+$100)>>16
 	sta.b p1+2
-	lda.w #$0100
+	lda.w #unpackbuf+$100
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0100
@@ -470,14 +470,14 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p0+2
 	lda.w #LicenceTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	jsl.l DMAToVRAMHigh
@@ -494,14 +494,14 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p0+2
 	lda.w #TitleLogoTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$4000
 	jsl.l DMAToVRAM
@@ -509,14 +509,14 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p0+2
 	lda.w #Title94Map
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #$5400
 	sta.w MapVRAM
@@ -527,14 +527,14 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p0+2
 	lda.w #TitleNHLMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #$5800
 	sta.w MapVRAM
@@ -545,9 +545,9 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p0+2
 	lda.w #LicenceNHLPAMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	lda.w #TitlePuckMap>>16

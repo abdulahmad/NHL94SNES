@@ -1161,6 +1161,8 @@ titlexofs		=	$7F8A00			; BuildTitlePath: x offset of each title path step; Title
 titleyscroll	=	$7F9400			; BuildTitlePath: y scroll of each title path step, read by TitleScreen.
 titlelogobuf	=	$7FA000			;LoadTitleLogo: mode 7 buffer of the title team logo (header +0 / +2 / +4,
 									;then the map; pixel pairs at +0 ...
+unpackbuf		=	$7F0000			;Decompress output buffer (bank $7F, as 93S unpackbuf): tiles, maps and
+									;palettes are unpacked here and sent to VRAM / CGRAM from here
 
 ; Cleared but never set or read (no job in the ROM)
 GoalieUnused	=	$0BC9			; assgoalietopuck clears it when the assignment starts

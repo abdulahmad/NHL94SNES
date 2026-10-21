@@ -54,9 +54,9 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -73,9 +73,9 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	clc
 	adc.l smallfontchars
 	sta.l Framercset
-	lda.w #$007F					; remap the font pixels (PixelRemap8F)
+	lda.w #unpackbuf>>16			; remap the font pixels (PixelRemap8F)
 	sta.b a0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b a0
 	lda.w #PixelRemap8F>>16
 	sta.b a1+2
@@ -106,9 +106,9 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #TeamBlocksTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -120,9 +120,9 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	clc
 	adc.l outlinechars
 	sta.l outlinechars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.l scorechars
 	asl a
@@ -143,9 +143,9 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #MenuBackTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -155,9 +155,9 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	lsr a
 	lsr a
 	sta.l backchars
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$1000
 	jsl.l DMAToVRAM
@@ -165,14 +165,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #MenuBackMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -192,14 +192,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #SetupScreenPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0030
@@ -208,14 +208,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #RonBarrTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
@@ -235,9 +235,9 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #RonBarrMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
 	txa
@@ -268,14 +268,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #SetupScreenPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0010
@@ -291,14 +291,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #RonBarrPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0020
 	ldx.w #$0010
@@ -312,14 +312,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0+2
 	lda.w #MenuBackPalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0030
 	ldx.w #$0020

@@ -55,14 +55,14 @@ LoadTitleLogo:						; draw the centre ice logo of team A into the title Mode 7 m
 	sta.b p0
 	lda.l CenterIceTable+2,x
 	sta.b p0+2
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	jsr.w .t2
 	lda.w #$007F					; copy the converted graphics to VRAM

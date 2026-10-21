@@ -9,14 +9,14 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b p0+2
 	lda.w #CrowdMeterFramePalette
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0050
 	ldx.w #$0010
@@ -46,14 +46,14 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b p0+2
 	lda.w #CrowdMeterTiles
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	stx.b p1
 	stx.b r0
@@ -426,14 +426,14 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 .3x:								; p1+2 = $007F, p1 = $0000, call Decompress, ...
 	lda.b r1
 	pha
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #textmap>>16
 	sta.b p1+2
@@ -461,14 +461,14 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b p0+2
 	lda.w #CrowdMeterLitMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p1+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p1
 	jsl.l Decompress
-	lda.w #$007F
+	lda.w #unpackbuf>>16
 	sta.b p0+2
-	lda.w #$0000
+	lda.w #unpackbuf
 	sta.b p0
 	lda.w #textmap>>16
 	sta.b p1+2
