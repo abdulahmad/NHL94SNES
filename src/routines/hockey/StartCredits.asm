@@ -95,9 +95,9 @@ RollCredits:						; advance the credits one step when its wait is over; called f
 	adc.w FrameCount				; next step time
 	sta.w CreditTime				; store it
 	jsl.l SpriteFrameStart			; new sprite frame
-	lda.w #$007F					; p1 = sprite buffer
+	lda.w #titlesprbuf>>16			; p1 = sprite buffer
 	sta.b p1+2
-	lda.w #$5000
+	lda.w #titlesprbuf
 	sta.b p1
 	lda.w #$0009					; title sprite 9 ...
 	jsr.w DrawTitleSprite

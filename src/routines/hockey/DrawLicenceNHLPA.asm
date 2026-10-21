@@ -1,9 +1,9 @@
 ; Licence screen: the two logos, the NHL line moved up and "Players Association" under it (title sprites 9-12)
 DrawLicenceNHLPA:					; called from TitleScreen
 	jsl.l SpriteFrameStart
-	lda.w #$007F
+	lda.w #titlesprbuf>>16
 	sta.b p1+2
-	lda.w #$5000
+	lda.w #titlesprbuf
 	sta.b p1
 	lda.w #$0009
 	jsr.w DrawTitleSprite

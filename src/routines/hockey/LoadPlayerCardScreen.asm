@@ -8,9 +8,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #TeamLogoSprites
 	sta.b p0
-	lda.w #$007F
+	lda.w #logosprbuf>>16
 	sta.b p1+2
-	lda.w #$7800
+	lda.w #logosprbuf
 	sta.b p1
 	jsl.l Decompress
 	jsl.l WaitFadeOut

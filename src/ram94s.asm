@@ -1163,6 +1163,13 @@ titlelogobuf	=	$7FA000			;LoadTitleLogo: mode 7 buffer of the title team logo (h
 									;then the map; pixel pairs at +0 ...
 unpackbuf		=	$7F0000			;Decompress output buffer (bank $7F, as 93S unpackbuf): tiles, maps and
 									;palettes are unpacked here and sent to VRAM / CGRAM from here
+statspage		=	$7F2780			;stats page buffer (32 wide) that PrintToStatsPage and the Fill*Page
+									;routines print into
+titlesprbuf		=	$7F5000			;TitleSprites unpacked here; DrawTitleSprite draws sprite A of the set
+logosprbuf		=	$7F7800			;team logo sprites, unpacked by LoadScoutingScreen, LoadPlayerCardScreen,
+									;SetupScreen and DrawMatchupPictures; DrawLogoSprite draws from here
+rinkmapbuf		=	$7FC800			;BuildRinkMap unpacks IceRinkMap here and pastes the centre ice logo at
+									;+$10B6; ReplayMode and StatsReport send parts of it to VRAM
 
 ; Cleared but never set or read (no job in the ROM)
 GoalieUnused	=	$0BC9			; assgoalietopuck clears it when the assignment starts

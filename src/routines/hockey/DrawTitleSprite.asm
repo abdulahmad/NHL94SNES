@@ -3,9 +3,9 @@ DrawTitleSprite:					; called from DrawLicenceNHL, DrawLicenceNHLPA, RollCredits
 	sta.b r0
 	asl a
 	tax
-	lda.w #$007F
+	lda.w #titlesprbuf>>16
 	sta.b p1+2
-	lda.w #$5000
+	lda.w #titlesprbuf
 	sta.b p1
 	lda.l .2,x
 	tay

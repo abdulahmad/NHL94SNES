@@ -57,9 +57,9 @@ DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, S
 	lda.w curitem
 	xba
 	lsr a
-	adc.w #$2780
+	adc.w #statspage
 	sta.b p0
-	lda.w #$007F
+	lda.w #statspage>>16
 	sta.b p0+2
 	lda.b d1
 	xba

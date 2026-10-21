@@ -4,9 +4,9 @@ BuildRinkMap:						; called from LoadCenterIce, ReloadRink
 	sta.b p0+2
 	lda.w #IceRinkMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #rinkmapbuf>>16
 	sta.b p1+2
-	lda.w #$C800
+	lda.w #rinkmapbuf
 	sta.b p1
 	jsl.l Decompress
 	lda.w HomeTeam
@@ -18,9 +18,9 @@ BuildRinkMap:						; called from LoadCenterIce, ReloadRink
 	sta.b p0
 	lda.l CenterIceTable+6,x
 	sta.b p0+2
-	lda.w #$007F
+	lda.w #(rinkmapbuf+$10B6)>>16
 	sta.b p1+2
-	lda.w #$D8B6
+	lda.w #rinkmapbuf+$10B6
 	sec
 	sbc.b [p0]
 	sta.b p1

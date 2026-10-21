@@ -43,9 +43,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldy.w #$00A0
 	ldx.w #$0010
 	jsl.l SetColours
-	lda.w #$007F
+	lda.w #logosprbuf>>16
 	sta.b p1+2
-	lda.w #$7800
+	lda.w #logosprbuf
 	sta.b p1
 	lda.w #$2400
 	ldx.w #$000C
@@ -108,9 +108,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldy.w #$00B0
 	ldx.w #$0010
 	jsl.l SetColours
-	lda.w #$007F
+	lda.w #logosprbuf>>16
 	sta.b p1+2
-	lda.w #$7800
+	lda.w #logosprbuf
 	sta.b p1
 	lda.w #$2600
 	ldx.w #$00C4

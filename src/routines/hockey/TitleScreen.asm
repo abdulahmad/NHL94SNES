@@ -148,9 +148,9 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	jsr.w TitleZoomOutRight			; zoom out to the right
 	jsl.l SpriteFrameStart			; next sprite frame
 	jsr.w PrintCopyright			; copyright text
-	lda.w #$007F					; p1 = sprite buffer
+	lda.w #titlesprbuf>>16			; p1 = sprite buffer
 	sta.b p1+2
-	lda.w #$5000
+	lda.w #titlesprbuf
 	sta.b p1
 	lda.w #$0009					; title sprite 9
 	jsr.w DrawTitleSprite			; draw it
@@ -183,9 +183,9 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	jsr.w TitleZoomOutLeft			; zoom out to the left
 	jsl.l SpriteFrameStart			; next sprite frame
 	jsr.w PrintCopyright			; copyright text
-	lda.w #$007F
+	lda.w #titlesprbuf>>16
 	sta.b p1+2
-	lda.w #$5000
+	lda.w #titlesprbuf
 	sta.b p1
 	lda.w #$0009					; title sprite 9 ...
 	jsr.w DrawTitleSprite
@@ -569,9 +569,9 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p0+2
 	lda.w #TitleSprites
 	sta.b p0
-	lda.w #$007F
+	lda.w #titlesprbuf>>16
 	sta.b p1+2
-	lda.w #$5000
+	lda.w #titlesprbuf
 	sta.b p1
 	jsl.l Decompress
 	rts

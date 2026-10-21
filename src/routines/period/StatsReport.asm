@@ -33,9 +33,9 @@ StatsReport:						; called from SetHor
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #$007F
+	lda.w #rinkmapbuf>>16
 	sta.b p0+2
-	lda.w #$C800
+	lda.w #rinkmapbuf
 	sta.b p0
 	lda.w #$0000
 	sta.b r7
@@ -50,9 +50,9 @@ StatsReport:						; called from SetHor
 	ldx.w #$0000
 	ldy.w #$0000
 	jsl.l MapPartToVRAM
-	lda.w #$007F
+	lda.w #rinkmapbuf>>16
 	sta.b p0+2
-	lda.w #$C800
+	lda.w #rinkmapbuf
 	sta.b p0
 	lda.w #$0010
 	sta.b r7
