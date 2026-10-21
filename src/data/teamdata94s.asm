@@ -4,8 +4,9 @@ GoalieOdds	=	10					; offset of the starting goalie weights in a team record
 
 ; The team database (bank $9C): TeamList points to each team record; team number = index (Anaheim 0 ...
 ; Winnipeg 25, then the two all-star teams). A record: offsets to its parts (.0), .sr (scouting report),
-; .godds (starting goalie weights), the eight lines (.ls), the players (.pld, Player macro: name and 16
-; rating nibbles), four Strings (city, abbreviation, nickname, arena), then playoffseats.
+; .godds (starting goalie weights), the eight lines (.ls; line 1 = the no-line-change line used when
+; line changes are Off, then Sc1, Sc2, Chk, PP1, PP2, PK1, PK2), the players (.pld, Player macro: name and
+; 16 rating nibbles), four Strings (city, abbreviation, nickname, arena), then playoffseats.
 
 TeamList:							; a long pointer to each team record (team number = index)
 	dd Anaheim						; 0
@@ -43,14 +44,14 @@ AllStarsEast:
 .godds:
 	db 203,192
 .ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
-	db 01,19,18,07,04,16,09,00		; line 1 Sc1
-	db 01,19,18,07,04,16,10,00		; line 2 Sc2
-	db 01,22,20,11,10,17,07,00		; line 3 Chk
-	db 01,23,24,05,12,14,07,00		; line 4 PP1
-	db 01,19,22,07,04,16,09,00		; line 5 PP2
-	db 01,18,21,08,09,17,07,00		; line 6 PK1
-	db 01,19,23,13,05,06,15,00		; line 7 PK2
-	db 01,24,25,15,06,05,13,00		; line 8
+	db 01,19,18,07,04,16,09,00		; line 1 NLC (no line changes)
+	db 01,19,18,07,04,16,10,00		; line 2 Sc1
+	db 01,22,20,11,10,17,07,00		; line 3 Sc2
+	db 01,23,24,05,12,14,07,00		; line 4 Chk
+	db 01,19,22,07,04,16,09,00		; line 5 PP1
+	db 01,18,21,08,09,17,07,00		; line 6 PP2
+	db 01,19,23,13,05,06,15,00		; line 7 PK1
+	db 01,24,25,15,06,05,13,00		; line 8 PK2
 .pld:								; name, then the ratings as 16 nibbles: unwl,sodp,chga,eytm
 	%Player("Patrick Roy", $3366,$4446,$0100,$5566)
 	%Player("Grant Fuhr", $3175,$4555,$0000,$4455)
