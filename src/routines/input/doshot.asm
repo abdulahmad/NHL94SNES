@@ -2,7 +2,7 @@
 doshot:								; called from ShotMode, assbreakaway, asspassrec
 	jsl.l shotdiradj
 	lda.w #$0007
-	pha
+	pha								; 1,s = the shot code (7 until set below)
 	lda.w #$0008
 	trb.w sflags
 	sta.w pfalock,x
@@ -85,14 +85,14 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	iny
 	lda.b [a0],y
 	sta.b d2
-	pha
+	pha								; z diff (d2): 7,s at the .3x pha
 	lda.b d1
 	sec
 	sbc.w pucky
 	sta.b d1
-	pha
+	pha								; y diff (d1): 5,s at the .3x pha
 	lda.b d0
-	pha
+	pha								; x diff (d0): 3,s at the .3x pha
 	lda.b d0
 	ldy.b d1
 	jsl.l ApproxLength
@@ -145,7 +145,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	lda.w #sideline
 	sta.b d0
 .3x:								; call randomd0s, adc 3,s, 3,s = A, ...
-	pha
+	pha								; 1,s adjust, 3,s x diff, 5,s y diff; after its pla 5,s is the z diff
 	jsl.l randomd0s
 	adc.b 3,s
 	sta.b 3,s
@@ -156,20 +156,20 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	lda.w #$003C
 	sta.b d0
 	sta.b 1,s
-.4x:								; if r1+1,s >= 0 go to .5x, ...
-	lda.b r1+1,s
+.4x:								; if 5,s >= 0 go to .5x, ...
+	lda.b 5,s
 	bpl .5x
 	lsr.b d0
-.5x:								; call randomd0sd0, r1+1,s = r1+1,s + d0, call randoma, ...
+.5x:								; call randomd0sd0, 5,s = 5,s + d0, call randoma, ...
 	jsl.l randomd0sd0
-	lda.b r1+1,s
+	lda.b 5,s
 	adc.b d0
-	sta.b r1+1,s
+	sta.b 5,s
 	pla
 	lsr a
 	jsl.l randoma
-	adc.b r1+1,s
-	sta.b r1+1,s
+	adc.b 5,s
+	sta.b 5,s
 .6:									; call Mul8XS, call Mul16S, r1 = d3, ...
 	ldx.w passspeed
 	lda.w #$0044

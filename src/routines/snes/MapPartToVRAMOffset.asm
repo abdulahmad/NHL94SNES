@@ -46,7 +46,7 @@ MapPartToVRAMOffset:				; called from ReplayMode
 	tax
 .3:									; loop: VMADDL = X, if carry set go to .5, ...
 	stx.w VMADDL
-	phx
+	phx								; 1,s = x, the VRAM address of the row
 	lda.b r4
 	clc
 	adc.b r5

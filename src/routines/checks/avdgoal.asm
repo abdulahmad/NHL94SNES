@@ -159,7 +159,7 @@ avdgoal:							; called from assgoalietopuck, skateto, skatetopuck
 	lda.b p1
 	sec
 	sbc.w Xpos,y
-	pha
+	pha								; 1,s = this x difference
 	lda.b p0
 	sec
 	sbc.b p1

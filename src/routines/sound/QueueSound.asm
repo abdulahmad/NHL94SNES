@@ -7,7 +7,7 @@ QueueSound:							; queue sound A
 	phy
 	phb
 	php
-	pha								;keep the sound number
+	pha								; keep the sound number: 1,s
 	sep #$30						;8-bit A, X and Y
 	dec.w SoundLock					;sound update off
 	lda.b SoundBank					;data bank = the bank of the sound entries

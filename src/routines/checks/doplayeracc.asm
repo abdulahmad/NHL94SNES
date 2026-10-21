@@ -43,9 +43,9 @@ doplayeracc:						; player X skates toward d0
 
 .t3:								;a direction: pfrev, then the turn
 	lda.b d1						; save the animation
-	pha
+	pha								; 3,s = the animation (d1)
 	lda.b d0						; and the wanted direction
-	pha								; d0 = wanted direction
+	pha								; 1,s = the wanted direction (d0)
 	sta.b d2						; d2 = wanted direction
 	cpx.w puckc						; puck carrier?
 	bne .t2x

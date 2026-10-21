@@ -11,10 +11,10 @@ LoadMatchupPhotos:					; unpack the matchup player photos of team x
 
 .t1:								; save d0 and loop over the six matchup players (x = 10 down to 0)
 	lda.b d0
-	pha
+	pha								; 3,s = the saved d0
 	ldx.w #$000A
 .1:									; player x/2 of the matchup list: d0 = his roster index; remember the team
-	phx
+	phx								; 1,s = x, the loop counter
 	txa
 	lsr a
 	jsl.l GetMatchupPlayer

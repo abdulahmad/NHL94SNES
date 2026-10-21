@@ -4,7 +4,7 @@
 ;
 ; Called from checkplcoll and FallDown.
 CollisionSfx:						; play the collision sound
-	phy
+	phy								; 1,s = Y, the other object
 	ldy.w Xvel,x
 	lda.w Yvel,x
 	jsl.l ApproxLength

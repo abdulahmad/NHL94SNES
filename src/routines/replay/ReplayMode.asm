@@ -93,7 +93,7 @@ ReplayMode:							; called from PauseReplay
 	bne .loop2
 	pla
 	lsr a
-	pha
+	pha								; 1,s = half the suba4 step count
 .loop3:								; loop: if 1,s = 0 go to .t1, ...
 	lda.b 1,s
 	beq .t1

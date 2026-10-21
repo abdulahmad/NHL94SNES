@@ -152,7 +152,7 @@ printbig:							; print a string with the big font
 .8:									; control record: palette, font set, then position
 	eor.w #$FFFF
 	inc a
-	pha
+	pha								; 1,s = the control record value, negated
 	and.w #$0030
 	asl a
 	asl a

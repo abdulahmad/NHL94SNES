@@ -135,9 +135,9 @@ assgoalietopuck:					; X = goalie; asstab entry
 	sta.b d1
 	jsl.l avdgoal
 	lda.b d1
-	pha
+	pha								; 3,s = the avoid-goal target y (d1)
 	lda.b d0
-	pha
+	pha								; 1,s = the avoid-goal target x (d0)
 	txa
 	jsl.l GetHot
 	lda.b d0
