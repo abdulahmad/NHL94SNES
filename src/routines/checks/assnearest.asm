@@ -156,7 +156,7 @@ assnearest:							; X = player; asstab entry
 	bne .6
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #$0002
+	bit.w #tmfmid
 	bne .1xxxx
 	lda.w puckc
 	bmi .5
@@ -211,7 +211,7 @@ assnearest:							; X = player; asstab entry
 	sta.b d1
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #$0002
+	bit.w #tmfmid
 	beq .4x
 .3x:								; if pfgoal,x = 0 go to .t1xx, ...
 	lda.w pfgoal,x

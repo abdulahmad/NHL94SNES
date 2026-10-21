@@ -7142,3 +7142,11 @@ $9AF11C,LogoPaletteNHLPA,,behavior,"the NHLPA logo colours: LogoPaletteTable 29,
 (offset 6),pldendur,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
 (offset 7),pldpass,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
 (offset 8),pldsize,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
+(offset 2),psplayer,,93G,"PenSum entry: player, bit 7 away (byte 3 in 93G; 94S stores it first)",src/ram94s.asm
+(offset 3),pspen,,93G,"PenSum entry: penalty number (byte 2 in 93G)",src/ram94s.asm
+(offset 4),pssize,,93G,PenSum entry size,src/ram94s.asm
+(offset 0),pbpen,,93G,PenBuf entry: penalty number,src/ram94s.asm
+(offset 1),pbscnum,,93G,PenBuf entry: player object,src/ram94s.asm
+(bit $0002),tmftimeout,,93G,tmflags bit (tmfmid and tmfslide share it),src/ram94s.asm
+(bit $0002),tmfmid,,93G,tmflags bit (assnearest; was #$0002),src/ram94s.asm
+(bit $0002),tmfslide,,93G,tmflags bit (93 roster slide),src/ram94s.asm
