@@ -187,12 +187,12 @@ org $9FD000
 	lsr a
 	sta.w weight,x
 	lda.b [a0],y					; ratings are 3 bit values scaled by 5/2
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	ldy.w #$0000
 	jsl.l .8						; add the hot/cold adjustment, clamp 0-15 (stat 0)
 	sta.w legstr,x
@@ -202,33 +202,33 @@ org $9FD000
 	lsr a
 	lsr a
 	lsr a
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	ldy.w #$0001					; stat 1 (legspd)
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	sta.w legspd,x
 	ldy.w #pldlegspd				; aioff = low 3 bits plus all four bonuses
 	lda.b [a0],y
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	clc								; aioff = nibble plus all bonuses
-	adc.w PPBonus
+	adc.w PPBonus					;plus the power play bonus
 	clc
-	adc.w PKBonus
+	adc.w PKBonus					;plus the penalty kill bonus
 	clc
-	adc.w HmAwBonus
+	adc.w HmAwBonus					;plus the home bonus
 	clc
-	adc.w ThirdPBonus
+	adc.w ThirdPBonus				;plus the late game bonus
 	ldy.w #$0002					; stat 2 (aioff)
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	eor.w #$000F					; aioff = (15-n+15)/2
 	clc
 	adc.w #$000F
@@ -240,16 +240,16 @@ org $9FD000
 	lsr a
 	lsr a
 	lsr a
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	clc
-	adc.w HmAwBonus
+	adc.w HmAwBonus					;plus the home bonus
 	ldy.w #$0003					; stat 3 (aidef)
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	pha
 	lda.w position,x				; goalie?
 	beq .t1x						; goalie: other formula
@@ -270,14 +270,14 @@ org $9FD000
 .7:									; shotspd = low 3 bits of byte 3 (stat 4)
 	ldy.w #pldaidef
 	lda.b [a0],y
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	ldy.w #$0004
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	sta.w shotspd,x
 	ldy.w #pldcheck					; byte 4: checking = high 3 bits plus ThirdPBonus (stat 5)
 	lda.b [a0],y					; checking rating in the high nibble
@@ -285,16 +285,16 @@ org $9FD000
 	lsr a
 	lsr a
 	lsr a
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	clc
-	adc.w ThirdPBonus
+	adc.w ThirdPBonus				;plus the late game bonus
 	ldy.w #$0005
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	sta.w checking,x
 	lda.w attribute,x
 	and.w #$F7FF					; clear attrxflip
@@ -318,37 +318,37 @@ org $9FD000
 	lsr a
 	lsr a
 	lsr a
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	clc
-	adc.w PPBonus
+	adc.w PPBonus					;plus the power play bonus
 	clc
-	adc.w PKBonus
+	adc.w PKBonus					;plus the penalty kill bonus
 	clc
-	adc.w HmAwBonus
+	adc.w HmAwBonus					;plus the home bonus
 	ldy.w #$0006
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	sta.w stickhand,x
 	ldy.w #pldstick					; shotacc = low 3 bits plus the same bonuses (stat 7)
 	lda.b [a0],y
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	clc
-	adc.w PPBonus
+	adc.w PPBonus					;plus the power play bonus
 	clc
-	adc.w PKBonus
+	adc.w PKBonus					;plus the penalty kill bonus
 	clc
-	adc.w HmAwBonus
+	adc.w HmAwBonus					;plus the home bonus
 	ldy.w #$0007
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	sta.w shotacc,x
 	ldy.w #pldendur					; byte 6: endurance = high 3 bits (stat 8)
 	lda.b [a0],y					; endurance high nibble
@@ -356,29 +356,29 @@ org $9FD000
 	lsr a
 	lsr a
 	lsr a
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	ldy.w #$0008
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	sta.w endurance,x
 	ldy.w #pldendur					; spodds = low 3 bits plus twice ThirdPBonus (stat 9)
 	lda.b [a0],y
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	clc
-	adc.w ThirdPBonus
+	adc.w ThirdPBonus				;plus the late game bonus
 	clc
-	adc.w ThirdPBonus
+	adc.w ThirdPBonus				;plus the late game bonus
 	ldy.w #$0009
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	sta.w spodds,x
 	ldy.w #pldpass					; byte 7: passacc = high 3 bits plus PPBonus and HmAwBonus (stat 10)
 	lda.b [a0],y					; pass accuracy high nibble
@@ -386,29 +386,29 @@ org $9FD000
 	lsr a
 	lsr a
 	lsr a
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	clc
-	adc.w PPBonus
+	adc.w PPBonus					;plus the power play bonus
 	clc
-	adc.w HmAwBonus
+	adc.w HmAwBonus					;plus the home bonus
 	ldy.w #$000A
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	sta.w passacc,x
 	ldy.w #pldpass					; aggress = low 3 bits (stat 11)
 	lda.b [a0],y
-	and.w #$0007
-	sta.b r0
+	and.w #$0007					;3-bit rating
+	sta.b r0						;keep it
 	asl a
 	asl a
-	adc.b r0
-	lsr a
+	adc.b r0						;times 5
+	lsr a							;halved: 0-17
 	ldy.w #$000B
-	jsl.l .8
+	jsl.l .8						;hot/cold, clamp 0-15
 	sta.w aggress,x
 	ply								; restore Y and X
 	plx
