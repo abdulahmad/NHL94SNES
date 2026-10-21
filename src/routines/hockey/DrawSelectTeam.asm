@@ -26,7 +26,7 @@ DrawSelectTeam:						; called from PlayerSelect
 	lda.l TeamBlockPalettes,x
 	sta.b p0
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w HomeTeam
 	cmp.w VisTeam
 	bne .t1
@@ -106,7 +106,7 @@ DrawSelectTeam:						; called from PlayerSelect
 	sta.w jmlvector+1
 	lda.w #BigLetterSelect>>16
 	sta.w jmlvector+3
-	jsl.l RenderBigText
+	jsl.l RenderBigText				; draw string [p0] in the big proportional font
 	pla
 	sta.w printx
 	plx

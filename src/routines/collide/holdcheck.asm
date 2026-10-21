@@ -58,7 +58,7 @@ holdcheck:							; called from checkcheck
 	sta.w impactp,x
 	lda.w #SPAflail
 	sta.w pfalock,x
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	ldx.b a2
 	ldy.b a3
 	sty.b a2
@@ -72,8 +72,8 @@ holdcheck:							; called from checkcheck
 	beq .1
 	lda.w #SPAhook2
 .1:									; call SetSPAFromA, call PenShotChk, if zero go to .t1x, ...
-	jsl.l SetSPAFromA
-	jsl.l PenShotChk
+	jsl.l SetSPAFromA				; start sprite animation A on object X
+	jsl.l PenShotChk				; penalty shot check -> A
 	beq .t1x
 	lda.w BA_Sktr_SCnum
 	bpl .t1x
@@ -83,11 +83,11 @@ holdcheck:							; called from checkcheck
 	sta.w pspad
 	lda.w #PenShot
 	sta.b d0
-	jsl.l AddPenalty
+	jsl.l AddPenalty				; call penalty d0 on player X
 	bra .2
 
 .t1x:								; call checkagr, if d0 >= $0001 go to .2, ...
-	jsl.l checkagr
+	jsl.l checkagr					; penalty roll for player X: random below * 16
 	lda.b d0
 	cmp.w #$0001
 	bcs .2

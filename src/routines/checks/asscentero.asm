@@ -13,15 +13,15 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 .1:									; playerpad,x >= 0: return
 	rtl
 .2:									; gmclock != 0: go to assnothing
-	jmp.w assnothing
+	jmp.w assnothing				; computer player stands still
 .3:									; d0 = $0011, go to assinsert
 	lda.w #$0011
 	sta.b d0
-	jmp.w assinsert
+	jmp.w assinsert					; give player X assignment d0 on top of the current one
 .7:									; if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
-	jsl.l check4bench
+	jsl.l check4bench				; check whether a line change wants this player off
 	lda.w playerpad,x
 	bpl .1
 	lda.w pflags,x
@@ -102,7 +102,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	lda.b [a0],y					; x random range
 	dey
 	dey
-	jsl.l randomd0s
+	jsl.l randomd0s					; A = a random number from -A to A-1
 	adc.b [a0],y
 	sta.w temp3,x
 	tya
@@ -112,7 +112,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	lda.b [a0],y					; y random range
 	dey
 	dey
-	jsl.l randomd0s
+	jsl.l randomd0s					; A = a random number from -A to A-1
 	adc.b [a0],y					; plus the zone y
 	sta.w temp4,x					; temp4 = spot y
 .6:									; d0 = temp3,x, d1 = temp4,x, if pfgoal,x != 0 go to .1xxx, ...
@@ -131,7 +131,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	sta.b a0+2
 	lda.w #EvadePC
 	sta.b a0
-	jml.l skateto
+	jml.l skateto					; player X skates toward d0 / d1
 
 .t1x:								; bare return, not branched to in this file
 	rtl

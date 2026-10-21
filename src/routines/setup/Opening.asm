@@ -5,8 +5,8 @@
 Opening:							; called from Reset_Fast
 	rep #$30						; 16 bit registers
 	jsl.l Multi5Init				; init the multitap
-	jsl.l IntroSequence
-	jsl.l forceblack
+	jsl.l IntroSequence				; power-on animation, returns when it ends or a button is pressed
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	lda.w #$0000					; A = 0, X = 0
 	tax
 .loop:								; clear all of bank 7F, a word at a time (X wraps around through $0000)
@@ -19,10 +19,10 @@ Opening:							; called from Reset_Fast
 	jsl.l CheckPAL					; detect NTSC / PAL
 	jsl.l ResetPassWord				; reset the password
 	jsl.l DefaultMenus				; default menu options
-	jsl.l ReadAnyPad
+	jsl.l ReadAnyPad				; d1 = the buttons that changed on any pad
 	lda.w #$0000
 	sta.w brightness
-	jsl.l ReadAnyPad
+	jsl.l ReadAnyPad				; d1 = the buttons that changed on any pad
 	stz.w sndbank					;no sample set loaded: the title upload runs
 	jsl.l TitleScreen				; title screen
 	jsl.l FadeOutSound				; fade the music out
@@ -56,12 +56,12 @@ Restart:							; start over at the option screens
 	sta.b p0+2
 	lda.w #MenuSong
 	sta.b p0
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 .2:									; menu song running
 	stz.w sfhormode					; vertical mode
 	lda.w #$005C
 	sta.w jmlvector
-	jsl.l CheckPAL
+	jsl.l CheckPAL					; set the frame time step for a 50 Hz console
 	jsl.l setoptions				; option screens
 	stz.w shootoutmode				; no shootout yet
 	lda.l OptPlayMode

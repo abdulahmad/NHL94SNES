@@ -86,7 +86,7 @@ setsortcords:						; called from setvideo
 	sta.b d0
 	lda.w Ypos,x
 	sta.b d1
-	jsl.l projxy
+	jsl.l projxy					; project a rink position to screen coordinates
 	cmp.w #$4E20
 	beq .8
 	sta.w spry

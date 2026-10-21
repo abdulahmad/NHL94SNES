@@ -64,7 +64,7 @@ UpdateHatTrick:						; called from showcrowd
 	sbc.l haty,x
 	tax
 	lda.b d2
-	jsl.l DivX8S
+	jsl.l DivX8S					; X / A into A, X signed
 	ldx.b d4
 	sta.l hatvy,x
 	lda.b d0
@@ -86,14 +86,14 @@ UpdateHatTrick:						; called from showcrowd
 .2:									; call DivX8S, hatvx,x = A, call Mul8U, ...
 	tax
 	lda.b d2
-	jsl.l DivX8S
+	jsl.l DivX8S					; X / A into A, X signed
 	ldx.b d4
 	sta.l hatvx,x
 	lda.b d2
 	lsr a
 	lsr a
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	ldx.b d4
 	sta.b d2
 	asl a

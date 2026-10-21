@@ -8,13 +8,13 @@ PlayShootout:						; called from Restart
 	lda.w #$0001
 	sta.w shootoutmode
 	stz.b a2
-	jsl.l InitShooters
+	jsl.l InitShooters				; Shootout: the 6 starters of the home or away team as the shooter list
 	lda.w #$0002
 	sta.b a2
-	jsl.l InitShooters
+	jsl.l InitShooters				; Shootout: the 6 starters of the home or away team as the shooter list
 	jsl.l StartGame_go
-	jsl.l StartPer
-	jsl.l Pausemode
+	jsl.l StartPer					; start a period: reset the teams, the rink and the clock
+	jsl.l Pausemode					; pause mode: save the screen, stop the sound, show the pause menu
 	lda.w #$0001
 	sta.w shootoutround
 	stz.b d1
@@ -34,7 +34,7 @@ PlayShootout:						; called from Restart
 	lda.w #$0002
 	sta.b a1
 	jsl.l .t1
-	jsl.l ShootoutStub
+	jsl.l ShootoutStub				; does nothing
 	inc.w shootoutround
 	lda.w shootoutround
 	cmp.w #$0006
@@ -52,14 +52,14 @@ PlayShootout:						; called from Restart
 	stz.w shootoutturnover
 	lda.b a2
 	pha
-	jsl.l ClearPenaltyBuffer
+	jsl.l ClearPenaltyBuffer		; clear the list of called penalties
 	stz.w gmode
 	lda.b a2
 	beq .1x
 	lda.w #$0002
 	sta.w gmode
 .1x:								; call StartPer, a2 = pulled value, BA_Sktr_SCnum = $0000, ...
-	jsl.l StartPer
+	jsl.l StartPer					; start a period: reset the teams, the rink and the clock
 	pla
 	sta.b a2
 	lda.w #$0000
@@ -85,7 +85,7 @@ PlayShootout:						; called from Restart
 .t2:								; padside,y = a2: pspad = Y
 	sty.w pspad
 .3:									; call StartPenaltyShot, if a2 = 0 go to .t2x, ...
-	jsl.l StartPenaltyShot
+	jsl.l StartPenaltyShot			; set a penalty shot pending for shooter BA_Sktr_SCnum: penshot = 1
 	lda.b a2
 	beq .t2x
 	lda.w shootoutround
@@ -131,5 +131,5 @@ PlayShootout:						; called from Restart
 	sta.w BA_Sktr_SCnum
 	stz.w BA_Team
 .4:									; call Gameloop, return
-	jsl.l Gameloop
+	jsl.l Gameloop					; main game loop: wait for a frame, the clock, the music
 	rtl

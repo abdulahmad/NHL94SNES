@@ -11,7 +11,7 @@ AttribFighting:						; print the fighting rating
 AttribRating:						; print d0 as a number followed by the text at a1
 	lda.w #$0004
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	lda.b a1+2
 	pha
@@ -21,7 +21,7 @@ AttribRating:						; print d0 as a number followed by the text at a1
 	sta.b a1+2
 	lda.w #AttribFightingPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print AttribFightingPos
 	pla
 	sta.b a1
 	pla

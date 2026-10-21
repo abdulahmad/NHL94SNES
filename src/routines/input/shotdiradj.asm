@@ -55,7 +55,7 @@ org $9EE002
 	sbc.w pucky						; minus the puck y
 	sta.b d1						; d1 = dy to the goalie
 	ldy.b d0
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	sta.b d2
 	lda.w #$0012
 	sta.b d3
@@ -69,7 +69,7 @@ org $9EE002
 	pha
 	lda.b d3
 	pha
-	jsr.w CalcAngleOffset
+	jsr.w CalcAngleOffset			; cross product for the shot aim
 	lda.b d4
 	sta.b d5
 	pla
@@ -78,7 +78,7 @@ org $9EE002
 	sta.b d3						; post at -x
 	pla
 	sta.b d4
-	jsr.w CalcAngleOffset
+	jsr.w CalcAngleOffset			; cross product for the shot aim
 	lda.b d4						; sum of both angles
 	clc
 	adc.b d5

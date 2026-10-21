@@ -35,7 +35,7 @@ StepTrack:							; step one sequencer track
 	cpy.b #$DA
 	bne .t3
 .1x:								; $D9 / $DA: stop the music
-	jsl.l MusicStop
+	jsl.l MusicStop					; stop the song: release its voices and clear its tracks
 	jmp.w .14
 
 .t3:								; $E2: loop start
@@ -87,12 +87,12 @@ StepTrack:							; step one sequencer track
 	lda.w InstVolL
 	xba
 	lda.b EventData1
-	jsr.w MulFrac8
+	jsr.w MulFrac8					; A * B / 128 into A
 	sta.w TrackVolL,x
 	lda.w InstVolR
 	xba
 	lda.b EventData1
-	jsr.w MulFrac8
+	jsr.w MulFrac8					; A * B / 128 into A
 	sta.w TrackVolR,x
 	ldy.b #$07
 .loop:								; rescale each voice of this track, Y = voice 7 down to 0
@@ -103,12 +103,12 @@ StepTrack:							; step one sequencer track
 	lda.w TrackVolL,x
 	xba
 	lda.w VoiceVelocity,y
-	jsr.w MulFrac8
+	jsr.w MulFrac8					; A * B / 128 into A
 	sta.w VoiceVolL
 	lda.w TrackVolR,x
 	xba
 	lda.w VoiceVelocity,y
-	jsr.w MulFrac8
+	jsr.w MulFrac8					; A * B / 128 into A
 	sta.w VoiceVolR
 .loop2:								; wait for the SPC port to be free
 	lda.w APUIO0
@@ -163,7 +163,7 @@ StepTrack:							; step one sequencer track
 	asl a
 	tax
 	rep #$20
-	jsr.w ReleaseVoice
+	jsr.w ReleaseVoice				; put voice Y into its release
 	sep #$20
 	plx
 .2xx:								; next voice
@@ -468,7 +468,7 @@ StepTrack:							; step one sequencer track
 	asl a
 	tax
 	rep #$20
-	jsr.w StartSoundVoice
+	jsr.w StartSoundVoice			; start the note on a voice
 .12:								; read the delta time to the next event
 	jsr.w ReadVarLen
 	ldx.w CurTrackOfs

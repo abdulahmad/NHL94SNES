@@ -10,7 +10,7 @@ ClearPenaltyMessage:				; called from UpdatePA, prefmes
 	sta.b a1+2
 	lda.w #ClearPenaltyMessagePos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ClearPenaltyMessagePos
 	pla
 	sta.b a1
 	pla
@@ -19,7 +19,7 @@ ClearPenaltyMessage:				; called from UpdatePA, prefmes
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l Framer
+	jsl.l Framer					; draw a frame and fill it
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -28,7 +28,7 @@ ClearPenaltyMessage:				; called from UpdatePA, prefmes
 	sta.b a1+2
 	lda.w #ClearPenaltyMessagePos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ClearPenaltyMessagePos2
 	pla
 	sta.b a1
 	pla

@@ -17,7 +17,7 @@ skatetopuck:						; player X skates to the puck
 .t1:								; aim again: reload the timer
 	adc.w #$0005
 	sta.w temp2,x					; aim at the puck, steering around the goal
-	jsl.l avdgoal
+	jsl.l avdgoal					; do not skate through the goal
 	lda.b d1
 	pha								; save the avoid-goal target: 3,s = y (d1)
 	lda.b d0
@@ -98,7 +98,7 @@ org $9EB000
 .4:									; skate toward the stored direction
 	lda.w temp2b,x
 	sta.b d0
-	jml.l doplayeracc
+	jml.l doplayeracc				; player X skates toward d0
 .5:									; puck loose?
 	lda.w puckc
 	bmi .4							; yes: skate
@@ -111,7 +111,7 @@ org $9EB000
 	ora.w #$E000
 .1x:								; d0 term
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	sta.b d0
 	lda.b d1
 	lsr a
@@ -122,7 +122,7 @@ org $9EB000
 	ora.w #$E000
 .2x:								; d1 term
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	ldx.b a3						; player X again
 	clc
 	adc.b d0

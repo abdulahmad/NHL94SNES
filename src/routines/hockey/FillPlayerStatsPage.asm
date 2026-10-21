@@ -8,7 +8,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	lda.l smallfontchars
 	clc
 	adc.l printfontset
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	ldy.w listtop
 	tya
 	dec a
@@ -44,7 +44,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	lda.w #$0003
 	sta.w printx
 	stx.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	jsl.l PrintToStatsPage
 	stx.w statstemp
 	lda.b a2
@@ -66,7 +66,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	sta.b d0
 	lda.w #$0002
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	lda.w #$0002
 	jsl.l SetStatColumnPal
@@ -79,7 +79,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	sta.b d0
 	lda.w #$0002
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	lda.w #$0003
 	jsl.l SetStatColumnPal
@@ -99,7 +99,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	sta.b d0
 	lda.w #$0002
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	lda.w #$0004
 	jsl.l SetStatColumnPal
@@ -112,7 +112,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	sta.b d0
 	lda.w #$0002
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	lda.w #$0005
 	jsl.l SetStatColumnPal
@@ -125,7 +125,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	sta.b d0
 	lda.w #$0002
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	lda.w #$FFFF
 	jsl.l SetStatColumnPal
@@ -142,7 +142,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	lda.w #$0003
 	sta.w printx
 	stx.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	jsl.l PrintToStatsPage
 	stx.w statstemp
 	lda.b a2
@@ -161,7 +161,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	lda.w #$0016
 	sta.w printx
@@ -172,7 +172,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	lda.w #$001B
 	sta.w printx
@@ -182,7 +182,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	and.w #$00FF
 	phx
 	ldx.w #$0064
-	jsl.l Mul8XS
+	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	sta.b r2
 	plx
 	sep #$20
@@ -207,7 +207,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	sta.b d0
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	lda.w #$001E
 	sta.w printx

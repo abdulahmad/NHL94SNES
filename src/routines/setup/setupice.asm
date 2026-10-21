@@ -103,7 +103,7 @@ setupice:							; set up the rink screen
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #RefTilesHor>>16			; p0 = RefTilesHor
 	sta.b p0+2
 	lda.w #RefTilesHor
@@ -122,7 +122,7 @@ setupice:							; set up the rink screen
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #RefTiles>>16				; p0 = RefTiles
 	sta.b p0+2
 	lda.w #RefTiles
@@ -143,11 +143,11 @@ setupice:							; set up the rink screen
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #$0000					; fill 32 bytes of VRAM with 0: the blank tile
 	ldy.w #$FFFF
 	ldx.w #$0020
-	jsl.l FillVRAM
+	jsl.l FillVRAM					; fill VRAM with a word
 	lda.w #SmallFontTiles>>16		; p0 = SmallFontTiles
 	sta.b p0+2
 	lda.w #SmallFontTiles
@@ -203,7 +203,7 @@ setupice:							; set up the rink screen
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #TeamBlocksTiles>>16		; p0 = TeamBlocksTiles
 	sta.b p0+2
 	lda.w #TeamBlocksTiles
@@ -222,7 +222,7 @@ setupice:							; set up the rink screen
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 ;
 ; Takes nothing, returns nothing. Called from SaveRegsStartHL2 and StartPer, and falls through from
 ; setupice. Resets the rink view and the sort objects, turns the goals around for the second half, sets the
@@ -253,8 +253,8 @@ setupice_reset:						; reset the rink state and fade in
 	dex
 	bpl .loop
 .1:									; set the colours
-	jsl.l setplayercolors
+	jsl.l setplayercolors			; set the team colours and send the whole palette to CGRAM
 	stz.w fadestep					; fade in
-	jsl.l FadeIn
+	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	jsl.l ScreenOn					; show the screen
 	rtl

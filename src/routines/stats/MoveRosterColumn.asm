@@ -9,5 +9,5 @@ MoveRosterColumn:					; step the roster column
 	sta.b d0
 	bmi TeamRosterShowLine
 	sta.w DispAttribCtr
-	jsl.l ShowRosterLine
+	jsl.l ShowRosterLine			; print the roster line with the chosen attribute
 	bra TeamRosterShowLine

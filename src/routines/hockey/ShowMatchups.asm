@@ -8,7 +8,7 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #ShowMatchupsPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowMatchupsPos
 	pla
 	sta.b a1
 	pla
@@ -27,7 +27,7 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #MatchupsLabel
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites MatchupsLabel
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -36,14 +36,14 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #ShowMatchupsPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowMatchupsPos2
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w VisTeam
 	sta.b d1
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -52,14 +52,14 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #ShowMatchupsPos3
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowMatchupsPos3
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w HomeTeam
 	sta.b d1
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 	lda.w curitem
 	bne .t1
 	jmp.w .t2
@@ -79,7 +79,7 @@ ShowMatchups:						; called from ScoutingReport
 	jsl.l DrawMatchupPictures
 	lda.w #$3568
 	sta.l colourbuf
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.w #$0002
 	sta.b a2
 	lda.b a1+2
@@ -90,23 +90,23 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #ShowMatchupsPos4
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowMatchupsPos4
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w curitem
-	jsl.l GetMatchupPlayer
+	jsl.l GetMatchupPlayer			; d0 = the roster slot of team a2's player for matchup A
 	lda.b d0
 	sta.w curplayer
 	lda.w #$0001
 	sta.b d1
-	jsl.l GetPlayerRating
+	jsl.l GetPlayerRating			; rating of curplayer with hot / cold
 	lda.b d0
 	pha
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	lda.b a1+2
 	pha
@@ -116,14 +116,14 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #ShowMatchupsPos5
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowMatchupsPos5
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w curplayer
 	sta.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	jsl.l print
 	stz.b a2
 	lda.b a1+2
@@ -134,23 +134,23 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #ShowMatchupsPos6
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowMatchupsPos6
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w curitem
-	jsl.l GetMatchupPlayer
+	jsl.l GetMatchupPlayer			; d0 = the roster slot of team a2's player for matchup A
 	lda.b d0
 	sta.w curplayer
 	lda.w #$0001
 	sta.b d1
-	jsl.l GetPlayerRating
+	jsl.l GetPlayerRating			; rating of curplayer with hot / cold
 	lda.b d0
 	pha
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	lda.b a1+2
 	pha
@@ -160,14 +160,14 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #ShowMatchupsPos7
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowMatchupsPos7
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	lda.w curplayer
 	sta.b d0
-	jsl.l PlayerInitialName
+	jsl.l PlayerInitialName			; mesarea = the first initial
 	lda.w #$0021
 	sec
 	sbc.b [a1]
@@ -182,7 +182,7 @@ ShowMatchups:						; called from ScoutingReport
 	lda.w VisTeam
 	sta.l setupvis
 	jsl.l DrawMatchupPictures
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.w #$0002
 	sta.b a2
 	lda.b a1+2
@@ -193,17 +193,17 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #OverallTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print OverallTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l GetTeamRating
+	jsl.l GetTeamRating				; d0 = the team rating of team a2
 	lda.b d0
 	pha
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	stz.b a2
 	lda.b a1+2
@@ -214,17 +214,17 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #OverallTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print OverallTxt2
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l GetTeamRating
+	jsl.l GetTeamRating				; d0 = the team rating of team a2
 	lda.b d0
 	pha
 	lda.w #$0003
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 .1:									; a1 = ShowMatchupsPos8, call print, a1 = pulled value, ...
 	lda.b a1+2
@@ -235,7 +235,7 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #ShowMatchupsPos8
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowMatchupsPos8
 	pla
 	sta.b a1
 	pla
@@ -246,7 +246,7 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #LineSlotNames
 	sta.b a1
-	jsl.l AdvanceStringPtr
+	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	jsl.l print
 	lda.b a1+2
 	pha
@@ -256,7 +256,7 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #AdvantageTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print AdvantageTxt
 	pla
 	sta.b a1
 	pla
@@ -275,7 +275,7 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #UpArrowsTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print UpArrowsTxt
 	pla
 	sta.b a1
 	pla
@@ -291,7 +291,7 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #DownArrowsTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DownArrowsTxt
 	pla
 	sta.b a1
 	pla
@@ -307,7 +307,7 @@ ShowMatchups:						; called from ScoutingReport
 	sta.b a1+2
 	lda.w #NoneTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print NoneTxt
 	pla
 	sta.b a1
 	pla

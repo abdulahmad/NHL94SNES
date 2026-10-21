@@ -82,7 +82,7 @@ NMI_HookReturn:						; called from NMI_Fast
 	bra .2
 
 .t1:								; go to NMI_SendOAM
-	jmp.w NMI_SendOAM
+	jmp.w NMI_SendOAM				; NMI: send the sprite table to OAM when it is ready and there is time
 .3:									; go to .7
 	jmp.w .7
 .4:									; DMAQueue,x negative: if zero go to .6, ...

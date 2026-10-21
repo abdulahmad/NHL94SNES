@@ -37,7 +37,7 @@ forcepldata:						; called from StartHL2, puckfaceoff2
 	sta.w position,x
 	cmp.w #$0000
 	bmi .next
-	jsl.l Setplass
+	jsl.l Setplass					; set player X's first assignment from his position
 	ldx.b a3
 	lda.w position,x
 	cmp.w #$0004					; center

@@ -14,7 +14,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	lda.l matchupvis
 	ldx.w #$0001
 	ldy.w #$0001
-	jsl.l DrawPlayerPicture
+	jsl.l DrawPlayerPicture			; draw the picture of a player
 	lda.w #picboxmap>>16
 	sta.b p0+2
 	lda.w #picboxmap
@@ -28,7 +28,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0001
 	ldy.w #$0001
 	lda.w #$0000
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	bra .2
 
 .t1:								; p0+2 = LogoPaletteTable+2,x, p0 = LogoPaletteTable,x, call SetColours...
@@ -42,7 +42,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	sta.b p0
 	ldy.w #$00A0
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #logosprbuf>>16
 	sta.b p1+2
 	lda.w #logosprbuf
@@ -53,7 +53,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	jsl.l DrawSprite
 	ldx.w #$0001
 	ldy.w #$0001
-	jsl.l ClearPictureBox
+	jsl.l ClearPictureBox			; blank the 6 x 6 picture area at x, y of the text map
 	lda.w #logoboxmap>>16
 	sta.b p0+2
 	lda.w #logoboxmap
@@ -67,7 +67,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0001
 	ldy.w #$0001
 	lda.w #$0000
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 .2:									; r0 = setuphome, if plus go to .t1x, ...
 	lda.l setuphome
 	sta.b r0
@@ -79,7 +79,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	lda.l matchuphome
 	ldx.w #$0018
 	ldy.w #$0001
-	jsl.l DrawPlayerPicture
+	jsl.l DrawPlayerPicture			; draw the picture of a player
 	lda.w #picboxmap>>16
 	sta.b p0+2
 	lda.w #picboxmap
@@ -93,7 +93,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0018
 	ldy.w #$0001
 	lda.w #$0000
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	bra .3
 
 .t1x:								; p0+2 = LogoPaletteTable+2,x, p0 = LogoPaletteTable,x, call SetColours...
@@ -107,7 +107,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	sta.b p0
 	ldy.w #$00B0
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #logosprbuf>>16
 	sta.b p1+2
 	lda.w #logosprbuf
@@ -118,7 +118,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	jsl.l DrawSprite
 	ldx.w #$0018
 	ldy.w #$0001
-	jsl.l ClearPictureBox
+	jsl.l ClearPictureBox			; blank the 6 x 6 picture area at x, y of the text map
 	lda.w #logoboxmap>>16
 	sta.b p0+2
 	lda.w #logoboxmap
@@ -132,7 +132,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0018
 	ldy.w #$0001
 	lda.w #$0000
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 .3:									; if playerstatson != 0 go to .5, ...
 	lda.l playerstatson
 	bne .5
@@ -155,7 +155,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	tay
 	ldx.w #$0600
 	jsl.l WaitFrame
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #Ram7F>>16
 	sta.b p0+2
 	lda.l vispicaddr
@@ -169,7 +169,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	adc.w #$2300
 	tay
 	ldx.w #$0600
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	bra .4
 
 .t1xx:								; setuphome >= 0: call WaitFrame

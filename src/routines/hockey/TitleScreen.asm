@@ -111,7 +111,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	lda.w #$0005
 	jsr.w .9
 	lda.w #$0034					; sound
-	jsl.l PlaySound
+	jsl.l PlaySound					; play sound A at once
 	lda.w #$007D					; window 3 edge
 	sta.w TitleWH3					; open more of the screen
 	jsr.w TitleBlankSprites			; clear sprites, wait
@@ -122,7 +122,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	lda.w #$0008
 	jsr.w .9
 	lda.w #$0034					; sound
-	jsl.l PlaySound
+	jsl.l PlaySound					; play sound A at once
 	lda.w #$00FF					; window 3 edge
 	sta.w TitleWH3					; fully open
 	jsr.w TitleBlankSprites			; clear sprites, wait
@@ -445,7 +445,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TitlePalette
 	lda.w #TitleSpritePalette>>16
 	sta.b p0+2
 	lda.w #TitleSpritePalette
@@ -454,7 +454,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1+2
 	lda.w #unpackbuf+$100
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TitleSpritePalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -474,13 +474,13 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack LicenceTiles
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
-	jsl.l DMAToVRAMHigh
+	jsl.l DMAToVRAMHigh				; DMA X bytes from [p0] to the high bytes of video memory at Y
 	lda.w #LicenceNHLMap>>16
 	sta.b p0+2
 	lda.w #LicenceNHLMap
@@ -489,7 +489,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.w MapVRAM
 	ldx.w #$003C
 	ldy.w #$003C
-	jsl.l Mode7MapToVRAM
+	jsl.l Mode7MapToVRAM			; copy byte map [p0] into the mode 7 map at column X, row Y
 	lda.w #TitleLogoTiles>>16
 	sta.b p0+2
 	lda.w #TitleLogoTiles
@@ -498,13 +498,13 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TitleLogoTiles
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$4000
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #Title94Map>>16
 	sta.b p0+2
 	lda.w #Title94Map
@@ -513,7 +513,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack Title94Map
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -522,7 +522,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.w MapVRAM
 	ldx.w #$0000
 	ldy.w #$0000
-	jsl.l MapToVRAM
+	jsl.l MapToVRAM					; copy map [p0] into the screen map in video memory at column X, row Y
 	lda.w #TitleNHLMap>>16
 	sta.b p0+2
 	lda.w #TitleNHLMap
@@ -531,7 +531,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TitleNHLMap
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -540,7 +540,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.w MapVRAM
 	ldx.w #$0000
 	ldy.w #$0000
-	jsl.l MapToVRAM
+	jsl.l MapToVRAM					; copy map [p0] into the screen map in video memory at column X, row Y
 	lda.w #LicenceNHLPAMap>>16
 	sta.b p0+2
 	lda.w #LicenceNHLPAMap
@@ -549,7 +549,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack LicenceNHLPAMap
 	lda.w #TitlePuckMap>>16
 	sta.b p0+2
 	lda.w #TitlePuckMap
@@ -558,13 +558,13 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1+2
 	lda.w #introbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TitlePuckMap
 	lda.b p1
 	clc
 	adc.w #$0006
 	sta.b p1
 	lda.w #$8080
-	jsl.l MemOr
+	jsl.l MemOr						; OR the word A into X bytes at [p1]
 	lda.w #TitleSprites>>16
 	sta.b p0+2
 	lda.w #TitleSprites
@@ -573,7 +573,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p1+2
 	lda.w #titlesprbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TitleSprites
 	rts
 .8:									; clear the title variables TitleWH1-$0C00
 	ldx.w #$0BCB
@@ -592,5 +592,5 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	jsr.w DrawTitleSprite
 	jsl.l SpriteFrameEnd
 	ldx.w #$0004
-	jsl.l TitleWait
+	jsl.l TitleWait					; wait X frames unless a pad press has ended the title
 	rts

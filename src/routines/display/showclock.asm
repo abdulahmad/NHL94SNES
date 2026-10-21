@@ -73,7 +73,7 @@ showclock:							; called from setvideo
 	sta.b a1+2
 	lda.w #mesarea
 	sta.b a1
-	jml.l print
+	jml.l print						; print mesarea
 
 .t2:								; return
 	rtl

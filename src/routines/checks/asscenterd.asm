@@ -11,11 +11,11 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 .1:									; playerpad,x >= 0: return
 	rtl
 .2:									; gmclock != 0: go to assnothing
-	jmp.w assnothing
+	jmp.w assnothing				; computer player stands still
 .4:									; if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
-	jsl.l check4bench
+	jsl.l check4bench				; check whether a line change wants this player off
 	lda.w playerpad,x
 	bpl .1
 	lda.w pflags,x
@@ -83,4 +83,4 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	sta.b a0+2
 	lda.w #rtss
 	sta.b a0
-	jmp.w skateto
+	jmp.w skateto					; player X skates toward d0 / d1

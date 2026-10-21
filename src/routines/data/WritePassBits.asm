@@ -1,6 +1,6 @@
 ; Turn the playoff state into the password bits, with a checksum
 WritePassBits:						; called from EncodePW, ResolveGames
-	jsl.l ClrPassBits
+	jsl.l ClrPassBits				; clear the password bits
 	stz.b d7
 	lda.l postarts
 	sta.b d0

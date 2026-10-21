@@ -10,7 +10,7 @@ TitleZoomOutRight:					; no input; called from TitleScreen
 	sbc.w #$0100					; scale - $100
 	pha								; keep it
 	ldx.w #$0058					; times $58
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	xba								; high byte: /256
 	and.w #$00FF
 	clc
@@ -18,7 +18,7 @@ TitleZoomOutRight:					; no input; called from TitleScreen
 	sta.w TitleM7HOfs				; horizontal offset
 	pla								; scale - $100
 	ldx.w #$0040					; times $40
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	xba
 	and.w #$00FF
 	eor.w #$FFFF					; negate

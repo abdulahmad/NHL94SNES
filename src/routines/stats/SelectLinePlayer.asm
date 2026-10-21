@@ -15,7 +15,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	sta.b a1+2
 	lda.w #SelectLinePlayerPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print SelectLinePlayerPos
 	pla
 	sta.b a1
 	pla
@@ -36,7 +36,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack PlayerListMap
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -51,7 +51,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	clc
 	adc.w #$0C00
 	jsl.l WaitFrame
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	jsl.l SendTextMapRows
 	jsl.l SendTextMap2Rows
 	jsl.l SpriteFrameEnd
@@ -63,13 +63,13 @@ SelectLinePlayer:					; pick a player for a line slot
 	sbc.w linecursor
 	cmp.w #$0003
 	bpl .t1
-	jsl.l GetDefenseCount
+	jsl.l GetDefenseCount			; count the defensemen of the team
 	lda.b d0
 	sta.w listcount
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	lda.b d0
 	sta.w pickfirst
-	jsl.l GetForwardCount
+	jsl.l GetForwardCount			; count the forwards of the team
 	lda.w pickfirst
 	clc
 	adc.b d0
@@ -77,10 +77,10 @@ SelectLinePlayer:					; pick a player for a line slot
 	bra .3
 
 .t1:								; forwards are listed
-	jsl.l GetForwardCount
+	jsl.l GetForwardCount			; count the forwards of the team
 	lda.b d0
 	sta.w listcount
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	lda.b d0
 	sta.w pickfirst
 .3:									; first player of the list
@@ -98,7 +98,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	asl a
 	asl a
 	sta.b d0
-	jsl.l GetTeamLines
+	jsl.l GetTeamLines				; a3 = the RAM lines of team a2
 	lda.b a3
 	clc
 	adc.b d0
@@ -107,7 +107,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	sec
 	sbc.w linecursor
 	sta.b a3
-	jsr.w ReadLineSlot
+	jsr.w ReadLineSlot				; returns A = the byte at [a3]
 	sta.w curplayer
 	lda.w pickrows
 	clc
@@ -141,14 +141,14 @@ SelectLinePlayer:					; pick a player for a line slot
 	jsl.l SendTextMap
 	jsl.l SendTextMap2
 	jsl.l WaitFrame
-	jsl.l ReadPads
-	jsl.l ReadPausePad
-	jsl.l ProcessInputWithRepeat
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1
 	bit.w #$1000
 	beq .t2
 	lda.w #$FFFF
-	jmp.w SelectLinePlayerRtl
+	jmp.w SelectLinePlayerRtl		; jumped to from SelectLinePlayer
 
 .t2:								; not start
 	bit.w #$8080
@@ -158,7 +158,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	adc.w pickrows
 	sec
 	sbc.w curplayer
-	jmp.w SelectLinePlayerRtl
+	jmp.w SelectLinePlayerRtl		; jumped to from SelectLinePlayer
 
 .t1xx:								; left / right / up / down
 	stz.b d0
@@ -228,7 +228,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	sta.b a1+2
 	lda.w #SelectLinePlayerPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print SelectLinePlayerPos2
 	pla
 	sta.b a1
 	pla
@@ -293,7 +293,7 @@ org $9B9001
 	sta.b a1+2
 	lda.w #PlayerTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PlayerTxt
 	pla
 	sta.b a1
 	pla
@@ -309,7 +309,7 @@ org $9B9001
 	sta.b a1+2
 	lda.w #LeftArrowTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print LeftArrowTxt
 	pla
 	sta.b a1
 	pla
@@ -330,11 +330,11 @@ org $9B9001
 	sta.b a1+2
 	lda.w #RightArrowTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print RightArrowTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 .2xx:								; print the player list
-	jsr.w PrintLinePlayerList
+	jsr.w PrintLinePlayerList		; line editor player list: each row a player name and the attribute
 	rtl

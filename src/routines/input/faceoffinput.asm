@@ -28,11 +28,11 @@ faceoffinput:						; pad input for a player taking a face off
 	lda.w #$0001					; swing started
 	sta.w pf2aip,x
 	lda.w #SPAfaceoff				; face off swing animation
-	jml.l SetSPAFromA
+	jml.l SetSPAFromA				; start sprite animation A on object X
 
 .t1:								; not pressed
 	lda.w #SPAfaceoffr				; ready animation
-	jml.l SetSPAFromA
+	jml.l SetSPAFromA				; start sprite animation A on object X
 
 .t2:								; return
 	rtl

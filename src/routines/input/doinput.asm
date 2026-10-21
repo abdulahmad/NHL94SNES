@@ -93,13 +93,13 @@ doinput:							; pad input for player X
 .6:									; locked: the same limited actions as the puck carrier
 	jmp.w .22
 .7:									; face off
-	jml.l faceoffinput
+	jml.l faceoffinput				; pad input for a player taking a face off
 .8:									; line change box
-	jml.l lineinput
+	jml.l lineinput					; pad input for the line change box
 .9:									; hold the opposing player
-	jml.l Holdplayer
+	jml.l Holdplayer				; hold button for player X
 .10:								; change player
-	jml.l findpc
+	jml.l findpc					; choose the player for pad d4
 .11:								; take the left defense
 	jml.l PadTakeLeftDefense
 .12:								; take the right defense

@@ -32,7 +32,7 @@ sfx:								; play sound A with the velocity in p0 / p0+2
 	ora.w #$FF00
 .1:									; sign extend the X velocity byte
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	sta.b SfxVelocity
 	lda.b p0+3
 	and.w #$00FF
@@ -41,7 +41,7 @@ sfx:								; play sound A with the velocity in p0 / p0+2
 	ora.w #$FF00
 .2:									; sign extend the Y velocity byte
 	tax
-	jsl.l Mul8S
+	jsl.l Mul8S						; A * X, 8 by 8 bits, both signed, into A
 	clc
 	adc.b SfxVelocity
 	lsr a
@@ -69,7 +69,7 @@ sfx:								; play sound A with the velocity in p0 / p0+2
 	lda.b r2+1
 	sta.b p0
 	lda.b p1+2
-	jsl.l QueueSound
+	jsl.l QueueSound				; queue sound A
 	tay
 	sep #$20
 	dec.w SoundLock

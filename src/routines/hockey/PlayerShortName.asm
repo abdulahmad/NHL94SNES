@@ -12,7 +12,7 @@ PlayerShortName:					; called from GetPlayerNumInitial, PrintLineSlotName, ShowG
 	pha
 	lda.b a0+2
 	pha
-	jsl.l GetPlayerRecord
+	jsl.l GetPlayerRecord			; a0 = the roster record of player d0 of team a2
 	lda.w #mesarea>>16
 	sta.b a1+2
 	lda.w #mesarea
@@ -32,7 +32,7 @@ PlayerShortName:					; called from GetPlayerNumInitial, PrintLineSlotName, ShowG
 	lda.b [a0]
 	and.w #$00FF
 	sta.b d0
-	jsl.l PutDigits2
+	jsl.l PutDigits2				; write the two digit number d0 as two characters at [a1]
 	lda.w #$0020
 	sta.b [a1]
 	inc.b a1
@@ -73,7 +73,7 @@ PlayerShortName:					; called from GetPlayerNumInitial, PrintLineSlotName, ShowG
 	lda.b a0
 	cmp.b a2
 	bne .loop2
-	jsl.l MesAreaDone
+	jsl.l MesAreaDone				; end the string built in mesarea
 	pla
 	sta.b a0+2
 	pla

@@ -9,7 +9,7 @@ Pmenu:								; called from PauseMenuPoll, SelectPauseController, ShowMP5Warning
 	sta.b a1+2
 	lda.w #PmenuPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PmenuPos
 	pla
 	sta.b a1
 	pla
@@ -99,7 +99,7 @@ Pmenu:								; called from PauseMenuPoll, SelectPauseController, ShowMP5Warning
 	sta.b a1+2
 	lda.w #PmenuPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PmenuPos2
 	pla
 	sta.b a1
 	pla
@@ -155,11 +155,11 @@ Pmenu:								; called from PauseMenuPoll, SelectPauseController, ShowMP5Warning
 	jmp.w PmenuRtl
 
 .t1x:								; [a3] = d0: call GetPadTeam, if tmgoalie,y >= 0 go to .t2x, ...
-	jsl.l GetPadTeam
+	jsl.l GetPadTeam				; a2 = the team of the controller that paused, from its side
 	ldy.b a2
 	lda.w tmgoalie,y
 	bpl .t2x
-	jmp.w PmenuNone
+	jmp.w PmenuNone					; append "None" to the pause item text
 
 .t2x:								; tmgoalie,y >= 0: tmp0 = A, a4 = long tmdata,y, ...
 	sta.b tmp0
@@ -220,7 +220,7 @@ PmenuGoalieValue:					; called from Pmenu
 	jmp.w PmenuRtl
 
 .t2:								; [a3] = d0: call GetPadTeam, if goaliemode1,y = 0 go to .t1, ...
-	jsl.l GetPadTeam
+	jsl.l GetPadTeam				; a2 = the team of the controller that paused, from its side
 	ldy.b a2
 	lda.w goaliemode1,y
 	beq .t1
@@ -255,7 +255,7 @@ PmenuDefValue:						; called from Pmenu
 	jmp.w PmenuRtl
 
 .t2:								; [a3] = d0: call GetPadTeam, if defcontrol,y = 0 go to .t1, ...
-	jsl.l GetPadTeam
+	jsl.l GetPadTeam				; a2 = the team of the controller that paused, from its side
 	ldy.b a2
 	lda.w defcontrol,y
 	beq .t1

@@ -68,7 +68,7 @@ playeracc:							; player X accelerates toward direction d2
 	lda.b d2
 	pha								; keep the factor
 	ldx.b d0						; x step
-	jsl.l Mul8XS
+	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	tax
 	lda.b d7						; d7 = frames elapsed
 	jsl.l Mul16x8XS
@@ -87,7 +87,7 @@ playeracc:							; player X accelerates toward direction d2
 	sta.b d3
 	pla								; factor again
 	ldx.b d1						; y step
-	jsl.l Mul8XS
+	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	tax
 	lda.b d7
 	jsl.l Mul16x8XS
@@ -172,7 +172,7 @@ playeracc:							; player X accelerates toward direction d2
 	lda.w seed						; 1 call in 64
 	and.w #$003F
 	bne .t1x
-	jsl.l getpde
+	jsl.l getpde					; d0 = the energy of player X
 	lda.b d0
 	sec
 	sbc.w #$0021					; lower the energy by 33

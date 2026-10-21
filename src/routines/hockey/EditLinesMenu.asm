@@ -1,6 +1,6 @@
 ; Edit Lines menu: Return to Game and Restore default lines
 EditLinesMenu:						; called from EditLinesScreen
-	jsr.w ClearEditLinesMenu
+	jsr.w ClearEditLinesMenu		; line editor: erase the menu area
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -9,7 +9,7 @@ EditLinesMenu:						; called from EditLinesScreen
 	sta.b a1+2
 	lda.w #ReturnToGameTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ReturnToGameTxt
 	pla
 	sta.b a1
 	pla
@@ -22,13 +22,13 @@ EditLinesMenu:						; called from EditLinesScreen
 	sta.b a1+2
 	lda.w #RestoreDefaultLinesTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print RestoreDefaultLinesTxt
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	jsl.l SendTextMap
-	jsl.l WaitButtonRelease
+	jsl.l WaitButtonRelease			; wait until the pause pad has no button down
 	lda.w #$0000
 	sta.w linemenuitem
 .1:									; if $0000 != linemenuitem go to .t1, ...
@@ -43,7 +43,7 @@ EditLinesMenu:						; called from EditLinesScreen
 	sta.b a1+2
 	lda.w #EditLinesMenuPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print EditLinesMenuPos
 	pla
 	sta.b a1
 	pla
@@ -59,7 +59,7 @@ EditLinesMenu:						; called from EditLinesScreen
 	sta.b a1+2
 	lda.w #EditLinesMenuPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print EditLinesMenuPos2
 	pla
 	sta.b a1
 	pla
@@ -73,7 +73,7 @@ EditLinesMenu:						; called from EditLinesScreen
 	sta.b a1+2
 	lda.w #ReturnToGame
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ReturnToGame
 	pla
 	sta.b a1
 	pla
@@ -89,7 +89,7 @@ EditLinesMenu:						; called from EditLinesScreen
 	sta.b a1+2
 	lda.w #EditLinesMenuPos3
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print EditLinesMenuPos3
 	pla
 	sta.b a1
 	pla
@@ -105,7 +105,7 @@ EditLinesMenu:						; called from EditLinesScreen
 	sta.b a1+2
 	lda.w #EditLinesMenuPos4
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print EditLinesMenuPos4
 	pla
 	sta.b a1
 	pla
@@ -119,16 +119,16 @@ EditLinesMenu:						; called from EditLinesScreen
 	sta.b a1+2
 	lda.w #RestoreDefaultLines
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print RestoreDefaultLines
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	jsl.l SendTextMap
 	jsl.l WaitFrame
-	jsl.l ReadPads
-	jsl.l ReadPausePad
-	jsl.l ProcessInputWithRepeat
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1
 	bit.w #$9080
 	bne .7
@@ -157,9 +157,9 @@ EditLinesMenu:						; called from EditLinesScreen
 	bra .1x
 
 .t2:								; call LoadTeamLines, call ClearEditLinesMenu, call DrawEditLinesTop, ...
-	jsl.l LoadTeamLines
-	jsr.w ClearEditLinesMenu
-	jsl.l DrawEditLinesTop
+	jsl.l LoadTeamLines				; copy team a2's lines from the team data into RAM
+	jsr.w ClearEditLinesMenu		; line editor: erase the menu area
+	jsl.l DrawEditLinesTop			; line editor: clear the top, the title and the line frame
 	lda.w #$0000
 .1x:								; return
 	rts

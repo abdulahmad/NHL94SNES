@@ -188,7 +188,7 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	bra .7
 
 .t1x:								; mp5checktimer != 0: call Multi5ConnectCheck, JoyPad+4 = $000F, JoyPad...
-	jsl.l Multi5ConnectCheck
+	jsl.l Multi5ConnectCheck		; read 16 signature bits from each port
 	ldx.w #$000F
 	stx.w JoyPad+4
 	stx.w JoyPad+6

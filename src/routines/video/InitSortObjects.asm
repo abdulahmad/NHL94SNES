@@ -95,7 +95,7 @@ InitSortObjects:					; called from setoptions, setupice_reset
 	sta.w position+netobj1
 	sta.w position+netobj2
 	plb
-	jmp.w SprSort
+	jmp.w SprSort					; sort the objects by screen position
 .3:									; a record of 9 words per object, read by the .loop2 loop above
 	; x, y, height, frame, attribute (bit 0 = visiting palette), collision width, collision height,
 	; assignment, flags (as 93S SortObjInitTable)

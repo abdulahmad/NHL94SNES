@@ -172,7 +172,7 @@ org $9FA001
 	sta.w nibblebuffer+6
 	lda.w #$0004
 	sta.b d0
-	jml.l WeightedRandomSelect
+	jml.l WeightedRandomSelect		; d0 = a random index 0 
 .5:									; dw $002B,$001E,$0017,$0004,$0027,$0020,$0018,$0005, dw $0023,$0021,$0...
 	dw $002B,$001E,$0017,$0004,$0027,$0020,$0018,$0005
 	dw $0023,$0021,$001A,$0006,$001E,$0022,$001E,$0006

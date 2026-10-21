@@ -79,7 +79,7 @@ dopass:								; called from chk4pass, passmode
 	bmi .t2
 	jsl.l dopass_count
 	lda.w #$0000
-	jsl.l PuckSfx
+	jsl.l PuckSfx					; play sound A with half the puck velocity
 	jmp.w dopass_swing
 
 .t2:								; d4 negative: a0 = long passdir * 2 * 2 + dirtab+2, ror a, ...
@@ -95,7 +95,7 @@ dopass:								; called from chk4pass, passmode
 	ror a
 	tax
 	lda.w #$0050
-	jsl.l Mul8XS
+	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	asl a
 	sta.b r3
 	ldx.b curobj
@@ -112,7 +112,7 @@ dopass:								; called from chk4pass, passmode
 	ror a
 	tax
 	lda.w #$0050
-	jsl.l Mul8XS
+	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	asl a
 	sta.b r3
 	ldx.b curobj
@@ -148,12 +148,12 @@ dopass_swing:						; called from assdumpin, dopass
 	sta.b d0
 	lda.w puckvy
 	sta.b d1
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	ldy.w #SPAgswing
 	lda.w position,x
 	beq .1x
 	ldy.w #SPApassf
-	jsl.l Findhittype
+	jsl.l Findhittype				; swing type of player X for direction d0
 	beq .1x
 	ldy.w #SPApassb
 .1x:								; d1 = Y, call SetSPA, pfalock,x = $0001, ...
@@ -168,11 +168,11 @@ dopass_swing:						; called from assdumpin, dopass
 	stz.w Xvel,x
 	stz.w Yvel,x
 	sta.b d4
-	jsl.l findpc
+	jsl.l findpc					; choose the player for pad d4
 .rtl:								; return
 	rtl
 dopass_count:						; called from dopass
-	jsl.l loadTeamStruct
+	jsl.l loadTeamStruct			; a2 = player X's team, a1 = the other team
 	lda.w gmclock
 	bne .1
 	ldy.b a2
@@ -192,7 +192,7 @@ dopass_count:						; called from dopass
 	ldx.b a0
 	lda.w #$0015
 	sta.b d0
-	jsl.l assinsert
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
 	ldx.b a3
 	ldy.b a0
 	lda.w frame,y
@@ -261,19 +261,19 @@ dopass_count:						; called from dopass
 	adc.b d1
 	sta.b d3
 	ldy.b d2
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	sta.b d4
 	asl a
 	tax
 	lda.w #$0003
-	jsl.l DivX8U
+	jsl.l DivX8U					; X / A into A with the hardware divider
 	cmp.w #$0040
 	bcc .t1x
 	cmp.w #$0050
 	bcc .4
 	ldx.b d4
 	lda.w #$0005
-	jsl.l DivX8U
+	jsl.l DivX8U					; X / A into A with the hardware divider
 	sta.b d6
 	lda.w #$0050
 	bra .3
@@ -310,7 +310,7 @@ dopass_count:						; called from dopass
 	adc.b d1
 	sta.b d3
 	ldy.b d2
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	sta.b d4
 	pla
 .4:									; d5 = A, passspeed = A, call randomd0s, ...
@@ -320,7 +320,7 @@ dopass_count:						; called from dopass
 	lda.w #$0010
 	sec
 	sbc.w passacc,x
-	jsl.l randomd0s
+	jsl.l randomd0s					; A = a random number from -A to A-1
 	clc
 	adc.b d5
 	sta.b d5
@@ -379,9 +379,9 @@ dopass_count:						; called from dopass
 	sta.b d4
 	lda.w passReceiverPlayerNum
 	sta.b d0
-	jsl.l AssignPadIfFree
+	jsl.l AssignPadIfFree			; AssignPadPlayer when player d0 has no pad yet
 	lda.w playerpad,x
 	bmi .rtl
-	jsl.l findpc
+	jsl.l findpc					; choose the player for pad d4
 .rtl:								; return
 	rtl

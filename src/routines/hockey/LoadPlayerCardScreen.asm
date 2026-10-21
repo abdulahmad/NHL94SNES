@@ -12,8 +12,8 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p1+2
 	lda.w #logosprbuf
 	sta.b p1
-	jsl.l Decompress
-	jsl.l WaitFadeOut
+	jsl.l Decompress				; unpack TeamLogoSprites
+	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l forceblack				; screen off; BG1 map at 0, BG2 map at $400 words, BG tiles/OBJ size set,
 									; BG1 BG2 and sprites on (TM $13)
 	sep #$20
@@ -34,8 +34,8 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	stz.w printm
 	lda.w #$0000
 	sta.l charofs2
-	jsl.l ClearTextMap
-	jsl.l ClearTextMap2
+	jsl.l ClearTextMap				; fill the text map with the blank tile
+	jsl.l ClearTextMap2				; fill the second text map with the blank tile
 	lda.w #SmallFontTiles>>16		; small font to VRAM at smallfontchars * 16 + $1000, unpacked at unpackbuf
 	sta.b p0+2
 	lda.w #SmallFontTiles
@@ -51,7 +51,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	asl a
 	adc.w #$1000
 	sta.w VMADDL
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SmallFontTiles
 	txa								; d0 = tile count; remap the font pixels (PixelRemap8F) and the framer
 									; tiles (PixelRemap87, 4 tiles)
 	lsr a
@@ -89,7 +89,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TeamBlocksTiles
 	txa
 	lsr a
 	lsr a
@@ -111,7 +111,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	asl a
 	adc.w #$1000
 	tay
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #$0000					; card back tiles: unpack, cardframechars follows them, convert to planar
 									; and copy to VRAM $1000
 	sta.l cardbackchars
@@ -123,7 +123,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack CardBackTiles
 	txa
 	lsr a
 	lsr a
@@ -143,7 +143,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0
 	tax
 	ldy.w #$1000
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #CardFrameTiles>>16		; card frame tiles: unpack and copy to VRAM straight after
 	sta.b p0+2
 	lda.w #CardFrameTiles
@@ -152,13 +152,13 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack CardFrameTiles
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #CardPictureMap>>16		; card picture map unpacked at picboxmap
 	sta.b p0+2
 	lda.w #CardPictureMap
@@ -167,7 +167,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p1+2
 	lda.w #picboxmap
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack CardPictureMap
 	lda.l picboxmap					; r3 = bytes per row, x = rows; skip the 3 header words
 	asl a
 	sta.b r3
@@ -207,7 +207,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack CardBackMap
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -227,7 +227,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	adc.l charofs2
 	clc
 	adc.w #$1000
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	lda.w #SetupScreenPalette>>16	; SetupScreenPalette to colours 0-$3F; colour 0 of the CGRAM is black
 	sta.b p0+2
 	lda.w #SetupScreenPalette
@@ -236,14 +236,14 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SetupScreenPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0040
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	sep #$20
 	stz.w CGADD
 	stz.w CGDATA
@@ -257,24 +257,24 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack CardBackPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0040
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #CardSpritePalette>>16
 	sta.b p0+2
 	lda.w #CardSpritePalette
 	sta.b p0
 	ldy.w #$0080
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #$0000					; backdrop colour 0 and send the colours
 	sta.l colourbuf
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.b a1+2						; print the "switch cards" text (save and restore a1), show text map 2
 	pha
 	lda.b a1
@@ -283,7 +283,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b a1+2
 	lda.w #SwitchCardsYSwitchTeamsTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print SwitchCardsYSwitchTeamsTxt
 	pla
 	sta.b a1
 	pla

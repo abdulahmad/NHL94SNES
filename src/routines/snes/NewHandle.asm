@@ -27,7 +27,7 @@ NewHandle:							; called from SetHandleSize
 	cmp.w NewHandleSkipBank
 	beq .try7F
 	ldy.w HeapStart7E
-	jsr.w HeapAllocBlock
+	jsr.w HeapAllocBlock			; find a free block of at least r3 bytes
 	cmp.w #$FFFF
 	bne .found
 .try7F:								; p0+2 = $007F, if zero go to .compact, ...
@@ -36,7 +36,7 @@ NewHandle:							; called from SetHandleSize
 	cmp.w NewHandleSkipBank
 	beq .compact
 	ldy.w HeapStart7F
-	jsr.w HeapAllocBlock
+	jsr.w HeapAllocBlock			; find a free block of at least r3 bytes
 	cmp.w #$FFFF
 	bne .found
 .compact:							; call HeapCompact, p0+2 = $007E, if zero go to .retry7F, ...
@@ -46,7 +46,7 @@ NewHandle:							; called from SetHandleSize
 	cmp.w NewHandleSkipBank
 	beq .retry7F
 	ldy.w HeapStart7E
-	jsr.w HeapAllocBlock
+	jsr.w HeapAllocBlock			; find a free block of at least r3 bytes
 	cmp.w #$FFFF
 	bne .found
 .retry7F:							; p0+2 = $007F, if zero go to .fail, ...
@@ -55,7 +55,7 @@ NewHandle:							; called from SetHandleSize
 	cmp.w NewHandleSkipBank
 	beq .fail
 	ldy.w HeapStart7F
-	jsr.w HeapAllocBlock
+	jsr.w HeapAllocBlock			; find a free block of at least r3 bytes
 	cmp.w #$FFFF
 	bne .found
 .fail:								; go to .exit

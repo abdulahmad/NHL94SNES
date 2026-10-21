@@ -2,7 +2,7 @@
 MusicStart:							; called from PeriodOver, PlayTeamSong, PlayoffScreen, ReplayMode, Rest...
 	php
 	sep #$30
-	jsl.l MusicStop
+	jsl.l MusicStop					; stop the song: release its voices and clear its tracks
 	dec.w SoundLock
 	lda.b #$1F
 	ldy.b #$10
@@ -19,7 +19,7 @@ MusicStart:							; called from PeriodOver, PlayTeamSong, PlayoffScreen, ReplayM
 	ldx.w #$1FE0
 .1:									; call DivX8U, TempoTick = A, EventPtr+2 = p0+2, ...
 	lda.b [p0],y
-	jsl.l DivX8U
+	jsl.l DivX8U					; X / A into A with the hardware divider
 	sta.w TempoTick
 	sep #$10
 	lda.b p0+2

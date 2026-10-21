@@ -2,7 +2,7 @@
 checkgoal:							; called from checkwallcoll
 	cpx.w #$001C
 	beq .t3
-	jmp.w checkgoalp
+	jmp.w checkgoalp				; player X runs into the goal a2
 
 .t3:								; if puckc negative go to .1, ...
 	ldy.w puckc
@@ -167,9 +167,9 @@ checkgoal:							; called from checkwallcoll
 	lda.w #$0800
 	sta.w puckvy
 .1xx:								; go to wallcoll
-	jmp.w wallcoll
+	jmp.w wallcoll					; bounce object X off a wall
 .8:									; d2 - $FFEF >= 0: go to Goal
-	jmp.w Goal
+	jmp.w Goal						; the puck is in the net: score, log, scoreboard, celebration
 .9:									; d2 - $0017 negative: d1 = 0, eor p0, if minus go to .7, ...
 	stz.b d1
 	lda.w pucky
@@ -195,11 +195,11 @@ checkgoal:							; called from checkwallcoll
 	cmp.w #$FFEF
 	bpl .8
 .1xxx:								; call ChkShotStat, breakaway = 0, onetimer = 0, ...
-	jsl.l ChkShotStat
+	jsl.l ChkShotStat				; if a shot was taken, add it to the shooting team's shots
 	stz.w breakaway
 	stz.w onetimer
 	lda.w #$0009
-	jsl.l PuckSfx
+	jsl.l PuckSfx					; play sound A with half the puck velocity
 	lda.l Crowdlevel
 	clc
 	adc.w #$012C
@@ -271,4 +271,4 @@ checkgoal:							; called from checkwallcoll
 	lda.w #$FF01
 	sta.b d1
 .1xxxxx:							; go to wallcoll
-	jmp.w wallcoll
+	jmp.w wallcoll					; bounce object X off a wall

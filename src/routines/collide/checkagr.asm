@@ -29,4 +29,4 @@ checkagr:							; called from Bcheck, checkcheck, holdcheck
 	bpl .2
 	lsr.b d0
 .2:									; go to randomd0
-	jml.l randomd0
+	jml.l randomd0					; d0 = a random number from 0 to d0-1

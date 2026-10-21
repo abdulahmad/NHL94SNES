@@ -55,7 +55,7 @@ puckstick:							; called from checkpuckcoll_ccx
 .1x:								; call makepde, nopuck,y = d0 + $0014, a0 = a2, ...
 	ldy.b a0
 	lda.w stickhand,y
-	jsl.l makepde
+	jsl.l makepde					; d0 = rating A scaled by player a0's energy
 	lda.b d0
 	adc.w #$0014					; nopuck = makepde(stickhand) + 20 for both
 	ldy.b a0
@@ -65,7 +65,7 @@ puckstick:							; called from checkpuckcoll_ccx
 	sty.b a0
 	sta.b a2
 	lda.w stickhand,y
-	jsl.l makepde
+	jsl.l makepde					; d0 = rating A scaled by player a0's energy
 	lda.b d0
 	adc.w #$0014					; plus 20
 	ldy.b a0
@@ -81,7 +81,7 @@ puckstick:							; called from checkpuckcoll_ccx
 	trb.w sflags
 .3:									; call PuckSfx, call a2touchpuck, go to deflect
 	lda.w #$0003
-	jsl.l PuckSfx
+	jsl.l PuckSfx					; play sound A with half the puck velocity
 	jsl.l a2touchpuck				; a2 touches the puck
 	jmp.w deflect					; deflect
 .4:									; return
@@ -154,4 +154,4 @@ puckstick:							; called from checkpuckcoll_ccx
 	jmp.w .3
 
 .t2:								; go to puckglue
-	jmp.w puckglue
+	jmp.w puckglue					; player a2 takes the puck

@@ -19,7 +19,7 @@ FindGoalieStrengths:				; called from DrawPlayerCard
 	jsl.l AddStrength
 	lda.w #$0004
 	sta.b d1
-	jsl.l GetPlayerRating
+	jsl.l GetPlayerRating			; rating of curplayer with hot / cold
 	lda.b d0
 	cmp.w #$0032
 	bcc .t1

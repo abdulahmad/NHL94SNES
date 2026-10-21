@@ -6,5 +6,5 @@ SendTextMap2Rows:					; called from DrawMatchupPictures, SelectLinePlayer, Shoot
 	sta.b p0
 	ldy.w #$0420
 	ldx.w #$0300
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	rtl

@@ -23,7 +23,7 @@ org $9EA001
 .rtl:								; return
 	rtl
 .1:									; go to holdcheck
-	jmp.w holdcheck
+	jmp.w holdcheck					; a2 holds or hooks X: both slow down, and a penalty may be called
 .cc:								;X is checking a2
 	ldy.b a2						; a2 holding: holdcheck
 	lda.w SPA,y
@@ -33,7 +33,7 @@ org $9EA001
 	beq .1
 	cmp.w #SPAsweepchk
 	bne .t1
-	jmp.w Bcheck
+	jmp.w Bcheck					; player a2 body checks a3: a3 falls if he is in front
 
 .t1:								;X must be in the burst anim
 	lda.w SPA,x
@@ -92,7 +92,7 @@ org $9EA001
 	sty.b d0
 .3:									; call SetSPAFromA, if position,y = 0 go to .t1x, ...
 	lda.b [a0],y
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	ldy.b a2
 	lda.w position,y
 	beq .t1x
@@ -118,7 +118,7 @@ org $9EA001
 	sec
 	sbc.w checking,x
 	bmi .t2x
-	jsl.l checkagr
+	jsl.l checkagr					; penalty roll for player X: random below * 16
 	lda.b d0
 	cmp.w #$0001
 	bcs .t1x
@@ -130,13 +130,13 @@ org $9EA001
 	clc
 	adc.w #PenCharging
 	sta.b d0
-	jmp.w AddPenalty
+	jmp.w AddPenalty				; call penalty d0 on player X
 
 .t1x:								; roll a penalty, then a2 falls
 	rtl
 
 .t2x:								; call checkagr, if d0 >= $0001 go to .1xx, ...
-	jsl.l checkagr
+	jsl.l checkagr					; penalty roll for player X: random below * 16
 	lda.b d0
 	cmp.w #$0001
 	bcs .1xx
@@ -148,9 +148,9 @@ org $9EA001
 	clc
 	adc.w #PenRoughing
 	sta.b d0
-	jsl.l AddPenalty
+	jsl.l AddPenalty				; call penalty d0 on player X
 .1xx:								; call PenShotChk, if zero go to .2x, ...
-	jsl.l PenShotChk
+	jsl.l PenShotChk				; penalty shot check -> A
 	beq .2x
 	lda.w BA_Sktr_SCnum
 	bpl .2x
@@ -160,8 +160,8 @@ org $9EA001
 	sta.w pspad
 	lda.w #PenShot
 	sta.b d0
-	jsl.l AddPenalty
+	jsl.l AddPenalty				; call penalty d0 on player X
 .2x:								; go to FallDown
-	jmp.w FallDown
+	jmp.w FallDown					; player a2 falls or stumbles from a hit
 .4:									; check animation by direction (93S .list, with a 94 animation first)
 	dw SPAcrosscheck&$FFFF,SPAshoulderchkr&$FFFF,SPAhipchkr&$FFFF,SPAhipchkr&$FFFF,SPAhipchkr&$FFFF,SPAhipchkl&$FFFF,SPAhipchkl&$FFFF,SPAshoulderchkl&$FFFF

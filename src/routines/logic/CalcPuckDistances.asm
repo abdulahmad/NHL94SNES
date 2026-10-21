@@ -16,7 +16,7 @@ CalcPuckDistances:					; called from FaceoffPads
 	lsr a
 	lsr a
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	ldx.b curobj
 	sta.w puckdist2,x
 	lda.w pucky
@@ -31,7 +31,7 @@ CalcPuckDistances:					; called from FaceoffPads
 	lsr a
 	lsr a
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	ldx.b curobj
 	clc
 	adc.w puckdist2,x
@@ -41,7 +41,7 @@ CalcPuckDistances:					; called from FaceoffPads
 	jsl.l ApproxLength_abs
 	ldx.b curobj
 	sta.w puckdist,x
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 	sta.w puckdir,x
 	inx
 	inx

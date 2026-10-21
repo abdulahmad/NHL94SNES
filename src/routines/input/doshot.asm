@@ -39,7 +39,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 .2:									; a0 = X, call makepde, adc #$0014, ...
 	lda.w shotspd,x
 	stx.b a0
-	jsl.l makepde
+	jsl.l makepde					; d0 = rating A scaled by player a0's energy
 	adc.w #$0014
 	tax
 	lda.w passspeed
@@ -95,7 +95,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	pha								; x diff (d0): 3,s at the .3x pha
 	lda.b d0
 	ldy.b d1
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	cmp.w #$0000
 	bne .5
 	inc a
@@ -112,7 +112,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	bcs .1x
 	lda.w #$0010
 	adc.w shotacc,x
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	cmp.w #$000F
 	bcs .6
 .1x:								; call Mul16U, d0 = r2 / 2 / 2 / 2 / 2 / 2 / 2, if d3 >= $00FB go to .2...
@@ -146,7 +146,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	sta.b d0
 .3x:								; call randomd0s, adc 3,s, 3,s = A, ...
 	pha								; 1,s adjust, 3,s x diff, 5,s y diff; after its pla 5,s is the z diff
-	jsl.l randomd0s
+	jsl.l randomd0s					; A = a random number from -A to A-1
 	adc.b 3,s
 	sta.b 3,s
 	lda.b 1,s
@@ -161,19 +161,19 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	bpl .5x
 	lsr.b d0
 .5x:								; call randomd0sd0, 5,s = 5,s + d0, call randoma, ...
-	jsl.l randomd0sd0
+	jsl.l randomd0sd0				; randomd0s with the range in d0
 	lda.b 5,s
 	adc.b d0
 	sta.b 5,s
 	pla
 	lsr a
-	jsl.l randoma
+	jsl.l randoma					; A = a random number from 0 to A-1
 	adc.b 5,s
 	sta.b 5,s
 .6:									; call Mul8XS, call Mul16S, r1 = d3, ...
 	ldx.w passspeed
 	lda.w #$0044
-	jsl.l Mul8XS
+	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	plx
 	jsl.l Mul16S
 	lda.b d3
@@ -184,7 +184,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	sta.w puckvx
 	ldx.w passspeed
 	lda.w #$0044
-	jsl.l Mul8XS
+	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	plx
 	jsl.l Mul16S
 	lda.b d3
@@ -225,7 +225,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	sta.w puckvz
 .7:									; call PuckSfx, if pfgoal,x != 0 go to .1xxx, ...
 	pla
-	jsl.l PuckSfx
+	jsl.l PuckSfx					; play sound A with half the puck velocity
 	ldx.b a3
 	ldy.w #$0108
 	lda.w pfgoal,x

@@ -8,7 +8,7 @@ PlacePasswordCursor:				; called from PasswordRedraw, PasswordScreen
 	sta.b a1+2
 	lda.w #PlacePasswordCursorPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PlacePasswordCursorPos
 	pla
 	sta.b a1
 	pla
@@ -16,7 +16,7 @@ PlacePasswordCursor:				; called from PasswordRedraw, PasswordScreen
 	phx
 	ldx.b d5
 	lda.w #$0006
-	jsl.l DivX8U
+	jsl.l DivX8U					; X / A into A with the hardware divider
 	plx
 	asl a
 	adc.w printy

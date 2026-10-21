@@ -58,7 +58,7 @@ PlaySoundEntry:						; shared start of QueueSound and PlaySound: InstPtr and tra
 	lda.b SfxVelocity+1
 	sta.b EventData1
 	ldy.b #$10
-	jsr.w StartSoundVoice
+	jsr.w StartSoundVoice			; start the note on a voice
 	and.b #$FF
 	sep #$20
 	inc.w SoundLock
@@ -93,7 +93,7 @@ PlaySoundEntry:						; shared start of QueueSound and PlaySound: InstPtr and tra
 	lda.w VoiceInst,x
 	cmp.b InstPtr
 	bne .t1xx
-	jsr.w ReleaseVoice
+	jsr.w ReleaseVoice				; put voice Y into its release
 	bra .3
 
 .t1xx:								; next voice

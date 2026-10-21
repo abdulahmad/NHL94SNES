@@ -8,7 +8,7 @@ PrintScrollHint:					; called from ShowPenaltySummary, ShowScoringSummary
 	sta.b a1+2
 	lda.w #PrintScrollHintPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PrintScrollHintPos
 	pla
 	sta.b a1
 	pla
@@ -32,7 +32,7 @@ PrintScrollHint:					; called from ShowPenaltySummary, ShowScoringSummary
 	sta.b a1+2
 	lda.w #ScrollHint
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ScrollHint
 	pla
 	sta.b a1
 	pla

@@ -6,11 +6,11 @@ PauseExitGame:						; called from PauseMenuHandlers
 	jmp.w PauseMenuPoll
 
 .t2:								; d1 bit $8080 set: call AskExitGame, if not zero go to .t1, ...
-	jsl.l AskExitGame
+	jsl.l AskExitGame				; yes or No exit prompt
 	cmp.w #$0000
 	bne .t1
 	jmp.w PauseMenuPoll
 
 .t1:								; FrameByNumber = 0, go to Restart
 	stz.w FrameByNumber
-	jml.l Restart
+	jml.l Restart					; start over at the option screens

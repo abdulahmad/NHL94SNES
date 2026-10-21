@@ -8,7 +8,7 @@ FillOtherScores:					; called from ShowOtherScores
 	lda.l smallfontchars
 	clc
 	adc.l printfontset
-	jsl.l MemFill
+	jsl.l MemFill					; fill X bytes at [p1] with the word A
 	lda.w listend
 	cmp.w #$0001
 	beq .4
@@ -30,7 +30,7 @@ FillOtherScores:					; called from ShowOtherScores
 	lda.w curitem
 	cmp.w listend
 	beq .4
-	jsr.w PrintOtherScore
+	jsr.w PrintOtherScore			; other scores: game curitem
 	inc.w printy
 .3:									; curitem = curitem + 1, go to .2
 	lda.w curitem

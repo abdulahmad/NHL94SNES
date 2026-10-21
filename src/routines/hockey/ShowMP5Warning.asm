@@ -6,7 +6,7 @@ ShowMP5Warning:						; called from SelectPauseController
 	jsl.l .t4
 	lda.w mp5warning
 	bne .loop
-	jsl.l Pmenu
+	jsl.l Pmenu						; draw the pause menu: five items of the current list from item psfirst
 .rtl:								; return
 	rtl
 
@@ -20,7 +20,7 @@ ShowMP5Warning:						; called from SelectPauseController
 	sta.b a1+2
 	lda.w #ShowMP5WarningPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowMP5WarningPos
 	pla
 	sta.b a1
 	pla
@@ -29,7 +29,7 @@ ShowMP5Warning:						; called from SelectPauseController
 	sta.b d0
 	lda.w #$0007
 	sta.b d1
-	jsl.l Framer
+	jsl.l Framer					; draw a frame and fill it
 	pla
 	bit.w #$0001
 	bne .t1
@@ -44,22 +44,22 @@ ShowMP5Warning:						; called from SelectPauseController
 	sta.b a1+2
 	lda.w #MultiPlayer5Text
 	sta.b a1
-	jsl.l PrintMP5Line1
+	jsl.l PrintMP5Line1				; print the first MultiPlayer 5 warning line, centered
 	lda.w #MP5MustConnect>>16
 	sta.b a1+2
 	lda.w #MP5MustConnect
 	sta.b a1
-	jsl.l PrintMP5Line2
+	jsl.l PrintMP5Line2				; print the second MultiPlayer 5 warning line, centered
 	lda.w #MP5ToController>>16
 	sta.b a1+2
 	lda.w #MP5ToController
 	sta.b a1
-	jsl.l PrintMP5Line3
+	jsl.l PrintMP5Line3				; print the third MultiPlayer 5 warning line, centered
 	lda.w #MP5Socket2>>16
 	sta.b a1+2
 	lda.w #MP5Socket2
 	sta.b a1
-	jsl.l PrintMP5Line4
+	jsl.l PrintMP5Line4				; print the fourth MultiPlayer 5 warning line, centered
 	bra .1
 
 .t2:								; a1 = MP5ScopeHead, call PrintMP5Line1, a1 = MP5ScopeNot, ...
@@ -67,22 +67,22 @@ ShowMP5Warning:						; called from SelectPauseController
 	sta.b a1+2
 	lda.w #MP5ScopeHead
 	sta.b a1
-	jsl.l PrintMP5Line1
+	jsl.l PrintMP5Line1				; print the first MultiPlayer 5 warning line, centered
 	lda.w #MP5ScopeNot>>16
 	sta.b a1+2
 	lda.w #MP5ScopeNot
 	sta.b a1
-	jsl.l PrintMP5Line2
+	jsl.l PrintMP5Line2				; print the second MultiPlayer 5 warning line, centered
 	lda.w #MP5ScopeWith>>16
 	sta.b a1+2
 	lda.w #MP5ScopeWith
 	sta.b a1
-	jsl.l PrintMP5Line3
+	jsl.l PrintMP5Line3				; print the third MultiPlayer 5 warning line, centered
 	lda.w #MP5SuperScope>>16
 	sta.b a1+2
 	lda.w #MP5SuperScope
 	sta.b a1
-	jsl.l PrintMP5Line4
+	jsl.l PrintMP5Line4				; print the fourth MultiPlayer 5 warning line, centered
 	bra .1
 
 .t3:								; a1 = MP5MouseHead, call PrintMP5Line1, a1 = MP5MouseNot, ...
@@ -90,22 +90,22 @@ ShowMP5Warning:						; called from SelectPauseController
 	sta.b a1+2
 	lda.w #MP5MouseHead
 	sta.b a1
-	jsl.l PrintMP5Line1
+	jsl.l PrintMP5Line1				; print the first MultiPlayer 5 warning line, centered
 	lda.w #MP5MouseNot>>16
 	sta.b a1+2
 	lda.w #MP5MouseNot
 	sta.b a1
-	jsl.l PrintMP5Line2
+	jsl.l PrintMP5Line2				; print the second MultiPlayer 5 warning line, centered
 	lda.w #MP5MouseWith>>16
 	sta.b a1+2
 	lda.w #MP5MouseWith
 	sta.b a1
-	jsl.l PrintMP5Line3
+	jsl.l PrintMP5Line3				; print the third MultiPlayer 5 warning line, centered
 	lda.w #MP5Mouse>>16
 	sta.b a1+2
 	lda.w #MP5Mouse
 	sta.b a1
-	jsl.l PrintMP5Line4
+	jsl.l PrintMP5Line4				; print the fourth MultiPlayer 5 warning line, centered
 .1:									; call SendTextMap, call WaitFrame, return
 	jsl.l SendTextMap
 	jsl.l WaitFrame

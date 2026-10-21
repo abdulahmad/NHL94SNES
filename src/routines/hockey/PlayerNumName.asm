@@ -16,7 +16,7 @@ PlayerNumName:						; called from DrawPlayerCard, GetNameandAttrib, GetPlayerNam
 	pha
 	lda.b a0+2
 	pha
-	jsl.l GetPlayerRecord
+	jsl.l GetPlayerRecord			; a0 = the roster record of player d0 of team a2
 	lda.b a0
 	pha
 	lda.b a0+2
@@ -38,17 +38,17 @@ PlayerNumName:						; called from DrawPlayerCard, GetNameandAttrib, GetPlayerNam
 	lda.b [a0]
 	and.w #$00FF
 	sta.b d0
-	jsl.l PutDigits2
+	jsl.l PutDigits2				; write the two digit number d0 as two characters at [a1]
 	lda.w #PlayerNumNamePos>>16
 	sta.b a1+2
 	lda.w #PlayerNumNamePos
 	sta.b a1
-	jsl.l appstring
+	jsl.l appstring					; append string [a1] to string [a3]
 	pla
 	sta.b a1+2
 	pla
 	sta.b a1
-	jsl.l appstring
+	jsl.l appstring					; append string [a1] to string [a3]
 	lda.w #mesarea>>16
 	sta.b a1+2
 	lda.w #mesarea

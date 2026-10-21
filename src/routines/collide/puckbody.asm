@@ -14,12 +14,12 @@ puckbody:							; called from checkpuckcoll_ccx
 	cmp.w #$000E
 	bmi .t1
 	lda.w #$0005
-	jsl.l StreamSfx
+	jsl.l StreamSfx					; request streamed sound A
 	bra .2
 
 .t1:								; puckz - $000E negative: call PuckSfx
 	lda.w #$0008
-	jsl.l PuckSfx
+	jsl.l PuckSfx					; play sound A with half the puck velocity
 .2:									; puckvz = 0, nopuck,y = $0008, d0 = Xpos,x - Xpos,y, ...
 	stz.w puckvz
 	ldy.b a2
@@ -75,7 +75,7 @@ org $9EF000
 	lda.w puckz
 	cmp.w #$000C
 	bmi .3
-	jmp.w FallDown
+	jmp.w FallDown					; player a2 falls or stumbles from a hit
 .3:									; return
 	rtl
 .4:									; if pfalock,y != 0 go to .3, ...
@@ -86,6 +86,6 @@ org $9EF000
 	sta.w pf2aip,y
 	lda.w #SPAcatch
 	ldx.b a2
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	ldx.b a3
 	rtl

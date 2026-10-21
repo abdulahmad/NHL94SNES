@@ -4,7 +4,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.l setupvis
 	lda.w HomeTeam
 	sta.l setuphome
-	jsl.l SetupScreen
+	jsl.l SetupScreen				; common setup of the stats screens
 	lda.w #CrowdMeterFramePalette>>16
 	sta.b p0+2
 	lda.w #CrowdMeterFramePalette
@@ -13,15 +13,15 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack CrowdMeterFramePalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0050
 	ldx.w #$0010
-	jsl.l SetColours
-	jsl.l SendColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -30,7 +30,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #ShowCrowdMeterPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ShowCrowdMeterPos
 	pla
 	sta.b a1
 	pla
@@ -41,7 +41,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b d0
 	lda.w #$0005
 	sta.b d1
-	jsl.l FramerNineTile
+	jsl.l FramerNineTile			; framer with a nine-tile box from tile
 	lda.w #CrowdMeterTiles>>16
 	sta.b p0+2
 	lda.w #CrowdMeterTiles
@@ -50,7 +50,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack CrowdMeterTiles
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -69,17 +69,17 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	clc
 	adc.w #$1000
 	tay
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #CrowdMeterPalette>>16
 	sta.b p0+2
 	lda.w #CrowdMeterPalette
 	sta.b p0
 	ldy.w #$0070
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #$6F7B
 	sta.l colourbuf+$C2
-	jsl.l SendColours
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	stz.w curitem
 	jsl.l ScreenOn
 .1:									; call SpriteFrameStart, a1 = CrowdMeter, call PrintLetterSprites, ...
@@ -90,16 +90,16 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #CrowdMeter
 	sta.b a1
-	jsl.l PrintLetterSprites
+	jsl.l PrintLetterSprites		; PrintLetterSprites CrowdMeter
 	jsl.l DrawMatchupPictures
 	jsl.l .6
 	jsl.l SpriteFrameEnd
 .2:									; loop: call SendTextMap, call WaitFrame, call ReadPads, ...
 	jsl.l SendTextMap
 	jsl.l WaitFrame
-	jsl.l ReadPads
-	jsl.l ReadPausePad
-	jsl.l ProcessInputWithRepeat
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
+	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1
 	bit.w #$1000
 	bne .t1
@@ -138,7 +138,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #CurrentTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print CurrentTxt
 	pla
 	sta.b a1
 	pla
@@ -151,7 +151,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #DbTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DbTxt
 	pla
 	sta.b a1
 	pla
@@ -167,7 +167,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #CurrentTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print CurrentTxt2
 	pla
 	sta.b a1
 	pla
@@ -180,7 +180,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #DbTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DbTxt2
 	pla
 	sta.b a1
 	pla
@@ -194,7 +194,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b d0
 	lda.w #$0004
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	lda.w curitem
 	cmp.w #$0001
@@ -207,7 +207,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #PeakTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PeakTxt
 	pla
 	sta.b a1
 	pla
@@ -220,7 +220,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #DbTxt3
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DbTxt3
 	pla
 	sta.b a1
 	pla
@@ -236,7 +236,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #PeakTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PeakTxt2
 	pla
 	sta.b a1
 	pla
@@ -249,7 +249,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #DbTxt4
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DbTxt4
 	pla
 	sta.b a1
 	pla
@@ -263,7 +263,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b d0
 	lda.w #$0004
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	lda.w curitem
 	cmp.w #$0002
@@ -276,7 +276,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #AverageTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print AverageTxt
 	pla
 	sta.b a1
 	pla
@@ -289,7 +289,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #DbTxt5
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DbTxt5
 	pla
 	sta.b a1
 	pla
@@ -305,7 +305,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #AverageTxt2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print AverageTxt2
 	pla
 	sta.b a1
 	pla
@@ -318,7 +318,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 	lda.w #DbTxt6
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DbTxt6
 	pla
 	sta.b a1
 	pla
@@ -332,7 +332,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b d0
 	lda.w #$0004
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l print
 	lda.w curitem
 	beq .t2x
@@ -450,7 +450,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	adc.l nextfreechar
 	clc
 	adc.w #$1C00
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	jsl.l WaitFrame
 	pla
 	sta.b r1
@@ -465,7 +465,7 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack CrowdMeterLitMap
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf

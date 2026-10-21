@@ -6,6 +6,6 @@ PausePenaltySummary:				; called from PauseMenuHandlers
 	jmp.w PauseMenuPoll
 
 .t1:								; d1 bit $8080 set: call ShowPenaltySummary, call ReloadRink, go to Pau...
-	jsl.l ShowPenaltySummary
-	jsl.l ReloadRink
+	jsl.l ShowPenaltySummary		; penalty summary for both teams
+	jsl.l ReloadRink				; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

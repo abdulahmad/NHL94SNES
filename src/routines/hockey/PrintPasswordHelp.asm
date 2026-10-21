@@ -8,7 +8,7 @@ PrintPasswordHelp:					; called from BadPasswordPrompt, PasswordRedraw
 	sta.b a1+2
 	lda.w #SelectTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print SelectTxt
 	pla
 	sta.b a1
 	pla
@@ -21,7 +21,7 @@ PrintPasswordHelp:					; called from BadPasswordPrompt, PasswordRedraw
 	sta.b a1+2
 	lda.w #ANextTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ANextTxt
 	pla
 	sta.b a1
 	pla
@@ -34,7 +34,7 @@ PrintPasswordHelp:					; called from BadPasswordPrompt, PasswordRedraw
 	sta.b a1+2
 	lda.w #YBackTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print YBackTxt
 	pla
 	sta.b a1
 	pla
@@ -47,7 +47,7 @@ PrintPasswordHelp:					; called from BadPasswordPrompt, PasswordRedraw
 	sta.b a1+2
 	lda.w #PressStartTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PressStartTxt
 	pla
 	sta.b a1
 	pla

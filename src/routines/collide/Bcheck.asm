@@ -14,7 +14,7 @@ Bcheck:								; called from checkcheck
 	adc.w checking,y
 	sec
 	sbc.w legstr,x
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	cmp.w #$000C
 	bcc .t1
 .1:									; d0 = Xpos,x - Xpos,y, d1 = Ypos,x - Ypos,y, call vtoa, ...
@@ -39,8 +39,8 @@ Bcheck:								; called from checkcheck
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-	jsl.l FallDown
-	jsl.l PenShotChk
+	jsl.l FallDown					; player a2 falls or stumbles from a hit
+	jsl.l PenShotChk				; penalty shot check -> A
 	beq .t2
 	lda.w BA_Sktr_SCnum
 	bpl .t2
@@ -50,7 +50,7 @@ Bcheck:								; called from checkcheck
 	sta.w pspad
 	lda.w #PenShot
 	sta.b d0
-	jsl.l AddPenalty
+	jsl.l AddPenalty				; call penalty d0 on player X
 	bra .2
 
 .t1:								; return

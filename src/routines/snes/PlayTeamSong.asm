@@ -20,12 +20,12 @@ PlayTeamSong:						; called from Gameloop, Goal, puckfaceoff2
 	sta.b p0+2
 	lda.l TeamSongs,x
 	sta.b p0
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 	bra .1
 
 .t1:								; TeamSongs+2,x negative: call randoma8, asl a, asl a, ...
 	lda.w #$0008
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	asl a
 	asl a
 	tax
@@ -33,7 +33,7 @@ PlayTeamSong:						; called from Gameloop, Goal, puckfaceoff2
 	sta.b p0
 	lda.l DefaultSongs+2,x
 	sta.b p0+2
-	jsl.l MusicStart
+	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 .1:									; cursong = pulled value
 	pla
 	sta.w cursong

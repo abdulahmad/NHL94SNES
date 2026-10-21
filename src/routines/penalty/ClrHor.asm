@@ -12,9 +12,9 @@ ClrHor:								; called from Pausemode, ReplayMode, StartHL2, puckfaceoff, puckf
 	ldx.b xsave
 	lda.w brightness
 	beq .1
-	jsl.l FadeOut
-	jsl.l WaitFadeOut
-	jsl.l FadeIn
+	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l WaitFadeOut				; wait until the screen is black
+	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	lda.w #$000A
 	sta.w fadestep
 .1:									; sfhormode = 0, Oldrow = $03E7, call SprSort, ...
@@ -25,11 +25,11 @@ ClrHor:								; called from Pausemode, ReplayMode, StartHL2, puckfaceoff, puckf
 	lda.w sflags					; flags
 	bit.w #sfpz						; paused: keep the text
 	bne .2
-	jsl.l ClearTextMap
+	jsl.l ClearTextMap				; fill the text map with the blank tile
 	stz.w textdirtylo
 	lda.w #$03FF
 	sta.w textdirtyhi
-	jsl.l printscores1
+	jsl.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
 .2:									; p0 = palbuffer, call DMAToCGRAM, xsave = $0080, ...
 	lda.w #palbuffer>>16
 	sta.b p0+2
@@ -37,7 +37,7 @@ ClrHor:								; called from Pausemode, ReplayMode, StartHL2, puckfaceoff, puckf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0080
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	stx.b xsave
 	ldx.w #$0036
 .loop2:								; loop: a0,x = pulled value, X - 1, X - 1, ...

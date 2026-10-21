@@ -8,7 +8,7 @@ PrintLineNames:						; called from EditLinesScreen
 	sta.b a1+2
 	lda.w #PrintLineNamesPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PrintLineNamesPos
 	pla
 	sta.b a1
 	pla
@@ -26,7 +26,7 @@ PrintLineNames:						; called from EditLinesScreen
 	lda.w #BestLineNames
 	sta.b a1
 .1:									; call AdvanceStringPtr, call print, d4+2 = [a1], ...
-	jsl.l AdvanceStringPtr
+	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	jsl.l print
 	lda.b [a1]
 	sta.b d4+2

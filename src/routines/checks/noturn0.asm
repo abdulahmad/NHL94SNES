@@ -54,7 +54,7 @@ noturn0:							; direction needs no turn: skate, stop or turn one step
 .t1:								; backwards: glide back, y = 1
 	ldy.w #$0001
 	lda.w #SPAglideback
-	jml.l SetSPAFromA
+	jml.l SetSPAFromA				; start sprite animation A on object X
 
 .t3:								; skate: pf2aip flag in y
 	ldy.w #$0001

@@ -31,7 +31,7 @@ updatefaceoff:						; called from puckfaceoff2
 	sta.b a1+2
 	lda.w #updatefaceoffPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print updatefaceoffPos
 	pla
 	sta.b a1
 	pla

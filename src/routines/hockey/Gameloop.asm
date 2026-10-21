@@ -23,7 +23,7 @@ Gameloop:							; called from PlayShootout, StartPer
 	and.w #$0FFF
 	bne .1
 	lda.w #$0005
-	jsl.l PlayTeamSong
+	jsl.l PlayTeamSong				; play song slot A of the home team
 .1:									; step sizes from the frames elapsed (d7): timestep, impactstep (x2),
 									; velstep (x16), gravstep (x96)
 	jsl.l RandomWord
@@ -85,7 +85,7 @@ Gameloop:							; called from PlayShootout, StartPer
 	bmi .1x
 	sta.w CwdExciteLvl
 .1x:								; update the crowd meter
-	jsl.l CheckCrowdMeter
+	jsl.l CheckCrowdMeter			; UpdateCrowdMeter into CurCrowdMeter
 .2x:								; next tick
 	dex
 	bne .loop
@@ -103,8 +103,8 @@ Gameloop:							; called from PlayShootout, StartPer
 	adc.w #$0096
 	sta.w cheervc
 .1xx:								; one frame of game logic and demo input
-	jsl.l DoGameFrame
-	jsl.l demoread
+	jsl.l DoGameFrame				; run one frame of game logic
+	jsl.l demoread					; read the controllers during the demo
 	lda.w sflags
 	bit.w #sfpz
 	bne .2xx
@@ -116,7 +116,7 @@ Gameloop:							; called from PlayShootout, StartPer
 	lda.w #sfpz
 	tsb.w sflags
 .2xx:								; enter pause mode
-	jsl.l Pausemode
+	jsl.l Pausemode					; pause mode: save the screen, stop the sound, show the pause menu
 .3:									; in a shootout end after a turnover, else loop
 	lda.w shootoutmode
 	beq .t1x
@@ -125,4 +125,4 @@ Gameloop:							; called from PlayShootout, StartPer
 	rtl
 
 .t1x:								; next frame
-	jmp.w Gameloop
+	jmp.w Gameloop					; main game loop: wait for a frame, the clock, the music

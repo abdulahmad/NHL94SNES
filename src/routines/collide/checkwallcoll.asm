@@ -106,7 +106,7 @@ checkwallcoll:						; called from ReplayMode, checkcoll
 	and.w #$FF00
 	tax
 	lda.b d3
-	jsl.l DivX8S
+	jsl.l DivX8S					; X / A into A, X signed
 	cmp.w #$FF01
 	bpl .1xx
 	lda.w #$FF01
@@ -121,7 +121,7 @@ checkwallcoll:						; called from ReplayMode, checkcoll
 	and.w #$FF00
 	tax
 	lda.b d3
-	jsl.l DivX8S
+	jsl.l DivX8S					; X / A into A, X signed
 	ldx.b a3
 	cmp.w #$FF01
 	bpl .3
@@ -132,7 +132,7 @@ checkwallcoll:						; called from ReplayMode, checkcoll
 	lda.w #$00FF
 .4:									; d1 = A, call wallcollb
 	sta.b d1
-	jsl.l wallcollb
+	jsl.l wallcollb					; object X hits a wall
 .6:									; d2 = pulled value, d3 = pulled value, d4 = pulled value, ...
 	pla								; restore d2-d5
 	sta.b d2

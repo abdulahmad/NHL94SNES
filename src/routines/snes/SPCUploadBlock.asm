@@ -16,7 +16,7 @@ SPCUploadBlock:						; called from SPCGameUpload, SPCIntroUpload, SPCMenuUpload,
 	clc
 	adc.w #$0004
 	sta.b p0
-	jsl.l SPCUpload
+	jsl.l SPCUpload					; send one sample to the sound CPU
 	sep #$20
 	inc.w SoundLock
 	rep #$20

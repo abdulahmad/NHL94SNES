@@ -22,7 +22,7 @@ GetFrameTiles:						; look the frame up in the tile cache, load it if it is not 
 	phx
 	phy
 	phb
-	jmp.w LoadFrameTiles
+	jmp.w LoadFrameTiles			; allocate VRAM for the frame at [p0]
 
 .t2:								; back from LoadFrameTiles
 	cmp.w #$0000

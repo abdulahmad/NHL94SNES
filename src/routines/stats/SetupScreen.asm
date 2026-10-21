@@ -18,7 +18,7 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #logosprbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TeamLogoSprites
 	jsl.l WaitFadeOut				; wait for black
 	jsl.l forceblack				; force the screen black
 	sep #$20						; BG1 map, BG2 map, BG1/2 character base, sprite size and TM
@@ -55,7 +55,7 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SmallFontTiles
 	txa								; tile count = X / 32
 	lsr a
 	lsr a
@@ -99,7 +99,7 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TeamBlocksTiles
 	txa
 	lsr a
 	lsr a
@@ -115,7 +115,7 @@ SetupScreen:						; common setup of the stats screens
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF					; send the tiles to VRAM
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.l nextfreechar
 	sta.l ninetilechars
 	lda.w #FramerNineTileTiles>>16	; nine tile frame tiles
@@ -134,7 +134,7 @@ SetupScreen:						; common setup of the stats screens
 	sta.l nextfreechar
 	sta.l outlinechars
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.l nextfreechar
 	sta.l outlinechars
 	lda.w #FramerOutlineTiles>>16	; outline tiles
@@ -152,7 +152,7 @@ SetupScreen:						; common setup of the stats screens
 	adc.l nextfreechar
 	sta.l nextfreechar
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.l nextfreechar
 	sec
 	sbc.w #$0100
@@ -165,7 +165,7 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackTiles
 	txa
 	lsr a
 	lsr a
@@ -178,7 +178,7 @@ SetupScreen:						; common setup of the stats screens
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$1000
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #MenuBackMap>>16			; menu background map, pasted twice below
 	sta.b p0+2
 	lda.w #MenuBackMap
@@ -187,7 +187,7 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackMap
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -206,7 +206,7 @@ SetupScreen:						; common setup of the stats screens
 	ldx.w #$0000
 	ldy.w #$0000
 	lda.w #$0C00
-	jsl.l PasteMapPart
+	jsl.l PasteMapPart				; copy part of map [p0] into the map at [p1], column X, row Y
 	lda.w #$0007
 	sta.l logoboxmap
 	sta.l logoboxmap+2
@@ -227,7 +227,7 @@ SetupScreen:						; common setup of the stats screens
 	lda.l charofs2
 	clc
 	adc.w #$0C00
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	lda.w #SetupScreenPalette>>16	; palette of the setup screen
 	sta.b p0+2
 	lda.w #SetupScreenPalette
@@ -236,14 +236,14 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SetupScreenPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0030
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.l setupvis
 	cmp.w #$0021
 	bcs .t1
@@ -260,13 +260,13 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SetupBackTiles
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #SetupBackMap>>16
 	sta.b p0+2
 	lda.w #SetupBackMap
@@ -275,7 +275,7 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SetupBackMap
 	txa
 	sec
 	sbc.w #$0008
@@ -307,21 +307,21 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SetupScreenPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.b p0
 	clc
 	adc.w #$0020
 	sta.b p0
 	ldy.w #$0010
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #SetupBackPalette>>16
 	sta.b p0+2
 	lda.w #SetupBackPalette
@@ -330,14 +330,14 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SetupBackPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0020
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 .3:									; common end: colour 0 is black
 	sep #$20
 	stz.w CGADD
@@ -352,14 +352,14 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0030
 	ldx.w #$0020
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.l ninetilechars
 	clc
 	adc.w #$1400
@@ -385,14 +385,14 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0
 	ldy.w #$0080
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #UnusedSetupSpritePalette>>16
 	sta.b p0+2
 	lda.w #UnusedSetupSpritePalette
 	sta.b p0
 	ldy.w #$00C0
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	jsl.l ClearTextMap				; clear the text map
 	jsl.l SendTextMap2
 	jsl.l WaitFrame

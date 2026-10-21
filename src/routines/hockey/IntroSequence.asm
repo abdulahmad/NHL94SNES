@@ -7,9 +7,9 @@
 ; jobs that .framehook performs in the next frame (the bits of introHookFlags).
 IntroSequence:						; power-on animation, returns when it ends or a button is pressed
 	stz.w brightness				; screen black, check the TV system, upload the intro sample set and song
-	jsl.l forceblack
-	jsl.l CheckPAL
-	jsl.l SPCIntroUpload
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
+	jsl.l CheckPAL					; set the frame time step for a 50 Hz console
+	jsl.l SPCIntroUpload			; upload the Intro sample set
 	sep #$20
 	lda.b #$FF						; Mode 7 in use; sprites at $6000
 	sta.w Mode7InUse
@@ -34,7 +34,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	jsl.l SpriteFrameEnd
 	ldx.w #.framehook>>16
 	lda.w #.framehook
-	jsl.l SetFrameHook
+	jsl.l SetFrameHook				; run the routine at X:A as the frame hook of the next NMI
 	jsl.l ScreenOn					; install the frame hook, screen on
 	lda.w #$7000
 	sta.b SfxVelocity
@@ -45,7 +45,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	bpl .loop
 	ldx.w #.framehook>>16
 	lda.w #.framehook
-	jsl.l SetFrameHook
+	jsl.l SetFrameHook				; run the routine at X:A as the frame hook of the next NMI
 .loop2:								; run the state machine once per frame until it returns nonzero (the dead
 									; DMA queue test below changes nothing)
 	jsl.l RandomWord
@@ -57,7 +57,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	bra .loop2
 
 .t1:								; finished: screen black
-	jsl.l forceblack
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	rtl
 .1:									; video register table read by .33: BGMODE 7, M7SEL $C0, TM $11, TS 0 and
 									; the BG map and character bases
@@ -76,20 +76,20 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b p0+2
 	ldy.w #$0030
 	ldx.w #$0010
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	ldy.w #$00B0
 	ldx.w #$0010
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	lda.w #EALogoAPalette
 	sta.b p0
 	lda.w #EALogoAPalette>>16
 	sta.b p0+2
 	ldy.w #$0040
 	ldx.w #$0010
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	ldy.w #$00C0					; colours $20 and $10 filled with white (16 entries each)
 	ldx.w #$0010
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	lda.w #$FFFF
 	ldx.w #$000F
 	ldy.w #$0020
@@ -114,7 +114,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b p1
 	lda.w #introchars>>16
 	sta.b p1+2
-	jsl.l Decompress
+	jsl.l Decompress				; unpack EALogoTiles
 	lda.w #EALogoMap
 	sta.b p0
 	lda.w #EALogoMap>>16
@@ -124,7 +124,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	lda.w #introbuf>>16				; send the map bytes (low) and tile bytes (high) to VRAM interleaved: the
 									; Mode 7 layout
 	sta.b p1+2
-	jsl.l Decompress
+	jsl.l Decompress				; unpack EALogoMap
 	stz.w VMADDL
 	sep #$20
 	lda.b #$80
@@ -169,7 +169,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b p1
 	lda.w #(introbuf+$A40)>>16
 	sta.b p1+2
-	jsl.l Decompress
+	jsl.l Decompress				; unpack EALogoSprites
 	rts
 .3:									; set up the start state
 	lda.w #$0180					; BG1 scroll $180/$190, frame hook job $10 (send the scroll)
@@ -279,7 +279,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	lda.b d5+2
 	bne .t1xxxx
 	lda.w #$0000
-	jsl.l PlaySound
+	jsl.l PlaySound					; play sound A at once
 	jsr.w .24
 	bra .2xx
 
@@ -728,7 +728,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b p0+2
 	ldy.b tmp0
 	ldx.b tmp1
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	lda.b introHookFlags
 	bit.w #$0200
 	beq .2xxxxxx
@@ -739,7 +739,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b p0+2
 	ldy.b tmp4
 	ldx.b tmp5
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 .2xxxxxx:							; restore p0, clear the jobs
 	pla
 	sta.b p0+2

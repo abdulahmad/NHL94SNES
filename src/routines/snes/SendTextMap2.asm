@@ -6,5 +6,5 @@ SendTextMap2:						; called from DrawPlayerCard, LoadPlayerCardScreen, LoadScout
 	sta.b p0
 	ldy.w #$0400
 	ldx.w #$0800
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	rtl

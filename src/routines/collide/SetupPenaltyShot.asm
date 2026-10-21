@@ -78,13 +78,13 @@ org $9FB003
 .4:									;reassign one player
 	stx.w puckc						;player
 	jsl.l assinsert					;insert the assignments
-	jsl.l assinsert
-	jsl.l assinsert
-	jsl.l assinsert
-	jsl.l assinsert
-	jsl.l assinsert
-	jsl.l assinsert
-	jsl.l assinsert
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
 	inx								;next player
 	inx								;next player
 	rtl

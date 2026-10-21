@@ -127,7 +127,7 @@ DrawPlayerCard:						; draw the player card (or the team card)
 	jsl.l AdvanceStringPtr			; next name in the list
 	ldx.w #$0040					; print it
 	ldy.w #$0084
-	jsl.l PrintSmallLetterSprites
+	jsl.l PrintSmallLetterSprites	; draw string [a1] with the small letter sprites at X / Y
 	lda.w #RatingNames>>16			; names of the ratings
 	sta.b a1+2
 	lda.w #RatingNames+178
@@ -277,7 +277,7 @@ org $9DC002
 .5:									; team card
 	ldx.w #$000D					; clear the picture box
 	ldy.w #$0004
-	jsl.l ClearPictureBox
+	jsl.l ClearPictureBox			; blank the 6 x 6 picture area at x, y of the text map
 	lda.w #$0001
 	sta.l cardblock					; card block mode on
 	lda.b a1+2						; save a1

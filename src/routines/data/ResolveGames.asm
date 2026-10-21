@@ -83,7 +83,7 @@ ResolveGames:						; record the played playoff game and the series wins
 .t2:								; if overflow set go to .7
 	bvs .7							; signed compare
 .5:									; d1 = games - 1
-	jsl.l GetShifter
+	jsl.l GetShifter				; games of the round less one and its first win bit
 	lda.b d1
 	asl a
 	sta.b a0

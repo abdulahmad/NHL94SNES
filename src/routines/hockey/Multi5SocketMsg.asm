@@ -10,7 +10,7 @@ Multi5SocketMsg:					; print the MultiPlayer 5 socket warning
 	sta.b a1+2
 	lda.w #TheMultiPlayer5MustBeTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print TheMultiPlayer5MustBeTxt
 	pla
 	sta.b a1
 	pla
@@ -23,7 +23,7 @@ Multi5SocketMsg:					; print the MultiPlayer 5 socket warning
 	sta.b a1+2
 	lda.w #ConnectedToControllerTxt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ConnectedToControllerTxt
 	pla
 	sta.b a1
 	pla
@@ -36,7 +36,7 @@ Multi5SocketMsg:					; print the MultiPlayer 5 socket warning
 	sta.b a1+2
 	lda.w #Socket2Txt
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print Socket2Txt
 	pla
 	sta.b a1
 	pla

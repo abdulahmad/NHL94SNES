@@ -11,14 +11,14 @@ DrawHorTeams:						; called from setvideo
 	sta.w printx
 	lda.w #$0002
 	sta.w printy
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 	lda.w #$0002
 	sta.b a2
 	lda.w #$0003
 	sta.w printx
 	lda.w VisTeam
 	sta.b d1
-	jsl.l DrawTeamBlocks
+	jsl.l DrawTeamBlocks			; entry: the block of team d1
 	pla
 	sta.b a2
 	lda.w #$0000
@@ -40,7 +40,7 @@ DrawHorTeams:						; called from setvideo
 	sta.b p0
 	ldy.w #$0060
 	ldx.w #$0020
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	lda.w #(colourbuf+$1C0)>>16
 	sta.b p0+2
 	lda.w #colourbuf+$1C0
@@ -48,6 +48,6 @@ DrawHorTeams:						; called from setvideo
 	ldy.w #$00E0
 	ldx.w #$0020
 	jsl.l WaitFrame
-	jsl.l DMAToCGRAM
+	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
 	jsl.l SendTextMap
 	rtl

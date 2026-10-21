@@ -1,8 +1,8 @@
 ; Pause menu: cycle the goalie
 PauseGoalie:						; called from PauseMenuHandlers
-	jsl.l GetPadTeam
-	jsl.l GoalieCount
-	jsl.l GetPadTeam
+	jsl.l GetPadTeam				; a2 = the team of the controller that paused, from its side
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetPadTeam				; a2 = the team of the controller that paused, from its side
 	ldy.b a2
 	lda.b d1
 	bit.w #$8180
@@ -18,7 +18,7 @@ PauseGoalie:						; called from PauseMenuHandlers
 	dec a
 .2:									; tmgoalie,y = A, call setpersonel, go to PauseMenuPoll
 	sta.w tmgoalie,y
-	jsl.l setpersonel
+	jsl.l setpersonel				; put the wanted players of team a2 on the ice
 	jmp.w PauseMenuPoll
 .3:									; tmgoalie,y negative: go to .1
 	lda.b d0

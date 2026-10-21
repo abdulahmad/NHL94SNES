@@ -15,4 +15,4 @@ deflect:							; called from puckstick
 	jsl.l RandomWord
 	and.w #$0FFF
 	sta.w puckvz
-	jmp.w puckflip
+	jmp.w puckflip					; spin the puck, facing from d0 bit 0

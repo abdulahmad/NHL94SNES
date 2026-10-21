@@ -24,7 +24,7 @@ TitleZoomIn:						; no input; called from TitleScreen
 	bcs .t1x						; yes, stop
 	sta.w TitleM7Scale
 	ldx.w #$0200					; delay of $200 loops
-	jsr.w TitleDelay
+	jsr.w TitleDelay				; A busy-wait of X loops, skipped once a pad press has ended the title
 	bra .loopx						; next step
 
 .t1x:								; stop at exactly $200

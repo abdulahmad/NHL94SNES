@@ -14,7 +14,7 @@ UpdateVoices:						; update the music voices
 	lda.w VoiceTrack,y
 	cmp.b #$10
 	bcs .1							; not a music track
-	jsr.w UpdateVoice
+	jsr.w UpdateVoice				; update voice Y
 .1:									; next voice
 	inx
 	inx

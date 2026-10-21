@@ -38,7 +38,7 @@ asseben:							; assignment: skate on from the bench
 .2:									; goalie wall animation
 	lda.w #SPAgwallright
 .3:									; start the animation
-	jml.l SetSPAUpdate
+	jml.l SetSPAUpdate				; start sprite animation A on object X and update it at once
 
 .t1:								; locked: return
 	rtl

@@ -10,21 +10,21 @@ setvideo:							; called from DoGameFrame, PauseMenu, Pausemode, PeriodOver, Rel
 	cpx.w #$0038
 	bne .loop
 	ldx.b xsave
-	jsl.l show_rink
-	jsl.l checkfo
+	jsl.l show_rink					; set the rink scroll from the camera position
+	jsl.l checkfo					; draw the face off sprites
 	jsl.l .t3
-	jsl.l setsortcords
-	jsl.l setffo
-	jsl.l showclock
-	jsl.l showzam
-	jsl.l showcrowd
-	jsl.l showref
-	jsl.l ShowRinkRows
+	jsl.l setsortcords				; draw the sorted objects in display order
+	jsl.l setffo					; draw the objects tied to rink scrolling
+	jsl.l showclock					; draw the game clock unless a replay is playing
+	jsl.l showzam					; draw the zamboni moving across the horizontal rink
+	jsl.l showcrowd					; draw the crowd sprites
+	jsl.l showref					; referee graphics: only clears the referee flag here
+	jsl.l ShowRinkRows				; queue the rink map rows that the vertical scroll brought on screen
 	lda.w sfhormode
 	beq .1
 	jsl.l DrawHorTeams
 .1:									; call QueueTextDMA, xsave = X
-	jsl.l QueueTextDMA
+	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 	stx.b xsave
 	ldx.w #$0036
 .loop2:								; loop: a0,x = pulled value, X - 1, X - 1, ...

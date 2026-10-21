@@ -13,7 +13,7 @@ DrawLogoSprite:						; called from DrawPlayerCard
 	sta.b p0
 	ldy.w #$00A0
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #logosprbuf>>16
 	sta.b p1+2
 	lda.w #logosprbuf

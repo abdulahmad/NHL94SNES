@@ -11,7 +11,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	sta.b d0
 	jsl.l assinsert					; give it to that object
 	lda.w #$0001					; stream sound effect 1
-	jsl.l StreamSfx
+	jsl.l StreamSfx					; request streamed sound A
 	stz.b p0						; p0 = 0: no cup scene
 	lda.w gsp						; period (0 based)
 	cmp.w #$0002					; third period or later?
@@ -137,7 +137,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	lda.l OptPlayMode				; play mode 0: game over
 	beq .7
 .1xx:								; end any penalty shot, then ShootoutWonBy
-	jsl.l EndPenaltyShot
+	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
 	lda.w #$0002					; d0 = 2
 	sta.b d0
 	jml.l ShootoutWonBy				; continue in ShootoutWonBy

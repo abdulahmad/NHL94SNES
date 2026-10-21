@@ -9,7 +9,7 @@ PrintLinePlayerList:				; called from SelectLinePlayer
 	sta.b a1+2
 	lda.w #PrintLinePlayerListPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print PrintLinePlayerListPos
 	pla
 	sta.b a1
 	pla
@@ -54,7 +54,7 @@ PrintLinePlayerList:				; called from SelectLinePlayer
 	sta.b d0
 	sta.b r1
 	stz.b r2
-	jsl.l GoalieCount
+	jsl.l GoalieCount				; d0 = the number of goalies on team a2
 	lda.b r1
 	cmp.b d0
 	bpl .2
@@ -63,7 +63,7 @@ PrintLinePlayerList:				; called from SelectLinePlayer
 .2:									; d0 = r1, call GetNameandAttrib, increment a3, ...
 	lda.b r1
 	sta.b d0
-	jsl.l GetNameandAttrib
+	jsl.l GetNameandAttrib			; print player name and one attribute
 	inc.b a3
 	inc.w printy
 	dec.b d1

@@ -20,7 +20,7 @@ ReturnGoalies:						; tests both teams (a1 / a2 swapped); called from puckfaceof
 	bne .t1
 	lda.l foy
 	sta.b d1
-	jmp.w CPgoalie
+	jmp.w CPgoalie					; should the computer pull its goalie?
 
 .t1:								; goalie not pulled, still too far away, or a pad controls him: return
 	rtl

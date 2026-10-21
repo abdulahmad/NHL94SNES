@@ -13,8 +13,8 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #logosprbuf
 	sta.b p1
-	jsl.l Decompress
-	jsl.l WaitFadeOut
+	jsl.l Decompress				; unpack TeamLogoSprites
+	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l forceblack				; screen off; BG1 map at 0, BG2 map at $400 words, BG tiles/OBJ size set,
 									; BG1 BG2 and sprites on (TM $13)
 	sep #$20
@@ -48,7 +48,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	lda.w #$0000
 	ldy.w #$FFFF
 	ldx.w #$0020
-	jsl.l FillVRAM
+	jsl.l FillVRAM					; fill VRAM with a word
 	lda.w #SmallFontTiles>>16		; small font unpacked at unpackbuf; outlinechars and Framercset advance by
 									; its size in tiles
 	sta.b p0+2
@@ -58,7 +58,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SmallFontTiles
 	txa
 	lsr a
 	lsr a
@@ -110,7 +110,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack TeamBlocksTiles
 	txa
 	lsr a
 	lsr a
@@ -131,14 +131,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	asl a
 	adc.w #$1000
 	tay
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #FramerOutlineTiles>>16	; framer outline tiles to VRAM ($120 bytes)
 	sta.b p0+2
 	lda.w #FramerOutlineTiles
 	sta.b p0
 	ldx.w #$0120
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #MenuBackTiles>>16		; menu background tiles: backchars = their tile base, copied to VRAM
 	sta.b p0+2
 	lda.w #MenuBackTiles
@@ -147,7 +147,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackTiles
 	txa
 	lsr a
 	lsr a
@@ -160,7 +160,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$1000
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #MenuBackMap>>16			; menu background map pasted into textmap2 ($20 by $1C tiles), palette 3
 	sta.b p0+2
 	lda.w #MenuBackMap
@@ -169,7 +169,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackMap
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -187,7 +187,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	lda.l charofs2
 	clc
 	adc.w #$0C00
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	lda.w #SetupScreenPalette>>16	; SetupScreenPalette to colours 0-$2F
 	sta.b p0+2
 	lda.w #SetupScreenPalette
@@ -196,14 +196,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SetupScreenPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0030
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #RonBarrTiles>>16			; Ron Barr tiles unpacked and copied to VRAM
 	sta.b p0+2
 	lda.w #RonBarrTiles
@@ -212,13 +212,13 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack RonBarrTiles
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$FFFF
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w HomeTeam					; a2 = 0 if the home team is below $18; a2 = 2 if the visitors are
 	cmp.w #$0018
 	bcs .1
@@ -239,7 +239,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack RonBarrMap
 	txa
 	sec
 	sbc.w #$0008
@@ -272,21 +272,21 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SetupScreenPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0000
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.b p0
 	clc
 	adc.w #$0020
 	sta.b p0
 	ldy.w #$0010
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #RonBarrPalette>>16
 	sta.b p0+2
 	lda.w #RonBarrPalette
@@ -295,14 +295,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack RonBarrPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0020
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	sep #$20						; backdrop colour 0
 	stz.w CGADD
 	stz.w CGDATA
@@ -316,14 +316,14 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackPalette
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
 	ldy.w #$0030
 	ldx.w #$0020
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.l outlinechars				; outlinechars + $1000 (palette bits)
 	clc
 	adc.w #$1000
@@ -335,16 +335,16 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b p0
 	ldy.w #$0080
 	ldx.w #$0010
-	jsl.l SetColours
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	lda.w #UnusedSetupSpritePalette>>16
 	sta.b p0+2
 	lda.w #UnusedSetupSpritePalette
 	sta.b p0
 	ldy.w #$00C0
 	ldx.w #$0010
-	jsl.l SetColours
-	jsl.l SendColours
-	jsl.l ClearTextMap
+	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
+	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
+	jsl.l ClearTextMap				; fill the text map with the blank tile
 	jsl.l SendTextMap2
 	jsl.l WaitFrame
 	ldx.w #$0000					; sprites: init at $6000, start a frame, then the picture map
@@ -352,5 +352,5 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	lda.w #$6000
 	jsl.l InitSprites
 	jsl.l SpriteFrameStart
-	jsl.l LoadPictureMap
+	jsl.l LoadPictureMap			; unpack the picture map and add the tile base
 	rtl

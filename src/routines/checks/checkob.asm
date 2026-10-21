@@ -94,7 +94,7 @@ checkob:							; called from asspuckc, doinput
 	bne .4
 	lda.w RefCnt
 	bpl .4
-	jsl.l PushRef
+	jsl.l PushRef					; draws a referee frame
 	bra .4
 .7:									; if d1 - pucky negative go to .3
 	lda.b d1

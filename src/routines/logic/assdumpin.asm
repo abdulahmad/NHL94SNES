@@ -7,7 +7,7 @@ assdumpin:							; called from asstab
 	lda.w pflags,x
 	bit.w #$0002
 	beq .t3
-	jsl.l DumpInTarget
+	jsl.l DumpInTarget				; assdumpin: dumpinplayer = X
 	lda.w pflags,x
 	and.w #$FFFD
 	sta.w pflags,x
@@ -22,10 +22,10 @@ assdumpin:							; called from asstab
 	rtl
 
 .t1:								; go to CompShoot
-	jmp.w CompShoot
+	jmp.w CompShoot					; computer player X shoots
 
 .t2:								; go to assexit
-	jmp.w assexit
+	jmp.w assexit					; end the player's current assignment and go back to the one under it
 
 .t3:								; if passdir = facedir,x go to .t1x, ...
 	ldy.w #$0000
@@ -45,7 +45,7 @@ assdumpin:							; called from asstab
 	beq .t1x
 	lda.w passdir
 	sta.b d0
-	jsl.l AdjustFacingDirection
+	jsl.l AdjustFacingDirection		; turn the goalie one step toward d0
 	rtl
 
 .t1x:								; if position,x != 0 go to .2
@@ -60,7 +60,7 @@ assdumpin:							; called from asstab
 	sta.w passdir
 .2:									; call .t2x, go to assexit
 	jsl.l .t2x
-	jmp.w assexit
+	jmp.w assexit					; end the player's current assignment and go back to the one under it
 
 .t2x:								; subroutine: d4 = $000F - passacc,x * 2, call randomd0s, adc .8,y, ...
 	phk								; data bank = program bank
@@ -74,7 +74,7 @@ assdumpin:							; called from asstab
 	lda.w .6,y
 	clc
 	adc.b d4
-	jsl.l randomd0s
+	jsl.l randomd0s					; A = a random number from -A to A-1
 	clc
 	adc.w .8,y
 	sec
@@ -83,14 +83,14 @@ assdumpin:							; called from asstab
 	lda.w .7,y
 	clc
 	adc.b d4
-	jsl.l randomd0s
+	jsl.l randomd0s					; A = a random number from -A to A-1
 	clc
 	adc.w .ytab,y
 	sec
 	sbc.w pucky
 	sta.b d1
 	ldy.b d0
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	sta.b d2
 	asl a
 	asl a
@@ -98,7 +98,7 @@ assdumpin:							; called from asstab
 	asl a
 	tax
 	lda.w #$0078
-	jsl.l DivX8U
+	jsl.l DivX8U					; X / A into A with the hardware divider
 	cmp.w #$0060
 	bcc .2x
 .1x:								; falls through
@@ -146,11 +146,11 @@ assdumpin:							; called from asstab
 	lda.w #$03C0
 	sec
 	sbc.b d4
-	jsl.l randoma
+	jsl.l randoma					; A = a random number from 0 to A-1
 	clc
 	adc.w #$10E0
 	sta.w puckvz
-	jsl.l puckflip
+	jsl.l puckflip					; spin the puck, facing from d0 bit 0
 	ldx.b curobj
 	lda.w #$FFFF
 	sta.w dumpinplayer

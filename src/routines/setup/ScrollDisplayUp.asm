@@ -11,7 +11,7 @@ ScrollDisplayUp:					; scroll the scouting text up
 	bmi .2							; negative: check overflow
 	bvc .3							; no overflow: fewer than 8 lines
 .1:									; fewer than 8 lines: nothing to scroll
-	jmp.w UpdateScoutingDisplay_rtl
+	jmp.w UpdateScoutingDisplay_rtl	; shared return
 .2:									; negative with overflow: fewer than 8 lines
 	bvc .1
 .3:									; box is full: scroll the text up

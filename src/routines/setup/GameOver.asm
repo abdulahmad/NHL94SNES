@@ -28,4 +28,4 @@ GameOver:							; called from PeriodOver
 	jmp.w StartGame					; it was set: start the game directly
 
 .t1x:								; it was clear: start the game at its scouting report
-	jml.l StartGame_scout
+	jml.l StartGame_scout			; reset the game state for a new game, then start the first period

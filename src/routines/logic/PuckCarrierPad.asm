@@ -27,7 +27,7 @@ PuckCarrierPad:						; called from puckglue
 	sty.b d4
 	tya
 	sta.w puckpadnext,x
-	jsl.l AssignPadPlayer
+	jsl.l AssignPadPlayer			; pad d4 takes control of player d0: its old player is released
 .4:									; return
 	plx
 	rtl

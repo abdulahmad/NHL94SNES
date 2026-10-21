@@ -13,4 +13,4 @@ TickerNext:							; steps the ticker to the next game
 	sta.w TickerNum					; the ticker game
 	bmi IntermissionTick_done		; no games: leave
 .2:									; show the ticker box
-	jmp.w NewTicker2
+	jmp.w NewTicker2				; picks the next game

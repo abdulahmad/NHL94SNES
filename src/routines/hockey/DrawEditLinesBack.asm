@@ -9,7 +9,7 @@ DrawEditLinesBack:					; called from DrawEditLinesTitle
 	sta.b a1+2
 	lda.w #DrawEditLinesBackPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawEditLinesBackPos
 	pla
 	sta.b a1
 	pla
@@ -29,7 +29,7 @@ DrawEditLinesBack:					; called from DrawEditLinesTitle
 	sta.b a1+2
 	lda.w #DrawEditLinesBackPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawEditLinesBackPos2
 	pla
 	sta.b a1
 	pla
@@ -49,7 +49,7 @@ DrawEditLinesBack:					; called from DrawEditLinesTitle
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack MenuBackMap
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf
@@ -67,6 +67,6 @@ DrawEditLinesBack:					; called from DrawEditLinesTitle
 	lda.l charofs2
 	clc
 	adc.w #$0C00
-	jsl.l PasteMap
+	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
 	pla
 	rts

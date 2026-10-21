@@ -15,7 +15,7 @@ QueueTextDMA:						; called from BadPasswordPrompt, DrawOtherScoresPage, DrawPen
 	inc a
 	asl a
 	tax
-	jsl.l DMAToVRAM
+	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
 	lda.w #$FFFF
 	sta.w textdirtylo
 	stz.w textdirtyhi

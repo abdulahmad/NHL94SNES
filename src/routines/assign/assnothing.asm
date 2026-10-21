@@ -7,7 +7,7 @@ assnothing:							; computer player stands still
 	bpl .t1							; human: leave him
 	lda.w #$0008
 	sta.b d0						; d0 = 8
-	jml.l doplayeracc
+	jml.l doplayeracc				; player X skates toward d0
 
 .t1:								; return
 	rtl

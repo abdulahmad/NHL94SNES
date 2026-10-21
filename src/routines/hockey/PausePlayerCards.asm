@@ -6,6 +6,6 @@ PausePlayerCards:					; called from PauseMenuHandlers
 	jmp.w PauseMenuPoll
 
 .t1:								; d1 bit $8080 set: call ShowPlayerCards, call ReloadRink, go to PauseS...
-	jsl.l ShowPlayerCards
-	jsl.l ReloadRink
+	jsl.l ShowPlayerCards			; player cards
+	jsl.l ReloadRink				; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

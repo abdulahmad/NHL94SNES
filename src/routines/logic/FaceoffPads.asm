@@ -1,7 +1,7 @@
 ; At a faceoff: CalcPuckDistances, restore the pad sides kept in padside, reset the pad / player tables
 ; (playerpad, c1playernum) and give each pad a player again (findpc)
 FaceoffPads:						; called from puckfaceoff2
-	jsl.l CalcPuckDistances
+	jsl.l CalcPuckDistances			; for each of the 16 objects: puckdist2 / 4), puckdist and puckdir
 	lda.w penshot
 	bne .2
 	ldy.w #$0008
@@ -164,7 +164,7 @@ FaceoffPads:						; called from puckfaceoff2
 	bpl .12
 	stx.w fopadfirst
 .12:								; call findpc
-	jsl.l findpc
+	jsl.l findpc					; choose the player for pad d4
 	plx
 .13:								; X - 1, X - 1, if X still >= 0 go to .14, ...
 	dex
@@ -196,7 +196,7 @@ FaceoffPads:						; called from puckfaceoff2
 	bpl .17
 	stx.w fopadfirst+2
 .17:								; call findpc
-	jsl.l findpc
+	jsl.l findpc					; choose the player for pad d4
 	plx
 .18:								; X - 1, X - 1, if X still >= 0 go to .19, ...
 	dex

@@ -15,7 +15,7 @@ updatesound:						; called from periodicevents
 	phx
 	tax
 	lda.w #$0015
-	jsl.l DivX8U
+	jsl.l DivX8U					; X / A into A with the hardware divider
 	plx
 	clc
 	adc.w #$0253

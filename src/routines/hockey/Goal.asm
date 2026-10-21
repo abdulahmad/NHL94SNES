@@ -31,15 +31,15 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	lda.w BA_Team
 	beq .6
 .1:									; penalty shot ends without a goal
-	jsl.l EndPenaltyShot
+	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
 	jmp.w .16
 .in:								; shot at the right net
 	lda.w BA_Team
 	beq .1
 .6:									; count the goal. Log the shot, freeze the window, replay delay 30
 									; frames
-	jsl.l ChkShotStat
-	jsl.l freezewindow
+	jsl.l ChkShotStat				; if a shot was taken, add it to the shooting team's shots
+	jsl.l freezewindow				; lock the view at its current position
 	lda.w #$001E
 	sta.w replaydelay
 	stz.b a2						; a2 = scoring team (0 home, 2 visitors), a1 = the other
@@ -104,14 +104,14 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	inc a
 	sta.w tmOneTimerGoals,y
 .1xx:								; music off, siren sound, bench cheer
-	jsl.l MusicStop
+	jsl.l MusicStop					; stop the song: release its voices and clear its tracks
 	lda.w #$0002
-	jsl.l StreamSfx
+	jsl.l StreamSfx					; request streamed sound A
 	stz.w benchcheer
 	ldy.b a2
 	beq .t1xxx
 	lda.w #$0004
-	jsl.l StartBenchCheer
+	jsl.l StartBenchCheer			; start bench A cheering, unless one already is: benchcheer = A
 	lda.l Crowdlevel
 	sec
 	sbc.w #$0300
@@ -124,7 +124,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 .t1xxx:								; home scored: crowd +$1F4, hold, play the goal song
 	inc a
 	inc a
-	jsl.l StartBenchCheer
+	jsl.l StartBenchCheer			; start bench A cheering, unless one already is: benchcheer = A
 	lda.l Crowdlevel
 	clc
 	adc.w #$01F4
@@ -132,12 +132,12 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	lda.w #$0078
 	sta.b crowdhold
 	lda.w #$0003
-	jsl.l PlayTeamSong
+	jsl.l PlayTeamSong				; play song slot A of the home team
 .score:								; remember the frame of the goal (sfx mute time), end the penalty
 									; shot, clear breakaway and one timer
 	lda.b vcount
 	sta.w sfxmutetime
-	jsl.l EndPenaltyShot
+	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
 	stz.w breakaway
 	stz.w onetimer
 	phx
@@ -268,8 +268,8 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	tax
 	inc.w tmgoals,x
 .11:								; penalty goal handling, redraw the score
-	jsl.l PenGoalStuff
-	jsl.l printscores1
+	jsl.l PenGoalStuff				; handles the penalties after a goal
+	jsl.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
 	lda.w #$0008
 	sta.b d0
 	jsl.l .t1xxxx					; d0 = 8: give team a2's skaters assignment 8 (routine below)
@@ -310,13 +310,13 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	inx								; siren sprite animation
 	inx
 	lda.w #SPAsiren
-	jsl.l SetSPAFromA
+	jsl.l SetSPAFromA				; start sprite animation A on object X
 	ldy.b a2						; scoring team's first skater gets the penalty goal assignment
 	ldx.w tmsort,y
 	stx.b a3
 	lda.w #PenGoal
 	sta.b d0
-	jsl.l AddPenalty2
+	jsl.l AddPenalty2				; call penalty d0 on player X without the checks
 	ldx.w #$001C
 	stx.b a3
 	rtl
@@ -334,7 +334,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	bmi .1xxxx
 	beq .1xxxx
 	stz.w pfnc,x
-	jsl.l assinsert
+	jsl.l assinsert					; give player X assignment d0 on top of the current one
 .1xxxx:								; next skater
 	inx
 	inx

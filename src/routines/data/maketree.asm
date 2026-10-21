@@ -65,7 +65,7 @@ maketree:							; called from EncodePW, GameOver, NewPO, setoptions
 	lsr.b d0
 	dec.b d2
 	bpl .loop4
-	jsl.l GetShifter
+	jsl.l GetShifter				; games of the round less one and its first win bit
 	lda.b d1
 	bmi .1
 	lda.b d2

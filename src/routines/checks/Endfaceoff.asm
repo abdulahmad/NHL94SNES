@@ -4,7 +4,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	sta.b p0
 	stz.b p0+2
 	lda.w #$0007
-	jsl.l sfx
+	jsl.l sfx						; play sound A with the velocity in p0 / p0+2
 	lda.w #$0100
 	trb.w sflags
 	lda.w #$0000
@@ -75,7 +75,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	bne .8
 .7:									; call randoma8, decrement a, decrement a, ...
 	lda.w #$0005
-	jsl.l randoma8
+	jsl.l randoma8					; random number below A
 	dec a
 	dec a
 	and.w #$0007

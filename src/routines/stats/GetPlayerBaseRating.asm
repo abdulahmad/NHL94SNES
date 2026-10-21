@@ -66,7 +66,7 @@ GetPlayerBaseRating:				; rating of curplayer without hot / cold
 	sta.b d0
 	lda.w #$0000					; no hot / cold adjustment
 	sta.l usehotcold
-	jsl.l CalcAttrib
+	jsl.l CalcAttrib				; overall rating of a player from his attributes and hot / cold values
 	lda.b d0
 	sta.b r0
 	pla

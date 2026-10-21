@@ -69,11 +69,11 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	sta.b d1
 	lda.b d0
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	sta.b d0
 	lda.b d1
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	ldx.b curobj
 	clc
 	adc.b d0
@@ -89,7 +89,7 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	lda.b d1
 	cmp.b d0
 	bcc .5
-	jsl.l puckstick
+	jsl.l puckstick					; the puck hits player a2's stick
 	bra .6
 .5:									; if position,y = 0 go to .7, ...
 	lda.w position,y
@@ -118,18 +118,18 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	sta.b d1
 	lda.b d0
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	sta.b d0
 	lda.b d1
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	clc
 	adc.b d0
 	sta.b d0
 	ldx.b a3
 	cmp.w #$0041
 	bcs .6
-	jsl.l puckbody
+	jsl.l puckbody					; the puck hits player a2: a fast high puck knocks him down
 .6:									; xsave = X
 	stx.b xsave
 	ldx.w #$001A
@@ -158,7 +158,7 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	bmi .6
 	cmp.w #$000B
 	bpl .6
-	jsl.l puckgoalie
+	jsl.l puckgoalie				; the puck hits goalie a2: a save or not, by his save ratings
 	bra .6
 .8:									; index * 2 / 3, rounded (words)
 	dw 0,1,1,2,3,3,4,5,5,6,7,7,8,9,9,10
@@ -239,17 +239,17 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 .t1:								; call Mul8U, d0 = A, call Mul8U, ...
 	lda.b d0
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	sta.b d0
 	lda.b d1
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	clc
 	adc.b d0
 	sta.b d0
 	lda.b d2
 	tax
-	jsl.l Mul8U
+	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
 	ldx.b curobj
 	sta.b d1
 	lda.w nopuck+puckobj
@@ -262,6 +262,6 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	lda.b d1
 	cmp.b d0
 	bcc .3xx
-	jsl.l puckstick
+	jsl.l puckstick					; the puck hits player a2's stick
 .3xx:								; go to .7
 	jmp.w .7

@@ -64,7 +64,7 @@ skateto:							; player X skates toward d0 / d1
 	pha
 	ldy.w Xvel,x					; speed of the player (ApproxLength of Xvel, Yvel)
 	lda.w Yvel,x
-	jsl.l ApproxLength
+	jsl.l ApproxLength				; A = the approximate length of the vector
 	pha								; keep the speed
 	lda.b r3						; target minus the lead
 	clc
@@ -100,7 +100,7 @@ skateto:							; player X skates toward d0 / d1
 	sta.b d0
 	bra .6							; then the avoid routine
 .5:									; direction toward the target
-	jsl.l vtoa
+	jsl.l vtoa						; direction of the vector d0 / d1
 .6:									; call the avoid routine in a0
 	lda.b a0						; caller's avoidance routine
 	sta.w jmlvector+1

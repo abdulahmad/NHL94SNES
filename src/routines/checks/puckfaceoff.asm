@@ -24,14 +24,14 @@ puckfaceoff:						; called from asstab
 	lda.w gameclock
 	bne .t2x
 .1xx:								; go to PeriodOver
-	jml.l PeriodOver
+	jml.l PeriodOver				; end of a period
 
 .t2x:								; end of the period
 	lda.w gmode
 	bit.w #$0040
 	beq .t1xx
 .1x2:								; go to PeriodOver
-	jml.l PeriodOver
+	jml.l PeriodOver				; end of a period
 
 .t1xx:								; overtime and not tied: clock control
 	lda.w gsp						; overtime and not tied: clockcont_0
@@ -41,14 +41,14 @@ puckfaceoff:						; called from asstab
 	lda.w tmscore
 	cmp.w tmscore+2
 	beq .t3
-	jml.l clockcont_0
+	jml.l clockcont_0				; period over: end of period scene, then the period or game over message
 
 .t3:								; no period over: check for a penalty delay
 	lda.w gmode
 	bit.w #$0008
 	beq .t1x2
 .1x3:								; go to Stop4Pen
-	jml.l Stop4Pen
+	jml.l Stop4Pen					; stop play for a penalty: stop the clock
 
 .t1x2:								; computer may put the goalie back / pull it
 	jsl.l ReturnGoalies				; ReturnGoalies
@@ -82,7 +82,7 @@ puckfaceoff:						; called from asstab
 	beq .1xx2
 	lda.w #$0040
 	tsb.w sflags
-	jsl.l ClrHor
+	jsl.l ClrHor					; switch back from the horizontal rink to the vertical ice rink
 .1xx2:								; if newperiod != 0 go to .2, ...
 	lda.l newperiod
 	bne .2
@@ -141,9 +141,9 @@ puckfaceoff:						; called from asstab
 	bne .4
 	jmp.w .8
 .4:									; call CompLine, call setpersonel, go to printscores1
-	jsl.l CompLine
+	jsl.l CompLine					; the computer team picks a line by the man advantage
 	jsl.l setpersonel				; update the players on the ice
-	jml.l printscores1
+	jml.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
 .5:									; subroutine: if OptLine != $0002 go to .7, ...
 	lda.l OptLine
 	cmp.w #$0002
@@ -179,7 +179,7 @@ puckfaceoff:						; called from asstab
 .1xxxx:								; lcpad,y = $FFFF, call SetLCmode, a2 = Y, ...
 	lda.w #$FFFF
 	sta.w lcpad,y
-	jsl.l SetLCmode
+	jsl.l SetLCmode					; open the line change box for the team of player X
 	ply
 	sty.b a2
 	ldx.b a3
@@ -271,7 +271,7 @@ puckfaceoff:						; called from asstab
 	ora.w #$FF00					; timer negative: box closed
 	sta.w temp1,y
 	ldx.b a3
-	jmp.w SetLCmode2
+	jmp.w SetLCmode2				; draw the line change box of team a2
 
 .t2xxx:								; move to the next player slot
 	lda.b a3
@@ -301,8 +301,8 @@ puckfaceoff:						; called from asstab
 	bit.w #$0008
 	beq .2xxx
 	stz.b d2
-	jsl.l lcfound
-	jsl.l SetLCmode2
+	jsl.l lcfound					; switch team a2 to the line chosen by row d2
+	jsl.l SetLCmode2				; draw the line change box of team a2
 .2xxx:								; a3 = X, return
 	plx
 	stx.b a3

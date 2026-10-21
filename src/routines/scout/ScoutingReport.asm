@@ -3,15 +3,15 @@ ScoutingReport:						; called from StartGame_scout
 	lda.w #$0001
 	sta.l matchupphotos
 	stz.w matchuphold
-	jsl.l clearTeamStats
-	jsl.l LoadScoutingScreen
+	jsl.l clearTeamStats			; clear the team stats and set up the teams
+	jsl.l LoadScoutingScreen		; set up the scouting screen graphics and palettes
 	ldx.w #$0000
-	jsl.l LoadMatchupPhotos
+	jsl.l LoadMatchupPhotos			; unpack the matchup player photos of team x
 	ldx.w #$0002
-	jsl.l LoadMatchupPhotos
+	jsl.l LoadMatchupPhotos			; unpack the matchup player photos of team x
 	lda.w #$0008
 	ldx.w #$003E
-	jsl.l SetupBandIRQ
+	jsl.l SetupBandIRQ				; set up the band IRQ pair
 	stz.w curitem
 	stz.w matchuptimer
 	jsl.l .10
@@ -24,7 +24,7 @@ ScoutingReport:						; called from StartGame_scout
 	sta.b a1+2
 	lda.w #ScoutingReportPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ScoutingReportPos
 	pla
 	sta.b a1
 	pla
@@ -34,13 +34,13 @@ ScoutingReport:						; called from StartGame_scout
 	lda.w #$000B
 	sta.b d1
 	jsl.l FramerOutline
-	jsl.l ShowMatchups
-	jsl.l ScoutingHDMA
+	jsl.l ShowMatchups				; matchups screen
+	jsl.l ScoutingHDMA				; scouting screen windows and colour tint
 	jsl.l ScreenOn
 .3:									; call SendTextMap, call WaitFrame, call ReadPads, ...
 	jsl.l SendTextMap
 	jsl.l WaitFrame
-	jsl.l ReadPads
+	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	ldx.w #$0002
 	lda.w padnew
 	sta.b r3
@@ -60,7 +60,7 @@ ScoutingReport:						; called from StartGame_scout
 	bne .5
 	bit.w #$0800
 	beq .2
-	jsl.l WaitSidePadsRelease
+	jsl.l WaitSidePadsRelease		; wait until the pads that have a team are released
 .2:									; if not zero go to .6, ...
 	bit.w #$4000
 	bne .6
@@ -87,7 +87,7 @@ ScoutingReport:						; called from StartGame_scout
 	lda.w #$FFFF
 	sta.w asv
 .2x:								; call UpdateScoutingDisplay, if matchuphold != 0 go to .4, ...
-	jsl.l UpdateScoutingDisplay
+	jsl.l UpdateScoutingDisplay		; print the next word of the scouting report when the timer is up
 	lda.w matchuphold
 	bne .4
 	lda.l notdemo
@@ -110,7 +110,7 @@ ScoutingReport:						; called from StartGame_scout
 	sta.w curitem
 .1xx:								; curitem = A, call ShowMatchups, matchuptimer = 0, ...
 	sta.w curitem
-	jsl.l ShowMatchups
+	jsl.l ShowMatchups				; matchups screen
 	stz.w matchuptimer
 	bra .4
 .7:									; matchuphold = $FFFF
@@ -124,7 +124,7 @@ ScoutingReport:						; called from StartGame_scout
 	lda.w #$0000
 .1xxx:								; curitem = A, call ShowMatchups, matchuptimer = 0, ...
 	sta.w curitem
-	jsl.l ShowMatchups
+	jsl.l ShowMatchups				; matchups screen
 	stz.w matchuptimer
 	bra .4
 .9:									; a1 = ScoutingReportPos2, call print, a1 = pulled value, ...
@@ -136,7 +136,7 @@ ScoutingReport:						; called from StartGame_scout
 	sta.b a1+2
 	lda.w #ScoutingReportPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print ScoutingReportPos2
 	pla
 	sta.b a1
 	pla
@@ -212,7 +212,7 @@ ScoutingReport:						; called from StartGame_scout
 .rtl:								; return
 	rtl
 .11:								; subroutine: call GetPlayerCount, d4 = d0
-	jsl.l GetPlayerCount
+	jsl.l GetPlayerCount			; count the players of the team
 	lda.b d0
 	sta.b d4
 	ldx.w #$0000
@@ -220,12 +220,12 @@ ScoutingReport:						; called from StartGame_scout
 	stx.w curplayer
 	lda.w #$0001
 	sta.b d1
-	jsl.l GetPlayerBaseRating
+	jsl.l GetPlayerBaseRating		; rating of curplayer without hot / cold
 	lda.b d0
 	sta.b d2
 	lda.w #$0001
 	sta.b d1
-	jsl.l GetPlayerRating
+	jsl.l GetPlayerRating			; rating of curplayer with hot / cold
 	lda.b d0
 	sec
 	sbc.b d2
@@ -338,7 +338,7 @@ ScoutingReport:						; called from StartGame_scout
 .8x:								; return
 	rtl
 .12:								; subroutine: call InitScoutDisplay, [a0] = $001D, increment a0, ...
-	jsl.l InitScoutDisplay
+	jsl.l InitScoutDisplay			; reset the scouting report scroll state
 	lda.w #$001D
 	sta.b [a0]
 	inc.b a0

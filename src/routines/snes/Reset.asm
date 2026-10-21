@@ -7,4 +7,4 @@ Reset:								; entry point, no direct callers found
 	txs
 	lda.w #$0000
 	tcd
-	jml.l Reset_Fast
+	jml.l Reset_Fast				; reset in FastROM: clear the PPU and CPU registers, then start the game

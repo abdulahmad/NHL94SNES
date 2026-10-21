@@ -6,15 +6,15 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	tcs
 .1:									; a2 = 0, call reenergizeteam, a2 = $0002, ...
 	stz.b a2
-	jsl.l reenergizeteam
+	jsl.l reenergizeteam			; give every player of team a2 full energy
 	lda.w #$0002
 	sta.b a2
-	jsl.l reenergizeteam
+	jsl.l reenergizeteam			; give every player of team a2 full energy
 	stz.w reloadtime
-	jsl.l forceblack
+	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	jsl.l setupice_reset
 	jsl.l ResetClock
-	jsl.l InitCrowdExcite
+	jsl.l InitCrowdExcite			; set the crowd excitement for a new period
 	lda.w pregamepause
 	beq .4
 	lda.w #$FFFF
@@ -39,7 +39,7 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	bne .3
 	stz.w pausepad
 .3:									; call startpause
-	jsl.l startpause
+	jsl.l startpause				; set the pause mode flag and return
 .4:									; a3 = $001C, fox = $0000, foy = $0000, ...
 	ldx.w #$001C
 	stx.b a3
@@ -49,7 +49,7 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	lda.w #$001B
 	sta.b d0
 	jsl.l assreplace
-	jsl.l ClearTextMap
+	jsl.l ClearTextMap				; fill the text map with the blank tile
 	lda.w #$0400
 	tsb.w sflags
 	lda.w #$FFFF

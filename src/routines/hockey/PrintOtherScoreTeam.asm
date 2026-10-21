@@ -8,6 +8,6 @@ PrintOtherScoreTeam:				; called from PrintOtherScore
 	sta.w printx
 	lda.w #$0002
 	sta.b d1
-	jsl.l PushNumberWrap
+	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
 	jsl.l PrintToStatsPage
 	rts

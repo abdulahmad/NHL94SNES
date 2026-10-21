@@ -21,7 +21,7 @@ UpdateSfxVoices:					; step the sound effect voices
 	lda.w VoiceTrack,y
 	cmp.b #$10
 	bcc .1
-	jsr.w UpdateVoice
+	jsr.w UpdateVoice				; update voice Y
 .1:									; copy the instrument, pitch and gain of the voice
 	rep #$20
 	lda.w VoiceInst,x
@@ -140,7 +140,7 @@ UpdateSfxVoices:					; step the sound effect voices
 	bcs .t1xxx
 	sep #$20
 	ldy.b CurVoice
-	jsr.w StopVoice
+	jsr.w StopVoice					; stop voice Y
 	bra .8
 
 .t1xxx:								; gain still above 0: send it

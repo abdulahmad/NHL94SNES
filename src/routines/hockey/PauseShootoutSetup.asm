@@ -8,8 +8,8 @@ PauseShootoutSetup:					; called from PauseMenuHandlers
 .t1:								; d1 bit $8080 set: pausesubmenu = $0001, call ShootoutShooters, pauses...
 	lda.w #$0001
 	sta.l pausesubmenu
-	jsl.l ShootoutShooters
+	jsl.l ShootoutShooters			; shootout shooters menu item: pick the 3 shooters of each team
 	lda.w #$0000
 	sta.l pausesubmenu
-	jsl.l ReloadRink
+	jsl.l ReloadRink				; after a pause screen: unpack the rink map, tiles and palettes again
 	bra PauseSubmenuDone

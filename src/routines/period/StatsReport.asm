@@ -8,7 +8,7 @@ StatsReport:						; called from SetHor
 	sta.b a1+2
 	lda.w #StatsReportPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print StatsReportPos
 	pla
 	sta.b a1
 	pla
@@ -28,7 +28,7 @@ StatsReport:						; called from SetHor
 	sta.b a1+2
 	lda.w #StatsReportPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print StatsReportPos2
 	pla
 	sta.b a1
 	pla
@@ -49,7 +49,7 @@ StatsReport:						; called from SetHor
 	sta.w MapVRAM
 	ldx.w #$0000
 	ldy.w #$0000
-	jsl.l MapPartToVRAM
+	jsl.l MapPartToVRAM				; copy part of map [p0] into the screen map in video memory at column X
 	lda.w #rinkmapbuf>>16
 	sta.b p0+2
 	lda.w #rinkmapbuf
@@ -66,5 +66,5 @@ StatsReport:						; called from SetHor
 	sta.w MapVRAM
 	ldx.w #$0000
 	ldy.w #$0000
-	jsl.l MapPartToVRAM
-	jmp.w USBoard
+	jsl.l MapPartToVRAM				; copy part of map [p0] into the screen map in video memory at column X
+	jmp.w USBoard					; redraws the scoreboard with the penalty boxes

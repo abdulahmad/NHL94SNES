@@ -4,7 +4,7 @@ ScreenOn:							; called from EditLinesScreen, IntroSequence, PauseReplay, Pause
 	lda.w brightness
 	cmp.w #$000F
 	beq .1
-	jsl.l FadeIn
+	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 .1:									; IniDispShadow = $0F, return
 	sep #$20
 	lda.b #$0F

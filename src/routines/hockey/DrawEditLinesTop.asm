@@ -8,7 +8,7 @@ DrawEditLinesTop:					; called from EditLinesMenu, EditLinesScreen
 	sta.b a1+2
 	lda.w #DrawEditLinesTopPos
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawEditLinesTopPos
 	pla
 	sta.b a1
 	pla
@@ -20,7 +20,7 @@ DrawEditLinesTop:					; called from EditLinesMenu, EditLinesScreen
 	lda.l blankchar
 	sta.b d2
 	jsl.l eraser
-	jsl.l DrawEditLinesTitle
+	jsl.l DrawEditLinesTitle		; line editor: the EditLinesLabel title sprites
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -29,7 +29,7 @@ DrawEditLinesTop:					; called from EditLinesMenu, EditLinesScreen
 	sta.b a1+2
 	lda.w #DrawEditLinesTopPos2
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print DrawEditLinesTopPos2
 	pla
 	sta.b a1
 	pla

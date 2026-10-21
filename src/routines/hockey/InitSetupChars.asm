@@ -10,7 +10,7 @@ InitSetupChars:						; set the tile numbers and load the font of the setup scree
 	lda.w #$0000					; fill VRAM $3000 words with 0 starting at tile 0
 	ldy.w #$3000
 	ldx.w #$0020
-	jsl.l FillVRAM
+	jsl.l FillVRAM					; fill VRAM with a word
 	lda.w #SmallFontTiles>>16		; unpack SmallFontTiles to unpackbuf
 	sta.b p0+2
 	lda.w #SmallFontTiles
@@ -19,7 +19,7 @@ InitSetupChars:						; set the tile numbers and load the font of the setup scree
 	sta.b p1+2
 	lda.w #unpackbuf
 	sta.b p1
-	jsl.l Decompress
+	jsl.l Decompress				; unpack SmallFontTiles
 	txa								; d0 = size in tiles (bytes / 32)
 	lsr a
 	lsr a

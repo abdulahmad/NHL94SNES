@@ -63,7 +63,7 @@ ScoutTypeWord:						; Type the word at a1: d0 = column, d1 = characters
 	bmi .2							; below 20: fits (check overflow)
 	bvs .3							; overflow: fits
 .1:									; past column 20: start a new line
-	jsl.l ScrollDisplayUp
+	jsl.l ScrollDisplayUp			; scroll the scouting text up
 	bra .3							; then print
 .2:									; below 20 and overflow means past it
 	bvs .1
