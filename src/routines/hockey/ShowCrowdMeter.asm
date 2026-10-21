@@ -1,8 +1,8 @@
 ; Crowd meter screen
 ShowCrowdMeter:						; called from PauseCrowdLevel
-	lda.w VisTeam
+	lda.w VisTeam					;visitors' logo
 	sta.l setupvis
-	lda.w HomeTeam
+	lda.w HomeTeam					;home logo
 	sta.l setuphome
 	jsl.l SetupScreen				; common setup of the stats screens
 	lda.w #CrowdMeterFramePalette>>16
@@ -18,8 +18,8 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
-	ldy.w #$0050
-	ldx.w #$0010
+	ldy.w #$0050					;colour $50
+	ldx.w #$0010					;16 colours
 	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
 	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
 	lda.b a1+2
@@ -35,13 +35,13 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #$0800
+	lda.w #$0800					;palette 2
 	sta.w printa
-	lda.w #$0014
+	lda.w #$0014					;20 wide
 	sta.b d0
-	lda.w #$0005
+	lda.w #$0005					;5 high
 	sta.b d1
-	jsl.l FramerNineTile			; framer with a nine-tile box from tile
+	jsl.l FramerNineTile			;draw the frame
 	lda.w #CrowdMeterTiles>>16
 	sta.b p0+2
 	lda.w #CrowdMeterTiles
@@ -56,43 +56,43 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	lda.w #unpackbuf
 	sta.b p0
 	stx.b p1
-	stx.b r0
-	jsl.l LinearToPlanar
+	stx.b r0						;size
+	jsl.l LinearToPlanar			;to planar
 	lda.b p1
 	sta.b p0
-	tax
-	lda.l nextfreechar
+	tax								;X = bytes
+	lda.l nextfreechar				;free characters
 	asl a
 	asl a
 	asl a
-	asl a
+	asl a							;x16
 	clc
-	adc.w #$1000
-	tay
-	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
+	adc.w #$1000					;plus the BG char base
+	tay								;VRAM address
+	jsl.l DMAToVRAM					;send the meter tiles
 	lda.w #CrowdMeterPalette>>16
 	sta.b p0+2
 	lda.w #CrowdMeterPalette
 	sta.b p0
-	ldy.w #$0070
-	ldx.w #$0010
+	ldy.w #$0070					;colour $70
+	ldx.w #$0010					;16 colours
 	jsl.l SetColours				; copy X colours from [p0] into the colour buffer colourbuf
-	lda.w #$6F7B
-	sta.l colourbuf+$C2
+	lda.w #$6F7B					;light grey
+	sta.l colourbuf+$C2				;text colour
 	jsl.l SendColours				; send the 256 colours of the colour buffer with DMAToCGRAM
-	stz.w curitem
+	stz.w curitem					;start on the current level
 	jsl.l ScreenOn
 .1:									; call SpriteFrameStart, a1 = CrowdMeter, call PrintLetterSprites, ...
 	jsl.l SpriteFrameStart
-	ldx.w #$0048
-	ldy.w #$0018
+	ldx.w #$0048					;x 72
+	ldy.w #$0018					;y 24
 	lda.w #CrowdMeter>>16
 	sta.b a1+2
 	lda.w #CrowdMeter
 	sta.b a1
 	jsl.l PrintLetterSprites		; PrintLetterSprites CrowdMeter
-	jsl.l DrawMatchupPictures
-	jsl.l .6
+	jsl.l DrawMatchupPictures		;pictures or logos
+	jsl.l .6						;readings and the meter
 	jsl.l SpriteFrameEnd
 .2:									; loop: call SendTextMap, call WaitFrame, call ReadPads, ...
 	jsl.l SendTextMap
@@ -100,35 +100,35 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
 	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
-	lda.b d1
-	bit.w #$1000
-	bne .t1
-	bit.w #$0800
-	bne .t2
-	bit.w #$0400
-	bne .t3
-	bra .2
+	lda.b d1						;new presses
+	bit.w #$1000					;start?
+	bne .t1							;yes: leave
+	bit.w #$0800					;up?
+	bne .t2							;yes
+	bit.w #$0400					;down?
+	bne .t3							;yes
+	bra .2							;no: wait
 
 .t1:								; d1 bit $1000 set: return
 	rtl
 
 .t2:								; if a counted below 0 go to .2, ...
-	lda.w curitem
-	dec a
-	bmi .2
-	sta.w curitem
-	bra .1
+	lda.w curitem					;item
+	dec a							;up one
+	bmi .2							;at the top: stay
+	sta.w curitem					;new item
+	bra .1							;redraw
 
 .t3:								; if carry set go to .2, ...
-	lda.w curitem
-	inc a
-	cmp.w #$0003
-	bcs .2
-	sta.w curitem
-	bra .1
+	lda.w curitem					;item
+	inc a							;down one
+	cmp.w #$0003					;past the 3 items?
+	bcs .2							;yes: stay
+	sta.w curitem					;new item
+	bra .1							;redraw
 .6:									; subroutine: if curitem = 0 go to .t1x
-	lda.w curitem
-	beq .t1x
+	lda.w curitem					;item
+	beq .t1x						;current highlighted?
 .1x:								; a1 = CurrentTxt, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
@@ -187,18 +187,18 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 .2x:								; printx = $0014, printy = $0011, d0 = CurCrowdMeter, ...
 	lda.w #$0014
-	sta.w printx
+	sta.w printx					;column 20
 	lda.w #$0011
-	sta.w printy
+	sta.w printy					;row 17
 	lda.w CurCrowdMeter
-	sta.b d0
+	sta.b d0						;current level
 	lda.w #$0004
-	sta.b d1
+	sta.b d1						;4 digits
 	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
-	jsl.l print
-	lda.w curitem
-	cmp.w #$0001
-	beq .t1xx
+	jsl.l print						;print it
+	lda.w curitem					;item
+	cmp.w #$0001					;peak?
+	beq .t1xx						;yes: highlight
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -256,18 +256,18 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 .3:									; printx = $0014, printy = $0013, d0 = CrowdPeak, ...
 	lda.w #$0014
-	sta.w printx
+	sta.w printx					;column 20
 	lda.w #$0013
-	sta.w printy
+	sta.w printy					;row 19
 	lda.w CrowdPeak
-	sta.b d0
+	sta.b d0						;peak level
 	lda.w #$0004
-	sta.b d1
+	sta.b d1						;4 digits
 	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
-	jsl.l print
-	lda.w curitem
-	cmp.w #$0002
-	beq .t1xxx
+	jsl.l print						;print it
+	lda.w curitem					;item
+	cmp.w #$0002					;average?
+	beq .t1xxx						;yes: highlight
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -325,106 +325,106 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	sta.b a1+2
 .4:									; printx = $0014, printy = $0015, d0 = CrowdAvg, ...
 	lda.w #$0014
-	sta.w printx
+	sta.w printx					;column 20
 	lda.w #$0015
-	sta.w printy
+	sta.w printy					;row 21
 	lda.w CrowdAvg
-	sta.b d0
+	sta.b d0						;average level
 	lda.w #$0004
-	sta.b d1
+	sta.b d1						;4 digits
 	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
-	jsl.l print
-	lda.w curitem
-	beq .t2x
+	jsl.l print						;print it
+	lda.w curitem					;item
+	beq .t2x						;current
 .1xx:								; if zero go to .t1xxxx, ...
-	cmp.w #$0001
-	beq .t1xxxx
-	lda.w CrowdAvg
+	cmp.w #$0001					;peak?
+	beq .t1xxxx						;yes
+	lda.w CrowdAvg					;average
 	bra .5
 
 .t1xxxx:							; go to .5
-	lda.w CrowdPeak
+	lda.w CrowdPeak					;peak
 	bra .5
 
 .t2x:								; curitem = 0: falls through
-	lda.w CurCrowdMeter
+	lda.w CurCrowdMeter				;current
 .5:									; call .8, return
-	jsl.l .8
+	jsl.l .8						;draw the meter at A
 	rtl
 .7:									; subroutine: r7+2 = A, r5 = X, call Mul16U, ...
-	sta.b r7+2
-	stx.b r5
-	tya
-	asl a
-	ldx.b r7
-	jsl.l Mul16U
-	lda.b r5
-	asl a
+	sta.b r7+2						;tile offset
+	stx.b r5						;column
+	tya								;row
+	asl a							;x2
+	ldx.b r7						;map width
+	jsl.l Mul16U					;row offset
+	lda.b r5						;column
+	asl a							;x2
 	clc
-	adc.b r2
-	adc.b p1
-	sta.b p1
+	adc.b r2						;plus the row offset
+	adc.b p1						;plus the map
+	sta.b p1						;destination
 	ldy.w #$0000
-	lda.b [p0],y
-	sta.b r4
+	lda.b [p0],y					;map width
+	sta.b r4						;r4
 	iny
 	iny
-	lda.b [p0],y
-	sta.b r4+2
+	lda.b [p0],y					;map rows
+	sta.b r4+2						;r4+2
 	lda.b p0
 	clc
-	adc.w #$0006
-	sta.b p0
+	adc.w #$0006					;skip the header
+	sta.b p0						;map data
 .loop:								; loop: falls through
-	ldx.w crowdmeterlit
-	ldy.w #$0000
+	ldx.w crowdmeterlit				;lit columns
+	ldy.w #$0000					;from the left
 .loop2:								; loop: [p1],y = [p0],y + r7+2, Y + 1, Y + 1, ...
-	lda.b [p0],y
+	lda.b [p0],y					;map word
 	clc
-	adc.b r7+2
-	sta.b [p1],y
+	adc.b r7+2						;plus the tile offset
+	sta.b [p1],y					;into the text map
 	iny
 	iny
 	dex
-	bne .loop2
+	bne .loop2						;all lit columns
 	lda.b r7
-	asl a
-	adc.b p1
-	sta.b p1
+	asl a							;text map width
+	adc.b p1						;x2
+	sta.b p1						;next row
 	lda.b r4
-	asl a
-	adc.b p0
-	sta.b p0
-	dec.b r4+2
-	bne .loop
+	asl a							;source width
+	adc.b p0						;x2
+	sta.b p0						;next source row
+	dec.b r4+2						;one row
+	bne .loop						;all rows
 	rtl
 .8:									; subroutine: sbc #$0032, if plus go to .1xxx, ...
 	sec
-	sbc.w #$0032
-	bpl .1xxx
-	lda.w #$0000
+	sbc.w #$0032					;minus 50 dB
+	bpl .1xxx						;above it?
+	lda.w #$0000					;below: none lit
 .1xxx:								; lsr a, lsr a, r1 = A, ...
 	lsr a
-	lsr a
+	lsr a							;/4
+	sta.b r1						;lit segments
+	cmp.w #$0013					;19 or more?
+	bmi .t1xxxxx					;no: normal meter
+.2xx:								;off the scale:
+	lda.w #$0000					;no segments lit
 	sta.b r1
-	cmp.w #$0013
-	bmi .t1xxxxx
-.2xx:								; r1 = $0000, p0 = CrowdMeterBrokenMap, go to .3x
-	lda.w #$0000
-	sta.b r1
-	lda.w #CrowdMeterBrokenMap>>16
+	lda.w #CrowdMeterBrokenMap>>16	;the broken meter
 	sta.b p0+2
 	lda.w #CrowdMeterBrokenMap
 	sta.b p0
 	bra .3x
 
 .t1xxxxx:							; p0 = CrowdMeterMap
-	lda.w #CrowdMeterMap>>16
+	lda.w #CrowdMeterMap>>16		;normal meter
 	sta.b p0+2
 	lda.w #CrowdMeterMap
 	sta.b p0
 .3x:								; p1+2 = $007F, p1 = $0000, call Decompress, ...
-	lda.b r1
+	lda.b r1						;keep the segments
 	pha
 	lda.w #unpackbuf>>16
 	sta.b p1+2
@@ -440,22 +440,22 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	lda.w #textmap
 	sta.b p1
 	lda.w #$0020
-	sta.b r7
+	sta.b r7						;32 wide
 	lda.w #$001C
-	sta.b r7+2
-	ldx.w #$0007
-	ldy.w #$000B
-	lda.l charofs
+	sta.b r7+2						;28 high
+	ldx.w #$0007					;column 7
+	ldy.w #$000B					;row 11
+	lda.l charofs					;text set
 	clc
-	adc.l nextfreechar
+	adc.l nextfreechar				;plus the meter tiles
 	clc
-	adc.w #$1C00
-	jsl.l PasteMap					; copy map [p0] into the map at [p1], column X, row Y
+	adc.w #$1C00					;palette 7
+	jsl.l PasteMap					;paste the meter
 	jsl.l WaitFrame
 	pla
-	sta.b r1
-	sta.w crowdmeterlit
-	beq .rtl
+	sta.b r1						;segments
+	sta.w crowdmeterlit				;lit columns
+	beq .rtl						;none: done
 .1xxxx:								; p0 = CrowdMeterLitMap, p1+2 = $007F, p1 = $0000, ...
 	lda.w #CrowdMeterLitMap>>16
 	sta.b p0+2
@@ -475,22 +475,22 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	lda.w #textmap
 	sta.b p1
 	lda.w #$0020
-	sta.b r7
+	sta.b r7						;32 wide
 	lda.w #$001C
-	sta.b r7+2
-	ldx.w #$0007
-	ldy.w #$000B
-	lda.l charofs
+	sta.b r7+2						;28 high
+	ldx.w #$0007					;column 7
+	ldy.w #$000B					;row 11
+	lda.l charofs					;text set
 	clc
-	adc.l nextfreechar
+	adc.l nextfreechar				;plus the meter tiles
 	clc
-	adc.w #$1C00
-	jsl.l .7
+	adc.w #$1C00					;palette 7
+	jsl.l .7						;paste the lit part
 .rtl:								; return
 	rtl
-.9:									; loop: db $EF,$E7,$E3,$E0
+.9:									;(unreferenced) table
 	db $EF,$E7,$E3,$E0
-.10:								; records of a byte and a pointer into .9; $00 ends them
+.10:								;(unreferenced) records: a byte and a pointer into .9, $00 ends them
 	db $0C : dw .9+3
 	db $06 : dw .9+2
 	db $1C : dw .9+1
