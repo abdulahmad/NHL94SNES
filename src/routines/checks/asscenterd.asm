@@ -23,41 +23,41 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	beq .1x
 	and.w #$FFFD
 	sta.w pflags,x
-	stz.w temp1,x
+	stz.w temp1,x					; temp1 = 0
 	stz.w temp2,x
-	lda.w #$0008
+	lda.w #$0008					; temp2b = 8
 	sta.w temp2b,x
 .1x:								; temp1,x = temp1,x - d7, if plus go to .2x, ...
-	lda.w temp1,x
+	lda.w temp1,x					; timer
 	sec
-	sbc.b d7
+	sbc.b d7						; minus d7
 	sta.w temp1,x
 	bpl .2x
 	lda.w aidef,x
 	sta.w temp1,x
 .2x:								; ror a, d0 = A, d1 = $0080, ...
-	lda.w puckx
+	lda.w puckx						; puck x
 	pha
-	asl a
+	asl a							; /2
 	pla
 	ror a
-	sta.b d0
-	lda.w #$0080
+	sta.b d0						; target x
+	lda.w #$0080					; target y
 	sta.b d1
-	lda.w pfgoal,x
+	lda.w pfgoal,x					; goal end
 	beq .t2
-	lda.w #$FF80
+	lda.w #$FF80					; bottom end
 	sta.b d1
 	lda.w #$FFA8
-	sec
+	sec								; puck y
 	sbc.w pucky
 	bpl .3
-	lda.w #$FF80
+	lda.w #$FF80					; halfway
 	clc
-	adc.w pucky
+	adc.w pucky						; plus puck y
 	pha
 	asl a
-	pla
+	pla								; /2
 	ror a
 	sta.b d1
 	bra .3
@@ -72,10 +72,10 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	bmi .3
 	lda.b d1
 	clc
-	adc.w pucky
+	adc.w pucky						; plus puck y
 	pha
 	asl a
-	pla
+	pla								; /2
 	ror a
 	sta.b d1
 .3:									; a0 = rtss, go to skateto

@@ -29,7 +29,7 @@ setInjuryType:						; player a2 is injured
 	lda.w #$8000
 	sta.b d1
 	lda.w #$0002					; away team offset 2
-	sta.b a0
+	sta.b a0						; away team offset 2
 .1:									; player number plus the team flag
 	lda.w pnum,y					; player number
 	and.w #$00FF
@@ -40,7 +40,7 @@ setInjuryType:						; player a2 is injured
 	beq .2							; number below $80: no sign extension
 	ora.w #$FF00					; sign extend the player number
 .2:									; times 2 (word entries)
-	asl a
+	asl a							; times 2
 	sta.b d1
 	lda.b a0
 	beq .3							; home team: no extra offset

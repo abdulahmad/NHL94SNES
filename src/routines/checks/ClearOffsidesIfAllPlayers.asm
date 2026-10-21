@@ -11,7 +11,7 @@ ClearOffsidesIfAllPlayers:			; clear the offsides flag when nobody is offside an
 
 .t1:								; flag is set: look at the six players
 	lda.w tmsort,y					; first player of the team
-	sta.b a0
+	sta.b a0						; a0 = first
 	lda.w #$0005					; six players
 	sta.b d1
 .2:									; each player in turn

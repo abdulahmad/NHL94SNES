@@ -40,11 +40,11 @@ EvadePC:							; callback: steer away from the puck carrier
 	lda.w Xpos,x					; d0 = dx from the carrier
 	sec
 	sbc.w puckx
-	sta.b d0
+	sta.b d0						; d0 = dx from the carrier
 	lda.w Ypos,x					; d1 = dy from the carrier
 	sec
 	sbc.w pucky
-	sta.b d1
+	sta.b d1						; d1 = dy from the carrier
 	jml.l vtoa						; direction away from him
 
 .rtl:								; return

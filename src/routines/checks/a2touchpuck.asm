@@ -22,7 +22,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	lda.w pnum,y
 	sta.b d0
 	ldy.b a0
-	cmp.w tmtouch1,y
+	cmp.w tmtouch1,y				; same player as the last touch: no change
 	beq .4
 	lda.w tmflags,y
 	bit.w #$0004
@@ -47,7 +47,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 .3:									; tmtouch1,y = d0, if not zero go to .4, ...
 	lda.b d0
 	sta.w tmtouch1,y
-	cmp.w tmtouch3,y
+	cmp.w tmtouch3,y				; also the third touch: drop it
 	bne .4
 	lda.w #$FFFF
 	sta.w tmtouch3,y
@@ -56,7 +56,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	trb.w sflags
 	jsl.l a2offsides
 	ldy.b a2
-	lda.w iflags
+	lda.w iflags					; ifok and ifcgl and a skater: icing
 	bit.w #$0004
 	beq .8
 	bit.w #$0001
@@ -70,14 +70,14 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	beq .8
 .5:									; a3 = iflags+1 & $00FF * 2, d0 = PenIcing, call AddPenalty, ...
 	phx
-	lda.w iflags+1
+	lda.w iflags+1					; X = icingPlayer
 	and.w #$00FF
 	asl a
 	sta.b a3
 	tax
-	lda.w #PenIcing
+	lda.w #PenIcing					; PenIcing
 	sta.b d0
-	jsl.l AddPenalty
+	jsl.l AddPenalty				; AddPenalty
 	plx
 	stx.b a3
 .6:									; return
@@ -89,7 +89,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	tya
 	lsr a
 	xba
-	sta.w iflags
+	sta.w iflags					; iflags = 0, icingPlayer = a2
 	lda.w pucky
 	sta.b d0
 	lda.w pfgoal,y
@@ -103,7 +103,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 .1x:								; if d0 negative go to .6, ...
 	lda.b d0
 	bmi .6
-	lda.w tmap
+	lda.w tmap						; own team not short-handed?
 	sec
 	sbc.w tmap+2
 	sta.b d0

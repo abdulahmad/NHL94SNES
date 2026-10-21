@@ -4,9 +4,9 @@
 ; assignment is replaced by assignment $13 (assshoot).
 CompShoot:							; computer player X shoots
 	pla								; pop the return address of the caller
-	sep #$20
+	sep #$20						; 8-bit A
 	pla								; (the caller is abandoned)
-	rep #$30
+	rep #$30						; 16-bit registers
 	lda.w pucky						; puck y
 	sta.b d0
 	lda.w pfgoal,x					; which goal he shoots at
@@ -17,10 +17,10 @@ CompShoot:							; computer player X shoots
 	sta.b d0
 .1:									; if carry clear go to .2, ...
 	lda.w #$0108					; $108 minus the puck y
-	sec
+	sec								; distance to the goal line
 	sbc.b d0
 	lsr a							; divided by 8
-	lsr a
+	lsr a							; /8
 	lsr a
 	cmp.w #$0014					; at most 20
 	bcc .2

@@ -11,7 +11,7 @@ checkagr:							; called from Bcheck, checkcheck, holdcheck
 	sta.b d0
 	lda.w playerpad,x
 	bmi .1
-	asl.b d0
+	asl.b d0						; doubles
 .1:									; if minus go to .2, ...
 	lda.w Xpos,x					; x distance
 	sec

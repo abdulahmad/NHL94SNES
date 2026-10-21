@@ -31,7 +31,7 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	and.w #$0003					; front or back?
 	sta.b d1
 	bne .2
-	lda.w seed
+	lda.w seed						; straight in front or behind: random side
 	sta.b d0
 .2:									; eor #$0001, adc d2, asl a, ...
 	lda.b d0						; side bit
@@ -57,7 +57,7 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	lda.b d2
 	cmp.w #$0004
 	beq .3
-	lda.w endurance,y
+	lda.w endurance,y				; endurance
 	sta.b d1
 .3:									; d1 = d1 + $000F, if attribute,y bits $0800 clear go to .4, ...
 	lda.b d1
@@ -156,8 +156,8 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	sbc.w Ypos,y					; minus the goalie y
 	sta.b d1
 	bne .1xxx
-	lda.b a2
-	jsl.l GetHot
+	lda.b a2						; goalie player number
+	jsl.l GetHot					; hot spot offset
 .1xxx:								; if zero go to .2xx, ...
 	lda.b d1
 	and.w #$00FF					; low byte
@@ -165,7 +165,7 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	beq .2xx
 	ora.w #$FF00
 .2xx:								; d1 = A, if d1 = 0 go to .3x, ...
-	sta.b d1
+	sta.b d1						; sign extend
 	lda.b d1
 	beq .3x
 	inc.b d1

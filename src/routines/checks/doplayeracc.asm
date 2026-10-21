@@ -18,7 +18,7 @@ doplayeracc:						; player X skates toward d0
 	sta.b d1
 	lda.w pfrev,x					; skating backwards?
 	beq .1							; not backwards: keep SPAglide
-	lda.w #SPAglideback
+	lda.w #SPAglideback				; glide back animation
 	sta.b d1
 .1:									; low nibble of the wanted direction
 	lda.b d0
@@ -88,7 +88,7 @@ doplayeracc:						; player X skates toward d0
 	eor.w #$0004
 	sta.b d2
 .2:									; already skating backwards?
-	lda.w pfrev,x
+	lda.w pfrev,x					; already skating backwards?
 	bne .t1x						; yes: .t1x
 	lda.b d3						; backwards only in his own half (d3 negative)
 	bpl .4
@@ -136,7 +136,7 @@ doplayeracc:						; player X skates toward d0
 	sta.w pfrev,x
 	bra .9
 .4:									; skate forwards
-	stz.w pfrev,x
+	stz.w pfrev,x					; skate forwards
 .9:									; restore d0 and d1 from the stack
 	pla								; d0 = wanted direction
 	sta.b d0
@@ -196,7 +196,7 @@ doplayeracc:						; player X skates toward d0
 	lda.w #$0180
 	sta.b d4
 .3x:								; turn rate = $300 minus speed, at least $180
-	lda.b tmp0
+	lda.b tmp0						; turn step
 	ldx.b d4
 	jsl.l Mul16x8S
 	lda.b r2+2

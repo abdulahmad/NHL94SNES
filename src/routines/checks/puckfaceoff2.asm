@@ -249,7 +249,7 @@ puckfaceoff2:						; called from asstab
 	lda.w #$0017
 	sta.b d0
 .4x:								; call assinsert
-	jsl.l assinsert
+	jsl.l assinsert					; insert assignment d0
 .5:									; d4 = tmap, if pfteam,x = 0 go to .6, ...
 	lda.w tmap						; d4 = (6-tmap)*8: .apl row
 	sta.b d4
@@ -344,7 +344,7 @@ puckfaceoff2:						; called from asstab
 	sbc.b d3
 	sta.b d0
 .12:								; d0 = d0 + fox, d1 = d1 + foy
-	lda.b d0
+	lda.b d0						; add the faceoff spot
 	clc
 	adc.l fox
 	sta.b d0
@@ -478,7 +478,7 @@ puckfaceoff2:						; called from asstab
 	sta.b d0
 	lda.l fox
 	bpl .7x
-	lda.w #$00BE
+	lda.w #$00BE					; (18*8)+46
 	sta.b d0
 .7x:								; fodropx = d0, printx = d0 - $002E / 2 / 2 / 2, fodropy = $005C, ...
 	lda.b d0
@@ -740,7 +740,7 @@ puckfaceoff2:						; called from asstab
 	ldx.b a3
 	rtl
 .18:								; tmp0 = d7, if minus go to .1xxxxxx, ...
-	lda.b d7
+	lda.b d7						; temp1 -= min(d7, temp1)
 	sta.b tmp0
 	cmp.w temp1,x
 	bmi .1xxxxxx

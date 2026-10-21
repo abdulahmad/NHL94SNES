@@ -65,7 +65,7 @@ Bcheck:								; called from checkcheck
 	sta.b d0
 	jsl.l AddPenalty				; call it
 .2:									; a2 = a3, a3 = a2, collflag = $FFFF, ...
-	ldx.b a2
+	ldx.b a2						; swap back
 	ldy.b a3
 	sty.b a2
 	stx.b a3

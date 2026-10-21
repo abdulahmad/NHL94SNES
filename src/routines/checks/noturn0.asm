@@ -15,7 +15,7 @@ noturn0:							; direction needs no turn: skate, stop or turn one step
 	eor.w #$0008					; flip the direction
 	sta.b d0
 .1:									; d0: 0 = facing the wanted direction
-	lda.b d0
+	lda.b d0						; direction
 	beq .t3							; facing the wanted way: .t3
 	lda.w Xvel,x					; moving: stop if the direction is more than 90 degrees off
 	sta.b d0
@@ -39,7 +39,7 @@ noturn0:							; direction needs no turn: skate, stop or turn one step
 	lda.w attribute,x				; attribute
 	bit.w #$0800
 	beq .1x
-	dec.w facedir,x
+	dec.w facedir,x					; flipped: turn back
 	dec.w facedir,x
 .1x:								; wrap the facing to 0-7
 	lda.w facedir,x					; facing
@@ -75,7 +75,7 @@ noturn0:							; direction needs no turn: skate, stop or turn one step
 	cpx.w puckc
 	bne .2
 	ldy.w #$0000
-	lda.w #SPAskatewp
+	lda.w #SPAskatewp				; skate with the puck
 	sta.b d1
 .2:									; start the animation unless one runs
 	lda.w pf2aip,x					; animation in progress?

@@ -24,13 +24,13 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b
-	lda.w seed
+	lda.w seed						; random 0-3
 	and.w #$0003
 	sta.w temp3,x
 .1x:								; temp1,x = temp1,x - d7, if plus go to .3, ...
-	lda.w temp1,x
+	lda.w temp1,x					; every aioff frames: checkob, chk4lc, chk4shot, chk4pass
 	sec
-	sbc.b d7
+	sbc.b d7						; minus the frame count
 	sta.w temp1,x
 	bpl .3
 	adc.w aioff,x
@@ -39,7 +39,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	lda.w #$0000
 .3x:								; temp1,x = A, call checkob, if breakaway = 0 go to .t1x, ...
 	sta.w temp1,x
-	jsl.l checkob
+	jsl.l checkob					; check the other team
 	lda.w breakaway
 	beq .t1x
 	lda.w Ypos,x
@@ -63,9 +63,9 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	lda.w asscur,x
 	cmp.w #$0011
 	bne .3
-	jsl.l chk4pass
+	jsl.l chk4pass					; pass
 .3:									; d0 = $0006 + temp3,x, a0 = PuckcSpots, if sflags bits $8000 clear go...
-	lda.w #$0006
+	lda.w #$0006					; spot index 6
 	clc
 	adc.w temp3,x
 	sta.b d0
@@ -77,20 +77,20 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	bit.w #$8000
 	beq .2xx
 .1xx:								; d0 = position,x
-	lda.w position,x
+	lda.w position,x				; position index
 	sta.b d0
 .2xx:								; d0 = [a0],y, Y + 1, Y + 1, ...
-	lda.b d0
+	lda.b d0						; d0/d1 = spot x/y, negated for pfgoal clear
 	asl a
 	asl a
 	tay
-	lda.b [a0],y
+	lda.b [a0],y					; spot x
 	sta.b d0
 	iny
 	iny
-	lda.b [a0],y
+	lda.b [a0],y					; spot y
 	sta.b d1
-	lda.w pfgoal,x
+	lda.w pfgoal,x					; which end
 	bne .3xx
 	lda.w #$0000
 	sec
@@ -105,27 +105,27 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	sta.b a0+2
 	lda.w #.chkdir
 	sta.b a0
-	jml.l skateto
+	jml.l skateto					; d0/d1 = target, a0 = callback
 .10:								; return
 	rtl
 .chkdir:							; skateto callback: turn away from an opponent near where the puck will be
-	lda.b d0
+	lda.b d0						; direction from skateto
 	and.w #$00FF
 	bit.w #$0080
 	beq .2xxx
 .1xxx:								; ora #$FF00
 	ora.w #$FF00
 .2xxx:								; d0 = A, if zero go to .3xxx, ...
-	sta.b d0
-	lda.w Xvel+1,x
+	sta.b d0						; d2/d3 = puck + velocity
+	lda.w Xvel+1,x					; x velocity high byte
 	and.w #$00FF
 	bit.w #$0080
 	beq .3xxx
 	ora.w #$FF00
 .3xxx:								; adc puckx, d2 = A, if zero go to .4x, ...
 	clc
-	adc.w puckx
-	sta.b d2
+	adc.w puckx						; plus the puck x
+	sta.b d2						; d2 = future puck x
 	lda.w Yvel+1,x
 	and.w #$00FF
 	bit.w #$0080
@@ -133,19 +133,19 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	ora.w #$FF00
 .4x:								; adc pucky, d3 = A, threat = 0, ...
 	clc
-	adc.w pucky
-	sta.b d3
-	stz.w threat
-	lda.w #$0005
+	adc.w pucky						; plus the puck y
+	sta.b d3						; d3 = future puck y
+	stz.w threat					; no threat yet
+	lda.w #$0005					; 6 opponents
 	sta.b d4
-	stz.b a0
+	stz.b a0						; the 6 opponents
 	cpx.w #$000C
 	bcs .6
 .5:									; a0 = $000C
 	lda.w #$000C
 	sta.b a0
 .6:									; loop: if zero go to .7, ...
-	ldy.b a0
+	ldy.b a0						; opponent
 	lda.w Xvel+1,y
 	and.w #$00FF
 	bit.w #$0080
@@ -153,9 +153,9 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	ora.w #$FF00
 .7:									; adc Xpos,y, sbc d2, if minus go to .9, ...
 	clc
-	adc.w Xpos,y
+	adc.w Xpos,y					; plus his x
 	sec
-	sbc.b d2
+	sbc.b d2						; minus the future puck x
 	cmp.w #$FFEB
 	bmi .9
 	cmp.w #$0015
@@ -167,15 +167,15 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	ora.w #$FF00
 .8:									; adc Ypos,y, sbc d3, if minus go to .9, ...
 	clc
-	adc.w Ypos,y
+	adc.w Ypos,y					; plus his y
 	sec
-	sbc.b d3
+	sbc.b d3						; minus the future puck y
 	cmp.w #$FFEB
 	bmi .9
 	cmp.w #$0015
 	bpl .9
-	inc.w threat
-	lda.w Xpos,x
+	inc.w threat					; threat +1; facing straight at it: turn one step either way
+	lda.w Xpos,x					; vector from him to X
 	sec
 	sbc.w Xpos,y
 	sta.b d0
@@ -183,21 +183,21 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	sec
 	sbc.w Ypos,y
 	sta.b d1
-	jsl.l vtoa
-	lda.w facedir,x
+	jsl.l vtoa						; vector to direction
+	lda.w facedir,x					; X's facing
 	eor.w #$0004
-	cmp.b d0
+	cmp.b d0						; facing straight at him?
 	bne .9
-	lda.w seed+2
-	and.w #$0001
+	lda.w seed+2					; random
+	and.w #$0001					; one step either way
 	clc
 	adc.b d0
-	and.w #$0007
+	and.w #$0007					; new direction
 	sta.b d0
 .9:									; increment a0, increment a0, decrement d4, ...
+	inc.b a0						; next opponent
 	inc.b a0
-	inc.b a0
-	dec.b d4
+	dec.b d4						; opponents left
 	bmi .t1xx
 	jmp.w .6
 

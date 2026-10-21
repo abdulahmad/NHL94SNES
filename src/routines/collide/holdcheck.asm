@@ -96,12 +96,12 @@ holdcheck:							; called from checkcheck
 	lda.w SPA,x						; holding or hooking by the animation
 	cmp.w #SPAHold2					; hold?
 	beq .1x
-	lda.w #PenHooking
+	lda.w #PenHooking				; hooking penalty
 	sta.b d0
 .1x:								; call AddPenalty
-	jsl.l AddPenalty
+	jsl.l AddPenalty				; call it
 .2:									; a2 = a3, a3 = a2, collflag = $FFFF, ...
-	ldx.b a2
+	ldx.b a2						; swap back
 	ldy.b a3
 	sty.b a2
 	stx.b a3
