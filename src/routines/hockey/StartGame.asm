@@ -34,7 +34,7 @@ StartGame_go:						; called from PlayShootout
 	jsl.l clearTeamStats
 	jsl.l restoreteams
 	jsl.l InitScores
-	lda.w #$007E
+	lda.w #ReplayBufferStart>>16
 	sta.w ReplayBufferPtr+2
 	lda.w #ReplayBufferStart
 	sta.w ReplayBufferPtr

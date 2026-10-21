@@ -26,11 +26,11 @@ updatereplay:						; called from DoGameFrame
 	cmp.w #ReplayBufferEnd
 	bne .2
 	lda.w ReplayBufferPtr+2
-	cmp.w #$007E
+	cmp.w #ReplayBufferEnd>>16
 	bne .2
 	lda.w #$0010
 	tsb.w sflags
-	lda.w #$007E
+	lda.w #ReplayBufferStart>>16
 	sta.w ReplayBufferPtr+2
 	lda.w #ReplayBufferStart
 	sta.w ReplayBufferPtr

@@ -5,7 +5,7 @@ Pausemode:							; called from Gameloop, PlayShootout
 	sta.b p0+2
 	lda.w #textmap
 	sta.b p0
-	lda.w #$007E
+	lda.w #Ram7E>>16
 	sta.b p1+2
 	lda.w #$4F7E
 	sta.b p1
@@ -63,7 +63,7 @@ Pausemode:							; called from Gameloop, PlayShootout
 	jsl.l forceblack
 	jsl.l SoundInit
 	phx
-	lda.w #$007E
+	lda.w #Ram7E>>16
 	sta.b p0+2
 	lda.w #$4F7E
 	sta.b p0

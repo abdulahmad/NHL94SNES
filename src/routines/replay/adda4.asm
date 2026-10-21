@@ -47,9 +47,9 @@ adda43:								; called from adda4
 	cmp.w #ReplayBufferEnd
 	bne .rtl
 	lda.b a4+2
-	cmp.w #$007E
+	cmp.w #ReplayBufferEnd>>16
 	bne .rtl
-	lda.w #$007E
+	lda.w #ReplayBufferStart>>16
 	sta.b a4+2
 	lda.w #ReplayBufferStart
 	sta.b a4

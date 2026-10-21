@@ -20,7 +20,7 @@ FigureJoy:							; set which team each controller plays
 
 .t3:								; playoffs: find the series of the user's team
 	jsl.l GetShifter				; d1 = games - 1
-	lda.w #$007E					; a0 = the playoff team table
+	lda.w #potree>>16				; a0 = the playoff team table
 	sta.b a0+2
 	lda.w #potree
 	sta.b a0

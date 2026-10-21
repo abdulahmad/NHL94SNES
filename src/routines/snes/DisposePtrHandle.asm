@@ -8,7 +8,7 @@ DisposePtrHandle:					; free handle A unless it is a heap block
 	lda.l Ram7E+2,x
 	cmp.w #Ram7E>>16
 	beq .exit
-	cmp.w #$007F
+	cmp.w #Ram7F>>16
 	beq .exit
 	lda.w #$0000
 	sta.l Ram7E,x

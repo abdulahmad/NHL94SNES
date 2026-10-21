@@ -9,7 +9,7 @@ FillScoringPage:					; called from ShowScoringSummary
 	clc
 	adc.l printfontset
 	jsl.l MemFill
-	lda.w #$007E
+	lda.w #ScoreSum>>16
 	sta.b a3+2
 	lda.w #ScoreSum
 	sta.b a3

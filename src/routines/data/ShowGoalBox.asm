@@ -30,7 +30,7 @@ ShowGoalBox:						; called from SetPA
 	inc.b a2
 	inc.b a2
 	jsl.l lcfound2
-	lda.w #$007E
+	lda.w #ScoreSum>>16
 	sta.b a4+2
 	lda.w #ScoreSum-6
 	clc

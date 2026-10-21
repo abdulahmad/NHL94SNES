@@ -172,7 +172,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	sbc.w #$0006
 	sta.l ScoreSumbytes
 .3x:								; append to the score summary (6 bytes per goal, 100 goals at most)
-	lda.w #$007E
+	lda.w #ScoreSum>>16
 	sta.b a0+2
 	lda.w #ScoreSum
 	clc

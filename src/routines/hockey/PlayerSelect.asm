@@ -28,14 +28,14 @@ PlayerSelect:						; called from setoptions
 	rep #$20
 	lda.w #$FFFC
 	sta.w BG3VScroll
-	lda.w #$007E
+	lda.w #screenmap>>16
 	sta.b p1+2
-	lda.w #$A676
+	lda.w #screenmap+6
 	sta.b p1
 	lda.w #$0000
 	ldx.w #$0800
 	jsl.l MemFill
-	lda.w #$007E
+	lda.w #screenmap>>16
 	sta.b p0+2
 	lda.w #$A676
 	sta.b p0

@@ -184,7 +184,7 @@ ShowThreeStars:						; called from InProgress
 	sta.w star3score
 	lda.w #$FFFF
 	sta.w otgoalscorer
-	lda.w #$007E
+	lda.w #ScoreSum>>16
 	sta.b a1+2
 	lda.w #ScoreSum-6
 	sta.b a1

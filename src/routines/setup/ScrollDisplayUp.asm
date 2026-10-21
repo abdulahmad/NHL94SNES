@@ -18,9 +18,9 @@ ScrollDisplayUp:					; scroll the scouting text up
 	dec.w VertLineScrolling			; undo the increment: the count stays at 8
 	lda.w #$0007					; 8 rows (r3 counts 7 to 0)
 	sta.b r3
-	lda.w #$007E					; p1 = text map row at textmap+$384
+	lda.w #textmap>>16				; p1 = text map row at textmap+$384
 	sta.b p1+2
-	lda.w #$3B78
+	lda.w #textmap+$384
 	sta.b p1
 	lda.b p1+2						; p0 bank = same
 	sta.b p0+2

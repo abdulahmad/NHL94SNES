@@ -53,17 +53,17 @@ ReplayMode:							; called from PauseReplay
 	lda.w ReplayBufferPtr
 	cmp.w #ReplayBufferStart
 	lda.w ReplayBufferPtr+2
-	sbc.w #$007E
+	sbc.w #ReplayBufferStart>>16
 	bcs .1
 .loop:								; loop: ReplayBufferPtr+2 = $007E, ReplayBufferPtr = ReplayBufferStart
-	lda.w #$007E
+	lda.w #ReplayBufferStart>>16
 	sta.w ReplayBufferPtr+2
 	lda.w #ReplayBufferStart
 	sta.w ReplayBufferPtr
 .1:									; if carry clear go to .loop, ...
 	lda.w #ReplayBufferEnd
 	cmp.w ReplayBufferPtr
-	lda.w #$007E
+	lda.w #ReplayBufferEnd>>16
 	sbc.w ReplayBufferPtr+2
 	bcc .loop
 	lda.w ReplayBufferPtr
@@ -71,7 +71,7 @@ ReplayMode:							; called from PauseReplay
 	sbc.w #ReplayBufferStart
 	sta.b r2
 	lda.w ReplayBufferPtr+2
-	sbc.w #$007E
+	sbc.w #ReplayBufferStart>>16
 	sta.b r2+2
 	lda.w #replaysize
 	sta.b r1

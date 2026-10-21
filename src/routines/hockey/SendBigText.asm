@@ -4,9 +4,9 @@ SendBigText:						; called from PlayerSelect
 	lda.w #$0020
 	sta.l screenmap+6
 	sta.l screenmap+8
-	lda.w #$007E
+	lda.w #screenmap>>16
 	sta.b p0+2
-	lda.w #$A676
+	lda.w #screenmap+6
 	sta.b p0
 	lda.w #$0800
 	sta.w MapVRAM
