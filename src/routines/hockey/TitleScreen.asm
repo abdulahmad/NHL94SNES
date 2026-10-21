@@ -554,9 +554,9 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	sta.b p0+2
 	lda.w #TitlePuckMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #introbuf>>16
 	sta.b p1+2
-	lda.w #$4000
+	lda.w #introbuf
 	sta.b p1
 	jsl.l Decompress
 	lda.b p1

@@ -163,9 +163,9 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b p0+2
 	lda.w #CardPictureMap
 	sta.b p0
-	lda.w #$007F
+	lda.w #picboxmap>>16
 	sta.b p1+2
-	lda.w #$7780
+	lda.w #picboxmap
 	sta.b p1
 	jsl.l Decompress
 	lda.l picboxmap					; r3 = bytes per row, x = rows; skip the 3 header words

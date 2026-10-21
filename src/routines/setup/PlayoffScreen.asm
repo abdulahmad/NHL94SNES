@@ -245,9 +245,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	clc
 	adc.w #$0070
 	sta.l cupchars
-	lda.w #$007F
+	lda.w #brackettiles>>16
 	sta.b p0+2
-	lda.w #$6700
+	lda.w #brackettiles
 	sta.b p0
 	ldx.w #$0E00
 	ldy.w #$FFFF

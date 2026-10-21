@@ -192,9 +192,9 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
-	lda.w #$007F
+	lda.w #(logoboxmap+$6)>>16
 	sta.b p1+2
-	lda.w #$7706
+	lda.w #logoboxmap+$6
 	sta.b p1
 	lda.w #$0007
 	sta.b r7

@@ -421,9 +421,9 @@ org $9DC002
 	ldx.w #$0600
 	jsl.l DMAToVRAM					; send to VRAM
 	jsl.l SendTextMap				; send the text map
-	lda.w #$007F					; DMA the card to the map
+	lda.w #picboxmap>>16			; DMA the card to the map
 	sta.b p0+2
-	lda.w #$7780
+	lda.w #picboxmap
 	sta.b p0
 	lda.w #$0400
 	sta.w MapVRAM

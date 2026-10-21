@@ -15,9 +15,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0001
 	ldy.w #$0001
 	jsl.l DrawPlayerPicture
-	lda.w #$007F
+	lda.w #picboxmap>>16
 	sta.b p0+2
-	lda.w #$7780
+	lda.w #picboxmap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -54,9 +54,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0001
 	ldy.w #$0001
 	jsl.l ClearPictureBox
-	lda.w #$007F
+	lda.w #logoboxmap>>16
 	sta.b p0+2
-	lda.w #$7700
+	lda.w #logoboxmap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -80,9 +80,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0018
 	ldy.w #$0001
 	jsl.l DrawPlayerPicture
-	lda.w #$007F
+	lda.w #picboxmap>>16
 	sta.b p0+2
-	lda.w #$7780
+	lda.w #picboxmap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -119,9 +119,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0018
 	ldy.w #$0001
 	jsl.l ClearPictureBox
-	lda.w #$007F
+	lda.w #logoboxmap>>16
 	sta.b p0+2
-	lda.w #$7700
+	lda.w #logoboxmap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
