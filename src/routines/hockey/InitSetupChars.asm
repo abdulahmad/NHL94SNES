@@ -11,7 +11,7 @@ InitSetupChars:						; set the tile numbers and load the font of the setup scree
 	ldy.w #$3000
 	ldx.w #$0020
 	jsl.l FillVRAM
-	lda.w #SmallFontTiles>>16		; unpack SmallFontTiles to $7F0000
+	lda.w #SmallFontTiles>>16		; unpack SmallFontTiles to unpackbuf
 	sta.b p0+2
 	lda.w #SmallFontTiles
 	sta.b p0

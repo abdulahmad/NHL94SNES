@@ -2,7 +2,7 @@
 
 LicenceNHLPAMap:					;packed for DecompressLZ: unpacked, three words (10, 12, 16) and then 10 x
 									;12 bytes, a byte map. TitleScreen
-			;   unpacks it to $7F0000 and later puts it over LicenceNHLMap at column 60, row 60
+			;   unpacks it to unpackbuf and later puts it over LicenceNHLMap at column 60, row 60
 			;     (Mode7MapToVRAM)
 	db $10,$FB
 	db $00,$00,$7E

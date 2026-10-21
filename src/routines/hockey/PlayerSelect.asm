@@ -1,5 +1,5 @@
 ; The player select screen after the game setup: each pad moves its icon under the visitors or home team
-; ($1C84-$1C8C), start goes on
+; (cont1team-cont5team), start goes on
 PlayerSelect:						; called from setoptions
 	stz.w cont1team
 	stz.w cont2team

@@ -1,5 +1,5 @@
-; Title: lower the mode 7 scale $0BFB (M7A / M7D) to $100 a step at a time (TitleDelay); .t2 raises it back to
-; $200
+; Title: lower the mode 7 scale TitleM7Scale (M7A / M7D) to $100 a step at a time (TitleDelay); .t2 raises it
+; back to $200
 TitleZoomIn:						; no input; called from TitleScreen
 	lda.w TitleM7Scale				; current scale
 .loop:								; one step

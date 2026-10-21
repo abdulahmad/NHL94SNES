@@ -1,5 +1,5 @@
-; Each frame: step the sound effect voices (owner $08FA $10 and up): their time and envelope counters, the
-; voice commands, and StopVoice when one ends
+; Each frame: step the sound effect voices (owner VoiceTrack $10 and up): their time and envelope counters,
+; the voice commands, and StopVoice when one ends
 ; Takes nothing. For each of the 8 voices in use (Y = voice, X = 2*voice): voices of tracks $10 and up are
 ; updated with UpdateVoice, VoiceAge counts up, and between the instrument's vibrato start and end ages the
 ; vibrato offset VoiceVibOfs is stepped. Then by voice state: state 2 sends the pitch (SeqCmd0B), state 4

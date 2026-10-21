@@ -1,7 +1,7 @@
 ; read the five pads: pads 1 and 2 from the auto read, pads 3 to 5 through the multitap
 Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 to 5 through
 									;the multitap
-			;   on port 2 when $1A0C is set
+			;   on port 2 when mp5present is set
 	php
 	sep #$20
 	rep #$10

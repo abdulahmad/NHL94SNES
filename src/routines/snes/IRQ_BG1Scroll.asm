@@ -1,4 +1,4 @@
-; IRQ hook: BG1 vertical scroll from $07E0, then the next hook
+; IRQ hook: BG1 vertical scroll from BG3VScroll, then the next hook
 ;
 ; Takes nothing; runs from IRQ_Fast through IRQHook. Not installed by any routine in the ROM. Writes the
 ; BG3VScroll word to BG1VOFS, then the .t1 hook runs at line $30.

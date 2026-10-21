@@ -1,5 +1,5 @@
-; Print string [a1] at printx / printy into the stats page buffer ($7F2780, 32 wide) through the SmallFontMap
-; character map
+; Print string [a1] at printx / printy into the stats page buffer (statspage, 32 wide) through the
+; SmallFontMap character map
 PrintToStatsPage:					; a1 = string, printx / printy = cell; returns nothing
 	phx								; keep x
 	lda.w #$0020					; r7 = buffer width, 32 cells

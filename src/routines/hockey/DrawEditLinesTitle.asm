@@ -1,5 +1,5 @@
-; Line editor: the EditLinesLabel title sprites, the team name and picture; the background first when $7E3468
-; is set
+; Line editor: the EditLinesLabel title sprites, the team name and picture; the background first when
+; drawlinesback is set
 DrawEditLinesTitle:					; called from DrawEditLinesTop, PrintLinePlayers
 	lda.l drawlinesback
 	beq .1

@@ -1,4 +1,4 @@
-; Print the selected line name and attribute column ($0D47, wrapping) and each player of the line with
+; Print the selected line name and attribute column (DispAttribCtr, wrapping) and each player of the line with
 ; GetNameandAttrib
 ; Takes a2 = team offset, SelectedPlayerIdx = line (0 = goalies), DispAttribCtr = attribute column. Prints
 ; the line name and the column title, clears the area below and prints each player of the line with

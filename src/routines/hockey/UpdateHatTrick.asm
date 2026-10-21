@@ -1,4 +1,4 @@
-; While $7E3448 is set (not in horizontal mode or a replay): launch and move the ten hat trick sprites on
+; While hattrick is set (not in horizontal mode or a replay): launch and move the ten hat trick sprites on
 ; random arcs and draw them
 UpdateHatTrick:						; called from showcrowd
 	lda.w sfhormode

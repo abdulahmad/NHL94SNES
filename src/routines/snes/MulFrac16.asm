@@ -1,4 +1,4 @@
-; A * Y / 128 into A and $43; bit 6 of $07E2 set: shift-and-add loop instead of the mode 7 multiplier
+; A * Y / 128 into A and $43; bit 6 of Mode7InUse set: shift-and-add loop instead of the mode 7 multiplier
 MulFrac16:							; called from StartSoundVoice, StepTrack
 	bit.w Mode7InUse-1
 	bvc .hw

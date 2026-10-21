@@ -1,5 +1,5 @@
-; End the penalty shot or shootout attempt in progress ($163A and $1E9B): clear it, no shooter, ShootoutWonBy
-; 10, put back the saved scores
+; End the penalty shot or shootout attempt in progress (PenShotActive and penshot): clear it, no shooter,
+; ShootoutWonBy 10, put back the saved scores
 EndPenaltyShot:						; called from Gameloop, Goal, clockcont_0, puckglue, pucknorm_move and...
 	lda.w PenShotActive
 	beq .rtl

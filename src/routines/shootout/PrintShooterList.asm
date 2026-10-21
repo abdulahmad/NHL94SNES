@@ -1,6 +1,6 @@
 ; Shootout shooters: the player list rows
-PrintShooterList:					;draw the ShooterSelectList list: the title of rating column $0D47, the
-									;scroll marks, the rows
+PrintShooterList:					;draw the ShooterSelectList list: the title of rating column
+									;DispAttribCtr, the scroll marks, the rows
 	lda.b a1+2
 	pha
 	lda.b a1

@@ -1,5 +1,5 @@
-; Title: count $07D6 down, moving the window edges WH1 ($0BCB) and WH3 ($0BCF) each step (TitleDelay), then
-; close them ($FF)
+; Title: count BG1HScroll down, moving the window edges WH1 (TitleWH1) and WH3 (TitleWH3Low) each step
+; (TitleDelay), then close them ($FF)
 TitleWindowWipe:					; no input; called from TitleScreen
 	lda.w BG1HScroll				; counter in BG1HScroll
 .loop:								; one step

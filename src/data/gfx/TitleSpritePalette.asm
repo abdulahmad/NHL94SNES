@@ -1,5 +1,5 @@
-; The title sprite colours, unpacked to $7F0100 (colours 128 up, the sprite palettes) before TitlePalette goes
-; to CGRAM
+; The title sprite colours, unpacked to unpackbuf+$100 (colours 128 up, the sprite palettes) before
+; TitlePalette goes to CGRAM
 
 TitleSpritePalette:					; colours packed for DecompressLZ, loaded into CGRAM by a screen setup
 	db $10,$FB

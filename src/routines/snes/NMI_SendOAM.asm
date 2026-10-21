@@ -85,7 +85,7 @@ NMI_Tick:							; called from NMI_HookReturn, NMI_SendOAM
 	stz.w FrameHookNext
 	ldx.w FrameHookNext+2
 	stx.w FrameHook+2
-.2x:								; go to [$0789]
+.2x:								; go to [FrameHook]
 	ldx.b #$80
 	phx
 	pea.w NMI_FrameHookReturn-1		; rtl from the hook lands on the next line

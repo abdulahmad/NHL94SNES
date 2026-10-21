@@ -1,5 +1,5 @@
-; At the blue line: CheckBreakaway into $1E8B; a new breakaway queues sound 5, raises CwdExciteLvl by 20 and
-; counts it for the team ($17C2)
+; At the blue line: CheckBreakaway into breakaway; a new breakaway queues sound 5, raises CwdExciteLvl by 20
+; and counts it for the team (tmBreakaways)
 StartBreakaway:						; called from ChkOffsides_blue, ChkOffsides_other
 	jsl.l CheckBreakaway
 	lda.w IsBreakaway

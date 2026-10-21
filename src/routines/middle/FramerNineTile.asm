@@ -1,5 +1,5 @@
 ; Framer with a nine-tile box (FramerNineTileMap: eight border tiles and a centre tile, no flips) from tile
-; set $7E35BE
+; set ninetilechars
 FramerNineTile:						; called from ShowCrowdMeter
 	phx
 	phy

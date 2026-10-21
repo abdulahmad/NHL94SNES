@@ -1,4 +1,4 @@
-; Wait for the next frame ($0764 changes)
+; Wait for the next frame (FrameCount changes)
 ; Takes nothing, returns when FrameCount has changed (it is incremented by the NMI).
 ;
 ; Called from SetupScreen, SelectLinePlayer, TeamRoster, setoptions and many others.

@@ -93,7 +93,8 @@ rostnum		=	$13C3
 spodds		=	$13E3				; shot / pass odds
 stickhand	=	$1403
 endurance	=	$1423				; endurance (goalies: stick save right)
-GGSleft		=	$1443				; goalie glove save left
+aggress		=	$1443				; aggression: penalty odds (goalies: glove save left)
+GGSleft		=	aggress				; goalie glove save left (92 name), puckgoalie
 fighting	=	$1463				; fighting rating (stored; 94S has no fights; 93 $74)
 checking	=	$1483				; checking rating (check odds; 93 $75)
 handed		=	$14A3				; nonzero: right handed
@@ -439,8 +440,8 @@ PWCharStr		=	$0A4A			;PasswordScreen: a one-character print string (length word 
 									;PasstoText character) printed ...
 PushWidthBuf	=	$0A8E			;PushNumberWrap/PushNumberWidth: length word (digits + 2), then 8
 									;characters ($0A90-$0A97) set to spaces ...
-gamefps			=	$0A98			;Gameloop: $1D6D (game frames since the faceoff) * 60 / $0764 (NMI frames
-									;since the faceoff) = game frames ...
+gamefps			=	$0A98			;Gameloop: gameframes (game frames since the faceoff) * 60 / FrameCount
+									;(NMI frames since the faceoff) = game frames ...
 padchangeany	=	$0AC2			;ReadPads: OR of the five padchange words; ReadAnyPad returns it in d1;
 									;SaveRegsStartHL2 clears it.
 repeatdelay		=	$0AC4			;ProcessInputWithRepeat: frames to the next key repeat (dec, reload 6 / 20
@@ -464,11 +465,11 @@ PadControlObj	=	$0AE7			;setpads stores SCnum of the player each marker slot fol
 fopadfirst		=	$0AF5			;FaceoffPads: per team (home here, away +2) the first pad given a player
 									;(findpc) at the last faceoff; the ...
 padsitnext		=	$0AF9			;asspenalty/assepen/FaceoffPads, indexed by team (a2): round-robin pad
-									;index for sitting a pad out ($19F6 ...
+									;index for sitting a pad out (padside ...
 puckpadnext		=	$0AFD			;PuckCarrierPad/puckfaceoff2, indexed by team: the pad that last got the
 									;puck carrier, the round-robin ...
-passpad			=	$0B01			;dopass stores the passer's pad ($19D4,x) per team (a2); puckglue gives
-									;that pad to the pass receiver ...
+passpad			=	$0B01			;dopass stores the passer's pad (playerpad,x) per team (a2); puckglue
+									;gives that pad to the pass receiver ...
 goalieflags		=	$0B05			;Per player (12): assgoalie/assgoalietopuck set bits 1,2 and clear bit 2
 									;inside the crease, bit 1 near the ...
 asscur			=	$0B7D			;Per object: the assignment number being run (the asslist entry at
@@ -499,27 +500,28 @@ TitleWH3Low		=	$0BCF			;Title: the WH3 edge .irq1 writes for the band below line
 									;TitleWindowWipe moves it.
 TitleBGMode		=	$0BD1			; Title: the BGMODE the frame hook writes for the top band (9, then 1).
 TitleM7TM		=	$0BD3			; Title: the TM value .irq2 writes for the mode 7 band ($11 / $10).
-TitleTeamIdx	=	$0BD5			;ShuffleTitleTeams fills the 26 team list at $7EF000 (it is the byte count
-									;while filling); NextTitleTeam ...
+TitleTeamIdx	=	$0BD5			;ShuffleTitleTeams fills the 26 team list at titleteams (it is the byte
+									;count while filling); NextTitleTeam ...
 CreditStep		=	$0BD9			;StartCredits/RollCredits: credits state (0 scroll title and name, 1
 									;scroll name, 2 hold, 3 done).
-CreditTime		=	$0BDB			; RollCredits: the $0764 frame count at which the next credits step runs.
+CreditTime		=	$0BDB			; RollCredits: the FrameCount frame count at which the next credits step
+									;runs.
 CreditTitleIdx	=	$0BDD			; RollCredits: index into CreditTitles.
 CreditTitleY	=	$0BDF			;RollCredits: screen y of the credit title
 									;(PrintStringSprites), scrolls up from $E0.
 CreditNameIdx	=	$0BE1			; RollCredits: index into CreditNames.
 CreditNameY		=	$0BE3			; RollCredits: screen y of the credit name, scrolls up from $F0.
 LogoSrcOfs		=	$0BE5			;LoadTitleLogo: source offset of the logo row being unpacked (+$20 a row).
-LogoDstOfs		=	$0BE7			;LoadTitleLogo: offset into the $7FA000 mode 7 buffer of that row (+$40 a
-									;row).
+LogoDstOfs		=	$0BE7			;LoadTitleLogo: offset into the titlelogobuf mode 7 buffer of that row
+									;(+$40 a row).
 goaliedivewait	=	$0BEB			;Per player: assgoalie sets $168 after a dive and $F0 after a poke check;
 									;updateplayers counts it down by ...
 TitleSkipMask	=	$0BEB			;Title: the frame hook ends the title (titleskip) when JoyPad has a bit of
 									;it; 0 at first, $F0C0 once the ...
 LogoPalBits		=	$0BED			;LoadTitleLogo: the palette bits ($60 or $70) ORed into every unpacked
 									;logo pixel.
-TitlePathPos	=	$0BEF			;TitleScreen .6: integer part of the logo path position ($0BF1 carries
-									;into it); with TitlePathFrac+1 it ...
+TitlePathPos	=	$0BEF			;TitleScreen .6: integer part of the logo path position (TitlePathFrac
+									;carries into it); with TitlePathFrac+1 it ...
 TitlePathFrac	=	$0BF1			; TitleScreen .6: fraction of the path position (+$0C00 a frame).
 TitleM7X		=	$0BF3			; Title .irq2 writes it to M7X (low, then $0BF4 high).
 TitleM7Y		=	$0BF5			; Title .irq2 writes it to M7Y.
@@ -549,14 +551,14 @@ replaylock		=	$0CAB			;ReplayMode: object the replay camera / cursor locks onto;
 									;(follows PadControlObj slot 0 or ...
 recsfx			=	$0CAD			;QueueSound: the sound queued this frame ($FFFF none) for the replay
 									;record; updatereplay records it ...
-recsfxpitch		=	$0CAF			;StartSoundVoice / PuckSfx / updatepwrplay store the voice pitch ($094A)
-									;of the recorded sound; ReplayMode ...
-recsfxvol		=	$0CB1			;StartSoundVoice stores the sound's volume ($093A); ReplayMode puts it in
-									;$64 (the volume in the high byte) ...
+recsfxpitch		=	$0CAF			;StartSoundVoice / PuckSfx / updatepwrplay store the voice pitch
+									;(VoicePitch) of the recorded sound; ReplayMode ...
+recsfxvol		=	$0CB1			;StartSoundVoice stores the sound's volume (VoiceGain); ReplayMode puts it
+									;in $64 (the volume in the high byte) ...
 recsfx2			=	$0CB3			;QueueSound moves recsfx here when a second sound comes in the same frame;
 									;recorded and replayed like recsfx.
 recsfxpitch2	=	$0CB5			;QueueSound copies recsfxpitch here with recsfx2; ReplayMode restores
-									;$094A from it.
+									;VoicePitch from it.
 recsfxvol2		=	$0CB7			; QueueSound copies recsfxvol here; ReplayMode loads $64 from it.
 replaynewframe	=	$0CB9			;RestoreReplayFrame increments it, ReplayMode clears it after drawing;
 									;showcrowd animates during a replay ...
@@ -565,6 +567,8 @@ replaymusic		=	$0CBB			;PauseReplay saves MusicOn here; at the end of ReplayMode
 replayHpos		=	$0CBD			;ReplayMode: the replay camera x, eased toward the locked object / cursor
 									;(4 or 2 a frame, clamped) and ...
 replayVpos		=	$0CBF			; ReplayMode: the replay camera y, eased the same way and written to Vpos.
+camobj			=	$0020			; ReplayMode: object slot used as the replay camera (Xpos / Ypos and the
+									; wall check, as 93G CameraPosStruct)
 percue			=	$0CC1			;StartPer sets $FFFF (cleared in some modes); puckfaceoff2 then plays team
 									;song slot 0 (the period start ...
 cursong			=	$0CC3			;PlayTeamSong stores the TeamSongs slot + 1 of the song started; the SPC
@@ -589,53 +593,55 @@ sprvflip		=	$0CD3			;addframe parameter: nonzero = y flip (attribute $8000); set
 DecompBuf			=	$0100		;DecompressPairs / DecompressHuffman scratch (pair flags, the Huffman
 									;symbol list): the DMAQueue RAM
 DMAQueue			=	$0100		; Ring of 128 8-byte VRAM transfer entries: ...
-DecompTab1			=	$0500		;DecompressPairs: first byte of each pair code (sta $0500,x, read in the
-									;expand loop); DecompressHuffman: ...
-DecompTab2			=	$0600		;DecompressPairs: second byte of each pair code (sta $0600,x);
+DecompTab1			=	$0500		;DecompressPairs: first byte of each pair code (sta DecompTab1,x, read in
+									;the expand loop); DecompressHuffman: ...
+DecompTab2			=	$0600		;DecompressPairs: second byte of each pair code (sta DecompTab2,x);
 									;DecompressHuffman: code-length jump index of ...
-HuffCount			=	$0700		;DecompressHuffman header loop: sta $0700,x = number of codes of each
+HuffCount			=	$0700		;DecompressHuffman header loop: sta HuffCount,x = number of codes of each
 									;length (x = 2*length, 16 words), ...
-HuffOffset			=	$0720		;DecompressHuffman: sta $0720,x = first code minus symbols so far, per
-									;length; long-code decode does sbc ...
-HuffLimit			=	$0740		;DecompressHuffman: sta $0740,x = left-justified code limit per length;
-									;long-code decode compares against ...
-HuffLongVec			=	$0760		;DecompressHuffman: sta $0760 = compare-chain entry chosen by the longest
-									;code length; jmp ($0760) for ...
-FrameCount			=	$0764		;NMI_SendOAM inc $0764 each NMI (unless $0787); WaitFrame waits for it to
-									;change; Reset_Fast clears it; ...
-CGDMALen			=	$0768		;DMAToCGRAM (screen on) stores colours*2 at $0768; NMI_HookReturn DMAs
+HuffOffset			=	$0720		;DecompressHuffman: sta HuffOffset,x = first code minus symbols so far,
+									;per length; long-code decode does sbc ...
+HuffLimit			=	$0740		;DecompressHuffman: sta HuffLimit,x = left-justified code limit per
+									;length; long-code decode compares against ...
+HuffLongVec			=	$0760		;DecompressHuffman: sta HuffLongVec = compare-chain entry chosen by the
+									;longest code length; jmp (HuffLongVec) for ...
+FrameCount			=	$0764		;NMI_SendOAM inc FrameCount each NMI (unless FrameCountHold); WaitFrame
+									;waits for it to change; Reset_Fast clears it; ...
+CGDMALen			=	$0768		;DMAToCGRAM (screen on) stores colours*2 at CGDMALen; NMI_HookReturn DMAs
 									;that many bytes to CGRAM when ...
-CGDMAColour			=	$076A		; DMAToCGRAM sty $076A (first colour); NMI_HookReturn ldx $076A -> CGADD
-CGDMASrc			=	$076C		; DMAToCGRAM sta $076C ($0C); NMI_HookReturn -> A1T0L
-CGDMABank			=	$076E		; DMAToCGRAM sta $076E ($0E); NMI_HookReturn ldx $076E -> A1B0
-FrameHookNext		=	$0770		;SetFrameHook sta $0770 / stx $0772 (bank); NMI_SendOAM: when $0771
-									;(address high byte) is nonzero copies ...
-NMIHookNext			=	$0773		;ClearNMIHook sta $0773 / stx $0775 (bank); NMI_Fast: when $0774 is
+CGDMAColour			=	$076A		; DMAToCGRAM sty CGDMAColour (first colour); NMI_HookReturn ldx
+									;CGDMAColour -> CGADD
+CGDMASrc			=	$076C		; DMAToCGRAM sta CGDMASrc ($0C); NMI_HookReturn -> A1T0L
+CGDMABank			=	$076E		; DMAToCGRAM sta CGDMABank ($0E); NMI_HookReturn ldx CGDMABank -> A1B0
+FrameHookNext		=	$0770		;SetFrameHook sta FrameHookNext / stx $0772 (bank); NMI_SendOAM: when
+									;$0771 (address high byte) is nonzero copies ...
+NMIHookNext			=	$0773		;ClearNMIHook sta NMIHookNext / stx $0775 (bank); NMI_Fast: when $0774 is
 									;nonzero copies it to NMIHook ...
-Multi5Sig			=	$0781		;Multi5ConnectCheck rol.w JOYSER0/1 bit 1 into $0782/$0781 (port 1) and
-									;$0784/$0783 (port 2); $FF then ...
-FrameCountHold		=	$0787		;NMI_SendOAM: lda $0787 bne skips inc FrameCount; no writer in routines
-									;apart from the Reset_Fast clear
-FrameHook			=	$0789		;NMI_SendOAM jml [$0789] (returns to NMI_FrameHookReturn); loaded from
+Multi5Sig			=	$0781		;Multi5ConnectCheck rol.w JOYSER0/1 bit 1 into $0782/Multi5Sig (port 1)
+									;and $0784/$0783 (port 2); $FF then ...
+FrameCountHold		=	$0787		;NMI_SendOAM: lda FrameCountHold bne skips inc FrameCount; no writer in
+									;routines apart from the Reset_Fast clear
+FrameHook			=	$0789		;NMI_SendOAM jml [FrameHook] (returns to NMI_FrameHookReturn); loaded from
 									;FrameHookNext; Reset_Fast copies ...
-NMIHook				=	$078C		;NMI_Fast jml [$078C] (returns to NMI_HookReturn); loaded from NMIHookNext
-IRQHook				=	$078F		;IRQ_Fast jml [$078F]; SetIRQ sta $078F / stx $0791 (bank = IRQHook+2);
-									;IRQOff sets IRQHook_Off; the IRQ_* ...
-seed				=	$0792		;RandomWord's two 16-bit generators ($0792, $0794);
-									;FallDown/chk4shot/asspuckc/chk4lc read $0792 where 93S ...
-RAMTag				=	$0796		;Reset_Fast copies InitTag 'EACDSI' here (and to $1EBD and
+NMIHook				=	$078C		;NMI_Fast jml [NMIHook] (returns to NMI_HookReturn); loaded from
+									;NMIHookNext
+IRQHook				=	$078F		;IRQ_Fast jml [IRQHook]; SetIRQ sta IRQHook / stx $0791 (bank =
+									;IRQHook+2); IRQOff sets IRQHook_Off; the IRQ_* ...
+seed				=	$0792		;RandomWord's two 16-bit generators (seed, $0794);
+									;FallDown/chk4shot/asspuckc/chk4lc read seed where 93S ...
+RAMTag				=	$0796		;Reset_Fast copies InitTag 'EACDSI' here (and to RAMTag2 and
 									;ReplayBufferEnd); no reader found - a RAM marker
 MapVRAM				=	$079C		;VRAM word address of the screen map:
 									;MapToVRAM/MapPartToVRAM/MapPartToVRAMOffset/Mode7MapToVRAM add row*32 ...
-MapScreenStep		=	$079E		;MapToVRAM/MapPartToVRAM add $079E to the VRAM address after row 31 (to
-									;the next 32-row screen); no writer ...
+MapScreenStep		=	$079E		;MapToVRAM/MapPartToVRAM add MapScreenStep to the VRAM address after row
+									;31 (to the next 32-row screen); no writer ...
 SpriteBlockTiles	=	$07B8		;InitSprites: (Y+$1F)&~$1F (at least $1A0) = tiles of the 16x16 block area
 									;of sprite VRAM; LoadFrameTiles ...
 FrameCacheCount		=	$07BA		;Tile cache entries in use: InitSprites stz, LoadFrameTiles inc (max $80),
 									;FreeCacheEntry dec; ...
 FrameTilesFail		=	$07C0		;GetFrameTiles stores $FFFF here when LoadFrameTiles finds no room; never
 									;read
-CacheUseMark		=	$07C2		;InitSprites sets 2; GetFrameTiles stores it in the entry's $2D40 use
+CacheUseMark		=	$07C2		;InitSprites sets 2; GetFrameTiles stores it in the entry's FrameCacheUse
 									;word, which SpriteFrameStart shifts ...
 DrawFrameNum		=	$07C4		;DrawSprite/FreeFrameTiles/GetFrameTiles store the frame number here; with
 									;FrameByNumber set the cache ...
@@ -649,24 +655,24 @@ PieceTile			=	$07CC		;DrawSpritePieces: piece tile/attribute word, + first tile 
 									;OAM +2
 PieceSize			=	$07CE		;DrawSpritePieces: piece size byte (0 = 8x8, else 16x16: centre 15 not 7,
 									;size bit in the OAM high table)
-PieceNext			=	$07D0		;DrawSprite/DrawSpritePieces sty $07D0: offset of the next piece record of
-									;the frame
-IRQVTime			=	$07D2		;SetIRQ sty $07D2 (IRQ line); NMI_HookReturn
+PieceNext			=	$07D0		;DrawSprite/DrawSpritePieces sty PieceNext: offset of the next piece
+									;record of the frame
+IRQVTime			=	$07D2		;SetIRQ sty IRQVTime (IRQ line); NMI_HookReturn
 									;writes it to VTIMEL every frame
 IRQHTime			=	$07D4		;NMI_HookReturn writes it to HTIMEL every frame; set by
 									;SetupBandIRQ/SetupScrollIRQ/TitleScreen
-BG1HScroll			=	$07D6		;NMI_HookReturn writes the 6 words $07D6..$07E1 to BG1HOFS..BG3VOFS (x =
-									;0..$0B, $07D7 = BG1HScroll+1); ...
+BG1HScroll			=	$07D6		;NMI_HookReturn writes the 6 words BG1HScroll..$07E1 to BG1HOFS..BG3VOFS
+									;(x = 0..$0B, $07D7 = BG1HScroll+1); ...
 BG1VScroll			=	$07D8		;2nd word of the NMI_HookReturn scroll list
 									;(BG1VOFS); ResetPPURegs sets $FFFF
 BG2HScroll			=	$07DA		;ShowRinkRows stores Hscroll+$C0 here, as 93S writes BG2HOFS = Hscroll+$C0
 BG2VScroll			=	$07DC		; ShowRinkRows stores vramrow*8 + (Vscroll&7), the 93S BG2VOFS value
 BG3HScroll			=	$07DE		;5th word of the NMI_HookReturn scroll list (BG3HOFS);
 									;ResetPPURegs/PlayoffScreen/TitleScreen
-BG3VScroll			=	$07E0		;6th word (BG3VOFS); IRQ_BG1Scroll also writes $07E0/$07E1 to BG1VOFS for
-									;the lower band
+BG3VScroll			=	$07E0		;6th word (BG3VOFS); IRQ_BG1Scroll also writes BG3VScroll/$07E1 to BG1VOFS
+									;for the lower band
 Mode7InUse			=	$07E2		;TitleScreen/IntroSequence set $FF, ResetPPURegs clears; MulFrac8 bit
-									;$07E2 / MulFrac16 bit $07E1 (16-bit: ...
+									;Mode7InUse / MulFrac16 bit $07E1 (16-bit: ...
 SoundMono			=	$07E3		;StepTrack (event $DE, program change) and PlaySound: nonzero -> both side
 									;volumes from instrument byte $17 ...
 EchoVoices			=	$07E7		;Controller $32 (StepTrack); SeqCmd08 sends it with command $82, which the
@@ -679,14 +685,14 @@ EchoDelay			=	$07EA		;Controller $33; SeqCmd08 command $83 APUIO2 -> driver writ
 									;($7D) (ESA = $E0)
 EchoVolume			=	$07EB		; Controller $34; SeqCmd08 command $09 APUIO1/2 -> DSP EVOL L/R ($2C/$3C)
 EchoFeedback		=	$07EC		; Controller $35; SeqCmd08 command $09 APUIO3 -> DSP EFB ($0D)
-SongPtr				=	$07ED		;MusicStart sta $07ED (song address $0C); Opening/PlayoffScreen compare it
-									;with the menu/playoff song ...
-SongUnused			=	$07EF		;MusicStart stz $07EF; first byte of the sound RAM SoundInit clears
-									;($07EF..$0A09); never read
+SongPtr				=	$07ED		;MusicStart sta SongPtr (song address $0C); Opening/PlayoffScreen compare
+									;it with the menu/playoff song ...
+SongUnused			=	$07EF		;MusicStart stz SongUnused; first byte of the sound RAM SoundInit clears
+									;(SongUnused..$0A09); never read
 MusicPause			=	$07F1		;SequencerTick: nonzero -> UpdateVoices but no StepTrack; SoundUpdate
 									;tests it around a no-op save/restore ...
-TempoAcc			=	$07F5		;SequencerTick adds $40 each frame and runs a tick (subtracting $07F6)
-									;while it reaches $07F6
+TempoAcc			=	$07F5		;SequencerTick adds $40 each frame and runs a tick (subtracting TempoTick)
+									;while it reaches TempoTick
 TempoTick			=	$07F6		;SequencerTick tick threshold; MusicStart sets it from the song header
 									;(DivX8U), StepTrack event $DD sets ...
 InstVolL			=	$07FB		;StepTrack event $DE: instrument byte $12 (left, or $17), scaled by the
@@ -696,12 +702,12 @@ VoiceVolL			=	$07FC		;Left volume sent to the driver: SeqCmd07 APUIO2 (DSP VOL L
 InstVolR			=	$07FD		; StepTrack event $DE: instrument byte $13 (right, or $17)
 VoiceVolR			=	$07FE		;Right volume: SeqCmd07 APUIO3 (DSP VOL R), StepTrack command $0E;
 									;FindFreeVoice reuses it for the new ...
-CurTrackOfs			=	$07FF		;StepTrack stx $07FF (track*2) and reloads X from it; PlaySound/QueueSound
-									;set $20 (track 16, sound effects)
-VoiceOfs			=	$0800		;Voice*2 of the voice being worked: StartSoundVoice asl/sta $0800, ldx
+CurTrackOfs			=	$07FF		;StepTrack stx CurTrackOfs (track*2) and reloads X from it;
+									;PlaySound/QueueSound set $20 (track 16, sound effects)
+VoiceOfs			=	$0800		;Voice*2 of the voice being worked: StartSoundVoice asl/sta VoiceOfs, ldx
 									;$0800; UpdateVoices/UpdateSfxVoices ...
-TrackCount			=	$0801		;MusicStart: song header byte 6; SequencerTick steps tracks $0801-1 down
-									;to 0; MusicStop clears it
+TrackCount			=	$0801		;MusicStart: song header byte 6; SequencerTick steps tracks TrackCount-1
+									;down to 0; MusicStop clears it
 MusicDuck			=	$0802		;StartSoundVoice: nonzero halves (negative: quarters) the volumes of music
 									;voices (track != $10); no writer ...
 TrackPtr			=	$0804		;17 words (tracks 0-15 music, 16 = sound effects): MusicStart stores each
@@ -750,30 +756,30 @@ VoiceVibCount		=	$097A		;UpdateSfxVoices dec; when negative steps the vibrato an
 VoiceVibOfs			=	$098A		;Vibrato pitch offset: +/- VoiceVibSpeed per step up to VoiceVibDepth,
 									;added to VoicePitch
 VoiceVibRate		=	$099A		;Frames between vibrato steps: instrument $1C, ramped by instrument
-									;$2A/$2C (fraction in $09AA)
+									;$2A/$2C (fraction in VoiceVibRateFrac)
 VoiceVibRateFrac	=	$09AA		;Fraction of VoiceVibRate (UpdateSfxVoices clc adc instrument $2A, carry
-									;into $099A)
+									;into VoiceVibRate)
 VoiceVibDepth		=	$09BA		;Vibrato limit: instrument $20, ramped by $26/$28; at |VoiceVibOfs| >= it
 									;the vibrato turns or resets
 VoiceVibDepthFrac	=	$09CA		; Fraction of VoiceVibDepth
 VoiceVibSpeed		=	$09DA		;Vibrato step: instrument $1E, ramped by $22/$24; added to / subtracted
 									;from VoiceVibOfs
 VoiceVibSpeedFrac	=	$09EA		; Fraction of VoiceVibSpeed
-VoiceVibDir			=	$09FA		;0 = vibrato offset rising, $FFFF = falling (bit $09FA,x; dec/inc to flip
-									;at the limit by instrument $2D ...
+VoiceVibDir			=	$09FA		;0 = vibrato offset rising, $FFFF = falling (bit VoiceVibDir,x; dec/inc to
+									;flip at the limit by instrument $2D ...
 
 ; $1C84-$1EC2: pad teams (94G cont1team-cont4team, a word per pad), pause options, the line editor, the stats
 ; and card screens (curitem, listtop, listend, listcount, curplayer are shared by them), ShowStars, the
 ; scouting report, the penalty shot and shootout (94G BA_ and sopath names), the pause menu lists
 cont1team			=	$1C84		;Team on pad 1 (0 none, 1 home, 2 away); StartGame turns cont1team,x into
-									;$19F6,x = (team-1)*2, ...
+									;padside,x = (team-1)*2, ...
 cont2team			=	$1C86		; Pad 2 team word of the cont1team array (93S/94G cont2team)
 cont3team			=	$1C88		; Pad 3 team word of the cont1team array (94G cont3team)
 cont4team			=	$1C8A		; Pad 4 team word of the cont1team array (94G cont4team)
 cont5team			=	$1C8C		;Pad 5 (multitap) team word, the last of the five the loops over
 									;cont1team,x stop at ($0A); name extends ...
 goaliemode1			=	$1C90		;Home manual goalie flag, word per team indexed goaliemode1,y: StartGame
-									;copies the goalie option ($7E34C8) ...
+									;copies the goalie option (OptGoalie) ...
 goaliemode2			=	$1C92		;Visitors manual goalie flag (goaliemode1+2), set with goaliemode1 by
 									;StartGame (94G goaliemode2)
 defcontrol			=	$1C94		;Defense control on/off per team (word, indexed by team 0/2):
@@ -787,7 +793,7 @@ sndbank				=	$1D68		;Sample set loaded in the SPC: SPCGameUpload/SPCIntroUpload/
 SoundBankGame		=	$0001		;sndbank: the in-game set (SPCIntroUpload and SPCTitleUpload set it too)
 SoundBankMenu		=	$0002		;sndbank: the menu set (SPCMenuUpload, SPCTitleToMenu); 0 = none
 gameframes			=	$1D6D		;Gameloop frames since the last faceoff: Gameloop increments it and
-									;computes $1D6D*60/$0764 (NMI frames) ...
+									;computes gameframes*60/FrameCount (NMI frames) ...
 shootoutmode		=	$1D81		;Nonzero during the shootout: PlayShootout sets 1 and clears it at the
 									;end, Opening clears it; ...
 shootoutstop		=	$1D83		;Shootout turn whistle: PlayShootout .t1 clears it, SetPA sets 1 in
@@ -820,8 +826,8 @@ curitem				=	$1DB9		;Current item of the screen up: exit prompt choice (AskExitG
 									;DrawExitPrompt), card (ShowPlayerCards, ...
 listtop				=	$1DBD		;First row shown of a scrolled stats list (game stats, penalty/scoring
 									;summaries, other scores: ...
-listend				=	$1DC1		;End of the current list: penalty count ($163C), goal count, other games +
-									;1, last player card (players+6), ...
+listend				=	$1DC1		;End of the current list: penalty count (PenSumLength), goal count, other
+									;games + 1, last player card (players+6), ...
 listrows			=	$1DC5		;Rows of a scrolled stats list in the window / sent to VRAM (5 summaries,
 									;6 game stats, 7 player stats; one ...
 statstemp			=	$1DC9		;Player stats scratch: ComparePlayerStats returns nonzero to swap and uses
@@ -830,7 +836,7 @@ scrollirqdone		=	$1DCD		;IRQ_StatsScroll1 sets $FFFF each frame; the unused wait
 									;ScrollGameStatsDown (.t1) and OtherScoresRtl ...
 crowdmeterlit		=	$1DD1		;ShowCrowdMeter: lit columns of the crowd meter (level/4), the width the
 									;CrowdMeterLitMap paste loop uses
-otherskip			=	$1DE9		;Other scores: 1 when FillOtherScores skipped the user's game ($7E35D6),
+otherskip			=	$1DE9		;Other scores: 1 when FillOtherScores skipped the user's game (gamenum),
 									;added into the row math of ...
 irqline1			=	$1DED		;Line of the first split IRQ: SetupScrollIRQ/SetupBandIRQ store A here and
 									;SetIRQ at it, IRQ_BandEnd ...
@@ -903,20 +909,20 @@ picattr				=	$1E87		;DrawPlayerPicture: map attribute (palette) of the picture, 
 									;$2400 visitors, added to the ...
 onetimer			=	$1E89		;A one-timer shot is under way: asspassrec sets 1 when the receiver shoots
 									;the pass directly (counts ...
-breakaway			=	$1E8B		;Breakaway in progress (CheckBreakaway result $1638): StartBreakaway,
-									;PenShotChk, doshot set it; Goal ...
+breakaway			=	$1E8B		;Breakaway in progress (CheckBreakaway result IsBreakaway):
+									;StartBreakaway, PenShotChk, doshot set it; Goal ...
 BA_Sktr_SCnum		=	$1E8D		;Penalty shot / shootout shooter object (SCnum*2, $FFFF none): Bcheck sets
 									;it on a penalty-shot foul, ...
 BA_Skater_Offset	=	$1E8F		;Roster index of the penalty shot shooter: StartPenaltyShot = pnum of
 									;BA_Sktr_SCnum, PlayShootout = shooter ...
 BA_Team				=	$1E91		;Shooting team of the penalty shot / shootout turn (0 home, 2 visitors):
 									;StartPenaltyShot, PlayShootout; ...
-pspad				=	$1E93		;Pad index (into $19F6) controlling the penalty shooter, $FFFF none:
-									;Bcheck copies $19D4,y, PlayShootout ...
-psfoxsave			=	$1E97		;StartPenaltyShot saves the faceoff spot x ($7E3136) here and zeroes it;
+pspad				=	$1E93		;Pad index (into padside) controlling the penalty shooter, $FFFF none:
+									;Bcheck copies playerpad,y, PlayShootout ...
+psfoxsave			=	$1E97		;StartPenaltyShot saves the faceoff spot x (fox) here and zeroes it;
 									;EndPenaltyShot puts it back into ...
-psfoysave			=	$1E99		;StartPenaltyShot saves the faceoff spot y ($7E3138); EndPenaltyShot puts
-									;it into $7E30FA (last touch y)
+psfoysave			=	$1E99		;StartPenaltyShot saves the faceoff spot y (foy); EndPenaltyShot puts
+									;it into lty (last touch y)
 penshot				=	$1E9B		;Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShot
 									;and StartGame clear; Goal, ...
 penshotlive			=	$1E9D		;Set 1 by SetupPenaltyShot when the shot starts, cleared by puckfaceoff
@@ -947,7 +953,7 @@ pmenucount			=	$1EB9		;Items in that pause menu list (PauseMenu/ChoosePauseMenu 
 									;pmenulist); bounds psitem and psfirst
 pregamepause		=	$1EBB		;StartGame sets 1 when any pad has a team; StartPer then opens the pause
 									;menu at the start (startpause), ...
-RAMTag2				=	$1EBD		;Reset_Fast copies the 6 byte InitTag 'EACDSI' here (and to $0796 and
+RAMTag2				=	$1EBD		;Reset_Fast copies the 6 byte InitTag 'EACDSI' here (and to RAMTag and
 									;ReplayBufferEnd) after clearing RAM; ...
 
 ; Bank $7E / $7F: last touch, faceoff and goal log (93S), hat trick hats, setup screen and options (93S / 94G
@@ -974,17 +980,17 @@ fodropx			=	$7E3126			;puckfaceoff2 sets the faceoff box x; updatefaceoff ((x-$2
 									;and checkfo read it as 93S fodropx.
 fodropy			=	$7E3128			;puckfaceoff2 sets $5C; updatefaceoff ((y-$44)/8 to printy) and checkfo
 									;read it as 93S fodropy.
-fofdata2		=	$7E312A			;Faceoff pull frame / attribute pairs of the home ($312A/$312C) and
-									;visiting ($312E/$3130) centre: ...
+fofdata2		=	$7E312A			;Faceoff pull frame / attribute pairs of the home (fofdata2 / +2) and
+									;visiting (+4 / +6) centre: ...
 fofdata			=	$7E3132			;Frame / attribute of the faceoff ref: updatefaceoff stores the drop frame
 									;here (93S sta fofdata); ...
 fox				=	$7E3136			;Faceoff spot x: limitfo clamps it, puckfaceoff2 puts it in puckx,
 									;StartPer clears it, StartPenaltyShot ...
 foy				=	$7E3138			;Faceoff spot y: limitfo compares / sets it against the blue line (93S
 									;foy), puckfaceoff2 puts it in pucky, ...
-ScoreSumbytes	=	$7E313A			;Goal adds 6 per goal (capped at $258) and writes the goal at #$313C+it;
+ScoreSumbytes	=	$7E313A			;Goal adds 6 per goal (capped at $258) and writes the goal at ScoreSum+it;
 									;ShowScoringSummary loops on it; ...
-ScoreSum		=	$7E313C			;Extra, not in the list (only immediate #$313C): the goal log Goal writes
+ScoreSum		=	$7E313C			;Extra, not in the list (only as an immediate): the goal log Goal writes
 									;6 bytes per goal into (93S ...
 hatx			=	$7E3394			;UpdateHatTrick: x (12.4 fixed) of each of the ten hats, plus hatvx each
 									;step, >>4 for the DrawSprite x.
@@ -1051,8 +1057,8 @@ pausemenuon		=	$7E3476			;PauseMenu sets $FFFF, Pausemode / Intermission clear i
 									;DrawHorTeams leaves the pulsing side ...
 playerstatson	=	$7E3478			;ShowPlayerStats sets 1 while it runs; DrawMatchupPictures then skips the
 									;picture DMA.
-gamesstarted	=	$7E347A			;StartGame increments it right after clearing $30F4-$3478 (count of games
-									;started; no reader found).
+gamesstarted	=	$7E347A			;StartGame increments it right after clearing carriedy to playerstatson
+									;(count of games started; no reader found).
 OptPlayMode		=	$7E34BC			;Setup menu row 0 'Play Mode' (base of the 7-word option block setoptions
 									;edits; choices Regular Season .. ...
 OptTeam1		=	$7E34BE			;Setup row 1 'Home': setoptions copies it to HomeTeam; NewPO takes it as
@@ -1127,8 +1133,8 @@ vcountstep		=	$7E35DA			;CheckPAL: 0 on NTSC, $3333 on PAL; NMI_Tick adds it to 
 									;frame (60 / 50 time step).
 tickerstart		=	$7E35DC			;Intermission saves TickerNum here; IntermissionTick plays DoHiLights when
 									;the ticker comes round to it, as ...
-replaypanel		=	$7E35F0			;ReplayMode sets $FFFF when it draws the control panel (map at $7FC800);
-									;the first B press blanks it and ...
+replaypanel		=	$7E35F0			;ReplayMode sets $FFFF when it draws the control panel (map in
+									;rinkmapbuf); the first B press blanks it and ...
 usehotcold		=	$7E35F2			;GetPlayerRating / GetNameandAttrib set 1, GetPlayerBaseRating 0;
 									;CalcAttrib adds the hot / cold table only ...
 hlsavebuf		=	$7E47F4			;SaveRegsStartHL2 copies gmode-1 ($15D3) .. +$780 and then ScoreSumbytes
@@ -1139,8 +1145,8 @@ screenmap		=	$7EA670			;PlayoffScreen map buffer (+0 width $80, +2 height $20, w
 									;bracket, team blocks, Stanley Cup); ...
 screenmap2		=	$7EC676			;Second PlayoffScreen map ($80 x $20: +0 / +2 header, words from +6) for
 									;the BigLetterPlayoff letters, sent ...
-OAMHiMasks		=	$7EE67C			;Reset_Fast copies OAMHighMasks (ROM $80FF00, 16 bytes) here; DrawSprite /
-									;DrawSpritePieces AND with $E67C,x.
+OAMHiMasks		=	$7EE67C			;Reset_Fast copies OAMHighMasks (16 bytes) here; DrawSprite /
+									;DrawSpritePieces AND with it (x indexed).
 titleteams		=	$7EF000			;ShuffleTitleTeams fills it with the 26 team numbers in random order;
 									;TitleScreen / NextTitleTeam read word ...
 introbuf		=	$7F4000			;IntroSequence work buffer (it clears $4000 bytes from here): EALogoMap

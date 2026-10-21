@@ -1,5 +1,5 @@
 ; Penalty shot set up: the puck at centre ice, every player reassigned, the defending goalie to his pad, the
-; shooter ($1E8D) gets the puck, $163A = 1, timer $1E9F = 1000, ClearPenaltyBuffer
+; shooter (BA_Sktr_SCnum) gets the puck, PenShotActive = 1, timer pstimer = 1000, ClearPenaltyBuffer
 SetupPenaltyShot:					; called from puckfaceoff2
 	stz.w puckx
 	stz.w pucky

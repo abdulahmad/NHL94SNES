@@ -1,5 +1,5 @@
 ; Copy X colours from [p0] into the colour buffer at colour Y
-SetColours:							; copy X colours from [p0] into the colour buffer $7F7500, from colour Y
+SetColours:							; copy X colours from [p0] into the colour buffer colourbuf, from colour Y
 	stx.b r3+2
 	tya
 	asl a

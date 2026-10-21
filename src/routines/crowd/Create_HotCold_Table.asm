@@ -1,4 +1,4 @@
-; Fill the hot / cold table ($1A12, both teams) with random values -12 ... 12
+; Fill the hot / cold table (HotColdTable, both teams) with random values -12 ... 12
 ;
 ; Fills 624 bytes ($270) from the end down: each is a random 0-13 limited to 12, negative when bit 4 of seed
 ; is clear. Called from StartGame.

@@ -1,4 +1,4 @@
-; Title: draw sprite A of the title set at $7F5000 at its position from the .1 / .2 tables
+; Title: draw sprite A of the title set in titlesprbuf at its position from the .1 / .2 tables
 DrawTitleSprite:					; called from DrawLicenceNHL, DrawLicenceNHLPA, RollCredits, TitleScreen
 	sta.b r0
 	asl a

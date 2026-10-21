@@ -1,4 +1,5 @@
-; Title: reset the credits state (entry $0BDD, step $0BD9, the two text y positions $0BDF / $0BE3)
+; Title: reset the credits state (entry CreditTitleIdx, step CreditStep, the two text y positions CreditTitleY
+; / CreditNameY)
 StartCredits:						; no input; called from TitleScreen
 	stz.w CreditTitleIdx			; first title
 	stz.w CreditNameIdx				; first name

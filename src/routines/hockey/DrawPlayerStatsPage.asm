@@ -1,5 +1,5 @@
 ; Player stats: print the header and send the header rows and the visible rows of the stats page buffer
-; (scroll $1DB9) to VRAM
+; (scroll curitem) to VRAM
 DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, ShowPlayerStats_...
 	lda.b d1
 	pha

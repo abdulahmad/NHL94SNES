@@ -1,5 +1,5 @@
-; At a faceoff: CalcPuckDistances, restore the pad sides kept in $19F6, reset the pad / player tables ($19D4,
-; $19EC) and give each pad a player again (findpc)
+; At a faceoff: CalcPuckDistances, restore the pad sides kept in padside, reset the pad / player tables
+; (playerpad, c1playernum) and give each pad a player again (findpc)
 FaceoffPads:						; called from puckfaceoff2
 	jsl.l CalcPuckDistances
 	lda.w penshot

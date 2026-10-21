@@ -1,4 +1,4 @@
-; Sequencer: sound driver command $08 with the values $07F8, $07E7-$07E9
+; Sequencer: sound driver command $08 with the values $07F8, EchoVoices-PitchModVoices
 SeqCmd08:							; called from StepTrack
 	php
 	sep #$30

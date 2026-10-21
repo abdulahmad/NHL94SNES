@@ -1,4 +1,4 @@
-; IRQ: save the registers, acknowledge TIMEUP and run the IRQ hook at [$078F]; the hook returns through
+; IRQ: save the registers, acknowledge TIMEUP and run the IRQ hook at [IRQHook]; the hook returns through
 ; IRQ_HookReturn
 ;
 ; Takes nothing; entered from the IRQ vector. Calls the hook in IRQHook and returns through IRQ_HookReturn.

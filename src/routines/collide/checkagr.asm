@@ -1,8 +1,9 @@
-; How hard a check is, from the player's checking rating
+; Penalty roll for player X: random below (20 - aggress) * 16, doubled for a player on a pad, halved
+; near the puck. Callers call a penalty when the result is small
 checkagr:							; called from Bcheck, checkcheck, holdcheck
-	lda.w #$0014					; $14 minus the energy left
+	lda.w #$0014					; 20 minus aggress
 	sec
-	sbc.w GGSleft,x
+	sbc.w aggress,x
 	asl a
 	asl a
 	asl a

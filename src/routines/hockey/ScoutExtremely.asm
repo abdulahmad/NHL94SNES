@@ -1,5 +1,5 @@
-; Script code %e: "extremely " (ScoutFragments) when the hot / cold totals differ by 8 or more ($1E43), else
-; nothing
+; Script code %e: "extremely " (ScoutFragments) when the hot / cold totals differ by 8 or more (hotextreme),
+; else nothing
 ScoutExtremely:						; Script code %e entry
 	inc.b a2						; step past the code letter
 	lda.w hotextreme				; hot / cold totals differ by 8 or more?

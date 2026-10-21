@@ -399,7 +399,7 @@ org $9FD000
 	ldy.w #$000A
 	jsl.l .8
 	sta.w passacc,x
-	ldy.w #$0007					; GGSleft = low 3 bits (stat 11)
+	ldy.w #$0007					; aggress = low 3 bits (stat 11)
 	lda.b [a0],y
 	and.w #$0007
 	sta.b r0
@@ -409,7 +409,7 @@ org $9FD000
 	lsr a
 	ldy.w #$000B
 	jsl.l .8
-	sta.w GGSleft,x
+	sta.w aggress,x
 	ply								; restore Y and X
 	plx
 	rtl

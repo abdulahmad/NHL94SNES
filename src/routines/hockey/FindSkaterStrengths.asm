@@ -1,4 +1,4 @@
-; The player card strengths of skater $1D9B: the best three of eleven rating columns into $1E79-$1E83
+; The player card strengths of skater curplayer: the best three of eleven rating columns into strengths-$1E83
 ; (AddStrength)
 ;
 ; Called from DrawPlayerCard with the skater selected for the card. Each AddStrength call (d1 = rating

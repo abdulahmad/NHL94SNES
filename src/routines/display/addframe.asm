@@ -1,5 +1,5 @@
-; Draw sprite frame $0CCD at $0CCF / $0CD1
-addframe:							; draw SpriteFrames frame $0CCD (at most $3D0) at $0CCF, $0CD1
+; Draw sprite frame sprframe at sprx / spry
+addframe:							; draw SpriteFrames frame sprframe (at most $3D0) at sprx, spry
 	lda.w sprframe
 	cmp.w #$03D1
 	bcs .rtl

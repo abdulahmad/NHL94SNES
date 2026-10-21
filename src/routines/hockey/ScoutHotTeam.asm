@@ -1,4 +1,5 @@
-; Script code %t: the full name of the hotter team ($1E41), then " has" (" have" for the two New York teams)
+; Script code %t: the full name of the hotter team (hotterteam), then " has" (" have" for the two New York
+; teams)
 ScoutHotTeam:						; Script code %t entry
 	lda.w hotterteam				; A = hotter team number
 	jsl.l GetTeamLongName			; build its long name string

@@ -1,4 +1,4 @@
-; Random team pairs for the 8 other games ($7E3528 / $7E3538), none of them HomeTeam or VisTeam and no team
+; Random team pairs for the 8 other games (gst1 / gst2), none of them HomeTeam or VisTeam and no team
 ; twice (bit sets $B3 / d3)
 ;
 ; Takes HomeTeam and VisTeam; fills gst1/gst2 for the 8 other games. Teams 0-25 are tracked as bits in d3 (low

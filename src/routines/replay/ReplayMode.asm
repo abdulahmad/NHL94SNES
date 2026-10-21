@@ -134,19 +134,19 @@ ReplayMode:							; called from PauseReplay
 	bpl .t2
 	jmp.w .7
 
-.t2:								; replaylock >= 0: Xpos+$20 = Xpos,x, if plus go to .t1x, ...
+.t2:								; replaylock >= 0: Xpos+camobj = Xpos,x, if plus go to .t1x, ...
 	tax
 	lda.w Xpos,x
-	sta.w Xpos+$20
+	sta.w Xpos+camobj
 	cmp.w replayHpos
 	bpl .t1x
 	lda.w replayHpos
 	sec
 	sbc.w #$0004
-	cmp.w Xpos+$20
+	cmp.w Xpos+camobj
 	bpl .2
 .1x:								; falls through
-	lda.w Xpos+$20
+	lda.w Xpos+camobj
 .2:									; go to .5
 	bra .5
 
@@ -154,9 +154,9 @@ ReplayMode:							; called from PauseReplay
 	lda.w replayHpos
 	clc
 	adc.w #$0004
-	cmp.w Xpos+$20
+	cmp.w Xpos+camobj
 	bmi .5
-	lda.w Xpos+$20
+	lda.w Xpos+camobj
 .5:									; if plus go to .1xx, ...
 	cmp.w #$FFC0
 	bpl .1xx
@@ -165,20 +165,20 @@ ReplayMode:							; called from PauseReplay
 	cmp.w #$0040
 	bmi .2x
 	lda.w #$0040
-.2x:								; Hpos = A, replayHpos = A, Ypos+$20 = Ypos,x, ...
+.2x:								; Hpos = A, replayHpos = A, Ypos+camobj = Ypos,x, ...
 	sta.w Hpos
 	sta.w replayHpos
 	lda.w Ypos,x
-	sta.w Ypos+$20
+	sta.w Ypos+camobj
 	cmp.w replayVpos
 	bpl .t1xx
 	lda.w replayVpos
 	sec
 	sbc.w #$0004
-	cmp.w Ypos+$20
+	cmp.w Ypos+camobj
 	bpl .4
 .3:									; falls through
-	lda.w Ypos+$20
+	lda.w Ypos+camobj
 .4:									; go to .6
 	bra .6
 
@@ -186,9 +186,9 @@ ReplayMode:							; called from PauseReplay
 	lda.w replayVpos
 	clc
 	adc.w #$0004
-	cmp.w Ypos+$20
+	cmp.w Ypos+camobj
 	bmi .6
-	lda.w Ypos+$20
+	lda.w Ypos+camobj
 .6:									; if plus go to .2xx
 	cmp.w #$FF39
 	bpl .2xx
@@ -210,25 +210,25 @@ ReplayMode:							; called from PauseReplay
 .7:									; if zero go to .11, ...
 	cmp.w #$FFFF
 	beq .11
-	lda.w Xpos+$20
+	lda.w Xpos+camobj
 	cmp.w replayHpos
 	bpl .t2x
 	lda.w replayHpos
 	sec
 	sbc.w #$0002
-	cmp.w Xpos+$20
+	cmp.w Xpos+camobj
 	bpl .1xxxx
-	lda.w Xpos+$20
+	lda.w Xpos+camobj
 .1xxxx:								; go to .8
 	bra .8
 
-.t2x:								; Xpos+$20 - replayHpos >= 0: if minus go to .8, ...
+.t2x:								; Xpos+camobj - replayHpos >= 0: if minus go to .8, ...
 	lda.w replayHpos
 	clc
 	adc.w #$0002
-	cmp.w Xpos+$20
+	cmp.w Xpos+camobj
 	bmi .8
-	lda.w Xpos+$20
+	lda.w Xpos+camobj
 .8:									; if plus go to .1xxxxx, ...
 	cmp.w #$FFC0
 	bpl .1xxxxx
@@ -237,28 +237,28 @@ ReplayMode:							; called from PauseReplay
 	cmp.w #$0040
 	bmi .2xxx
 	lda.w #$0040
-.2xxx:								; Hpos = A, replayHpos = A, if Ypos+$20 - replayVpos >= 0 go to .t1xxx...
+.2xxx:								; Hpos = A, replayHpos = A, compare Ypos+camobj with replayVpos
 	sta.w Hpos
 	sta.w replayHpos
-	lda.w Ypos+$20
+	lda.w Ypos+camobj
 	cmp.w replayVpos
 	bpl .t1xxx
 	lda.w replayVpos
 	sec
 	sbc.w #$0002
-	cmp.w Ypos+$20
+	cmp.w Ypos+camobj
 	bpl .3xx
-	lda.w Ypos+$20
+	lda.w Ypos+camobj
 .3xx:								; go to .9
 	bra .9
 
-.t1xxx:								; Ypos+$20 - replayVpos >= 0: if minus go to .9, ...
+.t1xxx:								; Ypos+camobj - replayVpos >= 0: if minus go to .9, ...
 	lda.w replayVpos
 	clc
 	adc.w #$0002
-	cmp.w Ypos+$20
+	cmp.w Ypos+camobj
 	bmi .9
-	lda.w Ypos+$20
+	lda.w Ypos+camobj
 .9:									; if plus go to .2xxxx
 	cmp.w #$FF39
 	bpl .2xxxx
@@ -317,12 +317,12 @@ ReplayMode:							; called from PauseReplay
 	bmi .4xxx
 	lda.w Xpos,y
 	sec
-	sbc.w Xpos+$20
+	sbc.w Xpos+camobj
 	sta.b d0
 	sta.b d2
 	lda.w Ypos,y
 	sec
-	sbc.w Ypos+$20
+	sbc.w Ypos+camobj
 	sta.b d1
 	sta.b d3
 	jsl.l vtoa
@@ -393,16 +393,16 @@ ReplayMode:							; called from PauseReplay
 	asl.b d0
 	ldy.b d0
 	lda.w .14,y
-	adc.w Xpos+$20
+	adc.w Xpos+camobj
 	sta.b d2
-	ldx.w #$0020
+	ldx.w #camobj
 	lda.w .14,y
 	xba
 	and.w #$FF00
 	sta.w Xvel,x
 	lda.w .14+2,y
 	clc
-	adc.w Ypos+$20
+	adc.w Ypos+camobj
 	sta.b d3
 	lda.w .14+2,y
 	xba
@@ -434,9 +434,9 @@ ReplayMode:							; called from PauseReplay
 	cmp.w #$0080
 	bcc .2xxxxxxx
 	ora.w #$FF00
-.2xxxxxxx:							; adc Xpos+$20, d2 = A, xba, ...
+.2xxxxxxx:							; adc Xpos+camobj, d2 = A, xba, ...
 	clc
-	adc.w Xpos+$20
+	adc.w Xpos+camobj
 	sta.b d2
 	lda.w Wallcos,x
 	asl a
@@ -445,18 +445,18 @@ ReplayMode:							; called from PauseReplay
 	cmp.w #$0080
 	bcc .3xxxxx
 	ora.w #$FF00
-.3xxxxx:							; eor #$FFFF, increment a, adc Ypos+$20, ...
+.3xxxxx:							; eor #$FFFF, increment a, adc Ypos+camobj, ...
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
-	adc.w Ypos+$20
+	adc.w Ypos+camobj
 	sta.b d3
-.4xxxx:								; Xpos+$20 = d2, Hpos = d2, Ypos+$20 = d3, ...
+.4xxxx:								; Xpos+camobj = d2, Hpos = d2, Ypos+camobj = d3, ...
 	lda.b d2
-	sta.w Xpos+$20
+	sta.w Xpos+camobj
 	sta.w Hpos
 	lda.b d3
-	sta.w Ypos+$20
+	sta.w Ypos+camobj
 	sta.w Vpos
 	lda.w #$0010
 	sta.w PadControlObj+$C
@@ -476,9 +476,9 @@ ReplayMode:							; called from PauseReplay
 	lda.w #$000F
 	sta.w PadControlObj+$C
 	lda.w Xpos,x
-	sta.w Xpos+$20
+	sta.w Xpos+camobj
 	lda.w Ypos,x
-	sta.w Ypos+$20
+	sta.w Ypos+camobj
 	bra .9x
 
 .t1xxxxx:							; PadControlObj = $000F: PadControlObj+$C = $000F, if puckx - $FF78 >=...
@@ -494,8 +494,8 @@ ReplayMode:							; called from PauseReplay
 	bmi .4xxxxx
 .3xxxxxx:							; falls through
 	lda.w #sideline
-.4xxxxx:							; Xpos+$20 = A, if pucky - $FED4 >= 0 go to .6x
-	sta.w Xpos+$20
+.4xxxxx:							; Xpos+camobj = A, if pucky - $FED4 >= 0 go to .6x
+	sta.w Xpos+camobj
 	lda.w pucky
 	cmp.w #$FED4
 	bpl .6x
@@ -506,8 +506,8 @@ ReplayMode:							; called from PauseReplay
 	bmi .8x
 .7x:								; falls through
 	lda.w #$012C
-.8x:								; Ypos+$20 = A
-	sta.w Ypos+$20
+.8x:								; Ypos+camobj = A
+	sta.w Ypos+camobj
 .9x:								; if d1 bits $8000 clear go to .2xxxxxxxxx, ...
 	lda.b d1
 	bit.w #$8000
