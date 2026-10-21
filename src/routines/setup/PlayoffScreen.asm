@@ -187,9 +187,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.l palbuffer+(5*$20)+(1*2)
 	sta.l palbuffer+(6*$20)+(1*2)
 	sta.l palbuffer+(7*$20)+(1*2)
-	lda.w #$007E
+	lda.w #palbuffer>>16
 	sta.b p1+2
-	lda.w #$3674
+	lda.w #palbuffer+$80
 	sta.b p1
 	ldx.w #$001B
 .loopx:								; loop: p0+2 = TeamBlockPalettes+2,x, p0 = TeamBlockPalettes,x, [p1],y...
@@ -312,14 +312,14 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lda.w #$0000
 	ldx.w #$8000
 	jsl.l MemFill
-	lda.w #$007E
+	lda.w #screenmap>>16
 	sta.b p1+2
-	lda.w #$A676
+	lda.w #screenmap+6
 	sta.b p1
 	lda.w #$0000
 	ldx.w #$4002
 	jsl.l MemFill
-	lda.w #$007E
+	lda.w #potree>>16
 	sta.b a1+2
 	lda.w #potree
 	sta.b a1
@@ -400,10 +400,10 @@ PlayoffScreen:						; called from GameOver, StartGame
 	asl a
 	asl a
 	clc
-	adc.w #$7500
+	adc.w #colourbuf
 	sta.b a2
 	lda.w #$0000
-	adc.w #$007F
+	adc.w #colourbuf>>16
 	sta.b a2+2
 	lda.w printy
 	asl a
@@ -602,9 +602,9 @@ org $9D9000
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
-	lda.w #$007E
+	lda.w #screenmap>>16
 	sta.b p1+2
-	lda.w #$A676
+	lda.w #screenmap+6
 	sta.b p1
 	lda.w #$0080
 	sta.b r7
@@ -682,9 +682,9 @@ org $9D9000
 	sta.l palbuffer+(1*$20)+(5*2)
 	lda.w #$FFFF
 	sta.l palbuffer+(1*$20)+(3*2)
-	lda.w #$007E
+	lda.w #palbuffer>>16
 	sta.b p0+2
-	lda.w #$3614
+	lda.w #palbuffer+$20
 	sta.b p0
 	ldy.w #$0010
 	ldx.w #$0070
@@ -704,12 +704,12 @@ org $9D9000
 	cmp.b d7
 	beq .2x
 	sta.b d7
-	ldx.w #$3622
-	ldy.w #$007E
+	ldx.w #palbuffer+$2E
+	ldy.w #palbuffer>>16
 	jsl.l PulseColour
-	lda.w #$007E
+	lda.w #palbuffer>>16
 	sta.b p0+2
-	lda.w #$3614
+	lda.w #palbuffer+$20
 	sta.b p0
 	ldy.w #$0010
 	ldx.w #$0010

@@ -61,7 +61,7 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	beq .t1
 	lda.w #$0010
 	trb.w sflags
-	lda.w #$007E
+	lda.w #ReplayBufferStart>>16
 	sta.w ReplayBufferPtr+2
 	lda.w #ReplayBufferStart
 	sta.w ReplayBufferPtr

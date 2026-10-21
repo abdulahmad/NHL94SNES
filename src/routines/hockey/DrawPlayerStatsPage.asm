@@ -21,9 +21,9 @@ DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, S
 	lda.w listrows
 	sta.b d1
 	dec.b d1
-	lda.w #$007E
+	lda.w #textmap>>16
 	sta.b p0+2
-	lda.w #$39B4
+	lda.w #textmap+$1C0
 	sta.b p0
 	ldy.w #$00E0
 	ldx.w #$00C0
@@ -46,9 +46,9 @@ DrawPlayerStatsPage:				; called from ShowPlayerStats, ShowPlayerStats_column, S
 	sta.b a1+2
 	lda.w listend
 	sta.b d1
-	lda.w #$007E
+	lda.w #textmap>>16
 	sta.b p0+2
-	lda.w #$39B4
+	lda.w #textmap+$1C0
 	sta.b p0
 	ldy.w #$00E0
 	ldx.w #$04C0

@@ -11,9 +11,9 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	ora.l Ram7E+2,x
 	beq .bad
 	lda.l Ram7E+2,x
-	cmp.w #$007E
+	cmp.w #Ram7E>>16
 	beq .heap
-	cmp.w #$007F
+	cmp.w #Ram7F>>16
 	bne .bad
 .heap:								; r2 = X, p0+2 = A, p0 = 0, ...
 	stx.b r2
@@ -248,7 +248,7 @@ SetHandleSize:						;resize handle A's block to X bytes: in place when it can, e
 	tax
 	lda.b r3+2
 	phb
-	jsl.l $000010					; mvn written to $10-$13 above, then rtl
+	jsl.l p1						; mvn written to $10-$13 above, then rtl
 	plb
 	lda.b r2
 	jsl.l DisposeHandle

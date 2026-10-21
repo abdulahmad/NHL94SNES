@@ -26,7 +26,7 @@ maketree:							; called from EncodePW, GameOver, NewPO, setoptions
 	asl a
 	asl a
 	sta.b d1
-	lda.w #$007E
+	lda.w #potree>>16
 	sta.b a0+2
 	lda.w #potree
 	sta.b a0
@@ -72,7 +72,7 @@ maketree:							; called from EncodePW, GameOver, NewPO, setoptions
 	asl a
 	adc.w #potree
 	sta.b a0
-	lda.w #$007E
+	lda.w #potree>>16
 	sta.b a0+2
 	stz.b a1
 .loop5:								; loop: gss1,x = $0000, gss2,x = $0000, gsper,x = $0000, ...

@@ -6,7 +6,7 @@ FreeFrameTiles:						; free the tiles of the frame at [p0]: save registers, data
 	phx
 	phy
 	phb
-	pea.w $7E7E
+	pea.w (Ram7E>>16)*$0101
 	plb
 	plb
 	jmp.w .1
@@ -29,7 +29,7 @@ FreeFrameTiles:						; free the tiles of the frame at [p0]: save registers, data
 	adc.b p1+2
 	sta.b p0+2
 	phb
-	pea.w $7E7E
+	pea.w (Ram7E>>16)*$0101
 	plb
 	plb
 .1:									; find the cache entry of the frame
@@ -258,7 +258,7 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 .countfree:							;unused entry (no caller in the ROM): A = the sum of the free run lengths
 									;in BlockRuns, walking the runs from index SpriteBlockTiles
 	phb
-	pea.w $7E7E
+	pea.w (Ram7E>>16)*$0101
 	plb
 	plb
 	stz.b r3

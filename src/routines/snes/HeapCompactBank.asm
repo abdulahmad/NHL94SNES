@@ -127,12 +127,12 @@ HeapCompactBank:					;join free blocks and move unlocked blocks down over them, 
 	beq .mvn7E
 	lda.b r1
 	dec a
-	mvn $7F,$7F
+	mvn Ram7F>>16,Ram7F>>16
 	bra .moved
 .mvn7E:								; bank $7E: block move inside the bank
 	lda.b r1
 	dec a
-	mvn $7E,$7E
+	mvn Ram7E>>16,Ram7E>>16
 .moved:								; the free block now follows the moved one: write its header
 	plb
 	ply

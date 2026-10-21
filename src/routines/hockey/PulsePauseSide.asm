@@ -9,15 +9,15 @@ PulsePauseSide:						; returns nothing (rts); takes no input
 	beq .2							; no side: both white
 	dec a							; side 1?
 	beq .t1							; yes, pulse the other palette entry
-	ldx.w #$76DE					; side 2: pulse this colour
-	ldy.w #$007F
+	ldx.w #colourbuf+$1DE			; side 2: pulse this colour
+	ldy.w #colourbuf>>16
 	lda.w #$FFFF					; the other side's colour white
 	sta.l colourbuf+$1FE			; (colour buffer entry)
 	bra .1							; pulse
 
 .t1:								; side 1: pulse the other colour
-	ldx.w #$76FE					; colour to pulse
-	ldy.w #$007F
+	ldx.w #colourbuf+$1FE			; colour to pulse
+	ldy.w #colourbuf>>16
 	lda.w #$FFFF
 	sta.l colourbuf+$1DE			; the other side's colour white
 .1:									; pulse the colour at x / y

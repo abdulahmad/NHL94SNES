@@ -43,9 +43,9 @@ suba4:								; called from ReplayMode
 	cmp.w #ReplayBufferEnd
 	bne .2
 	lda.b a4+2
-	cmp.w #$007E
+	cmp.w #ReplayBufferEnd>>16
 	bne .2
-	lda.w #$007E
+	lda.w #ReplayBufferStart>>16
 	sta.b a4+2
 	lda.w #ReplayBufferStart
 	sta.b a4
