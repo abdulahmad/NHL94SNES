@@ -2,7 +2,7 @@
 AddPenalty:							; called from Bcheck, a2offsides, a2touchpuck, checkcheck, checkint and...
 	lda.w gmclock
 	bne .rtl
-	lda.w PenShotActive
+	lda.w PenShotActive				; clock stopped
 	bne .rtl						; stopped: no penalty
 	lda.b d0						; penalty number
 	cmp.w #PenIcing					; icing always counts

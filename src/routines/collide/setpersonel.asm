@@ -101,7 +101,7 @@ setpersonel:						; put the wanted players of team a2 on the ice
 .4:									; next PlList slot
 	dec.b d4						; next slot
 	bpl .3
-	lda.w #$0005
+	lda.w #$0005					; second pass
 	sta.b d4
 	lda.w #PlList>>16
 	sta.b a4+2
@@ -112,7 +112,7 @@ setpersonel:						; put the wanted players of team a2 on the ice
 	lda.b [a4],y					; wanted player number
 	and.w #$00FF
 	sta.b d5
-	beq .8
+	beq .8							; none: next
 	dec.b d5						; zero based
 	lda.w #$0005					; search 6 objects
 	sta.b d3						; search 6 objects

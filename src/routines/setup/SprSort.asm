@@ -66,7 +66,7 @@ SprSort:							; sort the objects by screen position
 	cpx.w #$000F					; 15 pairs
 	bne .loop
 	lda.b d2						; swapped: another pass
-	bne .2
+	bne .2							; swapped: sort again
 	pla								; restore the registers
 	sta.b d2+2
 	pla

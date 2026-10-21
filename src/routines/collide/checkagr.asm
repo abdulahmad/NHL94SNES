@@ -9,7 +9,7 @@ checkagr:							; called from Bcheck, checkcheck, holdcheck
 	asl a
 	asl a							; times 16
 	sta.b d0
-	lda.w playerpad,x
+	lda.w playerpad,x				; flags
 	bmi .1
 	asl.b d0						; doubles
 .1:									; if minus go to .2, ...

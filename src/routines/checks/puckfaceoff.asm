@@ -21,7 +21,7 @@ puckfaceoff:						; called from asstab
 .t1x:								; pflags,x bit pfna set: and #$FFFD, pflags,x = A, if gameclock != 0 go...
 	and.w #$FFFD
 	sta.w pflags,x
-	lda.w gameclock
+	lda.w gameclock					; clock out: PeriodOver
 	bne .t2x
 .1xx:								; go to PeriodOver
 	jml.l PeriodOver				; end of a period
@@ -219,7 +219,7 @@ puckfaceoff:						; called from asstab
 	stz.w penshotlive
 	stz.b d0
 	jsl.l .t1xxxxxxx
-	lda.w #$0020
+	lda.w #$0020					; temp2/temp4
 	sta.b d0
 	jsl.l .t1xxxxxxx
 	ldx.b a3

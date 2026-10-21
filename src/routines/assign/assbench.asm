@@ -10,7 +10,7 @@ assbench:							; assignment: skate to the bench door and swap players
 
 .t2:								; not at the wall yet: look for a bench change
 	jsl.l check4bench				; may request a bench change for this player
-	lda.w pflags,x
+	lda.w pflags,x					; player flags
 	bit.w #$4000					; bit $4000 = pf2pen (caused a penalty)
 	beq .t1x
 .1x:								; unreferenced label
@@ -44,7 +44,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	jmp.w .7
 
 .t3:								; different player: head for the door
-	lda.w position,x
+	lda.w position,x				; count the door timer down
 	bne .1x2						; not the goalie: skip
 	lda.w goalieflags,x				; goalie: set goalie flags $0003
 	ora.w #$0003
@@ -54,11 +54,11 @@ assbench:							; assignment: skate to the bench door and swap players
 	sec
 	sbc.b d7
 	sta.w temp1,x
-	bmi .t1x2
+	bmi .t1x2						; expired?
 	jmp.w .6						; still counting: just skate
 
 .t1x2:								; timer expired: re-check the arrival
-	lda.w temp1,x
+	lda.w temp1,x					; reload it
 	adc.w #$0008
 	sta.w temp1,x
 	lda.w Ypos,x					; distance from the bench y, absolute value
@@ -67,7 +67,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	bit.w #$8000					; absolute value
 	beq .2x
 .1xx2:								; negate
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 .2x:								; within 40 of the door y?
 	cmp.w #$0029

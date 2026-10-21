@@ -42,9 +42,9 @@ printbig:							; print a string with the big font
 	jmp.w .8
 
 .t1:								; a control record when bit 7 is set
-	and.w #$00FF
+	and.w #$00FF					; character code
 	bne .t2
-	jmp.w .5
+	jmp.w .5						; zero: skip it
 
 .t2:								; zero byte: skip it
 	cmp.w #$0061
@@ -68,7 +68,7 @@ printbig:							; print a string with the big font
 	beq .1xx
 	ora.w #$FF00
 .1xx:								; negative index = narrow character
-	cmp.w #$0000
+	cmp.w #$0000					; negative: one column wide
 	bpl .2
 	eor.w #$FFFF					; negate
 	inc a
@@ -195,7 +195,7 @@ printbig:							; print a string with the big font
 	and.w #$001F
 	sta.w printy					; printy
 	iny
-	jmp.w .7
+	jmp.w .7						; continue
 .9:									; end of string: restore registers
 	pla
 	sta.b d2+2

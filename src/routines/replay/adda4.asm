@@ -3,7 +3,7 @@ adda4:								; called from ReplayMode
 	stz.b d7						; no extra frames
 	lda.w sflags					; flags
 	bit.w #sf2drec
-	beq .t2
+	beq .t2							; recording?
 	lda.b a4+2						; keep a4
 	pha
 	lda.b a4
@@ -32,7 +32,7 @@ adda4:								; called from ReplayMode
 	lda.b a4+2
 	cmp.w ReplayBufferPtr+2
 	bne .t1
-	rtl
+	rtl								; reached the end
 
 .t1:								; call RestoreReplayFrame
 	jsl.l RestoreReplayFrame		; put one recorded replay frame back into the objects
@@ -41,7 +41,7 @@ adda43:								; called from adda4
 	clc								; next frame
 	adc.w #replaysize
 	sta.b a4
-	bcc .1
+	bcc .1							; carry into the bank
 	inc.b a4+2
 .1:									; if not zero go to .rtl, ...
 	cmp.w #ReplayBufferEnd

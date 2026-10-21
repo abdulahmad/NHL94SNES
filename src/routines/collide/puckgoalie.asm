@@ -6,7 +6,7 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	jmp.w .7
 
 .t1:								; gmode bits gmhl clear: d2 = 0, if puckz - $0008 >= 0 go to .1, ...
-	stz.b d2
+	stz.b d2						; region 0
 	lda.w puckz
 	cmp.w #$0008
 	bpl .1

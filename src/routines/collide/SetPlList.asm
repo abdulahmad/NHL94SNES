@@ -28,9 +28,9 @@ SetPlList:							; called from setpersonel
 
 .t1:								; penshot = 0: if tmgoalie,y >= 0 go to .1, ...
 	ldy.b a2
-	lda.w tmgoalie,y
-	bpl .1
-	inc.b a0
+	lda.w tmgoalie,y				; goalie
+	bpl .1							; no goalie: skip the priolist goalie entry
+	inc.b a0						; skip the goalie entry
 .1:									; call GetTeamLines, a1+2 = a3+2, a1 = a3, ...
 	lda.b a3+2
 	pha
@@ -84,7 +84,7 @@ SetPlList:							; called from setpersonel
 	sta.b [a4],y					; and the slot index
 	rep #$20						; 16-bit A
 	lda.b d5
-	bne .7
+	bne .7							; slot 0 is the goalie
 	ldy.b a2						; goalie: 1 + tmgoalie
 	lda.w tmgoalie,y				; team goalie
 	inc a
@@ -122,7 +122,7 @@ SetPlList:							; called from setpersonel
 	asl a
 	sta.b d3
 	lda.b a2
-	beq .2x
+	beq .2x							; first team?
 	lda.w #$0034					; second team offset
 .2x:								; adc d3, if tmpdst,y = $FFFD go to .3x, ...
 	clc
@@ -134,8 +134,8 @@ SetPlList:							; called from setpersonel
 	cmp.w #$FFFC
 	beq .3x
 	lda.w tmpdst,y
-	bmi .5
-	beq .5
+	bmi .5							; bench or ice: ok
+	beq .5							; ok
 .3x:								; call GetTeamLines, a1+2 = a3+2, a1 = a3, ...
 	lda.b a3+2
 	pha
@@ -179,10 +179,10 @@ SetPlList:							; called from setpersonel
 	and.w #$00FF
 	sta.b d0
 	jsl.l TryAddPlayerToList		; try to add him
-	beq .loop
+	beq .loop						; failed: next candidate
 .5:									; decrement d4, if d4 counted below 0 go to .t1xx, ...
-	dec.b d4
-	bmi .t1xx
+	dec.b d4						; next slot
+	bmi .t1xx						; all done
 	jmp.w .4
 
 .t1xx:								; d4 counted below 0: return
@@ -196,6 +196,6 @@ SetPlList:							; called from setpersonel
 	sta.b d0
 	dec.b d3
 	bmi .5
-	jsl.l TryAddPlayerToList
+	jsl.l TryAddPlayerToList		; try to add him
 	beq .loopx
 	bra .5

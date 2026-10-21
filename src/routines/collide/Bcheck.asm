@@ -35,7 +35,7 @@ Bcheck:								; called from checkcheck
 	and.w #$0007
 	cmp.w #$0003
 	bcs .t1
-	ldx.b a2
+	ldx.b a2						; swap a2 and a3
 	ldy.b a3
 	sty.b a2
 	stx.b a3

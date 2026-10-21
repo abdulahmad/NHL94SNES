@@ -1,10 +1,10 @@
 ; Move object X to its new x / y, checking wall and player collisions
 checkcoll:							; called from updateplayers
 	stz.w collflag
-	lda.w sfhormode
-	beq .1
+	lda.w sfhormode					; horizontal: exg d2,d3
+	beq .1							; collisions flag clear
 	lda.b d2
-	ldy.b d3
+	ldy.b d3						; d3 into d2
 	sty.b d2
 	sta.b d3
 .1:									; if pfnc,x != 0 go to .3, ...
@@ -25,9 +25,9 @@ checkcoll:							; called from updateplayers
 	jsl.l checkwallcoll				; check the wall at the hot spot
 	lda.w Wallcos,x					; wall hit: done
 	ora.w Wallsin,x
-	bne .2
-	cpx.w #$0018
-	bcs .2
+	bne .2							; wall hit: skip the stick
+	cpx.w #$0018					; only players: the end of the stick
+	bcs .2							; only players have a stick end
 	txa								; player number
 	jsl.l GetHot					; GetHot
 	lda.w Xpos,x					; x of the hot spot
@@ -86,8 +86,8 @@ checkcoll:							; called from updateplayers
 	bra .loop
 
 .t1:								; if OOlistpos,x = 0 go to .1x, ...
-	lda.w OOlistpos,x
-	beq .1x
+	lda.w OOlistpos,x				; X's position in the sorted list
+	beq .1x							; at the bottom: done
 	sta.b d1
 .loopx:								; loop: d4 = OOlist-1,y & $00FF, if plus go to .1x, ...
 	ldy.b d1
@@ -118,7 +118,7 @@ checkcoll:							; called from updateplayers
 	rtl
 
 .t3:								; undo the move: restore the old x and y
-	lda.w SPA,x
+	lda.w SPA,x						; restore the old x
 	cmp.w #SPAboardfront
 	bcs .rtl
 	lda.w OldXpos,x					; restore the old x

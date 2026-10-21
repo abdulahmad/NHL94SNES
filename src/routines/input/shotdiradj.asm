@@ -19,9 +19,9 @@ org $9EE002
 	beq .t1
 	iny
 	iny
-	dec.b d1
+	dec.b d1						; next candidate
 	bpl .1
-	jmp.w .5
+	jmp.w .5						; none found
 
 .t1:								; position,y = 0: if zero go to .1x, ...
 	lda.w Xvel+1,y					; goalie x velocity high byte

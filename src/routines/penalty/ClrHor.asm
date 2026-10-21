@@ -24,7 +24,7 @@ ClrHor:								; called from Pausemode, ReplayMode, StartHL2, puckfaceoff, puckf
 	jsl.l SprSort					; sort the sprites
 	lda.w sflags					; flags
 	bit.w #sfpz						; paused: keep the text
-	bne .2
+	bne .2							; keep the text
 	jsl.l ClearTextMap				; fill the text map with the blank tile
 	stz.w textdirtylo
 	lda.w #$03FF

@@ -1,6 +1,6 @@
 ; Look for a new penalty call and stop play when it should be called
 checkfornewpen:						; called from PenaltyManager
-	lda.w sfhormode
+	lda.w sfhormode					; not in horizontal mode
 	beq .t1
 	jmp.w .6
 
@@ -14,13 +14,13 @@ checkfornewpen:						; called from PenaltyManager
 	and.w #$00FF
 	cmp.w #$0034
 	beq .4
-	tay
+	tay								; zero: end of the buffer
 	bne .t2
 	jmp.w .6
 
 .t2:								; if gmode bit gmpen set go to .3, ...
-	lda.w gmode
-	bit.w #gmpen
+	lda.w gmode						; already called: mark it
+	bit.w #gmpen					; penalty already stopped play?
 	bne .3
 	dec.b a0						; type byte
 	dec.b a0
@@ -40,8 +40,8 @@ checkfornewpen:						; called from PenaltyManager
 	sta.b a1
 	lda.b [a1]						; minutes
 	and.w #$00FF
-	beq .2
-	lda.w puckc
+	beq .2							; none: call it now
+	lda.w puckc						; no carrier, or the guilty team has the puck... else delayed call
 	bmi .7
 	lsr a
 	sec
@@ -103,8 +103,8 @@ checkfornewpen:						; called from PenaltyManager
 	sbc.w Pencntdwn					; compare with the countdown
 	beq .5
 	bmi .5
-	lda.b d1
-	sta.w Pencntdwn
+	lda.b d1						; longer: take it
+	sta.w Pencntdwn					; countdown
 .5:									; go to .4
 	jmp.w .4
 .6:									; return

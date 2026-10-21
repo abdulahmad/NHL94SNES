@@ -12,9 +12,9 @@ chkatop:							; called from updatepentime
 	sbc.w #$FFA8					; minus -$58
 	bpl .rtl
 .1:									; if gmode bits gmdir clear go to .2, ...
-	lda.w gmode
-	bit.w #gmdir
-	beq .2
+	lda.w gmode						; gmdir: swap the teams
+	bit.w #gmdir					; direction swapped?
+	beq .2							; yes
 	lda.b d1
 	eor.w #$0002					; swap the teams
 	sta.b d1

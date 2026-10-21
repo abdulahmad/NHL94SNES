@@ -32,8 +32,8 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	sec
 	sbc.b d7						; minus d7
 	sta.w temp1,x
-	bpl .2x
-	lda.w aidef,x
+	bpl .2x							; not up
+	lda.w aidef,x					; reload from aidef
 	sta.w temp1,x
 .2x:								; ror a, d0 = A, d1 = $0080, ...
 	lda.w puckx						; puck x
@@ -45,7 +45,7 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	lda.w #$0080					; target y
 	sta.b d1
 	lda.w pfgoal,x					; goal end
-	beq .t2
+	beq .t2							; top
 	lda.w #$FF80					; bottom end
 	sta.b d1
 	lda.w #$FFA8
@@ -60,7 +60,7 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	pla								; /2
 	ror a
 	sta.b d1
-	bra .3
+	bra .3							; skate there
 
 .t1:								; bare return, not branched to in this file
 	rtl

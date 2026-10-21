@@ -15,7 +15,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	stz.b p0						; p0 = 0: no cup scene
 	lda.w gsp						; period (0 based)
 	cmp.w #$0002					; third period or later?
-	bcs .t1
+	bcs .t1							; yes
 	jmp.w .8						; first or second period: no celebration
 
 .t1:								; third period or overtime: celebrate with assignment 8

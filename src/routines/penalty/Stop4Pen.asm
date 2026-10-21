@@ -1,7 +1,7 @@
 ; Stop play for a penalty: stop the clock, set the face off spot and blow the whistle
 Stop4Pen:							; called from FallDown, checkfornewpen, puckfaceoff
-	lda.w #$FFFF
-	tsb.w gmclock
+	lda.w #$FFFF					; clock already stopped: skip the face off spot
+	tsb.w gmclock					; stop the clock (all bits)
 	beq .t1
 	jmp.w .6
 
@@ -22,7 +22,7 @@ Stop4Pen:							; called from FallDown, checkfornewpen, puckfaceoff
 	lda.l lty
 	sta.b d1
 	pla
-	cmp.w #PenOOP
+	cmp.w #PenOOP					; OOP: last touch
 	beq .1
 	ldy.w puckx						; puck x
 	sty.b d0

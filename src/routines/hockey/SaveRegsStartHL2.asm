@@ -19,7 +19,7 @@ SaveRegsStartHL2:					; called from DoHiLights
 	inx
 	cpx.w #$001C
 	bne .loop2
-	ldx.b xsave
+	ldx.b xsave						; restore X
 StartHL2:							; entry point, no direct callers found
 	lda.w sflags3
 	bit.w #$0008
@@ -27,7 +27,7 @@ StartHL2:							; entry point, no direct callers found
 	jmp.w .15
 
 .t1:								; sflags3 bits $0008 clear: call .18, d3 = d1, call NewTicker3, ...
-	jsl.l .18
+	jsl.l .18						; save the game state
 	lda.b d1
 	sta.b d3
 	jsl.l NewTicker3				; shows the ticker box
@@ -37,7 +37,7 @@ StartHL2:							; entry point, no direct callers found
 	jmp.w .14
 
 .t3:								; sflags3 bits $0008 clear: printx = $0004, printy = $0014, d0 = $0018...
-	lda.w #$0004
+	lda.w #$0004					; Framer 24 x 3
 	sta.w printx
 	lda.w #$0014
 	sta.w printy
@@ -140,7 +140,7 @@ StartHL2:							; entry point, no direct callers found
 	lda.w #$0010
 	sta.w gmode
 	stz.w gmclock
-	lda.w gsp
+	lda.w gsp						; odd period: gmdir
 	lsr a
 	bcc .2
 	lda.w #$0002
@@ -151,7 +151,7 @@ StartHL2:							; entry point, no direct callers found
 	sta.w sflags
 	stz.w sfhormode
 	stz.w iflags
-	lda.w #$FFFF
+	lda.w #$FFFF					; RefCnt, puckcross times -1
 	sta.w RefCnt
 	sta.w puckcross+pcframes
 	sta.w puckcross+pcsize+pcframes
@@ -223,7 +223,7 @@ org $9F9001
 	lda.b vcount
 	sta.w oldvcount
 .loop3:								; loop: if vcount = oldvcount go to .loop3, ...
-	lda.b vcount
+	lda.b vcount					; the frame time steps as the game loop
 	cmp.w oldvcount
 	beq .loop3
 	tax
@@ -252,7 +252,7 @@ org $9F9001
 	bne .7
 	ldx.b d7
 .loop4:								; loop: if gameclock = 0 go to .6, ...
-	lda.w gameclock
+	lda.w gameclock					; run the clock
 	beq .6
 	lda.w gameclock+2
 	sec
@@ -282,7 +282,7 @@ org $9F9001
 	lda.b d1
 	bit.w #$9080
 	beq .loop3
-	lda.w tmscore
+	lda.w tmscore					; tied: random goal
 	cmp.w tmscore+2
 	bne .9
 	jsl.l RandomWord
@@ -316,10 +316,10 @@ org $9F9001
 	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
-	jsl.l .19
+	jsl.l .19						; restore the game state
 	jsl.l setplayercolors			; set the team colours and send the whole palette to CGRAM
 	jsl.l SetHor					; switches to the horizontal rink
-	jsl.l SpriteFrameStart
+	jsl.l SpriteFrameStart			; update the video
 	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l SpriteFrameEnd
 .loop6:								; loop: if SoundFadeSpeed != 0 go to .loop6, ...
@@ -370,8 +370,8 @@ org $9F9001
 	jsl.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
 	jsl.l Pmenu						; draw the pause menu: five items of the current list from item psfirst
 	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
-	jsl.l ScreenOn
-	stx.b xsave
+	jsl.l ScreenOn					; DisplayStats
+	stx.b xsave						; keep X
 	ldx.w #$001A
 .loopx:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
@@ -379,8 +379,8 @@ org $9F9001
 	dex
 	dex
 	bpl .loopx
-	ldx.b xsave
-	stx.b xsave
+	ldx.b xsave						; restore X
+	stx.b xsave						; keep X
 	ldx.w #$001E
 .loop2x:							; loop: d0,x = pulled value, X - 1, X - 1, ...
 	pla
@@ -388,9 +388,9 @@ org $9F9001
 	dex
 	dex
 	bpl .loop2x
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	ldx.b a3
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .loop3x:							; loop: X + 1, X + 1, if not zero go to .loop3x, ...
 	lda.b d0,x
@@ -399,8 +399,8 @@ org $9F9001
 	inx
 	cpx.w #$0020
 	bne .loop3x
-	ldx.b xsave
-	stx.b xsave
+	ldx.b xsave						; restore X
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .loop4x:							; loop: X + 1, X + 1, if not zero go to .loop4x, ...
 	lda.b a0,x
@@ -409,7 +409,7 @@ org $9F9001
 	inx
 	cpx.w #$001C
 	bne .loop4x
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	ldx.b a0
 	lda.w #$0004
 	sta.l gsper,x
@@ -460,7 +460,7 @@ org $9F9001
 	adc.w #$1000
 	tay
 	jsl.l DMAToVRAM					; DMA X bytes from [p0] to video memory at Y
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$001A
 .loopxx:							; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla
@@ -468,8 +468,8 @@ org $9F9001
 	dex
 	dex
 	bpl .loopxx
-	ldx.b xsave
-	stx.b xsave
+	ldx.b xsave						; restore X
+	stx.b xsave						; keep X
 	ldx.w #$001E
 .loop2xx:							; loop: d0,x = pulled value, X - 1, X - 1, ...
 	pla
@@ -477,7 +477,7 @@ org $9F9001
 	dex
 	dex
 	bpl .loop2xx
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	ldx.b a3
 	rtl
 .14:								; printx = $0004, printy = $0014, d0 = $0018, ...

@@ -33,7 +33,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	sbc.b d7						; minus the frame count
 	sta.w temp1,x
 	bpl .3
-	adc.w aioff,x
+	adc.w aioff,x					; reload from aioff
 	bpl .3x
 .2x:								; falls through
 	lda.w #$0000

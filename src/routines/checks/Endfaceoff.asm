@@ -74,7 +74,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	and.w #$0003
 	bne .8
 .7:									; call randoma8, decrement a, decrement a, ...
-	lda.w #$0005
+	lda.w #$0005					; random direction -2..2
 	jsl.l randoma8					; random number below A
 	dec a
 	dec a

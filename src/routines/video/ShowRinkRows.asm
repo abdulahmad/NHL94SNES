@@ -14,8 +14,8 @@ ShowRinkRows:						; called from setvideo
 	tax								; X = row
 	sec
 	sbc.w Oldrow					; minus the old row
-	bne .t1
-	jmp.w .4
+	bne .t1							; unchanged
+	jmp.w .4						; nothing to do
 
 .t1:								; if plus go to .2, ...
 	bpl .2
@@ -39,8 +39,8 @@ ShowRinkRows:						; called from setvideo
 	stz.b tmp2
 	bra .3
 .2:									; Oldrow = X, if carry set go to .1, ...
-	stx.w Oldrow
-	cmp.w #$0019
+	stx.w Oldrow					; new old row
+	cmp.w #$0019					; more than 24 rows
 	bcs .1
 	sta.b tmp1						; rows to draw
 	adc.w vramrow					; video row

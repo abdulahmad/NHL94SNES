@@ -4,13 +4,13 @@ PushTime:							; called from AttribStatus, FillPenaltyPage, FillScoringPage, Pr
 	sta.b a1+2
 	lda.w #mesareaEnd
 	sta.b a1
-	lda.b d0
+	lda.b d0						; seconds
 	sta.b r2
-	lda.w #$000A
+	lda.w #$000A					; 10
 	sta.b r1
-	jsl.l Div16x8U
-	dec.b a1
-	sep #$20
+	jsl.l Div16x8U					; divide
+	dec.b a1						; one character back
+	sep #$20						; 8-bit A
 	lda.w RDMPYL
 	clc
 	adc.b #$30						; ASCII
@@ -18,11 +18,11 @@ PushTime:							; called from AttribStatus, FillPenaltyPage, FillScoringPage, Pr
 	rep #$30						; 16-bit registers
 	lda.b r0
 	sta.b r2
-	lda.w #$0006
+	lda.w #$0006					; 6
 	sta.b r1
-	jsl.l Div16x8U
-	dec.b a1
-	sep #$20
+	jsl.l Div16x8U					; seconds tens
+	dec.b a1						; one character back
+	sep #$20						; 8-bit A
 	lda.w RDMPYL
 	clc
 	adc.b #$30
@@ -35,11 +35,11 @@ PushTime:							; called from AttribStatus, FillPenaltyPage, FillScoringPage, Pr
 	rep #$30						; 16-bit registers
 	lda.b r0
 	sta.b r2
-	lda.w #$000A
+	lda.w #$000A					; 10
 	sta.b r1
-	jsl.l Div16x8U
-	dec.b a1
-	sep #$20
+	jsl.l Div16x8U					; minutes ones
+	dec.b a1						; one character back
+	sep #$20						; 8-bit A
 	lda.w RDMPYL
 	clc
 	adc.b #$30

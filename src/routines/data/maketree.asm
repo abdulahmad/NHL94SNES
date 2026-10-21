@@ -19,7 +19,7 @@ maketree:							; called from EncodePW, GameOver, NewPO, setoptions
 	inx
 	cpx.w #$0010
 	bne .loop2
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	lda.l postarts
 	asl a
 	asl a
@@ -67,7 +67,7 @@ maketree:							; called from EncodePW, GameOver, NewPO, setoptions
 	bpl .loop4
 	jsl.l GetShifter				; games of the round less one and its first win bit
 	lda.b d1
-	bmi .1
+	bmi .1							; round has no games
 	lda.b d2
 	asl a
 	adc.w #potree

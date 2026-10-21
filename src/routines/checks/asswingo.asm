@@ -40,15 +40,15 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	sec
 	sbc.b d7						; minus the frame count
 	sta.w temp1,x
-	bmi .t1
+	bmi .t1							; expired: reevaluate
 	jmp.w .7
 
 .t1:								; temp1 ran out: add aidef,x to it and pick a new spot
 	clc
-	adc.w aidef,x
+	adc.w aidef,x					; reload from aidef
 	bpl .2x
 .1xx:								; falls through
-	lda.w #$0000
+	lda.w #$0000					; not below zero
 .2x:								; temp1,x = A, d0 = pucky, if zero go to .3x, ...
 	sta.w temp1,x
 	lda.w pucky						; d3 = pucky + puckvy / 64
@@ -104,8 +104,8 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	lda.b d2
 	cmp.w temp5,x					; same zone as last time?
 	bne .6
-	lda.w seed
-	cmp.w #$0200
+	lda.w seed						; same zone: new spot only now and then
+	cmp.w #$0200					; random
 	bcs .7
 .6:									; temp5,x = d2, a0 = long .9, ...
 	lda.b d2
@@ -121,8 +121,8 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	dey
 	dey
 	jsl.l randomd0s					; A = a random number from -A to A-1
-	adc.b [a0],y
-	sta.w temp3,x
+	adc.b [a0],y					; plus the zone x
+	sta.w temp3,x					; temp3 = spot x
 	tya
 	clc
 	adc.w #$0006

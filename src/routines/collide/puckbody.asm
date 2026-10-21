@@ -33,7 +33,7 @@ puckbody:							; called from checkpuckcoll_ccx
 	sec
 	sbc.w Ypos,y
 	sta.b d1
-	bne .1
+	bne .1							; centered: use the hot spot
 	tya
 	jsl.l GetHot
 .1:									; d2 = Xvel,x, d3 = Yvel,x, Xvel+1,x = d0, ...
@@ -80,7 +80,7 @@ org $9EF000
 	rtl
 .4:									; if pfalock,y != 0 go to .3, ...
 	ldy.b a2
-	lda.w pfalock,y
+	lda.w pfalock,y					; pfalock: already in a locked animation
 	bne .3
 	inc a
 	sta.w pf2aip,y
