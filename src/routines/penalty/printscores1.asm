@@ -1,7 +1,7 @@
 ; Draw the scoreboard: the period and score boxes on the vertical rink, or the period, teams and scores on the
 ; horizontal rink
 printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2 and 4 more
-	lda.b d0
+	lda.b d0						;keep d0-d2
 	pha
 	lda.b d0+2
 	pha
@@ -23,9 +23,9 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	cpx.w #$0010
 	bne .savea
 	ldx.b xsave
-	lda.w sfhormode
-	beq .v
-	jmp.w .sbscreen
+	lda.w sfhormode					;horizontal rink?
+	beq .v							;no: vertical boxes
+	jmp.w .sbscreen					;yes: scoreboard
 
 .v:									; sfhormode = 0: a1 = printscores1Pos, call print, a1 = pulled value, ...
 	lda.b a1+2
@@ -41,14 +41,14 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #$0009
+	lda.w #$0009					;9 wide
 	sta.b d0
-	lda.w #$0005
+	lda.w #$0005					;5 high
 	sta.b d1
 	jsl.l Framer					; draw a frame and fill it
-	lda.l OptPlayMode
-	cmp.w #$0004
-	beq .t2
+	lda.l OptPlayMode				;play mode
+	cmp.w #$0004					;shootout?
+	beq .t2							;yes: round number
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -62,20 +62,20 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w gsp
-	sta.b d0
-	cmp.w #$0004
-	bne .noso
-	dec.w printx
-	inc.b d0
+	lda.w gsp						;period
+	sta.b d0						;d0
+	cmp.w #$0004					;period 4?
+	bne .noso						;no
+	dec.w printx					;one column left
+	inc.b d0						;overtime label
 .noso:								; a1 = PerLabels, call PrintStringFromList, call EASNLogo, ...
 	lda.w #PerLabels>>16
 	sta.b a1+2
 	lda.w #PerLabels
 	sta.b a1
-	jsl.l PrintStringFromList		; prints a string from a list
-	jsl.l EASNLogo					; draw the logo
-	jsl.l updatepwrplay				; show the power play box: the time left and the team on the power play
+	jsl.l PrintStringFromList		;print the period
+	jsl.l EASNLogo					;logo
+	jsl.l updatepwrplay				;power play box
 	bra .scores
 
 .t2:								; OptPlayMode = $0004: a1 = RoundTxt, call print, a1 = pulled value, ...
@@ -92,19 +92,19 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #$0006
+	lda.w #$0006					;column 6
 	sta.w printx
-	lda.w shootoutround
+	lda.w shootoutround				;round
 	sta.b d0
-	lda.w #$0002
+	lda.w #$0002					;2 digits
 	sta.b d1
 	jsl.l PushNumberWrap			; PushNumberWidth, with d0 taken mod 100 when the width d1 is 2
-	jsl.l print
+	jsl.l print						;print it
 .scores:							; if sflags3 bits sf3llcs clear go to .boxes, ...
-	lda.w sflags3
-	bit.w #sf3llcs
-	beq .boxes
-	jmp.w .ex
+	lda.w sflags3					;flags
+	bit.w #sf3llcs					;line change box up?
+	beq .boxes						;no: score boxes
+	jmp.w .ex						;yes: skip them
 
 .boxes:								; sflags3 bits sf3llcs clear: a1 = printscores1Pos3, call print, a1 = p...
 	lda.b a1+2
@@ -120,9 +120,9 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #$0009
+	lda.w #$0009					;9 wide
 	sta.b d0
-	lda.w #$0005
+	lda.w #$0005					;5 high
 	sta.b d1
 	jsl.l Framer					; draw a frame and fill it
 	lda.b a1+2
@@ -138,9 +138,9 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	stz.b d3
-	stz.b a2
-	jsl.l PrintTeamNameAndScore		; prints a team and its score
+	stz.b d3						;team 0
+	stz.b a2						;home
+	jsl.l PrintTeamNameAndScore		;home name and score
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -154,19 +154,19 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	inc.b d3
+	inc.b d3						;team 1
 	inc.b a2
-	inc.b a2
-	jsl.l PrintTeamNameAndScore		; prints a team and its score
-	stz.b a2
+	inc.b a2						;visitors
+	jsl.l PrintTeamNameAndScore		;visitors' name and score
+	stz.b a2						;home
 	lda.w #$0002
-	sta.b a3
-	lda.w gmode
-	bit.w #gmdir
-	bne .ends
-	stz.b a3
+	sta.b a3						;a3 = visitors
+	lda.w gmode						;game mode
+	bit.w #gmdir					;ends swapped?
+	bne .ends						;yes
+	stz.b a3						;visitors
 	lda.w #$0002
-	sta.b a2
+	sta.b a2						;a2 = home
 .ends:								; a1 = printscores1Pos6, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
@@ -182,7 +182,7 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	pla
 	sta.b a1+2
 	jsl.l nullrtl89					; does nothing
-	ldx.b a2
+	ldx.b a2						;swap a2 and a3
 	lda.b a3
 	sta.b a2
 	stx.b a3
@@ -202,15 +202,15 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	jsl.l nullrtl89					; does nothing
 .ex:								; xsave = X
 	stx.b xsave
-	ldx.w #$000E
+	ldx.w #$000E					;8 words
 .resta:								; loop: a0,x = pulled value, X - 1, X - 1, ...
-	pla
+	pla								;restore a0-a7
 	sta.b a0,x
 	dex
 	dex
 	bpl .resta
 	ldx.b xsave
-	pla
+	pla								;restore d0-d2
 	sta.b d2+2
 	pla
 	sta.b d2
@@ -222,7 +222,7 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b d0+2
 	pla
 	sta.b d0
-	ldx.b a3
+	ldx.b a3						;current object
 	rtl
 .sbscreen:							; a1 = printscores1Pos8, call print, a1 = pulled value, ...
 	lda.b a1+2
@@ -238,8 +238,8 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l PrintPerLabel				; prints the period label
-	lda.b d1
+	jsl.l PrintPerLabel				;period
+	lda.b d1						;keep d1
 	pha
 	lda.b a1+2
 	pha
@@ -254,12 +254,12 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w tmscore
+	lda.w tmscore					;home score
 	sta.b d0
-	jsl.l Mod100					; d0 = d0 mod 100
-	jsl.l PushNumber				; a1 = d0 as a decimal string, no leading zeros
-	jsl.l AlignBigNumber
-	jsl.l printbig
+	jsl.l Mod100					;2 digits
+	jsl.l PushNumber				;as text
+	jsl.l AlignBigNumber			;right aligned
+	jsl.l printbig					;big digits
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -273,12 +273,12 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w tmscore+2
+	lda.w tmscore+2					;visitors' score
 	sta.b d0
-	jsl.l Mod100					; d0 = d0 mod 100
-	jsl.l PushNumber				; a1 = d0 as a decimal string, no leading zeros
-	jsl.l AlignBigNumber
-	jsl.l printbig
+	jsl.l Mod100					;2 digits
+	jsl.l PushNumber				;as text
+	jsl.l AlignBigNumber			;right aligned
+	jsl.l printbig					;big digits
 	pla
-	sta.b d1
-	jmp.w .ex
+	sta.b d1						;restore d1
+	jmp.w .ex						;finish

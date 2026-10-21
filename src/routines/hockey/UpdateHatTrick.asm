@@ -1,308 +1,308 @@
 ; While hattrick is set (not in horizontal mode or a replay): launch and move the ten hat trick sprites on
 ; random arcs and draw them
 UpdateHatTrick:						; called from showcrowd
-	lda.w sfhormode
-	bne .rtl
-	lda.w sflags
-	and.w #$0800
-	bne .rtl
-	lda.l hattrick
+	lda.w sfhormode					;horizontal rink?
+	bne .rtl						;yes: no hats
+	lda.w sflags					;flags
+	and.w #$0800					;replay?
+	bne .rtl						;yes: no hats
+	lda.l hattrick					;hat trick on?
 	bne .t1
 .rtl:								; return
 	rtl
 
 .t1:								; hattrick != 0: falls through
-	ldx.w #$0012
+	ldx.w #$0012					;last of 10 hats
 .1:									; d4 = X, if hatstep,x = 0 go to .t3, ...
 	stx.b d4
-	lda.l hatstep,x
-	beq .t3
-	jmp.w .7
+	lda.l hatstep,x					;hat state
+	beq .t3							;not thrown yet
+	jmp.w .7						;flying: move it
 
 .t3:								; hatstep,x = 0: call RandomWord, and #$07C0, if zero go to .t1x, ...
 	jsl.l RandomWord
-	and.w #$07C0
-	beq .t1x
-	jmp.w .6
+	and.w #$07C0					;1 in 32 a frame
+	beq .t1x						;throw it
+	jmp.w .6						;not yet
 
 .t1x:								; call RandomWord, and #$003F, d0 = A, ...
 	jsl.l RandomWord
-	and.w #$003F
-	sta.b d0
-	lsr a
-	adc.b d0
+	and.w #$003F					;random 0-63
+	sta.b d0						;d0
+	lsr a							;half
+	adc.b d0						;plus: x1.5
 	clc
-	adc.w #$0050
+	adc.w #$0050					;plus 80
 	asl a
 	asl a
 	asl a
-	asl a
-	sta.b d0
+	asl a							;x16
+	sta.b d0						;landing x
 	jsl.l RandomWord
-	and.w #$003F
+	and.w #$003F					;random 0-63
 	clc
-	adc.w #$0060
+	adc.w #$0060					;plus 96
 	asl a
 	asl a
 	asl a
-	asl a
-	sta.b d1
+	asl a							;x16
+	sta.b d1						;landing y
 	jsl.l RandomWord
-	and.w #$00FF
+	and.w #$00FF					;random 0-255
 	asl a
 	asl a
 	asl a
-	asl a
-	sta.l haty,x
+	asl a							;x16
+	sta.l haty,x					;start y
 	jsl.l RandomWord
-	and.w #$003F
+	and.w #$003F					;random 0-63
 	clc
-	adc.w #$0078
-	sta.b d2
-	lda.b d1
+	adc.w #$0078					;plus 120
+	sta.b d2						;d2 = flight frames
+	lda.b d1						;landing y
 	sec
-	sbc.l haty,x
+	sbc.l haty,x					;minus the start
 	tax
-	lda.b d2
-	jsl.l DivX8S					; X / A into A, X signed
+	lda.b d2						;frames
+	jsl.l DivX8S					;/ frames
 	ldx.b d4
-	sta.l hatvy,x
+	sta.l hatvy,x					;y speed
 	lda.b d0
-	and.w #$0100
-	beq .t2
-	lda.w #$1100
+	and.w #$0100					;which side?
+	beq .t2							;left
+	lda.w #$1100					;from the right edge
 	sta.l hatx,x
-	lda.b d0
+	lda.b d0						;landing x
 	sec
-	sbc.w #$1100
+	sbc.w #$1100					;minus the start
 	bra .2
 
-.t2:								; d0 & $0100 = 0: hatx,x = $FF00
+.t2:								;from the left edge
 	lda.w #$FF00
 	sta.l hatx,x
 	lda.b d0
 	sec
 	sbc.w #$FF00
-.2:									; call DivX8S, hatvx,x = A, call Mul8U, ...
+.2:									;minus the start
 	tax
-	lda.b d2
-	jsl.l DivX8S					; X / A into A, X signed
+	lda.b d2						;frames
+	jsl.l DivX8S					;/ frames
 	ldx.b d4
-	sta.l hatvx,x
-	lda.b d2
-	lsr a
+	sta.l hatvx,x					;x speed
+	lda.b d2						;frames
+	lsr a							;/4
 	lsr a
 	tax
-	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
+	jsl.l Mul8U						;squared
 	ldx.b d4
-	sta.b d2
-	asl a
-	adc.b d2
-	sta.l hatz,x
-	jsl.l RandomWord
+	sta.b d2						;d2
+	asl a							;x2
+	adc.b d2						;x3
+	sta.l hatz,x					;start height
+	jsl.l RandomWord				;random
 	lsr a
-	lsr a
-	and.w #$0003
-	beq .1x
-	dec a
+	lsr a							;/4
+	and.w #$0003					;0-3
+	beq .1x							;0 stays 0
+	dec a							;else 0-2
 .1x:								; d2 = A, asl a, adc d2, ...
-	sta.b d2
+	sta.b d2						;kind
 	asl a
-	adc.b d2
-	sta.l hatkind,x
+	adc.b d2						;x3 frames
+	sta.l hatkind,x					;hat kind
 	lda.w #$0000
-	sta.l hatvz
-	inc a
-	sta.l hatstep,x
-	lda.l .9,x
-	sta.l hattimer,x
+	sta.l hatvz						;no fall speed (only hat 0's slot)
+	inc a							;step 1
+	sta.l hatstep,x					;hat state
+	lda.l .9,x						;frame time
+	sta.l hattimer,x				;hat timer
 .5:									; r0 = hatkind,x + hatstep,x + SPFhat-1-1, p1 = SpriteFrames, ...
-	lda.l hatkind,x
+	lda.l hatkind,x					;kind
 	clc
-	adc.l hatstep,x
+	adc.l hatstep,x					;plus the step
 	clc
-	adc.w #SPFhat-1-1				; DrawSprite index (frame - 1); the step counts from 1
+	adc.w #SPFhat-1-1				;sprite
 	sta.b r0
-	lda.w #SpriteFrames>>16
+	lda.w #SpriteFrames>>16			;sprite frames
 	sta.b p1+2
 	lda.w #SpriteFrames
 	sta.b p1
-	lda.l hatz,x
+	lda.l hatz,x					;height
+	lsr a							;/16
 	lsr a
 	lsr a
 	lsr a
-	lsr a
-	eor.w #$FFFF					; negate: two's complement
+	eor.w #$FFFF					;negate
 	inc a
 	clc
 	adc.l haty,x
+	lsr a							;/16
 	lsr a
 	lsr a
 	lsr a
-	lsr a
-	bit.w #$0800
+	bit.w #$0800					;sign bit?
 	beq .1xx
-	ora.w #$F000
-.1xx:								; if zero go to .2x, ...
+	ora.w #$F000					;sign extend
+.1xx:								;screen y
 	tay
-	lda.l hatx,x
+	lda.l hatx,x					;x
+	lsr a							;/16
 	lsr a
 	lsr a
 	lsr a
-	lsr a
-	bit.w #$0800
+	bit.w #$0800					;sign bit?
 	beq .2x
-	ora.w #$F000
-.2x:								; call DrawSprite, r0 = SPFhatshadow-1, if zero go to .3, ...
+	ora.w #$F000					;sign extend
+.2x:								;screen x
 	tax
-	lda.w #$2000
-	jsl.l DrawSprite
-	ldx.b d4
-	lda.w #SPFhatshadow-1
+	lda.w #$2000					;palette 0
+	jsl.l DrawSprite				;draw the hat
+	ldx.b d4						;hat
+	lda.w #SPFhatshadow-1			;shadow sprite
 	sta.b r0
-	lda.l haty,x
+	lda.l haty,x					;y
+	lsr a							;/16
 	lsr a
 	lsr a
 	lsr a
-	lsr a
-	bit.w #$0800
+	bit.w #$0800					;sign bit?
 	beq .3
-	ora.w #$F000
-.3:									; if zero go to .4, ...
+	ora.w #$F000					;sign extend
+.3:									;screen y
 	tay
-	lda.l hatx,x
+	lda.l hatx,x					;x
+	lsr a							;/16
 	lsr a
 	lsr a
 	lsr a
-	lsr a
-	bit.w #$0800
+	bit.w #$0800					;sign bit?
 	beq .4
-	ora.w #$F000
-.4:									; call DrawSprite
+	ora.w #$F000					;sign extend
+.4:									;screen x
 	tax
-	lda.w #$2000
-	jsl.l DrawSprite
+	lda.w #$2000					;palette 0
+	jsl.l DrawSprite				;draw the shadow
 .6:									; X - 1, X - 1, if X counted below 0 go to .t1xx, ...
-	ldx.b d4
+	ldx.b d4						;hat
 	dex
 	dex
-	bmi .t1xx
-	jmp.w .1
+	bmi .t1xx						;all done
+	jmp.w .1						;next hat
 
 .t1xx:								; X counted below 0: return
 	rtl
 .7:									; if plus go to .t1xxx, ...
-	lda.l hattimer,x
+	lda.l hattimer,x				;timer
 	sec
-	sbc.w timestep
-	bpl .t1xxx
+	sbc.w timestep					;minus the frame time
+	bpl .t1xxx						;not yet
 	clc
-	adc.l .9,x
-	sta.l hattimer,x
-	lda.l hatstep,x
-	inc a
-	cmp.w #$0004
-	bne .1xxx
-	lda.w #$0001
+	adc.l .9,x						;plus the step time
+	sta.l hattimer,x				;reload
+	lda.l hatstep,x					;animation step
+	inc a							;next
+	cmp.w #$0004					;past 3?
+	bne .1xxx						;no
+	lda.w #$0001					;back to 1
 .1xxx:								; hatstep,x = A, go to .8
-	sta.l hatstep,x
+	sta.l hatstep,x					;hat state
 	bra .8
 
 .t1xxx:								; hattimer,x = A
-	sta.l hattimer,x
+	sta.l hattimer,x				;timer
 .8:									; if timestep = 0 go to .1xxxx
-	ldy.w timestep
-	beq .1xxxx
+	ldy.w timestep					;frames to step
+	beq .1xxxx						;none
 .loop:								; loop: call .t3x, Y - 1, if Y not yet 0 go to .loop
-	jsl.l .t3x
+	jsl.l .t3x						;one step of movement
 	dey
-	bne .loop
-.1xxxx:								; go to .5
+	bne .loop						;all
+.1xxxx:								;draw
 	jmp.w .5
 
 .t3x:								; subroutine: ora hatvy,x, if zero go to .rtlx, ...
-	lda.l hatvx,x
-	ora.l hatvy,x
-	beq .rtlx
-	lda.l hatx,x
+	lda.l hatvx,x					;x speed
+	ora.l hatvy,x					;or y speed
+	beq .rtlx						;stopped: done
+	lda.l hatx,x					;x
 	clc
-	adc.l hatvx,x
-	sta.l hatx,x
-	lda.l haty,x
+	adc.l hatvx,x					;plus the x speed
+	sta.l hatx,x					;new x
+	lda.l haty,x					;y
 	clc
-	adc.l hatvy,x
-	sta.l haty,x
-	lda.l hatz,x
-	beq .t2x
-	lda.l hatvz,x
+	adc.l hatvy,x					;plus the y speed
+	sta.l haty,x					;new y
+	lda.l hatz,x					;height
+	beq .t2x						;landed
+	lda.l hatvz,x					;fall speed
+	lsr a							;/4
 	lsr a
-	lsr a
-	bit.w #$2000
+	bit.w #$2000					;sign bit?
 	beq .1xxxxx
-	ora.w #$C000
+	ora.w #$C000					;sign extend
 .1xxxxx:							; eor #$FFFF, increment a, adc hatz,x, ...
-	eor.w #$FFFF					; negate: two's complement
+	eor.w #$FFFF					;negate
 	inc a
 	clc
-	adc.l hatz,x
-	bmi .t1xxxx
-	sta.l hatz,x
-	lda.l hatvz,x
+	adc.l hatz,x					;plus the height
+	bmi .t1xxxx						;below the ice
+	sta.l hatz,x					;new height
+	lda.l hatvz,x					;fall speed
 	clc
-	adc.w #$0006
-	sta.l hatvz,x
+	adc.w #$0006					;plus gravity 6
+	sta.l hatvz,x					;faster
 .rtlx:								; return
 	rtl
 
 .t1xxxx:							; hatz,x = $0000, return
-	lda.w #$0000
+	lda.w #$0000					;on the ice
 	sta.l hatz,x
 	rtl
 
 .t2x:								; hatz,x = 0: hatvz,x = $0000, hatz,x = $0000, hattimer,x = $03E8, ...
-	lda.w #$0000
+	lda.w #$0000					;stop falling
 	sta.l hatvz,x
-	sta.l hatz,x
-	lda.w #$03E8
-	sta.l hattimer,x
-	lda.l hatvx,x
-	cmp.w #$0010
+	sta.l hatz,x					;on the ice
+	lda.w #$03E8					;1000
+	sta.l hattimer,x				;timer
+	lda.l hatvx,x					;x speed
+	cmp.w #$0010					;slow right?
 	bcc .t1xxxxx
-	cmp.w #$FFF0
-	bcs .t1xxxxx
+	cmp.w #$FFF0					;slow left?
+	bcs .t1xxxxx					;yes
+	lsr a							;/16
 	lsr a
 	lsr a
 	lsr a
-	lsr a
-	bit.w #$0800
+	bit.w #$0800					;sign bit?
 	beq .1xxxxxx
-	ora.w #$F000
+	ora.w #$F000					;sign extend
 .1xxxxxx:							; eor #$FFFF, increment a, adc hatvx,x, ...
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
-	adc.l hatvx,x
-	sta.l hatvx,x
-	lda.l hatvy,x
+	adc.l hatvx,x					;minus a sixteenth
+	sta.l hatvx,x					;sliding x slows
+	lda.l hatvy,x					;y speed
+	lsr a							;/16
 	lsr a
 	lsr a
 	lsr a
-	lsr a
-	bit.w #$0800
+	bit.w #$0800					;sign bit?
 	beq .2xx
-	ora.w #$F000
+	ora.w #$F000					;sign extend
 .2xx:								; eor #$FFFF, increment a, adc hatvy,x, ...
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 	clc
-	adc.l hatvy,x
-	sta.l hatvy,x
+	adc.l hatvy,x					;minus a sixteenth
+	sta.l hatvy,x					;sliding y slows
 	rtl
 
-.t1xxxxx:							; hatvx,x = $0000, hatvy,x = $0000, return
+.t1xxxxx:							;slow: stop sliding
 	lda.w #$0000
 	sta.l hatvx,x
 	sta.l hatvy,x
 	rtl
-.9:									; dw $0004,$0008,$0009,$000F,$000C,$000D,$000A,$0007,$000B,$000E
+.9:									;frames per animation step of each hat
 	dw $0004,$0008,$0009,$000F,$000C,$000D,$000A,$0007,$000B,$000E
