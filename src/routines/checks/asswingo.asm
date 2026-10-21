@@ -29,16 +29,16 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	beq .1x
 	and.w #$FFFD
 	sta.w pflags,x
-	lda.w #$FFFF
+	lda.w #$FFFF					; temp5 = -1: no zone yet
 	sta.w temp5,x
-	stz.w temp1,x
+	stz.w temp1,x					; reset the timers
 	stz.w temp2,x
 	lda.w #$0008
 	sta.w temp2b,x
 .1x:								; temp1,x = temp1,x - d7, if minus go to .t1, ...
-	lda.w temp1,x
+	lda.w temp1,x					; timer
 	sec
-	sbc.b d7
+	sbc.b d7						; minus the frame count
 	sta.w temp1,x
 	bmi .t1
 	jmp.w .7
@@ -51,23 +51,23 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	lda.w #$0000
 .2x:								; temp1,x = A, d0 = pucky, if zero go to .3x, ...
 	sta.w temp1,x
-	lda.w pucky
+	lda.w pucky						; d3 = pucky + puckvy / 64
 	sta.b d0
-	lda.w puckvy
+	lda.w puckvy					; puck y velocity
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	lsr a
-	bit.w #$0200
+	bit.w #$0200					; sign extend
 	beq .3x
 	ora.w #$FC00
 .3x:								; adc d0, d3 = A, if pfgoal,x != 0 go to .4, ...
 	clc
-	adc.b d0
+	adc.b d0						; d3 = puck y plus velocity / 64
 	sta.b d3
-	lda.w pfgoal,x
+	lda.w pfgoal,x					; which end
 	bne .4
 	lda.w #$0000
 	sec
@@ -78,7 +78,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	sbc.b d3
 	sta.b d3
 .4:									; d2 = 0, if minus go to .5, ...
-	stz.b d2
+	stz.b d2						; zone 0: own zone
 	lda.b d3
 	sec
 	sbc.w #$FFA8
@@ -91,9 +91,9 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	bmi .5
 	ldy.b a2
 	lda.w tmflags,y
-	bit.w #tmfoside
+	bit.w #tmfoside					; offsides: stay back
 	bne .5
-	asl.b d2
+	asl.b d2						; zone 16: their zone
 	lda.b d3
 	sec
 	sbc.w #$0108
@@ -102,14 +102,14 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	sta.b d2
 .5:									; if d2 != temp5,x go to .6, ...
 	lda.b d2
-	cmp.w temp5,x
+	cmp.w temp5,x					; same zone as last time?
 	bne .6
 	lda.w seed
 	cmp.w #$0200
 	bcs .7
 .6:									; temp5,x = d2, a0 = long .9, ...
 	lda.b d2
-	sta.w temp5,x
+	sta.w temp5,x					; remember the zone
 	tay
 	lda.w #.9>>16
 	sta.b a0+2
@@ -117,7 +117,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	sta.b a0
 	iny
 	iny
-	lda.b [a0],y
+	lda.b [a0],y					; x random range
 	dey
 	dey
 	jsl.l randomd0s
@@ -127,16 +127,16 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	clc
 	adc.w #$0006
 	tay
-	lda.b [a0],y
+	lda.b [a0],y					; y random range
 	dey
 	dey
 	jsl.l randomd0s
-	adc.b [a0],y
-	sta.w temp4,x
+	adc.b [a0],y					; plus the zone y
+	sta.w temp4,x					; temp4 = spot y
 .7:									; d0 = temp3,x, if position,x = $0005 go to .1xxx, ...
-	lda.w temp3,x
+	lda.w temp3,x					; spot x
 	sta.b d0
-	lda.w position,x
+	lda.w position,x				; position 5: left wing
 	cmp.w #$0005
 	beq .1xxx
 	lda.w #$0000
@@ -144,9 +144,9 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	sbc.b d0
 	sta.b d0
 .1xxx:								; d1 = temp4,x, if pfgoal,x != 0 go to .2xx, ...
-	lda.w temp4,x
+	lda.w temp4,x					; spot y
 	sta.b d1
-	lda.w pfgoal,x
+	lda.w pfgoal,x					; which end
 	bne .2xx
 	lda.w #$0000
 	sec

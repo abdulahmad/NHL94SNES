@@ -9,7 +9,7 @@
 setplayer:							; put roster player d3 on the ice as object X
 	phx								; keep X and Y
 	phy
-	lda.w pflags,x
+	lda.w pflags,x					; clear pf2inj
 	and.w #(~pf2inj&$FFFF)			; clear pf2inj (injured)
 	sta.w pflags,x
 	stz.b a0						; a0 = team offset (0 home, 2 visitors)
@@ -47,7 +47,7 @@ setplayer:							; put roster player d3 on the ice as object X
 	cmp.w #TMPDBENCH
 	bne .nda						; not on the bench (out): skip
 .da:								; insert the assignment d0 for him
-	jsl.l assinsert
+	jsl.l assinsert					; insert assignment d0
 	stz.w pfalock,x					; clear his lock and SPA
 	stz.w SPA,x
 .nda:								; mark him on the ice
@@ -61,7 +61,7 @@ setplayer:							; put roster player d3 on the ice as object X
 	lda.w #TMPDICE					; tmpdst = TMPDICE
 	sta.w tmpdst,y
 	lsr.b d3						; d3 = roster index
-	ldy.b a0
+	ldy.b a0						; a0 = team data
 	lda.w tmdata,y					; a0 = long pointer to his team data
 	sta.b a0
 	lda.w #TeamList>>16
@@ -96,21 +96,21 @@ setplayer:							; put roster player d3 on the ice as object X
 	bra .5
 
 .t2:								; short handed: PKBonus = minus the high nibble of byte 1
-	ldy.w #$0001
+	ldy.w #$0001					; short-handed: PKBonus = -high nibble of byte 1
 	lda.b [a0],y
 	lsr a
 	lsr a
 	lsr a
 	lsr a
 	and.w #$000F
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	sta.w PKBonus
 .5:									; home / visitor bonus from byte 2
 	ldy.w #$0002					; visitors: HmAwBonus = minus the low nibble of byte 2
 	lda.b [a0],y
 	and.w #$000F
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	sta.b d0
 	lda.w pfteam,x
@@ -183,7 +183,7 @@ org $9FD000
 	sta.w rostnum,x
 	ldy.w #pldweight				; byte 1: weight = high nibble times 8, legstr = low 3 bits
 	lda.b [a0],y
-	and.w #$00F0
+	and.w #$00F0					; weight in the high nibble
 	lsr a
 	sta.w weight,x
 	lda.b [a0],y					; ratings are 3 bit values scaled by 5/2
@@ -219,7 +219,7 @@ org $9FD000
 	asl a
 	adc.b r0
 	lsr a
-	clc
+	clc								; aioff = nibble plus all bonuses
 	adc.w PPBonus
 	clc
 	adc.w PKBonus
@@ -235,7 +235,7 @@ org $9FD000
 	lsr a
 	sta.w aioff,x
 	ldy.w #pldaidef					; byte 3: aidef = high 3 bits plus HmAwBonus
-	lda.b [a0],y
+	lda.b [a0],y					; aidef in the high nibble
 	lsr a
 	lsr a
 	lsr a
@@ -280,7 +280,7 @@ org $9FD000
 	jsl.l .8
 	sta.w shotspd,x
 	ldy.w #pldcheck					; byte 4: checking = high 3 bits plus ThirdPBonus (stat 5)
-	lda.b [a0],y
+	lda.b [a0],y					; checking rating in the high nibble
 	lsr a
 	lsr a
 	lsr a
@@ -309,11 +309,11 @@ org $9FD000
 	ora.w #$0800
 	sta.w attribute,x
 .1x:								; fighting = bits 1-3 of byte 4
-	lda.b [a0],y
+	lda.b [a0],y					; fighting rating bits
 	and.w #$000E
 	sta.w fighting,x
 	ldy.w #pldstick					; byte 5: stickhand = high 3 bits plus PP, PK and HmAw bonuses (stat 6)
-	lda.b [a0],y
+	lda.b [a0],y					; stick handling high nibble
 	lsr a
 	lsr a
 	lsr a
@@ -351,7 +351,7 @@ org $9FD000
 	jsl.l .8
 	sta.w shotacc,x
 	ldy.w #pldendur					; byte 6: endurance = high 3 bits (stat 8)
-	lda.b [a0],y
+	lda.b [a0],y					; endurance high nibble
 	lsr a
 	lsr a
 	lsr a
@@ -381,7 +381,7 @@ org $9FD000
 	jsl.l .8
 	sta.w spodds,x
 	ldy.w #pldpass					; byte 7: passacc = high 3 bits plus PPBonus and HmAwBonus (stat 10)
-	lda.b [a0],y
+	lda.b [a0],y					; pass accuracy high nibble
 	lsr a
 	lsr a
 	lsr a

@@ -82,8 +82,8 @@ puckstick:							; called from checkpuckcoll_ccx
 .3:									; call PuckSfx, call a2touchpuck, go to deflect
 	lda.w #$0003
 	jsl.l PuckSfx
-	jsl.l a2touchpuck
-	jmp.w deflect
+	jsl.l a2touchpuck				; a2 touches the puck
+	jmp.w deflect					; deflect
 .4:									; return
 	rtl
 .5:									; d2 = d0, call Mul16S, d0+2 = r2+2, ...

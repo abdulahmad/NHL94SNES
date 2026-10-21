@@ -15,7 +15,7 @@ setpersonel:						; put the wanted players of team a2 on the ice
 	cpx.w #$0018
 	bne .save
 	ldx.b xsave						; restore X
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .savea:								; save a0 and the words after it (10 words)
 	lda.b a0,x
@@ -56,7 +56,7 @@ setpersonel:						; put the wanted players of team a2 on the ice
 	lda.w #$0005					; search 6 objects
 	sta.b d3
 	ldy.b a2
-	ldx.w tmsort,y
+	ldx.w tmsort,y					; first object of the team
 	dex
 	dex
 .2:									; next object
@@ -99,7 +99,7 @@ setpersonel:						; put the wanted players of team a2 on the ice
 	sta.b [a4],y					; clear the list entry
 	rep #$20						; 16-bit A
 .4:									; next PlList slot
-	dec.b d4
+	dec.b d4						; next slot
 	bpl .3
 	lda.w #$0005
 	sta.b d4
@@ -113,11 +113,11 @@ setpersonel:						; put the wanted players of team a2 on the ice
 	and.w #$00FF
 	sta.b d5
 	beq .8
-	dec.b d5
+	dec.b d5						; zero based
 	lda.w #$0005					; search 6 objects
-	sta.b d3
+	sta.b d3						; search 6 objects
 	ldy.b a2
-	ldx.w tmsort,y
+	ldx.w tmsort,y					; first object of the team
 	dex
 	dex
 .6:									; next object
@@ -139,17 +139,17 @@ setpersonel:						; put the wanted players of team a2 on the ice
 	dec.b d3
 	bpl .6
 .1x:								; put the wanted player in the free object
-	lda.b d4
+	lda.b d4						; slot
 	clc
-	adc.w #$0006
+	adc.w #$0006					; position entry offset
 	tay
-	lda.b [a4],y
+	lda.b [a4],y					; wanted position
 	and.w #$00FF
 	bit.w #$0080
 	beq .2xx
 	ora.w #$FF00
 .2xx:								; sign extend the position
-	ldy.b a0
+	ldy.b a0						; free object
 	sta.w newpos,y					; new position
 	lda.b d5
 	and.w #$00FF
@@ -159,12 +159,12 @@ setpersonel:						; put the wanted players of team a2 on the ice
 .3x:								; set the new player number
 	sta.w newpnum,y					; new player number
 	ldy.b d4
-	sep #$20
+	sep #$20						; 8-bit A
 	lda.b #$00
-	sta.b [a4],y
-	rep #$20
+	sta.b [a4],y					; clear the list entry
+	rep #$20						; 16-bit A
 .8:									; next PlList slot
-	dec.b d4
+	dec.b d4						; next slot
 	bpl .5
 	stx.b xsave						; keep X
 	ldx.w #$0012
@@ -175,7 +175,7 @@ setpersonel:						; put the wanted players of team a2 on the ice
 	dex
 	bpl .loop
 	ldx.b xsave						; restore X
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0016
 .loop2:								; pull d0 and the words after it back
 	pla

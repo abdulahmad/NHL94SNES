@@ -72,7 +72,7 @@ SetPlList:							; called from setpersonel
 	beq .1x
 	lda.w BA_Skater_Offset
 	inc a
-	sta.b [a4],y
+	sta.b [a4],y					; store it in the list
 .1x:								; Y + 1, Y + 1, Y + 1, ...
 	iny
 	iny
@@ -100,9 +100,9 @@ SetPlList:							; called from setpersonel
 	sta.b [a4],y					; store it
 	rep #$20						; 16-bit A
 .7:									; decrement d4, if d4 still >= 0 go to .3, ...
-	dec.b d4
+	dec.b d4						; next slot
 	bpl .3
-	lda.w #$0005
+	lda.w #$0005					; 6 slots
 	sta.b d4
 .4:									; d3 = [a4],y & $00FF, if not zero go to .t1x, ...
 	ldy.b d4
@@ -123,7 +123,7 @@ SetPlList:							; called from setpersonel
 	sta.b d3
 	lda.b a2
 	beq .2x
-	lda.w #$0034
+	lda.w #$0034					; second team offset
 .2x:								; adc d3, if tmpdst,y = $FFFD go to .3x, ...
 	clc
 	adc.b d3						; plus the player index

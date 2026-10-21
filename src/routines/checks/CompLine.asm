@@ -16,37 +16,37 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	pha
 	lda.b a0+2
 	pha
-	lda.w #$0003
+	lda.w #$0003					; default line 3
 	sta.b d0
-	ldy.b a2
+	ldy.b a2						; power play times of both teams
 	lda.w tmap,y
 	ldy.b a1
-	cmp.w tmap,y
+	cmp.w tmap,y					; compare with the other team
 	beq .4
 	bpl .1
-	inc.b d0
+	inc.b d0						; line 5 on the other side
 	inc.b d0
 .1:									; call getlinee, d1 = d0, d0 = 1,s + 1, ...
 	lda.b d0
 	pha								; 1,s = the saved d0
-	jsl.l getlinee
+	jsl.l getlinee					; energy of that line
 	lda.b d0
-	sta.b d1
+	sta.b d1						; d1 = its energy
 	lda.b 1,s
 	inc a
 	sta.b d0
-	jsl.l getlinee
+	jsl.l getlinee					; energy of the next line
 	lda.b d1
 	sec
 	sbc.b d0
 	bpl .2
 	pla
-	inc a
+	inc a							; line + 1
 	pha
 .2:									; tmline,y = pulled value
 	pla
 	ldy.b a2
-	sta.w tmline,y
+	sta.w tmline,y					; store the chosen line
 .3:									; a0+2 = pulled value, a0 = pulled value, d2+2 = pulled value, ...
 	pla
 	sta.b a0+2
@@ -88,9 +88,9 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	lda.w gsp
 	cmp.w #$0002
 	bne .1x
-	lda.w tmscore,y
+	lda.w tmscore,y					; score
 	ldy.b a1
-	cmp.w tmscore,y
+	cmp.w tmscore,y					; against the other score
 	beq .1x
 	php
 	lda.w #.5>>16
@@ -105,20 +105,20 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	sta.b a0
 .1x:								; d1 = tmline,y * 2, d0 = [a0],y, call getlinee, ...
 	ldy.b a1
-	lda.w tmline,y
-	asl a
+	lda.w tmline,y					; current line
+	asl a							; table index
 	sta.b d1
 	tay
-	lda.b [a0],y
+	lda.b [a0],y					; table entry: next line
 	sta.b d0
-	jsl.l getlinee
+	jsl.l getlinee					; energy of that line
 	lda.b d0
-	cmp.w #$0C01
+	cmp.w #$0C01					; enough energy?
 	bcc .6
 	ldy.b d1
-	lda.b [a0],y
+	lda.b [a0],y					; take the table entry
 	ldy.b a2
-	sta.w tmline,y
+	sta.w tmline,y					; store it as the line
 	jmp.w .3
 .5:									; dw 0,1,2,0,1,0,1, dw 2,0,1,2,0,2,0, dw 0,1,0,0,1,0,1
 	dw 0,1,2,0,1,0,1
@@ -135,9 +135,9 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	cmp.w #$0002
 	bne .1xx
 	ldy.b a2
-	lda.w tmscore,y
+	lda.w tmscore,y					; score
 	ldy.b a1
-	cmp.w tmscore,y
+	cmp.w tmscore,y					; against the other score
 	beq .1xx
 	php
 	lda.w #.7>>16
@@ -151,13 +151,13 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	lda.w #.7+12
 	sta.b a0
 .1xx:								; loop: increment a0, increment a0, d0 = [a0], ...
-	lda.b [a0]
+	lda.b [a0]						; next line to try
 	inc.b a0
 	inc.b a0
 	sta.b d0
-	jsl.l getlinee
+	jsl.l getlinee					; energy of that line
 	lda.b d0
-	cmp.w #$0F34
+	cmp.w #$0F34					; enough energy?
 	bcs .2x
 	dec.b d1
 	bpl .1xx
@@ -165,8 +165,8 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	dec.b a0
 	dec.b a0
 	ldy.b a2
-	lda.b [a0]
-	sta.w tmline,y
+	lda.b [a0]						; chosen line
+	sta.w tmline,y					; store it
 	jmp.w .3
 .7:									; dw 0,1,2,0,2,1,0,1,0
 	dw 0,1,2,0,2,1,0,1,0

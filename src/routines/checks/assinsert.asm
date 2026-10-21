@@ -6,16 +6,16 @@ assinsert:							; X = player, d0 = assignment: add it as the newest of the 8 sl
 	sta.w assnum,x
 assreplace:							; X = player, d0 = assignment: overwrite the current slot, set pfna
 	lda.w pflags,x
-	ora.w #pfna
+	ora.w #pfna						; pfna
 	sta.w pflags,x
-	txa
+	txa								; asslist+X*4+assnum = d0 (byte)
 	asl a
 	asl a
 	adc.w assnum,x
 	tay
-	sep #$20
-	lda.b d0
-	sta.w asslist,y
-	rep #$30
+	sep #$20						; 8-bit A
+	lda.b d0						; the assignment
+	sta.w asslist,y					; store it
+	rep #$30						; 16-bit registers
 	sta.w asscur,x
 	rtl

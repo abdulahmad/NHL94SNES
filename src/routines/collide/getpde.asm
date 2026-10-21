@@ -10,7 +10,7 @@ getpde:								; called from burst, makepde, playeracc
 .1:									; a2 = A, if zero go to .2, ...
 	sta.b a2
 	beq .2
-	lda.w #$0034
+	lda.w #$0034					; away team entries start $34 bytes in
 .2:									; adc d1, d0 = tmpde,y, return
 	adc.b d1
 	tay								; index into the table

@@ -13,7 +13,7 @@ checkcoll:							; called from updateplayers
 	lda.b d3
 	pha
 	lda.b d2
-	pha
+	pha								; after the 14 pushes: $01,s = d0, $03,s = d0+2 .. $19,s = d6
 	lda.w Xpos,x					; around the hot spot with the wall
 	sta.b d2
 	lda.w Ypos,x					; y of X
@@ -43,7 +43,7 @@ checkcoll:							; called from updateplayers
 	sta.w wcradiusy
 	jsl.l checkwallcoll				; check the wall at the stick end
 .2:									; d2 = pulled value, d3 = pulled value, if position,x negative go to .3...
-	pla
+	pla								; pull d0-d6 back
 	sta.b d2
 	pla
 	sta.b d3
@@ -60,7 +60,7 @@ checkcoll:							; called from updateplayers
 	sta.b d1
 .loop:								; loop: if d1 = $000F go to .t1, ...
 	ldy.b d1
-	cpy.w #$000F
+	cpy.w #$000F					; top of the list?
 	beq .t1
 	lda.w OOlist+1,y				; object above
 	and.w #$00FF

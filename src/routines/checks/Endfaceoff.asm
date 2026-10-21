@@ -53,7 +53,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	inc a
 	cmp.b d2
 	bcs .5
-	lda.w #$0004
+	lda.w #$0004					; visitors won
 	sta.b a1
 .5:									; if fofdata2+foattr,x bits $0800 clear go to .6, ...
 	ldx.b a1
@@ -70,7 +70,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	bne .7
 	and.w #$0007
 	sta.b d0
-	lda.w seed
+	lda.w seed						; joystick direction 3 in 4
 	and.w #$0003
 	bne .8
 .7:									; call randoma8, decrement a, decrement a, ...
@@ -89,7 +89,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	asl.b d0
 	asl.b d0
 	ldx.b d0
-	lda.l dirtab,x
+	lda.l dirtab,x					; Xvel = dirtab x * 32
 	asl a
 	asl a
 	asl a
@@ -98,7 +98,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	ldx.b a3
 	sta.w Xvel,x
 	ldx.b d0
-	lda.l dirtab+2,x
+	lda.l dirtab+2,x				; Yvel = dirtab y * 32 + d4
 	asl a
 	asl a
 	asl a
