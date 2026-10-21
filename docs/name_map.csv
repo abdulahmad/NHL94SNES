@@ -7133,3 +7133,12 @@ $9AF51C,TeamBlockPaletteASW,,behavior,"the ASW team block colours: TeamBlockPale
 $9AF1DC,TeamBlockPaletteUnused,,behavior,"TeamBlockPalettes entry 28; no team 28 reaches the team block code (teams are 0-27)",src/data/gfx/LogoPaletteEDM.asm
 $9AF0FC,LogoPaletteNHL,,behavior,"the NHL shield colours: LogoPaletteTable 28, TeamLogoSprites frame 28 (DrawMatchupPictures: the password and other scores screens)",src/data/gfx/LogoPaletteWPG.asm
 $9AF11C,LogoPaletteNHLPA,,behavior,"the NHLPA logo colours: LogoPaletteTable 29, TeamLogoSprites frame 29 (DrawMatchupPictures)",src/data/gfx/LogoPaletteWPG.asm
+(offset 0),pldnum,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
+(offset 1),pldweight,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
+(offset 2),pldlegspd,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
+(offset 3),pldaidef,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
+(offset 4),pldcheck,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
+(offset 5),pldstick,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
+(offset 6),pldendur,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
+(offset 7),pldpass,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm
+(offset 8),pldsize,,92G,.pld rating byte (92 setplayer field names; as 94G),src/ram94s.asm

@@ -161,7 +161,7 @@ org $9FD000
 	sta.b a0+2
 	pla
 	sta.b a0
-	ldy.w #$0000					; a0 = start of the roster records
+	ldy.w #pldnum					; a0 = start of the roster records
 	lda.b [a0],y
 	clc
 	adc.b a0
@@ -181,7 +181,7 @@ org $9FD000
 	lda.b [a0]						; byte 0: rostnum
 	and.w #$00FF
 	sta.w rostnum,x
-	ldy.w #$0001					; byte 1: weight = high nibble times 8, legstr = low 3 bits
+	ldy.w #pldweight				; byte 1: weight = high nibble times 8, legstr = low 3 bits
 	lda.b [a0],y
 	and.w #$00F0
 	lsr a
@@ -196,7 +196,7 @@ org $9FD000
 	ldy.w #$0000
 	jsl.l .8						; add the hot/cold adjustment, clamp 0-15 (stat 0)
 	sta.w legstr,x
-	ldy.w #$0002					; byte 2: legspd = high 3 bits, aioff = low 3 bits
+	ldy.w #pldlegspd				; byte 2: legspd = high 3 bits, aioff = low 3 bits
 	lda.b [a0],y
 	lsr a
 	lsr a
@@ -211,7 +211,7 @@ org $9FD000
 	ldy.w #$0001					; stat 1 (legspd)
 	jsl.l .8
 	sta.w legspd,x
-	ldy.w #$0002					; aioff = low 3 bits plus all four bonuses
+	ldy.w #pldlegspd				; aioff = low 3 bits plus all four bonuses
 	lda.b [a0],y
 	and.w #$0007
 	sta.b r0
@@ -234,7 +234,7 @@ org $9FD000
 	adc.w #$000F
 	lsr a
 	sta.w aioff,x
-	ldy.w #$0003					; byte 3: aidef = high 3 bits plus HmAwBonus
+	ldy.w #pldaidef					; byte 3: aidef = high 3 bits plus HmAwBonus
 	lda.b [a0],y
 	lsr a
 	lsr a
@@ -268,7 +268,7 @@ org $9FD000
 	lsr a
 	sta.w aidef,x
 .7:									; shotspd = low 3 bits of byte 3 (stat 4)
-	ldy.w #$0003
+	ldy.w #pldaidef
 	lda.b [a0],y
 	and.w #$0007
 	sta.b r0
@@ -279,7 +279,7 @@ org $9FD000
 	ldy.w #$0004
 	jsl.l .8
 	sta.w shotspd,x
-	ldy.w #$0004					; byte 4: checking = high 3 bits plus ThirdPBonus (stat 5)
+	ldy.w #pldcheck					; byte 4: checking = high 3 bits plus ThirdPBonus (stat 5)
 	lda.b [a0],y
 	lsr a
 	lsr a
@@ -299,7 +299,7 @@ org $9FD000
 	lda.w attribute,x
 	and.w #$F7FF					; clear attrxflip
 	sta.w attribute,x
-	ldy.w #$0004
+	ldy.w #pldcheck
 	lda.b [a0],y
 	and.w #$0001					; handed = inverted bit 0 of byte 4
 	eor.w #$0001
@@ -312,7 +312,7 @@ org $9FD000
 	lda.b [a0],y
 	and.w #$000E
 	sta.w fighting,x
-	ldy.w #$0005					; byte 5: stickhand = high 3 bits plus PP, PK and HmAw bonuses (stat 6)
+	ldy.w #pldstick					; byte 5: stickhand = high 3 bits plus PP, PK and HmAw bonuses (stat 6)
 	lda.b [a0],y
 	lsr a
 	lsr a
@@ -333,7 +333,7 @@ org $9FD000
 	ldy.w #$0006
 	jsl.l .8
 	sta.w stickhand,x
-	ldy.w #$0005					; shotacc = low 3 bits plus the same bonuses (stat 7)
+	ldy.w #pldstick					; shotacc = low 3 bits plus the same bonuses (stat 7)
 	lda.b [a0],y
 	and.w #$0007
 	sta.b r0
@@ -350,7 +350,7 @@ org $9FD000
 	ldy.w #$0007
 	jsl.l .8
 	sta.w shotacc,x
-	ldy.w #$0006					; byte 6: endurance = high 3 bits (stat 8)
+	ldy.w #pldendur					; byte 6: endurance = high 3 bits (stat 8)
 	lda.b [a0],y
 	lsr a
 	lsr a
@@ -365,7 +365,7 @@ org $9FD000
 	ldy.w #$0008
 	jsl.l .8
 	sta.w endurance,x
-	ldy.w #$0006					; spodds = low 3 bits plus twice ThirdPBonus (stat 9)
+	ldy.w #pldendur					; spodds = low 3 bits plus twice ThirdPBonus (stat 9)
 	lda.b [a0],y
 	and.w #$0007
 	sta.b r0
@@ -380,7 +380,7 @@ org $9FD000
 	ldy.w #$0009
 	jsl.l .8
 	sta.w spodds,x
-	ldy.w #$0007					; byte 7: passacc = high 3 bits plus PPBonus and HmAwBonus (stat 10)
+	ldy.w #pldpass					; byte 7: passacc = high 3 bits plus PPBonus and HmAwBonus (stat 10)
 	lda.b [a0],y
 	lsr a
 	lsr a
@@ -399,7 +399,7 @@ org $9FD000
 	ldy.w #$000A
 	jsl.l .8
 	sta.w passacc,x
-	ldy.w #$0007					; aggress = low 3 bits (stat 11)
+	ldy.w #pldpass					; aggress = low 3 bits (stat 11)
 	lda.b [a0],y
 	and.w #$0007
 	sta.b r0
