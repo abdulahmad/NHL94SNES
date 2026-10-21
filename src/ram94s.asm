@@ -1299,6 +1299,9 @@ gmhl		=	$0010				; highlight mode
 gmdir		=	$0002				; 0 = home team goes up
 pfna		=	$0002				; new assignment
 tmfoside	=	$0010				; team flagged offsides
+tmftimeout	=	$0002				; 93G/94G timeout bit (94S counts tmtimeouts); shared as in 93G
+tmfmid		=	tmftimeout			; nearest player always takes the in-between spot (assnearest)
+tmfslide	=	tmftimeout			; 93 roster screen name slide; not used here
 cbut		=	$0080				; shoot / check button in d2
 blueline	=	$58					; puck y past which a team can be offside
 sideline	=	$88					; distance from center to side boards
@@ -1361,6 +1364,11 @@ ssassist1			=	4			;byte first assist (negative none)
 ssassist2			=	5			;byte second assist (negative none)
 sssize				=	6
 pstime				=	0			;PenSum entry: word period / time
+psplayer			=	2			;byte penalized player; bit 7 = away team (93G has pspen here)
+pspen				=	3			;byte penalty number (93G has psplayer here)
+pssize				=	4
+pbpen				=	0			;PenBuf entry (2 bytes): penalty number (0 = free)
+pbscnum				=	1			;object of the player
 pcx					=	0			;puckcross entry (4 bytes; entry 0 top, 1 bottom): word x
 pcframes			=	2			;word frames
 pcsize				=	4

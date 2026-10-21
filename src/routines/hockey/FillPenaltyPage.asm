@@ -23,7 +23,7 @@ FillPenaltyPage:					; called from ShowPenaltySummary
 	jsr.w .t2
 	lda.b a3
 	clc
-	adc.w #$0004
+	adc.w #pssize
 	sta.b a3
 	inc.w printy
 	inc.w printy
@@ -41,7 +41,7 @@ FillPenaltyPage:					; called from ShowPenaltySummary
 	sta.w printx
 	lda.w #$2000
 	sta.w printa
-	ldy.w #$0000
+	ldy.w #pstime
 	lda.b [a3],y
 	phy
 	pha
