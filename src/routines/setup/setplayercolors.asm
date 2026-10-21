@@ -31,15 +31,15 @@ SetTeamColors:						; copy both teams' colours into palbuffer
 	sta.b p0
 	lda.w #HomeUniformPalettes>>16
 	sta.b p0+2
-	lda.w #palbuffer>>16			; p1 = palbuffer + $180
+	lda.w #palbuffer>>16			; p1 = palette row 12
 	sta.b p1+2
-	lda.w #palbuffer+$180
+	lda.w #palbuffer+(12*$20)
 	sta.b p1
 	ldx.w #$0020
 	jsl.l MemCopy					; copy 16 colours
-	lda.w #palbuffer>>16			; and again to palbuffer + $040
+	lda.w #palbuffer>>16			; and again to palette row 2
 	sta.b p1+2
-	lda.w #palbuffer+$040
+	lda.w #palbuffer+(2*$20)
 	sta.b p1
 	ldx.w #$0020
 	jsl.l MemCopy					; copy 16 colours
@@ -54,15 +54,15 @@ SetTeamColors:						; copy both teams' colours into palbuffer
 	sta.b p0
 	lda.w #AwayUniformPalettes>>16
 	sta.b p0+2
-	lda.w #palbuffer>>16			; p1 = palbuffer + $1A0
+	lda.w #palbuffer>>16			; p1 = palette row 13
 	sta.b p1+2
-	lda.w #palbuffer+$1A0
+	lda.w #palbuffer+(13*$20)
 	sta.b p1
 	ldx.w #$0020
 	jsl.l MemCopy					; copy 16 colours
-	lda.w #palbuffer>>16			; and again to palbuffer + $060
+	lda.w #palbuffer>>16			; and again to palette row 3
 	sta.b p1+2
-	lda.w #palbuffer+$060
+	lda.w #palbuffer+(3*$20)
 	sta.b p1
 	ldx.w #$0020
 	jsl.l MemCopy					; copy 16 colours
@@ -70,9 +70,9 @@ SetTeamColors:						; copy both teams' colours into palbuffer
 	sta.b p0+2
 	lda.w #PlayerMarkerPalette
 	sta.b p0
-	lda.w #palbuffer>>16			; p1 = palbuffer + $140
+	lda.w #palbuffer>>16			; p1 = palette row 10
 	sta.b p1+2
-	lda.w #palbuffer+$140
+	lda.w #palbuffer+(10*$20)
 	sta.b p1
 	ldx.w #$0020
 	jsl.l MemCopy					; copy 16 colours

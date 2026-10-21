@@ -113,10 +113,10 @@ org $9EA001
 	beq .t2x
 	bmi .t2x
 	sta.b d0
-	jsl.l randomd0					; random < aggress: down
+	jsl.l randomd0					; random < checking: down
 	lda.b d0
 	sec
-	sbc.w aggress,x
+	sbc.w checking,x
 	bmi .t2x
 	jsl.l checkagr
 	lda.b d0

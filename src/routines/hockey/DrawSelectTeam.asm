@@ -83,7 +83,7 @@ DrawSelectTeam:						; called from PlayerSelect
 	adc.l printfontset
 	clc
 	adc.b r3
-	sta.l textmap+$2E,x
+	sta.l textmap+(23*2),x
 	iny
 	iny
 	inx

@@ -11,7 +11,7 @@ Bcheck:								; called from checkcheck
 	bmi .1
 	lda.w #$0010
 	clc
-	adc.w aggress,y
+	adc.w checking,y
 	sec
 	sbc.w legstr,x
 	jsl.l randoma8

@@ -279,7 +279,7 @@ org $9FD000
 	ldy.w #$0004
 	jsl.l .8
 	sta.w shotspd,x
-	ldy.w #$0004					; byte 4: aggress = high 3 bits plus ThirdPBonus (stat 5)
+	ldy.w #$0004					; byte 4: checking = high 3 bits plus ThirdPBonus (stat 5)
 	lda.b [a0],y
 	lsr a
 	lsr a
@@ -295,7 +295,7 @@ org $9FD000
 	adc.w ThirdPBonus
 	ldy.w #$0005
 	jsl.l .8
-	sta.w aggress,x
+	sta.w checking,x
 	lda.w attribute,x
 	and.w #$F7FF					; clear attrxflip
 	sta.w attribute,x
@@ -308,10 +308,10 @@ org $9FD000
 	lda.w attribute,x				; left handed: set attrxflip
 	ora.w #$0800
 	sta.w attribute,x
-.1x:								; fightagg = bits 1-3 of byte 4
+.1x:								; fighting = bits 1-3 of byte 4
 	lda.b [a0],y
 	and.w #$000E
-	sta.w fightagg,x
+	sta.w fighting,x
 	ldy.w #$0005					; byte 5: stickhand = high 3 bits plus PP, PK and HmAw bonuses (stat 6)
 	lda.b [a0],y
 	lsr a

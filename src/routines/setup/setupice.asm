@@ -30,7 +30,7 @@ setupice:							; set up the rink screen
 .loop:								; copy RinkPalette into palbuffer, twice ($100 bytes apart)
 	lda.l RinkPalette,x
 	sta.l palbuffer,x
-	sta.l palbuffer+$100,x
+	sta.l palbuffer+(8*$20),x
 	dex
 	dex
 	bpl .loop

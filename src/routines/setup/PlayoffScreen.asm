@@ -183,10 +183,10 @@ PlayoffScreen:						; called from GameOver, StartGame
 	ldy.w #$FFFF
 	jsl.l DMAToVRAM
 	lda.w #$031A
-	sta.l palbuffer+$82
-	sta.l palbuffer+$A2
-	sta.l palbuffer+$C2
-	sta.l palbuffer+$E2
+	sta.l palbuffer+(4*$20)+(1*2)
+	sta.l palbuffer+(5*$20)+(1*2)
+	sta.l palbuffer+(6*$20)+(1*2)
+	sta.l palbuffer+(7*$20)+(1*2)
 	lda.w #$007E
 	sta.b p1+2
 	lda.w #$3674
@@ -265,9 +265,9 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b p0+2
 	lda.w #$0000
 	sta.b p0
-	lda.w #(palbuffer+$60)>>16
+	lda.w #(palbuffer+(3*$20))>>16
 	sta.b p1+2
-	lda.w #palbuffer+$60			; palette 3
+	lda.w #palbuffer+(3*$20)		; palette 3
 	sta.b p1
 	ldx.w #$0020
 	jsl.l MemCopy
@@ -678,10 +678,10 @@ org $9D9000
 	lda.w #$FFFC
 	sta.w BG3VScroll
 	lda.w #$1D47
-	sta.l palbuffer+$22
-	sta.l palbuffer+$2A
+	sta.l palbuffer+(1*$20)+(1*2)
+	sta.l palbuffer+(1*$20)+(5*2)
 	lda.w #$FFFF
-	sta.l palbuffer+$26
+	sta.l palbuffer+(1*$20)+(3*2)
 	lda.w #$007E
 	sta.b p0+2
 	lda.w #$3614

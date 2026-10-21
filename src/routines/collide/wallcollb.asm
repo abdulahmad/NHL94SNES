@@ -66,7 +66,7 @@ wallcollb_out:						; puck out of play
 	lda.w #$8000
 	tsb.w attribute+puckobj			; yes: y flip the puck sprite
 .1:									; clear the puck shadow frame
-	stz.w frame+$1E					; shadow frame 0
+	stz.w frame+puckobj+2			; shadow frame 0
 	lda.w gmclock					; game clock stopped?
 	bne .2							; yes: no shootout check
 	lda.l ltplayer					; last touching player

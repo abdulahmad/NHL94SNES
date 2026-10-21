@@ -32,4 +32,4 @@ NMI_Fast:							; called from NMI
 	ldx.b #$80
 	phx
 	pea.w NMI_HookReturn-1			; rtl from the hook lands on the next line
-	jml [$078C]
+	jml.w [NMIHook]

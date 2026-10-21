@@ -20,7 +20,7 @@ ClearTeamStats:						; clear the team stats and set up the teams
 	sta.w tmgoalie
 	lda.w #$FFFF					; $FFFF ends a penalty box list
 	sta.w tmboxlist					; home penalty box list empty
-	sta.w tmboxlist+$1A				; visiting penalty box list empty (the second list is $1A bytes on)
+	sta.w tmboxlist+maxros			; visiting penalty box list empty (the second list is $1A bytes on)
 ; Point both team structures at their team: sort start, team number and data pointer. Called from
 ; ClearTeamStats and setoptions.
 setteams:							;Set up both team structures from the home and visiting teams

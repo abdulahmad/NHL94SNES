@@ -70,8 +70,8 @@ setoptions:							; called from Restart
 	sta.b a1+2
 	jsl.l InitSortObjects
 	lda.w #$0028
-	sta.w OldXpos
-	sta.w OldXpos+$C
+	sta.w rosxoff
+	sta.w rosxoff+(6*2)
 	lda.w #$FFFF
 	sta.l notdemo
 	lda.b a2

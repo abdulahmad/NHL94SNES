@@ -103,10 +103,10 @@ assnearest:							; X = player; asstab entry
 	inc.b d1
 	inc.b d1
 	inc.b d1
-.2x:								; d0 = $0014 - aggress,x, tmp0 = d1
+.2x:								; d0 = $0014 - checking,x, tmp0 = d1
 	lda.w #$0014
 	sec
-	sbc.w aggress,x
+	sbc.w checking,x
 	sta.b d0
 	lda.b d1
 	sta.b tmp0

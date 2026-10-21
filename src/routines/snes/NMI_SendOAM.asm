@@ -89,4 +89,4 @@ NMI_Tick:							; called from NMI_HookReturn, NMI_SendOAM
 	ldx.b #$80
 	phx
 	pea.w NMI_FrameHookReturn-1		; rtl from the hook lands on the next line
-	jml [$0789]
+	jml.w [FrameHook]

@@ -16,4 +16,4 @@ IRQ_Fast:							; IRQ handler: save the registers, run the hook
 	ldx.b #$80						; bank $80 for the return address
 	phx
 	pea.w IRQ_HookReturn-1			; rtl from the hook lands on the next line
-	jml [$078F]						; jump to the hook
+	jml.w [IRQHook]					; jump to the hook

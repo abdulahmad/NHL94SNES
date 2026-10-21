@@ -222,10 +222,10 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	bcc .21
 	lda.w #SPAfallfwd				; else fall forward
 	sta.b d1
-	lda.w facedir,y					; facedir 0 or 4 and hitter aggress >= 10: third fall
+	lda.w facedir,y					; facedir 0 or 4 and hitter checking >= 10: third fall
 	and.w #$0003
 	bne .21
-	lda.w aggress,x					; hitter's aggression
+	lda.w checking,x				; hitter's checking rating
 	sec
 	sbc.w #$000A					; minus 10
 	bmi .21
