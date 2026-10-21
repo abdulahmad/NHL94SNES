@@ -14,7 +14,7 @@ QueueSound:							; queue sound A
 	pha
 	plb
 	rep #$30
-	lda.b r0+1,s					;the sound number back
+	lda.b 1,s						;the sound number back
 	sep #$10
 	asl a
 	tay								;Y = the sound's word in the table

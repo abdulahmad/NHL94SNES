@@ -78,7 +78,7 @@ NewTicker3:							; shows the ticker box
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.b r0+1,s					; x from the stack
+	lda.b 1,s						; x from the stack
 	sta.w printx
 	lda.l playoffRoundIdx			; round number + 1
 	inc a
@@ -92,7 +92,7 @@ NewTicker3:							; shows the ticker box
 	lda.w #GameLabels
 	sta.b a1
 	jsl.l PrintStringFromList		; print it
-	lda.b r0+1,s					; x plus $15
+	lda.b 1,s						; x plus $15
 	clc
 	adc.w #$0015
 	sta.w printx

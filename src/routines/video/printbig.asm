@@ -161,7 +161,7 @@ printbig:							; print a string with the big font
 	asl a
 	asl a
 	sta.w printa
-	lda.b r0+1,s
+	lda.b 1,s
 	and.w #$0040
 	asl a
 	asl a

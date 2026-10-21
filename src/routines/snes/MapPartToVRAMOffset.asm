@@ -102,7 +102,7 @@ MapPartToVRAMOffset:				; called from ReplayMode
 	iny
 	dex
 	bne .loopx
-	lda.b r0+1,s
+	lda.b 1,s
 	clc
 	adc.w #$0400
 	and.w #$FFE0

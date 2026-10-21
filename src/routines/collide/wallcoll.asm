@@ -33,7 +33,7 @@ wallcoll:							; bounce object X off a wall
 	inc a
 	sta.b d2						; d2 = v1n, the speed into the wall
 	ldx.w Xvel,y					; Xvel * cos / 256
-	lda.b r0+1,s
+	lda.b 1,s
 	jsl.l Mul16x8S
 	lda.b r2+1
 	sta.b d0
@@ -143,12 +143,12 @@ org $9E9000
 	lda.w #$FC18					; else limit v1n to -1000
 	sta.b d2
 .7:									; rotate back into Xvel and Yvel
-	lda.b r0+1,s					; cos * v1t / 256
+	lda.b 1,s						; cos * v1t / 256
 	ldx.b d3
 	jsl.l Mul16x8S
 	lda.b r2+1
 	sta.b tmp0
-	lda.b r0+3,s					; sin * v1n / 256
+	lda.b 3,s						; sin * v1n / 256
 	ldx.b d2
 	jsl.l Mul16x8S
 	lda.b tmp0						; Xvel = cos*v1t - sin*v1n
@@ -156,12 +156,12 @@ org $9E9000
 	sbc.b r2+1
 	ldx.b a3
 	sta.w Xvel,x
-	lda.b r0+3,s					; sin * v1t / 256
+	lda.b 3,s						; sin * v1t / 256
 	ldx.b d3
 	jsl.l Mul16x8S
 	lda.b r2+1
 	sta.b d3
-	lda.b r0+1,s					; cos * v1n / 256
+	lda.b 1,s						; cos * v1n / 256
 	ldx.b d2
 	jsl.l Mul16x8S
 	lda.b r2+1						; Yvel = sin*v1t + cos*v1n
