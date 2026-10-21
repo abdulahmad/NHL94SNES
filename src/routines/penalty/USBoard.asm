@@ -13,7 +13,7 @@ USBoard:							; redraws the scoreboard with the penalty boxes
 	cpx.w #$0020
 	bne .save
 	ldx.b xsave						; restore x
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .savea:								; save a0 and the next 7 words
 	lda.b a0,x
@@ -64,7 +64,7 @@ USBoard:							; redraws the scoreboard with the penalty boxes
 	dex
 	bpl .resta
 	ldx.b xsave						; restore x
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$001E
 .restore:							; pull back d0 and the next 15 words
 	pla

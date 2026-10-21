@@ -12,7 +12,7 @@ SetupTeamForIntermission:			; sets both teams up for a period
 	sta.b a3
 	jsl.l .team						; do team 0 (a3 is the other)
 	stz.b a3						; swap the teams
-	lda.w #$0002
+	lda.w #$0002					; other team
 	sta.b a2
 .team:								; team a2, a3 = the other team
 	jsl.l reenergizeteam			; refill the energy

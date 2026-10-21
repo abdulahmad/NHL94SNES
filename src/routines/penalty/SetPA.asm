@@ -14,7 +14,7 @@ SetPA:								; starts the referee animation for penalty d0
 	jsl.l ShowGoalBox				; yes: show the goal box
 .0:									; message time
 	lda.w #$7FFF					; a long time
-	sta.w penmsgtimer
+	sta.w penmsgtimer				; show the message for a long time
 	lda.w sfhormode					; horizontal mode?
 	beq SetPA2						; no: keep it
 	lda.w #$003C					; only $3C frames
@@ -75,7 +75,7 @@ SetPA2:								; steps the referee animation
 	lda.w #$FFFF					; RefStep = -1: done
 	sta.w RefStep
 .1:									; delay in the low byte
-	lda.b d0
+	lda.b d0						; RefCnt = delay * 8, d0 = frame
 	and.w #$00FF
 	asl a
 	asl a

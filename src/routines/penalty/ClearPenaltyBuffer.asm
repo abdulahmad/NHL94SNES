@@ -9,8 +9,8 @@ ClearPenaltyBuffer:					; called from PenGoalStuff, PlayShootout, SetupPenaltySh
 .loop:								; loop: [a0] = $0000, increment a0, increment a0, ...
 	lda.w #$0000
 	sta.b [a0]
+	inc.b a0						; next word
 	inc.b a0
-	inc.b a0
-	dec.b d0
+	dec.b d0						; count down
 	bpl .loop
 	rtl

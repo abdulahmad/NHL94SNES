@@ -6,15 +6,15 @@ Stop4Pen:							; called from FallDown, checkfornewpen, puckfaceoff
 	jmp.w .6
 
 .t1:								; d0 = 0, d1 = 0, decrement a0, ...
-	stz.b d0
+	stz.b d0						; default spot: center
 	stz.b d1
+	dec.b a0						; penalty type is before a0
 	dec.b a0
-	dec.b a0
-	lda.b (a0)
+	lda.b (a0)						; read it
 	inc.b a0
 	inc.b a0
-	and.w #$00FF
-	cmp.w #PenGoal
+	and.w #$00FF					; type byte
+	cmp.w #PenGoal					; goal: center ice
 	beq .1
 	pha
 	lda.l ltx
@@ -24,76 +24,76 @@ Stop4Pen:							; called from FallDown, checkfornewpen, puckfaceoff
 	pla
 	cmp.w #PenOOP
 	beq .1
-	ldy.w puckx
+	ldy.w puckx						; puck x
 	sty.b d0
-	ldy.w pucky
+	ldy.w pucky						; puck y
 	sty.b d1
-	cmp.w #PenIcing
+	cmp.w #PenIcing					; icing: +-600 by pfgoal of the icing player
 	bne .1
-	dec.b a0
+	dec.b a0						; icing player number
 	lda.b (a0)
 	inc.b a0
 	and.w #$00FF
-	asl a
+	asl a							; times 2
 	tay
-	lda.w #$0258
+	lda.w #$0258					; spot y +600
 	sta.b d1
-	lda.w pfgoal,y
+	lda.w pfgoal,y					; his goal
 	beq .1
-	lda.w #$FDA8
+	lda.w #$FDA8					; spot y -600
 	sta.b d1
 .1:									; tmp0 = d0, if minus go to .2, ...
-	lda.b d0
+	lda.b d0						; x within +-70; y near the ends: end face off spots (+-206, x +-70)
 	sta.b tmp0
 	sec
-	sbc.w #$0046
+	sbc.w #$0046					; limit x to +70
 	bmi .2
-	lda.w #$0046
+	lda.w #$0046					; x limit 70
 	sta.b d0
 .2:									; if plus go to .3, ...
 	lda.b d0
 	sec
-	sbc.w #$FFBA
+	sbc.w #$FFBA					; and to -70
 	bpl .3
-	lda.w #$FFBA
+	lda.w #$FFBA					; -70
 	sta.b d0
 .3:									; if minus go to .4, ...
-	lda.b d1
+	lda.b d1						; y
 	sec
-	sbc.w #$00A6
+	sbc.w #$00A6					; beyond the end of +166?
 	bmi .4
-	lda.w #$00CE
+	lda.w #$00CE					; end spot y 206
 	sta.b d1
-	lda.w #$0046
+	lda.w #$0046					; x 70
 	sta.b d0
-	lda.b tmp0
+	lda.b tmp0						; sign of the original x
 	bpl .4
-	lda.w #$FFBA
+	lda.w #$FFBA					; x -70
 	sta.b d0
 .4:									; if plus go to .5, ...
 	lda.b d1
 	sec
-	sbc.w #$FF5A
+	sbc.w #$FF5A					; beyond -166?
 	bpl .5
-	lda.w #$FF32
+	lda.w #$FF32					; end spot y -206
 	sta.b d1
-	lda.w #$0046
+	lda.w #$0046					; x 70
 	sta.b d0
-	lda.b tmp0
+	lda.b tmp0						; sign of the original x
 	bpl .5
-	lda.w #$FFBA
+	lda.w #$FFBA					; x -70
 	sta.b d0
 .5:									; fox = d0, foy = d1, call limitfo
 	lda.b d0
 	sta.l fox
 	lda.b d1
 	sta.l foy
-	jsl.l limitfo
+	jsl.l limitfo					; limit the spot
 .6:									; if carry clear go to .1x
-	lda.b vcount
+	lda.b vcount					; sound cut off within 60 frames: reset the queue
 	sec
 	sbc.w sfxmutetime
-	cmp.w #$003C
+	cmp.w #$003C					; within 60 frames?
 	bcc .1x
 .1x:								; if replaydelay != 0 go to .2x, ...
 	lda.w replaydelay

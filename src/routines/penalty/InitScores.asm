@@ -12,7 +12,7 @@ InitScores:							; random scores for the other games of the round
 	asl a							; a0 = word offset of that game
 	sta.b a0
 .1:									; loop over the games, last to first
-	lda.b d1
+	lda.b d1						; the user game
 	cmp.l gamenum					; the game being played: skip it
 	beq .4							; skip
 	ldx.b a0
@@ -32,7 +32,7 @@ InitScores:							; random scores for the other games of the round
 	dec.b d0						; next round
 	bpl .2							; until done
 .4:									; previous game
-	dec.b a0
+	dec.b a0						; previous game
 	dec.b a0
 	dec.b d1
 	bpl .1							; until game 0 is done

@@ -3,22 +3,22 @@ updatepwrplay:						; called from periodicevents, printscores1
 	lda.l OptPlayMode
 	cmp.w #$0004
 	beq .off
-	stz.b a2
+	stz.b a2						; a2 = home, a3 = away
 	lda.w #$0002
 	sta.b a3
-	lda.w tmap
+	lda.w tmap						; difference of the power play times
 	sec
 	sbc.w tmap+2
-	sta.b d0
+	sta.b d0						; d0 = home - away
 	bne .ne
 	jmp.w updatepwrplay_clr
 .ne:								; if plus go to .t0, ...
 	bpl .t0
-	lda.w sflags
+	lda.w sflags					; negative: away team on the power play
 	bit.w #sf2pwrtm
 	bne .upp
-	jsl.l updatepwrplay_clr
-	lda.w #sf2pwrtm
+	jsl.l updatepwrplay_clr			; clear the box when the team changes
+	lda.w #sf2pwrtm					; team flag
 	tsb.w sflags
 	bra .upp
 .off:								; OptPlayMode = $0004: return
@@ -28,18 +28,18 @@ updatepwrplay:						; called from periodicevents, printscores1
 	ldy.b a3
 	sty.b a2
 	stx.b a3
-	lda.w sflags
+	lda.w sflags					; flags
 	bit.w #sf2pwrtm
 	beq .upp
-	jsl.l updatepwrplay_clr
+	jsl.l updatepwrplay_clr			; clear the box when the team changes
 	lda.w #sf2pwrtm
-	trb.w sflags
+	trb.w sflags					; clear the team flag
 .upp:								; tsb sflags, if not zero go to .uppt, ...
-	lda.w #sf2pwrplay
+	lda.w #sf2pwrplay				; sf2pwrplay; new: tmPwrPlays + 1
 	tsb.w sflags
 	bne .uppt
-	ldx.b a3
-	inc.w tmPwrPlays,x
+	ldx.b a3						; first time: count the power play
+	inc.w tmPwrPlays,x				; new power play for the team
 .uppt:								; a1 = updatepwrplayPos, call print, a1 = pulled value, ...
 	lda.b a1+2
 	pha
@@ -91,10 +91,10 @@ updatepwrplay:						; called from periodicevents, printscores1
 	rep #$20
 	plx
 .time:								; call PushTime, call print, a0 = tmdata,x, ...
-	jsl.l PushTime
-	jsl.l print
-	ldx.b a3
-	lda.w tmdata,x
+	jsl.l PushTime					; time as text
+	jsl.l print						; print it
+	ldx.b a3						; team of the power play
+	lda.w tmdata,x					; team name (bank $83)
 	sta.b a0
 	lda.w #TeamList>>16
 	sta.b a0+2
@@ -109,17 +109,17 @@ updatepwrplay:						; called from periodicevents, printscores1
 	lda.w #updatepwrplayPos2
 	sta.b a1
 	jsl.l appstring
-	lda.b a0
-	ldy.w #$0004
+	lda.b a0						; team name offset
+	ldy.w #$0004					; short name offset
 	clc
 	adc.b [a0],y
-	sta.b a0
+	sta.b a0						; add the entry offset
 	adc.b [a0]
 	sta.b a0
-	sta.b a1
+	sta.b a1						; string pointer
 	lda.b a0+2
 	sta.b a1+2
-	jsl.l appstring
+	jsl.l appstring					; append the string
 	lda.b a3+2
 	sta.b a1+2
 	lda.b a3

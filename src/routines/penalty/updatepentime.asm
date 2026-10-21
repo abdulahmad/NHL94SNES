@@ -1,8 +1,8 @@
 ; Once a second, count down the penalty box times. The clock-stopped flag chooses the path.
 updatepentime:						; called from PenaltyManager
-	lda.w #$0020
+	lda.w #$0020					; clear flag $20
 	trb.w sflags3
-	lda.w gmclock
+	lda.w gmclock					; clock stopped
 	beq .t2
 	jmp.w .4
 
@@ -12,20 +12,20 @@ updatepentime:						; called from PenaltyManager
 	jmp.w .4
 
 .t1:								; PenShotActive = 0: pentimer = pentimer - d7, if plus go to .4, ...
-	lda.w pentimer
-	sec
+	lda.w pentimer					; second countdown
+	sec								; minus d7
 	sbc.b d7
 	sta.w pentimer
 	bpl .4
 	adc.w #$0018
 	sta.w pentimer
-	lda.w #$0020
+	lda.w #$0020					; set flag $20
 	tsb.w sflags3
-	jsl.l chkatop
+	jsl.l chkatop					; attack zone time
 	jsl.l CountPowerPlayTime
 	stz.b a2
 	jsl.l .1
-	lda.w #$0002
+	lda.w #$0002					; team 1
 	sta.b a2
 .1:									; subroutine: if a2 = 0 go to .2, ...
 	lda.b a2
@@ -37,35 +37,35 @@ updatepentime:						; called from PenaltyManager
 	sta.b a1+2
 	lda.w #mesarea
 	sta.b a1
-	lda.w #$0002
+	lda.w #$0002					; two slots
 	sta.b d1
 	sta.b d3
 .3:									; loop: increment a0, d0 = tmboxlist,y & $00FF, if not zero go to .5, ...
-	ldy.b a0
+	ldy.b a0						; list byte
 	lda.w tmboxlist,y
-	inc.b a0
-	and.w #$00FF
+	inc.b a0						; next entry
+	and.w #$00FF					; player number
 	sta.b d0
-	bit.w #$0080
+	bit.w #$0080					; end marker
 	bne .5
 	lda.b a2
 	beq .1x
-	lda.w #$0034
+	lda.w #$0034					; away team offset
 .1x:								; adc d0, if tmpdst,y bit $4000 set go to .6, ...
 	clc
 	adc.b d0
 	tay
-	lda.w tmpdst,y
-	bit.w #$4000
+	lda.w tmpdst,y					; state
+	bit.w #$4000					; coincidental penalty
 	bne .6
 	dec.b d1
 	bmi .3
 	lda.b d0
-	sta.b [a1]
+	sta.b [a1]						; store the player
 	inc.b a1
 	inc.b a1
-	lda.w tmpdst,y
-	dec a
+	lda.w tmpdst,y					; state
+	dec a							; one second less
 	sta.w tmpdst,y
 	bne .2x
 	jsl.l RemovePlayerFromList
@@ -74,10 +74,10 @@ updatepentime:						; called from PenaltyManager
 .4:									; return
 	rtl
 .5:									; d0 = mesarea, if d1 = $0001 go to .2xx, ...
-	lda.w mesarea
+	lda.w mesarea					; first player
 	sta.b d0
 	lda.b d1
-	cmp.w #$0001
+	cmp.w #$0001					; only one player
 	beq .2xx
 	lda.b d1
 	bne .t1x
@@ -89,29 +89,29 @@ updatepentime:						; called from PenaltyManager
 	cmp.w #$FFFF
 	bne .4
 .1xx:								; d0 = mesarea+2
-	lda.w mesarea+2
+	lda.w mesarea+2					; second player
 	sta.b d0
 org $9EC000
 .2xx:								; subroutine: if a2 = 0 go to .1xxx, ...
-	lda.b a2
+	lda.b a2						; team
 	beq .1xxx
-	lda.w #$0034
+	lda.w #$0034					; away team offset
 .1xxx:								; adc d0, if tmpdst,y - $0006 >= 0 go to .4, ...
 	clc
 	adc.b d0
 	tay
-	lda.w tmpdst,y
+	lda.w tmpdst,y					; state
 	cmp.w #$0006
 	bpl .4
 	lda.w tmpdst,y
 	bne .rtl
-	jsl.l releasepl
+	jsl.l releasepl					; release him
 .rtl:								; return
 	rtl
 .6:									; tmpdst,y bit $4000 set: decrement a, tmpdst,y = A, if not zero go to...
-	dec a
+	dec a							; one second less
 	sta.w tmpdst,y
-	bit.w #$0800
+	bit.w #$0800					; coincidental time over
 	bne .t2x
 	jmp.w .3
 
