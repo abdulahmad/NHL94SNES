@@ -17,7 +17,7 @@ IntermissionTick:					; the intermission ticker timer
 	bne IntermissionTick			; no: change again
 	jsl.l DoHiLights				; yes: play the highlights
 	lda.w #$0008					; clear flag bit 3 of sflags3
-	trb.w sflags3
+	trb.w sflags3					; clear sflags3 bit 3
 IntermissionTick_done:				; nothing to report
 	lda.w #$0000					; return 0
 	rtl

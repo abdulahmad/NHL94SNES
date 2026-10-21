@@ -75,7 +75,7 @@ InProgress:							; sends the last PenBuf entry to the box
 	pha
 	lda.b d1+2
 	pha
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000					; x counts bytes
 .loop:								; push a1 and the next 7 words
 	lda.b a1,x
@@ -84,7 +84,7 @@ InProgress:							; sends the last PenBuf entry to the box
 	inx
 	cpx.w #$0010
 	bne .loop
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	jsl.l GetPeriodTimeRemaining	; period time remaining
 	lda.b [a0]						; high byte of the entry: object offset
 	xba
@@ -110,7 +110,7 @@ InProgress:							; sends the last PenBuf entry to the box
 	bmi .1x							; skip the store if it goes negative
 	sta.w CwdExciteLvl
 .1x:								; count the penalty for the team
-	ldy.b a2
+	ldy.b a2						; tmPenalties +1, tmPenmin += minutes
 	lda.w tmPenalties,y				; tmPenalties + 1
 	inc a
 	sta.w tmPenalties,y
@@ -119,7 +119,7 @@ InProgress:							; sends the last PenBuf entry to the box
 	adc.b d2
 	sta.w tmPenmin,y
 	lda.w pnum,x					; TempPlOffset = player number
-	and.w #$00FF
+	and.w #$00FF					; team and player number in TempPlOffset
 	ora.b d0						; plus the visitor flag
 	sta.w TempPlOffset
 	lda.w pnum,x					; player number again

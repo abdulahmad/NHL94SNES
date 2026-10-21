@@ -29,14 +29,14 @@ GetLowestPen:						; time left of the power play -> d0
 	bit.w #$4000					; bit 14: no running penalty clock
 	bne .top						; untimed: next entry
 	lda.b d2						; time minus the previous time
-	sec
+	sec								; minus the previous time
 	sbc.b d3
 	sta.b d2						; d2 = step
 	clc								; total += step
 	adc.b d0
 	sta.b d0
 	lda.b d2						; remember this time
-	sta.b d3
+	sta.b d3						; remember it
 	bra .top						; next entry
 
 .t1:								; second part: the shorthanded team a3
@@ -46,7 +46,7 @@ GetLowestPen:						; time left of the power play -> d0
 	beq .rtl						; yes: no power play, d0 stays as is
 	lda.b d0						; total minus the last time
 	sec
-	sbc.b d3
+	sbc.b d3						; minus the last
 	sta.b d0
 	lda.b a3						; a3 = team
 	beq .1							; team 0: list offset 0
@@ -58,7 +58,7 @@ GetLowestPen:						; time left of the power play -> d0
 	lda.w tmboxlist,y				; next list entry
 	inc.b a0
 	and.w #$00FF					; d2 = player
-	sta.b d2
+	sta.b d2						; player
 	bit.w #$0080					; bit 7 set = end of list
 	bne .rtl						; end: return
 	lda.b a3						; a3 = team
@@ -75,8 +75,8 @@ GetLowestPen:						; time left of the power play -> d0
 	cmp.w tmpdst,y					; compare with his time
 	bmi .rtl						; total is lower: return
 	lda.b d0						; total plus the previous time
-	clc
-	adc.b d3
+	clc								; total
+	adc.b d3						; plus the last
 	sta.b d0						; new total
 .rtl:								; return
 	rtl

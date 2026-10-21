@@ -8,7 +8,7 @@ DoHiLights:							; play the pending highlights
 	beq .rtl						; not playoffs: nothing to do
 	jsl.l GetShifter				; d1 = number of games
 	lda.b d1
-	asl a
+	asl a							; offset
 	sta.b a0						; a0 = game offset (word entries)
 .loop:								; loop over the games, last to first
 	ldx.b a0
@@ -21,9 +21,9 @@ DoHiLights:							; play the pending highlights
 	sta.l gsflags,x
 	jsl.l SaveRegsStartHL2			; play the highlight
 .1:									; previous game
+	dec.b a0						; previous game
 	dec.b a0
-	dec.b a0
-	dec.b d1
+	dec.b d1						; until game 0
 	bpl .loop						; until game 0 is done
 .rtl:								; return
 	rtl

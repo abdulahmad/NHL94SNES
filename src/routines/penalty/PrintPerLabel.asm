@@ -20,7 +20,7 @@ PrintPerLabel:						; prints the period label
 	sta.b a1
 	lda.b [a0]						; label length word
 	clc
-	adc.b a0
+	adc.b a0						; next label
 	sta.b a0
 	dec.b d0						; until the label d0 is reached
 	bpl .next

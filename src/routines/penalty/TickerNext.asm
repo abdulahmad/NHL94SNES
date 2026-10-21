@@ -10,7 +10,7 @@ TickerNext:							; steps the ticker to the next game
 .1:									; start from the last game
 	jsl.l GetShifter				; d1 = last game of the round
 	lda.b d1
-	sta.w TickerNum
+	sta.w TickerNum					; the ticker game
 	bmi IntermissionTick_done		; no games: leave
 .2:									; show the ticker box
 	jmp.w NewTicker2

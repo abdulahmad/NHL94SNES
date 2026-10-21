@@ -46,7 +46,7 @@ NewTicker3:							; shows the ticker box
 	lda.w printy
 	sec
 	sbc.w #$0005
-	sta.w printy
+	sta.w printy					; print y - 5
 .frame:								; draw the frame
 	lda.w #$001C					; frame $1C wide
 	sta.b d0
@@ -59,12 +59,12 @@ NewTicker3:							; shows the ticker box
 	lda.w printy					; y - 4
 	sec
 	sbc.w #$0004
-	sta.w printy
+	sta.w printy					; print y - 4
 	lda.w printx					; keep x on the stack
 	pha								; 1,s = x once a1 is restored
 	jsl.l GetShifter				; GetShifter
 	lda.w #$2400					; text palette
-	sta.w printa
+	sta.w printa					; palette for the text
 	lda.b a1+2						; save a1
 	pha
 	lda.b a1
@@ -95,7 +95,7 @@ NewTicker3:							; shows the ticker box
 	lda.b 1,s						; x plus $15
 	clc
 	adc.w #$0015
-	sta.w printx
+	sta.w printx					; x + $15
 	ldx.b a0						; period of this game
 	lda.l gsper,x
 	dec a							; minus 1: label index

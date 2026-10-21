@@ -14,7 +14,7 @@ SetHor:								; switches to the horizontal rink
 	cpx.w #$001C
 	bne .save
 	ldx.b xsave						; restore x
-	stx.b xsave
+	stx.b xsave						; X again for the second save
 	ldx.w #$0000
 .savea:								; save a0 and the next 13 words
 	lda.b a0,x
@@ -40,12 +40,12 @@ SetHor:								; switches to the horizontal rink
 	sta.l redrawblocks
 	jsl.l forceblack				; blank the screen
 	lda.w #$0001					; horizontal mode on
-	sta.w sfhormode
+	sta.w sfhormode					; horizontal rink mode on
 	stz.w Hscroll					; scroll x = 0
 	lda.w #$FFFF					; scroll y = -1
-	sta.w Vscroll
+	sta.w Vscroll					; scroll y = -1
 	lda.w #$002E					; row to draw from
-	sta.w Oldrow
+	sta.w Oldrow					; row to draw from
 	stz.w vramrow					; VRAM row = 0
 	jsl.l SprSort					; sort the sprites
 	jsl.l StatsReport				; draw the stats screen
@@ -58,7 +58,7 @@ SetHor:								; switches to the horizontal rink
 	dex
 	bpl .resta
 	ldx.b xsave						; restore x
-	stx.b xsave
+	stx.b xsave						; X again for the second restore
 	ldx.w #$001A
 .restore:							; pull back d0 and the next 13 words
 	pla

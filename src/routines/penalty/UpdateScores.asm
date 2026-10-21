@@ -4,7 +4,7 @@
 ; the highlight flag (bit 1) and, if the game is not over (bit 2), adds goals with SetScore.
 UpdateScores:						; updates the other games
 	jsl.l GetShifter				; d1 = last game
-	lda.b d1
+	lda.b d1						; last game
 	sta.w TickerNum					; the ticker starts there
 	asl a							; times 2
 	sta.b a0						; a0 = word offset
@@ -20,8 +20,8 @@ UpdateScores:						; updates the other games
 	bne .1							; over: keep the score
 	jsl.l SetScore					; add goals to the score
 .1:									; previous game
+	dec.b a0						; previous game
 	dec.b a0
-	dec.b a0
-	dec.b d1
+	dec.b d1						; previous game number
 	bpl .loop						; until game 0 is done
 	rtl								; return

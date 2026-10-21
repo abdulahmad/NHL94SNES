@@ -1,27 +1,27 @@
 ; Print team d3's name, then move down two rows
 printteamname:						; called from PrintTeamNameAndScore, ShowThreeStars
-	lda.w printx
+	lda.w printx					; keep print x
 	pha
-	lda.w tmdata
+	lda.w tmdata					; tmdata of team d3
 	sta.b a1
 	lda.w #TeamList>>16
 	sta.b a1+2
-	lda.b d3
+	lda.b d3						; team 0?
 	beq .1
 	lda.w tmdata+2
 	sta.b a1
 .1:									; a1 = [a1],y + a1, a1 = [a1] + a1, call print, ...
 	ldy.w #$0004
 	lda.b [a1],y
-	clc
+	clc								; name pointer
 	adc.b a1
 	sta.b a1
-	lda.b [a1]
+	lda.b [a1]						; name string
 	adc.b a1
 	sta.b a1
-	jsl.l print
+	jsl.l print						; print it
 	pla
-	sta.w printx
-	inc.w printy
+	sta.w printx					; restore x
+	inc.w printy					; down two rows
 	inc.w printy
 	rtl

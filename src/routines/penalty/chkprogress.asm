@@ -45,7 +45,7 @@ chkprogress:						; called from PenaltyManager
 	clc
 	adc.b [a1],y
 	sta.b a1
-	lda.b [a1]
+	lda.b [a1]						; penalty with minutes?
 	and.w #$00FF
 	beq .loop
 	cmp.w #$0001
@@ -67,8 +67,8 @@ chkprogress:						; called from PenaltyManager
 	jsl.l assinsert
 	ldx.b a3
 	lda.w #$1C20
-	sta.w temp1,x
-	lda.w #$FF00
+	sta.w temp1,x					; temp1 = 120*60
+	lda.w #$FF00					; RefStep negative, RefCnt 0; UpdatePA; RefCnt 50; PushRef 0
 	tsb.w RefStep
 	stz.w RefCnt
 	jsl.l UpdatePA

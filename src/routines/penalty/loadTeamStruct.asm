@@ -2,7 +2,7 @@
 loadTeamStruct:						; called from SetLCmode, dopass_count, lcfound, lineinput, updateplayers
 	lda.w pfteam,x
 	beq .t1
-	stz.b a1
+	stz.b a1						; swap them
 	lda.w #$0002
 	sta.b a2
 	rtl

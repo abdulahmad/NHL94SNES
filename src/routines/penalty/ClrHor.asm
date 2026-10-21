@@ -1,6 +1,6 @@
 ; Switch back from the horizontal rink to the vertical ice rink
 ClrHor:								; called from Pausemode, ReplayMode, StartHL2, puckfaceoff, puckfaceoff2
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b a0,x
@@ -21,9 +21,9 @@ ClrHor:								; called from Pausemode, ReplayMode, StartHL2, puckfaceoff, puckf
 	stz.w sfhormode
 	lda.w #$03E7
 	sta.w Oldrow
-	jsl.l SprSort
-	lda.w sflags
-	bit.w #sfpz
+	jsl.l SprSort					; sort the sprites
+	lda.w sflags					; flags
+	bit.w #sfpz						; paused: keep the text
 	bne .2
 	jsl.l ClearTextMap
 	stz.w textdirtylo
@@ -46,6 +46,6 @@ ClrHor:								; called from Pausemode, ReplayMode, StartHL2, puckfaceoff, puckf
 	dex
 	dex
 	bpl .loop2
-	ldx.b xsave
-	ldx.b a3
+	ldx.b xsave						; restore X
+	ldx.b a3						; X = a3
 	rtl

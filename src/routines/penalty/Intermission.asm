@@ -6,7 +6,7 @@
 Intermission:						; the intermission screen
 	jsl.l SetupTeamForIntermission	; set up the two teams
 	lda.w #$0000
-	ldy.w #$001E
+	ldy.w #$001E					; clear Xpos of the 16 objects
 .loop:								; clear the X positions of the 16 objects
 	sta.w Xpos,y
 	dey
@@ -14,10 +14,10 @@ Intermission:						; the intermission screen
 	bpl .loop
 	lda.b vcount					; vcountmark = the frame counter (32 bits)
 	ldy.b vcount+2
-	sta.w vcountmark
+	sta.w vcountmark				; remember the frame counter
 	sty.w vcountmark+2
 	lda.w #$0001					; clear flag bit 0 (pause mode) of sflags
-	trb.w sflags
+	trb.w sflags					; clear the first flag bit of sflags
 	lda.w gsp						; the gsp value
 	cmp.w #$0004
 	beq .t1							; both branches go to .t1
@@ -27,10 +27,10 @@ Intermission:						; the intermission screen
 	lda.w #$0708					; pause timer: $708 frames
 	sta.w pausetimer
 	lda.w #$0001					; demo mode while the screen is up
-	sta.w demoflag
+	sta.w demoflag					; demo mode while the screen is up
 	lda.b vcount					; ticker clock = frame counter - $150
 	sec
-	sbc.w #$0150
+	sbc.w #$0150					; ticker clock = frame counter - $150
 	sta.w tickervc
 	jsl.l InitTicker				; start the score ticker
 	lda.w TickerNum					; remember the first ticker game
@@ -63,7 +63,7 @@ Intermission:						; the intermission screen
 	sta.w InIntermission
 .loop2:								; redraw the screen
 	lda.w #$0000					; clear the X positions of the 16 objects
-	ldy.w #$001E
+	ldy.w #$001E					; clear Xpos of the 16 objects again
 .loop3:								; clear loop
 	sta.w Xpos,y
 	dey

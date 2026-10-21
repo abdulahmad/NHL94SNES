@@ -8,12 +8,12 @@ UpdatePA:							; animates the referee and the message line
 	bmi .t1							; negative: idle
 	sec								; minus the elapsed frames
 	sbc.b d7
-	sta.w RefCnt
+	sta.w RefCnt					; new count
 	bpl .1							; still running
 	jsl.l SetPA2					; time up: next animation step
 .1:									; message timer
 	lda.w penmsgtimer
-	sec
+	sec								; message timer
 	sbc.b d7
 	sta.w penmsgtimer				; new timer
 	bpl .t1							; still running
