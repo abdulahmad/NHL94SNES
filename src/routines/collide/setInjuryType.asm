@@ -7,10 +7,10 @@ setInjuryType:						; player a2 is injured
 	lda.w pflags,y
 	ora.w #$1000					; pf2inj: the player is injured (pflags2 bit, stored at bit n+10)
 	sta.w pflags,y
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	clc
 	adc.w #$012C
-	sta.l crowdlevel				; the crowd gets louder
+	sta.l Crowdlevel				; the crowd gets louder
 	lda.w #$003C
 	sta.b crowdhold					; hold the crowd level for 60 frames
 	lda.w #$0004

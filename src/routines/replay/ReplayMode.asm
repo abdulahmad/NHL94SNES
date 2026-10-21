@@ -4,7 +4,7 @@ ReplayMode:							; called from PauseReplay
 	bne ReplayMode
 	jsl.l SPCGameUpload
 	lda.w #$0000
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$0800
 	tsb.w sflags
 	jsl.l ClrHor

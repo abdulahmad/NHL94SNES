@@ -1,31 +1,31 @@
 ; The penalties and stoppages by penalty number: a word offset to each entry, then the entries (name and data)
-PenaltyList:
+Penaltylist:
 	dw $0000
-	dw PenDataEOP-PenaltyList		;$2 period over
-	dw PenDataEOG-PenaltyList		;$4 game over
-	dw PenDataGhold-PenaltyList		;$6 face off
-	dw PenDataGhold-PenaltyList		;$8 face off
-	dw PenDatawhistle-PenaltyList	;$A whistle
-	dw PenDataice-PenaltyList		;$C icing
-	dw PenDataGoal-PenaltyList		;$E goal
-	dw PenDataNoText-PenaltyList	;$10 no text
-	dw PenDataoffsides-PenaltyList	;$12 offsides
-	dw PenDatarough2-PenaltyList	;$14 roughing, slow down time $0A
-	dw PenDataNoText2-PenaltyList	;$16 no text
-	dw PenDatacharge-PenaltyList	;$18
-	dw PenDataslash-PenaltyList		;$1A
-	dw PenDatarough-PenaltyList		;$1C
-	dw PenDatacross-PenaltyList		;$1E
-	dw PenDatahook-PenaltyList		;$20
-	dw PenDatatrip-PenaltyList		;$22
-	dw PenDataShot-PenaltyList		;$24 penalty shot
-	dw PenDataint-PenaltyList		;$26
-	dw PenDataHold-PenaltyList		;$28
-	dw PenDatafight-PenaltyList		;$2A
-	dw PenDatafight2-PenaltyList	;$2C
-	dw PenDataInst-PenaltyList		;$2E
-	dw PenDatadelay-PenaltyList		;$30 delay
-	dw PenDataNoText3-PenaltyList	;$32 no text
+	dw PenDataEOP-Penaltylist		;$2 period over
+	dw PenDataEOG-Penaltylist		;$4 game over
+	dw PenDataGhold-Penaltylist		;$6 face off
+	dw PenDataGhold-Penaltylist		;$8 face off
+	dw PenDatawhistle-Penaltylist	;$A whistle
+	dw PenDataice-Penaltylist		;$C icing
+	dw PenDataGoal-Penaltylist		;$E goal
+	dw PenDataNoText-Penaltylist	;$10 no text
+	dw PenDataoffsides-Penaltylist	;$12 offsides
+	dw PenDatarough2-Penaltylist	;$14 roughing, slow down time $0A
+	dw PenDataNoText2-Penaltylist	;$16 no text
+	dw PenDatacharge-Penaltylist	;$18
+	dw PenDataslash-Penaltylist		;$1A
+	dw PenDatarough-Penaltylist		;$1C
+	dw PenDatacross-Penaltylist		;$1E
+	dw PenDatahook-Penaltylist		;$20
+	dw PenDatatrip-Penaltylist		;$22
+	dw PenDataShot-Penaltylist		;$24 penalty shot
+	dw PenDataint-Penaltylist		;$26
+	dw PenDataHold-Penaltylist		;$28
+	dw PenDatafight-Penaltylist		;$2A
+	dw PenDatafight2-Penaltylist	;$2C
+	dw PenDataInst-Penaltylist		;$2E
+	dw PenDatadelay-Penaltylist		;$30 delay
+	dw PenDataNoText3-Penaltylist	;$32 no text
 	dw $0000
 PenDataEOP:
 	db $00,$01,$0D,$00,"Period Over",$10,$05,$F0,$BF

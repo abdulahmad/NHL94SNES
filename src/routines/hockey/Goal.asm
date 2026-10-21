@@ -112,23 +112,23 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	beq .t1xxx
 	lda.w #$0004
 	jsl.l StartBenchCheer
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	sec
 	sbc.w #$0300
 	bpl .2xx
 	lda.w #$0000
-.2xx:								; crowdlevel = A, go to .score
-	sta.l crowdlevel
+.2xx:								; Crowdlevel = A, go to .score
+	sta.l Crowdlevel
 	bra .score
 
 .t1xxx:								; home scored: crowd +$1F4, hold, play the goal song
 	inc a
 	inc a
 	jsl.l StartBenchCheer
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	clc
 	adc.w #$01F4
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$0078
 	sta.b crowdhold
 	lda.w #$0003
@@ -235,7 +235,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	adc.b d0
 	tax
 	sep #$20
-	inc.w passists,x
+	inc.w tmassists,x
 	rep #$20
 	inc.b a0
 	lda.w tmtouch3,y
@@ -252,7 +252,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	adc.b d0
 	tax
 	sep #$20
-	inc.w passists,x
+	inc.w tmassists,x
 	rep #$20
 .9:									; other team's goalie
 	ldy.b a1

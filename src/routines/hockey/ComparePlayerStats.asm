@@ -65,21 +65,22 @@ ComparePlayerStats:					; called from SortPlayerStats
 
 .t4:								; if zero go to .6, ...
 	sep #$20
-	lda.w passists,y
-	cmp.w passists,x
+	lda.w tmassists,y
+	cmp.w tmassists,x
 	rep #$20
 	beq .6
 	bpl .7
 	bra .6
 
-.t5:								; d0 = tmgoals,y & $00FF, d0 = passists,y & $00FF + d0, statstemp = tmg...
+.t5:								; d0 = tmgoals,y & $00FF, d0 = tmassists,y & $00FF + d0, statstemp =
+									;tmg...
 	sep #$20
 	lda.w tmgoals,y
 	rep #$20
 	and.w #$00FF
 	sta.b d0
 	sep #$20
-	lda.w passists,y
+	lda.w tmassists,y
 	rep #$20
 	and.w #$00FF
 	clc
@@ -91,7 +92,7 @@ ComparePlayerStats:					; called from SortPlayerStats
 	and.w #$00FF
 	sta.w statstemp
 	sep #$20
-	lda.w passists,x
+	lda.w tmassists,x
 	rep #$20
 	and.w #$00FF
 	clc
@@ -105,8 +106,8 @@ ComparePlayerStats:					; called from SortPlayerStats
 
 .t6:								; if zero go to .6, ...
 	sep #$20
-	lda.w pshots,y
-	cmp.w pshots,x
+	lda.w tmpshots,y
+	cmp.w tmpshots,x
 	rep #$20
 	beq .6
 	bpl .7

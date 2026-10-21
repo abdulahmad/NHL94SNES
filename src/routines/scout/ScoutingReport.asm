@@ -3,7 +3,7 @@ ScoutingReport:						; called from StartGame_scout
 	lda.w #$0001
 	sta.l matchupphotos
 	stz.w matchuphold
-	jsl.l ClearTeamStats
+	jsl.l clearTeamStats
 	jsl.l LoadScoutingScreen
 	ldx.w #$0000
 	jsl.l LoadMatchupPhotos

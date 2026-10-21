@@ -1,5 +1,6 @@
 ; $08 / $04 into $00, unsigned
-Div16U:								; called from AvgCline, Div16S, FillPlayerStatsPage, ShowStars, TitlePa...
+Div16U:								; called from AvgCline, Div16S, FillPlayerStatsPage, ShowThreeStars,
+									;TitlePa...
 	sep #$20
 Div16U_Go:							; called from Div32U
 	lda.b r1+1

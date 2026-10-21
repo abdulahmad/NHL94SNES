@@ -1,6 +1,6 @@
-; Set the crowd noise volume from crowdlevel
+; Set the crowd noise volume from Crowdlevel
 updatesound:						; called from periodicevents
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	cmp.w #$0380
 	bcc .1
 	lda.w #$0380

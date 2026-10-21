@@ -99,10 +99,10 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	bpl .5							; until d2 goes negative
 .7:									; game over
 	jsl.l ClearPenaltyBuffer		; remove all penalties
-	lda.l crowdlevel				; crowd level
+	lda.l Crowdlevel				; crowd level
 	clc
 	adc.w #$03E8					; plus 1000
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$003C					; crowd holds for 60 frames
 	sta.b crowdhold
 	lda.w #$0040					; game clock stopped
@@ -112,7 +112,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	cmp.w tmscore+2
 	bmi .1x							; visitors won: keep the level
 	lda.w #$0000					; home did not lose: quiet the crowd then cheer
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$0003					; cheer 3 times
 	sta.w cheercnt
 	lda.b vcount					; first cheer 150 frames ago

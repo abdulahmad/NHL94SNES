@@ -105,11 +105,11 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	jsl.l StreamSfx
 	bra .5
 
-.t1x:								; pfteam,y = 0: crowdlevel = crowdlevel + $0258, crowdhold = $003C
-	lda.l crowdlevel
+.t1x:								; pfteam,y = 0: Crowdlevel = Crowdlevel + $0258, crowdhold = $003C
+	lda.l Crowdlevel
 	clc
 	adc.w #$0258
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$003C
 	sta.b crowdhold
 .5:									; if puckc negative go to .1xx, ...

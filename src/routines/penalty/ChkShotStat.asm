@@ -109,7 +109,7 @@ ChkShotStat:						; called from Goal, checkgoal, puckglue, puckgoalie
 	beq .3
 	tax
 	sep #$20
-	inc.w pshots,x
+	inc.w tmpshots,x
 	rep #$20
 .3:									; d0 = tmgoalie,x, if minus go to .5, ...
 	ldx.b a1
@@ -119,12 +119,12 @@ ChkShotStat:						; called from Goal, checkgoal, puckglue, puckgoalie
 	lda.b a1
 	beq .4
 	lda.w #$001A
-.4:									; adc d0, increment pshots,x
+.4:									; adc d0, increment tmpshots,x
 	clc
 	adc.b d0
 	tax
 	sep #$20
-	inc.w pshots,x
+	inc.w tmpshots,x
 	rep #$20
 .5:									; d0+2 = pulled value, d0 = pulled value, a3+2 = pulled value, ...
 	plx

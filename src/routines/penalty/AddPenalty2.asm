@@ -24,21 +24,21 @@ AddPenalty2:						; called from AddPenalty, FallDown, Goal, ShootoutWonBy, assgo
 	sec
 	sbc.w #PenGoal
 	bmi .3
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	clc
 	adc.w #$00C8
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$002D
 	sta.b crowdhold
 	lda.w pfteam,x
 	beq .3
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	sec
 	sbc.w #$00C8
 	bcs .2
 	lda.w #$0000
-.2:									; crowdlevel = A
-	sta.l crowdlevel
+.2:									; Crowdlevel = A
+	sta.l Crowdlevel
 .3:									; a1 = PenBuf, d1 = $001F
 	lda.w #PenBuf>>16
 	sta.b a1+2
@@ -68,9 +68,9 @@ AddPenalty2:						; called from AddPenalty, FallDown, Goal, ShootoutWonBy, assgo
 	and.w #$FF00
 	ora.b d0
 	sta.b [a1]
-	lda.w #PenaltyList>>16
+	lda.w #Penaltylist>>16
 	sta.b a0+2
-	lda.w #PenaltyList
+	lda.w #Penaltylist
 	sta.b a0
 	ldy.b d0
 	clc

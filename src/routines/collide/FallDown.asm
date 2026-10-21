@@ -248,11 +248,11 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	jmp.w CollisionSfx
 .23:								; go to .25
 	jmp.w .25
-.24:								; crowdlevel = crowdlevel + $012C, crowdhold = $002D, d0 = puckc, ...
-	lda.l crowdlevel
+.24:								; Crowdlevel = Crowdlevel + $012C, crowdhold = $002D, d0 = puckc, ...
+	lda.l Crowdlevel
 	clc
 	adc.w #$012C
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$002D
 	sta.b crowdhold
 	lda.w puckc
@@ -356,11 +356,11 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	jsl.l StreamSfx
 	rtl
 
-.t1xx:								; pfteam,y != 0: crowdlevel = crowdlevel + $0258, crowdhold = $002D, re...
-	lda.l crowdlevel
+.t1xx:								; pfteam,y != 0: Crowdlevel = Crowdlevel + $0258, crowdhold = $002D, re...
+	lda.l Crowdlevel
 	clc
 	adc.w #$0258
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$002D
 	sta.b crowdhold
 	rtl

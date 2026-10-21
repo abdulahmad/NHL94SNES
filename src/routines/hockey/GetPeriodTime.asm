@@ -1,6 +1,6 @@
 ; d0 = the period length in seconds for the period length option
-; Called from ShowStars, ResetClock and setplayer.
-GetPeriodTime:						; called from ResetClock, ShowStars, setplayer
+; Called from ShowThreeStars, ResetClock and setplayer.
+GetPeriodTime:						; called from ResetClock, ShowThreeStars, setplayer
 	phx								; save X, index the period length table by OptPerlen
 	lda.l OptPerlen
 	asl a

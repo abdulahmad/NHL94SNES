@@ -2,7 +2,7 @@
 ; Takes a2 = team offset, returns d0 = number of players (counts the players of the roster list until the
 ; terminator word $0002). a0 is preserved.
 ;
-; Called from ScoutingReport, ShowStars, SwapPlayerCardTeam, ShowPlayerCards and ShooterSelectList.
+; Called from ScoutingReport, ShowThreeStars, SwapPlayerCardTeam, ShowPlayerCards and ShooterSelectList.
 GetPlayerCount:						; count the players of the team
 	lda.b a0
 	pha

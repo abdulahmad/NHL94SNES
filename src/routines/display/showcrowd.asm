@@ -60,7 +60,7 @@ org $9BA000
 	asl a
 	asl a
 	asl a
-	cmp.l crowdlevel
+	cmp.l Crowdlevel
 	beq .1xx
 	bcs .5
 .1xx:								; call RandomWord, and #$03F0, if not zero go to .5

@@ -58,15 +58,15 @@ SetPA2:								; steps the referee animation
 	lda.w RefPen					; current penalty
 	sta.b d1
 	tax
-	lda.l PenaltyList,x				; offset of this penalty's animation in PenaltyList
+	lda.l Penaltylist,x				; offset of this penalty's animation in Penaltylist
 	inc a
 	inc a
 	tax								; x = that offset
 	clc
-	adc.l PenaltyList,x
+	adc.l Penaltylist,x
 	adc.b d0						; plus the step
 	tax
-	lda.l PenaltyList,x				; frame and delay word
+	lda.l Penaltylist,x				; frame and delay word
 	sta.b d0
 	bpl .1							; not negative: normal pair
 	eor.w #$FFFF					; negative: last pair, use its absolute value

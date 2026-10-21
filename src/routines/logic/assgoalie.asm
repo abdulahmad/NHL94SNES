@@ -396,12 +396,12 @@ assgoalie:							; called from assnearest, asstab
 	adc.w #$000A
 	bmi .1xxxxxx
 	sta.w CwdExciteLvl
-.1xxxxxx:							; pfalock,x = $0096, crowdlevel = $0096 + crowdlevel, crowdhold = $001E...
+.1xxxxxx:							; pfalock,x = $0096, Crowdlevel = $0096 + Crowdlevel, crowdhold = $001E...
 	lda.w #$0096
 	sta.w pfalock,x
 	clc
-	adc.l crowdlevel
-	sta.l crowdlevel
+	adc.l Crowdlevel
+	sta.l Crowdlevel
 	lda.w #$001E
 	sta.b crowdhold
 	rtl
@@ -836,10 +836,10 @@ assgoalie:							; called from assnearest, asstab
 	lda.b [a1],y
 	sta.w pfalock,x
 	jsl.l SetSPAFromA
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	clc
 	adc.w #$0096
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$001E
 	sta.b crowdhold
 .43:								; d0 = [a0], if plus go to .1xxxxxxxxxxxxxxxxx, ...

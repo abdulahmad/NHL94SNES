@@ -150,7 +150,7 @@ Status in the table: **extracted** means the bytes are already a named file the 
 | Name | Address | Where used |
 |---|---|---|
 | `mesareaEnd` | `$0A48` | `PushNumber`, `PushTime` only |
-| `gmStatBase` | `$1742` | `ClearTeamStats`, team stat pointers |
+| `gmStatBase` | `$1742` | `clearTeamStats`, team stat pointers |
 | `playoffRoundIdx` | `$7E35D4` | `GetShifter`, passwords, other scores |
 | `rosterNone` | `$FFFC` | `cmp.w` beside `TMPDOUT` in `TryAddPlayerToList`, `ResetBench`, `reenergizeteam` |
 
@@ -164,7 +164,7 @@ Status in the table: **extracted** means the bytes are already a named file the 
 
 ### DATA8 and sprites
 
-Mixed `DATA8_9CF000` cursors: stay `DATA8_` or `Cursor_…` only when tied to one screen. `DATA8_80D3EB` is `PenaltyList` (same layout and readers as 93S). `SpriteFrameN` stays numbered until SPF mapping is proven. The animation list is `SPAList`; animations that match 93S take the 93S SPA names.
+Mixed `DATA8_9CF000` cursors: stay `DATA8_` or `Cursor_…` only when tied to one screen. `DATA8_80D3EB` is `Penaltylist` (same layout and readers as 93S). `SpriteFrameN` stays numbered until SPF mapping is proven. The animation list is `SPAList`; animations that match 93S take the 93S SPA names.
 
 ### Missing assets
 

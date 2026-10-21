@@ -323,7 +323,7 @@ $9FC576,GetPlayerInitial,CODE_9FC576,new,"TempPlOffset into PlayerInitialName (n
 $9FC732,GetPlayerRecord,CODE_9FC732,93S,"same instructions as the 93S routine GetPlayerRecord (hockey)",src/routines/hockey/GetPlayerRecord.asm
 $9FC87C,InitScoutDisplay,CODE_9FC87C,93S,"same instructions as the 93S routine InitScoutDisplay (hockey)",src/routines/hockey/InitScoutDisplay.asm
 $9FC702,restoreteams,CODE_9FC702,93S,"same instructions as the 93S routine restoreteams (hockey)",src/routines/hockey/restoreteams.asm
-$9FC6D8,setteams,CODE_9FC6D8,93S,"same instructions as the 93S routine setteams (hockey)",src/routines/setup/ClearTeamStats.asm
+$9FC6D8,setteams,CODE_9FC6D8,93S,"same instructions as the 93S routine setteams (hockey)",src/routines/setup/clearTeamStats.asm
 $9FC5BE,PutDigits2,CODE_9FC5BE,93S,"same instructions as the 93S routine PutDigits2 (middle)",src/routines/middle/PutDigits2.asm
 $9FC975,addteamstat,CODE_9FC975,93S,"same instructions as the 93S routine addteamstat (penalty)",src/routines/penalty/addteamstat.asm
 $9FC93D,GetPlayerCount,CODE_9FC93D,93S,"same instructions as the 93S routine GetPlayerCount (stats)",src/routines/stats/GetPlayerCount.asm
@@ -348,7 +348,7 @@ $9FA3D7,PushTime,CODE_9FA3D7,93S,"most instructions as the 93S routine PushTime 
 $9FBA17,SetHor,CODE_9FBA17,93S,"most instructions as the 93S routine SetHor (score/module: 1.00 penalty)",src/routines/penalty/SetHor.asm
 $9FBD9C,eraser,CODE_9FBD9C,93S,"most instructions as the 93S routine eraser (score/module: 0.90 middle)",src/routines/video/eraser.asm
 $9FC5EB,PushNumber,CODE_9FC5EB,93S,"most instructions as the 93S routine PushNumber (score/module: 0.96 middle)",src/routines/video/PushNumber.asm
-$9FC6B2,ClearTeamStats,CODE_9FC6B2,93S,"most instructions as the 93S routine ClearTeamStats (score/module: 0.94 hockey)",src/routines/setup/ClearTeamStats.asm
+$9FC6B2,clearTeamStats,CODE_9FC6B2,93S,"most instructions as the 93S routine clearTeamStats (score/module: 0.94 hockey)",src/routines/setup/clearTeamStats.asm
 $9FCDAC,ResetBench,CODE_9FCDAC,93S,"most instructions as the 93S routine ResetBench (score/module: 1.00 hockey)",src/routines/collide/ResetBench.asm
 $9FCE1D,forcepldata,CODE_9FCE1D,93S,"most instructions as the 93S routine forcepldata (score/module: 1.00 hockey)",src/routines/collide/forcepldata.asm
 $9FCED0,Setplass,CODE_9FCED0,93S,"most instructions as the 93S routine Setplass (score/module: 0.92 hockey)",src/routines/collide/Setplass.asm
@@ -540,7 +540,7 @@ $9FE05C,.team,CODE_9FE05C,93S,SetupTeamForIntermission,src/routines/penalty/Setu
 $9FE088,.rtl,CODE_9FE088,93S,SetupTeamForIntermission return,src/routines/penalty/SetupTeamForIntermission.asm
 $9FA22D,.noa2,CODE_9FA22D,93S,pplpen home roster,src/routines/penalty/pplpen.asm
 $9FA24D,.find,CODE_9FA24D,93S,pplpen,src/routines/penalty/pplpen.asm
-$9FC6BD,.clr,CODE_9FC6BD,93S,ClearTeamStats,src/routines/setup/ClearTeamStats.asm
+$9FC6BD,.clr,CODE_9FC6BD,93S,clearTeamStats,src/routines/setup/clearTeamStats.asm
 $9D98C4,.3,CODE_9D98C4,93S,GetShifter,src/routines/data/GetShifter.asm
 $9BB4B4,.carry,CODE_9BB4B4,93S,SuperAdd,src/routines/data/SuperAdd.asm
 $9BB4C6,.ex,CODE_9BB4C6,93S,SuperAdd return,src/routines/data/SuperAdd.asm
@@ -713,7 +713,7 @@ $9EC376,.loop,CODE_9EC376,new,branch target only used in this routine,src/routin
 $9EC3EC,.1,CODE_9EC3EC,new,branch target only used in this routine,src/routines/data/ShowInjuryBox.asm
 $9EC3F9,.loop2,CODE_9EC3F9,new,branch target only used in this routine,src/routines/data/ShowInjuryBox.asm
 $808783,.loop,CODE_808783,new,branch target only used in this routine,src/routines/snes/DMAToCGRAM.asm
-$9C9EBC,.1,CODE_9C9EBC,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
+$9C9EBC,.1,CODE_9C9EBC,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
 $9EC8E7,.loop,CODE_9EC8E7,new,branch target only used in this routine,src/routines/hockey/PrintToStatsPage.asm
 $808448,.1,CODE_808448,new,branch target only used in this routine,src/routines/snes/NMI_SendOAM.asm
 $808460,.2,CODE_808460,new,branch target only used in this routine,src/routines/snes/NMI_SendOAM.asm
@@ -935,7 +935,7 @@ $9FCBB5,.rtl,CODE_9FCBB5,new,branch target only used in this routine,src/routine
 $9FB330,.1,CODE_9FB330,new,branch target only used in this routine,src/routines/input/faceoffinput.asm
 $80D0BB,.1,CODE_80D0BB,new,branch target only used in this routine,src/routines/shootout/PrintShooterList.asm
 $80D0E5,.2,CODE_80D0E5,new,branch target only used in this routine,src/routines/shootout/PrintShooterList.asm
-$9C9D8A,.1,CODE_9C9D8A,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
+$9C9D8A,.1,CODE_9C9D8A,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
 $9F8DA4,.loop,CODE_9F8DA4,new,branch target only used in this routine,src/routines/setup/PeriodOver.asm
 $9F9F02,.1,CODE_9F9F02,new,branch target only used in this routine,src/routines/penalty/SetScore.asm
 $9D9E0D,.1,CODE_9D9E0D,new,branch target only used in this routine,src/routines/stats/TeamRoster.asm
@@ -1633,13 +1633,13 @@ $9FDF02,.loop3,CODE_9FDF02,new,branch target only used in this routine,src/routi
 $9EBE8D,.1,CODE_9EBE8D,new,branch target only used in this routine,src/routines/assign/asspenalty.asm
 $9B9041,.1,CODE_9B9041,new,branch target only used in this routine,src/routines/stats/SelectLinePlayer.asm
 $9B906B,.2,CODE_9B906B,new,branch target only used in this routine,src/routines/stats/SelectLinePlayer.asm
-$9C9BB2,.loop,CODE_9C9BB2,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9BC3,.loop2,CODE_9C9BC3,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9C69,.1,CODE_9C9C69,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9CA9,.2,CODE_9C9CA9,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9CE9,.3,CODE_9C9CE9,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9D0B,.loop3,CODE_9C9D0B,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9D19,.loop4,CODE_9C9D19,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
+$9C9BB2,.loop,CODE_9C9BB2,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9BC3,.loop2,CODE_9C9BC3,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9C69,.1,CODE_9C9C69,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9CA9,.2,CODE_9C9CA9,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9CE9,.3,CODE_9C9CE9,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9D0B,.loop3,CODE_9C9D0B,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9D19,.loop4,CODE_9C9D19,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
 $9B8E5F,.1,CODE_9B8E5F,new,branch target only used in this routine,src/routines/stats/SelectLinePlayer.asm
 $9B8EA5,.2,CODE_9B8EA5,new,branch target only used in this routine,src/routines/stats/SelectLinePlayer.asm
 $9DDE73,.1,CODE_9DDE73,new,branch target only used in this routine,src/routines/scout/DrawMatchupPictures.asm
@@ -2328,8 +2328,8 @@ $808D86,.loop,CODE_808D86,new,branch target only used in this routine,src/routin
 $80A2C5,.loop,CODE_80A2C5,new,branch target only used in this routine,src/routines/snes/StopSound.asm
 $80A2CF,.1,CODE_80A2CF,new,branch target only used in this routine,src/routines/snes/StopSound.asm
 $9F89D5,.1,CODE_9F89D5,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9C9ED8,.1,CODE_9C9ED8,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9F04,.2,CODE_9C9F04,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
+$9C9ED8,.1,CODE_9C9ED8,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9F04,.2,CODE_9C9F04,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
 $9ED8D4,.1,CODE_9ED8D4,new,branch target only used in this routine,src/routines/logic/assgoalie.asm
 $9ED8E9,.2,CODE_9ED8E9,new,branch target only used in this routine,src/routines/logic/assgoalie.asm
 $9ED8FC,.3,CODE_9ED8FC,new,branch target only used in this routine,src/routines/logic/assgoalie.asm
@@ -2722,13 +2722,13 @@ $9CA2EE,.t1,CODE_9CA2EE,new,continued in the previous routine,src/routines/video
 $9CA192,.t1,CODE_9CA192,new,continued in the previous routine,src/routines/display/setsortcords.asm
 $9CA0FE,.t1,CODE_9CA0FE,new,continued in the previous routine,src/routines/display/setsortcords.asm
 $9CA02D,.t1,CODE_9CA02D,new,continued in the previous routine,src/routines/hockey/UpdateBenchCheer.asm
-$9C9F48,.t1,CODE_9C9F48,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9EC4,.t1,CODE_9C9EC4,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9E25,.t1,CODE_9C9E25,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9DFC,.t1,CODE_9C9DFC,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9DE2,.t1,CODE_9C9DE2,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9DC4,.t1,CODE_9C9DC4,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9DAA,.t1,CODE_9C9DAA,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
+$9C9F48,.t1,CODE_9C9F48,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9EC4,.t1,CODE_9C9EC4,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E25,.t1,CODE_9C9E25,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DFC,.t1,CODE_9C9DFC,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DE2,.t1,CODE_9C9DE2,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DC4,.t1,CODE_9C9DC4,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DAA,.t1,CODE_9C9DAA,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
 $9C9B8B,.t1,CODE_9C9B8B,new,continued in the previous routine,src/routines/snes/PlayTeamSong.asm
 $9C9B14,.t1,CODE_9C9B14,new,continued in the previous routine,src/routines/sound/PuckSfx.asm
 $9C9A53,.t1,CODE_9C9A53,new,continued in the previous routine,src/routines/sound/UpdateStreamSfx.asm
@@ -3258,9 +3258,9 @@ $9B825A,.t2,CODE_9B825A,new,continued in the previous routine,src/routines/snes/
 $9B80E4,.t2,CODE_9B80E4,new,continued in the previous routine,src/routines/snes/Multi5Bios.asm
 $9CA467,.t2,CODE_9CA467,new,continued in the previous routine,src/routines/data/SuperDiv.asm
 $9CA101,.t2,CODE_9CA101,new,continued in the previous routine,src/routines/display/setsortcords.asm
-$9C9E15,.t1,CODE_9C9E15,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9DEC,.t1,CODE_9C9DEC,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9DBA,.t2,CODE_9C9DBA,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
+$9C9E15,.t1,CODE_9C9E15,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DEC,.t1,CODE_9C9DEC,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DBA,.t2,CODE_9C9DBA,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
 $9C99B1,.t2,CODE_9C99B1,new,continued in the previous routine,src/routines/sound/UpdateStreamSfx.asm
 $9C95CE,.t2,CODE_9C95CE,new,continued in the previous routine,src/routines/hockey/PrintSmallLetterSprites.asm
 $9C953D,.t2,CODE_9C953D,new,continued in the previous routine,src/routines/hockey/PrintTeamSprites.asm
@@ -3484,7 +3484,7 @@ $9B96E4,.t3,CODE_9B96E4,new,continued in the previous routine,src/routines/hocke
 $9B8E3D,.t1,CODE_9B8E3D,new,continued in the previous routine,src/routines/stats/SelectLinePlayer.asm
 $9B8CE1,.t3,CODE_9B8CE1,new,continued in the previous routine,src/routines/stats/SetLineSlot.asm
 $9B8792,.t3,CODE_9B8792,new,continued in the previous routine,src/routines/hockey/EditLinesScreen.asm
-$9C9DD4,.t1,CODE_9C9DD4,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
+$9C9DD4,.t1,CODE_9C9DD4,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
 $9C95EE,.t3,CODE_9C95EE,new,continued in the previous routine,src/routines/hockey/PrintSmallLetterSprites.asm
 $9C951E,.t3,CODE_9C951E,new,continued in the previous routine,src/routines/hockey/PrintTeamSprites.asm
 $9C948F,.t3,CODE_9C948F,new,continued in the previous routine,src/routines/hockey/PrintTeamSprites.asm
@@ -3570,7 +3570,7 @@ $8085A3,.t1,CODE_8085A3,new,continued in the previous routine,src/routines/snes/
 $9BAF4C,.t4,CODE_9BAF4C,new,continued in the previous routine,src/routines/replay/ReplayMode.asm
 $9B95F5,.t4,CODE_9B95F5,new,continued in the previous routine,src/routines/hockey/FillScoringPage.asm
 $9B8CFD,.t4,CODE_9B8CFD,new,continued in the previous routine,src/routines/stats/SetLineSlot.asm
-$9C9D25,.t1,CODE_9C9D25,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
+$9C9D25,.t1,CODE_9C9D25,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
 $9C95B0,.t4,CODE_9C95B0,new,continued in the previous routine,src/routines/hockey/PrintSmallLetterSprites.asm
 $9C9502,.t4,CODE_9C9502,new,continued in the previous routine,src/routines/hockey/PrintTeamSprites.asm
 $9C937D,.t4,CODE_9C937D,new,continued in the previous routine,src/routines/snes/PrintLetterSprites.asm
@@ -3738,7 +3738,7 @@ $9BCAF8,BadPasswordPrompt,CODE_9BCAF8,new,bad password prompt,src/routines/hocke
 $9C8D2E,ShowGameStats,CODE_9C8D2E,new,game stats screen,src/routines/hockey/ShowGameStats.asm
 $9D8489,ShowMatchups,CODE_9D8489,new,matchups screen,src/routines/hockey/ShowMatchups.asm
 $9B8A15,EditLinesMenu,CODE_9B8A15,new,edit lines menu,src/routines/hockey/EditLinesMenu.asm
-$9C9BAB,ShowStars,CODE_9C9BAB,new,stars of the game,src/routines/hockey/ShowStars.asm
+$9C9BAB,ShowThreeStars,CODE_9C9BAB,93G,stars of the game (93G name),src/routines/hockey/ShowThreeStars.asm
 $9FE733,PauseResume,CODE_9FE733,93S,"B, Start, or A leaves; same shape as 93S PauseResume",src/routines/hockey/PauseResume.asm
 $9FE272,PauseReplay,CODE_9FE272,new,Instant Replay,src/routines/hockey/PauseReplay.asm
 $9FE2AE,PauseSubmenuDone,CODE_9FE2AE,new,"submenu finished, mark the text map dirty",src/routines/hockey/PauseReplay.asm
@@ -3813,7 +3813,7 @@ $9C9366,LineBraces+3,#$9366,new,"closing brace, the second string in LineBraces"
 $9C9369,LineBraces+6,#$9369,new,"blank that erases a brace, the third string in LineBraces",src/data/text/LineBraces.asm
 $0A48,mesareaEnd,#$0A48,new,end of decimal string in PushNumber and PushTime,src/ram94s.asm
 $0AD9,puckc,shotPlIdx,93S,RAM; every routine named from 93S uses it where 93S uses puckc (asspuckc compares X with it),src/ram94s.asm
-$1742,tmPwrGoals,$1742,behavior,"RAM; power play goals (PenGoalStuff, TeamStatSources Power Play row); was gmStatBase, the first team stat word ClearTeamStats clears",src/ram94s.asm
+$1742,tmPwrGoals,$1742,behavior,"RAM; power play goals (PenGoalStuff, TeamStatSources Power Play row); was gmStatBase, the first team stat word clearTeamStats clears",src/ram94s.asm
 $7E35D4,playoffRoundIdx,$7E35D4,new,playoff round for other scores and passwords,src/ram94s.asm
 $FFFC,rosterNone,#$FFFC,new,no roster slot beside TMPDOUT in bench checks,src/ram94s.asm
 $9ED0FC,rtss,CODE_9ED0FC,93S,"asstab entry 0 and the do-nothing callback (lda #rtss), as 93S rtss",src/routines/checks/ChkGoalies.asm
@@ -4016,17 +4016,17 @@ $9C9599,.1,CODE_9C9599,new,branch target only used in this routine,src/routines/
 $9C9617,.2,CODE_9C9617,new,branch target only used in this routine,src/routines/hockey/PrintSmallLetterSprites.asm
 $9C961E,.3,CODE_9C961E,new,branch target only used in this routine,src/routines/hockey/PrintSmallLetterSprites.asm
 $9C9622,.4,CODE_9C9622,new,continued in the previous routine,src/routines/hockey/PrintSmallLetterSprites.asm
-$9C9DBC,.1,CODE_9C9DBC,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9DC6,.2,CODE_9C9DC6,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9DD6,.3,CODE_9C9DD6,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9DE4,.4,CODE_9C9DE4,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9DEE,.5,CODE_9C9DEE,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9DFE,.6,CODE_9C9DFE,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9E08,.7,CODE_9C9E08,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9E0B,.8,CODE_9C9E0B,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9E0D,.9,CODE_9C9E0D,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9E17,.10,CODE_9C9E17,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9E27,.11,CODE_9C9E27,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
+$9C9DBC,.1,CODE_9C9DBC,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DC6,.2,CODE_9C9DC6,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DD6,.3,CODE_9C9DD6,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DE4,.4,CODE_9C9DE4,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DEE,.5,CODE_9C9DEE,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9DFE,.6,CODE_9C9DFE,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E08,.7,CODE_9C9E08,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E0B,.8,CODE_9C9E0B,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E0D,.9,CODE_9C9E0D,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E17,.10,CODE_9C9E17,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E27,.11,CODE_9C9E27,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
 $9CA0B6,.5,CODE_9CA0B6,new,branch target only used in this routine,src/routines/display/setsortcords.asm
 $9CA107,.6,CODE_9CA107,new,branch target only used in this routine,src/routines/display/setsortcords.asm
 $9CA151,.7,CODE_9CA151,new,branch target only used in this routine,src/routines/display/setsortcords.asm
@@ -4382,7 +4382,7 @@ $9C9A5A,.1,CODE_9C9A5A,new,branch target only used in this routine,src/routines/
 $9C9B19,.3,CODE_9C9B19,new,branch target only used in this routine,src/routines/sound/PuckSfx.asm
 $9C9BA5,.1,CODE_9C9BA5,new,branch target only used in this routine,src/routines/snes/PlayTeamSong.asm
 $9C9BA9,.2,CODE_9C9BA9,new,branch target only used in this routine,src/routines/snes/PlayTeamSong.asm
-$9C9FB0,.3,CODE_9C9FB0,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
+$9C9FB0,.3,CODE_9C9FB0,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
 $9D831C,.1,CODE_9D831C,new,branch target only used in this routine,src/routines/scout/ScoutingReport.asm
 $9D83AD,.3,CODE_9D83AD,new,branch target only used in this routine,src/routines/scout/ScoutingReport.asm
 $9D83C9,.4,CODE_9D83C9,new,branch target only used in this routine,src/routines/scout/ScoutingReport.asm
@@ -4563,13 +4563,13 @@ $9C9AD0,sfx,CODE_9C9AD0,93S,"Endfaceoff and dostop call it where 93S calls sfx; 
 $9BB370,randoma,CODE_9BB370,93S,randomd0 calls it as 93S randomd0 calls randoma; A = random 0 to A-1,src/routines/middle/randoma.asm
 $9BB385,randoma8,CODE_9BB385,new,A = random 0 to A-1 for A below 256; the collision and pass routines call it where 93S calls randoma,src/routines/snes/randoma8.asm
 $9CA554,ApproxLength,CODE_9CA554,new,"approximate length of (A, Y); called where 93S takes sroot of a distance",src/routines/snes/ApproxLength.asm
-$9B9F7A,updatecrowdf,CODE_9B9F7A,93S,periodicevents calls it where 93S calls updatecrowdf; lets crowdlevel fade,src/routines/hockey/updatecrowdf.asm
-$9C9930,updatesound,CODE_9C9930,93S,periodicevents calls it where 93S calls updatesound; crowd noise volume from crowdlevel,src/routines/display/updatesound.asm
+$9B9F7A,updatecrowdf,CODE_9B9F7A,93S,periodicevents calls it where 93S calls updatecrowdf; lets Crowdlevel fade,src/routines/hockey/updatecrowdf.asm
+$9C9930,updatesound,CODE_9C9930,93S,periodicevents calls it where 93S calls updatesound; crowd noise volume from Crowdlevel,src/routines/display/updatesound.asm
 $9FBAAA,setvideo,CODE_9FBAAA,93S,"the 93S setvideo callers (DoGameFrame, PauseMenu, Pausemode, PeriodOver, StartHL2, replay) call it; builds the frame sprites",src/routines/display/setvideo.asm
 $9F8DFA,SaveRegsStartHL2,CODE_9F8DFA,93S,DoHiLights calls it as in 93S; saves the registers and falls into StartHL2,src/routines/hockey/SaveRegsStartHL2.asm
 $9F937B,Pausemode,CODE_9F937B,93S,"called from the game loop; saves the screen, stops the sound, runs PauseMenu, then restores, as 93S Pausemode",src/routines/hockey/Pausemode.asm
 $9F8330,StartGame,CODE_9F8330,93S,"GameOver and the opening code go here; a 94 setup, then the 93S StartGame body",src/routines/hockey/StartGame.asm
-$7E35E0,crowdlevel,$7E35E0,93S,RAM; updatecrowdf lets it fade and updatesound reads it as 93S does with crowdlevel,src/ram94s.asm
+$7E35E0,Crowdlevel,$7E35E0,93S,RAM; updatecrowdf lets it fade and updatesound reads it as 93S does with Crowdlevel,src/ram94s.asm
 $9DE0FC,SPAList,DATA8_9DE0FC,93S,"the sprite animations: a zero word (SPA 0 = no animation), then each animation; SPA holds the address of one; 93S SPAList",src/data/frames94s.asm
 $9DE0FE,SPAgready,DATA8_9DE0FE,93S,"the goalie ready animation (93S SPAgready): set for goalies where 93S assbench sets it (glide for skaters), loops",src/data/frames94s.asm
 $9DE1B0,SPAgready2,DATA8_9DE1B0,93S,"93S SPAgready2: the goalie frames held 30, after SPAgready as in 93S and 94G",src/data/frames94s.asm
@@ -4620,7 +4620,7 @@ $9FBC5F,setffo,CODE_9FBC5F,93S,setvideo calls it as in 93S; draws the pad labels
 $9EC160,prefmes,CODE_9EC160,93S,PushRef and SetPA call it as in 93S; prints from the penalty message table,src/routines/penalty/prefmes.asm
 $9EF213,ChkShotStat,CODE_9EF213,93S,"called from Goal, puckglue and the goalie code as in 93S; clears the shot flag and adds the shot",src/routines/penalty/ChkShotStat.asm
 $9FDCEB,makepde,CODE_9FDCEB,93S,doshot and the stick code call it as in 93S; rating times the getpde energy,src/routines/collide/makepde.asm
-$9B9FAF,showcrowd,CODE_9B9FAF,93S,setvideo calls it as in 93S; steps the crowd sprites by crowdlevel,src/routines/display/showcrowd.asm
+$9B9FAF,showcrowd,CODE_9B9FAF,93S,setvideo calls it as in 93S; steps the crowd sprites by Crowdlevel,src/routines/display/showcrowd.asm
 $9EA539,StopNA,CODE_9EA539,93S,dostop falls in and goalieacc jumps here as in 93S; slows the player on each axis without an animation change,src/routines/checks/dostop.asm
 $80D322,UpdateCwdExcite,CODE_80D322,93S,periodicevents calls it where 93S calls UpdateCwdExcite; does nothing in both,src/routines/hockey/UpdateCwdExcite.asm
 $80D323,CheckLateGameSong,CODE_80D323,93S,periodicevents calls it where 93S calls CheckLateGameSong; does nothing in both,src/routines/hockey/CheckLateGameSong.asm
@@ -4699,11 +4699,11 @@ $9BB020,.15,CODE_9BB020,new,continued in the previous routine,src/routines/repla
 $9C9145,.6,CODE_9C9145,new,continued in the previous routine,src/routines/hockey/PrintTeamStatRows.asm
 $9C9154,.7,CODE_9C9154,new,branch target only used in this routine,src/routines/hockey/PrintTeamStatRows.asm
 $9C9167,.8,CODE_9C9167,new,branch target only used in this routine,src/routines/hockey/PrintTeamStatRows.asm
-$9C9DA1,.12,CODE_9C9DA1,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9E29,.13,CODE_9C9E29,new,continued in the previous routine,src/routines/hockey/ShowStars.asm
-$9C9E55,.14,CODE_9C9E55,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9E81,.15,CODE_9C9E81,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
-$9C9E8E,.16,CODE_9C9E8E,new,branch target only used in this routine,src/routines/hockey/ShowStars.asm
+$9C9DA1,.12,CODE_9C9DA1,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E29,.13,CODE_9C9E29,new,continued in the previous routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E55,.14,CODE_9C9E55,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E81,.15,CODE_9C9E81,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
+$9C9E8E,.16,CODE_9C9E8E,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
 $9DA6FF,.3,CODE_9DA6FF,new,branch target only used in this routine,src/routines/optsetup/setoptions.asm
 $9DA7D7,.5,CODE_9DA7D7,new,branch target only used in this routine,src/routines/optsetup/setoptions.asm
 $9DA869,.6,CODE_9DA869,new,continued in the previous routine,src/routines/optsetup/setoptions.asm
@@ -4800,7 +4800,7 @@ $9C93F1,LetterSpriteWidths,DATA8_9C93F1,new,the advance PrintLetterSprites uses 
 $9DD9AD,SetupScreen,CODE_9DD9AD,94G,"the common start of the stats screens, called first as 94G calls SetupScreen (ShootoutShooters and the stats screens)",src/routines/stats/SetupScreen.asm
 $9B851F,ReadPausePad,CODE_9B851F,new,ReadjoyA for pausepad,src/routines/snes/ReadPausePad.asm
 $0AC6,pausepad,$0AC6,new,RAM; set by SelectPauseController and StartPer: the controller that owns the pause menu,src/ram94s.asm
-$80D3EB,PenaltyList,DATA8_80D3EB,93S,"word offset per penalty number to its entry (name and data) as 93S PenaltyList and 94G Penaltylist; AddPenalty2, prefmes and checkfornewpen read it where 93S reads PenaltyList",src/data/tables/PenaltyList.asm
+$80D3EB,Penaltylist,DATA8_80D3EB,93S,"word offset per penalty number to its entry (name and data) as 93S Penaltylist and 94G Penaltylist; AddPenalty2, prefmes and checkfornewpen read it where 93S reads Penaltylist",src/data/tables/Penaltylist.asm
 $9E8F42,wallcoll,CODE_9E8F42,93S,"called from checkgoalp and the wall and goal code as in 93S; most of the 93S body (Wallcos / Wallsin, speed loss)",src/routines/collide/wallcoll.asm
 $1103,Wallcos,$1103,93S,"RAM; per object, where 93S has Wallcos in checkcoll, checkwallcoll, wallcoll and playeracc",src/ram94s.asm
 $1123,Wallsin,$1123,93S,"RAM; per object, where 93S has Wallsin",src/ram94s.asm
@@ -4909,8 +4909,8 @@ $9BA110,.9,CODE_9BA110,new,"part of showcrowd, used only by it",src/routines/dis
 $9BA563,.6,CODE_9BA563,new,"part of ShowCrowdMeter, used only by it",src/routines/hockey/ShowCrowdMeter.asm
 $9BA72C,.7,CODE_9BA72C,new,"part of ShowCrowdMeter, used only by it",src/routines/hockey/ShowCrowdMeter.asm
 $9BA77C,.8,CODE_9BA77C,new,"part of ShowCrowdMeter, used only by it",src/routines/hockey/ShowCrowdMeter.asm
-$9C9EC5,.17,CODE_9C9EC5,new,"part of ShowStars, used only by it",src/routines/hockey/ShowStars.asm
-$9C9FC7,.18,CODE_9C9FC7,new,"part of ShowStars, used only by it",src/routines/hockey/ShowStars.asm
+$9C9EC5,.17,CODE_9C9EC5,new,"part of ShowThreeStars, used only by it",src/routines/hockey/ShowThreeStars.asm
+$9C9FC7,.18,CODE_9C9FC7,new,"part of ShowThreeStars, used only by it",src/routines/hockey/ShowThreeStars.asm
 $9D9064,.3,CODE_9D9064,new,"part of PlayoffScreen, used only by it",src/routines/setup/PlayoffScreen.asm
 $9D906E,.7,CODE_9D906E,new,"part of PlayoffScreen, used only by it",src/routines/setup/PlayoffScreen.asm
 $9E8101,.4,CODE_9E8101,new,"part of assnearest, used only by it",src/routines/checks/assnearest.asm
@@ -5529,7 +5529,7 @@ $9DCCF5,SetupBandIRQ,CODE_9DCCF5,new,SetIRQ with IRQ_BandStart at line A and IRQ
 $9DCD0F,IRQ_BandStart,CODE_9DCD0F,new,the band start set by SetupBandIRQ,src/routines/snes/IRQ_BandStart.asm
 $9DCD34,IRQ_BandEnd,CODE_9DCD34,new,the band end,src/routines/snes/IRQ_BandEnd.asm
 $9DC973,GetMatchupPlayer,CODE_9DC973,94G,"ShowMatchups calls it as 94G ScoutingReport calls GetMatchupPlayer; the first line set of the team at the 94G MatchupLineSlots slots (4, 3, 5, 1, 2, 0)",src/routines/scout/GetMatchupPlayer.asm
-$9D8129,ScoutingReport,CODE_9D8129,93S,"StartGame calls it; ClearTeamStats first, then the screen, InitScoutDisplay and the ReadPads / UpdateScoutingDisplay loop as 93S ScoutingReport (94G has the same name)",src/routines/scout/ScoutingReport.asm
+$9D8129,ScoutingReport,CODE_9D8129,93S,"StartGame calls it; clearTeamStats first, then the screen, InitScoutDisplay and the ReadPads / UpdateScoutingDisplay loop as 93S ScoutingReport (94G has the same name)",src/routines/scout/ScoutingReport.asm
 $9F9745,GetNameandAttrib,CODE_9F9745,93S,"Same frame as 93S GetNameandAttrib: PlayerNumName and print, printx, ratings only for d4 >= 3, then attribjmp[d4] through the jmlvector trampoline; called from the roster and player card screens",src/routines/stats/GetNameandAttrib.asm
 $9F992E,CalcAttrib,CODE_9F992E,94G,"Called from GetNameandAttrib where 94G getNameandAttrib calls CalcAttrib; skips the player records, walks mask bits 15-0 and adds the hot / cold bytes ($1A12) as 94G CalcAttrib",src/routines/cards/CalcAttrib.asm
 $9D87B5,GetTeamRating,CODE_9D87B5,94G,The bytes it reads equal 94G TeamRatings for every team; called from ShowMatchups (matchup 0) and DrawPlayerCard as 94G GetTeamRating from PrintMatchupRating and PrintTeamRating,src/routines/period/GetTeamRating.asm
@@ -5585,9 +5585,9 @@ $80D3E7,PixelRemap87,asstab+195,93S,equals 93S PixelRemap87; setupice remaps the
 $9E8904,EvadePC,"(assdefo, no label)",93S,"the 93S EvadePC body (puckc, the one frame lookahead against the puck carrier, vtoa); assdefo, assbench, asscentero and asswingo pass it to skateto as 93S (was the immediate #$8904)",src/routines/checks/EvadePC.asm
 $9E8374,.chkdir,"(asspuckc, no label)",93S,asspuckc: the skateto callback 93S asspuckc passes as .chkdir (was the immediate #$8374),src/routines/checks/asspuckc.asm
 $9EE592,.nocallback,"(CODE_9EE463, no label)",new,CODE_9EE463: an rtl passed to skateto as its callback (was the immediate #$E592),src/routines/checks/assbreakaway.asm
-$80D646,sublist,PenaltyList+603,93S,the bytes after PenaltyList equal 93S sublist; SetPlList reads it as 93S (was the immediate #$D646),src/data/tables/sublist.asm
+$80D646,sublist,Penaltylist+603,93S,the bytes after Penaltylist equal 93S sublist; SetPlList reads it as 93S (was the immediate #$D646),src/data/tables/sublist.asm
 $80D6B0,priolist,(equate),93S,"93S priolist, now a label in its data instead of an equate; a second order follows at priolist+7",src/data/tables/priolist.asm
-$80D6BE,linelist,PenaltyList+723,93S,93S linelist (94S has PP1 / PP2 for Pw1 / Pw2); SetLCmode2 and puckfaceoff2 print from it as 93S SetLCmode2 (was #$D6BE),src/data/text/linelist.asm
+$80D6BE,linelist,Penaltylist+723,93S,93S linelist (94S has PP1 / PP2 for Pw1 / Pw2); SetLCmode2 and puckfaceoff2 print from it as 93S SetLCmode2 (was #$D6BE),src/data/text/linelist.asm
 $80D6E1,PerLabels,(equate),93S,"93S PerLabels plus a sixth entry, now a label in its data instead of an equate",src/data/text/PerLabels.asm
 $9B8C7A,SetLineSlot,CODE_9B8C7A,94G,"The job of 94G SetLineSlot; EditLinesScreen calls it with the player SelectLinePlayer returns, as 94G LineEditorMenu",src/routines/stats/SetLineSlot.asm
 $9B8D86,SelectLinePlayer,CODE_9B8D86,94G,"The job of 94G SelectLinePlayer; called from EditLinesScreen on a button, its result goes to SetLineSlot",src/routines/stats/SelectLinePlayer.asm
@@ -6597,8 +6597,8 @@ $17D2,tmOneTimerSwings,,behavior,RAM; one-timer swings started (asspassrec; not 
 $17D6,tmOneTimers,,behavior,RAM; one-timers (asspassrec),src/ram94s.asm
 $17DA,tmOneTimerGoals,,behavior,RAM; one-timer goals,src/ram94s.asm
 $17E2,tmtimeouts,,behavior,RAM; timeouts left (StartGame sets 1; PauseTimeout),src/ram94s.asm
-$1922,passists,,behavior,RAM; assists,src/ram94s.asm
-$1956,pshots,,behavior,RAM; shots (goalies: shots against),src/ram94s.asm
+$1922,tmassists,,93G,RAM; assists,src/ram94s.asm
+$1956,tmpshots,,93G,RAM; shots (goalies: shots against),src/ram94s.asm
 $198A,ppenmin,,behavior,RAM; penalty minutes,src/ram94s.asm
 $19C0,CrowdLoud,,behavior,RAM; 1 at 110 dB or more; cleared under 105 dB (CheckCrowdMeter),src/ram94s.asm
 $19C6,CrowdAvg,,behavior,RAM; the game's average meter (CrowdMeterSum / CrowdMeterCount),src/ram94s.asm
@@ -6853,7 +6853,7 @@ $1DC5,listrows,,behavior,"RAM; Rows of a scrolled stats list in the window / sen
 $1DBD,listtop,,behavior,"RAM; First row shown of a scrolled stats list (game stats, penalty/scoring summaries, other scores: ...",src/ram94s.asm
 $1E3F,matchuphold,,behavior,"RAM; ScoutingReport: $FFFF once a pad paged the matchups (A/C/Y), stops the automatic paging and the screentimer",src/ram94s.asm
 $1E89,onetimer,,behavior,RAM; A one-timer shot is under way: asspassrec sets 1 when the receiver shoots the pass directly (counts ...,src/ram94s.asm
-$1E1F,otgoalscorer,,behavior,"RAM; ShowStars: player (+$1A for visitors, $FFFF none) taken from a goal entry whose period field is 3 ...",src/ram94s.asm
+$1E1F,otgoalscorer,,behavior,"RAM; ShowThreeStars: player (+$1A for visitors, $FFFF none) taken from a goal entry whose period field is 3 ...",src/ram94s.asm
 $1DE9,otherskip,,behavior,"RAM; Other scores: 1 when FillOtherScores skipped the user's game ($7E35D6), added into the row math of ...",src/ram94s.asm
 $1E9B,penshot,,behavior,"RAM; Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShot and StartGame clear; Goal, ...",src/ram94s.asm
 $1E9D,penshotlive,,behavior,"RAM; Set 1 by SetupPenaltyShot when the shot starts, cleared by puckfaceoff (.9) and StartGame; ...",src/ram94s.asm
@@ -6876,16 +6876,16 @@ $1D87,shootoutturnover,,behavior,"RAM; Shootout turn finished: cleared at each P
 $1EAB,sopathface,,behavior,RAM; assbreakaway: facedir when the last path point was taken; the shot comes when facedir moves away from it,src/ram94s.asm
 $1EA5,sopathnext,,behavior,"RAM; assbreakaway: distance toward the goal at which the next path point is taken (.9); negative = last point, ...",src/ram94s.asm
 $1EA9,sopathside,,behavior,"RAM; assbreakaway: x side of the path (first point x, signed by pfgoal); sopathx is negated by it and a ...",src/ram94s.asm
-$1E2B,star1,,behavior,"RAM; ShowStars: first star (player index, +$1A for visitors until printing)",src/ram94s.asm
-$1E31,star1score,,behavior,"RAM; ShowStars: 32-bit score of star1 (low word compared with d0, high at +2 with $A7)",src/ram94s.asm
-$1E2D,star2,,behavior,RAM; ShowStars: second star,src/ram94s.asm
-$1E35,star2score,,behavior,RAM; ShowStars: 32-bit score of star2,src/ram94s.asm
-$1E2F,star3,,behavior,RAM; ShowStars: third star,src/ram94s.asm
-$1E39,star3score,,behavior,RAM; ShowStars: 32-bit score of star3,src/ram94s.asm
-$1E23,stargoalieend,,behavior,"RAM; ShowStars: end of the team's goalie indexes (GoalieCount, +$1A for visitors); below it the goalie scoring ...",src/ram94s.asm
-$1E21,starplayerend,,behavior,"RAM; ShowStars: end of the team's player indexes in the scan (GetPlayerCount, +$1A for visitors)",src/ram94s.asm
-$1E25,starswapplayer,,behavior,RAM; ShowStars: player pushed down a place while inserting into the three stars,src/ram94s.asm
-$1E27,starswapscore,,behavior,"RAM; ShowStars: 32-bit star score (low word, high word at +2) of the player pushed down while inserting",src/ram94s.asm
+$1E2B,star1,,behavior,"RAM; ShowThreeStars: first star (player index, +$1A for visitors until printing)",src/ram94s.asm
+$1E31,star1score,,behavior,"RAM; ShowThreeStars: 32-bit score of star1 (low word compared with d0, high at +2 with $A7)",src/ram94s.asm
+$1E2D,star2,,behavior,RAM; ShowThreeStars: second star,src/ram94s.asm
+$1E35,star2score,,behavior,RAM; ShowThreeStars: 32-bit score of star2,src/ram94s.asm
+$1E2F,star3,,behavior,RAM; ShowThreeStars: third star,src/ram94s.asm
+$1E39,star3score,,behavior,RAM; ShowThreeStars: 32-bit score of star3,src/ram94s.asm
+$1E23,stargoalieend,,behavior,"RAM; ShowThreeStars: end of the team's goalie indexes (GoalieCount, +$1A for visitors); below it the goalie scoring ...",src/ram94s.asm
+$1E21,starplayerend,,behavior,"RAM; ShowThreeStars: end of the team's player indexes in the scan (GetPlayerCount, +$1A for visitors)",src/ram94s.asm
+$1E25,starswapplayer,,behavior,RAM; ShowThreeStars: player pushed down a place while inserting into the three stars,src/ram94s.asm
+$1E27,starswapscore,,behavior,"RAM; ShowThreeStars: 32-bit star score (low word, high word at +2) of the player pushed down while inserting",src/ram94s.asm
 $1DF9,statcolumn,,behavior,"RAM; Player stats page column: 0 = goalies, 1-5 = skater sort column; left/right in ShowPlayerStats, ...",src/ram94s.asm
 $1E15,statpenrows,,behavior,"RAM; Game stats: $10 when penalties are on, 0 when off (ShowGameStats); PrintTeamStatRows ORs it with each ...",src/ram94s.asm
 $1DFB,statsorder,,behavior,"RAM; Player stats row order, a byte per roster player (InitStatsOrder fills 0,1,2..; ...",src/ram94s.asm
