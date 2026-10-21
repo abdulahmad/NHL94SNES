@@ -35,7 +35,7 @@ SetLCmode2:							; draw the line change box of team a2
 	lda.w printx					; keep the starting column
 	pha								; on the stack
 .loop:								; one row per pass
-	lda.b r0+1,s					; reload the column from the stack
+	lda.b 1,s						; reload the column from the stack
 	sta.w printx
 	lda.b d4						; d0 = choice (row number)
 	sta.b d0

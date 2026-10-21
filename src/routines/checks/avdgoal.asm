@@ -155,7 +155,7 @@ avdgoal:							; called from assgoalietopuck, skateto, skatetopuck
 .t1xxx:								; p1+2 - $FEF8 >= 0: if r6 negative go to .13
 	ldy.b r6
 	bmi .13
-.10:								; eor r0+1,s, if plus go to .14, ...
+.10:								; eor 1,s, if plus go to .14, ...
 	lda.b p1
 	sec
 	sbc.w Xpos,y
@@ -163,7 +163,7 @@ avdgoal:							; called from assgoalietopuck, skateto, skatetopuck
 	lda.b p0
 	sec
 	sbc.b p1
-	eor.b r0+1,s
+	eor.b 1,s
 	bpl .14
 	pla
 	lda.b p0

@@ -126,7 +126,7 @@ doplayeracc:						; player X skates toward d0
 	sta.b d1
 	jsl.l vtoa						; vector to direction
 	sec
-	sbc.b r0+1,s
+	sbc.b 1,s
 	inc a
 	and.w #$0007
 	cmp.w #$0003

@@ -9,7 +9,7 @@ CollisionSfx:						; play the collision sound
 	lda.w Yvel,x
 	jsl.l ApproxLength
 	sta.b r3
-	lda.b r0+1,s
+	lda.b 1,s
 	tay
 	lda.w Xvel,y
 	pha

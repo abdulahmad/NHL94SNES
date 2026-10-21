@@ -149,9 +149,9 @@ assgoalietopuck:					; X = goalie; asstab entry
 	bit.w #$0080
 	beq .3x
 	ora.w #$FF00
-.3x:								; adc r0+1,s, sbc Xpos,x, d0 = A, ...
+.3x:								; adc 1,s, sbc Xpos,x, d0 = A, ...
 	clc
-	adc.b r0+1,s
+	adc.b 1,s
 	sec
 	sbc.w Xpos,x
 	sta.b d0
@@ -164,9 +164,9 @@ assgoalietopuck:					; X = goalie; asstab entry
 	bit.w #$0080
 	beq .4x
 	ora.w #$FF00
-.4x:								; adc r0+3,s, sbc Ypos,x, d1 = A, ...
+.4x:								; adc 3,s, sbc Ypos,x, d1 = A, ...
 	clc
-	adc.b r0+3,s
+	adc.b 3,s
 	sec
 	sbc.w Ypos,x
 	sta.b d1

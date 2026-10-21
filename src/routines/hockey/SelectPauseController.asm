@@ -17,7 +17,7 @@ SelectPauseController:				; called from PauseMenuPoll
 	lda.w #$0000
 	pha
 .loop:								; loop: if JoyPad,x bit $000F set go to .1, ...
-	lda.b r0+1,s
+	lda.b 1,s
 	asl a
 	tax
 	lda.w JoyPad,x
@@ -25,14 +25,14 @@ SelectPauseController:				; called from PauseMenuPoll
 	bne .1
 	lda.w cont1team,x
 	beq .1
-	lda.b r0+1,s
+	lda.b 1,s
 	jsl.l ReadjoyA
 	lda.b d3
 	bne .t2
-.1:									; r0+1,s = r0+1,s + 1, if carry clear go to .loop, ...
-	lda.b r0+1,s
+.1:									; 1,s = 1,s + 1, if carry clear go to .loop, ...
+	lda.b 1,s
 	inc a
-	sta.b r0+1,s
+	sta.b 1,s
 	cmp.w #$0005
 	bcc .loop
 	pla

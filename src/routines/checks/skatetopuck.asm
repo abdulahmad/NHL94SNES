@@ -35,7 +35,7 @@ skatetopuck:						; player X skates to the puck
 	ora.w #$FF00
 .1:									; lead on the x velocity
 	clc
-	adc.b r0+1,s
+	adc.b 1,s
 	sec
 	sbc.w Xpos,x
 	sta.b d0						; d0 = X offset to the lead point
@@ -51,7 +51,7 @@ org $9EB000
 	ora.w #$FF00
 .2:									; lead on the y velocity
 	clc
-	adc.b r0+3,s
+	adc.b 3,s
 	sec
 	sbc.w Ypos,x
 	sta.b d1						; d1 = Y offset to the lead point

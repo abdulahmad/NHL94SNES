@@ -11,16 +11,16 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	beq .t2
 	jmp.w .7
 
-.t2:								; r0+1,s = $0001, tsb sflags, if SPA,x != SPAshotb go to .1, ...
+.t2:								; 1,s = $0001, tsb sflags, if SPA,x != SPAshotb go to .1, ...
 	lda.w #$0001
-	sta.b r0+1,s
+	sta.b 1,s
 	lda.w #$1000
 	tsb.w sflags
 	lda.w SPA,x
 	cmp.w #SPAshotb
 	bne .1
 	lda.w #$0001
-	sta.b r0+1,s
+	sta.b 1,s
 	lda.w passspeed
 	lsr a
 	lsr a
@@ -35,7 +35,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	cmp.w #$001E
 	bcc .2
 	lda.w #$0002
-	sta.b r0+1,s
+	sta.b 1,s
 .2:									; a0 = X, call makepde, adc #$0014, ...
 	lda.w shotspd,x
 	stx.b a0
@@ -144,18 +144,18 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	bcc .3x
 	lda.w #sideline
 	sta.b d0
-.3x:								; call randomd0s, adc r0+3,s, r0+3,s = A, ...
+.3x:								; call randomd0s, adc 3,s, 3,s = A, ...
 	pha
 	jsl.l randomd0s
-	adc.b r0+3,s
-	sta.b r0+3,s
-	lda.b r0+1,s
+	adc.b 3,s
+	sta.b 3,s
+	lda.b 1,s
 	sta.b d0
 	cmp.w #$003D
 	bcc .4x
 	lda.w #$003C
 	sta.b d0
-	sta.b r0+1,s
+	sta.b 1,s
 .4x:								; if r1+1,s >= 0 go to .5x, ...
 	lda.b r1+1,s
 	bpl .5x

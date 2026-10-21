@@ -94,8 +94,8 @@ ReplayMode:							; called from PauseReplay
 	pla
 	lsr a
 	pha
-.loop3:								; loop: if r0+1,s = 0 go to .t1, ...
-	lda.b r0+1,s
+.loop3:								; loop: if 1,s = 0 go to .t1, ...
+	lda.b 1,s
 	beq .t1
 	jsl.l adda4
 	pla
@@ -103,7 +103,7 @@ ReplayMode:							; called from PauseReplay
 	pha
 	bra .loop3
 
-.t1:								; r0+1,s = 0: replayHpos = Hpos, replayVpos = Vpos, call InitSprites, ...
+.t1:								; 1,s = 0: replayHpos = Hpos, replayVpos = Vpos, call InitSprites, ...
 	pla
 	lda.w Hpos
 	sta.w replayHpos

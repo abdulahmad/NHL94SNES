@@ -205,7 +205,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	ldy.w #$0008
 	lda.b [p0],y
 	pha
-	lda.b r0+3,s
+	lda.b 3,s
 	asl a
 	tax
 	lda.l .8,x
@@ -213,7 +213,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	tay
 	pla
 	sta.b [p1],y
-	lda.b r0+1,s
+	lda.b 1,s
 	asl a
 	asl a
 	asl a
@@ -222,7 +222,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	ldy.w #$0012
 	lda.b [p0],y
 	pha
-	lda.b r0+3,s
+	lda.b 3,s
 	asl a
 	tax
 	inx
@@ -231,7 +231,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	tay
 	pla
 	sta.b [p1],y
-	lda.b r0+1,s
+	lda.b 1,s
 	asl a
 	inc a
 	asl a
@@ -906,7 +906,7 @@ org $9D9000
 .1xx:								; colourbuf+1,x = A, colourbuf+3,x = A, r0 = Y / 2 & $0F, ...
 	sta.l colourbuf+1,x
 	sta.l colourbuf+3,x
-	lda.b r0+1,s
+	lda.b 1,s
 	tax
 	tya
 	lsr a
@@ -927,60 +927,60 @@ org $9D9000
 	lda.b #$01
 	pha
 	ldy.w #$0007
-.2xx:								; if r0+3,s & $01 = 0 go to .t1xxxxxx, ...
+.2xx:								; if 3,s & $01 = 0 go to .t1xxxxxx, ...
 	phx
-	lda.b r0+3,s
+	lda.b 3,s
 	and.b #$01
 	beq .t1xxxxxx
 	lda.b #$FF
 	sta.l brackettiles,x
 	bra .3xx
 
-.t1xxxxxx:							; r0+3,s & $01 = 0: brackettiles,x = $80
+.t1xxxxxx:							; 3,s & $01 = 0: brackettiles,x = $80
 	lda.b #$80
 	sta.l brackettiles,x
-.3xx:								; X + 1, if r0+3,s & $02 = 0 go to .t1xxxxxxx, ...
+.3xx:								; X + 1, if 3,s & $02 = 0 go to .t1xxxxxxx, ...
 	inx
-	lda.b r0+3,s
+	lda.b 3,s
 	and.b #$02
 	beq .t1xxxxxxx
 	lda.b #$7F
 	sta.l brackettiles,x
 	bra .4x
 
-.t1xxxxxxx:							; r0+3,s & $02 = 0: brackettiles,x = $00
+.t1xxxxxxx:							; 3,s & $02 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.4x:								; if r0+3,s & $04 = 0 go to .t1xxxxxxxx, ...
+.4x:								; if 3,s & $04 = 0 go to .t1xxxxxxxx, ...
 	txa
 	clc
 	adc.b #$0F
 	tax
-	lda.b r0+3,s
+	lda.b 3,s
 	and.b #$04
 	beq .t1xxxxxxxx
 	lda.b #$7F
 	sta.l brackettiles,x
 	bra .5x
 
-.t1xxxxxxxx:						; r0+3,s & $04 = 0: brackettiles,x = $00
+.t1xxxxxxxx:						; 3,s & $04 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.5x:								; X + 1, if r0+3,s & $08 = 0 go to .t1xxxxxxxxx, ...
+.5x:								; X + 1, if 3,s & $08 = 0 go to .t1xxxxxxxxx, ...
 	inx
-	lda.b r0+3,s
+	lda.b 3,s
 	and.b #$08
 	beq .t1xxxxxxxxx
 	lda.b #$7F
 	sta.l brackettiles,x
 	bra .6x
 
-.t1xxxxxxxxx:						; r0+3,s & $08 = 0: brackettiles,x = $00
+.t1xxxxxxxxx:						; 3,s & $08 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.6x:								; r0+3,s = r0, X + 1, X + 1, ...
+.6x:								; 3,s = r0, X + 1, X + 1, ...
 	lda.b r0
-	sta.b r0+3,s
+	sta.b 3,s
 	plx
 	inx
 	inx
@@ -992,60 +992,60 @@ org $9D9000
 	lda.b #$01
 	pha
 	ldy.w #$0007
-.1xxx:								; if r0+3,s & $01 = 0 go to .t1xxxxxxxxxx, ...
+.1xxx:								; if 3,s & $01 = 0 go to .t1xxxxxxxxxx, ...
 	phx
-	lda.b r0+3,s
+	lda.b 3,s
 	and.b #$01
 	beq .t1xxxxxxxxxx
 	lda.b #$FF
 	sta.l brackettiles,x
 	bra .2xxx
 
-.t1xxxxxxxxxx:						; r0+3,s & $01 = 0: brackettiles,x = $00
+.t1xxxxxxxxxx:						; 3,s & $01 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.2xxx:								; X + 1, if r0+3,s & $02 = 0 go to .t1xxxxxxxxxxx, ...
+.2xxx:								; X + 1, if 3,s & $02 = 0 go to .t1xxxxxxxxxxx, ...
 	inx
-	lda.b r0+3,s
+	lda.b 3,s
 	and.b #$02
 	beq .t1xxxxxxxxxxx
 	lda.b #$FF
 	sta.l brackettiles,x
 	bra .3xxx
 
-.t1xxxxxxxxxxx:						; r0+3,s & $02 = 0: brackettiles,x = $00
+.t1xxxxxxxxxxx:						; 3,s & $02 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.3xxx:								; if r0+3,s & $04 = 0 go to .t1xxxxxxxxxxxx, ...
+.3xxx:								; if 3,s & $04 = 0 go to .t1xxxxxxxxxxxx, ...
 	txa
 	clc
 	adc.b #$0F
 	tax
-	lda.b r0+3,s
+	lda.b 3,s
 	and.b #$04
 	beq .t1xxxxxxxxxxxx
 	lda.b #$FF
 	sta.l brackettiles,x
 	bra .4xx
 
-.t1xxxxxxxxxxxx:					; r0+3,s & $04 = 0: brackettiles,x = $00
+.t1xxxxxxxxxxxx:					; 3,s & $04 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.4xx:								; X + 1, if r0+3,s & $08 = 0 go to .t1xxxxxxxxxxxxx, ...
+.4xx:								; X + 1, if 3,s & $08 = 0 go to .t1xxxxxxxxxxxxx, ...
 	inx
-	lda.b r0+3,s
+	lda.b 3,s
 	and.b #$08
 	beq .t1xxxxxxxxxxxxx
 	lda.b #$FF
 	sta.l brackettiles,x
 	bra .5xx
 
-.t1xxxxxxxxxxxxx:					; r0+3,s & $08 = 0: brackettiles,x = $00
+.t1xxxxxxxxxxxxx:					; 3,s & $08 = 0: brackettiles,x = $00
 	lda.b #$00
 	sta.l brackettiles,x
-.5xx:								; r0+3,s = r0, X + 1, X + 1, ...
+.5xx:								; 3,s = r0, X + 1, X + 1, ...
 	lda.b r0
-	sta.b r0+3,s
+	sta.b 3,s
 	plx
 	inx
 	inx

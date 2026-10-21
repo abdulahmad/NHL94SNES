@@ -38,7 +38,7 @@ LoadMatchupPhotos:					; unpack the matchup player photos of team x
 	sta.b p1
 	jsl.l Decompress
 	stx.b r0
-	lda.b r0+1,s					; recover x (the loop counter) for the destination offset
+	lda.b 1,s						; recover x (the loop counter) for the destination offset
 	tax
 	lda.b a2						; buffer base $2D00 for visitors, $5100 for home
 	beq .t1x
