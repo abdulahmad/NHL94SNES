@@ -1,375 +1,375 @@
 ; Animation, speed, position, input and assignment for every object
 updateplayers:						; called from DoGameFrame
-	lda.w #$FFFF
-	sta.w topgoalie
+	lda.w #$FFFF					;none yet:
+	sta.w topgoalie					;goalies at each end,
 	sta.w botgoalie
-	sta.w tmnear
+	sta.w tmnear					;nearest players to the puck
 	sta.w tmnear+2
 	sta.w tmnearpl
 	sta.w tmnearpl+2
 	lda.w puckz
-	sta.w puckoldz
-	ldx.w #$001E
+	sta.w puckoldz					;puck height of the last frame
+	ldx.w #$001E					;from the last object
 .2:									; curobj = X, OldXpos,x = Xpos,x, OldXfrac,x = Xfrac,x, ...
-	stx.b curobj
+	stx.b curobj					;current object
 	lda.w Xpos,x
-	sta.w OldXpos,x
+	sta.w OldXpos,x					;keep the old position
 	lda.w Xfrac,x
 	sta.w OldXfrac,x
 	lda.w Ypos,x
 	sta.w OldYpos,x
 	lda.w Yfrac,x
 	sta.w OldYfrac,x
-	cpx.w #$0018
-	beq .1
-	cpx.w #$001A
+	cpx.w #$0018					;net 1?
+	beq .1							;nets: just move
+	cpx.w #$001A					;net 2?
 	bne .t2
 .1:									; go to .9
 	jmp.w .9
 
 .t2:								; if position,x >= 0 go to .t1, ...
-	lda.w position,x
+	lda.w position,x				;on the ice?
 	bpl .t1
-	jmp.w .11
+	jmp.w .11						;no: distances only
 
 .t1:								; position,x >= 0: if not zero go to .8, ...
-	bne .8
-	lda.w Ypos,x
+	bne .8							;skater
+	lda.w Ypos,x					;goalie: which end?
 	bpl .t3
-	stx.w botgoalie
+	stx.w botgoalie					;bottom goalie
 	bra .8
 
 .t3:								; Ypos,x >= 0: topgoalie = X
-	stx.w topgoalie
+	stx.w topgoalie					;top goalie
 .8:									; call updateanim, if plus go to .1x, ...
 	jsl.l updateanim				; step object X's sprite animation, looping or ending it
-	lda.w nopuck,x
+	lda.w nopuck,x					;no-puck timer
 	sec
-	sbc.w timestep
+	sbc.w timestep					;minus the frame time
 	bpl .1x
-	lda.w #$0000
+	lda.w #$0000					;floor at 0
 .1x:								; nopuck,x = A, if plus go to .2x, ...
 	sta.w nopuck,x
-	lda.w nopuckb,x
+	lda.w nopuckb,x					;no-body timer
 	sec
 	sbc.w timestep
 	bpl .2x
-	lda.w #$0000
+	lda.w #$0000					;floor at 0
 .2x:								; nopuckb,x = A, if sflags3 bits $0020 clear go to .4, ...
 	sta.w nopuckb,x
 	lda.w sflags3
-	bit.w #$0020
-	beq .4
+	bit.w #$0020					;team structs on?
+	beq .4							;no
 	lda.w pnum,x
-	and.w #$00FF
-	cmp.w #$0080
+	and.w #$00FF					;roster byte
+	cmp.w #$0080					;signed?
 	bcc .3
-	ora.w #$FF00
+	ora.w #$FF00					;sign extend
 .3:									; d0 = A, if minus go to .4, ...
 	sta.b d0
 	cmp.w #$0000
-	bmi .4
-	asl.b d0
+	bmi .4							;none: skip
+	asl.b d0						;word index
 	jsl.l loadTeamStruct			; a2 = player X's team, a1 = the other team
 .4:									; if goaliedivewait,x = 0 go to .6, ...
-	lda.w goaliedivewait,x
-	beq .6
+	lda.w goaliedivewait,x			;goalie dive wait
+	beq .6							;none
 	sec
-	sbc.w timestep
+	sbc.w timestep					;count it down
 	bpl .5
-	lda.w #$0000
+	lda.w #$0000					;floor at 0
 .5:									; goaliedivewait,x = A
 	sta.w goaliedivewait,x
 .6:									; if not zero go to .7, ...
-	cpx.w passReceiverPlayerNum
+	cpx.w passReceiverPlayerNum		;pass receiver?
 	bne .7
-	lda.w onetimer
-	bne .10
+	lda.w onetimer					;one timer coming?
+	bne .10							;yes: hold his speed
 .7:									; if SPA,x != SPAinjury1 go to .t1x, ...
 	lda.w SPA,x
-	cmp.w #SPAinjury1
+	cmp.w #SPAinjury1				;injured?
 	bne .t1x
-	jmp.w .11
+	jmp.w .11						;yes: no movement step
 
 .t1x:								; SPA,x != SPAinjury1: if carry clear go to .t2x, ...
-	cmp.w #SPAboardfront
+	cmp.w #SPAboardfront			;boards or later animations?
 	bcc .t2x
-	jmp.w .11
+	jmp.w .11						;yes: no movement step
 
 .t2x:								; if not zero go to .9, ...
-	cpx.w #$001C
+	cpx.w #$001C					;puck?
 	bne .9
-	lda.w puckz
-	bne .10
+	lda.w puckz						;in the air?
+	bne .10							;yes: no friction
 .9:									; txy, d2 = .20,x & $00FF, if pflags,y bits $0001 clear go to .1xx, ...
 	txy
-	ldx.w timestep
-	lda.l .20,x
+	ldx.w timestep					;frame time
+	lda.l .20,x						;friction factor for it
 	and.w #$00FF
 	sta.b d2
-	lda.w pflags,y
-	bit.w #$0001
+	lda.w pflags,y					;flags
+	bit.w #$0001					;gliding?
 	beq .1xx
-	lda.l .22-1,x
+	lda.l .22-1,x					;gliding friction
 	and.w #$00FF
 	sta.b d2
 .1xx:								; call Mul16x8HiXS, Xvel,y = A, call Mul16x8HiXS, ...
 	ldx.w Xvel,y
 	lda.b d2
-	jsl.l Mul16x8HiXS
+	jsl.l Mul16x8HiXS				;slow x
 	sta.w Xvel,y
 	ldx.w Yvel,y
 	lda.b d2
-	jsl.l Mul16x8HiXS
+	jsl.l Mul16x8HiXS				;slow y
 	sta.w Yvel,y
 	tyx
 .10:								; p0 = velstep, if Xvel,x = 0 go to .1xxx, ...
-	lda.w velstep
+	lda.w velstep					;speed scale for the frame
 	sta.b p0
-	lda.w Xvel,x
-	beq .1xxx
+	lda.w Xvel,x					;x speed
+	beq .1xxx						;still
 	tax
 	lda.b p0
-	jsl.l Mul16x8XS
+	jsl.l Mul16x8XS					;times the scale
 	ldx.b curobj
 	lda.b r2
 	clc
-	adc.w Xfrac,x
+	adc.w Xfrac,x					;plus the fraction
 	sta.w Xfrac,x
 	lda.b r2+2
-	adc.w Xpos,x
-	sta.w Xpos,x
+	adc.w Xpos,x					;plus the carry
+	sta.w Xpos,x					;new x
 .1xxx:								; if Yvel,x = 0 go to .2xx, ...
-	lda.w Yvel,x
-	beq .2xx
+	lda.w Yvel,x					;y speed
+	beq .2xx						;still
 	tax
 	lda.b p0
-	jsl.l Mul16x8XS
+	jsl.l Mul16x8XS					;times the scale
 	ldx.b curobj
 	lda.b r2
 	clc
-	adc.w Yfrac,x
+	adc.w Yfrac,x					;plus the fraction
 	sta.w Yfrac,x
 	lda.b r2+2
-	adc.w Ypos,x
-	sta.w Ypos,x
+	adc.w Ypos,x					;plus the carry
+	sta.w Ypos,x					;new y
 .2xx:								; if not zero go to .11, ...
-	cpx.w #$001C
-	bne .11
-	lda.w puckz
-	bmi .11
-	bne .3x
-	lda.w puckvz
-	beq .11
+	cpx.w #$001C					;puck?
+	bne .11							;no
+	lda.w puckz						;height
+	bmi .11							;below the ice: done
+	bne .3x							;in the air
+	lda.w puckvz					;rising?
+	beq .11							;no: done
 .3x:								; puckvz = puckvz - gravstep, call Mul16x8XS, puckzfrac = r2 + puckzfra...
 	lda.w puckvz
 	sec
 	sbc.w gravstep
 	sta.w puckvz
-	tax
+	tax								;speed z
 	lda.w velstep
-	jsl.l Mul16x8XS
+	jsl.l Mul16x8XS					;times the scale
 	ldx.b curobj
 	lda.b r2
 	clc
-	adc.w puckzfrac
+	adc.w puckzfrac					;height fraction
 	sta.w puckzfrac
 	lda.b r2+2
-	adc.w puckz
+	adc.w puckz						;height
 	sta.w puckz
-	bpl .11
-	stz.w puckz
+	bpl .11							;still above the ice
+	stz.w puckz						;landed
 	stz.w puckzfrac
 	lda.w puckvz
-	eor.w #$FFFF					; negate: two's complement
+	eor.w #$FFFF					;bounce up
 	inc a
-	lsr a
+	lsr a							;half the speed
 	sta.w puckvz
-	cmp.w #$0200
-	bmi .11
+	cmp.w #$0200					;big bounce?
+	bmi .11							;no: quiet
+	asl a							;x4
 	asl a
-	asl a
-	sta.b p0
+	sta.b p0						;sound velocity
 	stz.b p0+2
-	lda.w #$0007
+	lda.w #$0007					;bounce sound
 	jsl.l sfx						; play sound A with the velocity in p0 / p0+2
 .11:								; d0 = puckx - Xpos,x, if plus go to .1xxxx, ...
-	lda.w puckx
+	lda.w puckx						;puck x
 	sec
-	sbc.w Xpos,x
-	sta.b d0
+	sbc.w Xpos,x					;minus his x
+	sta.b d0						;d0 = dx
 	bpl .1xxxx
-	eor.w #$FFFF					; negate: two's complement
+	eor.w #$FFFF					;|dx|
 	inc a
 .1xxxx:								; lsr a, lsr a, call Mul8U, ...
 	pha
-	lsr a
+	lsr a							;/4
 	lsr a
 	tax
-	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
+	jsl.l Mul8U						;squared
 	ldx.b curobj
-	sta.w puckdist2,x
-	lda.w pucky
+	sta.w puckdist2,x				;dx^2/16
+	lda.w pucky						;puck y
 	sec
-	sbc.w Ypos,x
-	sta.b d1
+	sbc.w Ypos,x					;minus his y
+	sta.b d1						;d1 = dy
 	bpl .2xxx
-	eor.w #$FFFF					; negate: two's complement
+	eor.w #$FFFF					;|dy|
 	inc a
 .2xxx:								; lsr a, lsr a, call Mul8U, ...
 	pha
-	lsr a
+	lsr a							;/4
 	lsr a
 	tax
-	jsl.l Mul8U						; A * X, 8 by 8 bits, unsigned, into A
+	jsl.l Mul8U						;squared
 	ldx.b curobj
 	clc
-	adc.w puckdist2,x
-	sta.w puckdist2,x
-	cpx.w #$0018
-	bcs .12
+	adc.w puckdist2,x				;plus dx^2/16
+	sta.w puckdist2,x				;squared distance
+	cpx.w #$0018					;player?
+	bcs .12							;no
 	sta.b r3
-	lda.w position,x
-	bmi .12
-	beq .12
+	lda.w position,x				;on the ice?
+	bmi .12							;no
+	beq .12							;goalie: not counted
 	lda.w pflags,x
-	and.w #$1000
-	ora.w pfalock,x
-	bne .12
-	lda.b r3
-	cpx.w #$000C
+	and.w #$1000					;falling flag
+	ora.w pfalock,x					;or locked animation
+	bne .12							;busy: not counted
+	lda.b r3						;his distance
+	cpx.w #$000C					;visitors?
 	bcs .t1xx
-	cmp.w tmnear
+	cmp.w tmnear					;nearer than the home best?
 	bcs .12
-	sta.w tmnear
+	sta.w tmnear					;nearest home player
 	stx.w tmnearpl
 	bra .12
-
+									;nearer than the visitors' best?
 .t1xx:								; r3 >= $000C: if carry set go to .12, ...
 	cmp.w tmnear+2
 	bcs .12
-	sta.w tmnear+2
+	sta.w tmnear+2					;nearest visitors' player
 	stx.w tmnearpl+2
 .12:								; call ApproxLength_abs, puckdist,x = A, if carry set go to .14, ...
-	ply
-	pla
-	jsl.l ApproxLength_abs
+	ply								;|dy|
+	pla								;|dx|
+	jsl.l ApproxLength_abs			;true distance
 	ldx.b curobj
-	sta.w puckdist,x
-	cpx.w #$0018
-	bcs .14
-	cmp.w #$001E
-	bcs .14
-	lda.w iflags
-	bit.w #$0004
-	beq .14
-	bit.w #$0001
-	bne .14
-	and.w #$0002
+	sta.w puckdist,x				;distance to the puck
+	cpx.w #$0018					;player?
+	bcs .14							;no
+	cmp.w #$001E					;within 30?
+	bcs .14							;no
+	lda.w iflags					;icing flags
+	bit.w #$0004					;icing pending?
+	beq .14							;no
+	bit.w #$0001					;already waved?
+	bne .14							;yes
+	and.w #$0002					;which side iced?
 	beq .t1xxx
-	lda.w pfgoal,x
-	bne .14
+	lda.w pfgoal,x					;defending this end?
+	bne .14							;no
 	bra .13
 
 .t1xxx:								; if pfgoal,x = 0 go to .14
-	lda.w pfgoal,x
-	beq .14
+	lda.w pfgoal,x					;defending this end?
+	beq .14							;no
 .13:								; if puckz >= $000D go to .14, ...
-	lda.w puckz
-	cmp.w #$000D
-	bcs .14
-	lda.w puckvy
-	cmp.w #$2400
-	bcs .14
-	cmp.w #$DC00
-	bmi .14
-	lda.w #$0005
-	trb.w iflags
+	lda.w puckz						;puck height
+	cmp.w #$000D					;above 13?
+	bcs .14							;yes: still icing
+	lda.w puckvy					;puck y speed
+	cmp.w #$2400					;fast?
+	bcs .14							;yes: still icing
+	cmp.w #$DC00					;fast the other way?
+	bmi .14							;yes: still icing
+	lda.w #$0005					;cancel the icing
+	trb.w iflags					;he touched it
 .14:								; call vtoa, puckdir,x = A, X - 1, ...
-	jsl.l vtoa						; direction of the vector d0 / d1
-	sta.w puckdir,x
+	jsl.l vtoa						;direction to the puck
+	sta.w puckdir,x					;puck direction
 	dex
 	dex
-	bmi .t1xxxx
-	jmp.w .2
+	bmi .t1xxxx						;all objects?
+	jmp.w .2						;no: next
 
 .t1xxxx:							; X counted below 0: if Ypos+$18 - $011F negative go to .1xxxxx, ...
-	lda.w Ypos+netobj1
-	cmp.w #$011F
-	bmi .1xxxxx
-	lda.w #$011F
+	lda.w Ypos+netobj1				;net 1 y
+	cmp.w #$011F					;above $11F?
+	bmi .1xxxxx						;no
+	lda.w #$011F					;clamp
 .1xxxxx:							; Ypos+$18 = A, if Ypos+$1A - $FED2 >= 0 go to .2xxxx, ...
 	sta.w Ypos+netobj1
-	lda.w Ypos+netobj2
-	cmp.w #$FED2
-	bpl .2xxxx
-	lda.w #$FED2
+	lda.w Ypos+netobj2				;net 2 y
+	cmp.w #$FED2					;below -$12E?
+	bpl .2xxxx						;no
+	lda.w #$FED2					;clamp
 .2xxxx:								; Ypos+$1A = A
 	sta.w Ypos+netobj2
-	ldy.w #$000C
-	lda.w #$000F
+	ldy.w #$000C					;7 pads
+	lda.w #$000F					;object $0F: none
 .loop:								; loop: PadControlObj,y = A, Y - 1, Y - 1, ...
-	sta.w PadControlObj,y
+	sta.w PadControlObj,y			;no pad object yet
 	dey
 	dey
 	bpl .loop
-	ldx.w #$0008
+	ldx.w #$0008					;5 pads
 	lda.w #$0000
 .loop2:								; loop: padinputdone,x = A, X - 1, X - 1, ...
-	sta.w padinputdone,x
+	sta.w padinputdone,x			;no input read yet
 	dex
 	dex
 	bpl .loop2
 	lda.w #$0000
-	sta.b curobjteam
+	sta.b curobjteam				;home first
 	lda.w #$0002
-	sta.b curobjopp
-	ldx.w #$0000
+	sta.b curobjopp					;opponent visitors
+	ldx.w #$0000					;from object 0
 .15:								; a3 = X, curobj = X, if not zero go to .1xxxxxx, ...
 	stx.b a3
 	stx.b curobj
-	cpx.w #$000C
+	cpx.w #$000C					;visitors start?
 	bne .1xxxxxx
-	lda.w #$0002
+	lda.w #$0002					;team visitors
 	sta.b curobjteam
-	lda.w #$0000
+	lda.w #$0000					;opponent home
 	sta.b curobjopp
 .1xxxxxx:							; PlayersUnused = $FFFF, if position,x >= 0 go to .t2xx, ...
 	lda.w #$FFFF
 	sta.b PlayersUnused
 	lda.w position,x
-	bpl .t2xx
-	jmp.w .19
+	bpl .t2xx						;on the ice?
+	jmp.w .19						;no: next
 
 .t2xx:								; position,x >= 0: d6 = X / 2, if not zero go to .1xxxxxxx, ...
 	txa
-	lsr a
-	sta.b d6
-	cpx.w puckc
-	bne .1xxxxxxx
-	lda.w sfhormode
-	bne .1xxxxxxx
+	lsr a							;object number
+	sta.b d6						;d6 = object / 2
+	cpx.w puckc						;puck carrier?
+	bne .1xxxxxxx					;no
+	lda.w sfhormode					;horizontal mode?
+	bne .1xxxxxxx					;yes: no marker
 	lda.w #$0000
-	sta.b d4
+	sta.b d4						;marker 0
 	jsl.l setpads					; pad marker d4 follows player X
 .1xxxxxxx:							; if carry set go to .t1xxxxx, ...
-	cpx.w #$0018
-	bcs .t1xxxxx
-	lda.w playerpad,x
-	bmi .t1xxxxx
+	cpx.w #$0018					;player?
+	bcs .t1xxxxx					;no: no input
+	lda.w playerpad,x				;his pad
+	bmi .t1xxxxx					;none: AI
 	tay
-	lda.w padinputdone,y
-	bne .t1xxxxx
+	lda.w padinputdone,y			;pad read already?
+	bne .t1xxxxx					;yes
 	lda.w #$0001
-	sta.w padinputdone,y
+	sta.w padinputdone,y			;mark it read
 	lda.w JoyPad,y
-	sta.b d3
+	sta.b d3						;held buttons
 	lda.w padchange,y
-	sta.b d2
+	sta.b d2						;changed buttons
 	lda.w padnew,y
-	sta.b d1
+	sta.b d1						;new presses
 	lda.w paddir,y
-	sta.b d0
+	sta.b d0						;direction
 	iny
 	iny
 	sty.b d4
@@ -377,196 +377,196 @@ updateplayers:						; called from DoGameFrame
 	bra .t1xxxxx
 
 .t1xxxxx:							; if pfalock,x != 0 go to .1xxxxxxxx, ...
-	lda.w pfalock,x
-	bne .1xxxxxxxx
-	lda.w asscur,x
+	lda.w pfalock,x					;animation locked?
+	bne .1xxxxxxxx					;yes: no assignment
+	lda.w asscur,x					;current assignment
 	asl a
-	asl a
+	asl a							;4 bytes each
 	tax
-	lda.l asstab,x
-	sta.w jmlvector+1
-	lda.l asstab+1,x
+	lda.l asstab,x					;routine low
+	sta.w jmlvector+1				;into the jump vector
+	lda.l asstab+1,x				;routine high
 	sta.w jmlvector+2
 	ldx.b curobj
-	jsl.l loadTeamStruct			; a2 = player X's team, a1 = the other team
-	jsl.l jmlvector
+	jsl.l loadTeamStruct			;team pointers
+	jsl.l jmlvector					;run the assignment
 .1xxxxxxxx:							; ora gmclock, if not zero go to .17, ...
 	lda.w position,x
-	ora.w gmclock
-	bne .17
-	cpx.w #$0018
-	bcs .17
-	cpx.w puckc
-	beq .17
+	ora.w gmclock					;goalie with the clock stopped?
+	bne .17							;no: no clamp
+	cpx.w #$0018					;player?
+	bcs .17							;no
+	cpx.w puckc						;puck carrier?
+	beq .17							;yes: no clamp
 	lda.w goalieflags,x
-	bit.w #$0001
-	bne .17
-	lda.w Xpos,x
-	cmp.w #$FFD5
-	bpl .t3x
-	cmp.w #$FFCF
-	bmi .16
-	lda.w #$FFD5
-	stz.w Xvel,x
+	bit.w #$0001					;out of the crease?
+	bne .17							;yes: no clamp
+	lda.w Xpos,x					;his x
+	cmp.w #$FFD5					;left of the crease?
+	bpl .t3x						;no
+	cmp.w #$FFCF					;far left?
+	bmi .16							;yes: leave it
+	lda.w #$FFD5					;left crease edge
+	stz.w Xvel,x					;stop
 	bra .16
 
 .t3x:								; Xpos,x - $FFD5 >= 0: if minus go to .16, ...
-	cmp.w #$002C
-	bmi .16
-	cmp.w #$0031
-	bpl .16
-	lda.w #$002B
-	stz.w Xvel,x
+	cmp.w #$002C					;right of the crease?
+	bmi .16							;no
+	cmp.w #$0031					;far right?
+	bpl .16							;yes: leave it
+	lda.w #$002B					;right crease edge
+	stz.w Xvel,x					;stop
 .16:								; Xpos,x = A, if Ypos,x >= 0 go to .t1xxxxxx, ...
-	sta.w Xpos,x
-	lda.w Ypos,x
-	bpl .t1xxxxxx
-	cmp.w #$FF1C
-	bmi .17
-	cmp.w #$FF21
-	bpl .17
-	lda.w #$FF1B
+	sta.w Xpos,x					;clamped x
+	lda.w Ypos,x					;his y
+	bpl .t1xxxxxx					;bottom end
+	cmp.w #$FF1C					;above the crease?
+	bmi .17							;yes: done
+	cmp.w #$FF21					;inside the edge band?
+	bpl .17							;no
+	lda.w #$FF1B					;crease top
 	sta.w Ypos,x
-	stz.w Yvel,x
+	stz.w Yvel,x					;stop
 	bra .17
 
 .t1xxxxxx:							; Ypos,x >= 0: if plus go to .17, ...
-	cmp.w #$00E5
-	bpl .17
-	cmp.w #$00E0
-	bmi .17
-	lda.w #$00E5
+	cmp.w #$00E5					;below the crease?
+	bpl .17							;yes: done
+	cmp.w #$00E0					;inside the edge band?
+	bmi .17							;no
+	lda.w #$00E5					;crease bottom
 	sta.w Ypos,x
-	stz.w Yvel,x
+	stz.w Yvel,x					;stop
 .17:								; Wallcos,x = 0, Wallsin,x = 0, d3 = Ypos,x, ...
-	stz.w Wallcos,x
+	stz.w Wallcos,x					;no wall contact
 	stz.w Wallsin,x
 	lda.w Ypos,x
 	sta.b d3
-	lda.w Xpos,x
+	lda.w Xpos,x					;new x
 	sta.b d2
-	cmp.w OldXpos,x
-	bne .t1xxxxxxx
+	cmp.w OldXpos,x					;moved in x?
+	bne .t1xxxxxxx					;yes: check
 	lda.b d3
-	cmp.w OldYpos,x
-	bne .t1xxxxxxx
-	jmp.w .18
+	cmp.w OldYpos,x					;moved in y?
+	bne .t1xxxxxxx					;yes: check
+	jmp.w .18						;still: no collision
 
 .t1xxxxxxx:							; call checkcoll, if carry set go to .18, ...
-	jsl.l checkcoll					; move object X to its new x / y, checking wall and player collisions
-	cpx.w #$0018
-	bcs .18
-	lda.w position,x
-	beq .18
+	jsl.l checkcoll					;move with collisions
+	cpx.w #$0018					;player?
+	bcs .18							;no
+	lda.w position,x				;goalie?
+	beq .18							;yes: can enter the net
 	lda.w pflags,x
-	and.w #$8000
-	ora.w sfhormode
-	bne .18
+	and.w #$8000					;no-clip flag
+	ora.w sfhormode					;or horizontal mode
+	bne .18							;no net check
 	lda.w Xpos,x
-	cmp.w #$FFE7
-	bmi .18
-	cmp.w #$0019
-	bpl .18
-	lda.w Ypos,x
+	cmp.w #$FFE7					;beside the net?
+	bmi .18							;no
+	cmp.w #$0019					;beside the net?
+	bpl .18							;no
+	lda.w Ypos,x					;his y
 	bit.w #$8000
-	beq .1xxxxxxxxx
+	beq .1xxxxxxxxx					;top half
 	eor.w #$FFFF					; negate: two's complement
-	inc a
+	inc a							;|y|
 .1xxxxxxxxx:						; sbc #$010D, r0 = A, if OldYpos,x bits $8000 clear go to .2xxxxx, ...
 	sec
-	sbc.w #$010D
-	sta.b r0
-	lda.w OldYpos,x
+	sbc.w #$010D					;minus the goal line
+	sta.b r0						;side of the goal line now
+	lda.w OldYpos,x					;old y
 	bit.w #$8000
-	beq .2xxxxx
+	beq .2xxxxx						;top half
 	eor.w #$FFFF					; negate: two's complement
-	inc a
+	inc a							;|old y|
 .2xxxxx:							; sbc #$010D, eor r0, if minus go to .4x, ...
 	sec
-	sbc.w #$010D
-	eor.b r0
-	bmi .4x
-	lda.w Ypos,x
+	sbc.w #$010D					;minus the goal line
+	eor.b r0						;crossed it?
+	bmi .4x							;yes: blocked
+	lda.w Ypos,x					;his y
 	bit.w #$8000
-	beq .3xx
+	beq .3xx						;top half
 	eor.w #$FFFF					; negate: two's complement
-	inc a
+	inc a							;|y|
 .3xx:								; if carry clear go to .18, ...
-	cmp.w #$0103
-	bcc .18
-	cmp.w #$0117
-	bcs .18
-.4x:								; Xpos,x = OldXpos,x, Ypos,x = OldYpos,x
+	cmp.w #$0103					;in front of the net?
+	bcc .18							;yes: fine
+	cmp.w #$0117					;behind the net?
+	bcs .18							;yes: fine
+.4x:								;inside the net: undo the move
 	lda.w OldXpos,x
 	sta.w Xpos,x
 	lda.w OldYpos,x
 	sta.w Ypos,x
 .18:								; if plus go to .19, ...
-	lda.w impact,x
+	lda.w impact,x					;hit strength
 	sec
-	sbc.w impactstep
+	sbc.w impactstep				;fades each frame
 	bpl .19
-	lda.w #$0000
+	lda.w #$0000					;floor at 0
 .19:								; impact,x = A, X + 1, X + 1, ...
 	sta.w impact,x
 	inx
 	inx
-	cpx.w #$0020
+	cpx.w #$0020					;all objects?
 	beq .t1xxxxxxxx
-	jmp.w .15
+	jmp.w .15						;no: next
 
 .t1xxxxxxxx:						; if puckz >= $0018 go to .2xxxxxx, ...
-	lda.w puckz
-	cmp.w #$0018
+	lda.w puckz						;puck height
+	cmp.w #$0018					;high: no side clamp
 	bcs .2xxxxxx
 	lda.w puckx
-	cmp.w #$FF78
+	cmp.w #$FF78					;past the left boards?
 	bpl .1xxxxxxxxxx
-	lda.w #$FF78
+	lda.w #$FF78					;clamp
 	sta.w puckx
-	ldx.w frame+puckobj
-	cpx.w #SPFpuck
+	ldx.w frame+puckobj				;puck frame
+	cpx.w #SPFpuck					;on the ice?
 	bne .1xxxxxxxxxx
-	sta.w Xpos+puckobj+2
+	sta.w Xpos+puckobj+2			;move the shadow too
 .1xxxxxxxxxx:						; if puckx - sideline negative go to .2xxxxxx, ...
 	lda.w puckx
-	cmp.w #sideline
+	cmp.w #sideline					;past the right boards?
 	bmi .2xxxxxx
-	lda.w #sideline
+	lda.w #sideline					;clamp
 	sta.w puckx
 	ldx.w frame+puckobj
-	cpx.w #SPFpuck
+	cpx.w #SPFpuck					;on the ice?
 	bne .2xxxxxx
-	sta.w Xpos+puckobj+2
+	sta.w Xpos+puckobj+2			;move the shadow too
 .2xxxxxx:							; if puckz != 0 go to .4xx, ...
 	lda.w puckz
-	bne .4xx
+	bne .4xx						;in the air: no end clamp
 	lda.w pucky
-	cmp.w #$FEC2
-	bmi .4xx
-	cmp.w #$013E
-	bpl .4xx
+	cmp.w #$FEC2					;inside the rink ends?
+	bmi .4xx						;no: in a net, leave it
+	cmp.w #$013E					;inside the rink ends?
+	bpl .4xx						;no: leave it
 	lda.w pucky
-	cmp.w #$FEDB
+	cmp.w #$FEDB					;past the back boards?
 	bpl .3xxx
-	lda.w #$FEDB
+	lda.w #$FEDB					;clamp
 	sta.w pucky
-	sta.w Ypos+puckobj+2
+	sta.w Ypos+puckobj+2			;shadow too
 .3xxx:								; if pucky - $012A negative go to .4xx, ...
 	lda.w pucky
-	cmp.w #$012A
+	cmp.w #$012A					;past the front boards?
 	bmi .4xx
-	lda.w #$012A
+	lda.w #$012A					;clamp
 	sta.w pucky
-	sta.w Ypos+puckobj+2
+	sta.w Ypos+puckobj+2			;shadow too
 .4xx:								; if puckc negative go to .20, ...
 	lda.w puckc
-	bmi .20
+	bmi .20							;loose puck
 	lda.w pucky
-	sta.l carriedy
+	sta.l carriedy					;carried puck y
 .20:								; return
 	rtl
-.21:								; db $FD,$FA,$F7,$F4,$F1,$EE,$EB,$E8,$E6,$E3
+.21:								;friction per frame time (indexed from .20, timestep 1-10)
 	db $FD,$FA,$F7,$F4,$F1,$EE,$EB,$E8,$E6,$E3
-.22:								; db $FF,$FF,$FE,$FE,$FE,$FD,$FD,$FD,$FC,$FC
+.22:								;gliding friction per frame time
 	db $FF,$FF,$FE,$FE,$FE,$FD,$FD,$FD,$FC,$FC
