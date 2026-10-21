@@ -109,7 +109,7 @@ RollCredits:						; advance the credits one step when its wait is over; called f
 	tax
 	lda.l CreditTitles,x			; its string
 	sta.b a1
-	lda.w #$0080					; string bank
+	lda.w #CreditTitles>>16			; string bank
 	sta.b a1+2
 	ldx.w #$0080					; x = 128
 	ldy.w CreditTitleY				; y of the title
@@ -119,7 +119,7 @@ RollCredits:						; advance the credits one step when its wait is over; called f
 	tax
 	lda.l CreditNames,x				; its string
 	sta.b a1
-	lda.w #$0080
+	lda.w #CreditNames>>16
 	sta.b a1+2
 	ldx.w #$0080
 	ldy.w CreditNameY				; y of the name

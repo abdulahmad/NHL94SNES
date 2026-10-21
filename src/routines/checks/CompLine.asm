@@ -81,7 +81,7 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 .t1:								; same men on ice: choose from the line table by period and score
 	lda.w #$0002
 	sta.b d1
-	lda.w #$009F
+	lda.w #.5>>16
 	sta.b a0+2
 	lda.w #.5
 	sta.b a0
@@ -93,13 +93,13 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	cmp.w tmscore,y
 	beq .1x
 	php
-	lda.w #$009F
+	lda.w #.5>>16
 	sta.b a0+2
 	lda.w #.5+14
 	sta.b a0
 	plp
 	bpl .1x
-	lda.w #$009F
+	lda.w #.5>>16
 	sta.b a0+2
 	lda.w #.5+28
 	sta.b a0
@@ -124,10 +124,10 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	dw 0,1,2,0,1,0,1
 	dw 2,0,1,2,0,2,0
 	dw 0,1,0,0,1,0,1
-.6:									; d1 = $0002, a0+2 = $009F, a0 = .7, ...
+.6:									; d1 = $0002, a0 = long .7, ...
 	lda.w #$0002
 	sta.b d1
-	lda.w #$009F
+	lda.w #.7>>16
 	sta.b a0+2
 	lda.w #.7
 	sta.b a0
@@ -140,13 +140,13 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	cmp.w tmscore,y
 	beq .1xx
 	php
-	lda.w #$009F
+	lda.w #.7>>16
 	sta.b a0+2
 	lda.w #.7+6
 	sta.b a0
 	plp
 	bpl .1xx
-	lda.w #$009F
+	lda.w #.7>>16
 	sta.b a0+2
 	lda.w #.7+12
 	sta.b a0

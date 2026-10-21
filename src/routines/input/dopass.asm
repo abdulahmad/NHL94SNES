@@ -82,13 +82,13 @@ dopass:								; called from chk4pass, passmode
 	jsl.l PuckSfx
 	jmp.w dopass_swing
 
-.t2:								; d4 negative: a0 = passdir * 2 * 2 + $DA08, a0+2 = $0080, ror a, ...
+.t2:								; d4 negative: a0 = long passdir * 2 * 2 + dirtab+2, ror a, ...
 	lda.w passdir
 	asl a
 	asl a
-	adc.w #$DA08
+	adc.w #dirtab+2
 	sta.b a0
-	lda.w #$0080
+	lda.w #dirtab>>16
 	sta.b a0+2
 	lda.b [a0]
 	cmp.w #$8000

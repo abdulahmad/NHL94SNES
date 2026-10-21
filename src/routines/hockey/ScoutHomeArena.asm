@@ -2,7 +2,7 @@
 ScoutHomeArena:						; Script code %r entry
 	lda.w tmdata					; a1 = home team data
 	sta.b a1
-	lda.w #$009C					; bank of the team strings
+	lda.w #TeamList>>16				; bank of the team strings
 	sta.b a1+2
 	ldy.w #$0004					; y = offset of the string table
 	lda.b a1						; a1 += [a1+4], the start of the strings

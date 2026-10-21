@@ -19,7 +19,7 @@ getlinee:							; called from CompLine, linebar
 	ldy.b a2
 	lda.w tmdata,y
 	sta.b a1
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a1+2
 	ldy.w #$0006
 	lda.b [a1],y

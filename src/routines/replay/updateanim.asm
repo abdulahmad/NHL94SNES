@@ -21,10 +21,10 @@ updateanim:							; called from SetSPAUpdate, assbreakaway, puckfaceoff2, update
 	dec a
 	dec a
 	bra .7
-.2:									; SPA,x != 0: a0 = A, a0+2 = $009D, d1 = [a0],y, ...
+.2:									; SPA,x != 0: a0 = long A, d1 = [a0],y, ...
 	phy
 	sta.b a0
-	lda.w #$009D
+	lda.w #SPAlist>>16
 	sta.b a0+2
 	ldy.w #$0010
 	lda.b [a0],y

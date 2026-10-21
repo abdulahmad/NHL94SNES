@@ -4,7 +4,7 @@ printteamname:						; called from PrintTeamNameAndScore, ShowThreeStars
 	pha
 	lda.w tmdata
 	sta.b a1
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a1+2
 	lda.b d3
 	beq .1

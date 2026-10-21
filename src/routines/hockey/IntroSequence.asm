@@ -22,7 +22,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	stz.b DMAQueueTail
 	lda.w #.1						; p0 = the video register table (.1), set the registers with .33
 	sta.b p0
-	lda.w #$009F
+	lda.w #.1>>16
 	sta.b p0+2
 	jsl.l .33						; .2 loads the palettes and graphics, .3 sets the start state
 	jsr.w .2
@@ -108,7 +108,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	bcc .loopx
 	lda.w #EALogoTiles
 	sta.b p0
-	lda.w #$0094
+	lda.w #EALogoTiles>>16
 	sta.b p0+2
 	lda.w #introchars
 	sta.b p1

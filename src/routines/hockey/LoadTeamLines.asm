@@ -14,7 +14,7 @@ LoadTeamLines:						; copy team a2's lines from the team data into RAM
 	phy
 	jsl.l GetTeamLines				; a3 = RAM lines of team a2
 	ldy.b a2						; a1 = the lines in the team data (offset word at +6 of the record)
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a1+2
 	lda.w tmdata,y
 	sta.b a1
@@ -40,7 +40,7 @@ LoadTeamLines:						; copy team a2's lines from the team data into RAM
 	bne .1
 	jsl.l GetTeamLines
 	ldy.b a2
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a1+2
 	lda.w tmdata,y
 	sta.b a1

@@ -31,7 +31,7 @@ DrawPlayerCard:						; draw the player card (or the team card)
 	ldy.w #$0010
 	jsl.l DrawLogoSprite			; draw it
 	ldy.b a2						; a3 = list of players of the team
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a3+2
 	lda.w tmdata,y
 	sta.b a3
@@ -55,7 +55,7 @@ DrawPlayerCard:						; draw the player card (or the team card)
 	clc
 	adc.w #$0006
 	tay
-	lda.w #$009D					; bank of the slot table
+	lda.w #.8>>16					; bank of the slot table
 	sta.b a1+2
 	lda.w #.8
 	sta.b a1
@@ -300,7 +300,7 @@ org $9DC002
 	lda.w #$0000					; card block mode off
 	sta.l cardblock
 	ldy.b a2						; team data
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a1+2
 	lda.w tmdata,y
 	sta.b a1

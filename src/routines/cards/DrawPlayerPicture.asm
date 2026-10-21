@@ -114,9 +114,9 @@ DrawPlayerPicture:					; draw the picture of a player
 	asl a							; four bytes per entry
 	asl a
 	clc
-	adc.w #$D8B3					; palette pointer table
+	adc.w #PhotoPaletteTable		; palette pointer table
 	sta.b a1
-	lda.w #$009D
+	lda.w #PhotoPaletteTable>>16
 	sta.b a1+2
 	lda.b [a1]						; pointer to the palette
 	sta.b p0
@@ -243,7 +243,7 @@ DrawPlayerPicture:					; draw the picture of a player
 	rtl								; return
 .9:									; is the player one of the six line slots? (A = 0 yes, 1 no)
 	ldy.b a2						; team
-	lda.w #$009C					; team data bank
+	lda.w #TeamList>>16				; team data bank
 	sta.b a3+2
 	lda.w tmdata,y
 	sta.b a3
@@ -318,9 +318,9 @@ DrawPlayerPicture:					; draw the picture of a player
 	asl a							; four bytes per entry
 	asl a
 	clc
-	adc.w #$D8B3					; palette pointer table
+	adc.w #PhotoPaletteTable		; palette pointer table
 	sta.b a1
-	lda.w #$009D
+	lda.w #PhotoPaletteTable>>16
 	sta.b a1+2
 	lda.b [a1]						; pointer to the palette
 	sta.b p0

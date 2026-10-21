@@ -31,8 +31,8 @@ showcrowd:							; called from setvideo
 	beq .t2
 	jmp.w .5
 
-.t2:								; p1+2 = $009B, p1 = CrowdAnimTable,x, if crowdanim,x = 0 go to .t1x, ...
-	lda.w #$009B
+.t2:								; p1 = long CrowdAnimTable,x, if crowdanim,x = 0 go to .t1x, ...
+	lda.w #CrowdAnimTable>>16
 	sta.b p1+2
 	lda.l CrowdAnimTable,x
 	sta.b p1
@@ -74,7 +74,7 @@ org $9BA000
 	stz.w crowdanimstep,x
 	lda.b [p1],y
 	sta.b p0
-	lda.w #$009B
+	lda.w #CrowdAnimTable>>16
 	sta.b p0+2
 	bra .7
 .4:									; if puckz - $001A negative go to .5, ...
@@ -185,7 +185,7 @@ org $9BA000
 	ldy.w crowdanim,x
 	lda.b [p1],y
 	sta.b p0
-	lda.w #$009B
+	lda.w #CrowdAnimTable>>16
 	sta.b p0+2
 	ldy.w crowdanimstep,x
 	lda.b [p0],y
@@ -220,11 +220,11 @@ org $9BA000
 	beq .3x
 	lda.w #$000C
 	sta.w crowdanim,x
-.2x:								; p0 = [p1],y, p0+2 = $009B, crowdanimstep,x = 0, ...
+.2x:								; p0 = long [p1],y, crowdanimstep,x = 0, ...
 	ldy.w crowdanim,x
 	lda.b [p1],y
 	sta.b p0
-	lda.w #$009B
+	lda.w #CrowdAnimTable>>16
 	sta.b p0+2
 	stz.w crowdanimstep,x
 	jmp.w .7

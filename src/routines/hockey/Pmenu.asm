@@ -161,11 +161,11 @@ Pmenu:								; called from PauseMenuPoll, SelectPauseController, ShowMP5Warning
 	bpl .t2x
 	jmp.w PmenuNone
 
-.t2x:								; tmgoalie,y >= 0: tmp0 = A, a4 = tmdata,y, a4+2 = $009C, ...
+.t2x:								; tmgoalie,y >= 0: tmp0 = A, a4 = long tmdata,y, ...
 	sta.b tmp0
 	lda.w tmdata,y
 	sta.b a4
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a4+2
 	ldy.w #$0000
 	lda.b [a4],y

@@ -3,7 +3,7 @@ GetTeamRating:						; called from DrawPlayerCard, ShowMatchups
 	ldy.b a2
 	lda.w tmdata,y
 	sta.b a0
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a0+2
 	ldy.w #$0008
 	lda.b [a0],y

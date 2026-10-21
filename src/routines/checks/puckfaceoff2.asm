@@ -258,7 +258,7 @@ puckfaceoff2:						; called from asstab
 	beq .6
 	lda.w tmap+2
 	sta.b d4
-.6:									; d4 = -(d4) + $0006 * 2 * 2 * 2, a1+2 = $009F, a1 = .19 + d4, ...
+.6:									; d4 = -(d4) + $0006 * 2 * 2 * 2, a1 = long .19 + d4, ...
 	lda.b d4
 	eor.w #$FFFF					; negate
 	inc a
@@ -268,7 +268,7 @@ puckfaceoff2:						; called from asstab
 	asl a
 	asl a
 	sta.b d4
-	lda.w #$009F
+	lda.w #.19>>16
 	sta.b a1+2
 	lda.w #.19
 	clc
@@ -276,18 +276,18 @@ puckfaceoff2:						; called from asstab
 	sta.b a1
 	lda.w penshot
 	beq .7
-	lda.w #$009F
+	lda.w #.20>>16
 	sta.b a1+2
 	lda.w #.20
 	sta.b a1
-.7:									; d4 = [a1],y & $00FF * 2 * 2, a1+2 = $009F, a1 = .21, ...
+.7:									; d4 = [a1],y & $00FF * 2 * 2, a1 = long .21, ...
 	ldy.b d1
 	lda.b [a1],y					; table entry for the position
 	and.w #$00FF
 	asl a							; entry to a .ptab offset
 	asl a
 	sta.b d4
-	lda.w #$009F
+	lda.w #.21>>16
 	sta.b a1+2
 	lda.w #.21
 	sta.b a1

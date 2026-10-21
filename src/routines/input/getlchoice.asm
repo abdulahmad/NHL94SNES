@@ -44,7 +44,7 @@ getlchoice:							; line for choice d0 of team a2
 	adc.b d1
 	sta.b d0
 	tay								; Y = table index
-	lda.w #$009F					; table bank
+	lda.w #.tab>>16					; table bank
 	sta.b a0+2
 	lda.w #.tab
 	sta.b a0

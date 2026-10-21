@@ -8,7 +8,7 @@ DefaultMenus:						; set the default menus
 	sta.b a0+2
 	lda.w #OptPlayMode
 	sta.b a0
-	lda.w #$009D					; a1 = the defaults table at .1
+	lda.w #.1>>16					; a1 = the defaults table at .1
 	sta.b a1+2
 	lda.w #.1
 	sta.b a1
