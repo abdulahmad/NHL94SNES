@@ -21,11 +21,11 @@ Findhittype:						; swing type of player X for direction d0
 	rtl								; return
 
 .t1:								; not flipped
-	phx
-	ldx.b d0
+	phx								; keep X
+	ldx.b d0						; direction as index
 	lda.l .1+3,x					; unflipped table (starts 3 bytes in)
-	plx
-	and.w #$00FF
+	plx								; restore X
+	and.w #$00FF					; byte
 	rtl
 .1:									; 1 = backhand; the x flip table starts here, the unflipped one at .1+3
 	db $00,$00,$00,$00,$01,$01,$01,$01,$00,$00,$00

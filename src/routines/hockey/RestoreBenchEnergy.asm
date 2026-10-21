@@ -30,7 +30,7 @@ RestoreBenchEnergy:					; no input; adds energy to the benched players of both t
 	lda.w #$1000					; cap at $1000
 	sta.w tmpde,y
 .3:									; next player
-	dec.b d0
+	dec.b d0						; previous player
 	dec.b d0
 	bpl .loop						; more players
 .rtl:								; done

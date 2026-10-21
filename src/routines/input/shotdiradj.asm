@@ -5,10 +5,10 @@ shotdiradj:							; called from doshot
 	jmp.w .6
 
 .t2:								; playerpad,x negative: d0 = $0008, d1 = $0005, if pfteam,x != 0 go to...
-	lda.w #$0008
+	lda.w #$0008					; default: no direction (8)
 org $9EE002
 	sta.b d0
-	lda.w #$0005
+	lda.w #$0005					; search 6 players
 	sta.b d1
 	ldy.w #$0000
 	lda.w pfteam,x
@@ -24,36 +24,36 @@ org $9EE002
 	jmp.w .5
 
 .t1:								; position,y = 0: if zero go to .1x, ...
-	lda.w Xvel+1,y
+	lda.w Xvel+1,y					; goalie x velocity high byte
 	and.w #$00FF
 	bit.w #$0080
 	beq .1x
-	ora.w #$FF00
+	ora.w #$FF00					; sign extend
 .1x:								; asl a, ror a, adc Xpos,y, ...
-	pha
+	pha								; half of it
 	asl a
 	pla
 	ror a
 	clc
-	adc.w Xpos,y
+	adc.w Xpos,y					; plus his x
 	sec
-	sbc.w puckx
-	sta.b d0
-	lda.w Yvel+1,y
+	sbc.w puckx						; minus the puck x
+	sta.b d0						; d0 = dx to the goalie
+	lda.w Yvel+1,y					; goalie y velocity high byte
 	and.w #$00FF
 	bit.w #$0080
 	beq .2
-	ora.w #$FF00
+	ora.w #$FF00					; sign extend
 .2:									; asl a, ror a, adc Ypos,y, ...
-	pha
+	pha								; half of it
 	asl a
 	pla
 	ror a
 	clc
-	adc.w Ypos,y
+	adc.w Ypos,y					; plus his y
 	sec
-	sbc.w pucky
-	sta.b d1
+	sbc.w pucky						; minus the puck y
+	sta.b d1						; d1 = dy to the goalie
 	ldy.b d0
 	jsl.l ApproxLength
 	sta.b d2
@@ -75,11 +75,11 @@ org $9EE002
 	pla
 	eor.w #$FFFF					; negate: two's complement
 	inc a
-	sta.b d3
+	sta.b d3						; post at -x
 	pla
 	sta.b d4
 	jsr.w CalcAngleOffset
-	lda.b d4
+	lda.b d4						; sum of both angles
 	clc
 	adc.b d5
 	sta.b d4
@@ -109,6 +109,6 @@ org $9EE002
 	sta.b d0
 .5:									; passdir = d0
 	lda.b d0
-	sta.w passdir
+	sta.w passdir					; set the pass direction
 .6:									; return
 	rtl

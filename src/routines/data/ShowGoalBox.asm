@@ -12,7 +12,7 @@ ShowGoalBox:						; called from SetPA
 	pha
 	lda.b d2+2
 	pha
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b a0,x
@@ -25,7 +25,7 @@ ShowGoalBox:						; called from SetPA
 	lda.w #$FFFF
 	sta.w lcpad
 	sta.w lcpad+2
-	stz.b a2
+	stz.b a2						; find the line change data for both teams
 	jsl.l lcfound2
 	inc.b a2
 	inc.b a2
@@ -49,13 +49,13 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #$0013
+	lda.w #$0013					; box width 19
 	sta.b d0
-	lda.w #$0005
+	lda.w #$0005					; box height 5
 	sta.b d1
-	ldy.w #ssassist1
+	ldy.w #ssassist1				; assist byte
 	lda.b [a4],y
-	bit.w #$0080
+	bit.w #$0080					; no assist: box one row smaller
 	bne .1
 	inc.b d1
 	inc.b d1
@@ -63,10 +63,10 @@ ShowGoalBox:						; called from SetPA
 	bmi .1
 	inc.b d1
 .1:									; call Framer, a2 = 0, if [a4],y bits $0080 clear go to .2, ...
-	jsl.l Framer
+	jsl.l Framer					; draw the frame d0 x d1
 	stz.b a2
 	ldy.w #ssflags
-	lda.b [a4],y
+	lda.b [a4],y					; home or visitor flag in the entry
 	bit.w #$0080
 	beq .2
 	inc.b a2
@@ -76,7 +76,7 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1+2
 	lda.w #GoalBoxText
 	sta.b a1
-	ldy.w #ssscorer
+	ldy.w #ssscorer					; scorer number
 	lda.b [a4],y
 	and.w #$00FF
 	ldy.b a2
@@ -85,9 +85,9 @@ ShowGoalBox:						; called from SetPA
 	adc.w #$001A
 .3:									; if not zero go to .4, ...
 	tay
-	lda.w tmgoals,y
+	lda.w tmgoals,y					; goals of the scorer
 	and.w #$00FF
-	cmp.w #$0003
+	cmp.w #$0003					; third goal: hat trick text
 	bne .4
 	jsl.l GoalieCount
 	ldy.w #ssscorer
@@ -118,7 +118,7 @@ ShowGoalBox:						; called from SetPA
 	lda.b [a4],y
 	and.w #$00FF
 	sta.b d0
-	bit.w #$0080
+	bit.w #$0080					; none: done
 	bne .5
 	lda.b a1+2
 	pha
@@ -139,7 +139,7 @@ ShowGoalBox:						; called from SetPA
 	lda.b [a4],y
 	and.w #$00FF
 	sta.b d0
-	bit.w #$0080
+	bit.w #$0080					; none: done
 	bne .5
 	lda.b a1+2
 	pha
@@ -155,9 +155,9 @@ ShowGoalBox:						; called from SetPA
 	pla
 	sta.b a1+2
 	jsl.l PlayerShortName
-	jsl.l print
+	jsl.l print						; print it
 .5:									; xsave = X
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0012
 .loop2:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla

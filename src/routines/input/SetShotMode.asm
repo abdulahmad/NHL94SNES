@@ -7,26 +7,26 @@ SetShotMode:						; start a shot by player X
 	lda.w #$0008					; no direction yet
 	sta.w passdir
 	lda.w #$0008					; shot mode flag
-	tsb.w sflags
+	tsb.w sflags					; shot mode
 	stz.b d0						; goal x = 0
 	lda.w #$0128					; goal y = +$128
-	sta.b d1
+	sta.b d1						; goal y
 	lda.w pfgoal,x					; shoots at the top goal?
 	bne .1							; yes
 	lda.w #$FED8					; no: y = -$128
 	sta.b d1
 .1:									; vector to the goal
-	lda.b d0
+	lda.b d0						; dx
 	sec
 	sbc.w Xpos,x					; minus player x
-	sta.b d0
+	sta.b d0						; dx
 	lda.b d1						; d1 = goal y
-	sec
+	sec								; dy
 	sbc.w Ypos,x					; minus player y
 	sta.b d1
 	jsl.l vtoa						; d0 = direction toward the goal
 	lda.w #$000F					; starting shot speed 15
-	sta.w passspeed
+	sta.w passspeed					; speed
 	ldy.w #SPAshotf					; forehand shot animation
 	jsl.l Findhittype				; forehand or backhand for this direction
 	beq .2							; forehand: keep it

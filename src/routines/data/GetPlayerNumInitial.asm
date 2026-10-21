@@ -23,7 +23,7 @@ GetPlayerNumInitial:				; the number, first initial and last name of player Temp
 	jsl.l PlayerShortName			; format the text
 	pla								; restore a2 and d0
 	sta.b a2+2
-	pla
+	pla								; restore a2
 	sta.b a2
 	pla
 	sta.b d0+2

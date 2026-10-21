@@ -14,19 +14,19 @@ assstanley:							; assignment: Stanley Cup celebration
 	lda.w #$FFA6					; left side: -90
 	sta.w temp3,x
 .1:									; y target is the scroll y
-	lda.w Vpos
-	sta.w temp4,x
+	lda.w Vpos						; camera y
+	sta.w temp4,x					; target y
 	lda.w #SPAstanley				; celebration animation, locked
 	sta.w pfalock,x
 	jsl.l SetSPAFromA				; start the animation
 .2:									; vector to the target
 	lda.w temp3,x					; dx and dy to the spot
 	sec
-	sbc.w Xpos,x
+	sbc.w Xpos,x					; minus x
 	sta.b d0
-	lda.w temp4,x
+	lda.w temp4,x					; target y
 	sec
-	sbc.w Ypos,x
+	sbc.w Ypos,x					; minus y
 	sta.b d1
 	jsl.l vtoa						; vtoa: turn the vector into direction and size (probably)
 	lda.b d0
@@ -34,7 +34,7 @@ assstanley:							; assignment: Stanley Cup celebration
 	bpl .t1
 	lda.b d0						; arrived: face the direction from vtoa
 	sta.b d2
-	sta.w facedir,x
+	sta.w facedir,x					; facing
 	lda.w #$0014					; lock 20 frames
 	sta.w pfalock,x
 	jmp.w playeracc					; stand still

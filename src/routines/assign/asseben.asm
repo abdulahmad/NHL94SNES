@@ -11,11 +11,11 @@ asseben:							; assignment: skate on from the bench
 	and.w #$FFFD					; clear pfna
 	sta.w pflags,x
 	stz.w Xvel,x					; stand still
-	stz.w Yvel,x
+	stz.w Yvel,x					; no speed
 	stz.w goalieflags,x				; clear goalie flags
 	txa								; y by slot: (object/2 - 6), +1 when not negative
 	lsr a
-	sec
+	sec								; minus 6
 	sbc.w #$0006
 	bmi .1							; first team: slot is negative
 	inc a
@@ -26,7 +26,7 @@ asseben:							; assignment: skate on from the bench
 	jsl.l Mul16x8XS
 	plx								; restore X
 	lda.b r2						; Ypos = result of Mul16x8XS
-	sta.w Ypos,x
+	sta.w Ypos,x					; y
 	lda.w #$FF78					; door x = -136
 	sta.w Xpos,x
 	lda.w #$0002					; face left

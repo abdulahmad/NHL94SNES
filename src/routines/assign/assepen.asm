@@ -13,14 +13,14 @@ assepen:							; assignment: leave the penalty box
 	sta.w pflags,x
 	ldy.w #$0010					; box count unit: $10 for the home team
 	lda.w pfteam,x
-	beq .1
-	ldy.w #$0001
+	beq .1							; team 0
+	ldy.w #$0001					; 1 for team 1
 .1:									; box count unit
 	sty.b d0						; take one man out of PBnum
-	lda.w PBnum
+	lda.w PBnum						; box count
 	sec
-	sbc.b d0
-	sta.w PBnum
+	sbc.b d0						; minus the step
+	sta.w PBnum						; store it
 	stz.w Xvel,x					; stand still
 	stz.w Yvel,x
 	lda.w #$003C					; box door y: 60 for the visitors
@@ -30,7 +30,7 @@ assepen:							; assignment: leave the penalty box
 	lda.w #$FFC4
 	sta.b d0
 .2:									; box door y chosen
-	lda.b d0
+	lda.b d0						; y
 	sta.w Ypos,x
 	lda.w #sideline					; x at the side boards
 	sta.w Xpos,x

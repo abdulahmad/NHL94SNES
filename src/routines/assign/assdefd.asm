@@ -33,7 +33,7 @@ assdefd:							; assignment: defenseman on defense
 .1x:								; re-think timer
 	lda.w temp1,x					; countdown minus the frame count
 	sec
-	sbc.b d7
+	sbc.b d7						; minus the frame count
 	sta.w temp1,x
 	bmi .t2							; expired: re-think
 	jmp.w .15						; still counting: just skate
@@ -43,7 +43,7 @@ assdefd:							; assignment: defenseman on defense
 	adc.w aidef,x
 	bpl .2x							; never below zero
 .1xx:								; clamp at zero
-	lda.w #$0000
+	lda.w #$0000					; not below zero
 .2x:								; store the re-think timer
 	sta.w temp1,x
 	lda.w pucky						; puck y
@@ -59,7 +59,7 @@ assdefd:							; assignment: defenseman on defense
 	beq .3
 	ora.w #$FC00
 .3:									; d3 = puck y lead
-	sta.b d3
+	sta.b d3						; d3 = puck y lead
 	lda.w pfgoal,x					; team direction
 	bne .4
 	lda.w #$0000					; mirror for the other goal: d1 = -d1, d3 = -d3
@@ -78,13 +78,13 @@ assdefd:							; assignment: defenseman on defense
 	lda.b d3
 	clc
 	adc.b d1
-	sta.b d3
+	sta.b d3						; d3 = puck y plus lead
 	sec								; compare with the line at $58 (blueline)
 	sbc.w #$0058
 	bmi .7							; not past the line
-	ldy.b a2
+	ldy.b a2						; team of this player
 	lda.w tmflags,y					; team offsides: stay back
-	bit.w #tmfoside
+	bit.w #tmfoside					; team offsides: stay back
 	bne .7
 	lda.w puckc						; puck carrier index
 	bmi .6							; puck carrier index halved
@@ -98,7 +98,7 @@ assdefd:							; assignment: defenseman on defense
 	sec
 	sbc.w #$0006
 	sta.b d1
-	txa
+	txa								; player index
 	lsr a
 	sec
 	sbc.w #$0006
@@ -138,7 +138,7 @@ assdefd:							; assignment: defenseman on defense
 	bmi .10
 	lda.w #$0000
 .10:								; y velocity / 32, sign extended
-	lsr a
+	lsr a							; y velocity / 16
 	lsr a
 	lsr a
 	lsr a
@@ -148,7 +148,7 @@ assdefd:							; assignment: defenseman on defense
 	ora.w #$F800
 .11:								; add the player y: projected y
 	clc
-	adc.w Ypos,y
+	adc.w Ypos,y					; projected y of the attacker
 	sta.b d1
 	sec
 	sbc.b d0						; further up than the best so far?
@@ -172,7 +172,7 @@ assdefd:							; assignment: defenseman on defense
 	sta.b d0
 .13:								; store the target y
 	lda.b d0
-	sta.w temp4,x
+	sta.w temp4,x					; target y
 	lda.w puckx						; puck x
 	sta.b d0
 	lda.w temp3,x					; temp3 xor puck x
@@ -206,7 +206,7 @@ assdefd:							; assignment: defenseman on defense
 	ora.w #$F800
 .3x:								; projected y of the attacker
 	clc
-	adc.w Ypos,y
+	adc.w Ypos,y					; projected y of the attacker
 	sta.b d1
 	sec
 	sbc.b d0						; further down than the best so far?
@@ -230,7 +230,7 @@ assdefd:							; assignment: defenseman on defense
 	sta.b d0
 .5x:								; store the target y
 	lda.b d0
-	sta.w temp4,x
+	sta.w temp4,x					; target y
 	lda.w #$0000					; temp3 = -temp3 (mirror)
 	sec
 	sbc.w temp3,x
@@ -243,9 +243,9 @@ assdefd:							; assignment: defenseman on defense
 	bpl .15
 	stz.w temp3,x					; opposite sign to puck x: clear temp3
 .15:								; skate to (temp3,temp4) avoiding the puck carrier
-	lda.w temp3,x
+	lda.w temp3,x					; target x
 	sta.b d0
-	lda.w temp4,x
+	lda.w temp4,x					; target y
 	sta.b d1
 	lda.w #rtss>>16					; a0 = rtss (no avoidance routine)
 	sta.b a0+2

@@ -27,9 +27,9 @@ WritePassBits:						; called from EncodePW, ResolveGames
 	lda.w #$0004
 	sta.b d1
 	jsl.l .t1
-	lda.w WinBits
+	lda.w WinBits					; WinBits
 	sta.b d0
-	lda.w #$4000
+	lda.w #$4000					; range 2^14
 	sta.b d1
 	jsl.l .t1
 	lda.w #$0005
@@ -46,21 +46,21 @@ WritePassBits:						; called from EncodePW, ResolveGames
 	lda.l gspobwins,x
 	sta.b d0
 	jsl.l .t1
-	inc.b a1
+	inc.b a1						; next series
 	inc.b a1
 	dec.b d2
 	bpl .loop
-	lda.b d7
-	and.w #$01FF
+	lda.b d7						; checksum
+	and.w #$01FF					; modulo 512
 	sta.b d0
 	lda.w #$0200
 	sta.b d1
-	jsl.l PushBits
+	jsl.l PushBits					; push it
 	rtl
 
 .t1:								; subroutine: d7 = d7 + d0, go to PushBits
-	lda.b d7
+	lda.b d7						; add the value to the checksum
 	clc
 	adc.b d0
 	sta.b d7
-	jml.l PushBits
+	jml.l PushBits					; push the bits

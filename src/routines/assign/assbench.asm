@@ -32,12 +32,12 @@ assbench:							; assignment: skate to the bench door and swap players
 	sta.b d0
 .1xx:								; store the door position
 	lda.b d0						; target y at the bench
-	sta.w temp4,x
+	sta.w temp4,x					; target y at the bench
 	lda.w #$FF70					; door x = -144
-	sta.w temp3,x
+	sta.w temp3,x					; target x at the bench
 	stz.w temp1,x					; clear the door timer
 .2:									; same player coming on?
-	lda.w newpnum,x
+	lda.w newpnum,x					; same player: just change position
 	cmp.w pnum,x					; same player: only the position changes
 	bne .t3
 .3:									; unreferenced label
@@ -50,7 +50,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	ora.w #$0003
 	sta.w goalieflags,x
 .1x2:								; count the door timer down by the frame count
-	lda.w temp1,x
+	lda.w temp1,x					; count the door timer down
 	sec
 	sbc.b d7
 	sta.w temp1,x
@@ -64,7 +64,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	lda.w Ypos,x					; distance from the bench y, absolute value
 	sec
 	sbc.w temp4,x
-	bit.w #$8000
+	bit.w #$8000					; absolute value
 	beq .2x
 .1xx2:								; negate
 	eor.w #$FFFF
@@ -75,7 +75,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	jmp.w .6						; too far: keep skating
 
 .t2x:								; distance in x to the door
-	lda.w Xpos,x
+	lda.w Xpos,x					; distance from the bench in x
 	sec
 	sbc.w temp3,x
 	sta.b d0
@@ -97,12 +97,12 @@ assbench:							; assignment: skate to the bench door and swap players
 	lda.w facedir,x					; turn one step towards facedir 4 (the wall)
 	cmp.w #$0004
 	beq .2xx
-	inc a
+	inc a							; turn one step
 	and.w #$0007
 	sta.w facedir,x
 .2xx:								; slide left towards the door
-	stz.w Yvel,x
-	lda.w #$F800
+	stz.w Yvel,x					; stop moving in y
+	lda.w #$F800					; slide toward the door
 	sta.w Xvel,x
 	lda.b d0						; distance in x
 	sec
@@ -125,16 +125,16 @@ assbench:							; assignment: skate to the bench door and swap players
 .4:									; start the animation
 	jsl.l SetSPAFromA
 	lda.w #$0064					; door timer 100: arrived
-	sta.w temp1,x
+	sta.w temp1,x					; door timer 100: at the door
 	sta.w pfalock,x					; lock the assignment
 .1:									; return
 	rtl
 .5:									; at the door: mark this roster slot as on the bench
-	lda.w pnum,x
+	lda.w pnum,x					; player number
 	asl a
 	sta.b d0
 	stz.b a0
-	lda.w pfteam,x
+	lda.w pfteam,x					; which team
 	beq .1xxx
 	lda.w #$0002					; visitors use the second half of tmpdst
 	sta.b a0
@@ -160,7 +160,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	bne .1
 	lda.w temp3,x					; skate to (temp3,temp4) avoiding the puck carrier
 	sta.b d0
-	lda.w temp4,x
+	lda.w temp4,x					; target y at the bench
 	sta.b d1
 	lda.w #EvadePC>>16				; a0 = EvadePC
 	sta.b a0+2
@@ -174,7 +174,7 @@ assbench:							; assignment: skate to the bench door and swap players
 .8:									; take the new position (newpos) and clear the requests
 	lda.w newpos,x					; new position
 	sta.b d0
-	sta.w position,x
+	sta.w position,x				; take it
 	jsl.l Setplass					; set up the position
 	lda.w #$FFFF					; clear newpnum and newpos
 	sta.w newpnum,x

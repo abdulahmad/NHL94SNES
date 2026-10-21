@@ -34,7 +34,7 @@ setlccords:							; position and size of the line change box of team a2
 	jsl.l Mul8U						; times d0
 	plx								; restore X
 	adc.w printy					; add to the print row
-	sta.w printy
+	sta.w printy					; new y
 	lda.w #$0002					; ask for choice 2
 	sta.b d0
 	jsl.l getlchoice				; d0 = its line

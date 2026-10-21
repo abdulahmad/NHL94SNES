@@ -1,6 +1,6 @@
 ; Save the registers and go on to StartHL2
 SaveRegsStartHL2:					; called from DoHiLights
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b d0,x
@@ -9,8 +9,8 @@ SaveRegsStartHL2:					; called from DoHiLights
 	inx
 	cpx.w #$0020
 	bne .loop
-	ldx.b xsave
-	stx.b xsave
+	ldx.b xsave						; restore X
+	stx.b xsave						; keep X again
 	ldx.w #$0000
 .loop2:								; loop: X + 1, X + 1, if not zero go to .loop2, ...
 	lda.b a0,x
