@@ -17,7 +17,7 @@ PushNumberWrap:						; called from AttribRating, DrawPeriodStats, DrawPlayerCard
 PushNumberWidth:					; called from PushNumberWrap
 	lda.w #$0000
 	sta.b a1+2
-	lda.w #$0A8E
+	lda.w #PushWidthBuf
 	sta.b a1
 	lda.b d1						; width
 	inc a
