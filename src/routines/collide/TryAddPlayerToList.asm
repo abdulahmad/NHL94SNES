@@ -31,7 +31,7 @@ TryAddPlayerToList:					; called from SetPlList
 	lda.b d1
 	and.w #$00FF
 	cmp.b tmp0						; same player
-	beq .t1
+	beq .t1							; already in PlList
 	dec.b d0						; next entry
 	bpl .s2
 	ldy.b d4						; slot d4

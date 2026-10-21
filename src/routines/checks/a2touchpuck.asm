@@ -13,7 +13,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	tya
 	lsr a
 	sta.l ltplayer
-	stz.b a0
+	stz.b a0						; a0 = team
 	lda.w pfteam,y
 	beq .1
 	inc.b a0

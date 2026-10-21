@@ -12,8 +12,8 @@ WeightedRandomSelect:				; called from SetScore
 	sta.b a1+2
 	lda.w #$0CF9
 	sta.b a1
-	stz.b d1
-	bra .2
+	stz.b d1						; sum = 0
+	bra .2							; go
 .1:									; loop: d0 still >= 0: d1 = d1 + [a1], increment a1, increment a1
 	lda.b d1						; sum
 	clc
@@ -34,8 +34,8 @@ WeightedRandomSelect:				; called from SetScore
 	sec
 	sbc.b [a1]						; minus the weight
 	sta.b d0
-	bpl .loop
-	lda.b a1
+	bpl .loop						; until below zero
+	lda.b a1						; index
 	sec
 	sbc.w #$0CF9
 	lsr a							; words to index

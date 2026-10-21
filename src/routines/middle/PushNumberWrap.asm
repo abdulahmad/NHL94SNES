@@ -30,21 +30,21 @@ PushNumberWidth:					; called from PushNumberWrap
 	sta.w PushWidthBuf+6
 	sta.w PushWidthBuf+8
 	phx
-	lda.b d0
+	lda.b d0						; the number
 .loop:								; loop: r2 = A, r1 = $000A, Y - 1, ...
-	sta.b r2
-	lda.w #$000A
+	sta.b r2						; dividend
+	lda.w #$000A					; 10
 	sta.b r1
-	dey
-	jsl.l Div16x8U
+	dey								; one character back
+	jsl.l Div16x8U					; divide
 	lda.w RDMPYL
 	sep #$20
 	clc
 	adc.b #$30						; ASCII
 	sta.w PushWidthBuf,y			; store it
 	rep #$20						; 16-bit A
-	lda.b r0
-	bne .loop
+	lda.b r0						; quotient
+	bne .loop						; more digits
 	plx
 	pla
 	sta.b d0

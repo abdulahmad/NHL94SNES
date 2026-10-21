@@ -42,7 +42,7 @@ ResolveGames:						; record the played playoff game and the series wins
 	eor.w #$0010					; flip the side of the win
 	sta.b d3
 .2:									; series offset plus the side: count the win
-	lda.b a0
+	lda.b a0						; series offset plus side
 	clc
 	adc.b d3
 	tax
@@ -50,7 +50,7 @@ ResolveGames:						; record the played playoff game and the series wins
 	inc a
 	sta.l gspotwins,x				; count the series win
 .3:									; next series
-	dec.b a0
+	dec.b a0						; next series
 	dec.b a0
 	dec.b d1
 	bpl .4							; more series
@@ -159,7 +159,7 @@ ResolveGames:						; record the played playoff game and the series wins
 	tax
 	dec a							; mask - 1: clear the old bits
 	and.w WinBits
-	sta.w WinBits
+	sta.w WinBits					; clear the old bits
 	lda.b d3						; new winners
 	jsl.l Mul16U					; shifted into place
 	lda.b r2
@@ -204,7 +204,7 @@ ResolveGames:						; record the played playoff game and the series wins
 	tax
 	dec a							; mask - 1: clear the old bits
 	and.w WinBits
-	sta.w WinBits
+	sta.w WinBits					; clear the old bits
 	lda.b d3						; new winners
 	jsl.l Mul16U					; shifted into place
 	lda.b r2

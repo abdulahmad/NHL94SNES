@@ -60,7 +60,7 @@ Intermission:						; the intermission screen
 	stz.w pausepad					; else pausepad = 0
 .2:									; InIntermission = $0001
 	lda.w #$0001					; InIntermission = 1
-	sta.w InIntermission
+	sta.w InIntermission			; ticker starts from the current game
 .loop2:								; redraw the screen
 	lda.w #$0000					; clear the X positions of the 16 objects
 	ldy.w #$001E					; clear Xpos of the 16 objects again

@@ -22,8 +22,8 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	lda.w tmap,y
 	ldy.b a1
 	cmp.w tmap,y					; compare with the other team
-	beq .4
-	bpl .1
+	beq .4							; equal: no power play
+	bpl .1							; sign of the difference
 	inc.b d0						; line 5 on the other side
 	inc.b d0
 .1:									; call getlinee, d1 = d0, d0 = 1,s + 1, ...
@@ -85,13 +85,13 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	sta.b a0+2
 	lda.w #.5
 	sta.b a0
-	lda.w gsp
+	lda.w gsp						; third period?
 	cmp.w #$0002
 	bne .1x
 	lda.w tmscore,y					; score
 	ldy.b a1
 	cmp.w tmscore,y					; against the other score
-	beq .1x
+	beq .1x							; tied: use the tied table
 	php
 	lda.w #.5>>16
 	sta.b a0+2
@@ -131,14 +131,14 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	sta.b a0+2
 	lda.w #.7
 	sta.b a0
-	lda.w gsp
+	lda.w gsp						; third period?
 	cmp.w #$0002
 	bne .1xx
 	ldy.b a2
 	lda.w tmscore,y					; score
 	ldy.b a1
 	cmp.w tmscore,y					; against the other score
-	beq .1xx
+	beq .1xx						; tied: use the tied table
 	php
 	lda.w #.7>>16
 	sta.b a0+2
@@ -159,7 +159,7 @@ CompLine:							; a2 = team to change, a1 = other team; sets tmline of a2
 	lda.b d0
 	cmp.w #$0F34					; enough energy?
 	bcs .2x
-	dec.b d1
+	dec.b d1						; else try the next line
 	bpl .1xx
 .2x:								; decrement a0, decrement a0, tmline,y = [a0], ...
 	dec.b a0

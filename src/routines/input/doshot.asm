@@ -56,9 +56,9 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	sta.w breakaway
 .3:									; puckc = $FFFF, nopuck,x = $0010, lastplayer = curobj / 2, ...
 	ldx.b curobj
-	lda.w #$FFFF
+	lda.w #$FFFF					; puck loose
 	sta.w puckc
-	lda.w #$0010
+	lda.w #$0010					; no puck pickup for 16 frames
 	sta.w nopuck,x
 	txa
 	lsr a
@@ -102,18 +102,18 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 .5:									; d3 = A, if gmode bits gmhl clear go to .t1, ...
 	sta.b d3
 	lda.w gmode
-	bit.w #gmhl
+	bit.w #gmhl						; gmhl: highlights are always perfect
 	beq .t1
 	jmp.w .6
 
 .t1:								; gmode bits gmhl clear: if d3 >= $00C9 go to .1x, ...
 	lda.b d3
-	cmp.w #$00C9
+	cmp.w #$00C9					; too far away for a perfect shot
 	bcs .1x
 	lda.w #$0010
 	adc.w shotacc,x
 	jsl.l randoma8					; random number below A
-	cmp.w #$000F
+	cmp.w #$000F					; chance of a perfect shot
 	bcs .6
 .1x:								; call Mul16U, d0 = r2 / 2 / 2 / 2 / 2 / 2 / 2, if d3 >= $00FB go to .2...
 	lda.w passspeed
@@ -135,12 +135,12 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	lsr a
 	sta.b d0
 	lda.b d3
-	cmp.w #$00FB
+	cmp.w #$00FB					; closer than 251: half the error
 	bcs .2x
 	lsr.b d0
 .2x:								; if d0 < sideline go to .3x, ...
 	lda.b d0
-	cmp.w #sideline
+	cmp.w #sideline					; clamp $88
 	bcc .3x
 	lda.w #sideline
 	sta.b d0
@@ -151,7 +151,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	sta.b 3,s
 	lda.b 1,s
 	sta.b d0
-	cmp.w #$003D
+	cmp.w #$003D					; max 60
 	bcc .4x
 	lda.w #$003C
 	sta.b d0
@@ -175,10 +175,10 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	lda.w #$0044
 	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	plx
-	jsl.l Mul16S
+	jsl.l Mul16S					; signed 32-bit multiply
 	lda.b d3
 	sta.b r1
-	jsl.l Div32S
+	jsl.l Div32S					; signed divide
 	lda.b r0
 	asl a
 	sta.w puckvx
@@ -186,10 +186,10 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	lda.w #$0044
 	jsl.l Mul8XS					; A * X, 8 by 8 bits, X signed, into A
 	plx
-	jsl.l Mul16S
+	jsl.l Mul16S					; signed 32-bit multiply
 	lda.b d3
 	sta.b r1
-	jsl.l Div32S
+	jsl.l Div32S					; signed divide
 	lda.b r0
 	asl a
 	sta.w puckvy
@@ -201,7 +201,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	jsl.l Mul16x8U
 	ldx.b r2
 	lda.w #$0044
-	jsl.l Mul16x8U
+	jsl.l Mul16x8U					; mulres = mula*mulb
 	lda.b d3
 	sta.b r1
 	jsl.l Div32U
@@ -210,7 +210,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	sta.b d1
 	lda.w #$0B33
 	ldx.b d3
-	jsl.l Mul16U
+	jsl.l Mul16U					; mulres = mula*mulb
 	lda.w passspeed
 	sta.b r1
 	jsl.l Div32U

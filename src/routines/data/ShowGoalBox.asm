@@ -21,7 +21,7 @@ ShowGoalBox:						; called from SetPA
 	inx
 	cpx.w #$0014
 	bne .loop
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	lda.w #$FFFF
 	sta.w lcpad
 	sta.w lcpad+2
@@ -113,7 +113,7 @@ ShowGoalBox:						; called from SetPA
 	and.w #$00FF
 	sta.b d0
 	jsl.l PlayerShortName			; mesarea = the number
-	jsl.l print
+	jsl.l print						; print it
 	ldy.w #ssassist1
 	lda.b [a4],y
 	and.w #$00FF
@@ -165,7 +165,7 @@ ShowGoalBox:						; called from SetPA
 	dex
 	dex
 	bpl .loop2
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	pla
 	sta.b d2+2
 	pla

@@ -1,6 +1,6 @@
 ; Step the puck drop animation
 updatefaceoff:						; called from puckfaceoff2
-	lda.w temp1,x
+	lda.w temp1,x					; animation timer
 	beq .t2
 	clc								; (temp1+6)/8 <= 2: drop frame 10-d0
 	adc.w #$0006					; (timer + 6) / 8
@@ -47,7 +47,7 @@ updatefaceoff:						; called from puckfaceoff2
 .1:									; ora #$E000
 	ora.w #$E000
 .2:									; printx = A, if zero go to .4
-	sta.w printx
+	sta.w printx					; print x
 	lda.l fodropy
 	sec
 	sbc.w #$0044					; minus the box y origin

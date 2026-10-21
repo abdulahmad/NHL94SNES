@@ -4,7 +4,7 @@
 ; and handedness; a computer player starts the face off swing animation (sometimes the reverse pull).
 assfaceoffpl:						; assignment: the two players taking the face off
 	lda.w pfalock,x					; animation locked?
-	beq .t1
+	beq .t1							; no
 .1x:								; unreferenced label
 	jmp.w .t2						; locked: return
 
@@ -12,7 +12,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	lda.w sflags					; bit $0100 of sflags: face off in progress
 	bit.w #$0100
 	beq .t3							; over: leave
-	lda.w pflags,x
+	lda.w pflags,x					; player flags
 	bit.w #pfna
 	beq .1xx						; new assignment?
 	and.w #$FFFD					; clear pfna
@@ -34,7 +34,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	inc a
 	sta.b d0						; frame
 	lda.w handed,x					; left handed: +3 (handed set = right handed)
-	bne .3
+	bne .3							; left
 	inc.b d0
 	inc.b d0
 	inc.b d0
@@ -49,7 +49,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	sta.w pf2aip,x
 	pla
 	cmp.w #$0000					; already swinging: return
-	bne .t2
+	bne .t2							; already pulling: leave
 	lda.w #SPAfaceoff				; face off animation
 	sta.b d1
 	lda.w temp1+puckobj				; puck temp1 above $10: sometimes the reverse pull

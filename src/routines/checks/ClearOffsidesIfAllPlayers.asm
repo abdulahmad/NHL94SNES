@@ -17,11 +17,11 @@ ClearOffsidesIfAllPlayers:			; clear the offsides flag when nobody is offside an
 .2:									; each player in turn
 	ldy.b a0
 	lda.w position,y				; empty position: skip
-	bmi .1
+	bmi .1							; none
 	lda.w Ypos,y					; y
 	sta.b d0
 	lda.w pfgoal,y					; which goal he shoots at
-	bne .1
+	bne .1							; top end
 	lda.w #$0000					; mirror y for the other end
 	sec
 	sbc.b d0
@@ -36,7 +36,7 @@ ClearOffsidesIfAllPlayers:			; clear the offsides flag when nobody is offside an
 	jmp.w ChkOffsides_rtl			; past the blue line: still offside
 
 .t1x:								; next player
-	dec.b d1
+	dec.b d1						; next skater
 	bpl .2							; more players
 	ldy.b a2						; nobody past the line: clear the flag
 	lda.w tmflags,y

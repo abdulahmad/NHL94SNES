@@ -16,14 +16,14 @@ vtoa:								; direction of the vector d0 / d1
 	eor.w #$FFFF					; negate
 	inc a
 	sta.b d0
-	inc.b d7+2
+	inc.b d7+2						; sign bit 0
 .0:									; y sign
 	lda.b d1						; dy
 	bpl .1							; positive
 	eor.w #$FFFF					; negate
 	inc a
 	sta.b d1
-	inc.b d7+2
+	inc.b d7+2						; sign bits
 	inc.b d7+2
 .1:									; slope test: |dx| against 2|dy|
 	lda.b d1						; bit 2: |dx| <= 2|dy|
@@ -40,8 +40,8 @@ vtoa:								; direction of the vector d0 / d1
 	lda.w #$0008					; set bit 3
 	tsb.b d7+2
 .3:									; direction from the table
-	phx
-	ldx.b d7+2
+	phx								; keep X
+	ldx.b d7+2						; index
 	lda.l .dt,x						; direction
 	plx								; restore X
 	and.w #$00FF

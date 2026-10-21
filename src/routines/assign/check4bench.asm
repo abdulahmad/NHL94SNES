@@ -19,7 +19,7 @@ check4bench:						; check whether a line change wants this player off
 	cmp.w #$000C					; already going to the bench (assignment $0C)?
 	beq .t1							; yes: leave him
 	cpx.w puckc						; the puck carrier stays
-	beq .t1
+	beq .t1							; puck carrier stays
 	sep #$20						; pop the jsl return address (the caller is abandoned)
 	pla								; pop the jsl return address
 	rep #$30						; 16-bit registers

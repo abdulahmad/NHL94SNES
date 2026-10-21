@@ -4,10 +4,10 @@
 ; gliding out of the wall. Later frames: face right, clear the flags, push him out with Xvel $1000, assexit.
 asseben:							; assignment: skate on from the bench
 	lda.w pfalock,x					; locked: animation still running
-	bne .t1
+	bne .t1							; yes: leave
 	lda.w pflags,x					; player flags
 	bit.w #pfna						; first frame of the assignment (pfna)?
-	beq .t2
+	beq .t2							; not new
 	and.w #$FFFD					; clear pfna
 	sta.w pflags,x
 	stz.w Xvel,x					; stand still
@@ -18,7 +18,7 @@ asseben:							; assignment: skate on from the bench
 	sec								; minus 6
 	sbc.w #$0006
 	bmi .1							; first team: slot is negative
-	inc a
+	inc a							; away: +1
 .1:									; slot number
 	phx								; keep X
 	tax

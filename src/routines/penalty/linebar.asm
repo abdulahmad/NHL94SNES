@@ -11,7 +11,7 @@ linebar:							; called from SetLCmode2
 	bcc .1
 	lda.w #$1000
 .1:									; d0 = A, call Mul16x8U, mesarea+2 = r2+2 + $001D, ...
-	sta.b d0
+	sta.b d0						; energy
 	tax
 	lda.w #$002F
 	jsl.l Mul16x8U
@@ -31,7 +31,7 @@ linebar:							; called from SetLCmode2
 	lda.w #$0054
 	jsl.l Mul16x8U
 	plx
-	lda.b r2+2
+	lda.b r2+2						; high word
 	inc a							; plus 2
 	inc a
 	sta.b [a1]						; string length

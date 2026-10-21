@@ -40,7 +40,7 @@ assdefd:							; assignment: defenseman on defense
 
 .t2:								; timer expired: reload from aidef
 	clc
-	adc.w aidef,x
+	adc.w aidef,x					; reload from aidef
 	bpl .2x							; never below zero
 .1xx:								; clamp at zero
 	lda.w #$0000					; not below zero

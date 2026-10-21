@@ -47,7 +47,7 @@ SetLCmode2:							; draw the line change box of team a2
 	bit.w #$0008					; box open (bit 3)?
 	bne .1x							; yes: show every row
 	lda.b d4						; closing: only the chosen row
-	cmp.w tmlcchoice,y
+	cmp.w tmlcchoice,y				; box being closed: only the chosen row
 	bne .2							; not the chosen one: next row
 	lda.w tmline,y					; the chosen line
 	sta.b d0

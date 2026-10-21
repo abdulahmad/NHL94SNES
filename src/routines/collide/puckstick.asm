@@ -3,8 +3,8 @@ puckstick:							; called from checkpuckcoll_ccx
 	ldy.b a2						; player a2
 	lda.w position,y				; position
 	bne .2
-	lda.w gmode
-	bit.w #gmhl
+	lda.w gmode						; game mode
+	bit.w #gmhl						; gmhl: goalie ignores the puck
 	beq .2
 .1:									; return
 	rtl
@@ -24,10 +24,10 @@ puckstick:							; called from checkpuckcoll_ccx
 	lda.b d0
 	cmp.w #$0025
 	bcs .1
-	lda.w position,y
-	beq .1x
-	ldy.b a0
-	lda.w position,y
+	lda.w position,y				; position of a2
+	beq .1x							; goalie always steals
+	ldy.b a0						; carrier
+	lda.w position,y				; his position
 	beq .1
 	lda.w stickhand,y
 	jsl.l makepde					; makepde
@@ -53,8 +53,8 @@ puckstick:							; called from checkpuckcoll_ccx
 	cmp.w #$0003					; steal fails
 	bcs .1
 .1x:								; call makepde, nopuck,y = d0 + $0014, a0 = a2, ...
-	ldy.b a0
-	lda.w stickhand,y
+	ldy.b a0						; carrier
+	lda.w stickhand,y				; his stickhand
 	jsl.l makepde					; d0 = rating A scaled by player a0's energy
 	lda.b d0
 	adc.w #$0014					; nopuck = makepde(stickhand) + 20 for both
@@ -103,7 +103,7 @@ puckstick:							; called from checkpuckcoll_ccx
 	plx
 	lda.b r2
 	clc
-	adc.b d0
+	adc.b d0						; sum
 	sta.b d0
 	lda.b r2+2
 	adc.b d0+2
@@ -151,7 +151,7 @@ puckstick:							; called from checkpuckcoll_ccx
 	ldy.b a2
 	lda.w #$0008					; too fast: nopuck 8, deflect
 	sta.w nopuck,y
-	jmp.w .3
+	jmp.w .3						; deflect
 
 .t2:								; go to puckglue
 	jmp.w puckglue					; player a2 takes the puck

@@ -27,7 +27,7 @@ puckfaceoff2:						; called from asstab
 	inx
 	cpx.w #$001C
 	bne .loop2
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.w #$0012
@@ -101,7 +101,7 @@ puckfaceoff2:						; called from asstab
 	trb.w sflags
 	lda.w #$0001
 	trb.w sflags3
-	stz.w iflags
+	stz.w iflags					; no icing, no lower lc box, glove spots cleared
 	stz.w replaydelay
 	lda.w #$FFFF					; -1 marks the ref count, crossings, puck carrier and receiver as none
 	sta.w RefCnt
@@ -210,7 +210,7 @@ puckfaceoff2:						; called from asstab
 	lda.w #$0001
 	sta.w frame,x
 	lda.w position,x
-	sta.b d1
+	sta.b d1						; d1 = position
 	bpl .t1x
 	jmp.w .16
 
@@ -234,7 +234,7 @@ puckfaceoff2:						; called from asstab
 	lda.b d1						; centers take the faceoff
 	cmp.w #$0004
 	bne .4x
-	stz.b a2
+	stz.b a2						; center: team touches = him only
 	lda.w pfteam,x
 	beq .3xx
 	inc.b a2
@@ -311,7 +311,7 @@ puckfaceoff2:						; called from asstab
 .8:									; if position,x = 0 go to .13, ...
 	lda.w position,x
 	beq .13
-	lda.b d4
+	lda.b d4						; defense (entry <= 2*4): shift by fox/foy
 	cmp.w #$0009
 	bpl .12
 	lda.l fox
@@ -550,7 +550,7 @@ puckfaceoff2:						; called from asstab
 	inx
 	dec.b tmp2+1
 	bne .loop5
-	txa
+	txa								; next text row
 	clc
 	adc.w #$0040
 	sec
@@ -709,7 +709,7 @@ puckfaceoff2:						; called from asstab
 	lda.w #$0007
 	sta.l fofdata
 	lda.w gmode
-	bit.w #gmdir
+	bit.w #gmdir					; gmdir: flip the attributes
 	bne .5xx
 	lda.w #$8800
 	sta.l fofdata2+foattr

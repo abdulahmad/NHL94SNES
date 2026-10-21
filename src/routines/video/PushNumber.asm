@@ -5,20 +5,20 @@ PushNumber:							; called from AttribWeight, PrintTeamStatRows, TickerTeam, pri
 	sta.b a1+2
 	lda.w #mesareaEnd
 	sta.b a1
-	lda.b d0
+	lda.b d0						; the number
 .0:									; loop: r2 = A, r1 = $000A, call Div16x8U, ...
-	sta.b r2
+	sta.b r2						; divide by 10
 	lda.w #$000A
 	sta.b r1
-	jsl.l Div16x8U
-	dec.b a1
-	sep #$20
+	jsl.l Div16x8U					; mulb / mula
+	dec.b a1						; one character back
+	sep #$20						; 8-bit A
 	lda.w RDMPYL
 	clc
 	adc.b #$30						; remainder as ASCII
 	sta.b [a1]						; store it
 	rep #$30						; 16-bit registers
-	lda.b r0
+	lda.b r0						; quotient
 	bne .0							; more digits
 	dec.b a1						; room for the length word
 	dec.b a1

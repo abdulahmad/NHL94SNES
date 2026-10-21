@@ -10,7 +10,7 @@ CompShoot:							; computer player X shoots
 	lda.w pucky						; puck y
 	sta.b d0
 	lda.w pfgoal,x					; which goal he shoots at
-	bne .1
+	bne .1							; top end
 	lda.w #$0000					; mirror y for the other end
 	sec
 	sbc.b d0

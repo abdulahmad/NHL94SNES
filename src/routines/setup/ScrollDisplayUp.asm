@@ -5,7 +5,7 @@
 ScrollDisplayUp:					; scroll the scouting text up
 	stz.w DispAttribCtr				; back to column 0
 	inc.w VertLineScrolling			; one more line printed
-	lda.w VertLineScrolling
+	lda.w VertLineScrolling			; full?
 	sec
 	sbc.w #$0008					; lines minus 8
 	bmi .2							; negative: check overflow
@@ -28,7 +28,7 @@ ScrollDisplayUp:					; scroll the scouting text up
 	ldx.w #$0028
 	lda.b p1						; p0 = p1 + $40: the row below
 	clc
-	adc.w #$0040
+	adc.w #$0040					; plus a row ($40)
 	sta.b p0
 	jsl.l MemCopy					; copy $28 bytes up one row
 	lda.b p0						; the row below is the next destination

@@ -10,7 +10,7 @@ assstanley:							; assignment: Stanley Cup celebration
 	lda.w #$005A					; x target 90
 	sta.w temp3,x
 	lda.w Hpos						; scroll side
-	bpl .1
+	bpl .1							; right half
 	lda.w #$FFA6					; left side: -90
 	sta.w temp3,x
 .1:									; y target is the scroll y

@@ -23,10 +23,10 @@ holdcheck:							; called from checkcheck
 	cmp.w #$0003
 	bcs .t1
 	lda.w puckc
-	cmp.b a3
+	cmp.b a3						; X?
 	bne .t2
-	lda.w #$0008
-	trb.w sflags
+	lda.w #$0008					; puck not held anymore
+	trb.w sflags					; X has the puck
 	bra .t2
 
 .t1:								; return
@@ -57,9 +57,9 @@ holdcheck:							; called from checkcheck
 	tya
 	sta.w impactp,x
 	lda.w #SPAflail
-	sta.w pfalock,x
+	sta.w pfalock,x					; locked
 	jsl.l SetSPAFromA				; start sprite animation A on object X
-	ldx.b a2
+	ldx.b a2						; swap a2 and a3
 	ldy.b a3
 	sty.b a2
 	stx.b a3

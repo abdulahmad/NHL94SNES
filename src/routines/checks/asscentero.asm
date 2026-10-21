@@ -45,8 +45,8 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 
 .t1:								; temp1 ran out: add aidef,x to it and pick a new spot
 	clc
-	adc.w aidef,x
-	bpl .2x
+	adc.w aidef,x					; reload from aidef
+	bpl .2x							; not below zero
 .1xx:								; falls through
 	lda.w #$0000
 .2x:								; temp1,x = A, d0 = pucky, if pfgoal,x != 0 go to .3x, ...
@@ -86,7 +86,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	lda.b d2						; same zone: new spot only 1 in 128
 	cmp.w temp5,x					; same zone as last time?
 	bne .5
-	lda.w seed+2
+	lda.w seed+2					; random
 	cmp.w #$0200
 	bcs .6
 .5:									; temp5,x = d2, a0 = CenterOSpots, Y + 1, ...
@@ -103,8 +103,8 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	dey
 	dey
 	jsl.l randomd0s					; A = a random number from -A to A-1
-	adc.b [a0],y
-	sta.w temp3,x
+	adc.b [a0],y					; plus the zone x
+	sta.w temp3,x					; temp3 = spot x
 	tya
 	clc
 	adc.w #$0006

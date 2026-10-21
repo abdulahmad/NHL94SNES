@@ -2,19 +2,19 @@
 GetPlayerInitial:					; mesarea = first initial and last name of player TempPlOffset
 	lda.b d0						; save d0 and a2 (4 words)
 	pha
-	lda.b d0+2
+	lda.b d0+2						; save d0
 	pha
 	lda.b a2
 	pha
-	lda.b a2+2
+	lda.b a2+2						; save a2
 	pha
 	stz.b a2						; a2 = 0 (home); bit 15 of TempPlOffset set means a visitor player
-	lda.w TempPlOffset
+	lda.w TempPlOffset				; player id with the team flag
 	sta.b d0
-	bpl .home
-	and.w #$00FF
+	bpl .home						; home team
+	and.w #$00FF					; player number
 	sta.b d0
-	lda.w #$0002
+	lda.w #$0002					; away team
 	sta.b a2
 .home:								; build the name through PlayerInitialName
 	jsl.l PlayerInitialName			; build the name through PlayerInitialName
@@ -24,6 +24,6 @@ GetPlayerInitial:					; mesarea = first initial and last name of player TempPlOf
 	sta.b a2
 	pla
 	sta.b d0+2
-	pla
+	pla								; restore d0
 	sta.b d0
 	rtl

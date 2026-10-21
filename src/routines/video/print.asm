@@ -25,18 +25,18 @@ print:								; print a string
 	ora.w printa
 	sta.b r3
 .2:									; next byte of the string
-	tya
+	tya								; end of the string?
 	cmp.b [a1]
 	bne .t2
 	jmp.w .5
 
 .t2:								; not the end: a control record?
-	lda.b [a1],y
-	bit.w #$0080
+	lda.b [a1],y					; character
+	bit.w #$0080					; bit 7: control code
 	bne .4
-	and.w #$00FF
-	cmp.w #$0040
-	bne .t1
+	and.w #$00FF					; character code
+	cmp.w #$0040					; "@" = blank tile
+	bne .t1							; "@" is a blank tile
 	jmp.w .6
 
 .t1:								; ordinary character
@@ -47,7 +47,7 @@ print:								; print a string
 	adc.b r3
 	plx
 .3:									; write the tile when it differs from the map
-	cmp.l textmap,x
+	cmp.l textmap,x					; already there?
 	beq .2x
 	sta.l textmap,x					; store the tile
 	txa
@@ -116,7 +116,7 @@ print:								; print a string
 	and.w #$007F
 	sta.w printy					; printy
 	iny
-	jmp.w .1
+	jmp.w .1						; continue
 .5:									; end of string: step a1 past it
 	clc								; string length
 	adc.b a1						; plus the string start

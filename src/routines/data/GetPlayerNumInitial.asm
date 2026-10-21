@@ -5,11 +5,11 @@
 GetPlayerNumInitial:				; the number, first initial and last name of player TempPlOffset
 	lda.b d0						; save d0 and a2 (low and high words)
 	pha
-	lda.b d0+2
+	lda.b d0+2						; save d0
 	pha
 	lda.b a2
 	pha
-	lda.b a2+2
+	lda.b a2+2						; save a2
 	pha
 	stz.b a2						; a2 = team offset, home 0
 	lda.w TempPlOffset				; player id
@@ -27,6 +27,6 @@ GetPlayerNumInitial:				; the number, first initial and last name of player Temp
 	sta.b a2
 	pla
 	sta.b d0+2
-	pla
+	pla								; restore d0
 	sta.b d0
 	rtl

@@ -3,17 +3,17 @@ chk4lc:								; called from asspuckc
 	lda.l OptLine
 	cmp.w #$0002
 	beq .t1
-	lda.w pucky
+	lda.w pucky						; puck y
 	sta.b d0
-	lda.w pfgoal,x
-	bne .1
+	lda.w pfgoal,x					; goal end
+	bne .1							; top end
 	lda.w #$0000
 	sec
 	sbc.b d0
 	sta.b d0
 .1:									; if d0 negative go to .t1, ...
 	lda.b d0
-	bmi .t1
+	bmi .t1							; puck is on the far side
 	sec
 	sbc.w #$0058
 	bpl .t1
@@ -29,19 +29,19 @@ chk4lc:								; called from asspuckc
 	lda.w tmflags,y
 	ply
 	bit.w #$0008
-	bne .t1
-	stz.b a2
+	bne .t1							; already in line change mode
+	stz.b a2						; a2 = 0
 	lda.w #$0002
-	sta.b a1
-	lda.w pfteam,x
+	sta.b a1						; a1 = 2
+	lda.w pfteam,x					; team
 	beq .3
 	stz.b a1
 	lda.w #$0002
 	sta.b a2
 .3:									; call AvgCline, if d0 >= $0C01 go to .t1, ...
 	jsl.l AvgCline					; d0 = the average energy of team a2's current line
-	lda.b d0
-	cmp.w #$0C01
+	lda.b d0						; d0
+	cmp.w #$0C01					; average energy of the line still above $C00: no change
 	bcs .t1
 	lda.w PenShotActive
 	bne .t1

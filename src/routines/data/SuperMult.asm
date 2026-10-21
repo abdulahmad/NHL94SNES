@@ -10,11 +10,11 @@ SuperMult:							; called from PWtoBits, PushBits
 	dex
 	dex
 	bpl .loop
-	lda.b d0
+	lda.b d0						; multiplier
 	sta.b tmp4
 .loop2:								; loop: lsr tmp4, if carry clear go to .1, ...
-	lsr.b tmp4
-	bcc .1
+	lsr.b tmp4						; next multiplier bit
+	bcc .1							; clear: no add
 	lda.l passbits
 	clc
 	adc.b mulres
@@ -49,7 +49,7 @@ SuperMult:							; called from PWtoBits, PushBits
 	rol.b mulres+10
 	rol.b mulres+12
 	rol.b mulres+14
-	lda.b tmp4
+	lda.b tmp4						; more bits
 	bne .loop2
 	plx								; restore X
 	clc								; clear carry

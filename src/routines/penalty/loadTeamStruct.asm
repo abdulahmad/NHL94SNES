@@ -1,7 +1,7 @@
 ; a2 = player X's team, a1 = the other team
 loadTeamStruct:						; called from SetLCmode, dopass_count, lcfound, lineinput, updateplayers
-	lda.w pfteam,x
-	beq .t1
+	lda.w pfteam,x					; player team
+	beq .t1							; team 0: done
 	stz.b a1						; swap them
 	lda.w #$0002
 	sta.b a2

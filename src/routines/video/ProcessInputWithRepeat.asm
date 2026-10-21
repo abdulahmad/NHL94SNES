@@ -3,9 +3,9 @@ ProcessInputWithRepeat:				; called from EditLinesMenu, EditLinesScreen, Passwor
 	lda.b d3						; buttons held
 	beq .rtl						; none: leave
 	lda.b d2						; d2 = changed buttons
-	bne .t1
-	dec.w repeatdelay
-	bpl .rtl
+	bne .t1							; a change: restart the delay
+	dec.w repeatdelay				; count down
+	bpl .rtl						; not yet: leave
 	lda.w #$0006
 	sta.w repeatdelay
 	lda.b d3						; held buttons count as new presses

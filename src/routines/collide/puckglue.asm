@@ -16,7 +16,7 @@ puckglue:							; called from puckgoalie, puckstick
 	lda.w #$0002					; a1 = 2
 	sta.b a1
 	lda.w pfteam,y					; team
-	bne .2
+	bne .2							; team 1
 	stz.b a1						; a1 = 0
 	lda.w #$0002
 	sta.b a0						; a0 = 2
@@ -29,8 +29,8 @@ puckglue:							; called from puckgoalie, puckstick
 	ora.w #$0004
 	sta.w tmflags,y
 	lda.w #$0010
-	trb.w sflags3
-	beq .3
+	trb.w sflags3					; sf3fo: this pickup wins the faceoff
+	beq .3							; no faceoff win
 	ldy.b a1						; faceoff team
 	lda.w tmfowon,y					; faceoff wins
 	inc a
@@ -45,7 +45,7 @@ puckglue:							; called from puckgoalie, puckstick
 	lda.w gmclock
 	bne .4
 	lda.b a2
-	cmp.w passReceiverPlayerNum
+	cmp.w passReceiverPlayerNum		; pass reached its receiver
 	bne .4
 	ldy.b a1						; team
 	lda.w tmpasscomp,y				; passes completed

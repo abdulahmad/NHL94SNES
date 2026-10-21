@@ -13,7 +13,7 @@ AttribEnergy:						; print the energy column
 	adc.b d0
 	tay								; index into the energy table
 	lda.w tmpde,y					; energy word
-	sta.b r2
+	sta.b r2						; energy
 	lda.l OptLine					; option line
 	cmp.w #$0002
 	bne .2							; not 2: use the energy
@@ -27,9 +27,9 @@ AttribEnergy:						; print the energy column
 	jsl.l Div16x8U
 	plx
 	lda.b r0
-	cmp.w #$0065
+	cmp.w #$0065					; capped at 100
 	bcc .3
-	lda.w #$0064
+	lda.w #$0064					; 100
 .3:									; result 0-100
 	sta.b d0
-	bra AttribRating
+	bra AttribRating				; print as a percentage

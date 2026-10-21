@@ -11,15 +11,15 @@ chk4shot:							; called from asspuckc
 	lda.w PenShotActive
 	bne .t1
 	jsl.l chkpk						; Z if X is killing a penalty
-	bne .t1
-	lda.w threat
+	bne .t1							; not a penalty killer
+	lda.w threat					; threat on the puck carrier
 	beq .t1
-	lda.w Ypos,x
+	lda.w Ypos,x					; |Y| of the player
 	cmp.w #$FF13
 	bmi .t1
 	cmp.w #$00ED
 	bpl .t1
-	lda.w seed
+	lda.w seed						; one time in four: clear the puck
 	and.w #$0003
 	bne .t1
 	jmp.w StartDumpIn
@@ -65,24 +65,24 @@ chk4shot:							; called from asspuckc
 	clc
 	adc.b d0
 	sta.b tmp0
-	pla
+	pla								; restore Y
 	sta.b d0
 	lda.b tmp0
-	cmp.w #$2711
+	cmp.w #$2711					; distance^2 > 100*100?
 	lsr.b d4
 	lsr.b d4
 	lsr.b d4
 	lsr.b d4
 	jsl.l vtoa						; direction of the vector d0 / d1
-	sta.b d5
-	lda.w #$0005
+	sta.b d5						; d5 = direction to the goal
+	lda.w #$0005					; 6 opponents
 	sta.b d3
 	ldy.w #$0000
 	cpx.w #$000C
 	bcs .2
 	ldy.w #$000C
 .2:									; if position,y = 0 go to .4, ...
-	lda.w position,y
+	lda.w position,y				; empty slot: the goalie
 	beq .4
 	lda.w puckdir,y
 	sec
@@ -95,9 +95,9 @@ chk4shot:							; called from asspuckc
 .3:									; go to .6
 	bra .6
 .4:									; position,y = 0: if pf2aip,y = 0 go to .5, ...
-	lda.w pf2aip,y
+	lda.w pf2aip,y					; goalie flagged (pf2aip): shoot now
 	beq .5
-	stz.b d3
+	stz.b d3						; stop checking
 	lda.w #$0001
 	sta.b d4
 .5:									; Y + 1, Y + 1, decrement d3, ...
@@ -108,10 +108,10 @@ chk4shot:							; called from asspuckc
 .6:									; call randoma, if carry set go to .t1x, ...
 	lda.b d4
 	jsl.l randoma					; A = a random number from 0 to A-1
-	cmp.w #$0009
-	bcs .t1x
+	cmp.w #$0009					; no shot if random(d4) > 8
+	bcs .t1x						; too unlikely: no shot
 	lda.w pucky
-	sta.b d0
+	sta.b d0						; d0 = puck Y relative to our goal
 	lda.w pfgoal,x
 	bne .1x
 	lda.w #$0000
@@ -124,8 +124,8 @@ chk4shot:							; called from asspuckc
 	lda.w #$0108
 	sec
 	sbc.b d0
-	bmi .t1x
-	lda.w PenShotActive
+	bmi .t1x						; beyond the blue line: no shot
+	lda.w PenShotActive				; sf2offsig: player is offside
 	beq .2x
 	lda.w #$00B0
 	lsr a

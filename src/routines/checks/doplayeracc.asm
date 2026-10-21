@@ -28,7 +28,7 @@ doplayeracc:						; player X skates toward d0
 	bcc .t3							; 0-7 is a real direction: .t3
 	cmp.w #$0009					; 9 = stop
 	bne .t1							; 8: no direction, just glide
-	lda.w Xvel,x
+	lda.w Xvel,x					; 9 = stop
 	ora.w Yvel,x
 	beq .t1							; not moving: glide
 	jmp.w dostop					; still moving: slow down
@@ -93,7 +93,7 @@ doplayeracc:						; player X skates toward d0
 	lda.b d3						; backwards only in his own half (d3 negative)
 	bpl .4
 	lda.b d2						; and only when the wanted direction is 4
-	cmp.w #$0004
+	cmp.w #$0004					; and when the wanted direction is 4
 	bne .4
 	jsl.l vtoa						; vector to direction
 	inc a
@@ -116,7 +116,7 @@ doplayeracc:						; player X skates toward d0
 	cmp.w #$0005
 	bcs .4
 .3:									; backwards wanted: already so?
-	lda.w pfrev,x
+	lda.w pfrev,x					; already backwards?
 	bne .9							; yes: nothing to change
 	lda.w Xvel,x
 	sta.b d0						; moving?
@@ -133,7 +133,7 @@ doplayeracc:						; player X skates toward d0
 	bcs .9							; not within one step of the wanted direction: stay forward
 .1xx:								; start skating backwards
 	inc a
-	sta.w pfrev,x
+	sta.w pfrev,x					; start skating backwards
 	bra .9
 .4:									; skate forwards
 	stz.w pfrev,x					; skate forwards
@@ -226,9 +226,9 @@ doplayeracc:						; player X skates toward d0
 	lda.b d3						; fast enough for a turn animation?
 	cmp.w #$0015					; slow: keep the animation
 	bcc .7							; no: keep d1
-	stz.b d1
+	stz.b d1						; fast: pick a turn animation
 	lda.b tmp0
-	bpl .5
+	bpl .5							; turning right or left
 	lda.w #$FFCE
 	sta.b d1
 .5:									; pick the left or right turn animation

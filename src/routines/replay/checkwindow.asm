@@ -6,24 +6,24 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	sta.b d3
 	lda.w sflags					; sfslock: use xc1/yc1
 	bit.w #sfslock
-	bne .3
+	bne .3							; locked: keep the old target
 	ldx.w #$001C
 	lda.w puckc
 	bmi .2
 	tax
-	lda.w pfgoal,x
+	lda.w pfgoal,x					; carrier goes up: yleader up to 50, else down to -50
 	beq .t1
 	lda.w yleader
 	adc.w impactstep
 	sta.w yleader
 	cmp.w #$0032
 	bmi .2
-	lda.w #$0032
+	lda.w #$0032					; limit 50
 	sta.w yleader
 	bra .2
 
 .t1:								; pfgoal,x = 0: yleader = yleader - impactstep, if plus go to .2, ...
-	lda.w yleader
+	lda.w yleader					; going down: leader shrinks
 	sec
 	sbc.w impactstep
 	sta.w yleader
@@ -66,7 +66,7 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	sta.b d1
 	cmp.w #$FF39
 	bpl .4
-	lda.w #$FF39
+	lda.w #$FF39					; limit -199
 	sta.b d1
 	bra .4
 
@@ -95,7 +95,7 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	beq .1x
 	ora.w #$F000
 .1x:								; if not zero go to .2x, ...
-	cmp.w #$0000
+	cmp.w #$0000					; at least 1
 	bne .2x
 	inc a
 .2x:								; adc Vpos, Vpos = A
@@ -115,7 +115,7 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	sta.b d1
 	cmp.w #$FFC4
 	bpl .6
-	lda.w #$FFC4
+	lda.w #$FFC4					; limit -60
 	sta.b d1
 	bra .6
 
@@ -144,7 +144,7 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	beq .1xx
 	ora.w #$F000
 .1xx:								; if not zero go to .2xx, ...
-	cmp.w #$0000
+	cmp.w #$0000					; at least 1
 	bne .2xx
 	inc a
 .2xx:								; adc Hpos, Hpos = A

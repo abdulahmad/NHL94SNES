@@ -79,7 +79,7 @@ setplayer:							; put roster player d3 on the ice as object X
 	stz.w PKBonus
 	stz.w ThirdPBonus
 	stz.w HmAwBonus
-	lda.w position,x
+	lda.w position,x				; goalie: no modifiers
 	bne .t1
 	jmp.w .6						; goalie: no bonuses
 

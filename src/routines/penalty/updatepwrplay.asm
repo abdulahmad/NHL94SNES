@@ -10,7 +10,7 @@ updatepwrplay:						; called from periodicevents, printscores1
 	sec
 	sbc.w tmap+2
 	sta.b d0						; d0 = home - away
-	bne .ne
+	bne .ne							; equal: clear the box
 	jmp.w updatepwrplay_clr			; power play over: put the EASN logo back
 .ne:								; if plus go to .t0, ...
 	bpl .t0

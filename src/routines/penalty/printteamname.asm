@@ -7,8 +7,8 @@ printteamname:						; called from PrintTeamNameAndScore, ShowThreeStars
 	lda.w #TeamList>>16
 	sta.b a1+2
 	lda.b d3						; team 0?
-	beq .1
-	lda.w tmdata+2
+	beq .1							; yes
+	lda.w tmdata+2					; else the away team
 	sta.b a1
 .1:									; a1 = [a1],y + a1, a1 = [a1] + a1, call print, ...
 	ldy.w #$0004

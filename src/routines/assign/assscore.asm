@@ -31,7 +31,7 @@ assscore:							; assignment: celebrate a goal
 	lda.w #$00C0
 	jsl.l Mul16x8XS
 	ldx.b a3
-	lda.b r2+1
+	lda.b r2+1						; divide by 256
 	sta.w Yvel,x
 	txa								; the puck carrier loses the puck
 	lsr a							; player number

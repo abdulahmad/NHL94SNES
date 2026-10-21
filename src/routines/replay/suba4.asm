@@ -8,7 +8,7 @@ suba4:								; called from ReplayMode
 	bne .a4ne
 	lda.w sflags					; flags
 	bit.w #sfwrap
-	beq .t3
+	beq .t3							; not wrapped: stay
 	lda.w #ReplayBufferEnd>>16
 	sta.b a4+2
 	lda.w #ReplayBufferEnd
@@ -23,13 +23,13 @@ suba4:								; called from ReplayMode
 	sta.b a4+2
 	lda.b a4
 	cmp.w ReplayBufferPtr			; compare with the pointer
-	beq .t2
+	beq .t2							; equal
 	jml.l RestoreReplayFrame		; restore the frame
 
 .t2:								; a4 = ReplayBufferPtr: if a4+2 = ReplayBufferPtr+2 go to .t1, ...
 	lda.b a4+2						; high word
 	cmp.w ReplayBufferPtr+2
-	beq .t1
+	beq .t1							; equal
 	jml.l RestoreReplayFrame		; restore the frame
 
 .t1:								; a4+2 = ReplayBufferPtr+2: a4 = a4 + replaysize, if carry clear go to...
