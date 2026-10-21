@@ -1,261 +1,261 @@
 ; Assignment: the puck carrier on a breakaway (asstab $10): skate in on the goal and shoot; anyone else exits
 assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $10)
-	cpx.w puckc
-	bne .1
-	lda.w playerpad,x
-	bmi .8
-.1:									; go to assexit
-	jmp.w assexit					; end the player's current assignment and go back to the one under it
+	cpx.w puckc						;the carrier?
+	bne .1							;not the carrier: leave
+	lda.w playerpad,x				;pad of the player
+	bmi .8							;computer carrier: breakaway
+.1:									;not the computer carrier: leave
+	jmp.w assexit					;leave the assignment
 
-.t1:								; bare return, not branched to in this file
+.t1:								;(not branched to)
 	rtl
-.2:									; gmclock != 0: call GlideBack, nopuck,x = $003C, go to assnothing
-	jsl.l GlideBack					; start SPAglideback on player X unless his animation is locked
-	lda.w #$003C
-	sta.w nopuck,x
-	jmp.w assnothing				; computer player stands still
-.8:									; playerpad,x negative: if gmclock != 0 go to .2, ...
-	lda.w gmclock
-	bne .2
-	lda.w Ypos,x
-	sta.b d0
-	ldy.w pfgoal,x
-	bne .2x
+.2:									;clock stopped: glide and stand
+	jsl.l GlideBack					;glide
+	lda.w #$003C					;60 frames
+	sta.w nopuck,x					;no puck for 60 frames
+	jmp.w assnothing				;stand still
+.8:									;computer carrier: skate in and shoot
+	lda.w gmclock					;clock stopped?
+	bne .2							;clock stopped: glide
+	lda.w Ypos,x					;his y
+	sta.b d0						;distance up the ice
+	ldy.w pfgoal,x					;which end?
+	bne .2x							;top end: keep
 	lda.w #$0000
 	sec
-	sbc.b d0
-	sta.b d0
-.2x:								; if pflags,x bits $0002 clear go to .1x, ...
-	lda.w pflags,x
-	bit.w #$0002
-	beq .1x
-	and.w #$FFFD
-	sta.w pflags,x
-	stz.w temp1,x
-	stz.w temp2,x
-	lda.w #$0008
-	sta.w temp2b,x
-	stz.w sopathpoint
-	lda.w seed
-	and.w #$0003
-	sta.w temp3,x
-	jsr.w .11
-.1x:								; if sopathnext negative go to .4, ...
-	lda.w sopathnext
-	bmi .4
-	lda.b d0
-	cmp.w sopathnext
-	bmi .3
-	jsr.w .9
-	lda.w facedir,x
-	sta.w sopathface
-.3:									; d0 = sopathx, d1 = sopathy, if pfgoal,x != 0 go to .1xx, ...
-	lda.w sopathx
-	sta.b d0
-	lda.w sopathy
-	sta.b d1
-	lda.w pfgoal,x
-	bne .1xx
+	sbc.b d0						;negate
+	sta.b d0						;distance up the ice
+.2x:								;new assignment: start the path
+	lda.w pflags,x					;flags
+	bit.w #$0002					;new assignment?
+	beq .1x							;not new
+	and.w #$FFFD					;clear bit 1
+	sta.w pflags,x					;clear the flag
+	stz.w temp1,x					;clear
+	stz.w temp2,x					;clear
+	lda.w #$0008					;timer 8
+	sta.w temp2b,x					;timer
+	stz.w sopathpoint				;first path point
+	lda.w seed						;seed
+	and.w #$0003					;random 0-3
+	sta.w temp3,x					;random 0-3
+	jsr.w .11						;pick the path
+.1x:								;follow the path
+	lda.w sopathnext				;end of the path?
+	bmi .4							;path done: shoot
+	lda.b d0						;distance up the ice
+	cmp.w sopathnext				;past the point?
+	bmi .3							;not there yet
+	jsr.w .9						;next point
+	lda.w facedir,x					;his facing
+	sta.w sopathface				;facing at the point
+.3:									;skate to the current point
+	lda.w sopathx					;path x
+	sta.b d0						;target x
+	lda.w sopathy					;path y
+	sta.b d1						;target y
+	lda.w pfgoal,x					;which end?
+	bne .1xx						;top end: keep
 	lda.w #$0000
 	sec
 	sbc.b d1
-	sta.b d1
-.1xx:								; a0 = .nocallback, temp2,x = temp2,x - impactstep, go to skateto
-	lda.w #.nocallback>>16
+	sta.b d1						;mirror y for the bottom end
+.1xx:								;skate to the point
+	lda.w #.nocallback>>16			;no avoid callback
 	sta.b a0+2
-	lda.w #.nocallback
+	lda.w #.nocallback				;no avoid callback
 	sta.b a0
-	lda.w temp2,x
+	lda.w temp2,x					;speed
 	sec
-	sbc.w impactstep
-	sta.w temp2,x
-	jml.l skateto					; player X skates toward d0 / d1
-.4:									; sopathnext negative: if zero go to .3, ...
-	lda.w facedir,x
+	sbc.w impactstep				;minus the impact step
+	sta.w temp2,x					;slow down
+	jml.l skateto					;skate to it
+.4:									;end of the path: shoot when facing
+	lda.w facedir,x					;his facing
 	sec
-	sbc.w sopathface
-	beq .3
-	inc a
-	and.w #$0007
-	cmp.w #$0003
-	bcs .t1x
-	jsl.l RandomWord
-	and.w #$0F80
-	bne .3
-	bra .5
+	sbc.w sopathface				;minus the path facing
+	beq .3							;facing the path: keep skating
+	inc a							;plus 1
+	and.w #$0007					;mod 8
+	cmp.w #$0003					;within 2 steps?
+	bcs .t1x						;off by more than 2: lower odds
+	jsl.l RandomWord				;random
+	and.w #$0F80					;odds $F80
+	bne .3							;no shot this frame
+	bra .5							;shoot
 
-.t1x:								; facing 2+ steps off sopathface: random test with $0600
-	jsl.l RandomWord
-	and.w #$0600
-	bne .3
-.5:									; call RandomWord, and #$0001, increment a, ...
-	jsl.l RandomWord
-	and.w #$0001
-	inc a
-	inc a
-	sta.b d0
-	ldy.w sopathside
-	bpl .1xxx
+.t1x:								;facing away: lower odds
+	jsl.l RandomWord				;random
+	and.w #$0600					;odds $600
+	bne .3							;no shot this frame
+.5:									;shoot: pick a direction
+	jsl.l RandomWord				;random
+	and.w #$0001					;random bit
+	inc a							;1 or 2
+	inc a							;plus 2
+	sta.b d0						;direction 2 or 3
+	ldy.w sopathside				;which side?
+	bpl .1xxx						;right side: keep
 	lda.b d0
 	clc
-	adc.w #$0003
-	sta.b d0
-.1xxx:								; passdir = d0, passspeed = $0014, d0 = $0000 - Xpos,x, ...
-	lda.b d0
-	sta.w passdir
-	lda.w #$0014
-	sta.w passspeed
+	adc.w #$0003					;plus 3
+	sta.b d0						;offset by 3
+.1xxx:								;aim the shot
+	lda.b d0						;direction
+	sta.w passdir					;shot direction
+	lda.w #$0014					;speed $14
+	sta.w passspeed					;shot speed
 	lda.w #$0000
 	sec
-	sbc.w Xpos,x
-	sta.b d0
-	lda.w pfgoal,x
-	bne .t1xx
-	lda.w #$FEF8
+	sbc.w Xpos,x					;minus his x
+	sta.b d0						;dx to the centre
+	lda.w pfgoal,x					;which end?
+	bne .t1xx						;top goal?
+	lda.w #$FEF8					;bottom goal: y -$108
 	sec
-	sbc.w Ypos,x
-	sta.b d1
-	bra .6
+	sbc.w Ypos,x					;minus his y
+	sta.b d1						;dy
+	bra .6							;aim
 
-.t1xx:								; pfgoal set: shoot at y = $0108 - Ypos instead of $FEF8 - Ypos
-	lda.w #$0108
+.t1xx:								;attacking the top goal
+	lda.w #$0108					;top goal: y $108
 	sec
-	sbc.w Ypos,x
-	sta.b d1
-.6:									; call vtoa, call Findhittype, if zero go to .t1xxx, ...
-	jsl.l vtoa						; direction of the vector d0 / d1
-	jsl.l Findhittype				; swing type of player X for direction d0
-	beq .t1xxx
-	lda.w #SPAonetimerb
-	bra .7
+	sbc.w Ypos,x					;minus his y
+	sta.b d1						;dy
+.6:									;shoot at the goal
+	jsl.l vtoa						;direction to the goal
+	jsl.l Findhittype				;swing type
+	beq .t1xxx						;forehand?
+	lda.w #SPAonetimerb				;one timer backhand
+	bra .7							;set it
 
-.t1xxx:								; Findhittype gave 0: use SPAonetimerf instead of SPAonetimerb
-	lda.w #SPAonetimerf
-.7:									; call SetSPAFromA, call updateanim, SPAcnt,x = $0002, ...
-	jsl.l SetSPAFromA				; start sprite animation A on object X
-	jsl.l updateanim				; step object X's sprite animation, looping or ending it
-	lda.w #$0002
-	sta.w SPAcnt,x
-	jsl.l doshot					; the stick is at the puck: launch it toward the goal
+.t1xxx:								;forehand swing
+	lda.w #SPAonetimerf				;one timer forehand
+.7:									;start the shot animation
+	jsl.l SetSPAFromA				;start it
+	jsl.l updateanim				;step it
+	lda.w #$0002					;two frames in
+	sta.w SPAcnt,x					;2 frames into the swing
+	jsl.l doshot					;shoot
 	rtl
-.nocallback:						; the skateto callback that does nothing
+.nocallback:						;skateto callback: nothing to avoid
 	rtl
-.9:									; subroutine: a0 = long .10, d0 = [a0],y, ...
-	lda.w sopathpoint
-	asl a
-	adc.w sopathpoint
-	asl a
-	tay
-	lda.w #.10>>16
+.9:									;load the next path point
+	lda.w sopathpoint				;point number
+	asl a							;times 2
+	adc.w sopathpoint				;times 3
+	asl a							;times 6
+	tay								;offset
+	lda.w #.10>>16					;path points
 	sta.b a0+2
-	lda.w #.10
+	lda.w #.10						;path points
 	sta.b a0
-	lda.b [a0],y
-	sta.b d0
-	lda.w sopathside
-	bpl .1xxxx
-	lda.w #$0000
+	lda.b [a0],y					;x of the point
+	sta.b d0						;path x
+	lda.w sopathside				;which side?
+	bpl .1xxxx						;right side: keep
+	lda.w #$0000					;left: mirror x
 	sec
 	sbc.b d0
 	sta.b d0
-.1xxxx:								; sopathx = d0, Y + 1, Y + 1, ...
-	lda.b d0
-	sta.w sopathx
+.1xxxx:								;side applied
+	lda.b d0						;x of the point
+	sta.w sopathx					;path x
 	iny
 	iny
-	lda.b [a0],y
-	sta.w sopathy
+	lda.b [a0],y					;y
+	sta.w sopathy					;path y
 	iny
 	iny
-	lda.b [a0],y
-	sta.w sopathnext
-	inc.w sopathpoint
+	lda.b [a0],y					;next y
+	sta.w sopathnext				;y where the next point starts
+	inc.w sopathpoint				;next point
 	rts
-.10:								; dw 40,120,74,-22,151,134,-22,224,177,44,227,-1
-	dw 40,120,74,-22,151,134,-22,224,177,44,227,-1
-.11:								; subroutine: if d0 - $002C >= 0 go to .4x, ...
-	lda.b d0
-	cmp.w #$002C
-	bpl .4x
-	jsl.l RandomWord
-	and.w #$00C0
-	beq .t1xxxx
-	lda.w attribute,x
-	bit.w #$0800
-	bne .1xxxxx
-	bra .2xx
+.10:								;path points: x, y, next y
+	dw 40,120,74,-22,151,134,-22,224,177,44,227,-1	;path points: x, y and the y of the next point
+.11:								;pick the breakaway path
+	lda.b d0						;distance up the ice
+	cmp.w #$002C					;still far from the goal?
+	bpl .4x							;close to the goal: pick by x
+	jsl.l RandomWord				;random
+	and.w #$00C0					;random bits
+	beq .t1xxxx						;bits clear: roll again
+	lda.w attribute,x				;attribute
+	bit.w #$0800					;attribute bit $800?
+	bne .1xxxxx						;flag set: right
+	bra .2xx						;left side
 
-.t1xxxx:							; random bits $00C0 are 0: roll another value, else decide by attribute
-	jsl.l RandomWord
-	and.w #$00F0
-	sta.b d0
-	lda.w #$007F
+.t1xxxx:							;roll again
+	jsl.l RandomWord				;another roll
+	and.w #$00F0					;roll 0-$F0
+	sta.b d0						;roll 0-$F0
+	lda.w #$007F					;limit
 	sec
-	sbc.b d0
-	bmi .2xx
-.1xxxxx:							; go to .3x
-	lda.w #$002D
-	bra .3x
-.2xx:								; falls through
-	lda.w #$FFD3
-.3x:								; if pfgoal,x != 0 go to .2xxx
-	ldy.w pfgoal,x
-	bne .2xxx
-.1xxxxxx:							; eor #$FFFF, increment a
-	eor.w #$FFFF					; negate: two's complement
-	inc a
-.2xxx:								; sopathside = A, sopathx = A, sopathy = $0028, ...
-	sta.w sopathside
-	sta.w sopathx
-	lda.w #$0028
-	sta.w sopathy
-	lda.w #$001E
-	sta.w sopathnext
+	sbc.b d0						;$7F minus the roll
+	bmi .2xx						;high roll: left
+.1xxxxx:							;path on the right
+	lda.w #$002D					;right side
+	bra .3x							;right side
+.2xx:								;path on the left
+	lda.w #$FFD3					;left side
+.3x:								;pick the end
+	ldy.w pfgoal,x					;which end?
+	bne .2xxx						;attacking the top end: keep
+.1xxxxxx:							;mirror
+	eor.w #$FFFF					;other end: mirror the side
+	inc a							;negate
+.2xxx:								;side picked
+	sta.w sopathside				;side of the path
+	sta.w sopathx					;path x
+	lda.w #$0028					;y $28
+	sta.w sopathy					;first point at y $28
+	lda.w #$001E					;then y $1E
+	sta.w sopathnext				;next point at y $1E
 	rts
-.4x:								; d0 - $002C >= 0: if Xpos,x - $0020 >= 0 go to .8x, ...
-	lda.w Xpos,x
-	cmp.w #$0020
-	bpl .8x
-	cmp.w #$FFE0
-	bmi .8x
-	jsl.l RandomWord
-	and.w #$00C0
-	beq .t1xxxxx
-	lda.w attribute,x
-	bit.w #$0800
-	bne .1xxxxxxx
-	bra .5x
+.4x:								;close to the goal: pick a side from his x
+	lda.w Xpos,x					;his x
+	cmp.w #$0020					;far right?
+	bpl .8x							;far right: path from the centre
+	cmp.w #$FFE0					;far left?
+	bmi .8x							;far left: path from the centre
+	jsl.l RandomWord				;random
+	and.w #$00C0					;random bits
+	beq .t1xxxxx					;bits clear: roll again
+	lda.w attribute,x				;attribute
+	bit.w #$0800					;attribute bit $800?
+	bne .1xxxxxxx					;flag set: right
+	bra .5x							;left side
 
-.t1xxxxx:							; random bits $00C0 are 0: roll another value, else decide by attribute
-	jsl.l RandomWord
-	and.w #$00F0
+.t1xxxxx:							;roll again
+	jsl.l RandomWord				;another roll
+	and.w #$00F0					;roll 0-$F0
 	sta.b d0
-	lda.w #$007F
+	lda.w #$007F					;limit
 	sec
-	sbc.b d0
-	bmi .5x
-.1xxxxxxx:							; go to .6x
-	lda.w #$002C
-	bra .6x
-.5x:								; falls through
-	lda.w #$FFD4
+	sbc.b d0						;$7F minus the roll
+	bmi .5x							;high roll: left
+.1xxxxxxx:							;right side
+	lda.w #$002C					;right side
+	bra .6x							;path on the right
+.5x:								;left side
+	lda.w #$FFD4					;path on the left
 .6x:								; if pfgoal,x != 0 go to .1xxxxxxxx, ...
-	ldy.w pfgoal,x
-	bne .1xxxxxxxx
-	eor.w #$FFFF					; negate: two's complement
-	inc a
-.1xxxxxxxx:							; sopathside = A, sopathx = A
-	sta.w sopathside
-	sta.w sopathx
-.7x:								; sopathpoint = $0002, sopathy = $0097, sopathnext = $0086, ...
-	lda.w #$0002
-	sta.w sopathpoint
+	ldy.w pfgoal,x					;which end?
+	bne .1xxxxxxxx					;attacking the top end: keep
+	eor.w #$FFFF					;other end: mirror the side
+	inc a							;mirror for the other end
+.1xxxxxxxx:							;side picked
+	sta.w sopathside				;side of the path
+	sta.w sopathx					;path x
+.7x:								;start the path further up the ice
+	lda.w #$0002					;point 2
+	sta.w sopathpoint				;start at point 2
 	lda.w #$0097
-	sta.w sopathy
-	lda.w #$0086
-	sta.w sopathnext
+	sta.w sopathy					;first point at y $97
+	lda.w #$0086					;then y $86
+	sta.w sopathnext				;next point at y $86
 	rts
-.8x:								; sopathside = A, sopathx = 0, go to .7x
-	sta.w sopathside
-	stz.w sopathx
+.8x:								;in the middle: path from the centre
+	sta.w sopathside				;side of the path
+	stz.w sopathx					;path starts at x 0
 	bra .7x
