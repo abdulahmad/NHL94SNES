@@ -126,7 +126,7 @@ DrawTeamBlocks:						; entry: the block of team d1
 	adc.l printfontset
 	clc
 	adc.b r3
-	sta.l textmap+$2E,x				; second row sits $2E bytes on (past the 9 words just stored)
+	sta.l textmap+(23*2),x			; second row sits $2E bytes on (past the 9 words just stored)
 	iny
 	iny
 	inx

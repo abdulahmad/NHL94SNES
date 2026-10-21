@@ -294,18 +294,18 @@ updateplayers:						; called from DoGameFrame
 	jmp.w .2
 
 .t1xxxx:							; X counted below 0: if Ypos+$18 - $011F negative go to .1xxxxx, ...
-	lda.w Ypos+$18
+	lda.w Ypos+netobj1
 	cmp.w #$011F
 	bmi .1xxxxx
 	lda.w #$011F
 .1xxxxx:							; Ypos+$18 = A, if Ypos+$1A - $FED2 >= 0 go to .2xxxx, ...
-	sta.w Ypos+$18
-	lda.w Ypos+$1A
+	sta.w Ypos+netobj1
+	lda.w Ypos+netobj2
 	cmp.w #$FED2
 	bpl .2xxxx
 	lda.w #$FED2
 .2xxxx:								; Ypos+$1A = A
-	sta.w Ypos+$1A
+	sta.w Ypos+netobj2
 	ldy.w #$000C
 	lda.w #$000F
 .loop:								; loop: PadControlObj,y = A, Y - 1, Y - 1, ...
@@ -524,20 +524,20 @@ updateplayers:						; called from DoGameFrame
 	bpl .1xxxxxxxxxx
 	lda.w #$FF78
 	sta.w puckx
-	ldx.w frame+$1C
+	ldx.w frame+puckobj
 	cpx.w #SPFpuck
 	bne .1xxxxxxxxxx
-	sta.w Xpos+$1E
+	sta.w Xpos+puckobj+2
 .1xxxxxxxxxx:						; if puckx - sideline negative go to .2xxxxxx, ...
 	lda.w puckx
 	cmp.w #sideline
 	bmi .2xxxxxx
 	lda.w #sideline
 	sta.w puckx
-	ldx.w frame+$1C
+	ldx.w frame+puckobj
 	cpx.w #SPFpuck
 	bne .2xxxxxx
-	sta.w Xpos+$1E
+	sta.w Xpos+puckobj+2
 .2xxxxxx:							; if puckz != 0 go to .4xx, ...
 	lda.w puckz
 	bne .4xx
@@ -551,14 +551,14 @@ updateplayers:						; called from DoGameFrame
 	bpl .3xxx
 	lda.w #$FEDB
 	sta.w pucky
-	sta.w Ypos+$1E
+	sta.w Ypos+puckobj+2
 .3xxx:								; if pucky - $012A negative go to .4xx, ...
 	lda.w pucky
 	cmp.w #$012A
 	bmi .4xx
 	lda.w #$012A
 	sta.w pucky
-	sta.w Ypos+$1E
+	sta.w Ypos+puckobj+2
 .4xx:								; if puckc negative go to .20, ...
 	lda.w puckc
 	bmi .20

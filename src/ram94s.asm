@@ -60,6 +60,7 @@ puckoldz	=	$0DFF				; puckz before this frame's move (93S OldZpos+puckobj)
 puckvz		=	$0E01				; puck height speed (93S Zvel+puckobj)
 oldframe	=	$0E23				; frame last drawn (setsortcords)
 OldXpos		=	$0E43				; Xpos before this frame's move
+rosxoff		=	OldXpos				; roster screen: sprite x offset from Xpos (slides -40..+40)
 OldXfrac	=	$0E63
 OldYpos		=	$0E83
 OldYfrac	=	$0EA3
@@ -139,6 +140,7 @@ tmflags		=	$17DE				; team flags
 tmpde		=	$17EA				; energy of each roster player (word per player)
 tmpdst		=	$1852				; bench/ice/box state of each roster player
 tmboxlist	=	$18BA				; penalty box list of roster players (bytes, negative ends)
+maxros		=	26					; roster slots per team (the visiting list starts maxros bytes on)
 HomeTeam	=	$1C98				; home team number (TeamList index)
 VisTeam		=	$1C9A				; visiting team number
 tmdata		=	$1CDC				; team data address
@@ -193,6 +195,8 @@ printfontset	=	$7E35A8			; tile base of the selected print font
 RemapOut		=	$0A0A			; sixteen words: the tile RemapTiles is building
 
 puckobj		=	$1C					; object index of the puck
+netobj1		=	$18					; object index*2 of goal net 1 (y +268)
+netobj2		=	$1A					; object index*2 of goal net 2 (y -268)
 puckx		=	Xpos+puckobj		; puck x position
 
 gmoffs		=	$0020				; offsides on

@@ -103,7 +103,7 @@ printbig:							; print a string with the big font
 	adc.l printfontset
 	ora.w printa
 	ldx.b d1
-	sta.l textmap+$40,x
+	sta.l textmap+(1*$40)+(0*2),x
 	lda.b d2
 	beq .1
 	ldx.b d0
@@ -121,7 +121,7 @@ printbig:							; print a string with the big font
 	adc.l printfontset
 	ora.w printa
 	ldx.b d1
-	sta.l textmap+$42,x
+	sta.l textmap+(1*$40)+(1*2),x
 	inc.w printx
 .1:									; advance the print position
 	inc.w printx
@@ -136,7 +136,7 @@ printbig:							; print a string with the big font
 	ora.w printa
 	ldx.b d1
 	sta.l textmap,x
-	sta.l textmap+$40,x
+	sta.l textmap+(1*$40)+(0*2),x
 	txa
 	lsr a
 	cmp.w textdirtylo

@@ -92,8 +92,8 @@ InitSortObjects:					; called from setoptions, setupice_reset
 
 .t1:								; d6 = $0010: position+$18 = $FFFF, position+$1A = $FFFF, go to SprSort
 	lda.w #$FFFF
-	sta.w position+$18
-	sta.w position+$1A
+	sta.w position+netobj1
+	sta.w position+netobj2
 	plb
 	jmp.w SprSort
 .3:									; a record of 9 words per object, read by the .loop2 loop above
