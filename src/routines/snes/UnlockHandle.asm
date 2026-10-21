@@ -15,10 +15,10 @@ UnlockHandle:						; clear the locked bit of handle A's block
 	lda.l Ram7E,x					; block address
 	tyx								; bank to X
 	ldy.w HeapStart7E				; start of the 7E heap
-	cpx.w #$007E					; bank $7E?
+	cpx.w #Ram7E>>16				; bank $7E?
 	beq .heap						; yes
 	ldy.w HeapStart7F				; start of the 7F heap
-	cpx.w #$007F					; bank $7F?
+	cpx.w #Ram7F>>16				; bank $7F?
 	bne .exit						; neither: ignore
 .heap:								; block header is 8 bytes before the address
 	sec

@@ -5,7 +5,7 @@ HeapFree:							; free bytes of both heaps in X:A
 	stz.b r3						; total = 0
 	stz.b r3+2
 	stz.b p0						; bank $7E from its first block
-	lda.w #$007E
+	lda.w #Ram7E>>16
 	sta.b p0+2
 	ldy.w HeapStart7E
 	jsr.w HeapFreeBank

@@ -22,7 +22,7 @@ NewHandle:							; called from SetHandleSize
 	tya
 	eor.w #$0001
 	sta.w NewHandleSkipBank
-	lda.w #$007E
+	lda.w #Ram7E>>16
 	sta.b p0+2
 	cmp.w NewHandleSkipBank
 	beq .try7F
@@ -41,7 +41,7 @@ NewHandle:							; called from SetHandleSize
 	bne .found
 .compact:							; call HeapCompact, p0+2 = $007E, if zero go to .retry7F, ...
 	jsl.l HeapCompact
-	lda.w #$007E
+	lda.w #Ram7E>>16
 	sta.b p0+2
 	cmp.w NewHandleSkipBank
 	beq .retry7F
