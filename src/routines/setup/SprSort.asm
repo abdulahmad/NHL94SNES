@@ -22,7 +22,7 @@ SprSort:							; sort the objects by screen position
 	lda.w sfhormode					; horizontal mode?
 	bne .1
 .loop0:								; Ylist = Y position of the 16 objects
-	lda.w Ypos,x
+	lda.w Ypos,x					; y of the object
 	sta.w Ylist,x
 	inx
 	inx
@@ -30,8 +30,8 @@ SprSort:							; sort the objects by screen position
 	bne .loop0
 	bra .2							; done
 .1:									; horizontal mode: Ylist = X position
-	lda.w Xpos,x
-	sta.w Ylist,x
+	lda.w Xpos,x					; sort by x: copy Xpos into Ylist
+	sta.w Ylist,x					; x of the object
 	inx
 	inx
 	cpx.w #$0020
@@ -47,7 +47,7 @@ SprSort:							; sort the objects by screen position
 	and.w #$00FF
 	sta.b d0
 	tay								; Y of object d0
-	lda.w Ylist,y
+	lda.w Ylist,y					; y of the lower one
 	ldy.b d1						; compare with the Y of object d1
 	cmp.w Ylist,y					; d0 is not lower on the screen: leave the pair
 	bmi .1x
@@ -56,13 +56,13 @@ SprSort:							; sort the objects by screen position
 	xba
 	sta.w OOlist,x
 	txa								; OOlistpos of d1 = X
-	sta.w OOlistpos,y
+	sta.w OOlistpos,y				; new position of the upper one
 	inc a							; OOlistpos of d0 = X + 1
 	ldy.b d0
-	sta.w OOlistpos,y
+	sta.w OOlistpos,y				; new position of the lower one
 	inc.b d2						; count the swap
 .1x:								; next pair
-	inx
+	inx								; next pair
 	cpx.w #$000F					; 15 pairs
 	bne .loop
 	lda.b d2						; swapped: another pass
@@ -79,6 +79,6 @@ SprSort:							; sort the objects by screen position
 	sta.b d0+2
 	pla
 	sta.b d0
-	ply
+	ply								; restore Y and X
 	plx
 	rtl

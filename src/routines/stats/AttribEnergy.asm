@@ -11,7 +11,7 @@ AttribEnergy:						; print the energy column
 	lda.w #$0034					; other team: skip $34 bytes
 .5:									; index into tmpde
 	adc.b d0
-	tay
+	tay								; index into the energy table
 	lda.w tmpde,y					; energy word
 	sta.b r2
 	lda.l OptLine					; option line

@@ -15,16 +15,16 @@ PushNumber:							; called from AttribWeight, PrintTeamStatRows, TickerTeam, pri
 	sep #$20
 	lda.w RDMPYL
 	clc
-	adc.b #$30
-	sta.b [a1]
-	rep #$30
+	adc.b #$30						; remainder as ASCII
+	sta.b [a1]						; store it
+	rep #$30						; 16-bit registers
 	lda.b r0
-	bne .0
-	dec.b a1
+	bne .0							; more digits
+	dec.b a1						; room for the length word
 	dec.b a1
 	lda.w #mesareaEnd
 	sec
 	sbc.b a1
-	sta.b [a1]
+	sta.b [a1]						; length word
 	plx
 	rtl

@@ -19,12 +19,12 @@ PushNumberWidth:					; called from PushNumberWrap
 	sta.b a1+2
 	lda.w #$0A8E
 	sta.b a1
-	lda.b d1
+	lda.b d1						; width
 	inc a
-	inc a
-	sta.w PushWidthBuf
-	tay
-	lda.w #$2020
+	inc a							; plus the length word
+	sta.w PushWidthBuf				; length
+	tay								; Y = end
+	lda.w #$2020					; spaces
 	sta.w PushWidthBuf+2
 	sta.w PushWidthBuf+4
 	sta.w PushWidthBuf+6
@@ -40,9 +40,9 @@ PushNumberWidth:					; called from PushNumberWrap
 	lda.w RDMPYL
 	sep #$20
 	clc
-	adc.b #$30
-	sta.w PushWidthBuf,y
-	rep #$20
+	adc.b #$30						; ASCII
+	sta.w PushWidthBuf,y			; store it
+	rep #$20						; 16-bit A
 	lda.b r0
 	bne .loop
 	plx

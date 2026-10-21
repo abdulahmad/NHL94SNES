@@ -4,14 +4,14 @@
 ;
 ; Called through attribjmp.
 AttribWeight:						; print the weight
-	lda.b d0
-	asl a
+	lda.b d0						; rating
+	asl a							; times 8
 	asl a
 	asl a
 	adc.w #$008C
 	sta.b d0
-	jsl.l PushNumber
-	jsl.l print
+	jsl.l PushNumber				; number to text
+	jsl.l print						; print it
 	lda.b a1+2
 	pha
 	lda.b a1

@@ -30,7 +30,7 @@ resetplstuff:						; reset the players of both teams
 	lda.w #$0002					; team 1
 	sta.b a2
 	jsl.l .t1						; reset its players
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$000E
 .loop2:								; pull the 16 bytes back into a0
 	pla

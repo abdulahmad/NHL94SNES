@@ -26,8 +26,8 @@ updateanim:							; called from SetSPAUpdate, assbreakaway, puckfaceoff2, update
 	sta.b a0
 	lda.w #SPAlist>>16
 	sta.b a0+2
-	ldy.w #$0010
-	lda.b [a0],y
+	ldy.w #$0010					; attribute offset
+	lda.b [a0],y					; attributes
 	sta.b d1
 	lda.w sfhormode
 	bne .1
@@ -49,21 +49,21 @@ updateanim:							; called from SetSPAUpdate, assbreakaway, puckfaceoff2, update
 	and.w #$0007
 	asl a
 	tay
-	lda.b [a0],y
+	lda.b [a0],y					; direction entry
 	sta.b a0
-	ldy.w SPAnum,x
+	ldy.w SPAnum,x					; frame position
 	sty.b d0
-	lda.b [a0],y
-	sta.b d2
-	lda.w SPAcnt,x
+	lda.b [a0],y					; frame entry
+	sta.b d2						; d2 = new frame
+	lda.w SPAcnt,x					; SPAcnt negative: hold the frame
 	bmi .2x
 	sec
 	sbc.w timestep
 	sta.w SPAcnt,x
 	bpl .4
-	lda.w SPAnum,x
+	lda.w SPAnum,x					; next frame (4 bytes); a negative frame ends the list
 	clc
-	adc.w #$0004
+	adc.w #$0004					; next frame, 4 bytes
 	sta.w SPAnum,x
 	sta.b d0
 	iny
@@ -71,7 +71,7 @@ updateanim:							; called from SetSPAUpdate, assbreakaway, puckfaceoff2, update
 	lda.b [a0],y
 	cmp.w #$0000
 	bpl .2x
-	stz.b d0
+	stz.b d0						; end: restart, clear pfalock/pf2aip; d1 bit 0 = looper, else SPA = 0
 	stz.w SPAnum,x
 	stz.w pf2aip,x
 	stz.w pfalock,x
@@ -83,21 +83,21 @@ updateanim:							; called from SetSPAUpdate, assbreakaway, puckfaceoff2, update
 .1x:								; if d1 != 0 go to .2x, ...
 	lda.b d1
 	bne .2x
-	stz.w SPA,x
+	stz.w SPA,x						; not a looper: SPA = 0
 .2x:								; Y + 1, Y + 1, if [a0],y bits $8000 clear go to .3x, ...
-	ldy.b d0
+	ldy.b d0						; frame delay
 	iny
 	iny
 	lda.b [a0],y
-	bit.w #$8000
+	bit.w #$8000					; negative?
 	beq .3x
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 .3x:								; SPAcnt,x = A
-	sta.w SPAcnt,x
+	sta.w SPAcnt,x					; SPAcnt = delay
 .4:									; frame,x = d2
-	lda.b d2
-	sta.w frame,x
+	lda.b d2						; frame
+	sta.w frame,x					; store it
 .5:									; return
 	ply
 	rtl
