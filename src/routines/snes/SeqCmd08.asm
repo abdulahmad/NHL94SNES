@@ -12,7 +12,7 @@ SeqCmd08:							; called from StepTrack
 	lda.w SoundVolume+1
 	sta.w APUIO2
 	iny
-	lda.l $0007E9
+	lda.l PitchModVoices
 	sta.w APUIO3
 	iny
 	lda.b #$08
@@ -20,10 +20,10 @@ SeqCmd08:							; called from StepTrack
 .loop2:								; loop: if not zero go to .loop2, ...
 	cmp.w APUIO0
 	bne .loop2
-	lda.l $0007E8
+	lda.l NoiseVoices
 	sta.w APUIO1
 	iny
-	lda.l $0007E7
+	lda.l EchoVoices
 	sta.w APUIO2
 	ldx.b #$82
 	stx.w APUIO0
@@ -37,13 +37,13 @@ SeqCmd08:							; called from StepTrack
 	lda.w APUIO0
 	bne .loop4
 	ldy.b #$00
-	lda.l $0007EB
+	lda.l EchoVolume
 	sta.w APUIO1
 	iny
-	lda.l $0007EB
+	lda.l EchoVolume
 	sta.w APUIO2
 	iny
-	lda.l $0007EC
+	lda.l EchoFeedback
 	sta.w APUIO3
 	iny
 	lda.b #$09
@@ -54,7 +54,7 @@ SeqCmd08:							; called from StepTrack
 	lda.b #$E0
 	sta.w APUIO1
 	iny
-	lda.l $0007EA
+	lda.l EchoDelay
 	sta.w APUIO2
 	ldx.b #$83
 	stx.w APUIO0

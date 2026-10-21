@@ -214,7 +214,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp ($0760)
+	jmp.w (HuffLongVec)
 .24:								; asl a
 	asl a
 .25:								; asl a
@@ -257,7 +257,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp ($0760)
+	jmp.w (HuffLongVec)
 .36:								; asl a
 	asl a
 .37:								; asl a
@@ -301,7 +301,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp ($0760)
+	jmp.w (HuffLongVec)
 .48:								; asl a
 	asl a
 .49:								; asl a
@@ -346,7 +346,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp ($0760)
+	jmp.w (HuffLongVec)
 .60:								; asl a
 	asl a
 .61:								; asl a
@@ -392,7 +392,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp ($0760)
+	jmp.w (HuffLongVec)
 .72:								; asl a
 	asl a
 .73:								; asl a
@@ -439,7 +439,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp ($0760)
+	jmp.w (HuffLongVec)
 .84:								; asl a
 	asl a
 .85:								; asl a, increment p0
@@ -487,7 +487,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp ($0760)
+	jmp.w (HuffLongVec)
 .96:								; asl a, increment p0
 	asl a
 	sep #$20
@@ -536,7 +536,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp ($0760)
+	jmp.w (HuffLongVec)
 .108:								; lsr a, lsr a, lsr a, ...
 	lsr a
 	lsr a

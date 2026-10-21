@@ -15,16 +15,16 @@ SeqCmd08Init_send:					; called from SoundUpdate, StepTrack
 	lda.w SoundVolume+1
 	sta.w APUIO1
 	sta.w APUIO2
-	lda.l $0007E9
+	lda.l PitchModVoices
 	sta.w APUIO3
 	lda.b #$08
 	sta.w APUIO0
 .loop:								; loop: if not zero go to .loop, ...
 	cmp.w APUIO0
 	bne .loop
-	lda.l $0007E8
+	lda.l NoiseVoices
 	sta.w APUIO1
-	lda.l $0007E7
+	lda.l EchoVoices
 	sta.w APUIO2
 	ldx.b #$82
 	stx.w APUIO0
