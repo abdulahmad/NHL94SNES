@@ -51,6 +51,6 @@ SuperMult:							; called from PWtoBits, PushBits
 	rol.b mulres+14
 	lda.b tmp4
 	bne .loop2
-	plx
-	clc
+	plx								; restore X
+	clc								; clear carry
 	rtl

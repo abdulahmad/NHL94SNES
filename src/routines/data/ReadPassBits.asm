@@ -43,7 +43,7 @@ ReadPassBits:						; password bits back into the playoff state
 	ora.w #$0004
 	sta.l gsflags,x
 .nsf1:								; next series
-	dec.b a1
+	dec.b a1						; next series
 	dec.b a1
 	dec.b d2
 	bpl .0
@@ -78,7 +78,7 @@ ReadPassBits:						; password bits back into the playoff state
 	lda.b d0
 	sta.l postarts					; postarts
 	lda.b d7						; checksum so far, modulo 512
-	and.w #$01FF
+	and.w #$01FF					; modulo 512
 	sta.b tmp0
 	pla								; the checksum from the password
 	cmp.b tmp0						; compare
@@ -88,8 +88,8 @@ ReadPassBits:						; password bits back into the playoff state
 .rtl:								; return
 	rtl
 .sd:								;d0 = passbits mod d0, added to the checksum d7
-	jsl.l SuperDiv
-	lda.b d7
+	jsl.l SuperDiv					; read d0 values from the bits
+	lda.b d7						; add to the checksum
 	clc
 	adc.b d0
 	sta.b d7

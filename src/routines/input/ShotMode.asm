@@ -26,12 +26,12 @@ ShotMode:							; shot input for the puck carrier
 	lda.w passspeed					; windup: shot speed grows
 	clc
 	adc.b d7						; by the frames elapsed
-	sta.w passspeed
+	sta.w passspeed					; grows with time
 	lda.b d2						; buttons that changed
 	bit.w #cbut						; shoot button changed (released)?
 	beq .rts						; no: leave
 	lda.w #$001C					; released: jump the animation to the end
-	sec
+	sec								; swing through
 	sbc.w SPAnum,x					; $1C minus the frame
 	sta.w SPAnum,x
 	cmp.w #$0018					; past the last shot frame?

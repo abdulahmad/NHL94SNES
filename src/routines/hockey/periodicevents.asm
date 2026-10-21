@@ -11,7 +11,7 @@ periodicevents:						; each frame: penalties, crowd, sound, clock; once a second
 	bne .rtl						; yes: skip the slow checks
 	lda.w lldisp					; lldisp = count down to the next once-a-second pass
 	sec
-	sbc.b d7
+	sbc.b d7						; minus d7
 	sta.w lldisp					; store the new count
 	bpl .rtl						; not run out yet: leave
 	clc								; reload: add 24 to the (negative) remainder

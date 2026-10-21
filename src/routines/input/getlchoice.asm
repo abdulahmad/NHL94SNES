@@ -51,10 +51,10 @@ getlchoice:							; line for choice d0 of team a2
 	lda.b [a0],y					; byte from the table
 	and.w #$00FF
 	bit.w #$0080					; sign extend: bit 7 set?
-	beq .sext
+	beq .sext						; a negative byte: sign extend
 	ora.w #$FF00
 .sext:								; d0 = line, or -1 for none
-	sta.b d0
+	sta.b d0						; d0 = the line, or -1
 	pla								; restore d1 and d2
 	sta.b d2+2
 	pla

@@ -13,7 +13,7 @@ GetShifter:							; games of the round less one and its first win bit
 .3:									; add the shift for each finished round
 	lda.b d2						; d2 = d2 + d1
 	clc
-	adc.b d1
+	adc.b d1						; d2 += d1
 	sta.b d2
 	lsr.b d1						; d1 halves
 	dey								; next round

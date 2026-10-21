@@ -21,8 +21,8 @@ check4bench:						; check whether a line change wants this player off
 	cpx.w puckc						; the puck carrier stays
 	beq .t1
 	sep #$20						; pop the jsl return address (the caller is abandoned)
-	pla
-	rep #$30
+	pla								; pop the jsl return address
+	rep #$30						; 16-bit registers
 	pla
 	lda.w pflags,x					; player flags
 	ora.w #$1000					; set pf2unav ($1000)
@@ -37,16 +37,16 @@ check4bench:						; check whether a line change wants this player off
 
 .t2:								; same roster player: only change position
 	sep #$20						; pop the jsl return address (the caller is abandoned)
-	pla
-	rep #$30
+	pla								; pop the jsl return address
+	rep #$30						; 16-bit registers
 	pla
 	lda.w pflags,x					; player flags
 	and.w #$EFFF					; clear pf2unav
-	sta.w pflags,x
+	sta.w pflags,x					; store
 	stz.w pfnc,x					; collisions on
 	lda.w #$FFFF					; nothing requested any more
-	sta.w newpnum,x
-	sta.w newpos,x
+	sta.w newpnum,x					; newpnum
+	sta.w newpos,x					; newpos
 	lda.w position					; d0 = position
 	sta.b d0
 	jmp.w Setplass					; new assignment from the position

@@ -28,24 +28,24 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	lda.w #$312E					; visitors entry
 	sta.b a0
 .2:									; frame = SPAnum/4 + 1
-	lda.w SPAnum,x
+	lda.w SPAnum,x					; frame = SPAnum/4 + 1, +3 for a righty
 	lsr a
 	lsr a
 	inc a
-	sta.b d0
+	sta.b d0						; frame
 	lda.w handed,x					; left handed: +3 (handed set = right handed)
 	bne .3
 	inc.b d0
 	inc.b d0
 	inc.b d0
 .3:									; store the frame in the face off data
-	lda.b d0
-	sta.b [a0]
+	lda.b d0						; frame
+	sta.b [a0]						; store it
 	lda.w playerpad,x				; human pad: the player pulls, return
 	bpl .t2
 	lda.w pf2aip,x					; set pf2aip, keep the old value
 	pha
-	lda.w #$0001
+	lda.w #$0001					; new value
 	sta.w pf2aip,x
 	pla
 	cmp.w #$0000					; already swinging: return
@@ -62,7 +62,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	lda.w #SPAfaceoffr				; reverse swing
 	sta.b d1
 .4:									; swing started: mark it
-	lda.w #$0001
+	lda.w #$0001					; flag
 	sta.w pf2aip,x
 	jml.l SetSPA					; start the animation
 
@@ -70,6 +70,6 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	rtl								; return
 
 .t3:								; face off over: no puck collision for 20 frames
-	lda.w #$0014
-	sta.w nopuck,x
+	lda.w #$0014					; nopuck = 20
+	sta.w nopuck,x					; no puck for 20 frames
 	jml.l assexit					; assignment over

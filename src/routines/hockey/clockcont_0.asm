@@ -40,16 +40,16 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	lda.w #$0010					; yes: the other side's wins, $10 on
 	sta.b d3
 .1:									; compare the scores
-	lda.w tmscore
-	cmp.w tmscore+2
+	lda.w tmscore					; home score
+	cmp.w tmscore+2					; home won?
 	bpl .2							; home ahead or level
 	lda.b d3						; visitors ahead: flip the side
 	eor.w #$0010
 	sta.b d3
 .2:									; A = game offset + side
-	lda.b a0
+	lda.b a0						; game offset
 	clc
-	adc.b d3
+	adc.b d3						; plus the side
 	phx
 	tax								; X = index (team offset kept on the stack)
 	lda.l gspotwins,x				; series wins of that side
@@ -79,7 +79,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	lda.w #$0005					; six players
 	sta.b d2
 	lda.w tmscore					; compare scores
-	cmp.w tmscore+2
+	cmp.w tmscore+2					; equal
 	beq .8							; tied: game over path
 	bpl .5							; home ahead: team 0 players
 	ldx.w #$000C					; visitors ahead: their players at offset $0C
@@ -95,7 +95,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	inx								; next word
 	inx
 	stx.b a3
-	dec.b d2
+	dec.b d2						; count down
 	bpl .5							; until d2 goes negative
 .7:									; game over
 	jsl.l ClearPenaltyBuffer		; remove all penalties
@@ -117,7 +117,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	sta.w cheercnt
 	lda.b vcount					; first cheer 150 frames ago
 	sec
-	sbc.w #$0096
+	sbc.w #$0096					; minus 150
 	sta.w cheervc
 .1x:								; show the end of game penalty message
 	lda.w #PenEOG					; end of game message

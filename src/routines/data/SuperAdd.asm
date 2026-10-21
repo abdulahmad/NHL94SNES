@@ -11,12 +11,12 @@ SuperAdd:							; called from PWtoBits, PushBits
 	lda.l passbits,x
 	inc a
 	sta.l passbits,x
-	bne .ex
+	bne .ex							; no carry out: done
 	inx
 	inx
 	cpx.w #$0010
 	bne .carry
 .ex:								; return
-	plx
+	plx								; restore X
 	clc
 	rtl

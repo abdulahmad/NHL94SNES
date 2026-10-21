@@ -58,20 +58,20 @@ assscore:							; assignment: celebrate a goal
 	lda.w #$FFA6					; left side: -90
 	sta.w temp3,x
 .2x:								; y target is the scroll y
-	lda.w Vpos
+	lda.w Vpos						; y target is the scroll y
 	sta.w temp4,x
 .3:									; target in d0/d1
 	lda.w #rtss>>16					; a0 = rtss
 	sta.b a0+2
 	lda.w #rtss
 	sta.b a0
-	lda.w temp3,x
+	lda.w temp3,x					; target x
 	sta.b d0
-	lda.w temp4,x
+	lda.w temp4,x					; target y
 	sta.b d1
 	lda.w temp1,x					; temp1 counts down
 	sec
-	sbc.b d7
+	sbc.b d7						; minus the frame count
 	sta.w temp1,x
 	bpl .t1x						; still counting: skate
 	lda.w #SPAcelebrate				; celebrate animation

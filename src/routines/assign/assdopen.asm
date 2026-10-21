@@ -6,14 +6,14 @@ assdopen:							; assignment: sit in the penalty box
 	lda.w #$0010					; home team count unit
 	sta.b d0
 	lda.w pfteam,x					; visitors?
-	beq .1
+	beq .1							; team 0
 	lda.w #$0001					; visitors count unit
 	sta.b d0
 .1:									; add to the box count
-	lda.w PBnum
+	lda.w PBnum						; penalty box count
 	clc
 	adc.b d0
-	sta.w PBnum
+	sta.w PBnum						; one more in the box
 	lda.w #$FFFF					; position -1: not in the game
 	sta.w position,x
 	lda.w sfhormode					; rink drawn vertically or horizontally
