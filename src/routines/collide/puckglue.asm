@@ -35,10 +35,10 @@ puckglue:							; called from puckgoalie, puckstick
 	lda.w tmfowon,y					; faceoff wins
 	inc a
 	sta.w tmfowon,y
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	clc
 	adc.w #$00C8
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$0014
 	sta.b crowdhold
 .3:									; if gmclock != 0 go to .4, ...

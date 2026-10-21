@@ -80,7 +80,7 @@ StartHL2:							; entry point, no direct callers found
 	cmp.w #SoundBankGame
 	beq .1							;already loaded
 	jsl.l SPCGameUpload
-.1:									; HomeTeam = gst1,x, VisTeam = gst2,x, call ClearTeamStats, ...
+.1:									; HomeTeam = gst1,x, VisTeam = gst2,x, call clearTeamStats, ...
 	ldx.b a0
 	lda.l gst1,x
 	sta.w HomeTeam
@@ -90,7 +90,7 @@ StartHL2:							; entry point, no direct callers found
 	pha
 	lda.b a0+2
 	pha
-	jsl.l ClearTeamStats
+	jsl.l clearTeamStats
 	jsl.l restoreteams
 	lda.w #$0000
 	sta.b a2

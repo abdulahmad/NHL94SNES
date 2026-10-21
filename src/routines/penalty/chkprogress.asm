@@ -38,9 +38,9 @@ chkprogress:						; called from PenaltyManager
 	and.w #$00FF
 	sta.b d0
 	tay
-	lda.w #PenaltyList>>16
+	lda.w #Penaltylist>>16
 	sta.b a1+2
-	lda.w #PenaltyList
+	lda.w #Penaltylist
 	sta.b a1
 	clc
 	adc.b [a1],y

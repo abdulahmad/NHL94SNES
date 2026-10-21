@@ -39,9 +39,9 @@ PenGoalStuff:						; handles the penalties after a goal
 
 .t1:								; look the penalty up
 	tay								; y = penalty number
-	lda.w #PenaltyList>>16			; a1 = PenaltyList
+	lda.w #Penaltylist>>16			; a1 = Penaltylist
 	sta.b a1+2
-	lda.w #PenaltyList
+	lda.w #Penaltylist
 	sta.b a1
 	lda.b [a1],y					; offset of this penalty's record
 	clc

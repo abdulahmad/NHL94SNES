@@ -160,9 +160,9 @@ RestoreReplayFrame:					; called from ReplayMode, adda4, suba4
 	lsr a
 	sta.w PadControlObj+$A
 	lda.w WMDATA
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w WMDATA
-	sta.l crowdlevel+1
+	sta.l Crowdlevel+1
 	lda.w WMDATA
 	sta.w PBnum
 	bpl .t1xx

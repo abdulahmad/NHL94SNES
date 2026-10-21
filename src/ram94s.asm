@@ -36,7 +36,7 @@ passspeed			=	$0D05		; speed of pass/shot
 mesarea				=	$0A2A		; string being built: a length word, then the bytes
 mesareaEnd			=	$0A48		; one past the last digit PushNumber and PushTime may write
 puckc				=	$0AD9		; object index of the puck carrier, negative = loose
-tmPwrGoals			=	$1742		;power play goals (team word pair); the first word ClearTeamStats clears
+tmPwrGoals			=	$1742		;power play goals (team word pair); the first word clearTeamStats clears
 									;(through $18ED)
 playoffRoundIdx		=	$7E35D4		; playoff round for other scores and password bits
 printx				=	$0D0F		; x cordinate for printing (text map column)
@@ -208,7 +208,7 @@ tmfoside	=	$0010				; team flagged offsides
 cbut		=	$0080				; shoot / check button in d2
 blueline	=	$58					; puck y past which a team can be offside
 sideline	=	$88					; distance from center to side boards
-; Penalty numbers (word offsets into PenaltyList) for AddPenalty
+; Penalty numbers (word offsets into Penaltylist) for AddPenalty
 PenEOP			=	$02
 PenEOG			=	$04
 PenOOP			=	$06
@@ -292,7 +292,7 @@ PlayerScrollCtr		=	$0D3F		; scouting report player scroll
 SelectedPlayerIdx	=	$0D43		; scouting report selected player
 ScoutingReportTimer	=	$0D45		; scouting report timer
 TestList			=	$7E347C		; scouting report text list
-crowdlevel			=	$7E35E0		; crowd noise level: raised by the play, fades every frame
+Crowdlevel			=	$7E35E0		; crowd noise level: raised by the play, fades every frame
 IniDispShadow		=	$0762		; INIDISP value the NMI writes (forced blank, brightness)
 fadestep			=	$0AD1		; fade: a delay counting down to a fade in, or $FFFF to fade out (NMI)
 brightness			=	$0AD3		;screen brightness 0-15 the fade sets; BrightnessHook writes it to INIDISP
@@ -403,8 +403,8 @@ tmtimeouts			=	$17E2		; timeouts left (StartGame sets 1; PauseTimeout)
 tmlcchoice			=	$17E6		; the chosen line change row (lcfound, SetLCmode2)
 ; Per roster player bytes, $1A players per team (away at +$1A)
 tmgoals		=	$18EE				; goals (goalies: goals against)
-passists	=	$1922				; assists
-pshots		=	$1956				; shots (goalies: shots against)
+tmassists	=	$1922				; assists
+tmpshots		=	$1956			; shots (goalies: shots against)
 ppenmin		=	$198A				; penalty minutes
 ; Crowd meter
 CrowdLoud		=	$19C0			; 1 at 110 dB or more; cleared under 105 dB (CheckCrowdMeter)
@@ -769,7 +769,7 @@ VoiceVibDir			=	$09FA		;0 = vibrato offset rising, $FFFF = falling (bit VoiceVib
 									;flip at the limit by instrument $2D ...
 
 ; $1C84-$1EC2: pad teams (94G cont1team-cont4team, a word per pad), pause options, the line editor, the stats
-; and card screens (curitem, listtop, listend, listcount, curplayer are shared by them), ShowStars, the
+; and card screens (curitem, listtop, listend, listcount, curplayer are shared by them), ShowThreeStars, the
 ; scouting report, the penalty shot and shootout (94G BA_ and sopath names), the pause menu lists
 cont1team			=	$1C84		;Team on pad 1 (0 none, 1 home, 2 away); StartGame turns cont1team,x into
 									;padside,x = (team-1)*2, ...
@@ -860,23 +860,24 @@ letterx				=	$1E17		;X of the next sprite letter: PrintLetterSprites, PrintSmall
 									;PrintStringSprites, ...
 lettery				=	$1E1B		;Y of the sprite letters (Y on entry), passed to DrawSprite by the same
 									;routines
-otgoalscorer		=	$1E1F		;ShowStars: player (+$1A for visitors, $FFFF none) taken from a goal entry
-									;whose period field is 3 ...
-starplayerend		=	$1E21		;ShowStars: end of the team's player indexes in the scan (GetPlayerCount,
-									;+$1A for visitors)
-stargoalieend		=	$1E23		;ShowStars: end of the team's goalie indexes (GoalieCount, +$1A for
+otgoalscorer		=	$1E1F		;ShowThreeStars: player (+$1A for visitors, $FFFF none) taken from a goal
+									;entry whose period field is 3 ...
+starplayerend		=	$1E21		;ShowThreeStars: end of the team's player indexes in the scan
+									;(GetPlayerCount, +$1A for visitors)
+stargoalieend		=	$1E23		;ShowThreeStars: end of the team's goalie indexes (GoalieCount, +$1A for
 									;visitors); below it the goalie scoring ...
-starswapplayer		=	$1E25		;ShowStars: player pushed down a place while
+starswapplayer		=	$1E25		;ShowThreeStars: player pushed down a place while
 									;inserting into the three stars
-starswapscore		=	$1E27		;ShowStars: 32-bit star score (low word, high word at +2) of the player
-									;pushed down while inserting
-star1				=	$1E2B		; ShowStars: first star (player index, +$1A for visitors until printing)
-star2				=	$1E2D		; ShowStars: second star
-star3				=	$1E2F		; ShowStars: third star
-star1score			=	$1E31		;ShowStars: 32-bit score of star1 (low word compared with d0, high at +2
-									;with $A7)
-star2score			=	$1E35		; ShowStars: 32-bit score of star2
-star3score			=	$1E39		; ShowStars: 32-bit score of star3
+starswapscore		=	$1E27		;ShowThreeStars: 32-bit star score (low word, high word at +2) of the
+									;player pushed down while inserting
+star1				=	$1E2B		; ShowThreeStars: first star (player index, +$1A for visitors until
+									;printing)
+star2				=	$1E2D		; ShowThreeStars: second star
+star3				=	$1E2F		; ShowThreeStars: third star
+star1score			=	$1E31		;ShowThreeStars: 32-bit score of star1 (low word compared with d0, high at
+									;+2 with $A7)
+star2score			=	$1E35		; ShowThreeStars: 32-bit score of star2
+star3score			=	$1E39		; ShowThreeStars: 32-bit score of star3
 matchuptimer		=	$1E3D		;ScoutingReport: frames on the current matchup, the next matchup comes at
 									;300 and paging resets it (94G ...
 matchuphold			=	$1E3F		;ScoutingReport: $FFFF once a pad paged the matchups (A/C/Y), stops the

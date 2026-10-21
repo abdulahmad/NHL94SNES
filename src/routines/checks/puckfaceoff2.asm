@@ -39,11 +39,11 @@ puckfaceoff2:						; called from asstab
 	sta.w recsfx2
 	lda.w #$0000
 	sta.l hattrick
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	cmp.w #$0258
 	bcc .1
 	lda.w #$0258
-	sta.l crowdlevel
+	sta.l Crowdlevel
 .1:									; if brightness = 0 go to .2, ...
 	lda.w brightness
 	beq .2

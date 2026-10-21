@@ -148,9 +148,9 @@ updatereplay:						; called from DoGameFrame
 	asl a
 	ora.w PadControlObj+8
 	sta.w WMDATA
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	sta.w WMDATA
-	lda.l crowdlevel+1
+	lda.l Crowdlevel+1
 	sta.w WMDATA
 	lda.w PBnum
 	sta.w WMDATA

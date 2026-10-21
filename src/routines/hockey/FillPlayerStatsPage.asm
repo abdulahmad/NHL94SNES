@@ -73,7 +73,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	lda.w #$0014
 	sta.w printx
 	sep #$20
-	lda.w passists,x
+	lda.w tmassists,x
 	rep #$20
 	and.w #$00FF
 	sta.b d0
@@ -91,7 +91,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	and.w #$00FF
 	sta.b d0
 	sep #$20
-	lda.w passists,x
+	lda.w tmassists,x
 	rep #$20
 	and.w #$00FF
 	clc
@@ -106,7 +106,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	lda.w #$001A
 	sta.w printx
 	sep #$20
-	lda.w pshots,x
+	lda.w tmpshots,x
 	rep #$20
 	and.w #$00FF
 	sta.b d0
@@ -166,7 +166,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	lda.w #$0016
 	sta.w printx
 	sep #$20
-	lda.w pshots,x
+	lda.w tmpshots,x
 	rep #$20
 	and.w #$00FF
 	sta.b d0
@@ -186,7 +186,7 @@ FillPlayerStatsPage:				; called from SortPlayerStats
 	sta.b r2
 	plx
 	sep #$20
-	lda.w pshots,x
+	lda.w tmpshots,x
 	rep #$20
 	and.w #$00FF
 	sta.b r1

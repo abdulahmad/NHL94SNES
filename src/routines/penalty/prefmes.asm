@@ -64,9 +64,9 @@ prefmes:							; called from PushRef, SetPA
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #PenaltyList>>16
+	lda.w #Penaltylist>>16
 	sta.b a1+2
-	lda.w #PenaltyList
+	lda.w #Penaltylist
 	sta.b a1
 	ldy.b d0
 	lda.l penmsgbox
@@ -153,9 +153,9 @@ prefmes:							; called from PushRef, SetPA
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #PenaltyList>>16
+	lda.w #Penaltylist>>16
 	sta.b a1+2
-	lda.w #PenaltyList
+	lda.w #Penaltylist
 	sta.b a1
 	ldy.b d0
 	lda.b [a1],y

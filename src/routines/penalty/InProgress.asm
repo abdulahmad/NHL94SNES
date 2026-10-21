@@ -4,7 +4,7 @@
 ; on the stack. Takes the last queued penalty of PenBuf (a word per penalty: penalty number in the low
 ; byte, object offset in the high byte, bit 15 = new) and sends that player to the box.
 ;
-; A new entry gets its minutes from PenaltyList, raises the team penalty counts and minutes, logs it in
+; A new entry gets its minutes from Penaltylist, raises the team penalty counts and minutes, logs it in
 ; PenSum, sets the penalty time in tmpdst, adds the player to tmboxlist, then calls SetPA and USBoard.
 ; Leaves through InProgress_coin; when no penalty is left InProgress_exit ends the penalty mode first.
 InProgress:							; sends the last PenBuf entry to the box
@@ -43,9 +43,9 @@ InProgress:							; sends the last PenBuf entry to the box
 	and.w #$00FF
 	sta.b d0						; d0 = penalty number
 	tay
-	lda.w #PenaltyList>>16			; a1 = PenaltyList
+	lda.w #Penaltylist>>16			; a1 = Penaltylist
 	sta.b a1+2
-	lda.w #PenaltyList
+	lda.w #Penaltylist
 	sta.b a1
 	lda.b [a1],y					; offset of this penalty's record
 	clc
@@ -58,7 +58,7 @@ InProgress:							; sends the last PenBuf entry to the box
 .t2:								; not the penalty shot
 	cmp.w #$D434					; compare with another record
 	bne .1
-	jsl.l ShowStars					; that record: ShowStars first
+	jsl.l ShowThreeStars			; that record: ShowThreeStars first
 .1:									; record found
 	lda.b [a1]						; first byte of the record: penalty minutes
 	and.w #$00FF

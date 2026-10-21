@@ -30,8 +30,8 @@ StartGame_go:						; called from PlayShootout
 	bne .1
 	lda.w #$0020
 	tsb.w gmode
-.1:									; call ClearTeamStats, call restoreteams, call InitScores, ...
-	jsl.l ClearTeamStats
+.1:									; call clearTeamStats, call restoreteams, call InitScores, ...
+	jsl.l clearTeamStats
 	jsl.l restoreteams
 	jsl.l InitScores
 	lda.w #$007E

@@ -1,5 +1,5 @@
 ; Stars of the Game
-ShowStars:							; called from InProgress
+ShowThreeStars:						; called from InProgress
 	phx
 	phy
 	stx.b xsave
@@ -425,7 +425,7 @@ ShowStars:							; called from InProgress
 	plx
 	jsr.w .18
 	sep #$20
-	lda.w passists,x
+	lda.w tmassists,x
 	rep #$20
 	and.w #$00FF
 	phx
@@ -434,7 +434,7 @@ ShowStars:							; called from InProgress
 	plx
 	jsr.w .18
 	sep #$20
-	lda.w pshots,x
+	lda.w tmpshots,x
 	rep #$20
 	and.w #$00FF
 	phx
@@ -457,7 +457,7 @@ ShowStars:							; called from InProgress
 	pla
 	sta.b d0
 	sep #$20
-	lda.w pshots,x
+	lda.w tmpshots,x
 	rep #$20
 	and.w #$00FF
 	cmp.b d1

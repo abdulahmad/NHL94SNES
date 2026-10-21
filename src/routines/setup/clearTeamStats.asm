@@ -2,7 +2,7 @@
 ;
 ; Takes nothing, returns nothing. Called from ScoutingReport, SaveRegsStartHL2 and StartGame. Falls into
 ; setteams.
-ClearTeamStats:						; clear the team stats and set up the teams
+clearTeamStats:						; clear the team stats and set up the teams
 	lda.w tmgoalie					; save both goalie choices
 	pha
 	lda.w tmgoalie+2
@@ -22,7 +22,7 @@ ClearTeamStats:						; clear the team stats and set up the teams
 	sta.w tmboxlist					; home penalty box list empty
 	sta.w tmboxlist+maxros			; visiting penalty box list empty (the second list is $1A bytes on)
 ; Point both team structures at their team: sort start, team number and data pointer. Called from
-; ClearTeamStats and setoptions.
+; clearTeamStats and setoptions.
 setteams:							;Set up both team structures from the home and visiting teams
 	stz.w tmsort					; home: tmsort 0, away: tmsort $0C
 	lda.w #$000C

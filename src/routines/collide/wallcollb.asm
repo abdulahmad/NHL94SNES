@@ -46,10 +46,10 @@ wallcollb:							; object X hits a wall
 	stx.b a3
 	lda.w #$0006					; streamed sound 6 (over the glass)
 	jsl.l StreamSfx
-	lda.l crowdlevel				; crowd level +$258
+	lda.l Crowdlevel				; crowd level +$258
 	clc
 	adc.w #$0258
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$005A					; hold it 90 frames
 	sta.b crowdhold
 	lda.w CwdExciteLvl				; crowd excitement +15

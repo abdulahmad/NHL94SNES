@@ -200,10 +200,10 @@ checkgoal:							; called from checkwallcoll
 	stz.w onetimer
 	lda.w #$0009
 	jsl.l PuckSfx
-	lda.l crowdlevel
+	lda.l Crowdlevel
 	clc
 	adc.w #$012C
-	sta.l crowdlevel
+	sta.l Crowdlevel
 	lda.w #$003C
 	sta.b crowdhold
 	lda.w CwdExciteLvl
