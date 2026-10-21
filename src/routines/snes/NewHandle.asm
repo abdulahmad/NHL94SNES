@@ -31,7 +31,7 @@ NewHandle:							; called from SetHandleSize
 	cmp.w #$FFFF
 	bne .found
 .try7F:								; p0+2 = $007F, if zero go to .compact, ...
-	lda.w #$007F
+	lda.w #Ram7F>>16
 	sta.b p0+2
 	cmp.w NewHandleSkipBank
 	beq .compact
@@ -50,7 +50,7 @@ NewHandle:							; called from SetHandleSize
 	cmp.w #$FFFF
 	bne .found
 .retry7F:							; p0+2 = $007F, if zero go to .fail, ...
-	lda.w #$007F
+	lda.w #Ram7F>>16
 	sta.b p0+2
 	cmp.w NewHandleSkipBank
 	beq .fail

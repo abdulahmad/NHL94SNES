@@ -141,7 +141,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	lda.l setuphome
 	bpl .t1xx
 .1xx:								; p0+2 = $007F, p0 = homepicaddr, call WaitFrame, ...
-	lda.w #$007F
+	lda.w #Ram7F>>16
 	sta.b p0+2
 	lda.l homepicaddr
 	sta.b p0
@@ -156,7 +156,7 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0600
 	jsl.l WaitFrame
 	jsl.l DMAToVRAM
-	lda.w #$007F
+	lda.w #Ram7F>>16
 	sta.b p0+2
 	lda.l vispicaddr
 	sta.b p0

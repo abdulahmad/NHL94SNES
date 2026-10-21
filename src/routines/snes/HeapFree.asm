@@ -9,7 +9,7 @@ HeapFree:							; free bytes of both heaps in X:A
 	sta.b p0+2
 	ldy.w HeapStart7E
 	jsr.w HeapFreeBank
-	lda.w #$007F					; bank $7F from its first block
+	lda.w #Ram7F>>16				; bank $7F from its first block
 	sta.b p0+2
 	ldy.w HeapStart7F
 	jsr.w HeapFreeBank

@@ -10,7 +10,7 @@ HeapCompact:						; compact the banks $7E and $7F heaps
 	stz.b p0
 	ldy.w HeapStart7E
 	jsr.w HeapCompactBank
-	lda.w #$007F					; bank $7F from its first block
+	lda.w #Ram7F>>16				; bank $7F from its first block
 	sta.b p0+2
 	stz.b p0
 	ldy.w HeapStart7F

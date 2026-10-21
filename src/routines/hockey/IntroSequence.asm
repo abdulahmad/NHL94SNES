@@ -119,9 +119,9 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b p0
 	lda.w #EALogoMap>>16
 	sta.b p0+2
-	lda.w #$4000
+	lda.w #introbuf
 	sta.b p1
-	lda.w #$007F					; send the map bytes (low) and tile bytes (high) to VRAM interleaved: the
+	lda.w #introbuf>>16				; send the map bytes (low) and tile bytes (high) to VRAM interleaved: the
 									; Mode 7 layout
 	sta.b p1+2
 	jsl.l Decompress

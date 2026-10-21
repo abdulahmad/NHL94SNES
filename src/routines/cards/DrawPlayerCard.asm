@@ -391,7 +391,7 @@ org $9DC002
 	ldx.w #$000D					; player picture
 	ldy.w #$0004
 	jsl.l DrawPlayerPicture			; draw it
-	lda.w #$007F					; DMA the home picture
+	lda.w #Ram7F>>16				; DMA the home picture
 	sta.b p0+2
 	lda.l homepicaddr
 	sta.b p0
@@ -406,7 +406,7 @@ org $9DC002
 	ldx.w #$0600
 	jsl.l WaitFrame					; wait for the frame
 	jsl.l DMAToVRAM					; send to VRAM
-	lda.w #$007F					; DMA the visitors picture
+	lda.w #Ram7F>>16				; DMA the visitors picture
 	sta.b p0+2
 	lda.l vispicaddr
 	sta.b p0
