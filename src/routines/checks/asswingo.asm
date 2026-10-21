@@ -107,11 +107,11 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 	lda.w seed
 	cmp.w #$0200
 	bcs .7
-.6:									; temp5,x = d2, a0+2 = $009E, a0 = .9, ...
+.6:									; temp5,x = d2, a0 = long .9, ...
 	lda.b d2
 	sta.w temp5,x
 	tay
-	lda.w #$009E
+	lda.w #.9>>16
 	sta.b a0+2
 	lda.w #.9
 	sta.b a0

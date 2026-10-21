@@ -304,12 +304,12 @@ setoptions:							; called from Restart
 	lda.w #$0001
 	sta.l teamschanged
 	sta.l cardtimer
-.2xxx:								; a2 = OptPlayMode, a3+2 = $009D, a3 = .14, ...
+.2xxx:								; a2 = OptPlayMode, a3 = long .14, ...
 	lda.w #OptPlayMode>>16
 	sta.b a2+2
 	lda.w #OptPlayMode
 	sta.b a2
-	lda.w #$009D
+	lda.w #.14>>16
 	sta.b a3+2
 	lda.w #.14
 	sta.b a3
@@ -458,7 +458,7 @@ setoptions:							; called from Restart
 	sta.b a0
 	lda.b [a0],y
 	sta.b d3
-	lda.w #$009D
+	lda.w #.15>>16
 	sta.b a0+2
 	lda.w #.15
 	sta.b a0

@@ -88,7 +88,7 @@ SetLCmode2:							; draw the line change box of team a2
 	sta.w printx
 	ldy.b a2						; Y = team offset
 	lda.w HomeTeam,y				; probably only reads the home team word (result unused)
-	lda.w #$009C					; team data bank
+	lda.w #TeamList>>16				; team data bank
 	sta.b a1+2
 	lda.w tmdata,y					; team record pointer
 	sta.b a1

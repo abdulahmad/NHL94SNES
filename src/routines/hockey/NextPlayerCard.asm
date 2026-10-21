@@ -12,7 +12,7 @@ NextPlayerCard:						; show the next player card
 	bmi .1
 	sta.w curplayer					; curplayer = curitem - 7; a3 = the 6 bytes of the team data at +$C
 	ldy.b a2
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a3+2
 	lda.w tmdata,y
 	sta.b a3

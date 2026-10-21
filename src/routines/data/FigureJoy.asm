@@ -95,7 +95,7 @@ FigureJoy:							; set which team each controller plays
 	asl a
 	sta.b d0
 	tay
-	lda.w #$009D
+	lda.w #.5>>16
 	sta.b a0+2
 	lda.w #.5+32
 	sta.b a0

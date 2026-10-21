@@ -1,7 +1,7 @@
 ; d0 = the roster slot of team a2's player for matchup A (center, wings, defense, goalie)
 GetMatchupPlayer:					; called from LoadMatchupPhotos, ShowMatchups, setoptions
 	tay
-	lda.w #$009D
+	lda.w #.1>>16
 	sta.b a1+2
 	lda.w #.1
 	sta.b a1
@@ -9,7 +9,7 @@ GetMatchupPlayer:					; called from LoadMatchupPhotos, ShowMatchups, setoptions
 	and.w #$00FF
 	pha
 	ldy.b a2
-	lda.w #$009C
+	lda.w #TeamList>>16
 	sta.b a1+2
 	lda.w tmdata,y
 	sta.b a1

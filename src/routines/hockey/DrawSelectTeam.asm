@@ -90,13 +90,13 @@ DrawSelectTeam:						; called from PlayerSelect
 	inx
 	dec.b tmp1
 	bne .loop2
-.1x:								; p0 = TeamPlaceNames,x, p0+2 = $009C, jmlvector = $005C, ...
+.1x:								; p0 = long TeamPlaceNames,x, jmlvector = $005C, ...
 	lda.b d1
 	asl a
 	tax
 	lda.l TeamPlaceNames,x
 	sta.b p0
-	lda.w #$009C
+	lda.w #TeamPlaceNames>>16
 	sta.b p0+2
 	lda.w printx
 	pha

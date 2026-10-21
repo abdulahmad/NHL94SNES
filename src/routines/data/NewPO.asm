@@ -16,9 +16,9 @@ NewPO:								; start new playoffs with team 1 and build the tree
 	asl a
 	asl a
 	asl a
-	adc.w #$ED59					; plus the seat table
+	adc.w #playoffseats				; plus the seat table
 	sta.b a0
-	lda.w #$009C					; bank of the table
+	lda.w #playoffseats>>16			; bank of the table
 	sta.b a0+2
 	lda.w #$000F					; 16 teams
 	sta.b d1

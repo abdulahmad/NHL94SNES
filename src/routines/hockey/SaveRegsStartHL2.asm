@@ -170,7 +170,7 @@ StartHL2:							; entry point, no direct callers found
 	sta.l hattrick
 	lda.w #$000B
 	sta.b d0
-	lda.w #$009F
+	lda.w #.20>>16
 	sta.b a0+2
 	lda.w #.20
 	sta.b a0

@@ -140,13 +140,13 @@ assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $
 	rtl
 .nocallback:						; the skateto callback that does nothing
 	rtl
-.9:									; subroutine: a0+2 = $009E, a0 = .10, d0 = [a0],y, ...
+.9:									; subroutine: a0 = long .10, d0 = [a0],y, ...
 	lda.w sopathpoint
 	asl a
 	adc.w sopathpoint
 	asl a
 	tay
-	lda.w #$009E
+	lda.w #.10>>16
 	sta.b a0+2
 	lda.w #.10
 	sta.b a0

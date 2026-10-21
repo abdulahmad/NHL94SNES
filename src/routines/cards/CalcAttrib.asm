@@ -18,7 +18,7 @@ CalcAttrib:							; overall rating of a player from his attributes and hot / col
 	adc.w #$0138
 	sta.b r0
 .1:									; team row offset set
-	lda.w #$009C					; a0 = team data in the player bank
+	lda.w #TeamList>>16				; a0 = team data in the player bank
 	sta.b a0+2
 	lda.w tmdata,y					; team data pointer
 	sta.b a0

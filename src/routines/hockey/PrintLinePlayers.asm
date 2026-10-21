@@ -43,7 +43,7 @@ PrintLinePlayers:					; called from PrintLineNames
 	sta.b a5+2
 	lda.w #.4
 	sta.b a3
-	lda.w #$009B
+	lda.w #.4>>16
 	sta.b a3+2
 	lda.w SelectedPlayerIdx
 	dec a

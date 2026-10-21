@@ -323,7 +323,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b a1+2
 	lda.w #potree
 	sta.b a1
-	lda.w #$009D
+	lda.w #.10>>16
 	sta.b a0+2
 	lda.w #.10
 	sta.b a0
@@ -376,13 +376,13 @@ PlayoffScreen:						; called from GameOver, StartGame
 	bne .1
 	lda.w #$3400
 	sta.w printa
-.1:									; p0 = TeamPlaceNames,x, p0+2 = $009C, jmlvector = $005C, ...
+.1:									; p0 = long TeamPlaceNames,x, jmlvector = $005C, ...
 	lda.b tmp4
 	asl a
 	tax
 	lda.l TeamPlaceNames,x
 	sta.b p0
-	lda.w #$009C
+	lda.w #TeamPlaceNames>>16
 	sta.b p0+2
 	lda.w printx
 	pha

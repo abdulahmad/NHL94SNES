@@ -118,9 +118,9 @@ SetScore:							; called from InitScores, UpdateScores
 	lda.b [a1]
 	and.w #$0070
 	lsr a
-	adc.w #$A038
+	adc.w #.5
 	sta.b a1
-	lda.w #$009F
+	lda.w #.5>>16
 	sta.b a1+2
 	lda.b [a1]
 	sta.w nibblebuffer
@@ -150,10 +150,10 @@ SetScore:							; called from InitScores, UpdateScores
 	asl a
 	asl a
 	asl a
-	adc.w #$A038
+	adc.w #.5
 	sta.b a1
 org $9FA001
-	lda.w #$009F
+	lda.w #.5>>16
 	sta.b a1+2
 	lda.b [a1]
 	adc.w nibblebuffer

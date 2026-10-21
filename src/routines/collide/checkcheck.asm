@@ -60,7 +60,7 @@ org $9EA001
 	and.w #$0007
 	asl a
 	tay
-	lda.w #$009E
+	lda.w #.4>>16
 	sta.b a0+2
 	lda.w #.4
 	sta.b a0
