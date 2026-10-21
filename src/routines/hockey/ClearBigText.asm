@@ -1,4 +1,4 @@
-; Clear the RenderBigText letter tile buffer ($7E4EF5, $300 bytes) and part of its map ($7EA8FC)
+; Clear the RenderBigText letter tile buffer (bigtextbuf+1, $300 bytes) and part of its map (screenmap+$28C)
 ClearBigText:						; called from PlayerSelect
 	lda.w #$007E
 	sta.b p1+2

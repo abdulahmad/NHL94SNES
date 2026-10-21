@@ -3,7 +3,7 @@
 ;
 ; Called from ShowPlayerCards. Takes no registers; the screen is shown with sprites on when it returns.
 LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
-	jsl.l FadeOut					; fade out while the team logo sprites unpack to $7F7800
+	jsl.l FadeOut					; fade out while the team logo sprites unpack to logosprbuf
 	lda.w #TeamLogoSprites>>16
 	sta.b p0+2
 	lda.w #TeamLogoSprites

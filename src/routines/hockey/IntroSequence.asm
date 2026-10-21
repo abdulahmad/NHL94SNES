@@ -161,7 +161,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	cpy.w #$0A00
 	bmi .loop3
 	rep #$20
-	lda.w #EALogoSprites			; unpack EALogoSprites to $7F4A40 for DrawSprite
+	lda.w #EALogoSprites			; unpack EALogoSprites to introbuf+$A40 for DrawSprite
 	sta.b p0
 	lda.w #EALogoSprites>>16
 	sta.b p0+2

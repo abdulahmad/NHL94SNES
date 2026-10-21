@@ -4,7 +4,7 @@
 ; Called from ScoutingReport. Takes no registers; it ends by building the picture map for the player
 ; pictures.
 LoadScoutingScreen:					; set up the scouting screen graphics and palettes
-	jsl.l FadeOut					; fade out while the team logo sprites unpack to $7F7800
+	jsl.l FadeOut					; fade out while the team logo sprites unpack to logosprbuf
 	lda.w #TeamLogoSprites>>16
 	sta.b p0+2
 	lda.w #TeamLogoSprites

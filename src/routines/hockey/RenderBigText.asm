@@ -272,7 +272,7 @@ RenderBigText:						; called from DrawSelectTeam, PlayoffScreen
 	bne .loopx
 	rts
 ; jmlvector letter hook of PlayoffScreen: put letter tile bigtextchar (two rows) at printx / printy of the
-; $7EC67C map
+; screenmap2 map
 BigLetterPlayoff:					; called from PlayoffScreen
 	lda.w printy
 	asl a
@@ -293,7 +293,7 @@ BigLetterPlayoff:					; called from PlayoffScreen
 	sta.l screenmap2+$106,x
 	rtl
 ; jmlvector letter hook of DrawSelectTeam: put letter tile bigtextchar (two rows) at printx / printy of the
-; $7EA67C map
+; screenmap map
 BigLetterSelect:					; called from DrawSelectTeam
 	lda.w printy
 	asl a

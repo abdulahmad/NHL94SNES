@@ -1,4 +1,4 @@
-; The EA intro sprite set (two frames, the large E and A letters), unpacked to $7F4A40 and drawn by
+; The EA intro sprite set (two frames, the large E and A letters), unpacked to introbuf+$A40 and drawn by
 ; IntroSequence
 
 EALogoSprites:						;a sprite set packed for DecompressHuffman: two frames, large E and A

@@ -1,5 +1,5 @@
-; Pulse the palette colour of the pausing pad's side ($7F76DE or $7F76FE, PulseColour), the other side white;
-; both white with no side
+; Pulse the palette colour of the pausing pad's side (colourbuf+$1DE or +$1FE, PulseColour), the other side
+; white; both white with no side
 PulsePauseSide:						; returns nothing (rts); takes no input
 	lda.l notdemo					; not a demo game?
 	beq .2							; demo: both sides white
