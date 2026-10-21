@@ -1,174 +1,174 @@
 ; Huffman data at [p0] to WRAM at [p1]
 DecompressHuffman:					; called from Decompress
-	sep #$10
+	sep #$10						;8-bit index registers
 	lda.b p0
 	clc
-	adc.w #$0005
+	adc.w #$0005					;skip the 5-byte header
 	sta.b p0
-	lda.b (p0)
-	sta.b HuffEscape
+	lda.b (p0)						;escape symbol
+	sta.b HuffEscape				;HuffEscape
 	inc.b p0
-	lda.b (p0)
+	lda.b (p0)						;first two data bytes
 	inc.b p0
 	inc.b p0
-	xba
-	sta.b HuffBits
-	ldy.b #$08
-	stz.b HuffSymCount
-	stz.b HuffCode
+	xba								;first byte on top
+	sta.b HuffBits					;bit buffer
+	ldy.b #$08						;8 bits left in the byte
+	stz.b HuffSymCount				;no symbols yet
+	stz.b HuffCode					;canonical code 0
 	lda.w #$0010
-	sta.b r3
-	ldx.b #$FE
+	sta.b r3						;16 code lengths
+	ldx.b #$FE						;length index -2
 .2:									; loop: X + 1, X + 1, decrement r3, ...
 	inx
 	inx
-	dec.b r3
-	asl.b HuffCode
+	dec.b r3						;one length down
+	asl.b HuffCode					;codes of the next length
 	lda.b HuffCode
-	sec
-	sbc.b HuffSymCount
-	sta.w HuffOffset,x
-	jsr.w .149
-	sta.w HuffCount,x
+	sec								;minus the symbols so far
+	sbc.b HuffSymCount				;offset of this length's symbols
+	sta.w HuffOffset,x				;HuffOffset
+	jsr.w .149						;read the count of this length
+	sta.w HuffCount,x				;codes of this length
 	clc
-	adc.b HuffSymCount
-	sta.b HuffSymCount
+	adc.b HuffSymCount				;plus the symbols so far
+	sta.b HuffSymCount				;running total
 	lda.b HuffNumber
-	clc
-	adc.b HuffCode
+	clc								;plus the code
+	adc.b HuffCode					;first code of the next length
 	sta.b HuffCode
-	lda.b HuffNumber
-	bne .t1
-	stz.w HuffLimit,x
+	lda.b HuffNumber				;any codes?
+	bne .t1							;yes: limit
+	stz.w HuffLimit,x				;none: no limit
 	bra .2
 
 .t1:								; HuffNumber != 0: r0 = HuffCode, if zero go to .1
 	lda.b HuffCode
-	sta.b r0
-	lda.b r3
-	clc
-	beq .1
+	sta.b r0						;code
+	lda.b r3						;bits left to 16
+	clc								;carry clear for the loop end
+	beq .1							;all 16
 .loop:								; loop: asl r0, decrement a, if a not yet 0 go to .loop
-	asl.b r0
-	dec a
+	asl.b r0						;left-justify
+	dec a							;count
 	bne .loop
-.1:									; HuffLimit,x = r0, if carry clear go to .2, ...
-	lda.b r0
+.1:									;left-justified code
+	lda.b r0						;limit of this length
 	sta.w HuffLimit,x
-	bcc .2
-	txa
-	lsr a
+	bcc .2							;more lengths
+	txa								;index /2
+	lsr a							;longest code length
 	sta.b HuffMaxLen
-	ldx.b #$3E
+	ldx.b #$3E						;$40 words x4
 .loop2:								; loop: DecompTab1,x = 0, DecompTab1+$40,x = 0, DecompTab1+$80,x = 0, ...
-	stz.w DecompTab1,x
+	stz.w DecompTab1,x				;clear the symbol-used table
 	stz.w DecompTab1+$40,x
 	stz.w DecompTab1+$80,x
 	stz.w DecompTab1+$C0,x
 	dex
 	dex
-	bpl .loop2
+	bpl .loop2						;all
 	ldx.b #$7E
-	stx.w WMADDH
+	stx.w WMADDH					;output to WRAM bank $7E
 	lda.w #$0100
-	sta.w WMADDL
-	ldx.b #$FF
+	sta.w WMADDL					;at $0100
+	ldx.b #$FF						;symbol -1
 .loop3:								; loop: call .149, increment a
-	jsr.w .149
+	jsr.w .149						;read a symbol step
 	sep #$20
-	inc a
+	inc a							;plus one
 .loop4:								; loop: X + 1, if minus go to .loop4, ...
-	inx
-	bit.w DecompTab1,x
-	bmi .loop4
-	dec a
-	bne .loop4
-	dec.w DecompTab1,x
+	inx								;next symbol
+	bit.w DecompTab1,x				;used already?
+	bmi .loop4						;yes: skip it
+	dec a							;count down
+	bne .loop4						;until the n-th free one
+	dec.w DecompTab1,x				;mark it used
 	rep #$20
-	stx.w WMDATA
-	dec.b HuffSymCount
-	bne .loop3
-	tya
-	asl a
-	sta.b HuffStartBits
+	stx.w WMDATA					;symbol into the sorted list
+	dec.b HuffSymCount				;one symbol fewer
+	bne .loop3						;all symbols
+	tya								;bits left
+	asl a							;x2
+	sta.b HuffStartBits				;jump index of the first decode step
 	sep #$20
-	ldx.b #$00
-	txy
-	stz.b HuffLenIdx
+	ldx.b #$00						;table position 0
+	txy								;symbol 0
+	stz.b HuffLenIdx				;length 1
 .3:									; r0 = X, if zero go to .9, ...
-	stx.b r0
-	lda.b HuffLenIdx
-	asl a
+	stx.b r0						;table position
+	lda.b HuffLenIdx				;length
+	asl a							;word index
 	tax
-	cpx.b #$10
-	beq .9
-	lda.w HuffCount,x
+	cpx.b #$10						;past 8 bits?
+	beq .9							;yes: long codes
+	lda.w HuffCount,x				;symbols of this length
 	sta.b HuffSymCount
-	ldx.b HuffLenIdx
-	lda.l .4,x
-	sta.b HuffSpan
+	ldx.b HuffLenIdx				;length
+	lda.l .4,x						;table entries per code
+	sta.b HuffSpan					;HuffSpan
 	ldx.b r0
-	bra .8
+	bra .8							;position back
 .4:									; lookup table entries for a code of each length, plus 1
 	db $81,$41,$21,$11,$09,$05,$03,$02
 .5:									; r0 = HuffLenIdx * 2, r0+1 = DecompBuf,y, Y + 1, ...
-	lda.b HuffLenIdx
-	asl a
-	sta.b r0
-	lda.w DecompBuf,y
-	sta.b r0+1
-	iny
-	cmp.b HuffEscape
-	bne .1x
-	lda.b HuffLenIdx
+	lda.b HuffLenIdx				;length
+	asl a							;x2
+	sta.b r0						;r0 = decode jump index
+	lda.w DecompBuf,y				;symbol
+	sta.b r0+1						;r0+1
+	iny								;next symbol
+	cmp.b HuffEscape				;escape?
+	bne .1x							;no
+	lda.b HuffLenIdx				;length
 	inc a
-	sta.b HuffEscapeLen
-	lda.b #$12
-	sta.b r0
+	sta.b HuffEscapeLen				;escape length
+	lda.b #$12						;escape jump index
+	sta.b r0						;r0
 .1x:								; r1 = Y, go to .7
-	sty.b r1
-	ldy.b HuffSpan
+	sty.b r1						;keep the symbol index
+	ldy.b HuffSpan					;entries to fill
 	bra .7
 .6:									; loop: Y not yet 0: DecompTab1,x = r0+1, DecompTab2,x = r0, X + 1
-	lda.b r0+1
-	sta.w DecompTab1,x
-	lda.b r0
-	sta.w DecompTab2,x
-	inx
+	lda.b r0+1						;symbol
+	sta.w DecompTab1,x				;symbol table
+	lda.b r0						;jump index
+	sta.w DecompTab2,x				;length table
+	inx								;next entry
 .7:									; Y - 1, if Y not yet 0 go to .6, ...
-	dey
-	bne .6
-	ldy.b r1
+	dey								;count
+	bne .6							;all entries
+	ldy.b r1						;symbol index back
 .8:									; decrement HuffSymCount, if HuffSymCount still >= 0 go to .5, ...
-	dec.b HuffSymCount
-	bpl .5
-	inc.b HuffLenIdx
-	lda.b HuffMaxLen
-	cmp.b HuffLenIdx
-	bcs .3
-	stx.b r0
+	dec.b HuffSymCount				;one symbol fewer
+	bpl .5							;more of this length
+	inc.b HuffLenIdx				;next length
+	lda.b HuffMaxLen				;longest
+	cmp.b HuffLenIdx				;more lengths?
+	bcs .3							;yes
+	stx.b r0						;table position
 .9:									; if r0 = 0 go to .1xx, ...
-	ldx.b r0
-	beq .1xx
-	lda.b #$10
+	ldx.b r0						;table position
+	beq .1xx						;full: done
+	lda.b #$10						;long-code marker
 .loopx:								; loop: DecompTab2,x = A, X + 1, if not zero go to .loopx
-	sta.w DecompTab2,x
+	sta.w DecompTab2,x				;rest of the length table
 	inx
-	bne .loopx
+	bne .loopx						;to the end
 .1xx:								; HuffLongVec = .10-$10,x, WMADDH = p1+2, WMADDL = p1, ...
-	lda.b HuffMaxLen
-	asl a
+	lda.b HuffMaxLen				;longest length
+	asl a							;word index
 	tax
 	rep #$20
-	lda.l .10-$10,x					; by the longest code length, from 9 bits up
-	sta.w HuffLongVec
-	ldy.b p1+2
+	lda.l .10-$10,x					;long-code routine
+	sta.w HuffLongVec				;HuffLongVec
+	ldy.b p1+2						;output bank
 	sty.w WMADDH
-	lda.b p1
+	lda.b p1						;output address
 	sta.w WMADDL
-	lda.b HuffBits
-	ldx.b HuffStartBits
-	jmp (.11,x)
+	lda.b HuffBits					;bit buffer
+	ldx.b HuffStartBits				;bits used
+	jmp (.11,x)						;start decoding
 .10:								; dw .111,.112,.114,.115,.116,.117,.118,.119
 	dw .111,.112,.114,.115,.116,.117,.118,.119
 .11:								; dw $0000,.104,.92,.80,.68,.56,.44,.32,.20
@@ -190,17 +190,17 @@ DecompressHuffman:					; called from Decompress
 .19:								; asl a, increment p0, WMDATA = DecompTab1,y, ...
 	asl a
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
-	ldx.w DecompTab1,y
-	stx.w WMDATA
-	stx.b r2
+	ldx.w DecompTab1,y				;decoded symbol
+	stx.w WMDATA					;output it
+	stx.b r2						;last symbol, for runs
 .20:								; HuffBits = A, go to (.21,x)
 	sta.b HuffBits
-	ldy.b HuffBits+1
-	ldx.w DecompTab2,y
-	jmp (.21,x)
+	ldy.b HuffBits+1				;next 8 code bits
+	ldx.w DecompTab2,y				;their code length
+	jmp (.21,x)						;decode by length
 .21:								; dw .31,.42,.53,.64,.75,.86,.97,.12,.23,.22
 	dw .31,.42,.53,.64,.75,.86,.97,.12,.23,.22
 .22:								; go to .147
@@ -209,12 +209,12 @@ DecompressHuffman:					; called from Decompress
 .23:								; HuffBitsExt = 0, ora HuffBitsExt+1, HuffBitsExt+1 = A, ...
 	ldx.b #$10
 	stz.b HuffBitsExt
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	and.w #$00FF
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp.w (HuffLongVec)
+	jmp.w (HuffLongVec)				;long code
 .24:								; asl a
 	asl a
 .25:								; asl a
@@ -230,19 +230,19 @@ DecompressHuffman:					; called from Decompress
 .30:								; asl a, increment p0
 	asl a
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 .31:								; asl a, WMDATA = DecompTab1,y, r2 = DecompTab1,y
 	asl a
-	ldx.w DecompTab1,y
-	stx.w WMDATA
-	stx.b r2
+	ldx.w DecompTab1,y				;decoded symbol
+	stx.w WMDATA					;output it
+	stx.b r2						;last symbol, for runs
 .32:								; HuffBits = A, go to (.33,x)
 	sta.b HuffBits
-	ldy.b HuffBits+1
-	ldx.w DecompTab2,y
-	jmp (.33,x)
+	ldy.b HuffBits+1				;next 8 code bits
+	ldx.w DecompTab2,y				;their code length
+	jmp (.33,x)						;decode by length
 .33:								; dw .43,.54,.65,.76,.87,.98,.13,.24,.35,.34
 	dw .43,.54,.65,.76,.87,.98,.13,.24,.35,.34
 .34:								; go to .147
@@ -251,13 +251,13 @@ DecompressHuffman:					; called from Decompress
 .35:								; HuffBitsExt = 0, ora HuffBitsExt+1, HuffBitsExt+1 = A, ...
 	ldx.b #$0E
 	stz.b HuffBitsExt
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	and.w #$00FF
 	asl a
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp.w (HuffLongVec)
+	jmp.w (HuffLongVec)				;long code
 .36:								; asl a
 	asl a
 .37:								; asl a
@@ -271,21 +271,21 @@ DecompressHuffman:					; called from Decompress
 .41:								; asl a, increment p0
 	asl a
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 .42:								; asl a
 	asl a
 .43:								; asl a, WMDATA = DecompTab1,y, r2 = DecompTab1,y
 	asl a
-	ldx.w DecompTab1,y
-	stx.w WMDATA
-	stx.b r2
+	ldx.w DecompTab1,y				;decoded symbol
+	stx.w WMDATA					;output it
+	stx.b r2						;last symbol, for runs
 .44:								; HuffBits = A, go to (.45,x)
 	sta.b HuffBits
-	ldy.b HuffBits+1
-	ldx.w DecompTab2,y
-	jmp (.45,x)
+	ldy.b HuffBits+1				;next 8 code bits
+	ldx.w DecompTab2,y				;their code length
+	jmp (.45,x)						;decode by length
 .45:								; dw .55,.66,.77,.88,.99,.14,.25,.36,.47,.46
 	dw .55,.66,.77,.88,.99,.14,.25,.36,.47,.46
 .46:								; go to .147
@@ -294,14 +294,14 @@ DecompressHuffman:					; called from Decompress
 .47:								; HuffBitsExt = 0, ora HuffBitsExt+1, HuffBitsExt+1 = A, ...
 	ldx.b #$0C
 	stz.b HuffBitsExt
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	and.w #$00FF
 	asl a
 	asl a
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp.w (HuffLongVec)
+	jmp.w (HuffLongVec)				;long code
 .48:								; asl a
 	asl a
 .49:								; asl a
@@ -313,7 +313,7 @@ DecompressHuffman:					; called from Decompress
 .52:								; asl a, increment p0
 	asl a
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 .53:								; asl a
@@ -322,14 +322,14 @@ DecompressHuffman:					; called from Decompress
 	asl a
 .55:								; asl a, WMDATA = DecompTab1,y, r2 = DecompTab1,y
 	asl a
-	ldx.w DecompTab1,y
-	stx.w WMDATA
-	stx.b r2
+	ldx.w DecompTab1,y				;decoded symbol
+	stx.w WMDATA					;output it
+	stx.b r2						;last symbol, for runs
 .56:								; HuffBits = A, go to (.57,x)
 	sta.b HuffBits
-	ldy.b HuffBits+1
-	ldx.w DecompTab2,y
-	jmp (.57,x)
+	ldy.b HuffBits+1				;next 8 code bits
+	ldx.w DecompTab2,y				;their code length
+	jmp (.57,x)						;decode by length
 .57:								; dw .67,.78,.89,.100,.15,.26,.37,.48,.59,.58
 	dw .67,.78,.89,.100,.15,.26,.37,.48,.59,.58
 .58:								; go to .147
@@ -338,7 +338,7 @@ DecompressHuffman:					; called from Decompress
 .59:								; HuffBitsExt = 0, ora HuffBitsExt+1, HuffBitsExt+1 = A, ...
 	ldx.b #$0A
 	stz.b HuffBitsExt
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	and.w #$00FF
 	asl a
 	asl a
@@ -346,7 +346,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp.w (HuffLongVec)
+	jmp.w (HuffLongVec)				;long code
 .60:								; asl a
 	asl a
 .61:								; asl a
@@ -356,7 +356,7 @@ DecompressHuffman:					; called from Decompress
 .63:								; asl a, increment p0
 	asl a
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 .64:								; asl a
@@ -367,14 +367,14 @@ DecompressHuffman:					; called from Decompress
 	asl a
 .67:								; asl a, WMDATA = DecompTab1,y, r2 = DecompTab1,y
 	asl a
-	ldx.w DecompTab1,y
-	stx.w WMDATA
-	stx.b r2
+	ldx.w DecompTab1,y				;decoded symbol
+	stx.w WMDATA					;output it
+	stx.b r2						;last symbol, for runs
 .68:								; HuffBits = A, go to (.69,x)
 	sta.b HuffBits
-	ldy.b HuffBits+1
-	ldx.w DecompTab2,y
-	jmp (.69,x)
+	ldy.b HuffBits+1				;next 8 code bits
+	ldx.w DecompTab2,y				;their code length
+	jmp (.69,x)						;decode by length
 .69:								; dw .79,.90,.101,.16,.27,.38,.49,.60,.71,.70
 	dw .79,.90,.101,.16,.27,.38,.49,.60,.71,.70
 .70:								; go to .147
@@ -383,7 +383,7 @@ DecompressHuffman:					; called from Decompress
 .71:								; HuffBitsExt = 0, ora HuffBitsExt+1, HuffBitsExt+1 = A, ...
 	ldx.b #$08
 	stz.b HuffBitsExt
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	and.w #$00FF
 	asl a
 	asl a
@@ -392,7 +392,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp.w (HuffLongVec)
+	jmp.w (HuffLongVec)				;long code
 .72:								; asl a
 	asl a
 .73:								; asl a
@@ -400,7 +400,7 @@ DecompressHuffman:					; called from Decompress
 .74:								; asl a, increment p0
 	asl a
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 .75:								; asl a
@@ -413,14 +413,14 @@ DecompressHuffman:					; called from Decompress
 	asl a
 .79:								; asl a, WMDATA = DecompTab1,y, r2 = DecompTab1,y
 	asl a
-	ldx.w DecompTab1,y
-	stx.w WMDATA
-	stx.b r2
+	ldx.w DecompTab1,y				;decoded symbol
+	stx.w WMDATA					;output it
+	stx.b r2						;last symbol, for runs
 .80:								; HuffBits = A, go to (.81,x)
 	sta.b HuffBits
-	ldy.b HuffBits+1
-	ldx.w DecompTab2,y
-	jmp (.81,x)
+	ldy.b HuffBits+1				;next 8 code bits
+	ldx.w DecompTab2,y				;their code length
+	jmp (.81,x)						;decode by length
 .81:								; dw .91,.102,.17,.28,.39,.50,.61,.72,.83,.82
 	dw .91,.102,.17,.28,.39,.50,.61,.72,.83,.82
 .82:								; go to .147
@@ -429,7 +429,7 @@ DecompressHuffman:					; called from Decompress
 .83:								; HuffBitsExt = 0, ora HuffBitsExt+1, HuffBitsExt+1 = A, ...
 	ldx.b #$06
 	stz.b HuffBitsExt
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	and.w #$00FF
 	asl a
 	asl a
@@ -439,13 +439,13 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp.w (HuffLongVec)
+	jmp.w (HuffLongVec)				;long code
 .84:								; asl a
 	asl a
 .85:								; asl a, increment p0
 	asl a
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 .86:								; asl a
@@ -460,14 +460,14 @@ DecompressHuffman:					; called from Decompress
 	asl a
 .91:								; asl a, WMDATA = DecompTab1,y, r2 = DecompTab1,y
 	asl a
-	ldx.w DecompTab1,y
-	stx.w WMDATA
-	stx.b r2
+	ldx.w DecompTab1,y				;decoded symbol
+	stx.w WMDATA					;output it
+	stx.b r2						;last symbol, for runs
 .92:								; HuffBits = A, go to (.93,x)
 	sta.b HuffBits
-	ldy.b HuffBits+1
-	ldx.w DecompTab2,y
-	jmp (.93,x)
+	ldy.b HuffBits+1				;next 8 code bits
+	ldx.w DecompTab2,y				;their code length
+	jmp (.93,x)						;decode by length
 .93:								; dw .103,.18,.29,.40,.51,.62,.73,.84,.95,.94
 	dw .103,.18,.29,.40,.51,.62,.73,.84,.95,.94
 .94:								; go to .147
@@ -476,7 +476,7 @@ DecompressHuffman:					; called from Decompress
 .95:								; HuffBitsExt = 0, ora HuffBitsExt+1, HuffBitsExt+1 = A, ...
 	ldx.b #$04
 	stz.b HuffBitsExt
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	and.w #$00FF
 	asl a
 	asl a
@@ -487,11 +487,11 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp.w (HuffLongVec)
+	jmp.w (HuffLongVec)				;long code
 .96:								; asl a, increment p0
 	asl a
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 .97:								; asl a
@@ -508,14 +508,14 @@ DecompressHuffman:					; called from Decompress
 	asl a
 .103:								; asl a, WMDATA = DecompTab1,y, r2 = DecompTab1,y
 	asl a
-	ldx.w DecompTab1,y
-	stx.w WMDATA
-	stx.b r2
+	ldx.w DecompTab1,y				;decoded symbol
+	stx.w WMDATA					;output it
+	stx.b r2						;last symbol, for runs
 .104:								; HuffBits = A, go to (.105,x)
 	sta.b HuffBits
-	ldy.b HuffBits+1
-	ldx.w DecompTab2,y
-	jmp (.105,x)
+	ldy.b HuffBits+1				;next 8 code bits
+	ldx.w DecompTab2,y				;their code length
+	jmp (.105,x)					;decode by length
 .105:								; dw .19,.30,.41,.52,.63,.74,.85,.96,.107,.106
 	dw .19,.30,.41,.52,.63,.74,.85,.96,.107,.106
 .106:								; go to .147
@@ -524,7 +524,7 @@ DecompressHuffman:					; called from Decompress
 .107:								; HuffBitsExt = 0, ora HuffBitsExt+1, HuffBitsExt+1 = A, ...
 	ldx.b #$02
 	stz.b HuffBitsExt
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	and.w #$00FF
 	asl a
 	asl a
@@ -536,7 +536,7 @@ DecompressHuffman:					; called from Decompress
 	ora.b HuffBitsExt+1
 	sta.b HuffBitsExt+1
 	lda.b HuffBits
-	jmp.w (HuffLongVec)
+	jmp.w (HuffLongVec)				;long code
 .108:								; lsr a, lsr a, lsr a, ...
 	lsr a
 	lsr a
@@ -551,7 +551,7 @@ DecompressHuffman:					; called from Decompress
 	sep #$20
 	lda.w DecompBuf,y
 	ldy.b #$01
-	cmp.b HuffEscape
+	cmp.b HuffEscape				;escape?
 	beq .110
 	jmp.w .128
 .109:								; lsr a, lsr a, lsr a, ...
@@ -567,7 +567,7 @@ DecompressHuffman:					; called from Decompress
 	sep #$20
 	lda.w DecompBuf,y
 	ldy.b #$02
-	cmp.b HuffEscape
+	cmp.b HuffEscape				;escape?
 	beq .110
 	jmp.w .128
 .110:								; go to .146
@@ -658,7 +658,7 @@ org $80C001
 	sep #$20
 	lda.w DecompBuf,y
 	ldy.b #$03
-	cmp.b HuffEscape
+	cmp.b HuffEscape				;escape?
 	beq .122
 	bra .128
 .121:								; lsr a, lsr a, lsr a, ...
@@ -672,7 +672,7 @@ org $80C001
 	sep #$20
 	lda.w DecompBuf,y
 	ldy.b #$04
-	cmp.b HuffEscape
+	cmp.b HuffEscape				;escape?
 	beq .122
 	bra .128
 .122:								; go to .146
@@ -689,7 +689,7 @@ org $80C001
 	sep #$20
 	lda.w DecompBuf,y
 	ldy.b #$05
-	cmp.b HuffEscape
+	cmp.b HuffEscape				;escape?
 	beq .122
 	bra .128
 .125:								; lsr a, lsr a, sbc HuffOffset+$1A, ...
@@ -701,7 +701,7 @@ org $80C001
 	sep #$20
 	lda.w DecompBuf,y
 	ldy.b #$06
-	cmp.b HuffEscape
+	cmp.b HuffEscape				;escape?
 	beq .122
 	bra .128
 .126:								; lsr a, sbc HuffOffset+puckobj, if $07 = HuffEscape go to .122, ...
@@ -712,7 +712,7 @@ org $80C001
 	sep #$20
 	lda.w DecompBuf,y
 	ldy.b #$07
-	cmp.b HuffEscape
+	cmp.b HuffEscape				;escape?
 	beq .122
 	bra .128
 .127:								; sbc HuffOffset+$1E, if $08 = HuffEscape go to .146
@@ -722,11 +722,11 @@ org $80C001
 	sep #$20
 	lda.w DecompBuf,y
 	ldy.b #$08
-	cmp.b HuffEscape
+	cmp.b HuffEscape				;escape?
 	beq .146
 .128:								; WMDATA = A, r2 = A, increment p0, ...
-	sta.w WMDATA
-	sta.b r2
+	sta.w WMDATA					;output it
+	sta.b r2						;last symbol, for runs
 	rep #$20
 	inc.b p0
 	lda.b HuffBitsExt+1
@@ -764,7 +764,7 @@ org $80C001
 .137:								; asl a, increment p0, Y - 1, ...
 	asl a
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	dey
@@ -815,11 +815,11 @@ org $80C001
 	beq .148
 	ldy.b r2
 .loopxx:							; loop: WMDATA = Y, decrement a, if a not yet 0 go to .loopxx, ...
-	sty.w WMDATA
+	sty.w WMDATA					;output it
 	dec a
 	bne .loopxx
 	lda.b HuffBits
-	jmp (.11,x)
+	jmp (.11,x)						;decode by length
 .147:								; call .152, HuffBits = A, call .150, ...
 	ldy.b HuffEscapeLen
 	jsr.w .152
@@ -828,23 +828,23 @@ org $80C001
 	beq .148
 	ldy.b r2
 .loopxxx:							; loop: WMDATA = Y, decrement a, if a not yet 0 go to .loopxxx, ...
-	sty.w WMDATA
+	sty.w WMDATA					;output it
 	dec a
 	bne .loopxxx
 	lda.b HuffBits
-	jmp (.11,x)
+	jmp (.11,x)						;decode by length
 .148:								; if HuffBits negative go to .t1x, ...
 	lda.b HuffBits
 	bmi .t1x
 	ldy.b #$01
 	jsr.w .152
 	sta.b HuffBits
-	ldy.b HuffBits+1
-	sty.w WMDATA
+	ldy.b HuffBits+1				;next 8 code bits
+	sty.w WMDATA					;output it
 	sty.b r2
 	ldy.b #$08
 	jsr.w .152
-	jmp (.11,x)
+	jmp (.11,x)						;decode by length
 
 .t1x:								; HuffBits negative: return
 	rts
@@ -870,21 +870,21 @@ org $80C001
 	rts
 .3x:								; Y counted to 0: increment p0, go to .1xxxx
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldy.b #$08
 	bra .1xxxx
 .4x:								; Y counted to 0: increment p0, go to .2x
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldy.b #$08
 	bra .2x
 .5x:								; Y counted to 0: increment p0, HuffBits = (p0), return
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldy.b #$08
@@ -921,14 +921,14 @@ org $80C001
 	rts
 .5xx:								; Y counted to 0: increment p0, go to .2xx
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldy.b #$08
 	bra .2xx
 .6x:								; Y counted to 0: increment p0, go to .4xx
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldy.b #$08
@@ -958,21 +958,21 @@ org $80C001
 	rts
 .3xxx:								; X counted to 0: increment p0, go to .1xxxxxx
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldx.b #$10
 	bra .1xxxxxx
 .4xxx:								; X counted to 0: increment p0, go to .2xxx
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldx.b #$10
 	bra .2xxx
 .5xxx:								; X counted to 0: increment p0, HuffBits = (p0), return
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldx.b #$10
@@ -1013,14 +1013,14 @@ org $80C001
 	rts
 .5xxxx:								; X counted to 0: increment p0, go to .2xxxx
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldx.b #$10
 	bra .2xxxx
 .6xx:								; X counted to 0: increment p0, go to .4xxxx
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldx.b #$10
@@ -1039,7 +1039,7 @@ org $80C001
 
 .t1xx:								; X counted to 0: increment p0, Y - 1, if Y not yet 0 go to .152, ...
 	sep #$20
-	lda.b (p0)
+	lda.b (p0)						;next input byte
 	rep #$20
 	inc.b p0
 	ldx.b #$10
