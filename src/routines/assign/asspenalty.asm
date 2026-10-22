@@ -88,11 +88,13 @@ asspenalty:							; assignment: skate to the penalty box
 	lda.w #SPAglide
 	sta.w pfnc,x					; no collisions
 	jsl.l SetSPAFromA				; start sprite animation A on object X
-	lda.w #$0006					; face: 6 (2 for a right handed player)
+	lda.w #$0006					; face 6 = left (2 = right for a left handed player)
+									; righty faces 6 (mirrored to frame dir 2), lefty faces 2:
+									; both show the same glide frame, the righty x-flipped
 	sta.b d2
-	lda.w handed,x					; handed set = right handed
-	beq .3x
-	lda.w #$0002
+	lda.w handed,x					; handed set = left handed
+	beq .3x							; right handed (handed = 0): face 6, away from the box
+	lda.w #$0002					; left handed: face 2, toward the box
 	sta.b d2
 .3x:								; turn one step towards d2
 	lda.w facedir,x
@@ -119,7 +121,7 @@ asspenalty:							; assignment: skate to the penalty box
 	sta.w Ypos,x
 	lda.w #sideline					; x at the side boards
 	sta.w Xpos,x
-	lda.w #$0002					; face left
+	lda.w #$0002					; face right (2), toward the boards, for the wall hop
 	sta.w facedir,x
 	sta.w pfalock,x					; lock the assignment
 	lda.w #SPAwallright				; wall animation

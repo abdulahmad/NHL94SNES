@@ -33,7 +33,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	lsr a
 	inc a
 	sta.b d0						; frame
-	lda.w handed,x					; left handed: +3 (handed set = right handed)
+	lda.w handed,x					; right handed: +3 (handed set = left handed)
 	bne .3							; left
 	inc.b d0
 	inc.b d0
