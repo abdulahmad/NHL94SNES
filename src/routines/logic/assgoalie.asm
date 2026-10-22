@@ -243,8 +243,8 @@ assgoalie:							; called from assnearest, asstab
 	sta.b d0						;6 players
 	stz.b a0						;home first
 	lda.w pfteam,x					;which team?
-	bne .2xxx						;home first
-	lda.w #$000C					;away team
+	bne .2xxx						;visiting goalie: opponents are home
+	lda.w #$000C					;home goalie: away team
 	sta.b a0						;away team's first player
 .2xxx:								;any opponent near the puck?
 	ldy.b a0						;player index
