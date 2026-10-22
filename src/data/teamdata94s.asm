@@ -54,6 +54,7 @@ AllStarsEast:						; team record: All Stars East (ASE), team 26
 	db 01,19,23,13,05,06,15,00		; line 7 PK1
 	db 01,24,25,15,06,05,13,00		; line 8 PK2
 .pld:								; player data: one player per row, ended by an empty String
+	;						unwl,sodp,chga,eytm
 	%Player("Patrick Roy", $3366,$4446,$0100,$5566)
 	%Player("Grant Fuhr", $3175,$4555,$0000,$4455)
 	%Player("Tom Barrasso", $35A4,$4554,$0000,$4444)
@@ -79,7 +80,7 @@ AllStarsEast:						; team record: All Stars East (ASE), team 26
 	%Player("Scott Stevens", $04B4,$4344,$5642,$5043)
 	%Player("Zarley Zalapski", $03A5,$4454,$4442,$5133)
 	%Player("Glen Wesley", $2685,$4344,$3641,$4442)
-	dw 2							; end of the player list (an empty String)
+	dw 2							; end of player data: empty String
 .tn:								; city
 	%String("All Stars East")
 .ta:								; abbreviation
