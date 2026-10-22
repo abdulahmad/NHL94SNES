@@ -45,3 +45,7 @@ from it; the Vault is released into the public domain (Unlicense).
 ## Build
 
 `sh tools/setup.sh` (or `tools\setup.ps1`), then `./build.sh` (or `build.ps1`). It writes `output/nhl94snes.sfc` and prints MATCH / MISMATCH.
+
+## Credits
+
+Thanks to chaos, StaticEck, McMarkis, Drezz, smozoma and kingraph for their help with the disassembly.
