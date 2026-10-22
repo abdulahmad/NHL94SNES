@@ -304,8 +304,8 @@ org $9FD000
 	and.w #$0001					; handed = inverted bit 0 of byte 4
 	eor.w #$0001
 	sta.w handed,x
-	bne .1x							; right handed: done
-	lda.w attribute,x				; left handed: set attrxflip
+	bne .1x							; left handed: done
+	lda.w attribute,x				; right handed: set attrxflip
 	ora.w #$0800
 	sta.w attribute,x
 .1x:								; fighting = bits 1-3 of byte 4
