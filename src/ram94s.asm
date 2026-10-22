@@ -386,6 +386,7 @@ SpriteVRAM			=	$07B4		; VRAM word address of sprite tile 0
 SpritesReserved		=	$07B6		; OAM entries at the start that the sprite drawing leaves alone
 OAMNext				=	$07BC		; next OAM entry to fill in OAMDrawBuf
 OAMHideEnd			=	$07BE		; SpriteFrameEnd moves the entries from OAMNext up to here off screen
+strtext				=	2			; String: start of the text after its length word
 mesarea				=	$0A2A		; string being built: a length word, then the bytes
 mesareaEnd			=	$0A48		; one past the last digit PushNumber and PushTime may write
 puckc				=	$0AD9		; object index of the puck carrier, negative = loose
