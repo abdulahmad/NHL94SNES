@@ -1,6 +1,6 @@
 ; run-length data at Y to WRAM: literal runs and repeats, of bytes if its header word is $0101,
 DecompressRLE:						; called from Decompress
-		;   else of byte pairs
+									;else of byte pairs
 	iny
 	iny
 	iny

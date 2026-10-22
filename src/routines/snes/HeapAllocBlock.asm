@@ -5,7 +5,7 @@
 ; is added). A free block that is too big is split. Returns A = the data address ($FFFF if no block fits).
 ; Called by NewHandle.
 HeapAllocBlock:						; find a free block of at least r3 bytes
-		;   returns the data address, $FFFF for none
+									;returns the data address, $FFFF for none
 	stz.b p0						; p0 = bank base
 .walk:								; walk the block chain: the size is the first word of a header
 	lda.b [p0],y
