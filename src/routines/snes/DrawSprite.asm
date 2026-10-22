@@ -1,6 +1,6 @@
 ; draw frame $00 of the sprite set at [p1] at X, Y; A is xored into the tile and attribute word
 DrawSprite:							; called from DrawLicenceNHL, DrawLicenceNHLPA, DrawLogoSprite, DrawMat...
-		;   of each piece, and its flip bits also mirror the piece positions
+									;of each piece, and its flip bits also mirror the piece positions
 	sta.b r3
 	stx.b r5
 	sty.b r5+2

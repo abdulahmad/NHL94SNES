@@ -1,6 +1,7 @@
 ; unpack the data at [p0] to WRAM at [p1] by its format word ($FB10 LZ, $FB46 pairs, $FB30 Huffman,
 Decompress:							; called from BuildRinkMap, DrawEditLinesBack, DrawPlayerPicture, DrawS...
-		;   $FB7A run-length); X = the unpacked size from the header, or 1 for an unknown format
+									;$FB7A run-length); X = the unpacked size from the header, or 1 for an
+									;unknown format
 	php
 	phb
 	rep #$30
