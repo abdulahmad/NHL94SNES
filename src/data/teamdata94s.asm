@@ -43,7 +43,8 @@ AllStarsEast:						; team record: All Stars East (ASE), team 26
 	db $77,$20,$00,$E8,$5B
 .godds:								; starting goalie weights
 	db 203,192
-.ls:								; -G,LD,RD,LW,-C,RW,XA,00: player numbers (1 = the first .pld entry)
+.ls:								; player numbers (1 = the first .pld entry)
+	;  -G,LD,RD,LW,-C,RW,XA,00
 	db 01,19,18,07,04,16,09,00		; line 1 NLC (no line changes)
 	db 01,19,18,07,04,16,10,00		; line 2 Sc1
 	db 01,22,20,11,10,17,07,00		; line 3 Sc2
