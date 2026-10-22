@@ -1,10 +1,10 @@
-; d0 = the power play time left, from the penalty box times. a2 = team on the power play
-; a3 = the shorthanded team (the one with players in the box).
+; d0 = the power play time left, from the penalty box times. a2 = the shorthanded team (the one
+; with players in the box), a3 = the team on the power play.
 ; Called from updatepwrplay.
 GetLowestPen:						; time left of the power play -> d0
 	stz.b d0						; d0 = total
 	stz.b d3						; d3 = previous penalty time
-	lda.b a2						; a2 = team on the power play
+	lda.b a2						; a2 = shorthanded team
 	beq .a							; team 0: list offset 0
 	lda.w #$001A					; team 1 list starts at offset $1A
 .a:									; list offset chosen
@@ -16,7 +16,7 @@ GetLowestPen:						; time left of the power play -> d0
 	and.w #$00FF					; d2 = player
 	sta.b d2
 	bit.w #$0080					; bit 7 set = end of list
-	bne .t1							; end: go to the shorthanded team
+	bne .t1							; end: go to the power play team
 	lda.b a2						; team
 	beq .h0							; team 0: state table at 0
 	lda.w #$0034					; team 1 state table is $34 bytes on
@@ -39,11 +39,11 @@ GetLowestPen:						; time left of the power play -> d0
 	sta.b d3						; remember it
 	bra .top						; next entry
 
-.t1:								; second part: the shorthanded team a3
-	ldy.b a3						; a3 = shorthanded team
+.t1:								; second part: the power play team a3
+	ldy.b a3						; a3 = power play team
 	lda.w tmap,y					; players on ice
 	cmp.w #$0006					; six on ice?
-	beq .rtl						; yes: no power play, d0 stays as is
+	beq .rtl						; yes: done, d0 stays as is
 	lda.b d0						; total minus the last time
 	sec
 	sbc.b d3						; minus the last
