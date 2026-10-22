@@ -8,7 +8,7 @@
 ; Called from AttribWeight, AttribStatus, ShowRosterLine, SelectLinePlayer and many others.
 print:								; print a string
 	phx								; keep X
-	ldy.w #$0002					; Y = 2: skip the length word
+	ldy.w #strtext					; Y = 2: skip the length word
 .1:									; X = text map offset of the print position
 	lda.w printy					; X = (printy*32+printx)*2 + printm
 	asl a

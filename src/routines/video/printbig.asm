@@ -19,7 +19,7 @@ printbig:							; print a string with the big font
 	pha
 	lda.b d2+2
 	pha
-	ldy.w #$0002					; y = 2: after the length word
+	ldy.w #strtext					; y = 2: after the length word
 .7:									; next byte of the string
 	tya								; end of the string?
 	cmp.b [a1]
