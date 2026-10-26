@@ -59,7 +59,7 @@ $809549,Cos,CODE_809549,code,,src/routines/snes/Cos.asm
 $80954D,Sin,CODE_80954D,code,,src/routines/snes/Cos.asm
 $809583,SPCReset,CODE_809583,code,,src/routines/snes/SPCReset.asm
 $80959A,SPCStatus,CODE_80959A,code,,src/routines/snes/SPCStatus.asm
-$8095C6,SPCUpload,CODE_8095C6,code,,src/routines/sound/SPCUpload.asm
+$8095C6,SPCSendSample,CODE_8095C6,code,,src/routines/snes/SPCSendSample.asm
 $8095FB,SPCUnload,CODE_8095FB,code,,src/routines/snes/SPCUnload.asm
 $809612,SPCKeyOff,CODE_809612,code,,src/routines/snes/SPCKeyOff.asm
 $80962C,SPCKeyOn,CODE_80962C,code,,src/routines/snes/SPCKeyOn.asm
@@ -107,7 +107,7 @@ $80A37B,SetSoundFade,CODE_80A37B,code,,src/routines/snes/SetSoundFade.asm
 $80A380,SoundInit,CODE_80A380,code,,src/routines/snes/SoundInit.asm
 $80A3C1,SoundVoicesOff,CODE_80A3C1,code,,src/routines/snes/SoundVoicesOff.asm
 $80AD9D,SoundUpdate,CODE_80AD9D,code,,src/routines/snes/SoundUpdate.asm
-$80AE7B,SPCIPLUpload,CODE_80AE7B,code,,src/routines/snes/SPCIPLUpload.asm
+$80AE7B,SPCUpload,CODE_80AE7B,code,,src/routines/sound/SPCUpload.asm
 $07E5,SoundLock,,code,RAM,src/ram94s.asm
 $07F3,MusicOn,,code,RAM,src/ram94s.asm
 $07F7,SoundVolume,,code,RAM,src/ram94s.asm
@@ -132,7 +132,7 @@ $07BC,OAMNext,,code,RAM,src/ram94s.asm
 $07BE,OAMHideEnd,,code,RAM,src/ram94s.asm
 $80C2F3,DecompressRLE,CODE_80C2F3,code,format $FB7A in Decompress,src/routines/snes/DecompressRLE.asm
 $80C373,Decompress,CODE_80C373,code,,src/routines/snes/Decompress.asm
-$80C3CB,SoundDriver,DATA8_80C3CB,code,sent by SPCIPLUpload at reset,src/data/tables/SoundDriver.asm
+$80C3CB,SoundDriver,DATA8_80C3CB,code,sent by SPCUpload at reset,src/data/tables/SoundDriver.asm
 $80C943,ShootoutWonBy,CODE_80C943,94G,"same job as 94G ShootoutWonBy (""<team> Wins!"")",src/routines/shootout/ShootoutWonBy.asm
 $80CA0B,ShootoutShooters,CODE_80CA0B,94G,same job as 94G ShootoutShooters (goalie and shooters screen),src/routines/shootout/ShootoutShooters.asm
 $80CDC8,InitShooters,CODE_80CDC8,94G,same job as 94G InitShooters (8 bytes from the team data),src/routines/shootout/InitShooters.asm
@@ -1141,7 +1141,7 @@ $9EEE54,.1,CODE_9EEE54,new,branch target only used in this routine,src/routines/
 $9EEE57,.2,CODE_9EEE57,new,branch target only used in this routine,src/routines/logic/assdumpin.asm
 $9EEE63,.3,CODE_9EEE63,new,branch target only used in this routine,src/routines/logic/assdumpin.asm
 $9EEE66,.4,CODE_9EEE66,new,branch target only used in this routine,src/routines/logic/assdumpin.asm
-$80AE83,.loop,CODE_80AE83,new,branch target only used in this routine,src/routines/snes/SPCIPLUpload.asm
+$80AE83,.loop,CODE_80AE83,new,branch target only used in this routine,src/routines/sound/SPCUpload.asm
 $9B95DB,.loop,CODE_9B95DB,new,branch target only used in this routine,src/routines/hockey/FillScoringPage.asm
 $9B95E0,.1,CODE_9B95E0,new,branch target only used in this routine,src/routines/hockey/FillScoringPage.asm
 $9C8C44,.1,CODE_9C8C44,new,branch target only used in this routine,src/routines/hockey/ComparePlayerStats.asm
@@ -1167,10 +1167,10 @@ $9F9969,.2,CODE_9F9969,new,branch target only used in this routine,src/routines/
 $9FD89D,.1,CODE_9FD89D,new,branch target only used in this routine,src/routines/assign/assbench.asm
 $9FD8AB,.2,CODE_9FD8AB,new,branch target only used in this routine,src/routines/assign/assbench.asm
 $9FD8B3,.3,CODE_9FD8B3,new,branch target only used in this routine,src/routines/assign/assbench.asm
-$80AE9B,.loop,CODE_80AE9B,new,branch target only used in this routine,src/routines/snes/SPCIPLUpload.asm
-$80AEAB,.loop,CODE_80AEAB,new,branch target only used in this routine,src/routines/snes/SPCIPLUpload.asm
-$80AEB0,.loop2,CODE_80AEB0,new,branch target only used in this routine,src/routines/snes/SPCIPLUpload.asm
-$80AED4,.loop,CODE_80AED4,new,branch target only used in this routine,src/routines/snes/SPCIPLUpload.asm
+$80AE9B,.loop,CODE_80AE9B,new,branch target only used in this routine,src/routines/sound/SPCUpload.asm
+$80AEAB,.loop,CODE_80AEAB,new,branch target only used in this routine,src/routines/sound/SPCUpload.asm
+$80AEB0,.loop2,CODE_80AEB0,new,branch target only used in this routine,src/routines/sound/SPCUpload.asm
+$80AED4,.loop,CODE_80AED4,new,branch target only used in this routine,src/routines/sound/SPCUpload.asm
 $9FA3C9,.1,CODE_9FA3C9,new,branch target only used in this routine,src/routines/penalty/TickerNext.asm
 $9FA3D4,.2,CODE_9FA3D4,new,branch target only used in this routine,src/routines/penalty/TickerNext.asm
 $80BA57,.loop,CODE_80BA57,new,branch target only used in this routine,src/routines/snes/DecompressLZ.asm
@@ -4870,10 +4870,10 @@ $80AB63,.11,CODE_80AB63,new,"part of StepTrack, used only by it",src/routines/sn
 $80ABA5,.12,CODE_80ABA5,new,"part of StepTrack, used only by it",src/routines/snes/StepTrack.asm
 $80ABBF,.13,CODE_80ABBF,new,"part of StepTrack, used only by it",src/routines/snes/StepTrack.asm
 $80ABC2,.14,CODE_80ABC2,new,"part of StepTrack, used only by it",src/routines/snes/StepTrack.asm
-$80AE8E,.1,CODE_80AE8E,new,"part of SPCIPLUpload, used only by it",src/routines/snes/SPCIPLUpload.asm
-$80AE96,.2,CODE_80AE96,new,"part of SPCIPLUpload, used only by it",src/routines/snes/SPCIPLUpload.asm
-$80AEA1,.3,CODE_80AEA1,new,"part of SPCIPLUpload, used only by it",src/routines/snes/SPCIPLUpload.asm
-$80AEB4,.4,CODE_80AEB4,new,"part of SPCIPLUpload, used only by it",src/routines/snes/SPCIPLUpload.asm
+$80AE8E,.1,CODE_80AE8E,new,"part of SPCUpload, used only by it",src/routines/sound/SPCUpload.asm
+$80AE96,.2,CODE_80AE96,new,"part of SPCUpload, used only by it",src/routines/sound/SPCUpload.asm
+$80AEA1,.3,CODE_80AEA1,new,"part of SPCUpload, used only by it",src/routines/sound/SPCUpload.asm
+$80AEB4,.4,CODE_80AEB4,new,"part of SPCUpload, used only by it",src/routines/sound/SPCUpload.asm
 $80B030,.2,CODE_80B030,new,"part of GetFrameTiles, used only by it",src/routines/snes/GetFrameTiles.asm
 $80B059,.3,CODE_80B059,new,"part of GetFrameTiles, used only by it",src/routines/snes/GetFrameTiles.asm
 $80B05F,.4,CODE_80B05F,new,"part of GetFrameTiles, used only by it",src/routines/snes/GetFrameTiles.asm

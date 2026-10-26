@@ -1,4 +1,4 @@
-; The sound CPU (SPC700) program, uploaded at reset by SPCIPLUpload (Reset_Fast) to sound RAM $0400. It clears
+; The sound CPU (SPC700) program, uploaded at reset by SPCUpload (Reset_Fast) to sound RAM $0400. It clears
 ; sound RAM above itself, sets up the DSP and serves commands the CPU writes to port 0 (data in ports 1-3).
 ;
 ; The handler replies on port 0 and the main loop waits for the CPU to clear it. Samples go in a directory at
@@ -50,7 +50,7 @@ spcClearBytes = $11
 ; the sample directory (4 bytes per sample: start, loop point; 96 samples), DSP_DIR page
 spcSampleDir = $0200
 
-SoundDriver:						;the sound CPU program as SPCIPLUpload blocks: length, sound RAM address,
+SoundDriver:						;the sound CPU program as SPCUpload blocks: length, sound RAM address,
 									;bytes; length 0 ends
 									;it
 									;with the start address
