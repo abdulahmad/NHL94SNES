@@ -10,22 +10,22 @@ SPCTitleToMenu:						; change the title sample set into the menu set
 	sta.b p0+2
 	lda.w #SampleTimp
 	sta.b p0
-	jsl.l SPCUploadBlock			; SPCUpload of the sample at [p0]: loop point and length
+	jsl.l SPCUploadBlock			; send the sample at [p0] with SPCSendSample: loop point and length
 	lda.w #SampleDist>>16
 	sta.b p0+2
 	lda.w #SampleDist
 	sta.b p0
-	jsl.l SPCUploadBlock			; SPCUpload of the sample at [p0]: loop point and length
+	jsl.l SPCUploadBlock			; send the sample at [p0] with SPCSendSample: loop point and length
 	lda.w #SamplePlayoffOrgan>>16
 	sta.b p0+2
 	lda.w #SamplePlayoffOrgan
 	sta.b p0
-	jsl.l SPCUploadBlock			; SPCUpload of the sample at [p0]: loop point and length
+	jsl.l SPCUploadBlock			; send the sample at [p0] with SPCSendSample: loop point and length
 	lda.w #SampleAPower>>16
 	sta.b p0+2
 	lda.w #SampleAPower
 	sta.b p0
-	jsl.l SPCUploadBlock			; SPCUpload of the sample at [p0]: loop point and length
+	jsl.l SPCUploadBlock			; send the sample at [p0] with SPCSendSample: loop point and length
 	lda.w #SoundBankMenu
 	sta.w sndbank					;the menu set is loaded
 	rtl

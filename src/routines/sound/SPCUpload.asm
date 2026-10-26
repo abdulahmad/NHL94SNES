@@ -1,35 +1,65 @@
-; Sound driver command $03: send a sample of X bytes from [p0] to the sound CPU, with loop point Y (the next
-; sample slot). Each byte goes through APUIO2 and is acknowledged on APUIO1
-; Takes X = number of bytes, Y = loop point, p0 = long pointer to the sample. Returns with 16-bit A.
-;
-; Called from SPCUploadBlock.
-SPCUpload:							; send one sample to the sound CPU
-	sep #$20
-.wait:								;wait for the driver to be idle
-	lda.w APUIO0
-	bne .wait
-	sty.w APUIO2					;the loop point
-	lda.b #$03
-	sta.w APUIO0					;command 3
-	stz.w APUIO1
-.ack:								;wait for the command to be acknowledged
+; send the stream at [p0] through the boot loader: blocks of length, sound RAM address and data;
+SPCUpload:						; called from Reset_Fast
+									;length 0 ends it with the start address
+	rep #$30
+	ldy.w #$0000
+	lda.w #$BBAA
+.loop:								; loop: if not zero go to .loop, ...
 	cmp.w APUIO0
-	bne .ack
-	ldy.w #$0000					;byte counter
-.loop:								;send the sample bytes
-	lda.b [p0],y
-	sta.w APUIO2					;the byte
-	iny
-	tya
-	sta.w APUIO1					;the count of bytes sent, low byte
-.ackbyte:							;wait until the driver echoes the count
-	cmp.w APUIO1
-	bne .ackbyte
-	nop
-	nop
-	nop
-	dex								;X bytes left
 	bne .loop
-	stz.w APUIO0					;the command is finished
+	sep #$20
+	lda.b #$CC
+	bra .4
+.1:									; Y + 1, xba, go to .3
+	lda.b [p0],y
+	iny
+	xba
+	lda.b #$00
+	bra .3
+.2:									; loop: X not yet 0: xba, Y + 1, xba
+	xba
+	lda.b [p0],y
+	iny
+	xba
+.loopx:								; loop: if not zero go to .loopx, ...
+	cmp.w APUIO0
+	bne .loopx
+	inc a
+.3:									; APUIO0 = A, X - 1, if X not yet 0 go to .2
 	rep #$20
+	sta.w APUIO0
+	sep #$20
+	dex
+	bne .2
+.loopxx:							; loop: if not zero go to .loopxx
+	cmp.w APUIO0
+	bne .loopxx
+.loop2:								; loop: adc #$03, if zero go to .loop2
+	adc.b #$03
+	beq .loop2
+.4:									; Y + 1, Y + 1, Y + 1, ...
+	pha
+	rep #$20
+	lda.b [p0],y
+	iny
+	iny
+	tax
+	lda.b [p0],y
+	iny
+	iny
+	sta.w APUIO2
+	sep #$20
+	cpx.w #$0001
+	lda.b #$00
+	rol a
+	sta.w APUIO1
+	adc.b #$7F
+	pla
+	sta.w APUIO0
+.loopxxx:							; loop: if not zero go to .loopxxx, ...
+	cmp.w APUIO0
+	bne .loopxxx
+	bvs .1
+	stz.w APUIO0
+	rep #$30
 	rtl

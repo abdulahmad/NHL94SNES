@@ -74,7 +74,7 @@ Reset_Fast:							; called from Reset
 	lda.w #SoundDriver
 	sta.b p0
 	stz.b p0+2
-	jsl.l SPCIPLUpload				; send the stream at [p0] through the boot loader: blocks of length
+	jsl.l SPCUpload				; send the stream at [p0] through the boot loader: blocks of length
 	sep #$20
 	rep #$20
 	lda.w #$0000
