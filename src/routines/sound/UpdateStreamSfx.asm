@@ -32,12 +32,12 @@ UpdateStreamSfx:					; stream the sound effect asked for
 	lda.l streamsfx
 	cmp.l streamloaded
 	beq .t1x
-.loop:								; SPCCmd02 result below $15?
-	jsl.l SPCCmd02
+.loop:								; SPCStatus result below $15?
+	jsl.l SPCStatus
 	cmp.w #$0015
 	bcc .4
-.1:									; SPCCmd04, then retry SPCCmd02
-	jsl.l SPCCmd04
+.1:									; SPCUnload, then retry SPCStatus
+	jsl.l SPCUnload
 	bra .loop
 
 .t1x:								; block loaded: queue the sound

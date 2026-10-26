@@ -1,6 +1,6 @@
 ; Sequencer: clear the command $08 values, then send command $08
 SeqCmd08Init:						; called from SoundInit
-	jsl.l SPCCmd0D
+	jsl.l SPCKeyOffAll
 	sep #$30
 	lda.b #$00
 	sta.w PitchModVoices

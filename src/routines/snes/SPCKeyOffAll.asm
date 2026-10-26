@@ -1,5 +1,5 @@
 ; sound driver command $0D (key off every voice)
-SPCCmd0D:							; called from SeqCmd08Init
+SPCKeyOffAll:							; called from SeqCmd08Init
 	sep #$20
 .wait:								; loop: if APUIO0 != 0 go to .wait, ...
 	lda.w APUIO0

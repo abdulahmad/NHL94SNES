@@ -11,7 +11,7 @@ SPCTitleUpload:						; upload the Title sample set
 	sep #$20						;8-bit A
 	dec.w SoundLock					;sound update off
 	rep #$20						;16-bit A
-	jsl.l SPCCmd01					;driver command 1: empty the sample area
+	jsl.l SPCReset					;driver command 1: empty the sample area
 	sep #$20
 	inc.w SoundLock					;sound update on
 	rep #$20

@@ -3,9 +3,9 @@
 ; SamplePlayoffOrgan, SampleAPower) are sent and sndbank is SoundBankMenu. Called by TitleScreen
 SPCTitleToMenu:						; change the title sample set into the menu set
 	stz.w cursong					;no team song plays
-	jsl.l SPCCmd04
-	jsl.l SPCCmd04
-	jsl.l SPCCmd04
+	jsl.l SPCUnload
+	jsl.l SPCUnload
+	jsl.l SPCUnload
 	lda.w #SampleTimp>>16
 	sta.b p0+2
 	lda.w #SampleTimp
