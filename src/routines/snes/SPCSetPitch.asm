@@ -1,5 +1,5 @@
 ; sound driver command $0B (pitch Y of voice X), Y in APUIO2-APUIO3, X in APUIO1
-SPCCmd0B:							; entry point, no direct callers found
+SPCSetPitch:							; entry point, no direct callers found
 	sty.w APUIO2
 	sep #$30
 .wait:								; loop: if APUIO0 != 0 go to .wait, ...

@@ -1,10 +1,10 @@
-; sound driver command $01 (empty the sample area and key off every voice)
-SPCCmd01:							; called from SPCGameUpload, SPCIntroUpload, SPCMenuUpload, SPCTitleUpload
+; sound driver command $04 (drop the last uploaded sample)
+SPCUnload:							; called from SPCTitleToMenu, UpdateStreamSfx
 	sep #$20
 .wait:								; loop: if APUIO0 != 0 go to .wait, ...
 	lda.w APUIO0
 	bne .wait
-	lda.b #$01
+	lda.b #$04
 	sta.w APUIO0
 .ack:								; loop: if not zero go to .ack, ...
 	cmp.w APUIO0

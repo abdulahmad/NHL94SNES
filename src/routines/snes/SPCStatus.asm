@@ -1,6 +1,6 @@
 ; sound driver command $02 (the sample count and the free sound RAM pointer); returns its answers in A (a
 ; byte) and X
-SPCCmd02:							; called from UpdateStreamSfx
+SPCStatus:							; called from UpdateStreamSfx
 	sep #$20
 .wait:								; loop: if APUIO0 != 0 go to .wait, ...
 	lda.w APUIO0

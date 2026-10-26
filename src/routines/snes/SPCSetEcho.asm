@@ -1,5 +1,5 @@
-; sound driver command $08 (main volume, pitch modulation, noise, echo enable, FLG), 5 bytes from [p0]
-SPCCmd08:							; entry point, no direct callers found
+; sound driver command $09 (echo volume, feedback, buffer address and delay), 5 bytes from [p0]
+SPCSetEcho:							; entry point, no direct callers found
 	sep #$30
 .wait:								; loop: if APUIO0 != 0 go to .wait, ...
 	lda.w APUIO0
@@ -14,7 +14,7 @@ SPCCmd08:							; entry point, no direct callers found
 	lda.b [p0],y
 	sta.w APUIO3
 	iny
-	lda.b #$08
+	lda.b #$09
 	sta.w APUIO0
 .ack:								; loop: if not zero go to .ack, ...
 	cmp.w APUIO0
@@ -24,7 +24,7 @@ SPCCmd08:							; entry point, no direct callers found
 	iny
 	lda.b [p0],y
 	sta.w APUIO2
-	ldx.b #$82
+	ldx.b #$83
 	stx.w APUIO0
 .ack2:								; loop: if not zero go to .ack2, ...
 	cpx.w APUIO0

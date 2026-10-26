@@ -1,18 +1,20 @@
-; sound driver command $07 (voice X: volume left / right, sample, ADSR1, ADSR2), X and 5 bytes from [p0]
-SPCCmd07:							; entry point, no direct callers found
+; sound driver command $0A (the eight echo filter coefficients), 8 bytes from [p0]
+SPCSetFIR:							; entry point, no direct callers found
 	sep #$30
 .wait:								; loop: if APUIO0 != 0 go to .wait, ...
 	lda.w APUIO0
 	bne .wait
-	stx.w APUIO1
 	ldy.b #$00
+	lda.b [p0],y
+	sta.w APUIO1
+	iny
 	lda.b [p0],y
 	sta.w APUIO2
 	iny
 	lda.b [p0],y
 	sta.w APUIO3
 	iny
-	lda.b #$07
+	lda.b #$0A
 	sta.w APUIO0
 .ack:								; loop: if not zero go to .ack, ...
 	cmp.w APUIO0
@@ -25,11 +27,21 @@ SPCCmd07:							; entry point, no direct callers found
 	iny
 	lda.b [p0],y
 	sta.w APUIO3
-	ldx.b #$81
+	ldx.b #$84
 	stx.w APUIO0
 .ack2:								; loop: if not zero go to .ack2, ...
 	cpx.w APUIO0
 	bne .ack2
+	lda.b [p0],y
+	sta.w APUIO1
+	iny
+	lda.b [p0],y
+	sta.w APUIO2
+	inx
+	stx.w APUIO0
+.ack3:								; loop: if not zero go to .ack3, ...
+	cpx.w APUIO0
+	bne .ack3
 	stz.w APUIO0
 	rep #$30
 	rtl
