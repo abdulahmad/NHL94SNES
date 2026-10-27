@@ -51,7 +51,7 @@ from it; the Vault is released into the public domain (Unlicense).
 
 ## Build
 
-`sh tools/setup.sh` (or `tools\setup.ps1`), then `npm run build:retail` (or `node tools/build.js`; `./build.sh` and `build.ps1` run the same). Needs Node.js and asar 1.91. It prints one line per step and ends with MATCH; the ROM is `output/retail/nhl94snes.sfc`. `npm run clean` deletes `output/` and `Extracted/`.
+`npm run build:retail` (the first build installs asar 1.91 into `tools/bin` by itself, with `tools/setup.sh` or `tools\setup.ps1`; you can run those first) (or `node tools/build.js`; `./build.sh` and `build.ps1` run the same). Needs Node.js and asar 1.91. It prints one line per step and ends with MATCH; the ROM is `output/retail/nhl94snes.sfc`. `npm run clean` deletes `output/` and `Extracted/`.
 
 ## AI assistance
 
