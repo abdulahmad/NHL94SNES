@@ -1,5 +1,7 @@
 output/
 Extracted/
+# The reference ROM (nhl94retail.sfc, in the root folder) is a local file: it is derived from the game and is not committed.
+/nhl94retail.sfc
 lst/*.smc
 lst/*.sfc
 lst/*.bin

@@ -36,15 +36,15 @@ None: every segment is source (MATCH). Later passes name the auto labels (see `d
 
 ## Sources
 
-- Reference ROM: `lst/nhl94snes.sfc` (not in the repo; `tools/prebuild.js` says where to put it, its SHA-1 and size).
+- Reference ROM: `nhl94retail.sfc` (not in the repo; `tools/prebuild.js` says where to put it, its SHA-1 and size).
 - Each bank is `src/banks/b*.asm`: an `org`, then `incsrc` lines in ROM order. Routines are `src/routines/<module>/<Name>.asm`. Data is `src/data/` (`gfx/`, `sound/`, `text/`, `tables/`, `teamdata94s.asm`, `frames94s.asm`). The internal header is `src/header/snes_header.asm`. The old `src/bankXX_YYYY.asm` slices are gone.
-- Starting text: `python3 tools/disasm65816.py lst/nhl94snes.sfc output/quickpass` writes a quick pass per segment
+- Starting text: `python3 tools/disasm65816.py nhl94retail.sfc output/quickpass` writes a quick pass per segment
   (`output/quickpass/bankXX_YYYY.asm`). It decodes from the vectors by recursive descent with M/X tracking, and also decodes the
   instruction starts in `tools/codemap.txt` (from the NHL94SNESVault DiztinGUIsh export) where the bytes agree. Every instruction line
   has its address and bytes in the comment; db lines are unresolved. Labels marked `M=? X=?` come only from the codemap and
   their M/X is unknown: trace it yourself. Unreached code (after an `rtl`, behind a never-taken branch) stays db; decode it by
   rerunning the tool into a scratch dir with `--entry ADDR:M:X` (M, X = 8 or 16) once per start, e.g.
-  `python3 tools/disasm65816.py lst/nhl94snes.sfc output/qp2 --entry 8085A3:16:16`. The address and byte comments are
+  `python3 tools/disasm65816.py nhl94retail.sfc output/qp2 --entry 8085A3:16:16`. The address and byte comments are
   for checking only; strip them in `src/` (no ROM addresses in comments). `--continue` decodes past rtl/rts/rti/jmp/jml/bra/brl
   when the next bytes look like code (trial decode reaches a return or jump within 64 bytes without brk/cop/stp/wdm); it is a
   heuristic, so check its output against the data the code reads, and fall back to `--entry` where it is wrong. The quick pass of all 256 segments assembles byte for byte.
@@ -62,7 +62,7 @@ None: every segment is source (MATCH). Later passes name the auto labels (see `d
 ## Build and verify
 
 - `./build.sh` runs the prebuild check, assembles `src/nhl94snes.asm` with asar 1.91 into `output/nhl94snes.sfc`, and compares SHA-1 with
-  `lst/nhl94snes.sfc`. It prints MATCH or MISMATCH plus the first differing offsets. The whole ROM builds in about a second.
+  `nhl94retail.sfc`. It prints MATCH or MISMATCH plus the first differing offsets. The whole ROM builds in about a second.
 - `sh tools/verify_segment.sh bankXX_YYYY` compares one segment's range (its org to the next segment's org) after `./build.sh`.
 - `sh tools/verify_all.sh` deletes output/, builds, and checks every segment. Last line MATCH or FAIL.
 - Never change a byte. Every session ends with `./build.sh` printing MATCH, then commit and push to main (contributors: to their fork, then a PR).

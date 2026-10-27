@@ -3,7 +3,7 @@
 The data the bank files include by name. Graphics and sound binaries are not committed. `tools/prebuild.js` extracts
 them from the ROM into `Extracted/data/gfx/` and `Extracted/data/sound/` (gitignored) and writes
 `Extracted/.extract-complete.json` last. The asm `incbin`s those files, so the build stays byte-identical.
-`tools/extractAssets94s.js` lists every binary asset with its ROM range (`assets`). `node tools/extractAssets94s.js lst/nhl94snes.sfc --check`
+`tools/extractAssets94s.js` lists every binary asset with its ROM range (`assets`). `node tools/extractAssets94s.js nhl94retail.sfc --check`
 compares `Extracted/` with the ROM.
 
 - `gfx/`: graphics source. Packed and unpacked tiles, maps, palettes and sprite sets. The binary is in `Extracted/data/gfx/`;

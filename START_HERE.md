@@ -21,7 +21,7 @@ Where these docs say "push to main", contributors push to their fork and open a 
 
 ## 1. Setup (fresh clone)
 
-- Put your ROM at `lst/nhl94snes.sfc`. `./build.sh` tells you the exact path, SHA-1 and size if it is missing or wrong.
+- Put your ROM in the repository's root folder as `nhl94retail.sfc` (gitignored). `./build.sh` tells you the exact path, SHA-1 and size if it is missing or wrong.
 - Linux / macOS: `sh tools/setup.sh` builds asar 1.91 into `tools/bin/asar` (gitignored). Windows: `powershell -ExecutionPolicy Bypass -File tools\setup.ps1`.
 - Python 3 is needed for the prebuild check, the asset extractor and the quick-pass tool.
 - Reference repos: read them on GitHub, no clone needed. Browse `https://github.com/<owner>/<repo>/blob/main/<path>`, raw text at

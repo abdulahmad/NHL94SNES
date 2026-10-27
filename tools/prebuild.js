@@ -6,7 +6,7 @@
 
 const GAME = "NHL '94 (Super Nintendo)";
 const EXTRACTOR = 'tools/extractAssets94s.js';
-const ROM = { label: "NHL '94 SNES retail (USA, header title \"NHL '94\", version 1.0)", file: 'lst/nhl94snes.sfc',
+const ROM = { label: "NHL '94 SNES retail (USA, header title \"NHL '94\", version 1.0)", file: 'nhl94retail.sfc',
               sha1: '10dcd21be9c5542e82b0b94473bf5ff569b36cf5', size: 0x100000 };
 // ---------------------------------------------------------------------------------------------
 const fs = require('fs');

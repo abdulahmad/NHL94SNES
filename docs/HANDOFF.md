@@ -7,7 +7,7 @@ Goal: every label in `src/routines/**/*.asm` has a trailing comment, every routi
 - Done: about 3,900 labels, with headers and step comments, in about 320 files. About 1,640 labels in 434 files are still uncommented. List them with `for f in $(find src/routines -name '*.asm'); do u=$(grep -E '^\.?[A-Za-z_][A-Za-z0-9_]*:' $f | grep -vc ';'); [ "$u" -gt 0 ] && echo "$u $f"; done | sort -rn`.
 - Also done: `SoundBankGame` and `SoundBankMenu` replace the bare `sndbank` values; the SPC upload routines, `SPCSendSample` and `QueueSound` are explained; comments were carried over from identical NHLPA93SNES code.
 - Sources for wording: the same routine name in NHLPA93SNES `src/routines/**` (same CPU, closest), NHL94Genesis `src/*.asm` and NHLPA93Genesis `src/*.asm`. Port a comment only after checking that the logic is the same.
-- Check after every batch of about 15 files: `./build.sh` must print `MATCH` (or `tools/bin/asar --fix-checksum=off src/nhl94snes.asm /tmp/out.sfc && cmp lst/nhl94snes.sfc /tmp/out.sfc`), and `python3 tools/check_comments.py` must print `comment layout OK`. The comment column is 36, lines are at most 110 columns, paragraphs at most 3 lines.
+- Check after every batch of about 15 files: `./build.sh` must print `MATCH` (or `tools/bin/asar --fix-checksum=off src/nhl94snes.asm /tmp/out.sfc && cmp nhl94retail.sfc /tmp/out.sfc`), and `python3 tools/check_comments.py` must print `comment layout OK`. The comment column is 36, lines are at most 110 columns, paragraphs at most 3 lines.
 - Placement: the folders under `src/routines` follow the NHL94Genesis source files (`penalty`, `checks`, `video` and so on), so a routine sits where 94G has it. Do not regroup them by topic.
 - When the pass is finished, regenerate the report in nhl-disasm-report (`python3 tools/generate.py`, then a PR and merge).
 
@@ -289,7 +289,7 @@ User-approved policy is in `docs/cleanup_plan.md` (section **Unsure decisions**,
 ## Setup notes
 
 - asar 1.91 on PATH or in `tools/bin/` (`tools/setup.sh`). Python 3.
-- ROM at `lst/nhl94snes.sfc`. `output/` is generated and gitignored.
+- ROM at `nhl94retail.sfc`. `output/` is generated and gitignored.
 - The Vault's export (patches off) differs from this ROM in 344 bytes inside $D8000-$FFFFF; the quick pass only uses its code map
   where the bytes decode the same way.
 - Windows: `python3` may be the Microsoft Store stub; put a `python3` wrapper for the real Python first on PATH before

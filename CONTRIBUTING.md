@@ -1,6 +1,6 @@
 # Contributing to NHL 94 SNES
 
-This is a bit-perfect disassembly of NHL '94 for the Super Nintendo, assembled with asar. There is one release, so there is no revision switch. The ROM is `lst/nhl94snes.sfc`.
+This is a bit-perfect disassembly of NHL '94 for the Super Nintendo, assembled with asar. There is one release, so there is no revision switch. The ROM is `nhl94retail.sfc`.
 
 Read [README.md](README.md) first for how to build. This file says how changes are made so the repos stay
 consistent with each other and with NHL 92, the root of the family (the SNES games use the names of their Genesis twin, 94 Genesis first, then 93 and 92).
