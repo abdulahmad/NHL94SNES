@@ -3,10 +3,10 @@
 // NHLPA93SNES tools/build.js and NHL94Genesis tools/build.js).
 //   node tools/build.js [retail] [--verbose]   full ROM -> output/retail/nhl94snes.sfc
 //   node tools/build.js --clean                delete output/ and Extracted/
-//   node tools/build.js --extract              force a fresh extraction from nhl94retail.sfc
+//   node tools/build.js --extract              force a fresh extraction from the ROM
 // --no-color (or NO_COLOR) turns the colors off; they are also off when the output is not a terminal.
 // retail: assembled with asar 1.91 (tools/bin/asar from tools/setup.sh, else asar on PATH), the header patched if the image
-// grew (tools/patchHeader.js; the stock image is left as it is), verified against nhl94retail.sfc.
+// grew (tools/patchHeader.js; the stock image is left as it is), verified against the ROM (found in the repo folder by its SHA-1 and size, any file name: tools/roms.js).
 // The mode has its own folder: output/retail/nhl94snes.sfc is the ROM, output/retail/obj/ holds the intermediates
 // (asar's log and its symbol file). The prebuild step (tools/prebuild.js) checks the ROM and runs tools/extractAssets94s.js when Extracted/ is missing or stale.
 const fs = require('fs');
@@ -17,7 +17,7 @@ const ROOT = path.join(__dirname, '..');
 const WIN = process.platform === 'win32';
 const BIN = path.join(ROOT, 'tools', 'bin', WIN ? 'asar.exe' : 'asar');
 const MODES = {
-    retail: { ref: 'nhl94retail.sfc' },
+    retail: {},
 };
 
 const args = process.argv.slice(2);
@@ -27,6 +27,7 @@ const mode = MODES[modeName];
 const OUT = path.join(ROOT, 'output', modeName);
 const OBJ = path.join(OUT, 'obj');
 const ROM = 'nhl94snes.sfc';
+const { ROMS, findRom } = require('./roms');
 const rel = (p) => path.relative(ROOT, p).split(path.sep).join('/');
 
 // ANSI colors: off when stdout is not a terminal, NO_COLOR is set, or --no-color. Windows 10+ cmd and
@@ -53,7 +54,7 @@ const ABOUT = {
     prebuild: "check the retail ROM and extract graphics/sound assets and the licensed names into Extracted/",
     assemble: 'asar turns src/nhl94snes.asm into the ROM image',
     header: 'pad the image and store the checksum if the ROM grew (the stock image is left as it is)',
-    verify: 'compare byte-for-byte with the retail ROM (nhl94retail.sfc)',
+    verify: 'compare byte-for-byte with the retail ROM',
     output: 'delete the built ROMs and intermediates in output/',
     Extracted: 'delete extracted graphics/sound assets (rebuilt by the next build)',
 };
@@ -207,7 +208,9 @@ function buildNames() {
     if (args.includes('--extract')) {
         steps = 1;
         begin('extract');
-        const r = await node('extractAssets94s.js', [mode.ref]);
+        const found = findRom(ROMS.retail);
+        if (!found.ok) fail('extract', 'the ROM is not in the repo folder: run node tools/prebuild.js for the details');
+        const r = await node('extractAssets94s.js', [found.path]);
         if (r.status !== 0) fail('extract', 'asset extraction', r.out);
         step('extract', r.out.trim().split(/\r?\n/).pop());
         return;
@@ -244,9 +247,10 @@ function buildNames() {
 
     // 5. verify against the reference ROM.
     begin('verify');
-    const r = await node('verifyRom.js', [final, mode.ref]);
+    const refPath = findRom(ROMS.retail).path;
+    const r = await node('verifyRom.js', [final, refPath]);
     const first = r.out.split(/\r?\n/).find((l) => l.trim()) || '';
     if (r.status !== 0 || !/^MATCH/.test(first)) fail('verify', rel(final), r.out, 'MISMATCH');
-    step('verify', `MATCH ${rel(final)} == ${mode.ref}`);
+    step('verify', `MATCH ${rel(final)} == ${rel(refPath)}`);
     detail(r.out);
 })();

@@ -36,7 +36,7 @@ None: every segment is source (MATCH). Later passes name the auto labels (see `d
 
 ## Sources
 
-- Reference ROM: `nhl94retail.sfc` (not in the repo; `tools/prebuild.js` says where to put it, its SHA-1 and size).
+- Reference ROM: `nhl94retail.sfc` is the usual name (not in the repo; any file name in the repo folder works, the ROM is found by its SHA-1 and size: `tools/roms.js`; `tools/prebuild.js` says what it needs).
 - Each bank is `src/banks/b*.asm`: an `org`, then `incsrc` lines in ROM order. Routines are `src/routines/<module>/<Name>.asm`. Data is `src/data/` (`gfx/`, `sound/`, `text/`, `tables/`, `teamdata94s.asm`, `frames94s.asm`). The internal header is `src/header/snes_header.asm`. The old `src/bankXX_YYYY.asm` slices are gone.
 - Starting text: `python3 tools/disasm65816.py nhl94retail.sfc output/quickpass` writes a quick pass per segment
   (`output/quickpass/bankXX_YYYY.asm`). It decodes from the vectors by recursive descent with M/X tracking, and also decodes the
