@@ -7,13 +7,14 @@ them from the ROM into `Extracted/data/gfx/` and `Extracted/data/sound/` (gitign
 compares `Extracted/` with the ROM.
 
 - `gfx/`: graphics source. Packed and unpacked tiles, maps, palettes and sprite sets. The binary is in `Extracted/data/gfx/`;
-  the palettes are in its `Pals/` folder and the player photos (`Card<Player>.lin.*` and the `NoPic*` stand-ins, the
+  the palettes are in its `Pals/` folder and the player photos (`Card<NNN>.lin.*` and the `NoPic*` stand-ins, the
   PlayerPhotoTable pictures) in its `PlayerCards/` folder, as the 94G project's `Graphics/Pals` and `Graphics/PlayerCards`.
 - `sound/`: sound source. The upload blocks are in `Extracted/data/sound/`.
 - `text/`: the text tables as source, one file per table named after its label (`incsrc "data/text/<Label>.asm"` at its
   place in the bank file). Strings are written with the `String` macro (length word, then the text); records with
   position codes ($9F, $AF or $BF, then two position bytes) keep their length word.
-- `teamdata94s.asm`: the team database (TeamList, the team records with their players, playoffseats), as
+- `teamdata94s.asm`: anonymized (player names and team nicknames are placeholders; `tools/names.py` puts the real ones back from the ROM into
+  `output/names/`, which the bank files include; so are `text/LongNYI.asm` and `text/PregameText.asm`). The team database (TeamList, the team records with their players, playoffseats), as
   NHLPA93SNES `teamdata93s.asm`; bank9C_A000 includes it.
 
 Where a header is already spelled as `db`/`dw`, the `incbin` is the rest of that asset (`incbin "../../../Extracted/data/gfx/<name>":<start>..<end>`, decimal, end exclusive). IceRinkTiles and TeamLogoSprites are that shape. SpriteFrames keeps one `Extracted` file per bank; the source writes each frame's header and pieces and includes that frame's tiles by range. The file is still a ROM cut of the frame region, not one `.chr` per frame.

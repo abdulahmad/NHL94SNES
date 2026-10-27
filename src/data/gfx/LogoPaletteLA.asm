@@ -11,9 +11,9 @@ TeamBlockPalettePHI:				; the Philadelphia team block colours (TeamBlockPalettes
 	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPalettePHI.pal"
 TeamBlockPaletteOTW:				; the Ottawa team block colours (TeamBlockPalettes)
 	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteOTW.pal"
-TeamBlockPaletteNYR:				; the NY Rangers team block colours (TeamBlockPalettes)
+TeamBlockPaletteNYR:				; NYR team block colours (TeamBlockPalettes)
 	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteNYR.pal"
-TeamBlockPaletteNYI:				; the NY Islanders team block colours (TeamBlockPalettes)
+TeamBlockPaletteNYI:				; NYI team block colours (TeamBlockPalettes)
 	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteNYI.pal"
 TeamBlockPaletteNJ:					; the New Jersey team block colours (TeamBlockPalettes)
 	incbin "../../../Extracted/data/gfx/Pals/TeamBlockPaletteNJ.pal"

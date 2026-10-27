@@ -1,6 +1,7 @@
 output/
 Extracted/
 lst/*.smc
+lst/*.sfc
 lst/*.bin
 *.smc
 *.log

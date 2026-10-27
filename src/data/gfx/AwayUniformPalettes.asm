@@ -16,8 +16,8 @@ AwayUniformPalettes:				;16 colours per team, indexed by the away team : the spr
 	incbin "../../../Extracted/data/gfx/Pals/LAv.pal"	; Los Angeles
 	incbin "../../../Extracted/data/gfx/Pals/MTLv.pal"	; Montreal
 	incbin "../../../Extracted/data/gfx/Pals/NJv.pal"	; New Jersey
-	incbin "../../../Extracted/data/gfx/Pals/NYIv.pal"	; NY Islanders
-	incbin "../../../Extracted/data/gfx/Pals/NYRv.pal"	; NY Rangers
+	incbin "../../../Extracted/data/gfx/Pals/NYIv.pal"	; NYI
+	incbin "../../../Extracted/data/gfx/Pals/NYRv.pal"	; NYR
 	incbin "../../../Extracted/data/gfx/Pals/OTWv.pal"	; Ottawa
 	incbin "../../../Extracted/data/gfx/Pals/PHIv.pal"	; Philadelphia
 	incbin "../../../Extracted/data/gfx/Pals/PITv.pal"	; Pittsburgh
