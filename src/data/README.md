@@ -1,9 +1,9 @@
 # src/data/
 
-The data the bank files include by name. Graphics and sound binaries are not committed. `tools/prebuild.py` extracts
+The data the bank files include by name. Graphics and sound binaries are not committed. `tools/prebuild.js` extracts
 them from the ROM into `Extracted/data/gfx/` and `Extracted/data/sound/` (gitignored) and writes
 `Extracted/.extract-complete.json` last. The asm `incbin`s those files, so the build stays byte-identical.
-`tools/extract.py` lists every binary asset with its ROM range (`ASSETS`). `python3 tools/extract.py lst/nhl94snes.sfc --check`
+`tools/extractAssets94s.js` lists every binary asset with its ROM range (`assets`). `node tools/extractAssets94s.js lst/nhl94snes.sfc --check`
 compares `Extracted/` with the ROM.
 
 - `gfx/`: graphics source. Packed and unpacked tiles, maps, palettes and sprite sets. The binary is in `Extracted/data/gfx/`;
@@ -13,7 +13,7 @@ compares `Extracted/` with the ROM.
 - `text/`: the text tables as source, one file per table named after its label (`incsrc "data/text/<Label>.asm"` at its
   place in the bank file). Strings are written with the `String` macro (length word, then the text); records with
   position codes ($9F, $AF or $BF, then two position bytes) keep their length word.
-- `teamdata94s.asm`: anonymized (player names and team nicknames are placeholders; `tools/names.py` puts the real ones back from the ROM into
+- `teamdata94s.asm`: anonymized (player names and team nicknames are placeholders; `tools/build.js` (the names step) puts the real ones back from the ROM into
   `output/names/`, which the bank files include; so are `text/LongNYI.asm` and `text/PregameText.asm`). The team database (TeamList, the team records with their players, playoffseats), as
   NHLPA93SNES `teamdata93s.asm`; bank9C_A000 includes it.
 

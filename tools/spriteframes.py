@@ -7,13 +7,13 @@ tile count, the box of its pixels (left, right, top, bottom; nothing reads it), 
 transfers, the offset of its tiles, the hot spot x / y (signed bytes, GetHot) and the stick point x / y (GetFrameHot),
 the pieces (x, y, tile and attribute word, size byte), then its tiles. Frame labels are SpriteFrame_<group>_<n>, from the
 SPF group equates in src/ram94s.asm (frame numbers count from 1: frame SPFgroup+n). The source writes the header and pieces, and includes the
-tiles from the bank's data asset src/data/gfx/SpriteFramesXX.bin (tools/extract.py ASSETS).
+tiles from the bank's data asset src/data/gfx/SpriteFramesXX.bin (tools/extractAssets94s.js assets).
 
 Commands:
   frames FROM TO    the source of the frames that start at FROM up to (not including) TO, e.g. frames 82908B 82A000;
                     prints where the last one ends, which is where the next segment starts
   table             the offset table (dd lines)
-  info              per bank: the frames, and the asset range for tools/extract.py
+  info              per bank: the frames, and the asset range for tools/extractAssets94s.js
 
 Example:
   python3 tools/spriteframes.py frames 828F40 829000 > frames.asm

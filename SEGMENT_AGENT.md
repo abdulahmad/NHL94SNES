@@ -36,7 +36,7 @@ None: every segment is source (MATCH). Later passes name the auto labels (see `d
 
 ## Sources
 
-- Reference ROM: `lst/nhl94snes.sfc` (not in the repo; `tools/prebuild.py` says where to put it, its SHA-1 and size).
+- Reference ROM: `lst/nhl94snes.sfc` (not in the repo; `tools/prebuild.js` says where to put it, its SHA-1 and size).
 - Each bank is `src/banks/b*.asm`: an `org`, then `incsrc` lines in ROM order. Routines are `src/routines/<module>/<Name>.asm`. Data is `src/data/` (`gfx/`, `sound/`, `text/`, `tables/`, `teamdata94s.asm`, `frames94s.asm`). The internal header is `src/header/snes_header.asm`. The old `src/bankXX_YYYY.asm` slices are gone.
 - Starting text: `python3 tools/disasm65816.py lst/nhl94snes.sfc output/quickpass` writes a quick pass per segment
   (`output/quickpass/bankXX_YYYY.asm`). It decodes from the vectors by recursive descent with M/X tracking, and also decodes the
@@ -73,8 +73,8 @@ None: every segment is source (MATCH). Later passes name the auto labels (see `d
   commit and note it in the row. The quick pass flags an instruction that crosses a segment end with "crosses into the next
   segment". Incbin ranges are written `:<start>..<end>`, decimal, end exclusive; the old `:<start>-<end>` form is deprecated
   in asar 1.91 and reads the numbers as hex.
-- Packed or binary data blocks (graphics, sound data) are data assets: add the block to the `ASSETS` list in `tools/extract.py`
-  (file name with a format extension, first address, end address exclusive). `tools/prebuild.py` runs the extractor, which
+- Packed or binary data blocks (graphics, sound data) are data assets: add the block to the `assets` list in `tools/extractAssets94s.js`
+  (file name with a format extension, first address, end address exclusive). `tools/prebuild.js` runs the extractor, which
   writes `Extracted/data/gfx/` or `Extracted/data/sound/` (`.spc`) and `Extracted/.extract-complete.json` last. Do not commit
   `Extracted/` or the binary. Include it with `incbin "../../../Extracted/data/<category>/<name>":<start>..<end>` from a file
   in `src/data/`. A block that spans segments is split across their files at the segment edges.

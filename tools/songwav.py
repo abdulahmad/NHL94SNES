@@ -17,7 +17,7 @@ same rules:
 Not played: volume envelopes, echo and pitch bends, so notes start and stop more sharply than in the game. A looping
 track plays its loop twice.
 
-Needs lst/nhl94snes.sfc and the symbol file from a build (output/nhl94snes.sym). Songs and samples are given by label or
+Needs lst/nhl94snes.sfc and the symbol file from a build (output/retail/obj/nhl94snes.sym). Songs and samples are given by label or
 $ADDR. Writes 16-bit stereo WAV at 32 kHz without other modules.
 
 Commands:
@@ -46,7 +46,7 @@ from array import array
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROM = os.path.join(ROOT, 'lst', 'nhl94snes.sfc')
-SYM = os.path.join(ROOT, 'output', 'nhl94snes.sym')
+SYM = os.path.join(ROOT, 'output', 'retail', 'obj', 'nhl94snes.sym')
 TABLES = os.path.join(ROOT, 'src', 'data', 'tables')
 SR = 32000
 NONE = '-'
