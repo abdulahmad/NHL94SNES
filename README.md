@@ -41,9 +41,9 @@ from it; the Vault is released into the public domain (Unlicense).
 - `src/data/gfx/`, `src/data/sound/` the binary assets the banks `incbin` (extracted to `Extracted/data/gfx/`, with
   `gfx/Pals/` and `gfx/PlayerCards/`, and `Extracted/data/sound/`), `src/data/text/` the text tables the banks `incsrc`,
   `src/data/teamdata94s.asm` the team database (see `src/data/README.md`).
-- `tools/prebuild.py` ROM check, run by every build. `tools/extract.py` lists the assets' ROM ranges and checks or rewrites them.
+- `tools/build.js` the whole build, one line per step (`node tools/build.js`, `--clean`, `--extract`; the npm scripts call it). `tools/prebuild.js` ROM check, run by every build. `tools/extractAssets94s.js` lists the assets' ROM ranges and checks or rewrites them.
   It also extracts the NHLPA player names and NHL team nicknames to `Extracted/PlayerNames.txt` / `TeamNicknames.txt`: `src/data/teamdata94s.asm`,
-  `src/data/text/LongNYI.asm` and `PregameText.asm` hold placeholders instead, and `tools/names.py` (run by prebuild) writes copies with the real
+  `src/data/text/LongNYI.asm` and `PregameText.asm` hold placeholders instead, and the names step of `tools/build.js` writes copies with the real
   names to `output/names/`, which the bank files include. A name must keep the length of its placeholder.
 - `tools/disasm65816.py` quick pass for a segment's starting text (`output/quickpass/`).
 - `tools/verify_segment.sh`, `tools/verify_all.sh` segment and clean full checks.
@@ -51,7 +51,7 @@ from it; the Vault is released into the public domain (Unlicense).
 
 ## Build
 
-`sh tools/setup.sh` (or `tools\setup.ps1`), then `./build.sh` (or `build.ps1`). It writes `output/nhl94snes.sfc` and prints MATCH / MISMATCH.
+`sh tools/setup.sh` (or `tools\setup.ps1`), then `npm run build:retail` (or `node tools/build.js`; `./build.sh` and `build.ps1` run the same). Needs Node.js and asar 1.91. It prints one line per step and ends with MATCH; the ROM is `output/retail/nhl94snes.sfc`. `npm run clean` deletes `output/` and `Extracted/`.
 
 ## AI assistance
 

@@ -1,0 +1,14 @@
+{
+  "name": "nhl94snes-build",
+  "version": "1.0.0",
+  "description": "Build scripts for NHL '94 (Super Nintendo)",
+  "scripts": {
+    "assets": "node tools/prebuild.js",
+    "extractassets": "node tools/build.js --extract",
+    "build:retail": "node tools/build.js retail",
+    "verify:retail": "node tools/verifyRom.js output/retail/nhl94snes.sfc lst/nhl94snes.sfc",
+    "clean": "node tools/build.js --clean"
+  },
+  "author": "",
+  "license": "ISC"
+}

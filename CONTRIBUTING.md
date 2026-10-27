@@ -13,7 +13,7 @@ The code, data and bytes must not change unless the change is the point of the P
 ./build.sh
 ```
 
-`build.sh` checks the ROM (`tools/prebuild.py`), assembles `src/nhl94snes.asm` with asar and must print `MATCH`.
+`build.sh` (`node tools/build.js`) checks the ROM (`tools/prebuild.js`), puts the real names back, assembles `src/nhl94snes.asm` with asar and must print `MATCH`.
 
 A comment-only or rename-only change must not change a single byte. Never commit ROMs, `Extracted/` or
 `output/`.

@@ -9,11 +9,11 @@
 ; This file does not assemble into the real game by itself and is not included directly: it
 ; needs the original ROM.
 
-; tools/extract.py reads the names from your ROM into Extracted/PlayerNames.txt and
+; tools/extractAssets94s.js reads the names from your ROM into Extracted/PlayerNames.txt and
 ; Extracted/TeamNicknames.txt (one per line, in the order they appear below).
 
-; tools/names.py (run by build.sh and build.ps1) copies this file to output/names/ with the
-; real names put back, and src/banks/b9C_teams.asm includes that copy.
+; tools/build.js (the 'names' step) copies this file to output/names/ with the real names
+; put back, and src/banks/b9C_teams.asm includes that copy.
 
 ; Keep the placeholder lengths when editing a name or adding a player.
 
