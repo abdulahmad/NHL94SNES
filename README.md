@@ -1,6 +1,6 @@
 # NHL '94 (SNES)
 
-> **📀 Game data is not included.** This repository has the assembly code only. The graphics, team palettes, sprites, player photos, sound samples, music and the NHLPA player names and NHL team nicknames are extracted from your own copy of the original ROM when you build, and are not in the repo. You need the NHL '94 Super Nintendo ROM (SHA-1 below) at `lst/nhl94snes.sfc`, or the build stops.
+> **📀 Game data is not included.** This repository has the assembly code only. The graphics, team palettes, sprites, player photos, sound samples, music and the NHLPA player names and NHL team nicknames are extracted from your own copy of the original ROM when you build, and are not in the repo. You need the NHL '94 Super Nintendo ROM (SHA-1 below) at `nhl94retail.sfc`, or the build stops.
 
 > **🤝 Making a mod, hack, port or other derivative work from this repo? You must credit me (abdulahmad) and everyone credited in this repo, clearly, in your own repo and in every release. See [Credits and derivative works](#credits-and-derivative-works).**
 
@@ -17,7 +17,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how changes are made (names, comments
 
 Bitwise rebuild of NHL '94 for the Super Nintendo, assembled with asar 1.91. The full build is byte-identical to the retail ROM
 (SHA-1 `10dcd21be9c5542e82b0b94473bf5ff569b36cf5`, 1048576 bytes, LoROM FastROM, header title `NHL '94`, version 1.0).
-The ROM is not included: put your own dump at `lst/nhl94snes.sfc`; the build tells you if it is missing or the wrong one.
+The ROM is not included: put your own dump in the repository's root folder as `nhl94retail.sfc` (gitignored); the build tells you if it is missing or the wrong one.
 
 Status: bootstrap. The ROM is split into 256 segments of 4 KB (`src/bankXX_YYYY.asm`), each still an incbin of its ROM bytes,
 ready for segment agents to disassemble one at a time (`SEGMENT_AGENT.md` is the queue, `PROMPT.md` the per-segment prompt).

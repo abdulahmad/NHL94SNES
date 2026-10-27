@@ -6,7 +6,7 @@
     "assets": "node tools/prebuild.js",
     "extractassets": "node tools/build.js --extract",
     "build:retail": "node tools/build.js retail",
-    "verify:retail": "node tools/verifyRom.js output/retail/nhl94snes.sfc lst/nhl94snes.sfc",
+    "verify:retail": "node tools/verifyRom.js output/retail/nhl94snes.sfc nhl94retail.sfc",
     "clean": "node tools/build.js --clean"
   },
   "author": "",

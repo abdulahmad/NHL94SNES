@@ -3,10 +3,10 @@
 // NHLPA93SNES tools/build.js and NHL94Genesis tools/build.js).
 //   node tools/build.js [retail] [--verbose]   full ROM -> output/retail/nhl94snes.sfc
 //   node tools/build.js --clean                delete output/ and Extracted/
-//   node tools/build.js --extract              force a fresh extraction from lst/nhl94snes.sfc
+//   node tools/build.js --extract              force a fresh extraction from nhl94retail.sfc
 // --no-color (or NO_COLOR) turns the colors off; they are also off when the output is not a terminal.
 // retail: assembled with asar 1.91 (tools/bin/asar from tools/setup.sh, else asar on PATH), the header patched if the image
-// grew (tools/patchHeader.js; the stock image is left as it is), verified against lst/nhl94snes.sfc.
+// grew (tools/patchHeader.js; the stock image is left as it is), verified against nhl94retail.sfc.
 // The mode has its own folder: output/retail/nhl94snes.sfc is the ROM, output/retail/obj/ holds the intermediates
 // (asar's log and its symbol file). The prebuild step (tools/prebuild.js) checks the ROM and runs tools/extractAssets94s.js when Extracted/ is missing or stale.
 const fs = require('fs');
@@ -17,7 +17,7 @@ const ROOT = path.join(__dirname, '..');
 const WIN = process.platform === 'win32';
 const BIN = path.join(ROOT, 'tools', 'bin', WIN ? 'asar.exe' : 'asar');
 const MODES = {
-    retail: { ref: 'lst/nhl94snes.sfc' },
+    retail: { ref: 'nhl94retail.sfc' },
 };
 
 const args = process.argv.slice(2);
@@ -53,7 +53,7 @@ const ABOUT = {
     prebuild: "check the retail ROM and extract graphics/sound assets and the licensed names into Extracted/",
     assemble: 'asar turns src/nhl94snes.asm into the ROM image',
     header: 'pad the image and store the checksum if the ROM grew (the stock image is left as it is)',
-    verify: 'compare byte-for-byte with the retail ROM (lst/nhl94snes.sfc)',
+    verify: 'compare byte-for-byte with the retail ROM (nhl94retail.sfc)',
     output: 'delete the built ROMs and intermediates in output/',
     Extracted: 'delete extracted graphics/sound assets (rebuilt by the next build)',
 };

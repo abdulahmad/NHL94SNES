@@ -24,7 +24,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ROM = os.path.join(ROOT, 'lst', 'nhl94snes.sfc')
+ROM = os.path.join(ROOT, 'nhl94retail.sfc')
 BASE = 0x828000
 rom = open(ROM, 'rb').read()
 
