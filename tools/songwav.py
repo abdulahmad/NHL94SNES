@@ -17,7 +17,7 @@ same rules:
 Not played: volume envelopes, echo and pitch bends, so notes start and stop more sharply than in the game. A looping
 track plays its loop twice.
 
-Needs nhl94retail.sfc and the symbol file from a build (output/retail/obj/nhl94snes.sym). Songs and samples are given by label or
+Needs the retail ROM (tools/rompath.py) and the symbol file from a build (output/retail/obj/nhl94snes.sym). Songs and samples are given by label or
 $ADDR. Writes 16-bit stereo WAV at 32 kHz without other modules.
 
 Commands:
@@ -45,7 +45,8 @@ import sys
 from array import array
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ROM = os.path.join(ROOT, 'nhl94retail.sfc')
+import rompath
+ROM = rompath.rom_path()
 SYM = os.path.join(ROOT, 'output', 'retail', 'obj', 'nhl94snes.sym')
 TABLES = os.path.join(ROOT, 'src', 'data', 'tables')
 SR = 32000

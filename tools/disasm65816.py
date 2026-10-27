@@ -7,7 +7,7 @@ Instructions seeded only from codemap.txt have unknown M/X (shown as M=? X=?); t
 --entry ADDR:M:X (M and X are 8 or 16) adds a decode start, e.g. for unreached code after an rtl; repeat it as needed.
 --continue: after rtl/rts/rti/jmp/jml/bra/brl, also decode the following bytes (same M/X) when they look like code: a trial decode
 reaches a return or jump within 64 bytes without brk/cop/stp/wdm or bytes already decoded. Check the result: it is a heuristic.
-Usage: python3 tools/disasm65816.py nhl94retail.sfc output/quickpass [--entry 8080CE:16:16 ...]
+Usage: python3 tools/disasm65816.py <the ROM> output/quickpass [--entry 8080CE:16:16 ...]
 Writes one starting-text file per 4 KB segment (bankXX_YYYY.asm) to outdir. Never point outdir at src/: copy the lines of your
 segment from outdir into src/bankXX_YYYY.asm by hand, replacing its incbin.
 """

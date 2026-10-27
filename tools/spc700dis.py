@@ -113,7 +113,8 @@ def main():
     import os, sys
     if len(sys.argv) < 4:
         sys.exit(__doc__)
-    rom = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'nhl94retail.sfc'), 'rb').read()
+    import rompath
+    rom = open(rompath.rom_path(), 'rb').read()
     a, n, base = int(sys.argv[1], 16), int(sys.argv[2], 16), int(sys.argv[3], 16)
     o = ((a >> 16) & 0x7F) * 0x8000 + (a & 0x7FFF)
     mem = rom[o:o + n]; top = base + n

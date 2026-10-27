@@ -4,8 +4,9 @@
 // is not committed. tools/prebuild.js runs this when Extracted/ is missing or stale; this script writes Extracted/.extract-complete.json
 // last and deletes the files in Extracted/data/<category>/ that are no longer assets (e.g. the old file of a renamed label).
 // src/data/README.md describes the formats (by file extension).
-// Usage: node tools/extractAssets94s.js nhl94retail.sfc           (write every asset and the marker)
-//        node tools/extractAssets94s.js nhl94retail.sfc --check   (compare Extracted/ with the ROM, exit 1 on a difference)
+// Usage: node tools/extractAssets94s.js [nhl94retail.sfc]           (write every asset and the marker)
+//        node tools/extractAssets94s.js [nhl94retail.sfc] --check   (compare Extracted/ with the ROM, exit 1 on a difference)
+// With no ROM path it uses the ROM in the repo folder, found by its SHA-1 and size (tools/roms.js).
 // Each entry: file name with a format extension, first ROM address, end address (exclusive), as SNES LoROM/FastROM addresses. The
 // category folder follows the name: .spc blocks go to Extracted/data/sound/, palettes (.pal, .pal.lz ...) to Extracted/data/gfx/Pals/,
 // the player photos (Card<NNN>.lin.*, NoPic*.lin.*) to Extracted/data/gfx/PlayerCards/ (as the 94G project's Graphics/Pals and
@@ -513,10 +514,10 @@ function readTeamNames(rom) {
 }
 
 const args = process.argv.slice(2);
-const romFile = args.find((a) => !a.startsWith('-'));
+const romFile = args.find((a) => !a.startsWith('-')) || require('./roms').romPath('retail');
 const check = args.includes('--check');
 if (!romFile) {
-    console.error('Usage: node tools/extractAssets94s.js <rom_file_path> [--check]');
+    console.error('Usage: node tools/extractAssets94s.js [<rom_file_path>] [--check]   (the ROM in the repo folder when no path is given)');
     process.exit(1);
 }
 const rom = fs.readFileSync(romFile);

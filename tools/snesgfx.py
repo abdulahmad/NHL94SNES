@@ -8,7 +8,7 @@ decompressor by the format word:
   $FB30  DecompressHuffman  canonical Huffman codes, with a clue symbol for repeats, escaped bytes and the end
   $FB7A  DecompressRLE      literal runs and repeats, of bytes or byte pairs
 
-Inputs: a file (packed files are unpacked first), or $ADDR for a packed block in nhl94retail.sfc (e.g. $818000).
+Inputs: a file (packed files are unpacked first), or $ADDR for a packed block in the retail ROM (e.g. $818000).
 
 Commands:
   unpack IN [-o OUT]                  unpack a packed file or block; prints the packed and unpacked sizes
@@ -42,7 +42,8 @@ import sys
 import zlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ROM = os.path.join(ROOT, 'nhl94retail.sfc')
+import rompath
+ROM = rompath.rom_path()
 FORMATS = {0xFB10: "LZ", 0xFB46: "pairs", 0xFB30: "Huffman", 0xFB7A: "RLE"}
 
 
