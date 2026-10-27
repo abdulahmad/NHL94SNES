@@ -88,7 +88,7 @@ These 94S labels already match a 93S routine or data file. When the file is spli
 
 Shootout labels that already match 94G `shootout94.asm`: InitShooters, ShootoutWonBy, ShootoutShooters, ShooterSelectList. The other 94G shootout labels (ClearShootout, NextShooter, CountShootoutGoals, ShootersRedraw, PrintShooterList, and the rest of that file) are not labels in 94S yet. The rounds loop and the list drawing are still `CODE_` / auto. Name them only after a side-by-side match. Until then they stay auto.
 
-Team long names already match 94G and the rules: NYIslanders, NYRangers, plus Anaheim, Boston, Buffalo, Calgary, Chicago, Dallas, Detroit, Edmonton, Florida, Hartford, LosAngeles, Montreal, NewJersey, Ottawa, Philadelphia, Pittsburgh, Quebec, SanJose, StLouis, TampaBay, Toronto, Vancouver, Washington, Winnipeg, AllStarsEast, AllStarsWest. TeamList order matches 94G (Anaheim 0 ... Winnipeg 25, AllStarsEast 26, AllStarsWest 27).
+Team long names already match 94G and the rules: NewYorkI, NewYorkR, plus Anaheim, Boston, Buffalo, Calgary, Chicago, Dallas, Detroit, Edmonton, Florida, Hartford, LosAngeles, Montreal, NewJersey, Ottawa, Philadelphia, Pittsburgh, Quebec, SanJose, StLouis, TampaBay, Toronto, Vancouver, Washington, Winnipeg, AllStarsEast, AllStarsWest. TeamList order matches 94G (Anaheim 0 ... Winnipeg 25, AllStarsEast 26, AllStarsWest 27).
 
 ### Names that differ
 

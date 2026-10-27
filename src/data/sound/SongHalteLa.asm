@@ -1,7 +1,6 @@
 ; A song: header (second byte = tempo), track offsets, then TRAK chunks (size, tag, track name, note stream).
 ;
-; 94G song $4D at the same TeamSongs slots: MTL 3. Title (the forum list of the 94G songs): Halte la Les
-; Canadiens sont la.
+; 94G song $4D at the same TeamSongs slots: MTL 3. Title (the forum list of the 94G songs): Halte la.
 
 SongHalteLa:						; header, track offsets (a zero ends them), padding, then the tracks
 	db $01,$82,$01,$00,$00,$00,$02,$00

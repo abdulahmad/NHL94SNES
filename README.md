@@ -1,6 +1,8 @@
 # NHL '94 (SNES)
 
-> **Making a mod, hack, port or other derivative work from this repo? You must credit me (abdulahmad) and everyone credited in this repo, clearly, in your own repo and in every release. See [Credits and derivative works](#credits-and-derivative-works).**
+> **📀 Game data is not included.** This repository has the assembly code only. The graphics, team palettes, sprites, player photos, sound samples, music and the NHLPA player names and NHL team nicknames are extracted from your own copy of the original ROM when you build, and are not in the repo. You need the NHL '94 Super Nintendo ROM (SHA-1 below) at `lst/nhl94snes.sfc`, or the build stops.
+
+> **🤝 Making a mod, hack, port or other derivative work from this repo? You must credit me (abdulahmad) and everyone credited in this repo, clearly, in your own repo and in every release. See [Credits and derivative works](#credits-and-derivative-works).**
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how changes are made (names, comments, layout, verification).
 
@@ -40,6 +42,9 @@ from it; the Vault is released into the public domain (Unlicense).
   `gfx/Pals/` and `gfx/PlayerCards/`, and `Extracted/data/sound/`), `src/data/text/` the text tables the banks `incsrc`,
   `src/data/teamdata94s.asm` the team database (see `src/data/README.md`).
 - `tools/prebuild.py` ROM check, run by every build. `tools/extract.py` lists the assets' ROM ranges and checks or rewrites them.
+  It also extracts the NHLPA player names and NHL team nicknames to `Extracted/PlayerNames.txt` / `TeamNicknames.txt`: `src/data/teamdata94s.asm`,
+  `src/data/text/LongNYI.asm` and `PregameText.asm` hold placeholders instead, and `tools/names.py` (run by prebuild) writes copies with the real
+  names to `output/names/`, which the bank files include. A name must keep the length of its placeholder.
 - `tools/disasm65816.py` quick pass for a segment's starting text (`output/quickpass/`).
 - `tools/verify_segment.sh`, `tools/verify_all.sh` segment and clean full checks.
 - `docs/HANDOFF.md` state of the work, `docs/name_map.csv` name history.

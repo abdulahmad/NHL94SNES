@@ -16,8 +16,8 @@ HomeUniformPalettes:				;16 colours per team, indexed by the home team : the spr
 	incbin "../../../Extracted/data/gfx/Pals/LAh.pal"	; Los Angeles
 	incbin "../../../Extracted/data/gfx/Pals/MTLh.pal"	; Montreal
 	incbin "../../../Extracted/data/gfx/Pals/NJh.pal"	; New Jersey
-	incbin "../../../Extracted/data/gfx/Pals/NYIh.pal"	; NY Islanders
-	incbin "../../../Extracted/data/gfx/Pals/NYRh.pal"	; NY Rangers
+	incbin "../../../Extracted/data/gfx/Pals/NYIh.pal"	; NYI
+	incbin "../../../Extracted/data/gfx/Pals/NYRh.pal"	; NYR
 	incbin "../../../Extracted/data/gfx/Pals/OTWh.pal"	; Ottawa
 	incbin "../../../Extracted/data/gfx/Pals/PHIh.pal"	; Philadelphia
 	incbin "../../../Extracted/data/gfx/Pals/PITh.pal"	; Pittsburgh

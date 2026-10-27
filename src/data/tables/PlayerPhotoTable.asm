@@ -1,116 +1,116 @@
 ; per team (TeamList order) 26 long pointers to packed player photos
 PlayerPhotoTable:					; per team (TeamList order) 26 long pointers to packed player photos
-	dd CardGuyHebert,NoPicGoalie,NoPicSkater1,CardTroyLoney,NoPicSkater2,CardTerryYake,NoPicSkater3	; Anaheim
-	dd CardAnatoliSemenov,NoPicSkater1,NoPicSkater3,NoPicSkater2,CardAlexeiKasatonov,NoPicSkater3,CardRandyLadouceur
+	dd Card108,NoPicGoalie,NoPicSkater1,Card006,NoPicSkater2,Card063,NoPicSkater3	; Anaheim
+	dd Card071,NoPicSkater1,NoPicSkater3,NoPicSkater2,Card069,NoPicSkater3,Card115
 	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardAndyMoog,NoPicGoalie,CardAdamOates,NoPicSkater1,NoPicSkater3,NoPicSkater2,CardJoeJuneau	; Boston
-	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardCamNeely,NoPicSkater3,NoPicSkater2
-	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,CardRayBourque,CardDonSweeney,NoPicSkater3,NoPicSkater2
+	dd Card036,NoPicGoalie,Card087,NoPicSkater1,NoPicSkater3,NoPicSkater2,Card078	; Boston
+	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card101,NoPicSkater3,NoPicSkater2
+	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,Card090,Card119,NoPicSkater3,NoPicSkater2
 	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
-	dd CardGrantFuhr,NoPicGoalie,NoPicGoalie,CardPatLaFontaine,CardDaleHawerchuk,NoPicSkater1,NoPicSkater3	; Buffalo
-	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardAlexnderMogilny,NoPicSkater3
-	dd NoPicSkater2,NoPicSkater1,CardDougBodger,CardPetrSvoboda,NoPicSkater3,NoPicSkater2,NoPicSkater1
+	dd Card096,NoPicGoalie,NoPicGoalie,Card111,Card049,NoPicSkater1,NoPicSkater3	; Buffalo
+	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card116,NoPicSkater3
+	dd NoPicSkater2,NoPicSkater1,Card053,Card058,NoPicSkater3,NoPicSkater2,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardMikeVernon,NoPicGoalie,CardJoeNieuwendyk,NoPicSkater1,NoPicSkater3,CardGaryRoberts,NoPicSkater2	; Calgary
-	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,CardTheorenFleury,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardGarySuter,CardAlMacInnis,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd Card017,NoPicGoalie,Card118,NoPicSkater1,NoPicSkater3,Card107,NoPicSkater2	; Calgary
+	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,Card033,NoPicSkater1,NoPicSkater3,NoPicSkater2
+	dd Card004,Card032,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardEdBelfour,NoPicGoalie,CardJeremyRoenick,NoPicSkater2,NoPicSkater1,NoPicSkater3,CardMichelGoulet	; Chicago
-	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,CardSteveLarmer,NoPicSkater2,NoPicSkater1,NoPicSkater3
-	dd NoPicSkater2,NoPicSkater1,CardChrisChelios,CardSteveSmith,NoPicSkater3,NoPicSkater2,NoPicSkater1
+	dd Card011,NoPicGoalie,Card081,NoPicSkater2,NoPicSkater1,NoPicSkater3,Card054	; Chicago
+	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,Card024,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd NoPicSkater2,NoPicSkater1,Card112,Card095,NoPicSkater3,NoPicSkater2,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardJonCasey,NoPicGoalie,CardMikeModano,CardDaveGagner,NoPicSkater3,NoPicSkater2,NoPicSkater1	; Dallas
-	dd NoPicSkater3,NoPicSkater2,CardRussCourtnall,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd NoPicSkater3,CardMarkTinordi,CardTommySjodin,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
+	dd Card003,NoPicGoalie,Card014,Card145,NoPicSkater3,NoPicSkater2,NoPicSkater1	; Dallas
+	dd NoPicSkater3,NoPicSkater2,Card035,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
+	dd NoPicSkater3,Card082,Card051,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
 	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
-	dd CardTimCheveldae,NoPicGoalie,CardSteveYzerman,CardSergeiFedorov,NoPicSkater3,NoPicSkater2,NoPicSkater1	; Detroit
-	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,CardDinoCiccarelli,NoPicSkater1
+	dd Card086,NoPicGoalie,Card117,Card002,NoPicSkater3,NoPicSkater2,NoPicSkater1	; Detroit
+	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,Card007,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2
 org $9DD003
-	dd NoPicSkater1,CardPaulCoffey,CardSteveChiasson,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd NoPicSkater1,Card149,Card137,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3
-	dd CardBillRanford,CardDougWeight,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2	; Edmonton
-	dd CardShayneCorson,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,CardPetrKlima
-	dd NoPicSkater2,CardDaveManson,CardIgorKravchuk,NoPicSkater1,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd Card099,Card074,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2	; Edmonton
+	dd Card018,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,Card022
+	dd NoPicSkater2,Card043,Card110,NoPicSkater1,NoPicSkater2,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardJohnVanbiesbrk,NoPicGoalie,NoPicSkater1,CardScottMellanby,CardBrianSkrudland,NoPicSkater1,NoPicSkater3	; Florida
-	dd CardAndreiLomakin,NoPicSkater1,NoPicSkater3,NoPicSkater2,CardJoeCirella,NoPicSkater3,CardGordMurphy
+	dd Card020,NoPicGoalie,NoPicSkater1,Card092,Card050,NoPicSkater1,NoPicSkater3	; Florida
+	dd Card009,NoPicSkater1,NoPicSkater3,NoPicSkater2,Card038,NoPicSkater3,Card025
 	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardSeanBurke,NoPicGoalie,NoPicGoalie,CardAndrewCassels,NoPicSkater1,NoPicSkater3,NoPicSkater2	; Hartford
-	dd CardGeoffSanderson,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardPatVerbeek,NoPicSkater3
-	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,CardZarleyZalapski,CardEricWeinrich,NoPicSkater1,NoPicSkater3
+	dd Card076,NoPicGoalie,NoPicGoalie,Card131,NoPicSkater1,NoPicSkater3,NoPicSkater2	; Hartford
+	dd Card056,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card060,NoPicSkater3
+	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,Card102,Card057,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardKellyHrudey,NoPicGoalie,NoPicGoalie,CardWayneGretzky,NoPicSkater3,NoPicSkater2,NoPicSkater1	; LosAngeles
-	dd CardLucRobitaille,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardTomasSandstrom,NoPicSkater3,NoPicSkater2
-	dd NoPicSkater1,CardRobBlake,CardMartyMcSorley,NoPicSkater3,NoPicSkater1,NoPicSkater3,NoPicSkater2
+	dd Card031,NoPicGoalie,NoPicGoalie,Card030,NoPicSkater3,NoPicSkater2,NoPicSkater1	; LosAngeles
+	dd Card073,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card028,NoPicSkater3,NoPicSkater2
+	dd NoPicSkater1,Card012,Card023,NoPicSkater3,NoPicSkater1,NoPicSkater3,NoPicSkater2
 	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
-	dd CardPatrickRoy,NoPicGoalie,CardKirkMuller,NoPicSkater1,NoPicSkater3,NoPicSkater2,CardVincentDamphousse	; Montreal
-	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardBrianBellows,NoPicSkater3,NoPicSkater2
-	dd NoPicSkater1,NoPicSkater3,CardEricDesjardins,CardMattSchneider,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd Card142,NoPicGoalie,Card136,NoPicSkater1,NoPicSkater3,NoPicSkater2,Card027	; Montreal
+	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card068,NoPicSkater3,NoPicSkater2
+	dd NoPicSkater1,NoPicSkater3,Card094,Card125,NoPicSkater2,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardChrisTerreri,NoPicGoalie,CardAlexnderSemak,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2	; NewJersey
-	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardStephaneRicher,CardClaudeLemieux,NoPicSkater3
-	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,CardScottStevens,CardVachslavFetisov,NoPicSkater2,NoPicSkater1
+	dd Card153,NoPicGoalie,Card121,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2	; NewJersey
+	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card155,Card013,NoPicSkater3
+	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,Card084,Card040,NoPicSkater2,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardGlennHealy,CardPierreTurgeon,CardBenoitHogue,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1	; NYIslanders
-	dd CardSteveThomas,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardVladimirMalakhov,CardDariusKasparitis,NoPicSkater3,NoPicSkater2,NoPicSkater3,NoPicSkater2,NoPicSkater1
+	dd Card093,Card140,Card098,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1	; NewYorkI
+	dd Card052,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
+	dd Card132,Card021,NoPicSkater3,NoPicSkater2,NoPicSkater3,NoPicSkater2,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardMikeRichter,CardMarkMessier,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardEsaTikkanen,NoPicSkater3	; NYRangers
-	dd NoPicSkater2,NoPicSkater1,CardMikeGartner,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
-	dd NoPicSkater2,CardBrianLeetch,CardJamesPatrick,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
+	dd Card146,Card064,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card016,NoPicSkater3	; NewYorkR
+	dd NoPicSkater2,NoPicSkater1,Card070,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd NoPicSkater2,Card005,Card041,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardPeterSidorkwicz,NoPicGoalie,CardJamieBaker,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1	; Ottawa
-	dd NoPicSkater3,NoPicSkater2,CardSylvainTurgeon,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardBobKudelski,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardNormMaciver,CardBradShaw,NoPicSkater3
+	dd Card001,NoPicGoalie,Card127,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1	; Ottawa
+	dd NoPicSkater3,NoPicSkater2,Card109,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
+	dd Card134,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card129,Card123,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardTommySoderstrom,NoPicGoalie,NoPicGoalie,CardEricLindros,CardRodBrindAmour,NoPicSkater1,NoPicSkater3	; Philadelphia
-	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,CardMarkRecchi
-	dd NoPicSkater2,NoPicSkater1,CardGarryGalley,CardDimitriYushkevich,NoPicSkater3,NoPicSkater2,NoPicSkater1
+	dd Card045,NoPicGoalie,NoPicGoalie,Card075,Card089,NoPicSkater1,NoPicSkater3	; Philadelphia
+	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,Card048
+	dd NoPicSkater2,NoPicSkater1,Card065,Card128,NoPicSkater3,NoPicSkater2,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardTomBarrasso,NoPicGoalie,CardMarioLemieux,NoPicSkater1,NoPicSkater3,NoPicSkater2,CardKevinStevens	; Pittsburgh
-	dd NoPicSkater1,NoPicSkater3,CardJaromirJagr,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd NoPicSkater1,CardLarryMurphy,CardUlfSamuelsson,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd Card135,NoPicGoalie,Card154,NoPicSkater1,NoPicSkater3,NoPicSkater2,Card079	; Pittsburgh
+	dd NoPicSkater1,NoPicSkater3,Card152,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
+	dd NoPicSkater1,Card144,Card047,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardRonHextall,NoPicGoalie,CardJoeSakic,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3	; Quebec
-	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,CardMatsSundin,CardOwenNolan,NoPicSkater1
-	dd NoPicSkater3,CardSteveDuchesne,CardCurtisLeschyshyn,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
+	dd Card083,NoPicGoalie,Card105,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3	; Quebec
+	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,Card147,Card139,NoPicSkater1
+	dd NoPicSkater3,Card120,Card010,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
 	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
-	dd CardArtursIrbe,NoPicGoalie,NoPicGoalie,CardKellyKisio,NoPicSkater2,NoPicSkater1,NoPicSkater3	; SanJose
-	dd NoPicSkater2,CardJohanGarpenlov,NoPicSkater1,NoPicSkater3,NoPicSkater2,CardPatFalloon,NoPicSkater1
-	dd NoPicSkater3,CardDougWilson,CardNeilWilkinson,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
+	dd Card055,NoPicGoalie,NoPicGoalie,Card059,NoPicSkater2,NoPicSkater1,NoPicSkater3	; SanJose
+	dd NoPicSkater2,Card088,NoPicSkater1,NoPicSkater3,NoPicSkater2,Card046,NoPicSkater1
+	dd NoPicSkater3,Card042,Card037,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
 	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
-	dd CardCurtisJoseph,CardCraigJanney,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1	; StLouis
-	dd NoPicSkater3,NoPicSkater2,CardBrendanShanahan,CardBrettHull,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardJeffBrown,CardGarthButcher,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd Card148,Card150,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1	; StLouis
+	dd NoPicSkater3,NoPicSkater2,Card104,Card085,NoPicSkater1,NoPicSkater3,NoPicSkater2
+	dd Card077,Card126,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardWendellYoung,NoPicGoalie,NoPicGoalie,CardBrianBradley,CardChrisKontos,NoPicSkater2,NoPicSkater1	; TampaBay
-	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,CardMikaelAndersson,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,CardBobBeers,CardRomanHamrlik,NoPicSkater3,NoPicSkater2
+	dd Card034,NoPicGoalie,NoPicGoalie,Card114,Card103,NoPicSkater2,NoPicSkater1	; TampaBay
+	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,Card133,NoPicSkater3,NoPicSkater2,NoPicSkater1
+	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,Card039,Card143,NoPicSkater3,NoPicSkater2
 	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3
-	dd CardFelixPotvin,NoPicGoalie,CardDougGilmour,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1	; Toronto
-	dd CardDaveAndreychuk,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardNikolaiBorshevsky,NoPicSkater3,NoPicSkater2
-	dd NoPicSkater1,NoPicSkater3,CardToddGill,CardDaveEllett,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd Card097,NoPicGoalie,Card156,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1	; Toronto
+	dd Card138,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card008,NoPicSkater3,NoPicSkater2
+	dd NoPicSkater1,NoPicSkater3,Card072,Card122,NoPicSkater2,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardKirkMcLean,NoPicGoalie,CardCliffRonning,NoPicSkater3,NoPicSkater1,CardGeoffCourtnall,NoPicSkater2	; Vancouver
-	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardPavelBure,NoPicSkater3,NoPicSkater2
-	dd NoPicSkater1,NoPicSkater3,CardJyrkiLumme,CardDougLidster,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd Card066,NoPicGoalie,Card113,NoPicSkater3,NoPicSkater1,Card062,NoPicSkater2	; Vancouver
+	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card061,NoPicSkater3,NoPicSkater2
+	dd NoPicSkater1,NoPicSkater3,Card124,Card019,NoPicSkater2,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardDonBeaupre,NoPicGoalie,CardMikeRidley,CardDimitriKhristich,NoPicSkater1,NoPicSkater3,NoPicSkater2	; Washington
-	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardPeterBondra,NoPicSkater3,NoPicSkater2
-	dd NoPicSkater1,NoPicSkater3,CardKevinHatcher,CardAlIafrate,NoPicSkater2,NoPicSkater1,NoPicSkater3
+	dd Card029,NoPicGoalie,Card015,Card044,NoPicSkater1,NoPicSkater3,NoPicSkater2	; Washington
+	dd NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card130,NoPicSkater3,NoPicSkater2
+	dd NoPicSkater1,NoPicSkater3,Card080,Card067,NoPicSkater2,NoPicSkater1,NoPicSkater3
 	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1
-	dd CardBobEssensa,NoPicGoalie,CardAlexeiZhamnov,CardThomasSteen,NoPicSkater2,NoPicSkater1,NoPicSkater3	; Winnipeg
-	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,CardTeemuSelanne,NoPicSkater3
-	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,CardPhilHousley,CardTeppoNumminen,NoPicSkater2,NoPicSkater1
+	dd Card100,NoPicGoalie,Card106,Card026,NoPicSkater2,NoPicSkater1,NoPicSkater3	; Winnipeg
+	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2,NoPicSkater1,Card141,NoPicSkater3
+	dd NoPicSkater2,NoPicSkater1,NoPicSkater3,Card151,Card091,NoPicSkater2,NoPicSkater1
 	dd NoPicSkater3,NoPicSkater2,NoPicSkater1,NoPicSkater3,NoPicSkater2
-	dd CardPatrickRoy,CardGrantFuhr,CardTomBarrasso,CardMarioLemieux,CardMarkMessier,CardKirkMuller,CardAdamOates	; AllStarsEast
-	dd CardJoeSakic,CardPierreTurgeon,CardPatLaFontaine,CardKevinStevens,CardJaromirJagr,CardPeterBondra,CardMikeGartner
-	dd NoPicSkater1,CardAlexnderMogilny,CardMarkRecchi,CardLarryMurphy,CardRayBourque,CardBrianLeetch,CardSteveDuchesne
-	dd CardAlIafrate,CardScottStevens,CardZarleyZalapski,NoPicSkater3,NoPicSkater2
-	dd CardEdBelfour,CardTimCheveldae,CardFelixPotvin,CardSteveYzerman,CardMikeModano,CardJeremyRoenick,CardBrianBradley	; AllStarsWest
-	dd CardDougGilmour,CardWayneGretzky,CardGaryRoberts,CardLucRobitaille,CardTheorenFleury,CardBrettHull,CardPavelBure
-	dd CardTeemuSelanne,CardPatFalloon,NoPicSkater1,CardGarySuter,CardJeffBrown,CardPaulCoffey,CardChrisChelios
-	dd CardPhilHousley,CardDaveManson,CardSteveSmith,CardSteveChiasson,NoPicSkater3
+	dd Card142,Card096,Card135,Card154,Card064,Card136,Card087	; AllStarsEast
+	dd Card105,Card140,Card111,Card079,Card152,Card130,Card070
+	dd NoPicSkater1,Card116,Card048,Card144,Card090,Card005,Card120
+	dd Card067,Card084,Card102,NoPicSkater3,NoPicSkater2
+	dd Card011,Card086,Card097,Card117,Card014,Card081,Card114	; AllStarsWest
+	dd Card156,Card030,Card107,Card073,Card033,Card085,Card061
+	dd Card141,Card046,NoPicSkater1,Card004,Card077,Card149,Card112
+	dd Card151,Card043,Card095,Card137,NoPicSkater3

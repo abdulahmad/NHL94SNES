@@ -23,7 +23,7 @@ TeamSongs:							;songs for MusicStart, six per team (long pointers, $FFFFFFFF n
 	dd SongOMalleysSteps,SongHalteLa,SongDefense,SongLetsGoClapsCOnly
 	dd SongLetsGoF,SongBuildupC,SongLetsGoF,$FFFFFFFF
 	dd SongDefense,SongLaRaspa,SongRallyTime,SongCharge
-	dd SongRallyTime,SongIslandersCharge,SongDefense,SongIslandersCharge
+	dd SongRallyTime,SongNYICharge,SongDefense,SongNYICharge
 	dd SongHereWeGo,SongChargeSlow,SongLetsGoF,$FFFFFFFF
 	dd SongDefense,$FFFFFFFF,SongRallyTime,SongOMalleysSteps
 	dd SongGypsySpainCharge,$FFFFFFFF,SongDefense,$FFFFFFFF

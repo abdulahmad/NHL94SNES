@@ -161,7 +161,7 @@ $96C9CE,AwayUniformPalettes,DATA8_96C9CE,code,"16 colours per team, indexed by t
 $96CD4E,HomeUniformPalettes,DATA8_96CD4E,code,"16 colours per team, indexed by the home team $1C98, copied to the sprite colours at $9FB91A; white jerseys when rendered",src/data/gfx/HomeUniformPalettes.asm
 $9788DC,PregameText,DATA8_9788DC,code,"the pre-game screen text ($0D-ended strings: team places, then Ron Barr's lines with % codes); read at $9EC977",src/data/text/PregameText.asm
 $97FE85,CenterIceTilesTBL,DATA8_97FE85,code,"Tampa Bay centre ice logo tiles (linear 4bpp, Huffman); team 21 of the table at $9C83B7",src/data/gfx/CenterIceTilesTB.asm
-$98FECB,CenterIceTilesNYI,DATA8_98FECB,code,"the New York Islanders centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 13 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesNYI.asm
+$98FECB,CenterIceTilesNYI,DATA8_98FECB,code,"NYI centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 13 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesNYI.asm
 $99FEC0,CenterIceTilesOTT,DATA8_99FEC0,code,"the Ottawa centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 15 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesOTW.asm
 $9AAC2E,CenterIceTilesCHI,DATA8_9AAC2E,code,"the Chicago centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 4 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesCHI.asm
 $9AB47B,CenterIceTilesANA,DATA8_9AB47B,code,"the Anaheim centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 0 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesANH.asm
@@ -175,7 +175,7 @@ $9AC667,CenterIceTilesSJS,DATA8_9AC667,code,"the San Jose centre ice logo: linea
 $9AC774,CenterIceTilesSTL,DATA8_9AC774,code,"the St. Louis centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 20 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesSTL.asm
 $9AC880,CenterIceTilesDET,DATA8_9AC880,code,"the Detroit centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 6 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesDET.asm
 $9ACA96,CenterIceTilesBUF,DATA8_9ACA96,code,"the Buffalo centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 2 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesBUF.asm
-$9ACBA0,CenterIceTilesNYR,DATA8_9ACBA0,code,"the New York Rangers centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 14 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesNYR.asm
+$9ACBA0,CenterIceTilesNYR,DATA8_9ACBA0,code,"NYR centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 14 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesNYR.asm
 $9AD4B6,CenterIceTilesNHL,DATA8_9AD4B6,code,"the NHL shield centre ice logo of the all-star teams (26 and 27 of the centre ice table in bank $9C): linear 4bpp tiles packed for DecompressHuffman, drawn with CenterIceMapNHL",src/data/gfx/CenterIceTilesNHL.asm
 $9AD5AF,CenterIceTilesQUE,DATA8_9AD5AF,code,"the Quebec centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 18 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesQUE.asm
 $9AD79C,CenterIceTilesLAK,DATA8_9AD79C,code,"the Los Angeles centre ice logo: linear 4bpp tiles packed for DecompressHuffman (team 10 of the centre ice table in bank $9C)",src/data/gfx/CenterIceTilesLA.asm
@@ -197,8 +197,8 @@ $9AE46A,CenterIceMapWPG,DATA8_9AE46A,code,"the Winnipeg centre ice logo map: wid
 $9AE4B0,CenterIceMapHFD,DATA8_9AE4B0,code,"the Hartford centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapHFD.asm
 $9AE4F6,CenterIceMapCHI,DATA8_9AE4F6,code,"the Chicago centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapCHI.asm
 $9AE53C,CenterIceMapANA,DATA8_9AE53C,code,"the Anaheim centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapANH.asm
-$9AE582,CenterIceMapNYI,DATA8_9AE582,code,"the New York Islanders centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapNYI.asm
-$9AE5C8,CenterIceMapNYR,DATA8_9AE5C8,code,"the New York Rangers centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapNYR.asm
+$9AE582,CenterIceMapNYI,DATA8_9AE582,code,"NYI centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapNYI.asm
+$9AE5C8,CenterIceMapNYR,DATA8_9AE5C8,code,"NYR centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapNYR.asm
 $9AE60E,CenterIceMapOTT,DATA8_9AE60E,code,"the Ottawa centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapOTW.asm
 $9AE654,CenterIceMapFLA,DATA8_9AE654,code,"the Florida centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapFLA.asm
 $9AE69A,CenterIceMapNJD,DATA8_9AE69A,code,"the New Jersey centre ice logo map: width, height, a word, then the map words (8 x 4)",src/data/gfx/CenterIceMapNJ.asm
@@ -219,8 +219,8 @@ $9AEB5C,PhotoPaletteHFD,DATA8_9AEB5C,code,"the 16 colours of the Hartford player
 $9AEB7C,PhotoPaletteLAK,DATA8_9AEB7C,code,"the 16 colours of the Los Angeles player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteLA.asm
 $9AEB9C,PhotoPaletteMTL,DATA8_9AEB9C,code,"the 16 colours of the Montreal player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteMTL.asm
 $9AEBBC,PhotoPaletteNJD,DATA8_9AEBBC,code,"the 16 colours of the New Jersey player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteNJ.asm
-$9AEBDC,PhotoPaletteNYI,DATA8_9AEBDC,code,"the 16 colours of the New York Islanders player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteNYI.asm
-$9AEBFC,PhotoPaletteNYR,DATA8_9AEBFC,code,"the 16 colours of the New York Rangers player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteNYR.asm
+$9AEBDC,PhotoPaletteNYI,DATA8_9AEBDC,code,"the 16 colours of NYI player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteNYI.asm
+$9AEBFC,PhotoPaletteNYR,DATA8_9AEBFC,code,"the 16 colours of NYR player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteNYR.asm
 $9AEC1C,PhotoPaletteOTT,DATA8_9AEC1C,code,"the 16 colours of the Ottawa player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteOTW.asm
 $9AEC3C,PhotoPalettePHI,DATA8_9AEC3C,code,"the 16 colours of the Philadelphia player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPalettePHI.asm
 $9AEC5C,PhotoPalettePIT,DATA8_9AEC5C,code,"the 16 colours of the Pittsburgh player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPalettePIT.asm
@@ -233,12 +233,12 @@ $9AED1C,PhotoPaletteVAN,DATA8_9AED1C,code,"the 16 colours of the Vancouver playe
 $9AED3C,PhotoPaletteWSH,DATA8_9AED3C,code,"the 16 colours of the Washington player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteWSH.asm
 $9AED5C,PhotoPaletteWPG,DATA8_9AED5C,code,"the 16 colours of the Winnipeg player photos (the photo palette table in bank $9D)",src/data/gfx/PhotoPaletteWPG.asm
 $9AED7C,LogoPaletteBOS,DATA8_9AED7C,code,"the 16 colours of the Boston logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteBOS.asm
-$9AED9C,LogoPaletteNYI,DATA8_9AED9C,code,"the 16 colours of the New York Islanders logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteNYI.asm
+$9AED9C,LogoPaletteNYI,DATA8_9AED9C,code,"the 16 colours of NYI logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteNYI.asm
 $9AEDBC,LogoPaletteANA,DATA8_9AEDBC,code,"the 16 colours of the Anaheim logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteANH.asm
 $9AEDDC,LogoPaletteDAL,DATA8_9AEDDC,code,"the 16 colours of the Dallas logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteDAL.asm
 $9AEDFC,LogoPaletteMTL,DATA8_9AEDFC,code,"the 16 colours of the Montreal logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteMTL.asm
 $9AEE9C,LogoPaletteNJD,DATA8_9AEE9C,code,"the 16 colours of the New Jersey logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteNJ.asm
-$9AEEBC,LogoPaletteNYR,DATA8_9AEEBC,code,"the 16 colours of the New York Rangers logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteNYR.asm
+$9AEEBC,LogoPaletteNYR,DATA8_9AEEBC,code,"the 16 colours of NYR logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteNYR.asm
 $9AEEDC,LogoPaletteOTT,DATA8_9AEEDC,code,"the 16 colours of the Ottawa logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPaletteOTW.asm
 $9AEF3C,LogoPalettePHI,DATA8_9AEF3C,code,"the 16 colours of the Philadelphia logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPalettePHI.asm
 $9AEF7C,LogoPalettePIT,DATA8_9AEF7C,code,"the 16 colours of the Pittsburgh logo (TeamLogoSprites and the centre ice logo)",src/data/gfx/LogoPalettePIT.asm
@@ -282,8 +282,8 @@ $9CBDB2,LosAngeles,DATA8_9CBDB2,94G,"team 10 record: header offsets, .sr, .sodds
 $9CC04F,Dallas,DATA8_9CC04F,94G,"team 5 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
 $9CC2DB,Montreal,DATA8_9CC2DB,94G,"team 11 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
 $9CC57E,NewJersey,DATA8_9CC57E,94G,"team 12 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
-$9CC82B,NYIslanders,DATA8_9CC82B,94G,"team 13 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
-$9CCA9C,NYRangers,DATA8_9CCA9C,94G,"team 14 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
+$9CC82B,NewYorkI,DATA8_9CC82B,94G,"team 13 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
+$9CCA9C,NewYorkR,DATA8_9CCA9C,94G,"team 14 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
 $9CCD06,Ottawa,DATA8_9CCD06,94G,"team 15 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
 $9CCFAC,Philadelphia,DATA8_9CCFAC,94G,"team 16 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
 $9CD237,Pittsburgh,DATA8_9CD237,94G,"team 17 record: header offsets, .sr, .sodds, .ls, .pld players, city/abbreviation/nickname/arena; 94G team label",src/data/teamdata94s.asm
@@ -3667,8 +3667,8 @@ $9B8861,LineMenuNames,DATA8_9B8861,new,line names on the line menu,src/data/text
 $9B88E9,BestLineNames,DATA8_9B88E9,new,line menu list that offers Best Line,src/data/text/BestLineNames.asm
 $80E2E0,CopyrightLines,DATA8_80E2E0,new,Electronic Arts and Nintendo copyright lines,src/data/text/CopyrightLines.asm
 $9ECC88,ScoutFragments,DATA8_9ECC88,new,"extremely, has, have",src/data/text/ScoutFragments.asm
-$9BC5E7,LongNYIslanders,DATA8_9BC5E7,new,on-screen name NY Islanders,src/data/text/LongNYIslanders.asm
-$9BC5F5,LongNYRangers,DATA8_9BC5F5,new,on-screen name NY Rangers,src/data/text/LongNYIslanders.asm
+$9BC5E7,LongNYI,DATA8_9BC5E7,new,on-screen name NYI,src/data/text/LongNYI.asm
+$9BC5F5,LongNYR,DATA8_9BC5F5,new,on-screen name NYR,src/data/text/LongNYI.asm
 $9FF35F,MultiPlayer5Text,DATA8_9FF35F,new,MultiPlayer 5 must be connected to socket 2,src/data/text/MultiPlayer5Text.asm
 $9FF372,MP5MustConnect,DATA8_9FF372,new,must be connected,src/data/text/MultiPlayer5Text.asm
 $9FF385,MP5ToController,DATA8_9FF385,new,to Controller,src/data/text/MultiPlayer5Text.asm
@@ -6070,162 +6070,162 @@ $99C64E,NoPicGoalie,DATA8_99C64E,94G,"generic photo used by 28 PlayerPhotoTable 
 $99E1E8,NoPicSkater1,DATA8_99E1E8,94G,"generic photo used by 169 PlayerPhotoTable slots, as 94G NoPicSkater / NoPicGoalie",src/data/gfx/NoPicSkater1.asm
 $9AB13D,NoPicSkater2,DATA8_9AB13D,94G,"generic photo used by 161 PlayerPhotoTable slots, as 94G NoPicSkater / NoPicGoalie",src/data/gfx/NoPicSkater2.asm
 $8FFE74,NoPicSkater3,DATA8_8FFE74,94G,"generic photo used by 167 PlayerPhotoTable slots, as 94G NoPicSkater / NoPicGoalie",src/data/gfx/NoPicSkater3.asm
-$99AC36,CardGuyHebert,DATA8_99AC36,94G,the photo of Guy Hebert (PlayerPhotoTable Anaheim 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardGuyHebert.asm
-$979931,CardTroyLoney,DATA8_979931,94G,the photo of Troy Loney (PlayerPhotoTable Anaheim 3); named Card<player> as 94G names its player pictures,src/data/gfx/CardTroyLoney.asm
-$98BCF3,CardTerryYake,DATA8_98BCF3,94G,the photo of Terry Yake (PlayerPhotoTable Anaheim 5); named Card<player> as 94G names its player pictures,src/data/gfx/CardTerryYake.asm
-$98D19D,CardAnatoliSemenov,DATA8_98D19D,94G,the photo of Anatoli Semenov (PlayerPhotoTable Anaheim 7); named Card<player> as 94G names its player pictures,src/data/gfx/CardAnatoliSemenov.asm
-$98CD0A,CardAlexeiKasatonov,DATA8_98CD0A,94G,the photo of Alexei Kasatonov (PlayerPhotoTable Anaheim 11); named Card<player> as 94G names its player pictures,src/data/gfx/CardAlexeiKasatonov.asm
-$99BFD5,CardRandyLadouceur,DATA8_99BFD5,94G,the photo of Randy Ladouceur (PlayerPhotoTable Anaheim 13); named Card<player> as 94G names its player pictures,src/data/gfx/CardRandyLadouceur.asm
-$97F28A,CardAndyMoog,DATA8_97F28A,94G,the photo of Andy Moog (PlayerPhotoTable Boston 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardAndyMoog.asm
-$98F814,CardAdamOates,DATA8_98F814,94G,"the photo of Adam Oates (PlayerPhotoTable Boston 2, AllStarsEast 6); named Card<player> as 94G names its player pictures",src/data/gfx/CardAdamOates.asm
-$98E3CD,CardJoeJuneau,DATA8_98E3CD,94G,the photo of Joe Juneau (PlayerPhotoTable Boston 6); named Card<player> as 94G names its player pictures,src/data/gfx/CardJoeJuneau.asm
-$999867,CardCamNeely,DATA8_999867,94G,the photo of Cam Neely (PlayerPhotoTable Boston 11); named Card<player> as 94G names its player pictures,src/data/gfx/CardCamNeely.asm
-$998000,CardRayBourque,DATA8_998000,94G,"the photo of Ray Bourque (PlayerPhotoTable Boston 17, AllStarsEast 18); named Card<player> as 94G names its player pictures",src/data/gfx/CardRayBourque.asm
-$99D102,CardDonSweeney,DATA8_99D102,94G,the photo of Don Sweeney (PlayerPhotoTable Boston 18); named Card<player> as 94G names its player pictures,src/data/gfx/CardDonSweeney.asm
-$998D5D,CardGrantFuhr,DATA8_998D5D,94G,"the photo of Grant Fuhr (PlayerPhotoTable Buffalo 0, AllStarsEast 1); named Card<player> as 94G names its player pictures",src/data/gfx/CardGrantFuhr.asm
-$99B2C7,CardPatLaFontaine,DATA8_99B2C7,94G,"the photo of Pat LaFontaine (PlayerPhotoTable Buffalo 3, AllStarsEast 9); named Card<player> as 94G names its player pictures",src/data/gfx/CardPatLaFontaine.asm
-$989A18,CardDaleHawerchuk,DATA8_989A18,94G,the photo of Dale Hawerchuk (PlayerPhotoTable Buffalo 4); named Card<player> as 94G names its player pictures,src/data/gfx/CardDaleHawerchuk.asm
-$99C1FE,CardAlexnderMogilny,DATA8_99C1FE,94G,"the photo of Alexnder Mogilny (PlayerPhotoTable Buffalo 12, AllStarsEast 15); named Card<player> as 94G names its player pictures",src/data/gfx/CardAlexnderMogilny.asm
-$98A5CD,CardDougBodger,DATA8_98A5CD,94G,the photo of Doug Bodger (PlayerPhotoTable Buffalo 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardDougBodger.asm
-$98B16A,CardPetrSvoboda,DATA8_98B16A,94G,the photo of Petr Svoboda (PlayerPhotoTable Buffalo 17); named Card<player> as 94G names its player pictures,src/data/gfx/CardPetrSvoboda.asm
-$97BA0D,CardMikeVernon,DATA8_97BA0D,94G,the photo of Mike Vernon (PlayerPhotoTable Calgary 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardMikeVernon.asm
-$99CCBA,CardJoeNieuwendyk,DATA8_99CCBA,94G,the photo of Joe Nieuwendyk (PlayerPhotoTable Calgary 2); named Card<player> as 94G names its player pictures,src/data/gfx/CardJoeNieuwendyk.asm
-$99AA05,CardGaryRoberts,DATA8_99AA05,94G,"the photo of Gary Roberts (PlayerPhotoTable Calgary 5, AllStarsWest 9); named Card<player> as 94G names its player pictures",src/data/gfx/CardGaryRoberts.asm
-$97EB52,CardTheorenFleury,DATA8_97EB52,94G,"the photo of Theoren Fleury (PlayerPhotoTable Calgary 10, AllStarsWest 11); named Card<player> as 94G names its player pictures",src/data/gfx/CardTheorenFleury.asm
-$978E95,CardGarySuter,DATA8_978E95,94G,"the photo of Gary Suter (PlayerPhotoTable Calgary 14, AllStarsWest 17); named Card<player> as 94G names its player pictures",src/data/gfx/CardGarySuter.asm
-$97E8E8,CardAlMacInnis,DATA8_97E8E8,94G,the photo of Al MacInnis (PlayerPhotoTable Calgary 15); named Card<player> as 94G names its player pictures,src/data/gfx/CardAlMacInnis.asm
-$97A600,CardEdBelfour,DATA8_97A600,94G,"the photo of Ed Belfour (PlayerPhotoTable Chicago 0, AllStarsWest 0); named Card<player> as 94G names its player pictures",src/data/gfx/CardEdBelfour.asm
-$98EA95,CardJeremyRoenick,DATA8_98EA95,94G,"the photo of Jeremy Roenick (PlayerPhotoTable Chicago 2, AllStarsWest 5); named Card<player> as 94G names its player pictures",src/data/gfx/CardJeremyRoenick.asm
-$98A821,CardMichelGoulet,DATA8_98A821,94G,the photo of Michel Goulet (PlayerPhotoTable Chicago 6); named Card<player> as 94G names its player pictures,src/data/gfx/CardMichelGoulet.asm
-$97CDF3,CardSteveLarmer,DATA8_97CDF3,94G,the photo of Steve Larmer (PlayerPhotoTable Chicago 10); named Card<player> as 94G names its player pictures,src/data/gfx/CardSteveLarmer.asm
-$99B4F7,CardChrisChelios,DATA8_99B4F7,94G,"the photo of Chris Chelios (PlayerPhotoTable Chicago 16, AllStarsWest 20); named Card<player> as 94G names its player pictures",src/data/gfx/CardChrisChelios.asm
-$998B25,CardSteveSmith,DATA8_998B25,94G,"the photo of Steve Smith (PlayerPhotoTable Chicago 17, AllStarsWest 23); named Card<player> as 94G names its player pictures",src/data/gfx/CardSteveSmith.asm
-$96FD81,CardJonCasey,DATA8_96FD81,94G,the photo of Jon Casey (PlayerPhotoTable Dallas 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardJonCasey.asm
-$97AD8B,CardMikeModano,DATA8_97AD8B,94G,"the photo of Mike Modano (PlayerPhotoTable Dallas 2, AllStarsWest 4); named Card<player> as 94G names its player pictures",src/data/gfx/CardMikeModano.asm
-$9A8C2C,CardDaveGagner,DATA8_9A8C2C,94G,the photo of Dave Gagner (PlayerPhotoTable Dallas 3); named Card<player> as 94G names its player pictures,src/data/gfx/CardDaveGagner.asm
-$97F023,CardRussCourtnall,DATA8_97F023,94G,the photo of Russ Courtnall (PlayerPhotoTable Dallas 9); named Card<player> as 94G names its player pictures,src/data/gfx/CardRussCourtnall.asm
-$98ECD6,CardMarkTinordi,DATA8_98ECD6,94G,the photo of Mark Tinordi (PlayerPhotoTable Dallas 15); named Card<player> as 94G names its player pictures,src/data/gfx/CardMarkTinordi.asm
-$98A120,CardTommySjodin,DATA8_98A120,94G,the photo of Tommy Sjodin (PlayerPhotoTable Dallas 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardTommySjodin.asm
-$98F5D7,CardTimCheveldae,DATA8_98F5D7,94G,"the photo of Tim Cheveldae (PlayerPhotoTable Detroit 0, AllStarsWest 1); named Card<player> as 94G names its player pictures",src/data/gfx/CardTimCheveldae.asm
-$99C426,CardSteveYzerman,DATA8_99C426,94G,"the photo of Steve Yzerman (PlayerPhotoTable Detroit 2, AllStarsWest 3); named Card<player> as 94G names its player pictures",src/data/gfx/CardSteveYzerman.asm
-$90FDE2,CardSergeiFedorov,DATA8_90FDE2,94G,the photo of Sergei Fedorov (PlayerPhotoTable Detroit 3); named Card<player> as 94G names its player pictures,src/data/gfx/CardSergeiFedorov.asm
-$979BC5,CardDinoCiccarelli,DATA8_979BC5,94G,the photo of Dino Ciccarelli (PlayerPhotoTable Detroit 12); named Card<player> as 94G names its player pictures,src/data/gfx/CardDinoCiccarelli.asm
-$9A940F,CardPaulCoffey,DATA8_9A940F,94G,"the photo of Paul Coffey (PlayerPhotoTable Detroit 17, AllStarsWest 19); named Card<player> as 94G names its player pictures",src/data/gfx/CardPaulCoffey.asm
-$99FAB4,CardSteveChiasson,DATA8_99FAB4,94G,"the photo of Steve Chiasson (PlayerPhotoTable Detroit 18, AllStarsWest 24); named Card<player> as 94G names its player pictures",src/data/gfx/CardSteveChiasson.asm
-$9993FD,CardBillRanford,DATA8_9993FD,94G,the photo of Bill Ranford (PlayerPhotoTable Edmonton 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardBillRanford.asm
-$98D876,CardDougWeight,DATA8_98D876,94G,the photo of Doug Weight (PlayerPhotoTable Edmonton 1); named Card<player> as 94G names its player pictures,src/data/gfx/CardDougWeight.asm
-$97BC8C,CardShayneCorson,DATA8_97BC8C,94G,the photo of Shayne Corson (PlayerPhotoTable Edmonton 7); named Card<player> as 94G names its player pictures,src/data/gfx/CardShayneCorson.asm
-$97C682,CardPetrKlima,DATA8_97C682,94G,the photo of Petr Klima (PlayerPhotoTable Edmonton 13); named Card<player> as 94G names its player pictures,src/data/gfx/CardPetrKlima.asm
-$98898F,CardDaveManson,DATA8_98898F,94G,"the photo of Dave Manson (PlayerPhotoTable Edmonton 15, AllStarsWest 22); named Card<player> as 94G names its player pictures",src/data/gfx/CardDaveManson.asm
-$99B097,CardIgorKravchuk,DATA8_99B097,94G,the photo of Igor Kravchuk (PlayerPhotoTable Edmonton 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardIgorKravchuk.asm
-$97C188,CardJohnVanbiesbrk,DATA8_97C188,94G,the photo of John Vanbiesbrk (PlayerPhotoTable Florida 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardJohnVanbiesbrk.asm
-$998479,CardScottMellanby,DATA8_998479,94G,the photo of Scott Mellanby (PlayerPhotoTable Florida 3); named Card<player> as 94G names its player pictures,src/data/gfx/CardScottMellanby.asm
-$989EC9,CardBrianSkrudland,DATA8_989EC9,94G,the photo of Brian Skrudland (PlayerPhotoTable Florida 4); named Card<player> as 94G names its player pictures,src/data/gfx/CardBrianSkrudland.asm
-$97A0E8,CardAndreiLomakin,DATA8_97A0E8,94G,the photo of Andrei Lomakin (PlayerPhotoTable Florida 7); named Card<player> as 94G names its player pictures,src/data/gfx/CardAndreiLomakin.asm
-$97F9BC,CardJoeCirella,DATA8_97F9BC,94G,the photo of Joe Cirella (PlayerPhotoTable Florida 11); named Card<player> as 94G names its player pictures,src/data/gfx/CardJoeCirella.asm
-$97D06C,CardGordMurphy,DATA8_97D06C,94G,the photo of Gord Murphy (PlayerPhotoTable Florida 13); named Card<player> as 94G names its player pictures,src/data/gfx/CardGordMurphy.asm
-$98DD01,CardSeanBurke,DATA8_98DD01,94G,the photo of Sean Burke (PlayerPhotoTable Hartford 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardSeanBurke.asm
-$99EE68,CardAndrewCassels,DATA8_99EE68,94G,the photo of Andrew Cassels (PlayerPhotoTable Hartford 3); named Card<player> as 94G names its player pictures,src/data/gfx/CardAndrewCassels.asm
-$98ACC7,CardGeoffSanderson,DATA8_98ACC7,94G,the photo of Geoff Sanderson (PlayerPhotoTable Hartford 7); named Card<player> as 94G names its player pictures,src/data/gfx/CardGeoffSanderson.asm
-$98B608,CardPatVerbeek,DATA8_98B608,94G,the photo of Pat Verbeek (PlayerPhotoTable Hartford 12); named Card<player> as 94G names its player pictures,src/data/gfx/CardPatVerbeek.asm
-$999F04,CardZarleyZalapski,DATA8_999F04,94G,"the photo of Zarley Zalapski (PlayerPhotoTable Hartford 17, AllStarsEast 23); named Card<player> as 94G names its player pictures",src/data/gfx/CardZarleyZalapski.asm
-$98AF19,CardEricWeinrich,DATA8_98AF19,94G,the photo of Eric Weinrich (PlayerPhotoTable Hartford 18); named Card<player> as 94G names its player pictures,src/data/gfx/CardEricWeinrich.asm
-$97E40B,CardKellyHrudey,DATA8_97E40B,94G,the photo of Kelly Hrudey (PlayerPhotoTable LosAngeles 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardKellyHrudey.asm
-$97DF28,CardWayneGretzky,DATA8_97DF28,94G,"the photo of Wayne Gretzky (PlayerPhotoTable LosAngeles 3, AllStarsWest 8); named Card<player> as 94G names its player pictures",src/data/gfx/CardWayneGretzky.asm
-$98D62E,CardLucRobitaille,DATA8_98D62E,94G,"the photo of Luc Robitaille (PlayerPhotoTable LosAngeles 7, AllStarsWest 10); named Card<player> as 94G names its player pictures",src/data/gfx/CardLucRobitaille.asm
-$97D7CC,CardTomasSandstrom,DATA8_97D7CC,94G,the photo of Tomas Sandstrom (PlayerPhotoTable LosAngeles 11); named Card<player> as 94G names its player pictures,src/data/gfx/CardTomasSandstrom.asm
-$97A887,CardRobBlake,DATA8_97A887,94G,the photo of Rob Blake (PlayerPhotoTable LosAngeles 15); named Card<player> as 94G names its player pictures,src/data/gfx/CardRobBlake.asm
-$97C8FE,CardMartyMcSorley,DATA8_97C8FE,94G,the photo of Marty McSorley (PlayerPhotoTable LosAngeles 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardMartyMcSorley.asm
-$9A862E,CardPatrickRoy,DATA8_9A862E,94G,"the photo of Patrick Roy (PlayerPhotoTable Montreal 0, AllStarsEast 0); named Card<player> as 94G names its player pictures",src/data/gfx/CardPatrickRoy.asm
-$99F8AC,CardKirkMuller,DATA8_99F8AC,94G,"the photo of Kirk Muller (PlayerPhotoTable Montreal 2, AllStarsEast 5); named Card<player> as 94G names its player pictures",src/data/gfx/CardKirkMuller.asm
-$97D557,CardVincentDamphousse,DATA8_97D557,94G,the photo of Vincent Damphousse (PlayerPhotoTable Montreal 6); named Card<player> as 94G names its player pictures,src/data/gfx/CardVincentDamphousse.asm
-$98CAC0,CardBrianBellows,DATA8_98CAC0,94G,the photo of Brian Bellows (PlayerPhotoTable Montreal 11); named Card<player> as 94G names its player pictures,src/data/gfx/CardBrianBellows.asm
-$9988EC,CardEricDesjardins,DATA8_9988EC,94G,the photo of Eric Desjardins (PlayerPhotoTable Montreal 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardEricDesjardins.asm
-$99DFCF,CardMattSchneider,DATA8_99DFCF,94G,the photo of Matt Schneider (PlayerPhotoTable Montreal 17); named Card<player> as 94G names its player pictures,src/data/gfx/CardMattSchneider.asm
-$9AA329,CardChrisTerreri,DATA8_9AA329,94G,the photo of Chris Terreri (PlayerPhotoTable NewJersey 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardChrisTerreri.asm
-$99D545,CardAlexnderSemak,DATA8_99D545,94G,the photo of Alexnder Semak (PlayerPhotoTable NewJersey 2); named Card<player> as 94G names its player pictures,src/data/gfx/CardAlexnderSemak.asm
-$9AA6D6,CardStephaneRicher,DATA8_9AA6D6,94G,the photo of Stephane Richer (PlayerPhotoTable NewJersey 11); named Card<player> as 94G names its player pictures,src/data/gfx/CardStephaneRicher.asm
-$97AB0A,CardClaudeLemieux,DATA8_97AB0A,94G,the photo of Claude Lemieux (PlayerPhotoTable NewJersey 12); named Card<player> as 94G names its player pictures,src/data/gfx/CardClaudeLemieux.asm
-$98F158,CardScottStevens,DATA8_98F158,94G,"the photo of Scott Stevens (PlayerPhotoTable NewJersey 17, AllStarsEast 22); named Card<player> as 94G names its player pictures",src/data/gfx/CardScottStevens.asm
-$988264,CardVachslavFetisov,DATA8_988264,94G,the photo of Vachslav Fetisov (PlayerPhotoTable NewJersey 18); named Card<player> as 94G names its player pictures,src/data/gfx/CardVachslavFetisov.asm
-$9986B3,CardGlennHealy,DATA8_9986B3,94G,the photo of Glenn Healy (PlayerPhotoTable NYIslanders 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardGlennHealy.asm
-$9A8225,CardPierreTurgeon,DATA8_9A8225,94G,"the photo of Pierre Turgeon (PlayerPhotoTable NYIslanders 1, AllStarsEast 8); named Card<player> as 94G names its player pictures",src/data/gfx/CardPierreTurgeon.asm
-$9991C8,CardBenoitHogue,DATA8_9991C8,94G,the photo of Benoit Hogue (PlayerPhotoTable NYIslanders 2); named Card<player> as 94G names its player pictures,src/data/gfx/CardBenoitHogue.asm
-$98A377,CardSteveThomas,DATA8_98A377,94G,the photo of Steve Thomas (PlayerPhotoTable NYIslanders 7); named Card<player> as 94G names its player pictures,src/data/gfx/CardSteveThomas.asm
-$99F079,CardVladimirMalakhov,DATA8_99F079,94G,the photo of Vladimir Malakhov (PlayerPhotoTable NYIslanders 14); named Card<player> as 94G names its player pictures,src/data/gfx/CardVladimirMalakhov.asm
-$97C405,CardDariusKasparitis,DATA8_97C405,94G,the photo of Darius Kasparitis (PlayerPhotoTable NYIslanders 15); named Card<player> as 94G names its player pictures,src/data/gfx/CardDariusKasparitis.asm
-$9A8E26,CardMikeRichter,DATA8_9A8E26,94G,the photo of Mike Richter (PlayerPhotoTable NYRangers 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardMikeRichter.asm
-$98BF41,CardMarkMessier,DATA8_98BF41,94G,"the photo of Mark Messier (PlayerPhotoTable NYRangers 1, AllStarsEast 4); named Card<player> as 94G names its player pictures",src/data/gfx/CardMarkMessier.asm
-$97B28D,CardEsaTikkanen,DATA8_97B28D,94G,the photo of Esa Tikkanen (PlayerPhotoTable NYRangers 5); named Card<player> as 94G names its player pictures,src/data/gfx/CardEsaTikkanen.asm
-$98CF54,CardMikeGartner,DATA8_98CF54,94G,"the photo of Mike Gartner (PlayerPhotoTable NYRangers 9, AllStarsEast 13); named Card<player> as 94G names its player pictures",src/data/gfx/CardMikeGartner.asm
-$979406,CardBrianLeetch,DATA8_979406,94G,"the photo of Brian Leetch (PlayerPhotoTable NYRangers 15, AllStarsEast 19); named Card<player> as 94G names its player pictures",src/data/gfx/CardBrianLeetch.asm
-$9884C8,CardJamesPatrick,DATA8_9884C8,94G,the photo of James Patrick (PlayerPhotoTable NYRangers 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardJamesPatrick.asm
-$8CFDEC,CardPeterSidorkwicz,DATA8_8CFDEC,94G,the photo of Peter Sidorkwicz (PlayerPhotoTable Ottawa 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardPeterSidorkwicz.asm
-$99E619,CardJamieBaker,DATA8_99E619,94G,the photo of Jamie Baker (PlayerPhotoTable Ottawa 2); named Card<player> as 94G names its player pictures,src/data/gfx/CardJamieBaker.asm
-$99AE67,CardSylvainTurgeon,DATA8_99AE67,94G,the photo of Sylvain Turgeon (PlayerPhotoTable Ottawa 9); named Card<player> as 94G names its player pictures,src/data/gfx/CardSylvainTurgeon.asm
-$99F498,CardBobKudelski,DATA8_99F498,94G,the photo of Bob Kudelski (PlayerPhotoTable Ottawa 14); named Card<player> as 94G names its player pictures,src/data/gfx/CardBobKudelski.asm
-$99EA44,CardNormMaciver,DATA8_99EA44,94G,the photo of Norm Maciver (PlayerPhotoTable Ottawa 18); named Card<player> as 94G names its player pictures,src/data/gfx/CardNormMaciver.asm
-$99DB9B,CardBradShaw,DATA8_99DB9B,94G,the photo of Brad Shaw (PlayerPhotoTable Ottawa 19); named Card<player> as 94G names its player pictures,src/data/gfx/CardBradShaw.asm
-$988E50,CardTommySoderstrom,DATA8_988E50,94G,the photo of Tommy Soderstrom (PlayerPhotoTable Philadelphia 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardTommySoderstrom.asm
-$98DABC,CardEricLindros,DATA8_98DABC,94G,the photo of Eric Lindros (PlayerPhotoTable Philadelphia 3); named Card<player> as 94G names its player pictures,src/data/gfx/CardEricLindros.asm
-$98FC8E,CardRodBrindAmour,DATA8_98FC8E,94G,the photo of Rod BrindAmour (PlayerPhotoTable Philadelphia 4); named Card<player> as 94G names its player pictures,src/data/gfx/CardRodBrindAmour.asm
-$9897BF,CardMarkRecchi,DATA8_9897BF,94G,"the photo of Mark Recchi (PlayerPhotoTable Philadelphia 13, AllStarsEast 16); named Card<player> as 94G names its player pictures",src/data/gfx/CardMarkRecchi.asm
-$98C18E,CardGarryGalley,DATA8_98C18E,94G,the photo of Garry Galley (PlayerPhotoTable Philadelphia 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardGarryGalley.asm
-$99E831,CardDimitriYushkevich,DATA8_99E831,94G,the photo of Dimitri Yushkevich (PlayerPhotoTable Philadelphia 17); named Card<player> as 94G names its player pictures,src/data/gfx/CardDimitriYushkevich.asm
-$99F6A3,CardTomBarrasso,DATA8_99F6A3,94G,"the photo of Tom Barrasso (PlayerPhotoTable Pittsburgh 0, AllStarsEast 2); named Card<player> as 94G names its player pictures",src/data/gfx/CardTomBarrasso.asm
-$9AA500,CardMarioLemieux,DATA8_9AA500,94G,"the photo of Mario Lemieux (PlayerPhotoTable Pittsburgh 2, AllStarsEast 3); named Card<player> as 94G names its player pictures",src/data/gfx/CardMarioLemieux.asm
-$98E610,CardKevinStevens,DATA8_98E610,94G,"the photo of Kevin Stevens (PlayerPhotoTable Pittsburgh 6, AllStarsEast 10); named Card<player> as 94G names its player pictures",src/data/gfx/CardKevinStevens.asm
-$9A9F70,CardJaromirJagr,DATA8_9A9F70,94G,"the photo of Jaromir Jagr (PlayerPhotoTable Pittsburgh 9, AllStarsEast 11); named Card<player> as 94G names its player pictures",src/data/gfx/CardJaromirJagr.asm
-$9A8A31,CardLarryMurphy,DATA8_9A8A31,94G,"the photo of Larry Murphy (PlayerPhotoTable Pittsburgh 15, AllStarsEast 17); named Card<player> as 94G names its player pictures",src/data/gfx/CardLarryMurphy.asm
-$989566,CardUlfSamuelsson,DATA8_989566,94G,the photo of Ulf Samuelsson (PlayerPhotoTable Pittsburgh 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardUlfSamuelsson.asm
-$98EF17,CardRonHextall,DATA8_98EF17,94G,the photo of Ron Hextall (PlayerPhotoTable Quebec 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardRonHextall.asm
-$99A5A0,CardJoeSakic,DATA8_99A5A0,94G,"the photo of Joe Sakic (PlayerPhotoTable Quebec 2, AllStarsEast 7); named Card<player> as 94G names its player pictures",src/data/gfx/CardJoeSakic.asm
-$9A901F,CardMatsSundin,DATA8_9A901F,94G,the photo of Mats Sundin (PlayerPhotoTable Quebec 11); named Card<player> as 94G names its player pictures,src/data/gfx/CardMatsSundin.asm
-$9A801F,CardOwenNolan,DATA8_9A801F,94G,the photo of Owen Nolan (PlayerPhotoTable Quebec 12); named Card<player> as 94G names its player pictures,src/data/gfx/CardOwenNolan.asm
-$99D325,CardSteveDuchesne,DATA8_99D325,94G,"the photo of Steve Duchesne (PlayerPhotoTable Quebec 15, AllStarsEast 20); named Card<player> as 94G names its player pictures",src/data/gfx/CardSteveDuchesne.asm
-$97A374,CardCurtisLeschyshyn,DATA8_97A374,94G,the photo of Curtis Leschyshyn (PlayerPhotoTable Quebec 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardCurtisLeschyshyn.asm
-$98AA74,CardArtursIrbe,DATA8_98AA74,94G,the photo of Arturs Irbe (PlayerPhotoTable SanJose 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardArtursIrbe.asm
-$98B3B9,CardKellyKisio,DATA8_98B3B9,94G,the photo of Kelly Kisio (PlayerPhotoTable SanJose 3); named Card<player> as 94G names its player pictures,src/data/gfx/CardKellyKisio.asm
-$98FA51,CardJohanGarpenlov,DATA8_98FA51,94G,the photo of Johan Garpenlov (PlayerPhotoTable SanJose 8); named Card<player> as 94G names its player pictures,src/data/gfx/CardJohanGarpenlov.asm
-$98930C,CardPatFalloon,DATA8_98930C,94G,"the photo of Pat Falloon (PlayerPhotoTable SanJose 12, AllStarsWest 15); named Card<player> as 94G names its player pictures",src/data/gfx/CardPatFalloon.asm
-$98872C,CardDougWilson,DATA8_98872C,94G,the photo of Doug Wilson (PlayerPhotoTable SanJose 15); named Card<player> as 94G names its player pictures,src/data/gfx/CardDougWilson.asm
-$97F757,CardNeilWilkinson,DATA8_97F757,94G,the photo of Neil Wilkinson (PlayerPhotoTable SanJose 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardNeilWilkinson.asm
-$9A9218,CardCurtisJoseph,DATA8_9A9218,94G,the photo of Curtis Joseph (PlayerPhotoTable StLouis 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardCurtisJoseph.asm
-$9A99C9,CardCraigJanney,DATA8_9A99C9,94G,the photo of Craig Janney (PlayerPhotoTable StLouis 1); named Card<player> as 94G names its player pictures,src/data/gfx/CardCraigJanney.asm
-$99A36C,CardBrendanShanahan,DATA8_99A36C,94G,the photo of Brendan Shanahan (PlayerPhotoTable StLouis 9); named Card<player> as 94G names its player pictures,src/data/gfx/CardBrendanShanahan.asm
-$98F399,CardBrettHull,DATA8_98F399,94G,"the photo of Brett Hull (PlayerPhotoTable StLouis 10, AllStarsWest 12); named Card<player> as 94G names its player pictures",src/data/gfx/CardBrettHull.asm
-$98E18A,CardJeffBrown,DATA8_98E18A,94G,"the photo of Jeff Brown (PlayerPhotoTable StLouis 14, AllStarsWest 18); named Card<player> as 94G names its player pictures",src/data/gfx/CardJeffBrown.asm
-$99E401,CardGarthButcher,DATA8_99E401,94G,the photo of Garth Butcher (PlayerPhotoTable StLouis 15); named Card<player> as 94G names its player pictures,src/data/gfx/CardGarthButcher.asm
-$97EDBC,CardWendellYoung,DATA8_97EDBC,94G,the photo of Wendell Young (PlayerPhotoTable TampaBay 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardWendellYoung.asm
-$99BDAC,CardBrianBradley,DATA8_99BDAC,94G,"the photo of Brian Bradley (PlayerPhotoTable TampaBay 3, AllStarsWest 6); named Card<player> as 94G names its player pictures",src/data/gfx/CardBrianBradley.asm
-$99A138,CardChrisKontos,DATA8_99A138,94G,the photo of Chris Kontos (PlayerPhotoTable TampaBay 4); named Card<player> as 94G names its player pictures,src/data/gfx/CardChrisKontos.asm
-$99F289,CardMikaelAndersson,DATA8_99F289,94G,the photo of Mikael Andersson (PlayerPhotoTable TampaBay 10); named Card<player> as 94G names its player pictures,src/data/gfx/CardMikaelAndersson.asm
-$988000,CardBobBeers,DATA8_988000,94G,the photo of Bob Beers (PlayerPhotoTable TampaBay 17); named Card<player> as 94G names its player pictures,src/data/gfx/CardBobBeers.asm
-$9A8832,CardRomanHamrlik,DATA8_9A8832,94G,the photo of Roman Hamrlik (PlayerPhotoTable TampaBay 18); named Card<player> as 94G names its player pictures,src/data/gfx/CardRomanHamrlik.asm
-$998F93,CardFelixPotvin,DATA8_998F93,94G,"the photo of Felix Potvin (PlayerPhotoTable Toronto 0, AllStarsWest 2); named Card<player> as 94G names its player pictures",src/data/gfx/CardFelixPotvin.asm
-$9AA8AB,CardDougGilmour,DATA8_9AA8AB,94G,"the photo of Doug Gilmour (PlayerPhotoTable Toronto 2, AllStarsWest 7); named Card<player> as 94G names its player pictures",src/data/gfx/CardDougGilmour.asm
-$99FCBA,CardDaveAndreychuk,DATA8_99FCBA,94G,the photo of Dave Andreychuk (PlayerPhotoTable Toronto 7); named Card<player> as 94G names its player pictures,src/data/gfx/CardDaveAndreychuk.asm
-$979E57,CardNikolaiBorshevsky,DATA8_979E57,94G,the photo of Nikolai Borshevsky (PlayerPhotoTable Toronto 11); named Card<player> as 94G names its player pictures,src/data/gfx/CardNikolaiBorshevsky.asm
-$98D3E6,CardToddGill,DATA8_98D3E6,94G,the photo of Todd Gill (PlayerPhotoTable Toronto 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardToddGill.asm
-$99D981,CardDaveEllett,DATA8_99D981,94G,the photo of Dave Ellett (PlayerPhotoTable Toronto 17); named Card<player> as 94G names its player pictures,src/data/gfx/CardDaveEllett.asm
-$98C3DB,CardKirkMcLean,DATA8_98C3DB,94G,the photo of Kirk McLean (PlayerPhotoTable Vancouver 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardKirkMcLean.asm
-$99B954,CardCliffRonning,DATA8_99B954,94G,the photo of Cliff Ronning (PlayerPhotoTable Vancouver 2); named Card<player> as 94G names its player pictures,src/data/gfx/CardCliffRonning.asm
-$98BAA5,CardGeoffCourtnall,DATA8_98BAA5,94G,the photo of Geoff Courtnall (PlayerPhotoTable Vancouver 5); named Card<player> as 94G names its player pictures,src/data/gfx/CardGeoffCourtnall.asm
-$98B857,CardPavelBure,DATA8_98B857,94G,"the photo of Pavel Bure (PlayerPhotoTable Vancouver 11, AllStarsWest 13); named Card<player> as 94G names its player pictures",src/data/gfx/CardPavelBure.asm
-$99DDB5,CardJyrkiLumme,DATA8_99DDB5,94G,the photo of Jyrki Lumme (PlayerPhotoTable Vancouver 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardJyrkiLumme.asm
-$97BF0A,CardDougLidster,DATA8_97BF0A,94G,the photo of Doug Lidster (PlayerPhotoTable Vancouver 17); named Card<player> as 94G names its player pictures,src/data/gfx/CardDougLidster.asm
-$97DCB5,CardDonBeaupre,DATA8_97DCB5,94G,the photo of Don Beaupre (PlayerPhotoTable Washington 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardDonBeaupre.asm
-$97B00C,CardMikeRidley,DATA8_97B00C,94G,the photo of Mike Ridley (PlayerPhotoTable Washington 2); named Card<player> as 94G names its player pictures,src/data/gfx/CardMikeRidley.asm
-$988BF0,CardDimitriKhristich,DATA8_988BF0,94G,the photo of Dimitri Khristich (PlayerPhotoTable Washington 3); named Card<player> as 94G names its player pictures,src/data/gfx/CardDimitriKhristich.asm
-$99EC56,CardPeterBondra,DATA8_99EC56,94G,"the photo of Peter Bondra (PlayerPhotoTable Washington 11, AllStarsEast 12); named Card<player> as 94G names its player pictures",src/data/gfx/CardPeterBondra.asm
-$98E853,CardKevinHatcher,DATA8_98E853,94G,the photo of Kevin Hatcher (PlayerPhotoTable Washington 16); named Card<player> as 94G names its player pictures,src/data/gfx/CardKevinHatcher.asm
-$98C628,CardAlIafrate,DATA8_98C628,94G,"the photo of Al Iafrate (PlayerPhotoTable Washington 17, AllStarsEast 21); named Card<player> as 94G names its player pictures",src/data/gfx/CardAlIafrate.asm
-$999632,CardBobEssensa,DATA8_999632,94G,the photo of Bob Essensa (PlayerPhotoTable Winnipeg 0); named Card<player> as 94G names its player pictures,src/data/gfx/CardBobEssensa.asm
-$99A7D3,CardAlexeiZhamnov,DATA8_99A7D3,94G,the photo of Alexei Zhamnov (PlayerPhotoTable Winnipeg 2); named Card<player> as 94G names its player pictures,src/data/gfx/CardAlexeiZhamnov.asm
-$97D2E2,CardThomasSteen,DATA8_97D2E2,94G,the photo of Thomas Steen (PlayerPhotoTable Winnipeg 3); named Card<player> as 94G names its player pictures,src/data/gfx/CardThomasSteen.asm
-$9A842A,CardTeemuSelanne,DATA8_9A842A,94G,"the photo of Teemu Selanne (PlayerPhotoTable Winnipeg 12, AllStarsWest 14); named Card<player> as 94G names its player pictures",src/data/gfx/CardTeemuSelanne.asm
-$9A9D91,CardPhilHousley,DATA8_9A9D91,94G,"the photo of Phil Housley (PlayerPhotoTable Winnipeg 17, AllStarsWest 21); named Card<player> as 94G names its player pictures",src/data/gfx/CardPhilHousley.asm
-$99823D,CardTeppoNumminen,DATA8_99823D,94G,the photo of Teppo Numminen (PlayerPhotoTable Winnipeg 18); named Card<player> as 94G names its player pictures,src/data/gfx/CardTeppoNumminen.asm
+$99AC36,Card108,DATA8_99AC36,94G,player photo 108 (PlayerPhotoTable Anaheim 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card108.asm
+$979931,Card006,DATA8_979931,94G,player photo 6 (PlayerPhotoTable Anaheim 3); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card006.asm
+$98BCF3,Card063,DATA8_98BCF3,94G,player photo 63 (PlayerPhotoTable Anaheim 5); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card063.asm
+$98D19D,Card071,DATA8_98D19D,94G,player photo 71 (PlayerPhotoTable Anaheim 7); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card071.asm
+$98CD0A,Card069,DATA8_98CD0A,94G,player photo 69 (PlayerPhotoTable Anaheim 11); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card069.asm
+$99BFD5,Card115,DATA8_99BFD5,94G,player photo 115 (PlayerPhotoTable Anaheim 13); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card115.asm
+$97F28A,Card036,DATA8_97F28A,94G,player photo 36 (PlayerPhotoTable Boston 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card036.asm
+$98F814,Card087,DATA8_98F814,94G,"player photo 87 (PlayerPhotoTable Boston 2, AllStarsEast 6); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card087.asm
+$98E3CD,Card078,DATA8_98E3CD,94G,player photo 78 (PlayerPhotoTable Boston 6); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card078.asm
+$999867,Card101,DATA8_999867,94G,player photo 101 (PlayerPhotoTable Boston 11); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card101.asm
+$998000,Card090,DATA8_998000,94G,"player photo 90 (PlayerPhotoTable Boston 17, AllStarsEast 18); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card090.asm
+$99D102,Card119,DATA8_99D102,94G,player photo 119 (PlayerPhotoTable Boston 18); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card119.asm
+$998D5D,Card096,DATA8_998D5D,94G,"player photo 96 (PlayerPhotoTable Buffalo 0, AllStarsEast 1); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card096.asm
+$99B2C7,Card111,DATA8_99B2C7,94G,"player photo 111 (PlayerPhotoTable Buffalo 3, AllStarsEast 9); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card111.asm
+$989A18,Card049,DATA8_989A18,94G,player photo 49 (PlayerPhotoTable Buffalo 4); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card049.asm
+$99C1FE,Card116,DATA8_99C1FE,94G,"player photo 116 (PlayerPhotoTable Buffalo 12, AllStarsEast 15); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card116.asm
+$98A5CD,Card053,DATA8_98A5CD,94G,player photo 53 (PlayerPhotoTable Buffalo 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card053.asm
+$98B16A,Card058,DATA8_98B16A,94G,player photo 58 (PlayerPhotoTable Buffalo 17); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card058.asm
+$97BA0D,Card017,DATA8_97BA0D,94G,player photo 17 (PlayerPhotoTable Calgary 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card017.asm
+$99CCBA,Card118,DATA8_99CCBA,94G,player photo 118 (PlayerPhotoTable Calgary 2); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card118.asm
+$99AA05,Card107,DATA8_99AA05,94G,"player photo 107 (PlayerPhotoTable Calgary 5, AllStarsWest 9); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card107.asm
+$97EB52,Card033,DATA8_97EB52,94G,"player photo 33 (PlayerPhotoTable Calgary 10, AllStarsWest 11); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card033.asm
+$978E95,Card004,DATA8_978E95,94G,"player photo 4 (PlayerPhotoTable Calgary 14, AllStarsWest 17); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card004.asm
+$97E8E8,Card032,DATA8_97E8E8,94G,player photo 32 (PlayerPhotoTable Calgary 15); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card032.asm
+$97A600,Card011,DATA8_97A600,94G,"player photo 11 (PlayerPhotoTable Chicago 0, AllStarsWest 0); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card011.asm
+$98EA95,Card081,DATA8_98EA95,94G,"player photo 81 (PlayerPhotoTable Chicago 2, AllStarsWest 5); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card081.asm
+$98A821,Card054,DATA8_98A821,94G,player photo 54 (PlayerPhotoTable Chicago 6); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card054.asm
+$97CDF3,Card024,DATA8_97CDF3,94G,player photo 24 (PlayerPhotoTable Chicago 10); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card024.asm
+$99B4F7,Card112,DATA8_99B4F7,94G,"player photo 112 (PlayerPhotoTable Chicago 16, AllStarsWest 20); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card112.asm
+$998B25,Card095,DATA8_998B25,94G,"player photo 95 (PlayerPhotoTable Chicago 17, AllStarsWest 23); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card095.asm
+$96FD81,Card003,DATA8_96FD81,94G,player photo 3 (PlayerPhotoTable Dallas 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card003.asm
+$97AD8B,Card014,DATA8_97AD8B,94G,"player photo 14 (PlayerPhotoTable Dallas 2, AllStarsWest 4); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card014.asm
+$9A8C2C,Card145,DATA8_9A8C2C,94G,player photo 145 (PlayerPhotoTable Dallas 3); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card145.asm
+$97F023,Card035,DATA8_97F023,94G,player photo 35 (PlayerPhotoTable Dallas 9); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card035.asm
+$98ECD6,Card082,DATA8_98ECD6,94G,player photo 82 (PlayerPhotoTable Dallas 15); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card082.asm
+$98A120,Card051,DATA8_98A120,94G,player photo 51 (PlayerPhotoTable Dallas 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card051.asm
+$98F5D7,Card086,DATA8_98F5D7,94G,"player photo 86 (PlayerPhotoTable Detroit 0, AllStarsWest 1); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card086.asm
+$99C426,Card117,DATA8_99C426,94G,"player photo 117 (PlayerPhotoTable Detroit 2, AllStarsWest 3); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card117.asm
+$90FDE2,Card002,DATA8_90FDE2,94G,player photo 2 (PlayerPhotoTable Detroit 3); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card002.asm
+$979BC5,Card007,DATA8_979BC5,94G,player photo 7 (PlayerPhotoTable Detroit 12); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card007.asm
+$9A940F,Card149,DATA8_9A940F,94G,"player photo 149 (PlayerPhotoTable Detroit 17, AllStarsWest 19); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card149.asm
+$99FAB4,Card137,DATA8_99FAB4,94G,"player photo 137 (PlayerPhotoTable Detroit 18, AllStarsWest 24); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card137.asm
+$9993FD,Card099,DATA8_9993FD,94G,player photo 99 (PlayerPhotoTable Edmonton 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card099.asm
+$98D876,Card074,DATA8_98D876,94G,player photo 74 (PlayerPhotoTable Edmonton 1); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card074.asm
+$97BC8C,Card018,DATA8_97BC8C,94G,player photo 18 (PlayerPhotoTable Edmonton 7); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card018.asm
+$97C682,Card022,DATA8_97C682,94G,player photo 22 (PlayerPhotoTable Edmonton 13); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card022.asm
+$98898F,Card043,DATA8_98898F,94G,"player photo 43 (PlayerPhotoTable Edmonton 15, AllStarsWest 22); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card043.asm
+$99B097,Card110,DATA8_99B097,94G,player photo 110 (PlayerPhotoTable Edmonton 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card110.asm
+$97C188,Card020,DATA8_97C188,94G,player photo 20 (PlayerPhotoTable Florida 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card020.asm
+$998479,Card092,DATA8_998479,94G,player photo 92 (PlayerPhotoTable Florida 3); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card092.asm
+$989EC9,Card050,DATA8_989EC9,94G,player photo 50 (PlayerPhotoTable Florida 4); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card050.asm
+$97A0E8,Card009,DATA8_97A0E8,94G,player photo 9 (PlayerPhotoTable Florida 7); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card009.asm
+$97F9BC,Card038,DATA8_97F9BC,94G,player photo 38 (PlayerPhotoTable Florida 11); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card038.asm
+$97D06C,Card025,DATA8_97D06C,94G,player photo 25 (PlayerPhotoTable Florida 13); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card025.asm
+$98DD01,Card076,DATA8_98DD01,94G,player photo 76 (PlayerPhotoTable Hartford 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card076.asm
+$99EE68,Card131,DATA8_99EE68,94G,player photo 131 (PlayerPhotoTable Hartford 3); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card131.asm
+$98ACC7,Card056,DATA8_98ACC7,94G,player photo 56 (PlayerPhotoTable Hartford 7); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card056.asm
+$98B608,Card060,DATA8_98B608,94G,player photo 60 (PlayerPhotoTable Hartford 12); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card060.asm
+$999F04,Card102,DATA8_999F04,94G,"player photo 102 (PlayerPhotoTable Hartford 17, AllStarsEast 23); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card102.asm
+$98AF19,Card057,DATA8_98AF19,94G,player photo 57 (PlayerPhotoTable Hartford 18); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card057.asm
+$97E40B,Card031,DATA8_97E40B,94G,player photo 31 (PlayerPhotoTable LosAngeles 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card031.asm
+$97DF28,Card030,DATA8_97DF28,94G,"player photo 30 (PlayerPhotoTable LosAngeles 3, AllStarsWest 8); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card030.asm
+$98D62E,Card073,DATA8_98D62E,94G,"player photo 73 (PlayerPhotoTable LosAngeles 7, AllStarsWest 10); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card073.asm
+$97D7CC,Card028,DATA8_97D7CC,94G,player photo 28 (PlayerPhotoTable LosAngeles 11); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card028.asm
+$97A887,Card012,DATA8_97A887,94G,player photo 12 (PlayerPhotoTable LosAngeles 15); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card012.asm
+$97C8FE,Card023,DATA8_97C8FE,94G,player photo 23 (PlayerPhotoTable LosAngeles 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card023.asm
+$9A862E,Card142,DATA8_9A862E,94G,"player photo 142 (PlayerPhotoTable Montreal 0, AllStarsEast 0); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card142.asm
+$99F8AC,Card136,DATA8_99F8AC,94G,"player photo 136 (PlayerPhotoTable Montreal 2, AllStarsEast 5); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card136.asm
+$97D557,Card027,DATA8_97D557,94G,player photo 27 (PlayerPhotoTable Montreal 6); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card027.asm
+$98CAC0,Card068,DATA8_98CAC0,94G,player photo 68 (PlayerPhotoTable Montreal 11); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card068.asm
+$9988EC,Card094,DATA8_9988EC,94G,player photo 94 (PlayerPhotoTable Montreal 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card094.asm
+$99DFCF,Card125,DATA8_99DFCF,94G,player photo 125 (PlayerPhotoTable Montreal 17); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card125.asm
+$9AA329,Card153,DATA8_9AA329,94G,player photo 153 (PlayerPhotoTable NewJersey 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card153.asm
+$99D545,Card121,DATA8_99D545,94G,player photo 121 (PlayerPhotoTable NewJersey 2); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card121.asm
+$9AA6D6,Card155,DATA8_9AA6D6,94G,player photo 155 (PlayerPhotoTable NewJersey 11); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card155.asm
+$97AB0A,Card013,DATA8_97AB0A,94G,player photo 13 (PlayerPhotoTable NewJersey 12); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card013.asm
+$98F158,Card084,DATA8_98F158,94G,"player photo 84 (PlayerPhotoTable NewJersey 17, AllStarsEast 22); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card084.asm
+$988264,Card040,DATA8_988264,94G,player photo 40 (PlayerPhotoTable NewJersey 18); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card040.asm
+$9986B3,Card093,DATA8_9986B3,94G,player photo 93 (PlayerPhotoTable NewYorkI 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card093.asm
+$9A8225,Card140,DATA8_9A8225,94G,"player photo 140 (PlayerPhotoTable NewYorkI 1, AllStarsEast 8); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card140.asm
+$9991C8,Card098,DATA8_9991C8,94G,player photo 98 (PlayerPhotoTable NewYorkI 2); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card098.asm
+$98A377,Card052,DATA8_98A377,94G,player photo 52 (PlayerPhotoTable NewYorkI 7); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card052.asm
+$99F079,Card132,DATA8_99F079,94G,player photo 132 (PlayerPhotoTable NewYorkI 14); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card132.asm
+$97C405,Card021,DATA8_97C405,94G,player photo 21 (PlayerPhotoTable NewYorkI 15); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card021.asm
+$9A8E26,Card146,DATA8_9A8E26,94G,player photo 146 (PlayerPhotoTable NewYorkR 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card146.asm
+$98BF41,Card064,DATA8_98BF41,94G,"player photo 64 (PlayerPhotoTable NewYorkR 1, AllStarsEast 4); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card064.asm
+$97B28D,Card016,DATA8_97B28D,94G,player photo 16 (PlayerPhotoTable NewYorkR 5); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card016.asm
+$98CF54,Card070,DATA8_98CF54,94G,"player photo 70 (PlayerPhotoTable NewYorkR 9, AllStarsEast 13); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card070.asm
+$979406,Card005,DATA8_979406,94G,"player photo 5 (PlayerPhotoTable NewYorkR 15, AllStarsEast 19); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card005.asm
+$9884C8,Card041,DATA8_9884C8,94G,player photo 41 (PlayerPhotoTable NewYorkR 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card041.asm
+$8CFDEC,Card001,DATA8_8CFDEC,94G,player photo 1 (PlayerPhotoTable Ottawa 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card001.asm
+$99E619,Card127,DATA8_99E619,94G,player photo 127 (PlayerPhotoTable Ottawa 2); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card127.asm
+$99AE67,Card109,DATA8_99AE67,94G,player photo 109 (PlayerPhotoTable Ottawa 9); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card109.asm
+$99F498,Card134,DATA8_99F498,94G,player photo 134 (PlayerPhotoTable Ottawa 14); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card134.asm
+$99EA44,Card129,DATA8_99EA44,94G,player photo 129 (PlayerPhotoTable Ottawa 18); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card129.asm
+$99DB9B,Card123,DATA8_99DB9B,94G,player photo 123 (PlayerPhotoTable Ottawa 19); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card123.asm
+$988E50,Card045,DATA8_988E50,94G,player photo 45 (PlayerPhotoTable Philadelphia 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card045.asm
+$98DABC,Card075,DATA8_98DABC,94G,player photo 75 (PlayerPhotoTable Philadelphia 3); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card075.asm
+$98FC8E,Card089,DATA8_98FC8E,94G,player photo 89 (PlayerPhotoTable Philadelphia 4); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card089.asm
+$9897BF,Card048,DATA8_9897BF,94G,"player photo 48 (PlayerPhotoTable Philadelphia 13, AllStarsEast 16); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card048.asm
+$98C18E,Card065,DATA8_98C18E,94G,player photo 65 (PlayerPhotoTable Philadelphia 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card065.asm
+$99E831,Card128,DATA8_99E831,94G,player photo 128 (PlayerPhotoTable Philadelphia 17); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card128.asm
+$99F6A3,Card135,DATA8_99F6A3,94G,"player photo 135 (PlayerPhotoTable Pittsburgh 0, AllStarsEast 2); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card135.asm
+$9AA500,Card154,DATA8_9AA500,94G,"player photo 154 (PlayerPhotoTable Pittsburgh 2, AllStarsEast 3); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card154.asm
+$98E610,Card079,DATA8_98E610,94G,"player photo 79 (PlayerPhotoTable Pittsburgh 6, AllStarsEast 10); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card079.asm
+$9A9F70,Card152,DATA8_9A9F70,94G,"player photo 152 (PlayerPhotoTable Pittsburgh 9, AllStarsEast 11); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card152.asm
+$9A8A31,Card144,DATA8_9A8A31,94G,"player photo 144 (PlayerPhotoTable Pittsburgh 15, AllStarsEast 17); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card144.asm
+$989566,Card047,DATA8_989566,94G,player photo 47 (PlayerPhotoTable Pittsburgh 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card047.asm
+$98EF17,Card083,DATA8_98EF17,94G,player photo 83 (PlayerPhotoTable Quebec 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card083.asm
+$99A5A0,Card105,DATA8_99A5A0,94G,"player photo 105 (PlayerPhotoTable Quebec 2, AllStarsEast 7); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card105.asm
+$9A901F,Card147,DATA8_9A901F,94G,player photo 147 (PlayerPhotoTable Quebec 11); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card147.asm
+$9A801F,Card139,DATA8_9A801F,94G,player photo 139 (PlayerPhotoTable Quebec 12); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card139.asm
+$99D325,Card120,DATA8_99D325,94G,"player photo 120 (PlayerPhotoTable Quebec 15, AllStarsEast 20); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card120.asm
+$97A374,Card010,DATA8_97A374,94G,player photo 10 (PlayerPhotoTable Quebec 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card010.asm
+$98AA74,Card055,DATA8_98AA74,94G,player photo 55 (PlayerPhotoTable SanJose 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card055.asm
+$98B3B9,Card059,DATA8_98B3B9,94G,player photo 59 (PlayerPhotoTable SanJose 3); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card059.asm
+$98FA51,Card088,DATA8_98FA51,94G,player photo 88 (PlayerPhotoTable SanJose 8); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card088.asm
+$98930C,Card046,DATA8_98930C,94G,"player photo 46 (PlayerPhotoTable SanJose 12, AllStarsWest 15); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card046.asm
+$98872C,Card042,DATA8_98872C,94G,player photo 42 (PlayerPhotoTable SanJose 15); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card042.asm
+$97F757,Card037,DATA8_97F757,94G,player photo 37 (PlayerPhotoTable SanJose 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card037.asm
+$9A9218,Card148,DATA8_9A9218,94G,player photo 148 (PlayerPhotoTable StLouis 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card148.asm
+$9A99C9,Card150,DATA8_9A99C9,94G,player photo 150 (PlayerPhotoTable StLouis 1); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card150.asm
+$99A36C,Card104,DATA8_99A36C,94G,player photo 104 (PlayerPhotoTable StLouis 9); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card104.asm
+$98F399,Card085,DATA8_98F399,94G,"player photo 85 (PlayerPhotoTable StLouis 10, AllStarsWest 12); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card085.asm
+$98E18A,Card077,DATA8_98E18A,94G,"player photo 77 (PlayerPhotoTable StLouis 14, AllStarsWest 18); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card077.asm
+$99E401,Card126,DATA8_99E401,94G,player photo 126 (PlayerPhotoTable StLouis 15); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card126.asm
+$97EDBC,Card034,DATA8_97EDBC,94G,player photo 34 (PlayerPhotoTable TampaBay 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card034.asm
+$99BDAC,Card114,DATA8_99BDAC,94G,"player photo 114 (PlayerPhotoTable TampaBay 3, AllStarsWest 6); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card114.asm
+$99A138,Card103,DATA8_99A138,94G,player photo 103 (PlayerPhotoTable TampaBay 4); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card103.asm
+$99F289,Card133,DATA8_99F289,94G,player photo 133 (PlayerPhotoTable TampaBay 10); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card133.asm
+$988000,Card039,DATA8_988000,94G,player photo 39 (PlayerPhotoTable TampaBay 17); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card039.asm
+$9A8832,Card143,DATA8_9A8832,94G,player photo 143 (PlayerPhotoTable TampaBay 18); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card143.asm
+$998F93,Card097,DATA8_998F93,94G,"player photo 97 (PlayerPhotoTable Toronto 0, AllStarsWest 2); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card097.asm
+$9AA8AB,Card156,DATA8_9AA8AB,94G,"player photo 156 (PlayerPhotoTable Toronto 2, AllStarsWest 7); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card156.asm
+$99FCBA,Card138,DATA8_99FCBA,94G,player photo 138 (PlayerPhotoTable Toronto 7); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card138.asm
+$979E57,Card008,DATA8_979E57,94G,player photo 8 (PlayerPhotoTable Toronto 11); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card008.asm
+$98D3E6,Card072,DATA8_98D3E6,94G,player photo 72 (PlayerPhotoTable Toronto 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card072.asm
+$99D981,Card122,DATA8_99D981,94G,player photo 122 (PlayerPhotoTable Toronto 17); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card122.asm
+$98C3DB,Card066,DATA8_98C3DB,94G,player photo 66 (PlayerPhotoTable Vancouver 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card066.asm
+$99B954,Card113,DATA8_99B954,94G,player photo 113 (PlayerPhotoTable Vancouver 2); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card113.asm
+$98BAA5,Card062,DATA8_98BAA5,94G,player photo 62 (PlayerPhotoTable Vancouver 5); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card062.asm
+$98B857,Card061,DATA8_98B857,94G,"player photo 61 (PlayerPhotoTable Vancouver 11, AllStarsWest 13); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card061.asm
+$99DDB5,Card124,DATA8_99DDB5,94G,player photo 124 (PlayerPhotoTable Vancouver 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card124.asm
+$97BF0A,Card019,DATA8_97BF0A,94G,player photo 19 (PlayerPhotoTable Vancouver 17); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card019.asm
+$97DCB5,Card029,DATA8_97DCB5,94G,player photo 29 (PlayerPhotoTable Washington 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card029.asm
+$97B00C,Card015,DATA8_97B00C,94G,player photo 15 (PlayerPhotoTable Washington 2); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card015.asm
+$988BF0,Card044,DATA8_988BF0,94G,player photo 44 (PlayerPhotoTable Washington 3); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card044.asm
+$99EC56,Card130,DATA8_99EC56,94G,"player photo 130 (PlayerPhotoTable Washington 11, AllStarsEast 12); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card130.asm
+$98E853,Card080,DATA8_98E853,94G,player photo 80 (PlayerPhotoTable Washington 16); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card080.asm
+$98C628,Card067,DATA8_98C628,94G,"player photo 67 (PlayerPhotoTable Washington 17, AllStarsEast 21); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card067.asm
+$999632,Card100,DATA8_999632,94G,player photo 100 (PlayerPhotoTable Winnipeg 0); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card100.asm
+$99A7D3,Card106,DATA8_99A7D3,94G,player photo 106 (PlayerPhotoTable Winnipeg 2); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card106.asm
+$97D2E2,Card026,DATA8_97D2E2,94G,player photo 26 (PlayerPhotoTable Winnipeg 3); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card026.asm
+$9A842A,Card141,DATA8_9A842A,94G,"player photo 141 (PlayerPhotoTable Winnipeg 12, AllStarsWest 14); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card141.asm
+$9A9D91,Card151,DATA8_9A9D91,94G,"player photo 151 (PlayerPhotoTable Winnipeg 17, AllStarsWest 21); numbered Card001... in ROM order (the player names are not in the repo)",src/data/gfx/Card151.asm
+$99823D,Card091,DATA8_99823D,94G,player photo 91 (PlayerPhotoTable Winnipeg 18); numbered Card001... in ROM order (the player names are not in the repo),src/data/gfx/Card091.asm
 $959E48,StreamSamplePeriodEnd,DATA8_959E48,new,"streamed sound 1, asked for at the end of a period (clockcont_0)",src/data/sound/StreamSamplePeriodEnd.asm
 $92CECD,StreamSampleGoal,DATA8_92CECD,new,"streamed sound 2, asked for by Goal",src/data/sound/StreamSampleGoal.asm
 $8FBB26,StreamSampleBigHit,DATA8_8FBB26,new,"streamed sound 3, asked for by FallDown (a big hit)",src/data/sound/StreamSampleBigHit.asm
@@ -6395,8 +6395,8 @@ $96EE45,SongGypsySpainCharge,DATA8_96EE45,94G,"Team organ song (TeamSongs OTW 2,
 $99D765,SongMexicanHatDance,DATA8_99D765,94G,"Team organ song (TeamSongs CHI 1, DET 2, LA 2); 94G songs $3A, $3D, $45 at the same table slots, titled Las Chiapanecas {Mexican Hat Dance} (94G has it in C, F and G) in the forum list of the 94G songs",src/data/sound/SongMexicanHatDance.asm
 $96F46D,SongLaRaspa,DATA8_96F46D,94G,"Team organ song (TeamSongs DET 0, NJ 5); 94G songs $3B, $52 at the same table slots, titled La Raspa (94G has it in C and F) in the forum list of the 94G songs",src/data/sound/SongLaRaspa.asm
 $97E67A,SongWilliamTell,DATA8_97E67A,94G,"Team organ song (TeamSongs HFD 1, HFD 3, DefaultSongs); 94G song $42 at the same table slots, titled William Tell Overture in the forum list of the 94G songs",src/data/sound/SongWilliamTell.asm
-$96D0CE,SongIslandersCharge,DATA8_96D0CE,94G,"Team organ song (TeamSongs NYI 3, NYI 5, DefaultSongs); 94G song $49 at the same table slots, titled ?Islanders? / Charge [B-flat] in the forum list of the 94G songs",src/data/sound/SongIslandersCharge.asm
-$989C71,SongHalteLa,DATA8_989C71,94G,"Team organ song (TeamSongs MTL 3); 94G song $4D at the same table slots, titled Halte la Les Canadiens sont la in the forum list of the 94G songs",src/data/sound/SongHalteLa.asm
+$96D0CE,SongNYICharge,DATA8_96D0CE,94G,"Team organ song (TeamSongs NYI 3, NYI 5, DefaultSongs); 94G song $49 at the same table slots, titled NYI / Charge [B-flat] in the forum list of the 94G songs",src/data/sound/SongNYICharge.asm
+$989C71,SongHalteLa,DATA8_989C71,94G,"Team organ song (TeamSongs MTL 3); 94G song $4D at the same table slots, titled Halte la in the forum list of the 94G songs",src/data/sound/SongHalteLa.asm
 $969C09,SongZorba,DATA8_969C09,94G,"Team organ song (TeamSongs PHI 3, PHI 5, DefaultSongs); 94G song $58 at the same table slots, titled Zorba the Greek / Charge [C] in the forum list of the 94G songs",src/data/sound/SongZorba.asm
 $96AEBB,SongDrunkenSailor,DATA8_96AEBB,94G,"Team organ song (TeamSongs PIT 3, PIT 5, DefaultSongs); 94G song $5C at the same table slots, titled What Do You Do With A Drunken Sailor? in the forum list of the 94G songs",src/data/sound/SongDrunkenSailor.asm
 $96B6CD,SongJaws,DATA8_96B6CD,94G,"Team organ song (TeamSongs SJ 1); 94G song $60 at the same table slots, titled Jaws Theme in the forum list of the 94G songs",src/data/sound/SongJaws.asm

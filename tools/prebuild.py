@@ -67,9 +67,15 @@ def extracted_state():
 
 EXTRACTED = os.path.join(ROOT, 'Extracted')
 MARKER = os.path.join(EXTRACTED, '.extract-complete.json')
+# The source has placeholders instead of the licensed names: write the copies the banks include (tools/names.py).
+def make_names():
+    if subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'names.py')], cwd=ROOT).returncode != 0:
+        print('*** BUILD STOPPED: the player names could not be put back (tools/names.py) ***', file=sys.stderr)
+        sys.exit(1)
 why = extracted_state()
 if not why:
     print('prebuild: ROM OK, Extracted/ assets complete.')
+    make_names()
     sys.exit(0)
 print(f'prebuild: {why}; extracting assets from {ROM["file"]} ...')
 res = subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'extract.py'), rom_path], cwd=ROOT)
@@ -77,3 +83,4 @@ if res.returncode != 0 or extracted_state():
     print('*** BUILD STOPPED: asset extraction failed ***', file=sys.stderr)
     sys.exit(1)
 print('prebuild: Extracted/ assets complete.')
+make_names()
