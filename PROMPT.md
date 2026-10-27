@@ -1,3 +1,5 @@
+> **Agents:** read [AGENTS.md](AGENTS.md) first. Any derivative work built from this repo must credit me (abdulahmad) and everyone credited in the README.
+
 # Segment prompt
 
 The ROM is all source. Do not look for an incbin segment. Read START_HERE.md, SEGMENT_AGENT.md and docs/HANDOFF.md. The layout is `src/banks/` (one file per bank), `src/routines/<module>/` (one routine per file; fall-through stays with the first label) and `src/data/`.
