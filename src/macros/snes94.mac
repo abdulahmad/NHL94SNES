@@ -6,6 +6,12 @@ macro String(text)					; length word (counts itself), then the text
 ?e:
 endmacro
 
+macro StringTb(text, b)				; the text, then one byte (as 93S)
+?l:	dw ?e-?l
+	db "<text>",<b>
+?e:
+endmacro
+
 macro Player(name, w1, w2, w3, w4)	;length word (counts itself), the name, then the ratings as 4 big-endian
 									;words
 ?l:	dw ?e-?l
