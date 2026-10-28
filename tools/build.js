@@ -188,7 +188,7 @@ async function assemble(name) {
 // write a length word, so a different length would move the data after it).
 //   - a player: the text of a %Player("...", ...) row, replaced in order from PlayerNames.txt;
 //   - a nickname: N<two digits> padded with '_' (N01 = the first line of TeamNicknames.txt), alone in a string or after other text.
-// (The New York long names in LongNYI.asm and PregameText.asm are incbins of bytes extracted from the ROM.)
+// (The New York long names in LongNYI.asm and PregameText.asm include asm that the extractor generates from the ROM.)
 function buildNames() {
     begin('names');
     const read = (f) => {
