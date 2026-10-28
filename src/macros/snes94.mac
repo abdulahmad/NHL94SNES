@@ -1,17 +1,32 @@
 ; NHL '94 (SNES) macros. Included once by nhl94snes.asm, before the bank files.
 
+; String(text): a print string.
+;   Emits: dw length (little-endian, counts the word itself), then the text. No pad.
+;   text: quoted text.
+;   Example (teamdata94s.asm:104): %String("All Stars East")
+;     -> 10 00 41 6C 6C 20 53 74 61 72 73 20 45 61 73 74
 macro String(text)					; length word (counts itself), then the text
 ?l:	dw ?e-?l
 	db "<text>"
 ?e:
 endmacro
 
+; StringTb(text, b): the text, then one more byte (e.g. a tile such as the small "st").
+;   Emits: dw length (counts itself), the text, then b. No pad.
+;   text: quoted text. b: a byte.
+;   Example (PerLabels.asm): %StringTb("1",$12)
+;     -> 04 00 31 12
 macro StringTb(text, b)				; the text, then one byte (as 93S)
 ?l:	dw ?e-?l
 	db "<text>",<b>
 ?e:
 endmacro
 
+; StringBytes(...): raw bytes, no text.
+;   Emits: dw length (counts itself), then each argument as one byte. No pad.
+;   ...: any number of bytes.
+;   Example (PerLabels.asm:8): %StringBytes($0E,$0F,$10,$11)
+;     -> 06 00 0E 0F 10 11
 macro StringBytes(...)				; length word (counts itself), then raw bytes only (no text, no pad)
 ?l:	dw ?e-?l
 	!StringBytesI #= 0
@@ -22,6 +37,12 @@ macro StringBytes(...)				; length word (counts itself), then raw bytes only (no
 ?e:
 endmacro
 
+; Player(name, w1, w2, w3, w4): one roster record.
+;   Emits: dw length (counts itself and the name), the name, then the 4 ratings as big-endian words.
+;   name: quoted name (the build puts the real names in place of the P001_ placeholders).
+;   w1..w4: the ratings, words ($3366).
+;   Example (teamdata94s.asm:77): %Player("P001_______", $3366,$4446,$0100,$5566)
+;     -> 0D 00 50 30 30 31 5F 5F 5F 5F 5F 5F 5F 33 66 44 46 01 00 55 66
 macro Player(name, w1, w2, w3, w4)	;length word (counts itself), the name, then the ratings as 4 big-endian
 									;words
 ?l:	dw ?e-?l
