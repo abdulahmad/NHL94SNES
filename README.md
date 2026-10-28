@@ -15,7 +15,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how changes are made (names, comments
 
 **AI agent: start with [START_HERE.md](START_HERE.md).**
 
-Bitwise rebuild of NHL '94 for the Super Nintendo, assembled with asar 1.91. The full build is byte-identical to the retail ROM
+Reverse engineered source of NHL '94 for the Super Nintendo, assembled with asar 1.91. The full build is byte-identical to the retail ROM
 (SHA-1 `10dcd21be9c5542e82b0b94473bf5ff569b36cf5`, 1048576 bytes, LoROM FastROM, header title `NHL '94`, version 1.0).
 The ROM is not included: put your own dump in the repository's root folder (`nhl94retail.sfc` is the usual name, but any name works: the build finds the ROM by its SHA-1 and size; `.sfc`, `.smc` and `.bin` files there are gitignored); the build tells you if it is missing or the wrong one.
 
