@@ -51,7 +51,7 @@ let n = 0;
 // redrawn with a green check or a red cross when it ends (cut to the terminal width so it never
 // wraps). Otherwise both lines are printed once, after the step.
 const ABOUT = {
-    names: 'put the real player names and team nicknames (extracted from the ROM) into copies of the three source files with placeholders',
+    names: 'put the real player names and team nicknames (extracted from the ROM) into a copy of src/data/teamdata94s.asm, which has placeholders',
     extract: 'write every asset and the player names from the ROM into Extracted/',
     prebuild: "check the retail ROM and extract graphics/sound assets and the licensed names into Extracted/",
     assemble: 'asar turns src/nhl94snes.asm into the ROM image',
@@ -183,14 +183,14 @@ async function assemble(name) {
     return { bin: out, warnings, version: ((await run(fs.existsSync(BIN) ? BIN : 'asar', ['--version'])).out.split(/\r?\n/)[0] || 'asar').replace(/,.*/, '') };
 }
 
-// The licensed names: src/data/teamdata94s.asm, src/data/text/LongNYI.asm and src/data/text/PregameText.asm hold placeholders instead of
-// the NHLPA player names and the NHL team nicknames (licensed data that is not in the repository). The extractor writes the real ones
-// from the ROM to Extracted/PlayerNames.txt and Extracted/TeamNicknames.txt; this writes copies of the three files to output/names/
-// with each placeholder replaced, and the bank files include the copies. A name must have the length of its placeholder (the macros
+// The licensed names: src/data/teamdata94s.asm holds placeholders instead of the NHLPA player names and the NHL team nicknames
+// (licensed data that is not in the repository). The extractor writes the real ones
+// from the ROM to Extracted/PlayerNames.txt and Extracted/TeamNicknames.txt; this writes a copy of the file to output/names/
+// with each placeholder replaced, and the bank file includes the copy. A name must have the length of its placeholder (the macros
 // write a length word, so a different length would move the data after it).
 //   - a player: the text of a %Player("...", ...) row, replaced in order from PlayerNames.txt;
-//   - a nickname: N<two digits> padded with '_' (N01 = the first line of TeamNicknames.txt), alone in a string or after other text
-//     ("NY N12______", the long name of a New York team).
+//   - a nickname: N<two digits> padded with '_' (N01 = the first line of TeamNicknames.txt), alone in a string or after other text.
+// (The New York long names in LongNYI.asm and PregameText.asm include asm that the extractor generates from the ROM.)
 function buildNames() {
     begin('names');
     const read = (f) => {
@@ -205,7 +205,7 @@ function buildNames() {
     fs.mkdirSync(outDir, { recursive: true });
     let count = 0;
     const used = new Set();
-    for (const f of ['data/teamdata94s.asm', 'data/text/LongNYI.asm', 'data/text/PregameText.asm']) {
+    for (const f of ['data/teamdata94s.asm']) {
         const src = path.join(ROOT, 'src', f);
         const out = fs.readFileSync(src, 'latin1')
             .replace(/^([ \t]*%Player\(")([^"]*)(")([^\r\n]*)/gm, (m, a, ph, z, rest) => {
@@ -270,7 +270,7 @@ function buildNames() {
         detail(r.out);
     }
 
-    // 2. names: the team data and two texts with the real player names and nicknames, which the bank files include.
+    // 2. names: the team data with the real player names and nicknames, which the bank file includes.
     buildNames();
 
     // 3. assemble: the ROM.
