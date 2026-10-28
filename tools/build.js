@@ -28,6 +28,8 @@ const OUT = path.join(ROOT, 'output', modeName);
 const OBJ = path.join(OUT, 'obj');
 const ROM = 'nhl94snes.sfc';
 const { ROMS, findRom } = require('./roms');
+// The generated file gets each player's id (the number of his placeholder, P001) as a comment at the end of his row.
+const idNote = (rest, ph) => rest + (rest.includes(';') ? ' ' : '\t;') + ph.slice(0, 4);
 const rel = (p) => path.relative(ROOT, p).split(path.sep).join('/');
 
 // ANSI colors: off when stdout is not a terminal, NO_COLOR is set, or --no-color. Windows 10+ cmd and
@@ -206,11 +208,11 @@ function buildNames() {
     for (const f of ['data/teamdata94s.asm']) {
         const src = path.join(ROOT, 'src', f);
         const out = fs.readFileSync(src, 'latin1')
-            .replace(/^([ \t]*%Player\(")([^"]*)(")/gm, (m, a, ph, z) => {
+            .replace(/^([ \t]*%Player\(")([^"]*)(")([^\r\n]*)/gm, (m, a, ph, z, rest) => {
                 const real = players[count++];
                 if (real === undefined) fail('names', `${rel(src)} has more %Player rows than PlayerNames.txt has names (${players.length})`);
                 if (real.length !== ph.length) fail('names', `Player row ${count}: the name '${real}' has ${real.length} characters, its placeholder '${ph}' has ${ph.length}`);
-                return a + real + z;
+                return a + real + z + idNote(rest, ph);
             })
             .replace(/\b(N(\d\d)_*)(?=")/g, (m, ph, id) => {
                 const real = nicks[Number(id) - 1];
