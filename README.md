@@ -44,7 +44,7 @@ from it; the Vault is released into the public domain (Unlicense).
 - `tools/build.js` the whole build, one line per step (`node tools/build.js`, `--clean`, `--extract`; the npm scripts call it). `tools/prebuild.js` ROM check, run by every build (`tools/roms.js` finds the ROM in the repo folder by its SHA-1 and size, whatever the file name). `tools/verifySegment.js` checks one bank file (or `--all`) against the ROM; `tools/verify_segment.sh` and `verify_all.sh` call it. `tools/extractAssets94s.js` lists the assets' ROM ranges and checks or rewrites them.
   It also extracts the NHLPA player names and NHL team nicknames to `Extracted/PlayerNames.txt` / `TeamNicknames.txt`: `src/data/teamdata94s.asm`,
   holds placeholders instead, and the names step of `tools/build.js` writes a copy with the real
-  names to `output/names/`, which the bank file includes (the New York full names in `src/data/text/LongNYI.asm` and `PregameText.asm` are `incbin`s of bytes extracted from the ROM). A name must keep the length of its placeholder.
+  names to `output/names/`, which the bank file includes (the New York full names in `src/data/text/LongNYI.asm` and `PregameText.asm` include asm that the extractor generates from the ROM). A name must keep the length of its placeholder.
 - `tools/disasm65816.py` quick pass for a segment's starting text (`output/quickpass/`).
 - `tools/verify_segment.sh`, `tools/verify_all.sh` segment and clean full checks.
 - `docs/HANDOFF.md` state of the work, `docs/name_map.csv` name history.
