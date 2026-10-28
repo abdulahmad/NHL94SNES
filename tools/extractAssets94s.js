@@ -477,10 +477,16 @@ const assets = [
     ['FramerNineTileTiles.chr', 0x9C8098, 0x9C81D8],
     ['FramerOutlineTiles.chr', 0x9C81F0, 0x9C8310],
     ['CrowdMeterFramePalette.pal.lz', 0x9C8328, 0x9C83B7],
+    // The New York team names with their licensed nicknames: the two LongNYI / LongNYR text records (a length word, then the text) and the two
+    // New York lines of PregameText (each ended by $0D).
+    ['LongNYI.bin', 0x9BC5E7, 0x9BC5F5],
+    ['LongNYR.bin', 0x9BC5F5, 0x9BC601],
+    ['PregameNewYork.bin', 0x97894C, 0x978970],
 ];
 
 const category = (name) => {
     if (name.endsWith('.spc')) return 'sound';
+    if (name.startsWith('LongNY') || name.startsWith('PregameNewYork')) return 'text';
     if (name.includes('.pal')) return 'gfx/Pals';
     if ((name.startsWith('Card') || name.startsWith('NoPic')) && name.includes('.lin.') && name !== 'CardBackTiles.lin.pairs') return 'gfx/PlayerCards';   // the player photos of PlayerPhotoTable
     return 'gfx';

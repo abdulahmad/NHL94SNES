@@ -4,7 +4,7 @@ org $978000
 incsrc "../data/sound/SongBirthday.asm"
 incsrc "../data/sound/SamplePuckBody.asm"
 incsrc "../data/sound/SongHavaNagila.asm"
-incsrc "../../output/names/PregameText.asm"
+incsrc "../data/text/PregameText.asm"
 incsrc "../data/sound/SongRallyTime.asm"
 incsrc "../data/gfx/Card004.asm"
 incsrc "../data/sound/SongOMalleysStepsFast.asm"

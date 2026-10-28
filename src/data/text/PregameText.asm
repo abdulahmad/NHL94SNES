@@ -1,4 +1,3 @@
-; The nicknames in the two New York names are placeholders (see teamdata94s.asm).
 PregameText:						;the text of the pre-game screen, each string ending in $0D: the team
 									;places, then what Ron
 			;   Barr says, with % codes where the routine in bank $9E that prints it puts names and numbers
@@ -15,8 +14,7 @@ PregameText:						;the text of the pre-game screen, each string ending in $0D: t
 	db "Los Angeles",$0D
 	db "Montreal",$0D
 	db "New Jersey",$0D
-	db "New York N12______",$0D
-	db "New York N13____",$0D
+	incbin "../../../Extracted/data/text/PregameNewYork.bin"	;the two New York lines: the nicknames are licensed names, extracted from the ROM
 	db "Ottawa",$0D
 	db "Philadephia",$0D
 	db "Pittsburgh",$0D

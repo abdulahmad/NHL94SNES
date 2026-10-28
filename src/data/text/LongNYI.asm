@@ -1,5 +1,6 @@
-; On-screen names of the two New York teams (the nicknames are placeholders, see teamdata94s.asm)
-LongNYI:							; a text record: a word (2 + the text), then the text
-	%String("NY N12______")
+; On-screen names of the two New York teams. Each is a text record: a word (2 + the text), then the text. The nicknames are licensed
+; names, so the records are extracted from the ROM (tools/extractAssets94s.js).
+LongNYI:
+	incbin "../../../Extracted/data/text/LongNYI.bin"
 LongNYR:
-	%String("NY N13____")
+	incbin "../../../Extracted/data/text/LongNYR.bin"
