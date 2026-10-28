@@ -28,8 +28,9 @@ const OUT = path.join(ROOT, 'output', modeName);
 const OBJ = path.join(OUT, 'obj');
 const ROM = 'nhl94snes.sfc';
 const { ROMS, findRom } = require('./roms');
-// The generated file gets each player's id (the number of his placeholder, P001) as a comment at the end of his row.
-const idNote = (rest, ph) => rest + (rest.includes(';') ? ' ' : '\t;') + ph.slice(0, 4);
+// The generated file gets each player's id (the number of his placeholder, P001) as a comment at the end of his row, followed by the
+// name of his player card picture (Card001, see tools/playerCards.js) when he has one.
+const idNote = (rest, ph, card) => rest + (rest.includes(';') ? ' ' : '\t;') + ph.slice(0, 4) + (card ? ' ' + card : '');
 const rel = (p) => path.relative(ROOT, p).split(path.sep).join('/');
 
 // ANSI colors: off when stdout is not a terminal, NO_COLOR is set, or --no-color. Windows 10+ cmd and
@@ -201,6 +202,7 @@ function buildNames() {
         return l;
     };
     const players = read('PlayerNames.txt'), nicks = read('TeamNicknames.txt');
+    const cards = require('./playerCards').playerCards();
     const outDir = path.join(ROOT, 'output', 'names');
     fs.mkdirSync(outDir, { recursive: true });
     let count = 0;
@@ -212,7 +214,7 @@ function buildNames() {
                 const real = players[count++];
                 if (real === undefined) fail('names', `${rel(src)} has more %Player rows than PlayerNames.txt has names (${players.length})`);
                 if (real.length !== ph.length) fail('names', `Player row ${count}: the name '${real}' has ${real.length} characters, its placeholder '${ph}' has ${ph.length}`);
-                return a + real + z + idNote(rest, ph);
+                return a + real + z + idNote(rest, ph, cards[count - 1] && cards[count - 1].card);
             })
             .replace(/\b(N(\d\d)_*)(?=")/g, (m, ph, id) => {
                 const real = nicks[Number(id) - 1];
@@ -223,8 +225,10 @@ function buildNames() {
             });
         fs.writeFileSync(path.join(outDir, path.basename(f)), out, 'latin1');
     }
+    // every player with his team, roster index and card (- when none)
+    fs.writeFileSync(path.join(outDir, 'PlayerCards.txt'), cards.map((r, i) => `P${String(i + 1).padStart(3, '0')}\t${r.team}\t${r.slot}\t${r.card || '-'}`).join('\n') + '\n');
     if (count !== players.length) fail('names', `PlayerNames.txt has ${players.length} names, src/data/teamdata94s.asm has ${count} %Player rows`);
-    step('names', `${count} player names, ${used.size} team nicknames -> ${rel(outDir)}/`);
+    step('names', `${count} player names, ${used.size} team nicknames, ${cards.filter((r) => r.card).length} player cards -> ${rel(outDir)}/`);
 }
 
 (async () => {
