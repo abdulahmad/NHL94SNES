@@ -5,5 +5,4 @@ PerLabels:
 	%StringTb("3", $14)
 	%String("OT")
 	%String("Final")
-	dw 6
-	db $0E,$0F,$10,$11
+	%StringBytes($0E,$0F,$10,$11)

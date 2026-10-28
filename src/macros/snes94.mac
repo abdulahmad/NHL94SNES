@@ -12,6 +12,16 @@ macro StringTb(text, b)				; the text, then one byte (as 93S)
 ?e:
 endmacro
 
+macro StringBytes(...)				; length word (counts itself), then raw bytes only (no text, no pad)
+?l:	dw ?e-?l
+	!StringBytesI #= 0
+	while !StringBytesI < sizeof(...)
+		db <...[!StringBytesI]>
+		!StringBytesI #= !StringBytesI+1
+	endwhile
+?e:
+endmacro
+
 macro Player(name, w1, w2, w3, w4)	;length word (counts itself), the name, then the ratings as 4 big-endian
 									;words
 ?l:	dw ?e-?l
