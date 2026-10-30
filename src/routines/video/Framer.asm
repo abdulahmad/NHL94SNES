@@ -2,7 +2,7 @@
 Framer:								; called from ClearPenaltyMessage, DrawExitPrompt, Intermission, NewTic...
 	phx
 	phy
-	lda.l Framercset
+	lda.l framercset
 	clc
 	adc.l printfontset
 	ora.w printa

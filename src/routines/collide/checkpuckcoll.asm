@@ -4,7 +4,7 @@ checkpuckcoll:						; called from pucknorm_move
 	sec
 	sbc.w #$0010
 	bpl .1
-	ldy.w OOlistpos+puckobj
+	ldy.w OOlistpos+puckscnum
 .loop:								; loop: d1 = Y, if zero go to .t1, ...
 	sty.b d1
 	cpy.w #$000F
@@ -23,8 +23,8 @@ checkpuckcoll:						; called from pucknorm_move
 	iny
 	bra .loop
 
-.t1:								; if OOlistpos+puckobj = 0 go to .1
-	ldy.w OOlistpos+puckobj
+.t1:								; if OOlistpos+puckscnum = 0 go to .1
+	ldy.w OOlistpos+puckscnum
 	beq .1
 .loopx:								; loop: d1 = Y, if plus go to .1, ...
 	sty.b d1

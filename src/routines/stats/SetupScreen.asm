@@ -66,7 +66,7 @@ SetupScreen:						; common setup of the stats screens
 	clc
 	adc.l nextfreechar				;advance the free character
 	sta.l nextfreechar
-	sta.l Framercset				; first character of the frame tiles
+	sta.l framercset				; first character of the frame tiles
 	lda.w #unpackbuf>>16
 	sta.b a0+2
 	lda.w #unpackbuf

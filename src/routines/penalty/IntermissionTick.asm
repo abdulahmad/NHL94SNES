@@ -6,7 +6,7 @@
 IntermissionTick:					; the intermission ticker timer
 	lda.w demoflag					; demo mode (intermission)?
 	beq IntermissionTick_done		; no: leave
-	lda.b vcount					; frames since the last change
+	lda.b Vcount					; frames since the last change
 	sec
 	sbc.w tickervc
 	cmp.w #$0150					; $150 frames

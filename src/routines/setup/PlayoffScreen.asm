@@ -149,7 +149,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lsr a
 	sta.b d0						;font size
 	adc.l smallfontchars			;plus its start
-	sta.l BigFontChars				;big font follows
+	sta.l BigFontchars				;big font follows
 	lda.w #unpackbuf>>16
 	sta.b a0+2
 	lda.w #unpackbuf
@@ -174,7 +174,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	lsr a
 	lsr a
 	lsr a
-	adc.l BigFontChars				;plus its start
+	adc.l BigFontchars				;plus its start
 	sta.l scorechars				;score characters follow
 	lda.w #unpackbuf>>16
 	sta.b p0+2
@@ -699,8 +699,8 @@ org $9D9000
 	bne .t2x
 	jmp.w .3						;yes: leave
 
-.t2x:								; if vcount = d7 go to .2x, ...
-	lda.b vcount					;frame counter
+.t2x:								; if Vcount = d7 go to .2x, ...
+	lda.b Vcount					;frame counter
 	cmp.b d7						;same frame?
 	beq .2x							;yes: wait
 	sta.b d7						;new frame

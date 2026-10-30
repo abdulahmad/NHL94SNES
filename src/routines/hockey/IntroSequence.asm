@@ -180,11 +180,11 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.w BG1VScroll
 	lda.w #$0010					;send the scroll
 	tsb.b introHookFlags			;frame hook job
-	lda.w #$0003					; d4+2 = start state 3, d5+2 = 0, d6 = timeout (vcount + $2D0), d7 =
-									; earliest end (vcount + $F0)
+	lda.w #$0003					; d4+2 = start state 3, d5+2 = 0, d6 = timeout (Vcount + $2D0), d7 =
+									; earliest end (Vcount + $F0)
 	sta.b d4+2
 	stz.b d5+2
-	lda.b vcount					;frame count
+	lda.b Vcount					;frame count
 	tax
 	clc
 	adc.w #$02D0					;plus $2D0
@@ -264,10 +264,10 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b d4+2						;next
 .1xxx:								; end of the step
 	jmp.w .20
-.8:									; state 2: wait until vcount reaches d6+2
+.8:									; state 2: wait until Vcount reaches d6+2
 	ldx.b d5+2						;skip flag
 	bne .1xxxx						;skipping: go on
-	lda.b vcount					;frame count
+	lda.b Vcount					;frame count
 	cmp.b d6+2						;time up?
 	bmi .2x							;no: wait
 .1xxxx:								; continue at state d5
@@ -470,7 +470,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	sta.b d4+2
 	jmp.w .20
 .18:								; state 12: wait 30 frames in state 2, then go to state 8
-	lda.b vcount					;frame count
+	lda.b Vcount					;frame count
 	clc
 	adc.w #$001E					;plus 30
 	sta.b d6+2						;wait until then
@@ -484,12 +484,12 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	lda.w brightness				;brightness
 	cmp.w #$000F					;full?
 	bne .20							;no: go on
-	lda.b vcount					;frame count
+	lda.b Vcount					;frame count
 	cmp.b d7						;shown long enough?
 	bmi .20							;no: go on
 	lda.w JoyPad					;any button?
 	bne .t1xxxxxxxxxx				;yes: end
-	lda.b vcount					;frame count
+	lda.b Vcount					;frame count
 	cmp.b d6						;timed out?
 	bmi .20							;no: go on
 	bra .t1xxxxxxxxxx

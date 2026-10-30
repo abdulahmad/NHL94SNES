@@ -134,7 +134,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	jsl.l PlayTeamSong				; play song slot A of the home team
 .score:								; remember the frame of the goal (sfx mute time), end the penalty
 									; shot, clear breakaway and one timer
-	lda.b vcount
+	lda.b Vcount
 	sta.w sfxmutetime				;goal time
 	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
 	stz.w breakaway					;no breakaway
@@ -302,7 +302,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	lda.w #$FFFF					;no line crossings
 	sta.w puckcross+pcframes
 	sta.w puckcross+pcsize+pcframes
-	sta.w pfnc+puckobj				;puck collides with no one
+	sta.w pfnc+puckscnum				;puck collides with no one
 	lda.w #$001A					;assignment $1A: in the net
 	sta.b d0
 	jsl.l assreplace				;for the puck

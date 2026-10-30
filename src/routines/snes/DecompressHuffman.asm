@@ -643,7 +643,7 @@ org $80C001
 	bcc .124
 	cmp.w HuffLimit+$1A
 	bcc .125
-	cmp.w HuffLimit+puckobj
+	cmp.w HuffLimit+puckscnum
 	bcc .126
 	jmp.w .127
 .120:								; lsr a, lsr a, lsr a, ...
@@ -704,10 +704,10 @@ org $80C001
 	cmp.b HuffEscape				;escape?
 	beq .122
 	bra .128
-.126:								; lsr a, sbc HuffOffset+puckobj, if $07 = HuffEscape go to .122, ...
+.126:								; lsr a, sbc HuffOffset+puckscnum, if $07 = HuffEscape go to .122, ...
 	lsr a
 	sec
-	sbc.w HuffOffset+puckobj
+	sbc.w HuffOffset+puckscnum
 	tay
 	sep #$20
 	lda.w DecompBuf,y

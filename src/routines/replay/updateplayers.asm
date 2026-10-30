@@ -524,20 +524,20 @@ updateplayers:						; called from DoGameFrame
 	bpl .1xxxxxxxxxx
 	lda.w #$FF78					;clamp
 	sta.w puckx
-	ldx.w frame+puckobj				;puck frame
+	ldx.w frame+puckscnum				;puck frame
 	cpx.w #SPFpuck					;on the ice?
 	bne .1xxxxxxxxxx
-	sta.w Xpos+puckobj+2			;move the shadow too
-.1xxxxxxxxxx:						; if puckx - sideline negative go to .2xxxxxx, ...
+	sta.w Xpos+puckscnum+2			;move the shadow too
+.1xxxxxxxxxx:						; if puckx - Sideline negative go to .2xxxxxx, ...
 	lda.w puckx
-	cmp.w #sideline					;past the right boards?
+	cmp.w #Sideline					;past the right boards?
 	bmi .2xxxxxx
-	lda.w #sideline					;clamp
+	lda.w #Sideline					;clamp
 	sta.w puckx
-	ldx.w frame+puckobj
+	ldx.w frame+puckscnum
 	cpx.w #SPFpuck					;on the ice?
 	bne .2xxxxxx
-	sta.w Xpos+puckobj+2			;move the shadow too
+	sta.w Xpos+puckscnum+2			;move the shadow too
 .2xxxxxx:							; if puckz != 0 go to .4xx, ...
 	lda.w puckz
 	bne .4xx						;in the air: no end clamp
@@ -551,14 +551,14 @@ updateplayers:						; called from DoGameFrame
 	bpl .3xxx
 	lda.w #$FEDB					;clamp
 	sta.w pucky
-	sta.w Ypos+puckobj+2			;shadow too
+	sta.w Ypos+puckscnum+2			;shadow too
 .3xxx:								; if pucky - $012A negative go to .4xx, ...
 	lda.w pucky
 	cmp.w #$012A					;past the front boards?
 	bmi .4xx
 	lda.w #$012A					;clamp
 	sta.w pucky
-	sta.w Ypos+puckobj+2			;shadow too
+	sta.w Ypos+puckscnum+2			;shadow too
 .4xx:								; if puckc negative go to .20, ...
 	lda.w puckc
 	bmi .20							;loose puck

@@ -215,20 +215,20 @@ StartHL2:							; entry point, no direct callers found
 	dex
 	txa
 	sta.w puckc						;carrier
-.5:									; call SprSort, oldvcount = vcount
+.5:									; call SprSort, OldVcount = Vcount
 	jsl.l SprSort					; sort the objects by screen position
 org $9F9001
 	lda.w #$00B4					;180 frames
 	pha								;on the stack
-	lda.b vcount					;frame count
-	sta.w oldvcount					;start time
-.loop3:								; loop: if vcount = oldvcount go to .loop3, ...
-	lda.b vcount					; the frame time steps as the game loop
-	cmp.w oldvcount
+	lda.b Vcount					;frame count
+	sta.w OldVcount					;start time
+.loop3:								; loop: if Vcount = OldVcount go to .loop3, ...
+	lda.b Vcount					; the frame time steps as the game loop
+	cmp.w OldVcount
 	beq .loop3						;wait for the next frame
 	tax
 	sec
-	sbc.w oldvcount					;minus the last
+	sbc.w OldVcount					;minus the last
 	sta.b d7						;frames gone
 	sta.w timestep					;frame time
 	asl a
@@ -243,7 +243,7 @@ org $9F9001
 	adc.w gravstep					;plus: x96
 	sta.w gravstep
 	stx.w lastframevc				;last frame count
-	stx.w oldvcount					;start of the next
+	stx.w OldVcount					;start of the next
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	lda.w sflags
 	bit.w #$0001					;clock stopped?

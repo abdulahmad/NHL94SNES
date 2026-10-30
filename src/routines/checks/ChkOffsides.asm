@@ -22,14 +22,14 @@ ChkOffsides:						; check both teams for offsides; called from pucknorm, no inpu
 	bmi .t1
 	lda.b d0
 	sec
-	sbc.w OldYpos+puckobj
+	sbc.w OldYpos+puckscnum
 	bpl ChkOffsides_rtl
 	bra ChkOffsides_blue
 
 .t1:								; puck past the line: flag only if it was not past it last frame
 	lda.b d0
 	sec
-	sbc.w OldYpos+puckobj
+	sbc.w OldYpos+puckscnum
 	bmi ChkOffsides_rtl
 ChkOffsides_blue:					; puck crossed the line: StartBreakaway, go on if gmoffs is set
 	jsl.l StartBreakaway			; at the blue line: CheckBreakaway into breakaway
@@ -100,14 +100,14 @@ ChkOffsides_other:					; puck in the negative half: same test with the line nega
 	bmi .t1
 	lda.b d0
 	sec
-	sbc.w OldYpos+puckobj
+	sbc.w OldYpos+puckscnum
 	bpl ChkOffsides_rtl
 	bra .3
 
 .t1:								; puck past the line: flag only if it was not past it last frame
 	lda.b d0
 	sec
-	sbc.w OldYpos+puckobj
+	sbc.w OldYpos+puckscnum
 	bmi ChkOffsides_rtl
 .3:									; call StartBreakaway, if gmode bit gmoffs set go to .t1x, ...
 	jsl.l StartBreakaway			; at the blue line: CheckBreakaway into breakaway

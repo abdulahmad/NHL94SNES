@@ -105,7 +105,7 @@ Pausemode:							; called from Gameloop, PlayShootout
 	lda.w #$FFFF
 	sta.w recsfx
 	sta.w recsfx2
-	lda.b vcount
+	lda.b Vcount
 	sta.w lastframevc
-	sta.w oldvcount
+	sta.w OldVcount
 	rtl

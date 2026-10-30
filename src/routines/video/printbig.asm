@@ -79,7 +79,7 @@ printbig:							; print a string with the big font
 	tax
 	lda.l BigFontMap+6,x
 	clc
-	adc.l BigFontChars
+	adc.l BigFontchars
 	adc.l printfontset
 	ora.w printa					; plus the palette and priority
 	ldx.b d1
@@ -99,7 +99,7 @@ printbig:							; print a string with the big font
 	ldx.b d0
 	lda.l BigFontMap+$9E,x
 	clc
-	adc.l BigFontChars
+	adc.l BigFontchars
 	adc.l printfontset
 	ora.w printa
 	ldx.b d1
@@ -109,7 +109,7 @@ printbig:							; print a string with the big font
 	ldx.b d0
 	lda.l BigFontMap+8,x
 	clc
-	adc.l BigFontChars
+	adc.l BigFontchars
 	adc.l printfontset
 	ora.w printa
 	ldx.b d1
@@ -117,7 +117,7 @@ printbig:							; print a string with the big font
 	ldx.b d0
 	lda.l BigFontMap+$A0,x
 	clc
-	adc.l BigFontChars
+	adc.l BigFontchars
 	adc.l printfontset
 	ora.w printa
 	ldx.b d1
@@ -131,7 +131,7 @@ printbig:							; print a string with the big font
 .6:									; space: blank block
 	lda.l BigFontMap+$32
 	clc
-	adc.l BigFontChars
+	adc.l BigFontchars
 	adc.l printfontset
 	ora.w printa
 	ldx.b d1

@@ -2,7 +2,7 @@
 ;
 ; Skipped during a penalty shot, its set-up and shootouts. Clears PBnum, then walks the 12 players;
 ; PenBoxSpot counts the ones in the box as it goes. Called from puckfaceoff2 and chkprogress.
-; sideline), then assdopen
+; Sideline), then assdopen
 SeatPenaltyBox:						; puts the box players at their box spots
 	lda.w penshot					; penalty shot under way
 	ora.w PenShotActive				; penalty shot being set up
@@ -17,7 +17,7 @@ SeatPenaltyBox:						; puts the box players at their box spots
 	jsl.l PenBoxSpot				; spot in the box for him
 	lda.b r2						; r2 = the spot
 	sta.w Ypos,x					; his y
-	lda.w #sideline					; x on the sideline
+	lda.w #Sideline					; x on the Sideline
 	sta.w Xpos,x
 	jsl.l assdopen					; give him his box assignment
 .1:									; next player

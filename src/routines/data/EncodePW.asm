@@ -12,7 +12,7 @@ EncodePW:							; work out the winners and the new password after a playoff game
 	lda.w #$0001
 	sta.l OptPlayMode
 	jsl.l ResolveGames				; work out the winners
-	jsl.l maketree					; build the tree
+	jsl.l MakeTree					; build the tree
 	lda.l playoffRoundIdx			; finished the playoffs?
 	cmp.w #$0004
 	beq .t1							; round 4 over: the user won
@@ -46,7 +46,7 @@ EncodePW:							; work out the winners and the new password after a playoff game
 	bpl .loop
 	jsl.l ReadPassBits				; read the bits back
 .2:									; build the tree
-	jml.l maketree					; build the playoff tree from the seeds and the series wins
+	jml.l MakeTree					; build the playoff tree from the seeds and the series wins
 
 .t1:								; the user won: reset the password
 	jsl.l ResetPassWord

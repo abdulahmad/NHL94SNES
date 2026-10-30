@@ -1,6 +1,6 @@
 ; Start new playoffs and build the tree
 ;
-; Takes OptTeam1 and OptPlayMode (2 = single games). Picks a random playoff tree that holds team 1, remembers
+; Takes Opt1team and OptPlayMode (2 = single games). Picks a random playoff tree that holds team 1, remembers
 ; its slot (potreeteam) and tree (postarts), clears the round and the series wins and builds the tree.
 ; Called from setoptions.
 NewPO:								; start new playoffs with team 1 and build the tree
@@ -22,7 +22,7 @@ NewPO:								; start new playoffs with team 1 and build the tree
 	sta.b a0+2
 	lda.w #$000F					; 16 teams
 	sta.b d1
-	lda.l OptTeam1					; team 1
+	lda.l Opt1team					; team 1
 	sta.b d2
 	cmp.w #$001A					; team 26 or more?
 	bcc .1
@@ -65,4 +65,4 @@ NewPO:								; start new playoffs with team 1 and build the tree
 	dec.b d0						; count down
 	bpl .loopx
 .1x:								; build the tree
-	jml.l maketree					; build the playoff tree from the seeds and the series wins
+	jml.l MakeTree					; build the playoff tree from the seeds and the series wins

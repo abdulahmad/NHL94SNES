@@ -3,7 +3,7 @@
 PulseColour:						; called from PlayoffScreen, PulsePauseSide
 	phx
 	phy
-	lda.b vcount
+	lda.b Vcount
 	sta.b r2
 	lda.w #$001E
 	sta.b r1

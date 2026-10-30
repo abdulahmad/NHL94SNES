@@ -14,7 +14,7 @@ PauseReplay:						; called from PauseMenuHandlers
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	lda.b d7
 	pha
-	lda.b vcount+2
+	lda.b Vcount+2
 	dec a
 	dec a
 	sta.w vcountmark+2

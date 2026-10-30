@@ -80,7 +80,7 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	sta.b d0						;squared distance
 	lda.w #$00C4					;reach^2 196 (14)
 	sta.b d1
-	lda.w nopuck+puckobj			;puck lockout
+	lda.w nopuck+puckscnum			;puck lockout
 	bmi .3							;none
 	beq .3							;none
 	lsr.b d1						;locked out: 7
@@ -252,7 +252,7 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	jsl.l Mul8U						;reach^2
 	ldx.b curobj
 	sta.b d1						;d1
-	lda.w nopuck+puckobj			;puck lockout
+	lda.w nopuck+puckscnum			;puck lockout
 	bmi .2xxxx						;none
 	beq .2xxxx						;none
 .1xxxx:								; lsr d1, lsr d1

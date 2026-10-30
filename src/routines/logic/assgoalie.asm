@@ -137,7 +137,7 @@ assgoalie:							; called from assnearest, asstab
 	lda.w paddir,y					;pad direction
 	cmp.w #$0008					;neutral?
 	bne .13							;not neutral: skip
-	jsl.l StopNA					;stop
+	jsl.l stopna					;stop
 .13:								;goalie control
 	lda.w pf2aip,x					;animating?
 	bne .1xx						;animating already
@@ -474,7 +474,7 @@ assgoalie:							; called from assnearest, asstab
 	bmi .1xxxxxxxx
 	cmp.w #$002D					;right edge?
 	bpl .1xxxxxxxx
-	lda.w #sideline					;right wall
+	lda.w #Sideline					;right wall
 	sta.b d0						;right wall
 	lda.w Xpos,x
 	bpl .1xxxxxxxx					;right side: right wall
@@ -976,7 +976,7 @@ assgoalie:							; called from assnearest, asstab
 	sbc.w #$0007					;8 = none?
 	beq .t1xxxxxxxxxxxxxx			;direction 0-7
 	bmi .t1xxxxxxxxxxxxxx			;direction 0-7
-	jmp.w StopNA					;no direction: slow down
+	jmp.w stopna					;no direction: slow down
 
 .t1xxxxxxxxxxxxxx:					; go to playeracc
 	jml.l playeracc					;accelerate toward d2

@@ -40,9 +40,9 @@ ReplayMode:							; called from PauseReplay
 	ldx.w #$0002					;column 2
 	ldy.w #$0002					;row 2
 	jsl.l MapPartToVRAMOffset		; copy part of map [p0] into the screen map at column X, row Y
-	lda.w ReplayBufferPtr
+	lda.w recbpr
 	pha								;keep the record pointer
-	lda.w ReplayBufferPtr+2
+	lda.w recbpr+2
 	pha
 	lda.w #$0020
 	trb.w sflags					;clear the scroll lock
@@ -50,37 +50,37 @@ ReplayMode:							; called from PauseReplay
 	pha								;keep the view
 	lda.w Hpos
 	pha
-	lda.w ReplayBufferPtr
-	cmp.w #ReplayBufferStart		;pointer below the buffer?
-	lda.w ReplayBufferPtr+2
-	sbc.w #ReplayBufferStart>>16
+	lda.w recbpr
+	cmp.w #replaystart		;pointer below the buffer?
+	lda.w recbpr+2
+	sbc.w #replaystart>>16
 	bcs .1							;no
-.loop:								; loop: ReplayBufferPtr+2 = $007E, ReplayBufferPtr = ReplayBufferStart
-	lda.w #ReplayBufferStart>>16	;reset it to the start
-	sta.w ReplayBufferPtr+2
-	lda.w #ReplayBufferStart
-	sta.w ReplayBufferPtr
+.loop:								; loop: recbpr+2 = $007E, recbpr = replaystart
+	lda.w #replaystart>>16	;reset it to the start
+	sta.w recbpr+2
+	lda.w #replaystart
+	sta.w recbpr
 .1:									; if carry clear go to .loop, ...
-	lda.w #ReplayBufferEnd
-	cmp.w ReplayBufferPtr			;past the end?
-	lda.w #ReplayBufferEnd>>16
-	sbc.w ReplayBufferPtr+2
+	lda.w #replayend
+	cmp.w recbpr			;past the end?
+	lda.w #replayend>>16
+	sbc.w recbpr+2
 	bcc .loop						;yes: reset
-	lda.w ReplayBufferPtr
+	lda.w recbpr
 	sec
-	sbc.w #ReplayBufferStart
+	sbc.w #replaystart
 	sta.b r2
-	lda.w ReplayBufferPtr+2
-	sbc.w #ReplayBufferStart>>16
+	lda.w recbpr+2
+	sbc.w #replaystart>>16
 	sta.b r2+2
 	lda.w #replaysize				;frame size
 	sta.b r1
 	jsl.l Div32U					;offset / frame size
 	lda.b r2+2						;remainder?
 	bne .loop						;misaligned: reset
-	lda.w ReplayBufferPtr+2			;playback pointer = record pointer
+	lda.w recbpr+2			;playback pointer = record pointer
 	sta.b a4+2
-	lda.w ReplayBufferPtr
+	lda.w recbpr
 	sta.b a4
 	lda.w #$0000
 	pha								;frame count
@@ -490,10 +490,10 @@ ReplayMode:							; called from PauseReplay
 .1xxxxxxxxxx:						; falls through
 	lda.w #$FF78					;clamp
 .2xxxxxxxx:							; if minus go to .4xxxxx
-	cmp.w #sideline					;right of the boards?
+	cmp.w #Sideline					;right of the boards?
 	bmi .4xxxxx
 .3xxxxxx:							; falls through
-	lda.w #sideline					;clamp
+	lda.w #Sideline					;clamp
 .4xxxxx:							; Xpos+camobj = A, if pucky - $FED4 >= 0 go to .6x
 	sta.w Xpos+camobj				;camera x
 	lda.w pucky						;puck y
@@ -671,14 +671,14 @@ org $9BB001
 	pla
 	sta.w Vpos
 	pla
-	sta.w ReplayBufferPtr+2			;and the record pointer
+	sta.w recbpr+2			;and the record pointer
 	pla
-	sta.w ReplayBufferPtr
+	sta.w recbpr
 	lda.w #$0020
 	trb.w sflags					;unlock the scroll
-	lda.w ReplayBufferPtr+2
+	lda.w recbpr+2
 	sta.b a4+2						;at the live frame
-	lda.w ReplayBufferPtr
+	lda.w recbpr
 	sta.b a4
 	jsl.l RestoreReplayFrame		;restore it
 	lda.w #$0800					;replay flag

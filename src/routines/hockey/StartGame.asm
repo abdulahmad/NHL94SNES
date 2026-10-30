@@ -34,10 +34,10 @@ StartGame_go:						; called from PlayShootout
 	jsl.l clearTeamStats			; clear the team stats and set up the teams
 	jsl.l restoreteams				; all players of both teams on the bench
 	jsl.l InitScores				; random scores for the other games of the round
-	lda.w #ReplayBufferStart>>16
-	sta.w ReplayBufferPtr+2
-	lda.w #ReplayBufferStart
-	sta.w ReplayBufferPtr
+	lda.w #replaystart>>16
+	sta.w recbpr+2
+	lda.w #replaystart
+	sta.w recbpr
 	lda.w #$0010
 	trb.w sflags
 	lda.b a2

@@ -161,9 +161,9 @@ setupice:							; set up the rink screen
 	lsr a
 	sta.b d0						; kept in d0
 	adc.l smallfontchars			; plus smallfontchars
-	sta.l Framercset				; Framercset: first tile of the Framer box
+	sta.l framercset				; framercset: first tile of the Framer box
 	adc.w #$0004					; 4 tiles for the Framer box
-	sta.l BigFontChars				; BigFontChars: first tile of the big font
+	sta.l BigFontchars				; BigFontchars: first tile of the big font
 	lda.w #unpackbuf>>16			; a0 = unpacked small font tiles
 	sta.b a0+2
 	lda.w #unpackbuf
@@ -196,7 +196,7 @@ setupice:							; set up the rink screen
 	lsr a
 	lsr a
 	sta.b d0						; kept in d0
-	adc.l BigFontChars				; plus BigFontChars
+	adc.l BigFontchars				; plus BigFontchars
 	sta.l scorechars				; scorechars: first tile of the score tiles
 	lda.w #unpackbuf>>16			; send the big font tiles to VRAM
 	sta.b p0+2
@@ -235,7 +235,7 @@ setupice_reset:						; reset the rink state and fade in
 	trb.w sflags
 	stz.w Hpos						; scroll position 0, 0
 	stz.w Vpos
-	lda.b vcount+2					; vcountmark+2 = vcount+2 - 2
+	lda.b Vcount+2					; vcountmark+2 = Vcount+2 - 2
 	dec a
 	dec a
 	sta.w vcountmark+2

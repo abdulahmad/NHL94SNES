@@ -17,9 +17,9 @@ setoptions:							; called from Restart
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	jsl.l ClearTextMap				; fill the text map with the blank tile
 	jsl.l InitSetupChars			; set the tile numbers and load the font of the setup screen
-	lda.l OptTeam1					;team options
+	lda.l Opt1team					;team options
 	sta.w HomeTeam
-	lda.l OptTeam2
+	lda.l Opt2team
 	sta.w VisTeam
 	jsl.l setteams					; set up both team structures from the home and visiting teams
 	lda.w VisTeam
@@ -157,13 +157,13 @@ setoptions:							; called from Restart
 	beq .t1x						;no: read the pads
 	jmp.w .2						;yes: wait
 
-.t1x:								; mp5warning = 0: call ReadPads, lastframevc = vcount, oldvcount = vcou...
+.t1x:								; mp5warning = 0: call ReadPads, lastframevc = Vcount, OldVcount = vcou...
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
-	lda.b vcount					;frame count
+	lda.b Vcount					;frame count
 	sta.w lastframevc
-	sta.w oldvcount
+	sta.w OldVcount
 	jsl.l ReadJoy1					; read pad 1: d0 = direction, d1 = new presses, d2 = changed buttons
-	dec.w repeatdelay				;repeat timer
+	dec.w repeatdelayframes				;repeat timer
 	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1						;new presses
 	and.w #$FFF0					;buttons only
@@ -179,23 +179,23 @@ setoptions:							; called from Restart
 	bmi .t1xx						;time up: run the demo
 	jmp.w .2						;keep waiting
 
-.t1xx:								; d6 counted below 0: call randoma8, OptTeam1 = A, HomeTeam = A
+.t1xx:								; d6 counted below 0: call randoma8, Opt1team = A, HomeTeam = A
 	lda.w #$001C					;28 teams
 	jsl.l randoma8					; random number below A
-	sta.l OptTeam1					;random home team
+	sta.l Opt1team					;random home team
 	sta.w HomeTeam
 .loop:								; loop: call randoma8, if zero go to .loop, ...
 	lda.w #$001C					;28 teams
 	jsl.l randoma8					; random number below A
-	cmp.l OptTeam1					;same team?
+	cmp.l Opt1team					;same team?
 	beq .loop						;yes: pick again
-	sta.l OptTeam2					;random visitors
+	sta.l Opt2team					;random visitors
 	sta.w VisTeam
 	lda.w #$0000
 	sta.l notdemo					;demo
 	lda.w #$0000
 	sta.l OptPlayMode				;exhibition
-	sta.l OptPlayers				;no players
+	sta.l OptNOP				;no players
 .5:									; p0 = BigLetterTiles, p1 = bigtextbuf, call Decompress, ...
 	lda.w #BigLetterTiles>>16
 	sta.b p0+2
@@ -225,18 +225,18 @@ setoptions:							; called from Restart
 	bne .2x							;no
 .1x:								; call NewPO
 	jsl.l NewPO						; start new playoffs with team 1 and build the tree
-.2x:								; OptPlayers = $0001, if OptPlayMode < $0001 go to .3x, ...
+.2x:								; OptNOP = $0001, if OptPlayMode < $0001 go to .3x, ...
 	lda.w #$0001
-	sta.l OptPlayers				;one player
+	sta.l OptNOP				;one player
 	lda.l OptPlayMode				;play mode
 	cmp.w #$0001					;exhibition?
 	bcc .3x							;yes
 	cmp.w #$0004					;shootout?
 	bcs .3x							;yes
 	lda.w #$0005					;playoffs: five pads
-	sta.l OptPlayers
-.3x:								; pojoy = OptPlayers - $0005, if OptPlayMode != $0001 go to .4, ...
-	lda.l OptPlayers
+	sta.l OptNOP
+.3x:								; pojoy = OptNOP - $0005, if OptPlayMode != $0001 go to .4, ...
+	lda.l OptNOP
 	sec
 	sbc.w #$0005					;pad offset for the playoffs
 	sta.l pojoy
@@ -244,11 +244,11 @@ setoptions:							; called from Restart
 	cmp.w #$0001					;continue playoffs?
 	bne .4							;no
 	jsl.l PasswordScreen			;enter the password
-.4:									; ora PassWord, PassWord = A, call maketree, ...
+.4:									; ora PassWord, PassWord = A, call MakeTree, ...
 	lda.w #$0080					;password valid flag
 	ora.l PassWord
 	sta.l PassWord
-	jsl.l maketree					;build the playoff tree
+	jsl.l MakeTree					;build the playoff tree
 	jmp.w PlayerSelect				; the player select screen after the game setup
 .6:									; if d1 bits $1000 clear go to .t2xx, ...
 	lda.b d1						;new presses
@@ -392,9 +392,9 @@ setoptions:							; called from Restart
 .10:								;redraw the option lines
 	lda.l teamschanged				;teams changed?
 	beq .1xxxxxx					;no
-	lda.l OptTeam1					;team options
+	lda.l Opt1team					;team options
 	sta.w HomeTeam
-	lda.l OptTeam2
+	lda.l Opt2team
 	sta.w VisTeam
 	jsl.l setteams					;rebuild the team structures
 	lda.w #$0000

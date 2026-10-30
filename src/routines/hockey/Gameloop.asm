@@ -1,9 +1,9 @@
 ; Main game loop: wait for a frame, the clock, the music, one frame of game logic, the pause
 ; Runs once per frame until the period ends (or a shootout turnover). Called from StartPer and PlayShootout.
 Gameloop:							; called from PlayShootout, StartPer
-	lda.b vcount					; wait until vcount has advanced
+	lda.b Vcount					; wait until Vcount has advanced
 	sec
-	sbc.w oldvcount
+	sbc.w OldVcount
 	beq Gameloop
 	inc.w gameframes				; count the frame, gamefps = 60 * gameframes / FrameCount
 	lda.w #$003C
@@ -27,10 +27,10 @@ Gameloop:							; called from PlayShootout, StartPer
 .1:									; step sizes from the frames elapsed (d7): timestep, impactstep (x2),
 									; velstep (x16), gravstep (x96)
 	jsl.l RandomWord
-	lda.b vcount
+	lda.b Vcount
 	tax
 	sec
-	sbc.w oldvcount
+	sbc.w OldVcount
 	sta.b d7
 	sta.w timestep
 	asl a
@@ -45,7 +45,7 @@ Gameloop:							; called from PlayShootout, StartPer
 	adc.w gravstep
 	sta.w gravstep
 	stx.w lastframevc
-	stx.w oldvcount
+	stx.w OldVcount
 	jsl.l ReadPads					; read the pads
 	lda.w sflags					; clock and penalty shot timer stop in pause mode and while the clock is
 									; held (gmclock nonzero)
@@ -92,7 +92,7 @@ Gameloop:							; called from PlayShootout, StartPer
 .4:									; cheer counter runs down once per $96 frames
 	lda.w cheercnt
 	beq .1xx
-	lda.b vcount
+	lda.b Vcount
 	sec
 	sbc.w cheervc
 	cmp.w #$0096

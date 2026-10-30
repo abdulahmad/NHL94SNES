@@ -1,5 +1,5 @@
 ; Build the playoff tree from the seeds and the series wins
-maketree:							; called from EncodePW, GameOver, NewPO, setoptions
+MakeTree:							; called from EncodePW, GameOver, NewPO, setoptions
 	stx.b xsave						; keep X
 	ldx.w #$0000
 .loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...

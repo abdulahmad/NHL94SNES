@@ -1,6 +1,6 @@
 ; Assignment: the player skates to the penalty box
 ; Takes: X = player object. Called through asstab (assignment $0D). First frame: pad hand-over (.9),
-; marks him unavailable and takes the box spot from PenBoxSpot (temp3 = sideline, temp4 = box y); temp5 is a
+; marks him unavailable and takes the box spot from PenBoxSpot (temp3 = Sideline, temp4 = box y); temp5 is a
 ; timeout of 900 frames. He skates to the box door; when close (or at the timeout) he is put into the box
 ; and the assignment becomes assdopen (assignment $0E).
 asspenalty:							; assignment: skate to the penalty box
@@ -25,7 +25,7 @@ asspenalty:							; assignment: skate to the penalty box
 	lda.b r2						; box y
 	sta.b d1
 	sta.w temp4,x					; target y
-	lda.w #sideline					; target x at the side boards
+	lda.w #Sideline					; target x at the side boards
 	sta.w temp3,x
 	stz.w temp1,x					; clear the door timer
 	lda.w pflags,x					; player flags
@@ -119,7 +119,7 @@ asspenalty:							; assignment: skate to the penalty box
 .7:									; in the box
 	lda.w temp4,x					; put him on the box spot
 	sta.w Ypos,x
-	lda.w #sideline					; x at the side boards
+	lda.w #Sideline					; x at the side boards
 	sta.w Xpos,x
 	lda.w #$0002					; face right (2), toward the boards, for the wall hop
 	sta.w facedir,x

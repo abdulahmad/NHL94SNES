@@ -100,11 +100,11 @@ checkfornewpen:						; called from PenaltyManager
 	asl a
 	sta.b d1						; d1 = delay * 32
 	sec
-	sbc.w Pencntdwn					; compare with the countdown
+	sbc.w PenCntDwn					; compare with the countdown
 	beq .5
 	bmi .5
 	lda.b d1						; longer: take it
-	sta.w Pencntdwn					; countdown
+	sta.w PenCntDwn					; countdown
 .5:									; go to .4
 	jmp.w .4
 .6:									; return

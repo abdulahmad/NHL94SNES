@@ -138,11 +138,11 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	cmp.w #$00FB					; closer than 251: half the error
 	bcs .2x							;far: full error
 	lsr.b d0						;near: half the error
-.2x:								; if d0 < sideline go to .3x, ...
+.2x:								; if d0 < Sideline go to .3x, ...
 	lda.b d0						;error
-	cmp.w #sideline					;over $88?
+	cmp.w #Sideline					;over $88?
 	bcc .3x
-	lda.w #sideline					;cap
+	lda.w #Sideline					;cap
 	sta.b d0
 .3x:								;error
 	pha								; 1,s adjust, 3,s x diff, 5,s y diff; after its pla 5,s is the z diff

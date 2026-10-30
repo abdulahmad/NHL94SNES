@@ -362,7 +362,7 @@ $0D03,passdir,,93S,"RAM; the 93S name of the variable at this place in routines 
 $0D05,passspeed,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $0D0F,printx,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $0D11,printy,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
-$0D1F,ReplayBufferPtr,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
+$0D1F,recbpr,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $0D39,Vscroll,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $0D55,Xpos,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $0DB7,Ypos,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
@@ -382,8 +382,8 @@ $15D4,gmode,,93S,"RAM; the 93S name of the variable at this place in routines th
 $15D8,sflags,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $15DA,sfhormode,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $15DC,sflags3,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
-$1620,Pencntdwn,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
-$1622,pentimer,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
+$1620,PenCntDwn,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
+$1622,Penaltytimer,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $1624,PBnum,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $1628,penmsgtimer,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $162A,RefCnt,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
@@ -415,7 +415,7 @@ $9BB39B,randomd0,CODE_9BB39B,93S,"called where 93S calls randomd0; same instruct
 $9E8C0E,assinsert,CODE_9E8C0E,93S,"called where 93S calls assinsert (twice); same instructions",src/routines/checks/assinsert.asm
 $9F9B1F,GetPeriodTime,CODE_9F9B1F,93S,"called where 93S calls GetPeriodTime; same code (period length option to seconds)",src/routines/hockey/GetPeriodTime.asm
 $9F9B2E,GetPeriodTime_timetab,DATA8_9F9B2E,93S,"the period lengths in seconds read by GetPeriodTime, as in 93S",src/data/tables/GetPeriodTime_timetab.asm
-$7E34C2,OptPerlen,,93S,"RAM; the period length option, read by GetPeriodTime as in 93S",src/ram94s.asm
+$7E34C2,Optperlen,,93S,"RAM; the period length option, read by GetPeriodTime as in 93S",src/ram94s.asm
 $0CEF,HmAwBonus,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $0D09,PKBonus,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
 $0D0B,PPBonus,,93S,"RAM; the 93S name of the variable at this place in routines that match 93S",src/ram94s.asm
@@ -614,7 +614,7 @@ $9BC75E,EncodePW,CODE_9BC75E,93S,"After a playoff game, work out the winners and
 $9EC7BE,print,CODE_9EC7BE,93S,Print string [a1] into the text map at printx / printy,src/routines/video/print.asm
 $9FA5AD,showzam,CODE_9FA5AD,93S,Draw the zamboni moving across the horizontal rink,src/routines/display/showzam.asm
 $9ED130,CPgoalie,CODE_9ED130,93S,Should the computer pull its goalie in the last minute of the third period when it is behind,src/routines/checks/CPgoalie.asm
-$9D9783,maketree,CODE_9D9783,93S,Build the playoff tree from the seeds and the series wins,src/routines/data/maketree.asm
+$9D9783,MakeTree,CODE_9D9783,93S,Build the playoff tree from the seeds and the series wins,src/routines/data/MakeTree.asm
 $9EAFB5,skatetopuck,CODE_9EAFB5,93S,"Player X skates to the puck, slowing down near it",src/routines/checks/skatetopuck.asm
 $9BC623,WritePassBits,CODE_9BC623,93S,"Turn the playoff state into the password bits, with a checksum",src/routines/data/WritePassBits.asm
 $9EC95C,UpdateScoutingDisplay,CODE_9EC95C,93S,Every frame of the scouting report: print the next word when its timer runs out,src/routines/setup/UpdateScoutingDisplay.asm
@@ -2504,14 +2504,14 @@ $9F971E,.loop,CODE_9F971E,new,branch target only used in this routine,src/routin
 $9F973C,.1,CODE_9F973C,new,branch target only used in this routine,src/routines/penalty/UpdateScores.asm
 $9FA52C,.1,CODE_9FA52C,new,branch target only used in this routine,src/routines/penalty/NewTicker3.asm
 $9F8685,.rtl,CODE_9F8685,new,branch target only used in this routine,src/routines/hockey/periodicevents.asm
-$9D9788,.loop,CODE_9D9788,new,branch target only used in this routine,src/routines/data/maketree.asm
-$9D9799,.loop2,CODE_9D9799,new,branch target only used in this routine,src/routines/data/maketree.asm
-$9D97CB,.loop3,CODE_9D97CB,new,branch target only used in this routine,src/routines/data/maketree.asm
-$9D97E1,.loop4,CODE_9D97E1,new,branch target only used in this routine,src/routines/data/maketree.asm
-$9D9814,.loop5,CODE_9D9814,new,branch target only used in this routine,src/routines/data/maketree.asm
-$9D9840,.1,CODE_9D9840,new,branch target only used in this routine,src/routines/data/maketree.asm
-$9D9845,.loop6,CODE_9D9845,new,branch target only used in this routine,src/routines/data/maketree.asm
-$9D9853,.loop7,CODE_9D9853,new,branch target only used in this routine,src/routines/data/maketree.asm
+$9D9788,.loop,CODE_9D9788,new,branch target only used in this routine,src/routines/data/MakeTree.asm
+$9D9799,.loop2,CODE_9D9799,new,branch target only used in this routine,src/routines/data/MakeTree.asm
+$9D97CB,.loop3,CODE_9D97CB,new,branch target only used in this routine,src/routines/data/MakeTree.asm
+$9D97E1,.loop4,CODE_9D97E1,new,branch target only used in this routine,src/routines/data/MakeTree.asm
+$9D9814,.loop5,CODE_9D9814,new,branch target only used in this routine,src/routines/data/MakeTree.asm
+$9D9840,.1,CODE_9D9840,new,branch target only used in this routine,src/routines/data/MakeTree.asm
+$9D9845,.loop6,CODE_9D9845,new,branch target only used in this routine,src/routines/data/MakeTree.asm
+$9D9853,.loop7,CODE_9D9853,new,branch target only used in this routine,src/routines/data/MakeTree.asm
 $9CA430,.loop,CODE_9CA430,new,branch target only used in this routine,src/routines/data/SuperDiv.asm
 $9EC31A,.1,CODE_9EC31A,new,branch target only used in this routine,src/routines/collide/setInjuryType.asm
 $9EC330,.2,CODE_9EC330,new,branch target only used in this routine,src/routines/collide/setInjuryType.asm
@@ -2829,7 +2829,7 @@ $9D9AB7,.t1,CODE_9D9AB7,new,continued in the previous routine,src/routines/hocke
 $9D99B8,.t1,CODE_9D99B8,new,continued in the previous routine,src/routines/data/FigureJoy.asm
 $9D996F,.t1,CODE_9D996F,new,continued in the previous routine,src/routines/data/FigureJoy.asm
 $9D9918,.t1,CODE_9D9918,new,continued in the previous routine,src/routines/data/NewPO.asm
-$9D9893,.t1,CODE_9D9893,new,continued in the previous routine,src/routines/data/maketree.asm
+$9D9893,.t1,CODE_9D9893,new,continued in the previous routine,src/routines/data/MakeTree.asm
 $9D94EC,.t1,CODE_9D94EC,new,continued in the previous routine,src/routines/setup/PlayoffScreen.asm
 $9D94BE,.t1,CODE_9D94BE,new,continued in the previous routine,src/routines/setup/PlayoffScreen.asm
 $9D9482,.t1,CODE_9D9482,new,continued in the previous routine,src/routines/setup/PlayoffScreen.asm
@@ -3298,7 +3298,7 @@ $9D9BCE,.t2,CODE_9D9BCE,new,continued in the previous routine,src/routines/hocke
 $9D9ACB,.t1,CODE_9D9ACB,new,continued in the previous routine,src/routines/hockey/RenderBigText.asm
 $9D99C7,.t2,CODE_9D99C7,new,continued in the previous routine,src/routines/data/FigureJoy.asm
 $9D9966,.t2,CODE_9D9966,new,continued in the previous routine,src/routines/data/FigureJoy.asm
-$9D985F,.t2,CODE_9D985F,new,continued in the previous routine,src/routines/data/maketree.asm
+$9D985F,.t2,CODE_9D985F,new,continued in the previous routine,src/routines/data/MakeTree.asm
 $9D94D7,.t1,CODE_9D94D7,new,continued in the previous routine,src/routines/setup/PlayoffScreen.asm
 $9D946D,.t1,CODE_9D946D,new,continued in the previous routine,src/routines/setup/PlayoffScreen.asm
 $9D930D,.t2,CODE_9D930D,new,continued in the previous routine,src/routines/setup/PlayoffScreen.asm
@@ -3858,7 +3858,7 @@ $9FE089,setlccords,CODE_9FE089,93S,SetLCmode2 and lcfound_close call it where 93
 $9EDED4,chk4shot,CODE_9EDED4,93S,asspuckc calls it where 93S calls chk4shot; the 93S body after a 94 test,src/routines/checks/chk4shot.asm
 $9F9EB7,SetScore,CODE_9F9EB7,93S,UpdateScores calls it where 93S calls SetScore; most instructions as 93S,src/routines/penalty/SetScore.asm
 $9EFA36,PushRef,CODE_9EFA36,93S,SetPA2 calls it where 93S calls PushRef; most instructions as 93S,src/routines/penalty/PushRef.asm
-$9D995D,FigureJoy,CODE_9D995D,93S,maketree calls it where 93S calls FigureJoy; the 93S body,src/routines/data/FigureJoy.asm
+$9D995D,FigureJoy,CODE_9D995D,93S,MakeTree calls it where 93S calls FigureJoy; the 93S body,src/routines/data/FigureJoy.asm
 $9EC417,checkob,CODE_9EC417,93S,asspuckc calls it where 93S calls checkob; most instructions as 93S,src/routines/checks/checkob.asm
 $9EE89F,chk4pass,CODE_9EE89F,93S,asspuckc calls it where 93S calls chk4pass; the 93S body,src/routines/checks/chk4pass.asm
 $9FDA53,CompLine,CODE_9FDA53,93S,chk4lc calls it where 93S calls CompLine; most instructions as 93S,src/routines/checks/CompLine.asm
@@ -4529,7 +4529,7 @@ $8085D0,.3,CODE_8085D0,new,branch target only used in this routine,src/routines/
 $8085E9,.4,CODE_8085E9,new,branch target only used in this routine,src/routines/snes/WaitDMAQueue.asm
 $9BC138,.1,CODE_9BC138,new,branch target only used in this routine,src/routines/video/projxy.asm
 $9FB092,Endfaceoff,CODE_9FB092,93S,puckfaceoff2 calls it as in 93S; most instructions as 93S Endfaceoff,src/routines/checks/Endfaceoff.asm
-$9D98D3,NewPO,CODE_9D98D3,93S,"most instructions as 93S NewPO, then maketree as in 93S",src/routines/data/NewPO.asm
+$9D98D3,NewPO,CODE_9D98D3,93S,"most instructions as 93S NewPO, then MakeTree as in 93S",src/routines/data/NewPO.asm
 $9FD252,resetplstuff,CODE_9FD252,93S,puckfaceoff2 and the StartHL2 code call it as in 93S; most instructions as 93S,src/routines/setup/resetplstuff.asm
 $9E9A49,puckglue,CODE_9E9A49,93S,called from the puck-goalie and puck-stick code as in 93S; most instructions as 93S,src/routines/collide/puckglue.asm
 $9CA227,InitSortObjects,CODE_9CA227,93S,called from the setoptions and setupice code as in 93S; most instructions as 93S,src/routines/video/InitSortObjects.asm
@@ -4621,7 +4621,7 @@ $9EC160,prefmes,CODE_9EC160,93S,PushRef and SetPA call it as in 93S; prints from
 $9EF213,ChkShotStat,CODE_9EF213,93S,"called from Goal, puckglue and the goalie code as in 93S; clears the shot flag and adds the shot",src/routines/penalty/ChkShotStat.asm
 $9FDCEB,makepde,CODE_9FDCEB,93S,doshot and the stick code call it as in 93S; rating times the getpde energy,src/routines/collide/makepde.asm
 $9B9FAF,showcrowd,CODE_9B9FAF,93S,setvideo calls it as in 93S; steps the crowd sprites by Crowdlevel,src/routines/display/showcrowd.asm
-$9EA539,StopNA,CODE_9EA539,93S,dostop falls in and goalieacc jumps here as in 93S; slows the player on each axis without an animation change,src/routines/checks/dostop.asm
+$9EA539,stopna,CODE_9EA539,93S,dostop falls in and goalieacc jumps here as in 93S; slows the player on each axis without an animation change,src/routines/checks/dostop.asm
 $80D322,UpdateCwdExcite,CODE_80D322,93S,periodicevents calls it where 93S calls UpdateCwdExcite; does nothing in both,src/routines/hockey/UpdateCwdExcite.asm
 $80D323,CheckLateGameSong,CODE_80D323,93S,periodicevents calls it where 93S calls CheckLateGameSong; does nothing in both,src/routines/hockey/CheckLateGameSong.asm
 $808F4C,Mul8U,CODE_808F4C,new,"A * X with the 8 by 8 hardware multiplier, unsigned",src/routines/snes/Mul8U.asm
@@ -5796,7 +5796,7 @@ $9DBCB2,TitleStub,CODE_9DBCB2,new,Behavior: a lone rts,src/routines/hockey/Title
 $80CA0A,ShootoutStub,CODE_80CA0A,new,Behavior: a lone rtl,src/routines/shootout/ShootoutStub.asm
 $9DAF5B,ClearBigText,CODE_9DAF5B,new,Behavior: PlayerSelect calls it before drawing the team names,src/routines/hockey/ClearBigText.asm
 $9DB0AB,SendBigText,CODE_9DB0AB,new,Behavior: PlayerSelect calls it after DrawSelectTeam,src/routines/hockey/SendBigText.asm
-$9DE074,InitSetupChars,CODE_9DE074,new,"Behavior: setoptions calls it before SetupScreen; the three bases are the 93S smallfontchars / Framercset / scorechars (print, Framer and DrawTeamBlocks add them as in 93S)",src/routines/hockey/InitSetupChars.asm
+$9DE074,InitSetupChars,CODE_9DE074,new,"Behavior: setoptions calls it before SetupScreen; the three bases are the 93S smallfontchars / framercset / scorechars (print, Framer and DrawTeamBlocks add them as in 93S)",src/routines/hockey/InitSetupChars.asm
 $9DC2DE,SetCardTeamColours,CODE_9DC2DE,new,Behavior: DrawPlayerCard calls it before SendColours,src/routines/hockey/SetCardTeamColours.asm
 $9D8091,FramerNineTile,CODE_9D8091,new,Behavior: Framer's steps with another box map and tile base; called from ShowCrowdMeter,src/routines/middle/FramerNineTile.asm
 $9D80DD,FramerOutline,CODE_9D80DD,new,"Behavior: Framer's steps with another box map and tile base; the text boxes of the scouting, roster, stats, shooters and password screens use it",src/routines/middle/FramerOutline.asm
@@ -6449,7 +6449,7 @@ $85B2A4,SpriteFrame_sweep_0,SpriteFrame264,93S,"frame 265 = SPFsweep (16 frames,
 $85CFF7,SpriteFrame_fallback_0,SpriteFrame280,93S,"frame 281 = SPFfallback (32 frames, SpriteFrame_fallback_0-31): falling back",src/data/gfx/SpriteFrames85.asm
 $868FE0,SpriteFrame_fallfwd_0,SpriteFrame312,93S,"frame 313 = SPFfallfwd (32 frames, SpriteFrame_fallfwd_0-31): falling forward",src/data/gfx/SpriteFrames86.asm
 $86D3AD,SpriteFrame_duck_0,SpriteFrame344,93S,"frame 345 = SPFduck (8 frames, SpriteFrame_duck_0-7): ducking",src/data/gfx/SpriteFrames86.asm
-$86E243,SpriteFrame_hold_0,SpriteFrame352,93S,"frame 353 = SPFhold (8 frames, SpriteFrame_hold_0-7): holding",src/data/gfx/SpriteFrames86.asm
+$86E243,SpriteFrame_hold_0,SpriteFrame352,93S,"frame 353 = SPFHold (8 frames, SpriteFrame_hold_0-7): holding",src/data/gfx/SpriteFrames86.asm
 $86EF7D,SpriteFrame_Pen_0,SpriteFrame360,93S,"frame 361 = SPFPen (9 frames, SpriteFrame_Pen_0-8): over the boards (+0-+3 vertical, +4-+7 horizontal), then sitting: +7 horizontal and +8 vertical (assdopen)",src/data/gfx/SpriteFrames86.asm
 $86FC7F,SpriteFrame_gwall_0,SpriteFrame369,new,"frame 370 = SPFgwall (4 frames, SpriteFrame_gwall_0-3): the goalie over the boards (SPAgwallright, SPAgwallleft; new in 94S)",src/data/gfx/SpriteFrames86.asm
 $8785D6,SpriteFrame_arrow_0,SpriteFrame373,93S,"frame 374 = SPFarrow (15 frames, SpriteFrame_arrow_0-14): off-screen arrows, 3 per controller (setvideo)",src/data/gfx/SpriteFrames87.asm
@@ -6489,16 +6489,16 @@ $8ED85A,SpriteFrame_hatshadow_0,SpriteFrame975,new,"frame 976 = SPFhatshadow (1 
 $0D97,frame,,93S,"RAM; sprite frame number of each object (93S frame: updateanim stores the animation frame there)",src/ram94s.asm
 $0D77,Xfrac,,93S,RAM; fraction of Xpos,src/ram94s.asm
 $0DD9,Yfrac,,93S,RAM; fraction of Ypos,src/ram94s.asm
-$0DF9,puckz,,93S,RAM; puck height (93S Zpos+puckobj),src/ram94s.asm
+$0DF9,puckz,,93S,RAM; puck height (93S Zpos+puckscnum),src/ram94s.asm
 $0DFD,puckzfrac,,93S,RAM; fraction of puckz,src/ram94s.asm
-$0DFF,puckoldz,,93S,RAM; puckz before this frame's move (93S OldZpos+puckobj),src/ram94s.asm
-$0E01,puckvz,,93S,RAM; puck height speed (93S Zvel+puckobj),src/ram94s.asm
+$0DFF,puckoldz,,93S,RAM; puckz before this frame's move (93S OldZpos+puckscnum),src/ram94s.asm
+$0E01,puckvz,,93S,RAM; puck height speed (93S Zvel+puckscnum),src/ram94s.asm
 $0E23,oldframe,,93S,RAM; frame last drawn (setsortcords),src/ram94s.asm
 $0E43,OldXpos,,93S,RAM; Xpos before this frame's move,src/ram94s.asm
 $0E63,OldXfrac,,93S,RAM,src/ram94s.asm
 $0E83,OldYpos,,93S,RAM,src/ram94s.asm
 $0EA3,OldYfrac,,93S,RAM,src/ram94s.asm
-$0EC3,Xvel,,93S,RAM; x speed (puckvx is Xvel+puckobj),src/ram94s.asm
+$0EC3,Xvel,,93S,RAM; x speed (puckvx is Xvel+puckscnum),src/ram94s.asm
 $0EE3,Yvel,,93S,RAM; y speed,src/ram94s.asm
 $0F03,impactp,,93S,RAM; the other object (index) of the last collision or hold,src/ram94s.asm
 $0F23,impact,,93S,"RAM; impact value, added to by collisions",src/ram94s.asm
@@ -6541,28 +6541,28 @@ $0CE1,gravstep,,93S,RAM; d7*96: gravity this game frame,src/ram94s.asm
 $0CE3,pausetimer,,93S,RAM; pause menu: frames left before a demo pause ends by itself,src/ram94s.asm
 $0CE5,ThirdPBonus,,93S,RAM; setplayer: +2 when tied or trailing late in the 3rd period,src/ram94s.asm
 $0CE7,cheercnt,,93S,"RAM; crowd cheers still to play after a goal (one every 150 frames, Gameloop)",src/ram94s.asm
-$0CE9,cheervc,,93S,RAM; vcount of the last crowd cheer,src/ram94s.asm
+$0CE9,cheervc,,93S,RAM; Vcount of the last crowd cheer,src/ram94s.asm
 $0CF3,lastplayer,,93S,"RAM; the last player who touched the puck (doshot, puckstick)",src/ram94s.asm
 $0CF7,lldisp,,93S,RAM; count down for the once-a-second screen / game updates (periodicevents),src/ram94s.asm
 $0CF9,nibblebuffer,,93S,RAM; 4 words: the weights SetScore picks from,src/ram94s.asm
-$0D01,oldvcount,,93S,RAM; vcount at the last game frame (d7 = vcount - oldvcount),src/ram94s.asm
+$0D01,OldVcount,,93S,RAM; Vcount at the last game frame (d7 = Vcount - OldVcount),src/ram94s.asm
 $0D07,passReceiverPlayerNum,,93S,RAM; the player the last pass was aimed at (negative = none),src/ram94s.asm
 $0D0D,printa,,93S,RAM; attribute (palette / priority bits) for print characters,src/ram94s.asm
 $0D15,psitem,,93S,RAM; pause menu item,src/ram94s.asm
 $0D17,puckcross,,93S,"RAM; 2 entries of (x, frames): where / when the puck crosses the top / bottom goal line",src/ram94s.asm
 $0D29,shotplayer,,93S,RAM; the player who shot last (doshot),src/ram94s.asm
-$0D2B,sfxmutetime,,93S,RAM; vcount of the last goal: Stop4Pen waits 60 frames after it,src/ram94s.asm
+$0D2B,sfxmutetime,,93S,RAM; Vcount of the last goal: Stop4Pen waits 60 frames after it,src/ram94s.asm
 $0D2D,threat,,93S,RAM; direction of threat on puck handler (nonzero = threat),src/ram94s.asm
 $0D2F,demoflag,,93S,RAM; nonzero in demo mode,src/ram94s.asm
 $0D31,TickerNum,,93S,RAM; playoff game the score ticker shows next,src/ram94s.asm
-$0D33,tickervc,,93S,RAM; vcount when the ticker box was last shown,src/ram94s.asm
-$0D35,lastframevc,,93S,RAM; vcount of the last game frame (Gameloop),src/ram94s.asm
+$0D33,tickervc,,93S,RAM; Vcount when the ticker box was last shown,src/ram94s.asm
+$0D35,lastframevc,,93S,RAM; Vcount of the last game frame (Gameloop),src/ram94s.asm
 $0D3B,wcradiusx,,93S,RAM; wall collision radius x,src/ram94s.asm
 $0D3D,wcradiusy,,93S,RAM; wall collision radius y,src/ram94s.asm
 $0D41,screentimer,,93S,RAM; frames left on the scouting report screen,src/ram94s.asm
 $0D47,DispAttribCtr,,93S,"RAM; text column (scouting report, line and shooter lists)",src/ram94s.asm
 $0D4F,yleader,,93S,RAM; lead distance on scrolling,src/ram94s.asm
-$0D51,vcountmark,,93S,RAM; 32-bit vcount snapshot: elapsed time base,src/ram94s.asm
+$0D51,vcountmark,,93S,RAM; 32-bit Vcount snapshot: elapsed time base,src/ram94s.asm
 $0D13,psfirst,,behavior,RAM; pause menu: first item shown (Pmenu shows five from here),src/ram94s.asm
 $163C,PenSumLength,,94G,"RAM; penalty log entries (94G PenSumLength; 94S counts entries, not bytes)",src/ram94s.asm
 $163E,PenSum,,94G,"RAM; penalty log: $41 entries of (time word, player | $80 away, penalty) (InProgress, FillPenaltyPage)",src/ram94s.asm
@@ -6619,7 +6619,7 @@ $1A0E,mp5warning,,behavior,"RAM; bit 0 multitap in port 1, bit 1 Super Scope, bi
 $1A10,InIntermission,,behavior,RAM; 1 during the intermission,src/ram94s.asm
 $1A12,HotColdTable,,behavior,RAM; 52 players x 12 attribute bytes added to the ratings (Create_HotCold_Table),src/ram94s.asm
 $0A8E,PushWidthBuf,,93S,"RAM; PushNumberWrap/PushNumberWidth: length word (digits + 2), then 8 characters ($0A90-$0A97) set to spaces ...",src/ram94s.asm
-$0AC4,repeatdelay,,93S,"RAM; ProcessInputWithRepeat: frames to the next key repeat (dec, reload 6 / 20 on a change), as the 93S ...",src/ram94s.asm
+$0AC4,repeatdelayframes,,93S,"RAM; ProcessInputWithRepeat: frames to the next key repeat (dec, reload 6 / 20 on a change), as the 93S ...",src/ram94s.asm
 $0ACF,bosgames,,93S,RAM; ReadPassBits/WritePassBits read and write it at the 93S bosgames slot (range 8); 0-6 = game of the best of ...,src/ram94s.asm
 $0AD5,WinBits,,93S,RAM; ReadPassBits/WritePassBits at the 93S WinBits slot (range $4000); ResolveGames sets the bits of the teams ...,src/ram94s.asm
 $0CC1,percue,,93S,RAM; StartPer sets $FFFF (cleared in some modes); puckfaceoff2 then plays team song slot 0 (the period start ...,src/ram94s.asm
@@ -6752,7 +6752,7 @@ $07CC,PieceTile,,behavior,"RAM; DrawSpritePieces: piece tile/attribute word, + f
 $07C8,PieceX,,behavior,RAM; DrawSprite/DrawSpritePieces: x offset of the current frame piece (with $1C); ...,src/ram94s.asm
 $07CA,PieceY,,behavior,RAM; DrawSprite/DrawSpritePieces: y offset of the piece (from $1E); LoadFrameTiles reuses it for the 8x8 tile ...,src/ram94s.asm
 $07E9,PitchModVoices,,behavior,RAM; SeqCmd08 command $08 APUIO3 -> driver writes DSP PMON ($2D) (and ORs it into FLG); only ever cleared ...,src/ram94s.asm
-$0796,RAMTag,,behavior,RAM; Reset_Fast copies InitTag 'EACDSI' here (and to $1EBD and ReplayBufferEnd); no reader found - a RAM marker,src/ram94s.asm
+$0796,RAMTag,,behavior,RAM; Reset_Fast copies InitTag 'EACDSI' here (and to $1EBD and replayend); no reader found - a RAM marker,src/ram94s.asm
 $07ED,SongPtr,,behavior,RAM; MusicStart sta $07ED (song address $0C); Opening/PlayoffScreen compare it with the menu/playoff song ...,src/ram94s.asm
 $07EF,SongUnused,,behavior,RAM; MusicStart stz $07EF; first byte of the sound RAM SoundInit clears ($07EF..$0A09); never read,src/ram94s.asm
 $07E3,SoundMono,,behavior,"RAM; StepTrack (event $DE, program change) and PlaySound: nonzero -> both side volumes from instrument byte $17 ...",src/ram94s.asm
@@ -6808,7 +6808,7 @@ $1E91,BA_Team,,94G,"RAM; Shooting team of the penalty shot / shootout turn (0 ho
 $1EA1,sopathx,,94G,RAM; assbreakaway: x of the current point of the CPU breakaway skater's path to the net (from the .10 point ...,src/ram94s.asm
 $1EA3,sopathy,,94G,"RAM; assbreakaway: y of the current path point, negated for the bottom goal, skateto target (94G sopathy)",src/ram94s.asm
 $1EA7,sopathpoint,,94G,"RAM; assbreakaway: index of the path point in the .10 table, cleared at the start, incremented by .9 (94G ...",src/ram94s.asm
-$1EBD,RAMTag2,,behavior,RAM; Reset_Fast copies the 6 byte InitTag 'EACDSI' here (and to $0796 and ReplayBufferEnd) after clearing RAM; ...,src/ram94s.asm
+$1EBD,RAMTag2,,behavior,RAM; Reset_Fast copies the 6 byte InitTag 'EACDSI' here (and to $0796 and replayend) after clearing RAM; ...,src/ram94s.asm
 $1E8B,breakaway,,behavior,"RAM; Breakaway in progress (CheckBreakaway result $1638): StartBreakaway, PenShotChk, doshot set it; Goal ...",src/ram94s.asm
 $1E85,cardframechars,,behavior,"RAM; LoadPlayerCardScreen: first VRAM tile after the card back tiles (where CardFrameTiles go), added to every ...",src/ram94s.asm
 $1E55,coldplayer1,,behavior,RAM; Coldest player per team (ScoutHomeCold1),src/ram94s.asm
@@ -6909,13 +6909,13 @@ $7E3138,foy,,93S,"RAM; Faceoff spot y: limitfo compares / sets it against the bl
 $7E313A,ScoreSumbytes,,93S,RAM; Goal adds 6 per goal (capped at $258) and writes the goal at #$313C+it; ShowScoringSummary loops on it; ...,src/ram94s.asm
 $7E313C,ScoreSum,,93S,"RAM; Extra, not in the list (only immediate #$313C): the goal log Goal writes 6 bytes per goal into (93S ...",src/ram94s.asm
 $7E34BC,OptPlayMode,,93S,RAM; Setup menu row 0 'Play Mode' (base of the 7-word option block setoptions edits; choices Regular Season .. ...,src/ram94s.asm
-$7E34BE,OptTeam1,,93S,RAM; Setup row 1 'Home': setoptions copies it to HomeTeam; NewPO takes it as the user's team (93S OptTeam1).,src/ram94s.asm
-$7E34C0,OptTeam2,,93S,"RAM; Setup row 2 'Visitor', copied to VisTeam; FigureJoy stores the opponent here like 93S FigureJoy sta OptTeam2.",src/ram94s.asm
+$7E34BE,Opt1team,,93S,RAM; Setup row 1 'Home': setoptions copies it to HomeTeam; NewPO takes it as the user's team (93S Opt1team).,src/ram94s.asm
+$7E34C0,Opt2team,,93S,"RAM; Setup row 2 'Visitor', copied to VisTeam; FigureJoy stores the opponent here like 93S FigureJoy sta Opt2team.",src/ram94s.asm
 $7E34C6,OptLine,,93S,"RAM; setup row 5 Line Changes: 0 off, 1 on, 2 automatic (93S / 94G use 0 = on); readers test 0 or 2",src/ram94s.asm
-$7E34CA,OptPlayers,,93S,"RAM; FigureJoy regular season: index * 4 into the controller team list, as 93S FigureJoy .fjnpo lda OptPlayers; ...",src/ram94s.asm
+$7E34CA,OptNOP,,93S,"RAM; FigureJoy regular season: index * 4 into the controller team list, as 93S FigureJoy .fjnpo lda OptNOP; ...",src/ram94s.asm
 $7E34CC,notdemo,,93S,"RAM; DefaultMenus sets $FFFF, setoptions clears it for the attract demo; FigureJoy / PlayerSelect / ...",src/ram94s.asm
 $7E34CE,pojoy,,93S,RAM; ReadPassBits stores the range-4 field here like 93S sta pojoy; FigureJoy adds it to the pad list index; ...,src/ram94s.asm
-$7E34D0,postarts,,93S,"RAM; ReadPassBits stores the range-32 field ($FFFF on a bad checksum) like 93S postarts; maketree, ...",src/ram94s.asm
+$7E34D0,postarts,,93S,"RAM; ReadPassBits stores the range-32 field ($FFFF on a bad checksum) like 93S postarts; MakeTree, ...",src/ram94s.asm
 $7E34D2,potree,,93S,"RAM; FigureJoy reads byte [#$34D2 + potreeteam] as 93S potree,potreeteam; PlayoffScreen compares potree,x.",src/ram94s.asm
 $7E34F2,potreeteam,,93S,"RAM; ReadPassBits range-16 field (93S potreeteam); NewPO, FigureJoy, EncodePW, PlayoffScreen.",src/ram94s.asm
 $7E3518,tpassbits,,93S,"RAM; ResolveGames copies passbits here and EncodePW copies it back, as 93S tpassbits.",src/ram94s.asm
@@ -6929,7 +6929,7 @@ $7E3588,gss2,,93S,"RAM; SetScore: team 2 score (93S gss2,y).",src/ram94s.asm
 $7E3598,gsflags,,93S,"RAM; ReadPassBits / InitScores test and set bit 2 (series over) as 93S gsflags,y.",src/ram94s.asm
 $7E35AA,charofs,,93S,"RAM; Tile offset added to text map words: setupice / ReloadRink set $FF00, PlayoffScreen 0; PushRef, EASNLogo, ...",src/ram94s.asm
 $7E35AC,charofs2,,93S,"RAM; Second tile offset, cleared with charofs by the screen setups (SetupScreen, LoadScoutingScreen, setupice) ...",src/ram94s.asm
-$7E35AE,BigFontChars,,93S,"RAM; setupice sets it to Framercset+4 ahead of the BigFontTiles; printbig adds it, as 93S BigFontChars.",src/ram94s.asm
+$7E35AE,BigFontchars,,93S,"RAM; setupice sets it to framercset+4 ahead of the BigFontTiles; printbig adds it, as 93S BigFontchars.",src/ram94s.asm
 $7E35BA,faceoffvrcset,,93S,RAM; LoadCenterIce sets it after the logo tiles; setupice loads FaceOffTiles there and puckfaceoff2 adds it to ...,src/ram94s.asm
 $7E35C2,ExtraChars,,93S,"RAM; setupice: first tile after TeamBlocksTiles (the last set), as 93S setupice sta ExtraChars; no reader found.",src/ram94s.asm
 $7E35C8,refcharshor,,93S,"RAM; setupice: first tile of RefTilesHor; PushRef uses it on the horizontal rink, as 93S refcharshor.",src/ram94s.asm
@@ -6960,7 +6960,7 @@ $7E344A,refwindow,,behavior,RAM; PushRef sets 1 when it draws a ref frame other 
 $7E344C,penmsgbox,,behavior,RAM; prefmes sets 1 after framing the vertical penalty message and erases that box and clears it the next time; ...,src/ram94s.asm
 $7E344E,newperiod,,behavior,RAM; StartGame and SetupTeamForIntermission set 1 at a period start; puckfaceoff skips the teampads line change ...,src/ram94s.asm
 $7E3450,pspuckback,,behavior,RAM; pucknorm: during a penalty shot (PenShotActive) counts the frames the loose puck moves back from the goal; ...,src/ram94s.asm
-$7E3456,teamschanged,,behavior,RAM; setoptions: set at entry and when a mode / team row changes; .10 then copies OptTeam1 / OptTeam2 to ...,src/ram94s.asm
+$7E3456,teamschanged,,behavior,RAM; setoptions: set at entry and when a mode / team row changes; .10 then copies Opt1team / Opt2team to ...,src/ram94s.asm
 $7E345E,setupmatchup,,behavior,"RAM; setoptions: matchup shown on the game setup screen, 0-5 (GetMatchupPlayer slot) cycling to 6 = team logos; ...",src/ram94s.asm
 $7E3460,redrawblocks,,behavior,"RAM; Nonzero: DrawTeamBlocks / DrawSelectTeam also write the block palette and map (setoptions, SetHor, ...",src/ram94s.asm
 $7E3462,horblocks,,behavior,"RAM; Set while DrawHorTeams draws the blocks: DrawTeamBlocks skips the map when redrawblocks is 0, ...",src/ram94s.asm
@@ -6983,7 +6983,7 @@ $7E35C0,outlinechars,,behavior,RAM; SetupScreen / LoadScoutingScreen: first tile
 $7E35C4,nextfreechar,,behavior,RAM; SetupScreen: running next free tile while it loads each set; ShowCrowdMeter puts CrowdMeterTiles there and ...,src/ram94s.asm
 $7E35C6,cupchars,,behavior,"RAM; PlayoffScreen: scorechars+$70, the StanleyCupTiles after the bracket tiles; StanleyCupMap is pasted with it.",src/ram94s.asm
 $7E35D2,picchars,,behavior,RAM; SetupScreen / LoadPlayerCardScreen: tile base of the two picture boxes; DrawPlayerPicture adds it to the ...,src/ram94s.asm
-$7E35D8,vcountfrac,,behavior,RAM; NMI_Tick: fraction accumulator; its carry adds an extra vcount tick.,src/ram94s.asm
+$7E35D8,vcountfrac,,behavior,RAM; NMI_Tick: fraction accumulator; its carry adds an extra Vcount tick.,src/ram94s.asm
 $7E35DA,vcountstep,,behavior,"RAM; CheckPAL: 0 on NTSC, $3333 on PAL; NMI_Tick adds it to vcountfrac each frame (60 / 50 time step).",src/ram94s.asm
 $7E35F0,replaypanel,,behavior,RAM; ReplayMode sets $FFFF when it draws the control panel (map at $7FC800); the first B press blanks it and ...,src/ram94s.asm
 $7E35F2,usehotcold,,behavior,"RAM; GetPlayerRating / GetNameandAttrib set 1, GetPlayerBaseRating 0; CalcAttrib adds the hot / cold table only ...",src/ram94s.asm
@@ -7006,7 +7006,7 @@ $0BC9,GoalieUnused,,behavior,RAM; assgoalietopuck clears it when the assignment 
 $0C0B,FaceoffUnused,,behavior,"RAM; per player (12 words): FaceoffPads clears it with goalieflags, goalieturnwait, goaliedivewait",src/ram94s.asm
 $1D60,PauseUnused,,behavior,RAM; Pausemode clears it when the pause menu is left (with pregamepause),src/ram94s.asm
 $9AD0B6,RinkPalette,,render,"the 128 rink colours (BG palettes 0-7): setupice copies them to palbuffer and palbuffer+$100; the rink map renders with them",src/data/gfx/CrowdMeterPalette.asm
-$83,vcount,,93S,"RAM; 32-bit frame counter, +1 per NMI (NMI_Tick; 93S vcount)",src/ram94s.asm
+$83,Vcount,,93S,"RAM; 32-bit frame counter, +1 per NMI (NMI_Tick; 93S Vcount)",src/ram94s.asm
 $9D,a5,,behavior,RAM; long pointer (the next of the 4-byte a registers); a5+2 is the bank,src/ram94s.asm
 $81,crowdhold,,behavior,"RAM; frames the crowd level holds before it fades (Goal 120, puckglue 20; updatecrowdf counts it down)",src/ram94s.asm
 $CB,tmp3,,behavior,RAM; scratch word (after tmp0-tmp2),src/ram94s.asm

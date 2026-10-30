@@ -18,19 +18,19 @@ adda4:								; called from ReplayMode
 	pla
 	sta.b a4+2
 	lda.b tmp0						; compare with the buffer pointer
-	cmp.w ReplayBufferPtr
+	cmp.w recbpr
 	bne .t2
 	lda.b tmp1
-	cmp.w ReplayBufferPtr+2
+	cmp.w recbpr+2
 	bne .t2
 	rtl								; reached the end
 
-.t2:								; if a4 != ReplayBufferPtr go to .t1, ...
+.t2:								; if a4 != recbpr go to .t1, ...
 	lda.b a4						; compare a4 with the pointer
-	cmp.w ReplayBufferPtr
+	cmp.w recbpr
 	bne .t1
 	lda.b a4+2
-	cmp.w ReplayBufferPtr+2
+	cmp.w recbpr+2
 	bne .t1
 	rtl								; reached the end
 
@@ -44,14 +44,14 @@ adda43:								; called from adda4
 	bcc .1							; carry into the bank
 	inc.b a4+2
 .1:									; if not zero go to .rtl, ...
-	cmp.w #ReplayBufferEnd
+	cmp.w #replayend
 	bne .rtl						; not the end of the buffer
 	lda.b a4+2
-	cmp.w #ReplayBufferEnd>>16
+	cmp.w #replayend>>16
 	bne .rtl						; not the end
-	lda.w #ReplayBufferStart>>16
+	lda.w #replaystart>>16
 	sta.b a4+2
-	lda.w #ReplayBufferStart
+	lda.w #replaystart
 	sta.b a4
 .rtl:								; return
 	rtl
