@@ -387,6 +387,16 @@ SpritesReserved		=	$07B6		; OAM entries at the start that the sprite drawing lea
 OAMNext				=	$07BC		; next OAM entry to fill in OAMDrawBuf
 OAMHideEnd			=	$07BE		; SpriteFrameEnd moves the entries from OAMNext up to here off screen
 strtext				=	2			; String: start of the text after its length word
+; print / printbig control codes (same as 93S ram93s.asm): a byte with bit 7 set picks palette, priority and
+; font (font 1-3 also picks the map) for the text after it; x and y follow. The byte is
+; -(priority << 6 | palette << 4 | font).
+CC_Font1		=	$FF				; font 1
+CC_Font1Pri		=	$BF				; font 1, priority set
+CC_Font1Pal1	=	$EF				; font 1, palette 1
+CC_Font1Pal2	=	$DF				; font 1, palette 2
+CC_Font1Pal3	=	$CF				; font 1, palette 3
+CC_Font1Pal1Pri	=	$AF				; font 1, palette 1, priority set
+CC_Font1Pal2Pri	=	$9F				; font 1, palette 2, priority set
 mesarea				=	$0A2A		; string being built: a length word, then the bytes
 mesareaEnd			=	$0A48		; one past the last digit PushNumber and PushTime may write
 puckc				=	$0AD9		; object index of the puck carrier, negative = loose
