@@ -1,5 +1,5 @@
 ; d0 = the square root of $A7:d0 (binary search, the range narrowed first)
-sroot:								; called from UpdateCrowdMeter
+Sroot:								; called from UpdateCrowdMeter
 	phx
 	lda.b d0+2
 	beq .3

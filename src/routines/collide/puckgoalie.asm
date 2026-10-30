@@ -197,7 +197,7 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	xba
 	and.w #$FF00
 	asl a
-	jsl.l randoma					; random number 0 to A-1
+	jsl.l randomd0A					; random number 0 to A-1
 	adc.w #$2000
 	sta.b d0
 	cmp.w puckvx

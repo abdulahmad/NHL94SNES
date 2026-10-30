@@ -136,9 +136,9 @@ assnearest:							; X = player; asstab entry
 	sta.b a0
 	jsl.l skateto					;skate there
 	jmp.w check4check				; look for a good chance to check an opponent
-.6:									; gmclock != 0: call GlideBack, go to assnothing
+.6:									; gmclock != 0: call GlideBack, go to donothing
 	jsl.l GlideBack					; start SPAglideback on player X unless his animation is locked
-	jmp.w assnothing				; computer player stands still
+	jmp.w donothing				; computer player stands still
 .7:									; call skatetopuck, go to check4check
 	jsl.l skatetopuck				; player X skates to the puck
 	jmp.w check4check				; look for a good chance to check an opponent

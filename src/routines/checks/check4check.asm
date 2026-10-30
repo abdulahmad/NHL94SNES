@@ -7,13 +7,13 @@ check4check:						; called from assdefd, assnearest
 	lda.l OptPen
 	beq .1
 	asl.b d0
-.1:									; call randoma, if carry clear go to .2, ...
+.1:									; call randomd0A, if carry clear go to .2, ...
 	lda.b d0
-	jsl.l randoma					; A = a random number from 0 to A-1
+	jsl.l randomd0A					; A = a random number from 0 to A-1
 	cmp.w #$0004
 	bcc .2
 	lda.b d0
-	jsl.l randoma					; A = a random number from 0 to A-1
+	jsl.l randomd0A					; A = a random number from 0 to A-1
 	cmp.w #$0004
 	bcs .6
 .2:									; d2 = $0005, if $0000 >= $000C go to .4, ...

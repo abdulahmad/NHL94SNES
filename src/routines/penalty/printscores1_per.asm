@@ -1,7 +1,7 @@
 ; Print the label of the current period
 ;
 ; Called from printscores1. In overtime (gsp = 4) the label is printed one column to the left.
-PrintPerLabel:						; prints the period label
+printscores1_per:						; prints the period label
 	lda.w gsp						; game period
 	sta.b d0						; d0 = label number
 	cmp.w #$0004					; overtime?

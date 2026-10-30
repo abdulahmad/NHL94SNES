@@ -2,7 +2,7 @@
 ;
 ; Takes nothing, returns nothing, all registers are kept. Called from SaveRegsStartHL2, puckfaceoff2,
 ; assepen,
-; SetHor, ClrHor, ReplayMode and InitSortObjects. Fills Ylist, then sorts OOlist/OOlistpos (bubble sort).
+; SetHor, ClrHor, ReplayMode and defaultsprites_0. Fills Ylist, then sorts OOlist/OOlistpos (bubble sort).
 SprSort:							; sort the objects by screen position
 	phx								; save X, Y, d0, d1 and d2
 	phy

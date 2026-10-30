@@ -1,4 +1,4 @@
-; d0 = the crowd meter: sroot(CwdExciteLvl * 4) + 65, at most 128; keeps CrowdPeak and the running average
+; d0 = the crowd meter: Sroot(CwdExciteLvl * 4) + 65, at most 128; keeps CrowdPeak and the running average
 ; CrowdAvg
 UpdateCrowdMeter:					; called from CheckCrowdMeter
 	phx								;save x
@@ -8,7 +8,7 @@ UpdateCrowdMeter:					; called from CheckCrowdMeter
 	asl a							;times 4
 	stz.b d0+2						;high word 0
 	sta.b d0						;low word
-	jsl.l sroot						;square root
+	jsl.l Sroot						;square root
 	lda.b d0						;square root
 	clc
 	adc.w #$0041					;plus 65

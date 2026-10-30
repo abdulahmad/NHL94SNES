@@ -3,7 +3,7 @@
 CheckCrowdMeter:					; called from Gameloop
 	lda.b d0
 	pha
-	jsl.l UpdateCrowdMeter			; d0 = the crowd meter: sroot + 65, at most 128
+	jsl.l UpdateCrowdMeter			; d0 = the crowd meter: Sroot + 65, at most 128
 	lda.b d0
 	sta.w CurCrowdMeter
 	cmp.w #$0069

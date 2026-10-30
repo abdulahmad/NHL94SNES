@@ -1,4 +1,4 @@
-; Per pause item list (pmenulist): the goalie and defense control item numbers Pmenu prints a value for (-1
+; Per pause item list (pmenulist): the goalie and defense control item numbers SetupPauseScreen prints a value for (-1
 ; none)
 PmenuValueItems:
 	dw $0009,$0009,$0003,$FFFF,$FFFF,$000A,$000A,$000A,$0004

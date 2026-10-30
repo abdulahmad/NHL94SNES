@@ -239,7 +239,7 @@ setupice_reset:						; reset the rink state and fade in
 	dec a
 	dec a
 	sta.w vcountmark+2
-	jsl.l InitSortObjects			; set up the sort objects
+	jsl.l defaultsprites_0			; set up the sort objects
 	jsl.l nullrtl					; no-op hook
 	lda.w gmode						; direction of play (gmdir) set?
 	bit.w #gmdir
