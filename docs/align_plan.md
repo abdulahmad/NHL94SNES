@@ -72,7 +72,7 @@ These 94S labels already match a 93S routine or data file. When the file is spli
 
 `penalty`: AddPenalty, AdvanceStringPtr, ClearPenaltyBuffer, GetLowestPen, PrintPerLabel, RemovePlayerFromList, SetHor, SetPA, SetupTeamForIntermission, UpdatePA, addteamstat, chkprogress, coinsearch, pplpen, reenergizeteam, releasepl, updatepentime, updatepwrplay, updatepwrplay_clr.
 
-`hockey`: clearTeamStats, GetPeriodTime, GetPeriodTimeRemaining, GetPeriodTime_timetab, GetPlayerNumInitial, GetPlayerRecord, GetShifter, InitScoutDisplay, PWtoBits, ResetBench, SetPlList, Setplass, ShowInjuryBox, SprSort, SuperAdd, TryAddPlayerToList, adda4, adda43, forcepldata, restoreteams, setpde, setpersonel, setplayer, setteams, suba4.
+`hockey`: clearTeamStats, GetPeriodTime, GetPeriodTimeRemaining, GetPeriodTime_timetab, GetPlayerNumInitial, GetPlayerRecord, GetShifter, InitScoutDisplay, PWtoBits, ResetBench, SetPlList, Setplass, ShowInjuryBox, SprSort, SuperAdd, SetPlList_s1, adda4, adda43, forcepldata, restoreteams, setpde, setpersonel, setplayer, setteams, suba4.
 
 `logic`: Findhittype, GoalieCount, SetSPA, ShotMode, a2offsides, a2touchpuck, assinsert, chkpk2, getlchoice, lcfound, passmode, pucknothing, skatetopuckinit, vtoa.
 

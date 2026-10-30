@@ -152,7 +152,7 @@ Status in the table: **extracted** means the bytes are already a named file the 
 | `mesareaEnd` | `$0A48` | `PushNumber`, `PushTime` only |
 | `gmStatBase` | `$1742` | `clearTeamStats`, team stat pointers |
 | `playoffRoundIdx` | `$7E35D4` | `GetShifter`, passwords, other scores |
-| `rosterNone` | `$FFFC` | `cmp.w` beside `TMPDOUT` in `TryAddPlayerToList`, `ResetBench`, `reenergizeteam` |
+| `rosterNone` | `$FFFC` | `cmp.w` beside `TMPDOUT` in `SetPlList_s1`, `ResetBench`, `reenergizeteam` |
 
 ### Keep raw (do not equate globally)
 

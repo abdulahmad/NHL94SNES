@@ -1,5 +1,5 @@
 ; Print team d3's name, then move down two rows
-printteamname:						; called from PrintTeamNameAndScore, ShowThreeStars
+printteamname:						; called from printscores1_ps, ShowThreeStars
 	lda.w printx					; keep print x
 	pha
 	lda.w tmdata					; tmdata of team d3

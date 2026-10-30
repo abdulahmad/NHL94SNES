@@ -1,7 +1,7 @@
 ; Print team a2's name, then its score as two characters
 ;
 ; Called from printscores1. Prints the name via printteamname, then the score modulo 100 as two digits.
-PrintTeamNameAndScore:				; prints a team and its score
+printscores1_ps:				; prints a team and its score
 	jsl.l printteamname				; print the name
 	ldy.b a2						; team a2
 	lda.w tmscore,y					; its score
