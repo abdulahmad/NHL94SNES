@@ -352,7 +352,7 @@ $9FC6B2,clearTeamStats,CODE_9FC6B2,93S,"most instructions as the 93S routine cle
 $9FCDAC,ResetBench,CODE_9FCDAC,93S,"most instructions as the 93S routine ResetBench (score/module: 1.00 hockey)",src/routines/collide/ResetBench.asm
 $9FCE1D,forcepldata,CODE_9FCE1D,93S,"most instructions as the 93S routine forcepldata (score/module: 1.00 hockey)",src/routines/collide/forcepldata.asm
 $9FCED0,Setplass,CODE_9FCED0,93S,"most instructions as the 93S routine Setplass (score/module: 0.92 hockey)",src/routines/collide/Setplass.asm
-$9FD6D8,SetPlList_s1,CODE_9FD6D8,93S,"most instructions as the 93S routine SetPlList_s1 (score/module: 0.91 hockey)",src/routines/collide/SetPlList_s1.asm
+$9FD6D8,TryAddPlayerToList,CODE_9FD6D8,93S,"most instructions as the 93S routine TryAddPlayerToList (score/module: 0.91 hockey)",src/routines/collide/TryAddPlayerToList.asm
 $9FDD9D,reenergizeteam,CODE_9FDD9D,93S,"most instructions as the 93S routine reenergizeteam (score/module: 1.00 penalty)",src/routines/penalty/reenergizeteam.asm
 $9FE001,lcfound,CODE_9FE001,93S,"most instructions as the 93S routine lcfound (score/module: 0.91 logic)",src/routines/input/lcfound.asm
 $9FE03F,SetupTeamForIntermission,CODE_9FE03F,93S,"most instructions as the 93S routine SetupTeamForIntermission (score/module: 0.92 penalty)",src/routines/penalty/SetupTeamForIntermission.asm
@@ -552,9 +552,9 @@ $9FC721,.home,CODE_9FC721,93S,restoreteams,src/routines/hockey/restoreteams.asm
 $9CA1B7,.loop0,CODE_9CA1B7,93S,SprSort vertical,src/routines/setup/SprSort.asm
 $9BCD70,.char,CODE_9BCD70,93S,PWtoBits,src/routines/hockey/PWtoBits.asm
 $9FC595,.home,CODE_9FC595,93S,GetPlayerNumInitial,src/routines/hockey/GetPlayerInitial.asm
-$9FD6E7,.idx,CODE_9FD6E7,93S,SetPlList_s1,src/routines/collide/SetPlList_s1.asm
-$9FD6F5,.chk,CODE_9FD6F5,93S,SetPlList_s1,src/routines/collide/SetPlList_s1.asm
-$9FD707,.s2,CODE_9FD707,93S,SetPlList_s1,src/routines/collide/SetPlList_s1.asm
+$9FD6E7,.idx,CODE_9FD6E7,93S,TryAddPlayerToList,src/routines/collide/TryAddPlayerToList.asm
+$9FD6F5,.chk,CODE_9FD6F5,93S,TryAddPlayerToList,src/routines/collide/TryAddPlayerToList.asm
+$9FD707,.s2,CODE_9FD707,93S,TryAddPlayerToList,src/routines/collide/TryAddPlayerToList.asm
 $9FCDC4,.rb,CODE_9FCDC4,93S,ResetBench one team,src/routines/collide/ResetBench.asm
 $9FCDC9,.rb1,CODE_9FCDC9,93S,ResetBench roster loop,src/routines/collide/ResetBench.asm
 $9FCDD9,.idx,CODE_9FCDD9,93S,ResetBench index,src/routines/collide/ResetBench.asm
@@ -3088,7 +3088,7 @@ $9FD907,.t1,CODE_9FD907,new,continued in the previous routine,src/routines/assig
 $9FD8D2,.t1,CODE_9FD8D2,new,continued in the previous routine,src/routines/assign/assbench.asm
 $9FD87A,.t1,CODE_9FD87A,new,continued in the previous routine,src/routines/assign/assbench.asm
 $9FD78D,.t1,CODE_9FD78D,new,continued in the previous routine,src/routines/input/lineinput.asm
-$9FD72D,.t1,CODE_9FD72D,new,continued in the previous routine,src/routines/collide/SetPlList_s1.asm
+$9FD72D,.t1,CODE_9FD72D,new,continued in the previous routine,src/routines/collide/TryAddPlayerToList.asm
 $9FD6BF,.t1,CODE_9FD6BF,new,continued in the previous routine,src/routines/collide/SetPlList.asm
 $9FD59A,.t1,CODE_9FD59A,new,continued in the previous routine,src/routines/collide/SetPlList.asm
 $9FD4FC,.t1,CODE_9FD4FC,new,continued in the previous routine,src/routines/collide/setpersonel.asm

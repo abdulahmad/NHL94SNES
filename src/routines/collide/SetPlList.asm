@@ -178,7 +178,7 @@ SetPlList:							; called from setpersonel
 	lda.b [a1],y					; player from the line sets
 	and.w #$00FF
 	sta.b d0
-	jsl.l SetPlList_s1		; try to add him
+	jsl.l TryAddPlayerToList		; try to add him
 	beq .loop						; failed: next candidate
 .5:									; decrement d4, if d4 counted below 0 go to .t1xx, ...
 	dec.b d4						; next slot
@@ -196,6 +196,6 @@ SetPlList:							; called from setpersonel
 	sta.b d0
 	dec.b d3
 	bmi .5
-	jsl.l SetPlList_s1		; try to add him
+	jsl.l TryAddPlayerToList		; try to add him
 	beq .loopx
 	bra .5

@@ -1,5 +1,5 @@
 ; Add roster player d0 to slot d4 of the list of players wanted on the ice, if he is available
-SetPlList_s1:					; called from SetPlList
+TryAddPlayerToList:					; called from SetPlList
 	lda.b d0						; roster player
 	sta.b d1						; keep the number in d1
 	dec.b d0						; zero-based
