@@ -238,7 +238,7 @@ SPAgcover:							;assgoalie: the goalie drops on the puck for 90 frames when an 
 .d5:	dw SPFgcover+15,6,SPFgcover+16,6,SPFgcover+17,90,SPFgcover+16,6,SPFgcover+15,6,SPFgready+10,-4
 .d6:	dw SPFgcover+18,6,SPFgcover+19,6,SPFgcover+20,90,SPFgcover+19,6,SPFgcover+18,6,SPFgready+12,-4
 .d7:	dw SPFgcover+21,6,SPFgcover+22,6,SPFgcover+23,90,SPFgcover+22,6,SPFgcover+21,6,SPFgready+14,-4
-SPAgbutterfly:						; GoalieSaveList 8: a slow shot straight at the goalie
+SPAgbutterfly:						; assgoalie_list 8: a slow shot straight at the goalie
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFgbutterfly,6,SPFgbutterfly+1,6,SPFgbutterfly+2,20,SPFgready,-4
@@ -249,7 +249,7 @@ SPAgbutterfly:						; GoalieSaveList 8: a slow shot straight at the goalie
 .d5:	dw SPFgbutterfly+15,6,SPFgbutterfly+16,6,SPFgbutterfly+17,20,SPFgready+10,-4
 .d6:	dw SPFgbutterfly+18,6,SPFgbutterfly+19,6,SPFgbutterfly+20,20,SPFgready+12,-4
 .d7:	dw SPFgbutterfly+21,6,SPFgbutterfly+22,6,SPFgbutterfly+23,20,SPFgready+14,-4
-SPAgsprawll:						; GoalieSaveList 7: a shot from a wide angle, to the left
+SPAgsprawll:						; assgoalie_list 7: a shot from a wide angle, to the left
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFgsprawll,4,SPFgsprawll+1,4,SPFgsprawll+2,20,SPFgready,-4
@@ -260,7 +260,7 @@ SPAgsprawll:						; GoalieSaveList 7: a shot from a wide angle, to the left
 .d5:	dw SPFgsprawll+15,4,SPFgsprawll+16,4,SPFgsprawll+17,20,SPFgready+10,-4
 .d6:	dw SPFgsprawll+18,4,SPFgsprawll+19,4,SPFgsprawll+20,20,SPFgready+12,-4
 .d7:	dw SPFgsprawll+21,4,SPFgsprawll+22,4,SPFgsprawll+23,20,SPFgready+14,-4
-SPAgsprawlr:						; GoalieSaveList 6: a shot from a wide angle, to the right
+SPAgsprawlr:						; assgoalie_list 6: a shot from a wide angle, to the right
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFgsprawlr,4,SPFgsprawlr+1,4,SPFgsprawlr+2,20,SPFgready,-4
