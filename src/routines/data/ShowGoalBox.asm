@@ -102,10 +102,10 @@ ShowGoalBox:						; called from SetPA
 	ldy.b a2
 	bne .4
 	jsl.l StartHatTrick				; start the hat trick sprites: clear the ten slots and set hattrick
-	lda.w Pencntdwn
+	lda.w PenCntDwn
 	clc
 	adc.w #$000A
-	sta.w Pencntdwn
+	sta.w PenCntDwn
 .4:									; call printbig, d0 = [a4],y & $00FF, call PlayerShortName, ...
 	jsl.l printbig
 	ldy.w #ssscorer

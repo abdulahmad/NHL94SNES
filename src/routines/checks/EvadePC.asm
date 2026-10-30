@@ -7,7 +7,7 @@ EvadePC:							; callback: steer away from the puck carrier
 	bmi .rtl						; nobody: nothing to evade
 	lda.w Xvel+1,x					; x speed (high byte) of this player
 	sec
-	sbc.w Xvel+puckobj+1			; minus the puck's x speed (high byte)
+	sbc.w Xvel+puckscnum+1			; minus the puck's x speed (high byte)
 	and.w #$00FF					; signed byte
 	bit.w #$0080
 	beq .2xx
@@ -23,7 +23,7 @@ EvadePC:							; callback: steer away from the puck carrier
 	bpl .rtl
 	lda.w Yvel+1,x					; y speed (high byte) of this player
 	sec
-	sbc.w Yvel+puckobj+1			; minus the puck's y speed (high byte)
+	sbc.w Yvel+puckscnum+1			; minus the puck's y speed (high byte)
 	and.w #$00FF					; signed byte
 	bit.w #$0080
 	beq .3x

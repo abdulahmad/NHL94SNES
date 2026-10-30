@@ -12,8 +12,8 @@ Intermission:						; the intermission screen
 	dey
 	dey
 	bpl .loop
-	lda.b vcount					; vcountmark = the frame counter (32 bits)
-	ldy.b vcount+2
+	lda.b Vcount					; vcountmark = the frame counter (32 bits)
+	ldy.b Vcount+2
 	sta.w vcountmark				; remember the frame counter
 	sty.w vcountmark+2
 	lda.w #$0001					; clear flag bit 0 (pause mode) of sflags
@@ -28,7 +28,7 @@ Intermission:						; the intermission screen
 	sta.w pausetimer
 	lda.w #$0001					; demo mode while the screen is up
 	sta.w demoflag					; demo mode while the screen is up
-	lda.b vcount					; ticker clock = frame counter - $150
+	lda.b Vcount					; ticker clock = frame counter - $150
 	sec
 	sbc.w #$0150					; ticker clock = frame counter - $150
 	sta.w tickervc

@@ -21,7 +21,7 @@ GameOver:							; called from PeriodOver
 	and.w #$7F7F
 	sta.l PassWord
 	jsl.l DecodePW					; decode the password back into the game state
-	jsl.l maketree					; rebuild the playoff tree
+	jsl.l MakeTree					; rebuild the playoff tree
 	lda.w #$0004					; sflags3 mask $0004:
 	trb.w sflags3					; test and clear it
 	beq .t1x

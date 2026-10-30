@@ -1,5 +1,5 @@
 ; Sprite frame (SPF) groups: the first SpriteFrames frame of each group, named as the 93S / 94G groups
-; (SPFskatewp to SPFhold match 93S frame for frame, then the 93S fight frames are gone). Frame numbers count
+; (SPFskatewp to SPFHold match 93S frame for frame, then the 93S fight frames are gone). Frame numbers count
 ; from 1; the frame label is SpriteFrame_<group>_<n> and DrawSprite takes the frame number - 1.
 SPFskatewp		=	1				; 40 frames: skating with the puck, 5 per direction
 SPFskate		=	41				; 40 frames: skating, 5 per direction
@@ -21,7 +21,7 @@ SPFsweep		=	265				; 16 frames: sweep check
 SPFfallback		=	281				; 32 frames: falling back
 SPFfallfwd		=	313				; 32 frames: falling forward
 SPFduck			=	345				; 8 frames: ducking
-SPFhold			=	353				; 8 frames: holding
+SPFHold			=	353				; 8 frames: holding
 SPFPen			=	361				;9 frames: over the boards (+0-+3 vertical, +4-+7 horizontal), then
 									;sitting: +7 horizontal and +8 vertical (assdopen)
 SPFgwall		=	370				;4 frames: the goalie over the boards (SPAgwallright, SPAgwallleft; new in
@@ -529,25 +529,25 @@ SPAburst:
 SPAHold:
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
-.d0:	dw SPFhold,-30
-.d1:	dw SPFhold+1,-30
-.d2:	dw SPFhold+2,-30
-.d3:	dw SPFhold+3,-30
-.d4:	dw SPFhold+4,-30
-.d5:	dw SPFhold+5,-30
-.d6:	dw SPFhold+6,-30
-.d7:	dw SPFhold+7,-30
+.d0:	dw SPFHold,-30
+.d1:	dw SPFHold+1,-30
+.d2:	dw SPFHold+2,-30
+.d3:	dw SPFHold+3,-30
+.d4:	dw SPFHold+4,-30
+.d5:	dw SPFHold+5,-30
+.d6:	dw SPFHold+6,-30
+.d7:	dw SPFHold+7,-30
 SPAHold2:
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
-.d0:	dw SPFhold,-72
-.d1:	dw SPFhold+1,-72
-.d2:	dw SPFhold+2,-72
-.d3:	dw SPFhold+3,-72
-.d4:	dw SPFhold+4,-72
-.d5:	dw SPFhold+5,-72
-.d6:	dw SPFhold+6,-72
-.d7:	dw SPFhold+7,-72
+.d0:	dw SPFHold,-72
+.d1:	dw SPFHold+1,-72
+.d2:	dw SPFHold+2,-72
+.d3:	dw SPFHold+3,-72
+.d4:	dw SPFHold+4,-72
+.d5:	dw SPFHold+5,-72
+.d6:	dw SPFHold+6,-72
+.d7:	dw SPFHold+7,-72
 SPAhook2:
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0

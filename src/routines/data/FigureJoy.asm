@@ -1,8 +1,8 @@
 ; Set which team each controller plays
 ;
 ; Takes notdemo, OptPlayMode and the playoff tree. In the playoffs it finds the series of the user's team,
-; sets HomeTeam, VisTeam, OptTeam2 and gamenum, and gives the controllers their teams. In every other case
-; it only builds the other games (InitializeGameStructures). Called from PlayerSelect and maketree.
+; sets HomeTeam, VisTeam, Opt2team and gamenum, and gives the controllers their teams. In every other case
+; it only builds the other games (InitializeGameStructures). Called from PlayerSelect and MakeTree.
 FigureJoy:							; set which team each controller plays
 	lda.l notdemo					; the demo?
 	bne .t2							; not the demo: go on
@@ -52,13 +52,13 @@ FigureJoy:							; set which team each controller plays
 	lda.w #$0004					; d0 = 4
 	sta.b d0
 	lda.l gst1,x					; the opponent is the first team
-	sta.l OptTeam2					; OptTeam2
+	sta.l Opt2team					; Opt2team
 	bra .2
 
 .t2x:								; the playoff team is the first team of the series
 	stz.b d0
 	lda.l gst2,x					; the opponent is the second team
-	sta.l OptTeam2					; OptTeam2
+	sta.l Opt2team					; Opt2team
 .2:									; add the joystick offset
 	lda.b d0
 	clc
@@ -90,7 +90,7 @@ FigureJoy:							; set which team each controller plays
 	plb								; restore the data bank
 	rtl
 .3:									; other games only: table pointer (set but not used)
-	lda.l OptPlayers				; OptPlayers
+	lda.l OptNOP				; OptNOP
 	asl a
 	asl a
 	sta.b d0
@@ -104,6 +104,6 @@ FigureJoy:							; set which team each controller plays
 .4:									; build the other games
 	jsl.l InitializeGameStructures	; build the other games of the day
 	rtl
-.5:									; controller team pairs: by pojoy, then by OptPlayers
+.5:									; controller team pairs: by pojoy, then by OptNOP
 	dw $0001,$0000,$0001,$0001,$0001,$0002,$0002,$0001,$0002,$0000,$0002,$0002,$0002
 	dw $0001,$0001,$0002,$0000,$0000,$0001,$0000,$0002,$0000,$0001,$0001,$0001,$0002

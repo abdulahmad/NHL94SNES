@@ -4,16 +4,16 @@ ProcessInputWithRepeat:				; called from EditLinesMenu, EditLinesScreen, Passwor
 	beq .rtl						; none: leave
 	lda.b d2						; d2 = changed buttons
 	bne .t1							; a change: restart the delay
-	dec.w repeatdelay				; count down
+	dec.w repeatdelayframes				; count down
 	bpl .rtl						; not yet: leave
 	lda.w #$0006
-	sta.w repeatdelay
+	sta.w repeatdelayframes
 	lda.b d3						; held buttons count as new presses
 	sta.b d1
 .rtl:								; return
 	rtl
 
-.t1:								; d2 != 0: repeatdelay = $0014, return
+.t1:								; d2 != 0: repeatdelayframes = $0014, return
 	lda.w #$0014
-	sta.w repeatdelay
+	sta.w repeatdelayframes
 	rtl

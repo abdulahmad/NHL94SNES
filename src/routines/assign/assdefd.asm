@@ -79,7 +79,7 @@ assdefd:							; assignment: defenseman on defense
 	clc
 	adc.b d1
 	sta.b d3						; d3 = puck y plus lead
-	sec								; compare with the line at $58 (blueline)
+	sec								; compare with the line at $58 (Blueline)
 	sbc.w #$0058
 	bmi .7							; not past the line
 	ldy.b a2						; team of this player

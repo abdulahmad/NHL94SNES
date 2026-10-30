@@ -5,15 +5,15 @@ chkprogress:						; called from PenaltyManager
 	bne .2
 .1:									; return
 	rtl
-.2:									; gmode bit gmpen set: if Pencntdwn >= 0 go to .t1, ...
-	lda.w Pencntdwn
+.2:									; gmode bit gmpen set: if PenCntDwn >= 0 go to .t1, ...
+	lda.w PenCntDwn
 	bpl .t1
 	jmp.w .t3
 
-.t1:								; Pencntdwn >= 0: sbc d7, Pencntdwn = A, if plus go to .1, ...
+.t1:								; PenCntDwn >= 0: sbc d7, PenCntDwn = A, if plus go to .1, ...
 	sec
 	sbc.b d7
-	sta.w Pencntdwn
+	sta.w PenCntDwn
 	bpl .1
 	lda.w #$0008
 	trb.w gmode

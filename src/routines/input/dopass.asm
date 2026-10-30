@@ -356,7 +356,7 @@ dopass_count:						; called from dopass
 	asl a							;x8
 	sta.w puckvz					;lift
 	lda.w #$000A					;10 frames
-	sta.w nopuck+puckobj			;puck can't be touched
+	sta.w nopuck+puckscnum			;puck can't be touched
 	ldy.b a0						;receiver
 	lda.b d6						;lead
 	clc

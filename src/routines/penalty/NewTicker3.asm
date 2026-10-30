@@ -53,7 +53,7 @@ NewTicker3:							; shows the ticker box
 	lda.w #$0005					; frame 5 high
 	sta.b d1
 	jsl.l Framer					; draw it
-	lda.b vcount					; ticker timer = frame counter
+	lda.b Vcount					; ticker timer = frame counter
 	sta.w tickervc
 	inc.w printx					; x + 1
 	lda.w printy					; y - 4

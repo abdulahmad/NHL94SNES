@@ -2,7 +2,7 @@
 ;
 ; Takes playoffRoundIdx. Returns d1 = games in the round minus one (8, 4, 2, 1, less one) and d2 = the first
 ; win bit of the round. Called from DoHiLights, FigureJoy, InitScores, InitTicker, NewTicker3, ResolveGames,
-; ShowOtherScores, TickerNext, UpdateScores and maketree.
+; ShowOtherScores, TickerNext, UpdateScores and MakeTree.
 GetShifter:							; games of the round less one and its first win bit
 	lda.w #$FFF0					; d2 = -16
 	sta.b d2

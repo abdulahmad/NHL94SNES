@@ -28,12 +28,12 @@ NMI_Tick:							; called from NMI_HookReturn, NMI_SendOAM
 	clc
 	adc.l vcountstep
 	sta.l vcountfrac
-	lda.b vcount
+	lda.b Vcount
 	adc.w #$0001
-	sta.b vcount
+	sta.b Vcount
 	bcc .2
-.1:									; increment vcount+2
-	inc.b vcount+2
+.1:									; increment Vcount+2
+	inc.b Vcount+2
 .2:									; if fadestep = 0 go to .7, ...
 	lda.w fadestep
 	beq .7

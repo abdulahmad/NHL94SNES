@@ -194,7 +194,7 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	lsr a
 	lsr a							;/32
 	sta.b d0						;tiles
-	adc.l BigFontChars				;after the big font
+	adc.l BigFontchars				;after the big font
 	sta.l scorechars				;score digits after it
 	lda.w #unpackbuf>>16
 	sta.b p0+2

@@ -1,6 +1,6 @@
 ; Assignment: the player leaves the penalty box and comes onto the ice
 ; Takes: X = player object. Called through asstab (assignment $0B).
-; First frame: takes one man off PBnum, puts the player at the box door (x sideline, y +-60) and starts the
+; First frame: takes one man off PBnum, puts the player at the box door (x Sideline, y +-60) and starts the
 ; wall animation. Later frames: push him onto the ice and give him a human pad of his team (probably).
 assepen:							; assignment: leave the penalty box
 	lda.w pflags,x					; player flags
@@ -32,7 +32,7 @@ assepen:							; assignment: leave the penalty box
 .2:									; box door y chosen
 	lda.b d0						; y
 	sta.w Ypos,x
-	lda.w #sideline					; x at the side boards
+	lda.w #Sideline					; x at the side boards
 	sta.w Xpos,x
 	lda.w #$0002					; face left
 	sta.w facedir,x

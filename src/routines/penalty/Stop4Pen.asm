@@ -90,7 +90,7 @@ Stop4Pen:							; called from FallDown, checkfornewpen, puckfaceoff
 	sta.l foy
 	jsl.l limitfo					; limit the spot
 .6:									; if carry clear go to .1x
-	lda.b vcount					; sound cut off within 60 frames: reset the queue
+	lda.b Vcount					; sound cut off within 60 frames: reset the queue
 	sec
 	sbc.w sfxmutetime
 	cmp.w #$003C					; within 60 frames?
@@ -100,12 +100,12 @@ Stop4Pen:							; called from FallDown, checkfornewpen, puckfaceoff
 	bne .2x
 	lda.w #$001E
 	sta.w replaydelay
-.2x:								; SfxVelocity = $7000, call QueueSound, Pencntdwn = 0, ...
+.2x:								; SfxVelocity = $7000, call QueueSound, PenCntDwn = 0, ...
 	lda.w #$7000
 	sta.b SfxVelocity
 	lda.w #$0015
 	jsl.l QueueSound				; queue sound A
-	stz.w Pencntdwn
+	stz.w PenCntDwn
 	lda.w #$0004
 	tsb.w gmode
 	lda.w #$000A

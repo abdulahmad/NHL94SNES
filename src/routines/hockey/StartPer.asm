@@ -61,24 +61,24 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	beq .t1
 	lda.w #$0010
 	trb.w sflags
-	lda.w #ReplayBufferStart>>16
-	sta.w ReplayBufferPtr+2
-	lda.w #ReplayBufferStart
-	sta.w ReplayBufferPtr
+	lda.w #replaystart>>16
+	sta.w recbpr+2
+	lda.w #replaystart
+	sta.w recbpr
 	bra .5
 
 .t1:								; OptPlayMode = $0004: if pregamepause != 0 go to .5, ...
 	lda.w pregamepause
 	bne .5
 	stz.w percue
-.5:									; textdirtylo = $FFFF, textdirtyhi = 0, vcount = 0, ...
+.5:									; textdirtylo = $FFFF, textdirtyhi = 0, Vcount = 0, ...
 	lda.w #$FFFF
 	sta.w textdirtylo
 	stz.w textdirtyhi
-	stz.b vcount
-	stz.b vcount+2
+	stz.b Vcount
+	stz.b Vcount+2
 	stz.w lastframevc
-	stz.w oldvcount
+	stz.w OldVcount
 	ldx.w #$0000
 	ldy.w #$01C0
 	lda.w #$6000

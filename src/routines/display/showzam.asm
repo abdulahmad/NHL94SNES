@@ -1,7 +1,7 @@
 ; Draw the zamboni moving across the horizontal rink
 showzam:							; called from setvideo
-	lda.b vcount
-	ldy.b vcount+2
+	lda.b Vcount
+	ldy.b Vcount+2
 	sbc.w vcountmark				; minus the mark: elapsed frames
 	sta.b tmp0
 	tya

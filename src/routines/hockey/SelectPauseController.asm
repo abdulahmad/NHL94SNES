@@ -56,7 +56,7 @@ SelectPauseController:				; called from PauseMenuPoll
 	lda.w #$003C
 	sta.w pausepadidle
 	lda.w #$0014
-	sta.w repeatdelay
+	sta.w repeatdelayframes
 	lda.w pmenulist
 	beq .t1x
 	cmp.w #$0005
@@ -72,11 +72,11 @@ SelectPauseController:				; called from PauseMenuPoll
 	lda.w #$003C
 	sta.w pausepadidle
 	txa
-.4:									; lsr a, call ReadjoyA, decrement repeatdelay, ...
+.4:									; lsr a, call ReadjoyA, decrement repeatdelayframes, ...
 	lsr a
 	jsl.l ReadjoyA					; read pad A: d0 = direction, d1 = new presses, d2 = changed buttons
-	dec.w repeatdelay
-	dec.w repeatdelay
+	dec.w repeatdelayframes
+	dec.w repeatdelayframes
 	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d3
 	bne .t1xx

@@ -1,12 +1,12 @@
 ; Assignment: the puck most of the time
 pucknorm:							; called from asstab
 	lda.w #$0002
-	trb.w pflags+puckobj
+	trb.w pflags+puckscnum
 	beq pucknorm_move
-	stz.w temp1+puckobj				; temp1 = 0, temp2b = still puck timer 120
-	stz.w temp2+puckobj
+	stz.w temp1+puckscnum				; temp1 = 0, temp2b = still puck timer 120
+	stz.w temp2+puckscnum
 	lda.w #$0078
-	sta.w temp2b+puckobj
+	sta.w temp2b+puckscnum
 	lda.w #$0000
 	sta.l pspuckback
 pucknorm_move:						; called from puckfaceoff, pucknorm
@@ -18,13 +18,13 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	sec
 	sbc.b d7
 	sta.w puckcross+pcsize+pcframes
-	lda.w temp1+puckobj				; every 5 frames: findpc
+	lda.w temp1+puckscnum				; every 5 frames: findpc
 	sec
 	sbc.b d7
-	sta.w temp1+puckobj
+	sta.w temp1+puckscnum
 	bpl .1
 	adc.w #$0005
-	sta.w temp1+puckobj
+	sta.w temp1+puckscnum
 	jsl.l .14
 .1:									; if puckc negative go to .4, ...
 	lda.w puckc
@@ -104,16 +104,16 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 .9:									; pspuckback = $0000
 	lda.w #$0000
 	sta.l pspuckback
-.10:								; if puckx != OldXpos+puckobj go to .12, ...
+.10:								; if puckx != OldXpos+puckscnum go to .12, ...
 	lda.w puckx
-	cmp.w OldXpos+puckobj
+	cmp.w OldXpos+puckscnum
 	bne .12
 	lda.w pucky
-	cmp.w OldYpos+puckobj
+	cmp.w OldYpos+puckscnum
 	bne .12
 	lda.w #PenOOP					; PenOOP: whistle
 	sta.b d0
-	dec.w temp2b+puckobj
+	dec.w temp2b+puckscnum
 	bpl .13
 .1x:								; call AddPenalty2, go to .13
 	jsl.l AddPenalty2				; call penalty d0 on player X without the checks
@@ -121,9 +121,9 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 .11:								; puckc >= 0: pspuckback = $0000
 	lda.w #$0000
 	sta.l pspuckback
-.12:								; temp2b+puckobj = $0078
+.12:								; temp2b+puckscnum = $0078
 	lda.w #$0078
-	sta.w temp2b+puckobj
+	sta.w temp2b+puckscnum
 .13:								; ora puckz, if zero go to .t1x, ...
 	lda.w puckvz
 	and.w #$FF00
@@ -186,9 +186,9 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	jsl.l Mul16XS
 	adc.w puckx
 	sta.b d0
-	cmp.w #sideline
+	cmp.w #Sideline
 	bmi .2x
-	lda.w #sideline
+	lda.w #Sideline
 	sta.b d0
 .2x:								; if d0 - $FF78 >= 0 go to .3x, ...
 	lda.b d0

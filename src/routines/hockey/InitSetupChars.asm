@@ -1,5 +1,5 @@
 ; Game setup screen tiles: blankchar = $200, smallfontchars = $201, clear their VRAM, unpack the font
-; (SmallFontTiles), then Framercset after it and scorechars 4 tiles further
+; (SmallFontTiles), then framercset after it and scorechars 4 tiles further
 ;
 ; Called from setoptions.
 InitSetupChars:						; set the tile numbers and load the font of the setup screen
@@ -27,8 +27,8 @@ InitSetupChars:						; set the tile numbers and load the font of the setup scree
 	lsr a
 	lsr a
 	sta.b d0
-	adc.l smallfontchars			; Framercset follows the font, scorechars 4 tiles after that
-	sta.l Framercset
+	adc.l smallfontchars			; framercset follows the font, scorechars 4 tiles after that
+	sta.l framercset
 	adc.w #$0004
 	sta.l scorechars
 	rtl

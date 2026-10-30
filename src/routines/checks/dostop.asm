@@ -1,6 +1,6 @@
 ; The player stops
 ;
-; Takes player X. Players slower than $1000 on both axes only lose speed (StopNA);
+; Takes player X. Players slower than $1000 on both axes only lose speed (stopna);
 ; faster players start the glide animation (backwards) or the stop animation, and the puck
 ; carrier plays the stop sound.
 ;
@@ -15,7 +15,7 @@ dostop:								; player X stops or glides
 	cmp.w #$EFFF
 	bmi .1
 	cmp.w #$1001
-	bmi StopNA						; slow already: just apply friction
+	bmi stopna						; slow already: just apply friction
 .1:									; moving fast: glide or stop animation
 	lda.w #SPAglide					; glide animation
 	ldy.w pfrev,x					; skating backwards?
@@ -38,7 +38,7 @@ dostop:								; player X stops or glides
 ; everybody else gets friction of ($70 + legstr) * timestep per axis, down to zero.
 ;
 ; Falls in from dostop; called from assgoalie and goalieacc.
-StopNA:								; slow player X: no animation change
+stopna:								; slow player X: no animation change
 	lda.w position,x				; goalie?
 	bne .t1							; skater: friction
 	lda.w playerpad,x				; goalie without a pad?

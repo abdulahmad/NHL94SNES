@@ -60,7 +60,7 @@ org $9ED002
 	jml.l playeracc					; accelerate
 
 .t3:								; friction only
-	jmp.w StopNA					; slow down
+	jmp.w stopna					; slow down
 
 .t4:								; turn one step toward d0
 	lda.w goalieturnwait,x			; turn pause running?

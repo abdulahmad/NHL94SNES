@@ -12,9 +12,9 @@ a2offsides:							; takes a2 = player, called from a2touchpuck
 	sec
 	sbc.b d0
 	sta.b d0
-.0:									; if d0 - blueline negative go to .rtl, ...
+.0:									; if d0 - Blueline negative go to .rtl, ...
 	lda.b d0
-	cmp.w #blueline
+	cmp.w #Blueline
 	bmi .rtl
 	stz.b a0						; a0 = team offset
 	lda.w pfteam,y					; player team

@@ -49,7 +49,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	ldy.w #$FFFF					;increment mode
 	ldx.w #$0020					;$20 bytes: the blank tile
 	jsl.l FillVRAM					; fill VRAM with a word
-	lda.w #SmallFontTiles>>16		; small font unpacked at unpackbuf; outlinechars and Framercset advance by
+	lda.w #SmallFontTiles>>16		; small font unpacked at unpackbuf; outlinechars and framercset advance by
 									; its size in tiles
 	sta.b p0+2
 	lda.w #SmallFontTiles
@@ -72,7 +72,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	lda.b d0						;small font tiles
 	clc
 	adc.l smallfontchars			;plus the small font start
-	sta.l Framercset				;framer after it
+	sta.l framercset				;framer after it
 	lda.w #unpackbuf>>16			; remap the font pixels (PixelRemap8F)
 	sta.b a0+2
 	lda.w #unpackbuf
@@ -83,7 +83,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b a1
 	jsl.l RemapTiles
 	lda.w #FramerTiles>>16			; framer tiles (4 tiles) remapped with PixelRemap87; scorechars follows
-									; Framercset
+									; framercset
 	sta.b a0+2
 	lda.w #FramerTiles
 	sta.b a0
@@ -98,7 +98,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.l outlinechars				;outline after them
 	lda.b d0
 	clc
-	adc.l Framercset				;plus the framer start
+	adc.l framercset				;plus the framer start
 	sta.l scorechars				;score digits after it
 	jsl.l RemapTiles
 	lda.w #TeamBlocksTiles>>16		; team block tiles: outlinechars advances by their size, tiles copied to

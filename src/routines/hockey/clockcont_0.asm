@@ -115,7 +115,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	sta.l Crowdlevel
 	lda.w #$0003					; cheer 3 times
 	sta.w cheercnt
-	lda.b vcount					; first cheer 150 frames ago
+	lda.b Vcount					; first cheer 150 frames ago
 	sec
 	sbc.w #$0096					; minus 150
 	sta.w cheervc

@@ -60,13 +60,13 @@ wallcollb:							; object X hits a wall
 wallcollb_out:						; puck out of play
 	lda.w #$0040					; sfslock: lock the screen
 	tsb.w sflags
-	sta.w pfnc+puckobj				; puck pfnc (no collision mode)
+	sta.w pfnc+puckscnum				; puck pfnc (no collision mode)
 	lda.w pucky						; puck y negative (bottom)?
 	bpl .1
 	lda.w #$8000
-	tsb.w attribute+puckobj			; yes: y flip the puck sprite
+	tsb.w attribute+puckscnum			; yes: y flip the puck sprite
 .1:									; clear the puck shadow frame
-	stz.w frame+puckobj+2			; shadow frame 0
+	stz.w frame+puckscnum+2			; shadow frame 0
 	lda.w gmclock					; game clock stopped?
 	bne .2							; yes: no shootout check
 	lda.l ltplayer					; last touching player

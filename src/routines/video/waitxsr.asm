@@ -22,9 +22,9 @@ waitxsr:							; called from StartHL2
 	jsl.l SpriteFrameStart
 	jsl.l setvideo					; once per game frame: build the sprite table for the next vblank
 	jsl.l SpriteFrameEnd			; update the screen
-	lda.b vcount					; frame counter
+	lda.b Vcount					; frame counter
 .loop3:								; loop: if zero go to .loop3, ...
-	cmp.b vcount
+	cmp.b Vcount
 	beq .loop3						; wait for the next frame
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	pla

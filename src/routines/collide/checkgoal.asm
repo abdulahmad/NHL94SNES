@@ -51,7 +51,7 @@ checkgoal:							; called from checkwallcoll
 	rtl
 
 .t2:								;pfgoal of the puck = the carrier shot into his own goal
-	stz.w pfgoal+puckobj			; clear pfgoal
+	stz.w pfgoal+puckscnum			; clear pfgoal
 	lda.w puckc						; carrier: loses the puck, nopuck 8
 	bmi .2
 	tay
@@ -71,7 +71,7 @@ checkgoal:							; called from checkwallcoll
 	lda.b d1						;which end?
 	bpl .2							;own end: no
 	lda.w #$0001
-	sta.w pfgoal+puckobj			;shot into his own net
+	sta.w pfgoal+puckscnum			;shot into his own net
 .2:									; d0 = $FF01, p0 = $FF01, d1 = Yfrac,x - OldYfrac,x, ...
 	lda.w #$FF01					;-1 step x
 	sta.b d0
@@ -183,7 +183,7 @@ checkgoal:							; called from checkwallcoll
 	sec
 	sbc.b d0						;reversed
 	sta.b d0
-	lda.w pfgoal+puckobj			;own goal shot?
+	lda.w pfgoal+puckscnum			;own goal shot?
 	bne .7							;yes: bounce
 	lda.w puckz						;height
 	cmp.w #$000D					;exactly 13?
@@ -259,13 +259,13 @@ checkgoal:							; called from checkwallcoll
 .t1xx:								; puckvx = $0800
 	lda.w #$0800
 	sta.w puckvx
-.2xx:								; d0 = 0, d1 = $00FF, d2 = puckx - OldXpos+puckobj, ...
+.2xx:								; d0 = 0, d1 = $00FF, d2 = puckx - OldXpos+puckscnum, ...
 	stz.b d0
 	lda.w #$00FF
 	sta.b d1
 	lda.w puckx						; puck x
 	sec
-	sbc.w OldXpos+puckobj			; minus the old x
+	sbc.w OldXpos+puckscnum			; minus the old x
 	sta.b d2
 	bmi .1xxxxx
 	lda.w #$FF01

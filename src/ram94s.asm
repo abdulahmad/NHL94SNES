@@ -177,7 +177,7 @@ d4			=	$B5
 d5			=	$B9
 d6			=	$BD
 a5			=	$9D					; long pointer (the next of the 4-byte a registers); a5+2 is the bank
-vcount		=	$83					; 32-bit frame counter, +1 per NMI (NMI_Tick; 93S vcount)
+Vcount		=	$83					; 32-bit frame counter, +1 per NMI (NMI_Tick; 93S Vcount)
 crowdhold	=	$81					;frames the crowd level holds before it fades (Goal 120, puckglue 20;
 									;updatecrowdf counts it down)
 tmp3		=	$CB					; scratch word (after tmp0-tmp2)
@@ -228,7 +228,7 @@ IRQHook				=	$078F		;IRQ_Fast jml [IRQHook]; SetIRQ sta IRQHook / stx $0791 (ban
 seed				=	$0792		;RandomWord's two 16-bit generators (seed, $0794);
 									;FallDown/chk4shot/asspuckc/chk4lc read seed where 93S ...
 RAMTag				=	$0796		;Reset_Fast copies InitTag 'EACDSI' here (and to RAMTag2 and
-									;ReplayBufferEnd); no reader found - a RAM marker
+									;replayend); no reader found - a RAM marker
 MapVRAM				=	$079C		;VRAM word address of the screen map:
 									;MapToVRAM/MapPartToVRAM/MapPartToVRAMOffset/Mode7MapToVRAM add row*32 ...
 MapScreenStep		=	$079E		;MapToVRAM/MapPartToVRAM add MapScreenStep to the VRAM address after row
@@ -417,7 +417,7 @@ gamefps			=	$0A98			;Gameloop: gameframes (game frames since the faceoff) * 60 /
 									;(NMI frames since the faceoff) = game frames ...
 padchangeany	=	$0AC2			;ReadPads: OR of the five padchange words; ReadAnyPad returns it in d1;
 									;SaveRegsStartHL2 clears it.
-repeatdelay		=	$0AC4			;ProcessInputWithRepeat: frames to the next key repeat (dec, reload 6 / 20
+repeatdelayframes		=	$0AC4			;ProcessInputWithRepeat: frames to the next key repeat (dec, reload 6 / 20
 									;on a change), as the 93S ...
 pausepadidle	=	$0AC8			;SelectPauseController: 60 when the pause pad holds a button, -3 per idle
 									;frame; at 0 pausepad goes back to ...
@@ -591,11 +591,11 @@ gravstep			=	$0CE1		; d7*96: gravity this game frame
 pausetimer			=	$0CE3		; pause menu: frames left before a demo pause ends by itself
 ThirdPBonus			=	$0CE5		; setplayer: +2 when tied or trailing late in the 3rd period
 cheercnt			=	$0CE7		; crowd cheers still to play after a goal (one every 150 frames, Gameloop)
-cheervc				=	$0CE9		; vcount of the last crowd cheer
+cheervc				=	$0CE9		; Vcount of the last crowd cheer
 lastplayer			=	$0CF3		; the last player who touched the puck (doshot, puckstick)
 lldisp				=	$0CF7		; count down for the once-a-second screen / game updates (periodicevents)
 nibblebuffer		=	$0CF9		; 4 words: the weights SetScore picks from
-oldvcount			=	$0D01		; vcount at the last game frame (d7 = vcount - oldvcount)
+OldVcount			=	$0D01		; Vcount at the last game frame (d7 = Vcount - OldVcount)
 passReceiverPlayerNum	=	$0D07	; the player the last pass was aimed at (negative = none)
 printa				=	$0D0D		; attribute (palette / priority bits) for print characters
 psfirst				=	$0D13		; pause menu: first item shown (Pmenu shows five from here)
@@ -603,19 +603,19 @@ psitem				=	$0D15		; pause menu item
 puckcross			=	$0D17		;2 entries of (x, frames): where / when the puck crosses the top / bottom
 									;goal line
 shotplayer			=	$0D29		; the player who shot last (doshot)
-sfxmutetime			=	$0D2B		; vcount of the last goal: Stop4Pen waits 60 frames after it
+sfxmutetime			=	$0D2B		; Vcount of the last goal: Stop4Pen waits 60 frames after it
 threat				=	$0D2D		; direction of threat on puck handler (nonzero = threat)
 demoflag			=	$0D2F		; nonzero in demo mode
 TickerNum			=	$0D31		; playoff game the score ticker shows next
-tickervc			=	$0D33		; vcount when the ticker box was last shown
-lastframevc			=	$0D35		; vcount of the last game frame (Gameloop)
+tickervc			=	$0D33		; Vcount when the ticker box was last shown
+lastframevc			=	$0D35		; Vcount of the last game frame (Gameloop)
 wcradiusx			=	$0D3B		; wall collision radius x
 wcradiusy			=	$0D3D		; wall collision radius y
 screentimer			=	$0D41		; frames left on the scouting report screen
 DispAttribCtr		=	$0D47		; text column (scouting report, line and shooter lists)
 yleader				=	$0D4F		; lead distance on scrolling
-vcountmark			=	$0D51		; 32-bit vcount snapshot: elapsed time base
-ReplayBufferPtr		=	$0D1F		; long pointer to the next replay frame record
+vcountmark			=	$0D51		; 32-bit Vcount snapshot: elapsed time base
+recbpr		=	$0D1F		; long pointer to the next replay frame record
 Vscroll				=	$0D39		; vertical scroll (low 3 bits = BG2 fine scroll)
 Xpos				=	$0D55		; x position (integer part) of each object
 Ypos				=	$0DB7		; y position (integer part) of each object
@@ -636,18 +636,18 @@ ScoutingReportTimer	=	$0D45		; scouting report timer
 ; and drops Zvel, limpact and pf2fight.
 Xfrac		=	$0D77				; fraction of Xpos
 Yfrac		=	$0DD9				; fraction of Ypos
-puckz		=	$0DF9				; puck height (93S Zpos+puckobj)
+puckz		=	$0DF9				; puck height (93S Zpos+puckscnum)
 shadowz		=	$0DFB				; height of object 15, the puck shadow (setsortcords)
 puckzfrac	=	$0DFD				; fraction of puckz
-puckoldz	=	$0DFF				; puckz before this frame's move (93S OldZpos+puckobj)
-puckvz		=	$0E01				; puck height speed (93S Zvel+puckobj)
+puckoldz	=	$0DFF				; puckz before this frame's move (93S OldZpos+puckscnum)
+puckvz		=	$0E01				; puck height speed (93S Zvel+puckscnum)
 oldframe	=	$0E23				; frame last drawn (setsortcords)
 OldXpos		=	$0E43				; Xpos before this frame's move
 rosxoff		=	OldXpos				; roster screen: sprite x offset from Xpos (slides -40..+40)
 OldXfrac	=	$0E63
 OldYpos		=	$0E83
 OldYfrac	=	$0EA3
-Xvel		=	$0EC3				; x speed (puckvx is Xvel+puckobj)
+Xvel		=	$0EC3				; x speed (puckvx is Xvel+puckscnum)
 Yvel		=	$0EE3				; y speed
 impactp		=	$0F03				; the other object (index) of the last collision or hold
 impact		=	$0F23				; impact value, added to by collisions
@@ -710,8 +710,8 @@ gmode		=	$15D4				; game mode flags (gm* masks)
 sflags		=	$15D8				; sflags (low byte) and sflags2 (high byte) as one word (sf*/sf2* masks)
 sfhormode	=	$15DA				; nonzero: screen in horizontal mode. sflags bit sfhor
 sflags3		=	$15DC				; sflags3 (sf3* masks)
-Pencntdwn	=	$1620				; penalty/fight count down (negative = fight over)
-pentimer	=	$1622				; frames to the next penalty clock second (updatepentime)
+PenCntDwn	=	$1620				; penalty/fight count down (negative = fight over)
+Penaltytimer	=	$1622				; frames to the next penalty clock second (updatepentime)
 PBnum		=	$1624				; players in the penalty boxes: home*16 + visitors
 InjCntDown	=	$1626				; frames until the injury box is shown
 penmsgtimer	=	$1628				; count down to reprinting the horizontal penalty message line
@@ -733,7 +733,7 @@ maxros		=	26					; roster slots per team (the visiting list starts maxros bytes 
 HomeTeam	=	$1C98				; home team number (TeamList index)
 VisTeam		=	$1C9A				; visiting team number
 tmdata		=	$1CDC				; team data address
-OptPerlen	=	$7E34C2				; the period length option (index into GetPeriodTime_timetab)
+Optperlen	=	$7E34C2				; the period length option (index into GetPeriodTime_timetab)
 HmAwBonus	=	$0CEF				; setplayer: home bonus / visitor penalty
 PKBonus		=	$0D09				; setplayer: penalty kill bonus (negative)
 PPBonus		=	$0D0B				; setplayer: power play bonus
@@ -1021,7 +1021,7 @@ pmenucount			=	$1EB9		;Items in that pause menu list (PauseMenu/ChoosePauseMenu 
 pregamepause		=	$1EBB		;StartGame sets 1 when any pad has a team; StartPer then opens the pause
 									;menu at the start (startpause), ...
 RAMTag2				=	$1EBD		;Reset_Fast copies the 6 byte InitTag 'EACDSI' here (and to RAMTag and
-									;ReplayBufferEnd) after clearing RAM; ...
+									;replayend) after clearing RAM; ...
 
 ; The sprite tile cache (bank $7E; the sprite routines run with the data bank at $7E and use 16-bit
 ; addresses). An entry per cached frame, 128 entries, a word each, indexed by entry * 2:
@@ -1049,7 +1049,7 @@ PlList				=	$7E3114		; players wanted on the ice
 TestList			=	$7E347C		; scouting report text list
 
 ; Bank $7E / $7F: last touch, faceoff and goal log (93S), hat trick hats, setup screen and options (93S / 94G
-; Opt*), playoffs (93S gst*), the screen tile bases (93S charofs, BigFontChars, refchars ...), screen buffers
+; Opt*), playoffs (93S gst*), the screen tile bases (93S charofs, BigFontchars, refchars ...), screen buffers
 ; and the title tables
 Ram7E			=	$7E0000			;Bank $7E base indexed by an address in X: HeapInit writes the heap block
 									;header (+0 size, +2 flags, +4 ...
@@ -1116,7 +1116,7 @@ setuphome		=	$7E3452			;setoptions sets HomeTeam ($1D logo, $FFFF while a player
 setupvis		=	$7E3454			;As setuphome for the visitors (left) box: VisTeam (+$21 asks SetupScreen
 									;for SetupBack), $1C logo, $FFFF ...
 teamschanged	=	$7E3456			;setoptions: set at entry and when a mode / team row changes; .10 then
-									;copies OptTeam1 / OptTeam2 to ...
+									;copies Opt1team / Opt2team to ...
 cardtimer		=	$7E3458			;setoptions .11: counts down by 2 each pass; below 0 it is reset to $78
 									;and the next matchup picture is ...
 matchuphome		=	$7E345A			;Player (or matchup slot in matchup photo mode) whose picture
@@ -1153,22 +1153,22 @@ gamesstarted	=	$7E347A			;StartGame increments it right after clearing carriedy 
 									;(count of games started; no reader found).
 OptPlayMode		=	$7E34BC			;Setup menu row 0 'Play Mode' (base of the 7-word option block setoptions
 									;edits; choices Regular Season .. ...
-OptTeam1		=	$7E34BE			;Setup row 1 'Home': setoptions copies it to HomeTeam; NewPO takes it as
-									;the user's team (93S OptTeam1).
-OptTeam2		=	$7E34C0			;Setup row 2 'Visitor', copied to VisTeam; FigureJoy stores the opponent
-									;here like 93S FigureJoy sta OptTeam2.
+Opt1team		=	$7E34BE			;Setup row 1 'Home': setoptions copies it to HomeTeam; NewPO takes it as
+									;the user's team (93S Opt1team).
+Opt2team		=	$7E34C0			;Setup row 2 'Visitor', copied to VisTeam; FigureJoy stores the opponent
+									;here like 93S FigureJoy sta Opt2team.
 OptLine			=	$7E34C6			;setup row 5 Line Changes: 0 off, 1 on, 2 automatic (93S / 94G use 0 =
 									;on); readers test 0 or 2
 OptGoalie		=	$7E34C8			;Setup row 6 'Goalie' (Automatic / Manual); StartGame copies it to
 									;goaliemode1 / goaliemode2 as 94G ...
-OptPlayers		=	$7E34CA			;FigureJoy regular season: index * 4 into the controller team list, as 93S
-									;FigureJoy .fjnpo lda OptPlayers; ...
+OptNOP		=	$7E34CA			;FigureJoy regular season: index * 4 into the controller team list, as 93S
+									;FigureJoy .fjnpo lda OptNOP; ...
 notdemo			=	$7E34CC			;DefaultMenus sets $FFFF, setoptions clears it for the attract demo;
 									;FigureJoy / PlayerSelect / ...
 pojoy			=	$7E34CE			;ReadPassBits stores the range-4 field here like 93S sta pojoy; FigureJoy
 									;adds it to the pad list index; ...
 postarts		=	$7E34D0			;ReadPassBits stores the range-32 field ($FFFF on a bad checksum) like 93S
-									;postarts; maketree, ...
+									;postarts; MakeTree, ...
 potree			=	$7E34D2			;FigureJoy reads byte [#$34D2 + potreeteam] as 93S potree,potreeteam;
 									;PlayoffScreen compares potree,x.
 potreeteam		=	$7E34F2			;ReadPassBits range-16 field (93S potreeteam); NewPO, FigureJoy, EncodePW,
@@ -1190,8 +1190,8 @@ charofs			=	$7E35AA			;Tile offset added to text map words: setupice / ReloadRin
 									;PlayoffScreen 0; PushRef, EASNLogo, ...
 charofs2		=	$7E35AC			;Second tile offset, cleared with charofs by the screen setups
 									;(SetupScreen, LoadScoutingScreen, setupice) ...
-BigFontChars	=	$7E35AE			;setupice sets it to Framercset+4 ahead of the BigFontTiles; printbig adds
-									;it, as 93S BigFontChars.
+BigFontchars	=	$7E35AE			;setupice sets it to framercset+4 ahead of the BigFontTiles; printbig adds
+									;it, as 93S BigFontchars.
 EASNcset		=	$7E35B0			;setupice: first tile of RinkLogoTiles after the faceoff tiles; EASNLogo
 									;pastes EASNLogoMap with it (93S ...
 cardbackchars	=	$7E35B2			;LoadPlayerCardScreen: first tile of CardBackTiles (set 0) and the map
@@ -1220,7 +1220,7 @@ picchars		=	$7E35D2			;SetupScreen / LoadPlayerCardScreen: tile base of the two 
 									;DrawPlayerPicture adds it to the ...
 gamenum			=	$7E35D6			;FigureJoy stores -1 or the user's game index and InitScores skips that
 									;game, as 93S gamenum.
-vcountfrac		=	$7E35D8			; NMI_Tick: fraction accumulator; its carry adds an extra vcount tick.
+vcountfrac		=	$7E35D8			; NMI_Tick: fraction accumulator; its carry adds an extra Vcount tick.
 vcountstep		=	$7E35DA			;CheckPAL: 0 on NTSC, $3333 on PAL; NMI_Tick adds it to vcountfrac each
 									;frame (60 / 50 time step).
 tickerstart		=	$7E35DC			;Intermission saves TickerNum here; IntermissionTick plays DoHiLights when
@@ -1275,9 +1275,9 @@ textmap			=	$7E37F4			; the text map
 printfontset	=	$7E35A8			; tile base of the selected print font
 PassWord			=	$7E34F4		; password characters
 passbits			=	$7E3508		; password bits, low word first
-pausesavebuf		=	$7E4F7E		; Pausemode saves textmap here ($800 bytes, up to ReplayBufferStart)
-ReplayBufferStart	=	$7E577E		; first replay frame record
-ReplayBufferEnd		=	$7EE676		; replay buffer end
+pausesavebuf		=	$7E4F7E		; Pausemode saves textmap here ($800 bytes, up to replaystart)
+replaystart	=	$7E577E		; first replay frame record
+replayend		=	$7EE676		; replay buffer end
 Crowdlevel			=	$7E35E0		; crowd noise level: raised by the play, fades every frame
 palbuffer			=	$7E35F4		; the palette buffer (256 colours) sent to CGRAM
 textmap2			=	$7E3FF4		; the second text map (ClearTextMap2, SendTextMap2)
@@ -1286,12 +1286,12 @@ streamsfx			=	$7E35E6		; the streamed sound effect asked for (1-6, StreamSfx), 0
 streamstate			=	$7E35E8		; UpdateStreamSfx: 0 start, 1 streaming, 2 playing, 3 done
 streamloaded		=	$7E35EA		; the streamed sound whose sample is in sound RAM
 smallfontchars		=	$7E35B6		; vram tiles for the small font (print)
-Framercset			=	$7E35BC		; vram tiles for the Framer box
+framercset			=	$7E35BC		; vram tiles for the Framer box
 scorechars			=	$7E35CE		; vram tiles for the scoreboard / team block maps
 
 ; --- constants (values, not addresses) ---
 
-puckobj		=	$1C					; object index of the puck
+puckscnum		=	$1C					; object index of the puck
 netobj1		=	$18					; object index*2 of goal net 1 (y +268)
 netobj2		=	$1A					; object index*2 of goal net 2 (y -268)
 
@@ -1304,8 +1304,8 @@ tmftimeout	=	$0002				; 93G/94G timeout bit (94S counts tmtimeouts); shared as i
 tmfmid		=	tmftimeout			; nearest player always takes the in-between spot (assnearest)
 tmfslide	=	tmftimeout			; 93 roster screen name slide; not used here
 cbut		=	$0080				; shoot / check button in d2
-blueline	=	$58					; puck y past which a team can be offside
-sideline	=	$88					; distance from center to side boards
+Blueline	=	$58					; puck y past which a team can be offside
+Sideline	=	$88					; distance from center to side boards
 
 ; Penalty numbers (word offsets into Penaltylist) for AddPenalty
 PenEOP			=	$02
@@ -1387,5 +1387,5 @@ foframe				=	0			;fofdata2, fofdata: 4 bytes per big faceoff sprite (centers, re
 foattr				=	2			;word attribute (bit 11 x flip)
 fosize				=	4
 
-; puck fields (need puckobj above)
-puckx		=	Xpos+puckobj		; puck x position
+; puck fields (need puckscnum above)
+puckx		=	Xpos+puckscnum		; puck x position

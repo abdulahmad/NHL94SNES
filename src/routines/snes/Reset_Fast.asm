@@ -87,11 +87,11 @@ Reset_Fast:							; called from Reset
 	bne .loop7
 	sep #$20
 	ldx.w #$0005
-.loop8:								; loop: RAMTag,x = InitTag,x, RAMTag2,x = InitTag,x, ReplayBufferEnd,x...
+.loop8:								; loop: RAMTag,x = InitTag,x, RAMTag2,x = InitTag,x, replayend,x...
 	lda.w InitTag,x
 	sta.w RAMTag,x
 	sta.w RAMTag2,x
-	sta.l ReplayBufferEnd,x
+	sta.l replayend,x
 	dex
 	bpl .loop8
 	ldx.w #$0010

@@ -264,8 +264,8 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 .8:									; if mp5warning = 0 go to .11
 	lda.w mp5warning
 	beq .11
-.9:									; if vcount & $10 != 0 go to .t1xxx, ...
-	lda.b vcount
+.9:									; if Vcount & $10 != 0 go to .t1xxx, ...
+	lda.b Vcount
 	and.b #$10
 	bne .t1xxx
 	ldx.w #$1000
@@ -276,7 +276,7 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	stx.w JoyPad+8
 	bra .11
 
-.t1xxx:								; vcount & $10 != 0: JoyPad = $0000, JoyPad+2 = $0000, JoyPad+4 = $0000...
+.t1xxx:								; Vcount & $10 != 0: JoyPad = $0000, JoyPad+2 = $0000, JoyPad+4 = $0000...
 	ldx.w #$0000
 	stx.w JoyPad
 	stx.w JoyPad+2
