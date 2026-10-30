@@ -4573,12 +4573,12 @@ $7E35E0,Crowdlevel,$7E35E0,93S,RAM; updatecrowdf lets it fade and updatesound re
 $9DE0FC,SPAList,DATA8_9DE0FC,93S,"the sprite animations: a zero word (SPA 0 = no animation), then each animation; SPA holds the address of one; 93S SPAList",src/data/frames94s.asm
 $9DE0FE,SPAgready,DATA8_9DE0FE,93S,"the goalie ready animation (93S SPAgready): set for goalies where 93S assbench sets it (glide for skaters), loops",src/data/frames94s.asm
 $9DE1B0,SPAgready2,DATA8_9DE1B0,93S,"93S SPAgready2: the goalie frames held 30, after SPAgready as in 93S and 94G",src/data/frames94s.asm
-$9DE1E2,SPAgglover,DATA8_9DE1E2,93S,93S SPAgglover: GoalieSaveList entry 0,src/data/frames94s.asm
-$9DE214,SPAgglovel,DATA8_9DE214,93S,93S SPAgglovel: GoalieSaveList entry 1,src/data/frames94s.asm
-$9DE246,SPAgstickr,DATA8_9DE246,93S,93S SPAgstickr: GoalieSaveList entry 4,src/data/frames94s.asm
-$9DE278,SPAgstickl,DATA8_9DE278,93S,93S SPAgstickl: GoalieSaveList entry 5,src/data/frames94s.asm
-$9DE2AA,SPAgstackr,DATA8_9DE2AA,93S,93S SPAgstackr: GoalieSaveList entry 2,src/data/frames94s.asm
-$9DE2FC,SPAgstackl,DATA8_9DE2FC,93S,93S SPAgstackl: GoalieSaveList entry 3,src/data/frames94s.asm
+$9DE1E2,SPAgglover,DATA8_9DE1E2,93S,93S SPAgglover: assgoalie_list entry 0,src/data/frames94s.asm
+$9DE214,SPAgglovel,DATA8_9DE214,93S,93S SPAgglovel: assgoalie_list entry 1,src/data/frames94s.asm
+$9DE246,SPAgstickr,DATA8_9DE246,93S,93S SPAgstickr: assgoalie_list entry 4,src/data/frames94s.asm
+$9DE278,SPAgstickl,DATA8_9DE278,93S,93S SPAgstickl: assgoalie_list entry 5,src/data/frames94s.asm
+$9DE2AA,SPAgstackr,DATA8_9DE2AA,93S,93S SPAgstackr: assgoalie_list entry 2,src/data/frames94s.asm
+$9DE2FC,SPAgstackl,DATA8_9DE2FC,93S,93S SPAgstackl: assgoalie_list entry 3,src/data/frames94s.asm
 $9DE34E,SPAgswing,DATA8_9DE34E,93S,"93S SPAgswing: same times as 93S/94G, the goalie's pass animation",src/data/frames94s.asm
 $9DE3C0,SPAgskate,DATA8_9DE3C0,93S,"93S SPAgskate: chosen against SPAgready as in 93S goalieacc, same times as 94G",src/data/frames94s.asm
 $9DE4B6,SPAgdive,DATA8_9DE4B6,93S,"93S SPAgdive: tested where 93S puckglue tests it (temp5 = 140 first), same times as 94G",src/data/frames94s.asm
@@ -4612,7 +4612,7 @@ $9DF940,SPAcelebrate,DATA8_9DF940,93S,93S SPAcelebrate: set where 93S assscore s
 $9DFA12,SPApump,DATA8_9DFA12,93S,93S SPApump: same frames and times as 93S (no reference found; the scorer gets DATA8_9DFA84),src/data/frames94s.asm
 $9DE8F4,SPAwallright,DATA8_9DE8F4,93S,93S SPAwallright: set where 93S asseben sets it,src/data/frames94s.asm
 $9DE936,SPAwallleft,DATA8_9DE936,93S,93S SPAwallleft: set where 93S assepen sets it,src/data/frames94s.asm
-$9EDBF4,GoalieSaveList,DATA8_9EDBF4,93S,"the save animation by save type: the six 93S entries in the 93S order, read by the goalie code as in 93S; entries 6-8 are new in 94",src/data/tables/GoalieSaveList.asm
+$9EDBF4,assgoalie_list,DATA8_9EDBF4,93S,"the save animation by save type: the six 93S entries in the 93S order, read by the goalie code as in 93S; entries 6-8 are new in 94",src/data/tables/assgoalie_list.asm
 $9FBFA0,updatescroll_rows,CODE_9FBFA0,93S,setvideo calls it as in 93S; most instructions as 93S updatescroll_rows,src/routines/video/updatescroll_rows.asm
 $9FB1FD,checkfo,CODE_9FB1FD,93S,setvideo calls it as in 93S; draws the face off sprites as 93S checkfo,src/routines/display/checkfo.asm
 $9E92F8,checkgoalp,CODE_9E92F8,93S,checkgoal jumps here where 93S jumps to checkgoalp; the 93S body for the most part,src/routines/collide/checkgoalp.asm
@@ -6421,9 +6421,9 @@ $9DE484,SPAgwallleft,DATA8_9DE484,code,assbench gives a goalie it where skaters 
 $9DE528,SPAgpoke,DATA8_9DE528,code,"assgoalie: the controlled goalie's X button (padnew $0040; Y with a direction is SPAgdive), and the CPU goalie at random when an opponent has the puck within $23, then $F0 frames before again (a poke check, confirmed in game by the user)",src/data/frames94s.asm
 $9DE59A,SPAgcover2,DATA8_9DE59A,code,"SPAgcover's frames with a 20-frame hold, not 90; nothing sets it",src/data/frames94s.asm
 $9DE66C,SPAgcover,DATA8_9DE66C,code,assgoalie: the goalie drops onto the puck and holds 90 frames ($1543 = $5A) when an opponent is within $14 of it (rendered: down on the ice),src/data/frames94s.asm
-$9DE73E,SPAgbutterfly,DATA8_9DE73E,code,GoalieSaveList entry 8: assgoalie picks it for a slow shot (puckvy within $800) straight at the goalie; rendered: the butterfly drop,src/data/frames94s.asm
-$9DE7D0,SPAgsprawll,DATA8_9DE7D0,code,"GoalieSaveList entry 7, the left of the pair 6/7 picked for a shot from a wide angle (same right/left rule as the other pairs); rendered: a sprawl",src/data/frames94s.asm
-$9DE862,SPAgsprawlr,DATA8_9DE862,code,"GoalieSaveList entry 6, the right of the pair 6/7 picked for a shot from a wide angle; rendered: a sprawl",src/data/frames94s.asm
+$9DE73E,SPAgbutterfly,DATA8_9DE73E,code,assgoalie_list entry 8: assgoalie picks it for a slow shot (puckvy within $800) straight at the goalie; rendered: the butterfly drop,src/data/frames94s.asm
+$9DE7D0,SPAgsprawll,DATA8_9DE7D0,code,"assgoalie_list entry 7, the left of the pair 6/7 picked for a shot from a wide angle (same right/left rule as the other pairs); rendered: a sprawl",src/data/frames94s.asm
+$9DE862,SPAgsprawlr,DATA8_9DE862,code,"assgoalie_list entry 6, the right of the pair 6/7 picked for a shot from a wide angle; rendered: a sprawl",src/data/frames94s.asm
 $9DF196,SPAcrosscheck,DATA8_9DF196,94G,"checkcheck: the check straight ahead (relative direction 0), with the same away-from-the-crease limits as 94G SPAcrosscheck; rendered: the stick held across in both hands",src/data/frames94s.asm
 $9DFEC2,SPAunused1,DATA8_9DFEC2,code,no code sets it (updateanim only compares SPA with its address); skater frames with the stick raised,src/data/frames94s.asm
 $9DFF04,SPAunused2,DATA8_9DFF04,code,"no code sets it; skater frames with the stick raised, longer than SPAunused1",src/data/frames94s.asm

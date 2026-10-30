@@ -828,9 +828,9 @@ assgoalie:							; called from assnearest, asstab
 	dec.b d0
 .42:								;start save d0
 	asl.b d0						;word index
-	lda.w #GoalieSaveList>>16
+	lda.w #assgoalie_list>>16
 	sta.b a1+2
-	lda.w #GoalieSaveList			;save table
+	lda.w #assgoalie_list			;save table
 	sta.b a1
 	ldy.b d0
 	lda.b [a1],y					;save animation
