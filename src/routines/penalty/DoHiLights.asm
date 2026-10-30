@@ -2,7 +2,7 @@
 ;
 ; Playoffs: for each game of the round that still has a highlight pending (and is not played out),
 ; clears that flag and plays the highlight through SaveRegsStartHL2. Does nothing in a regular season.
-; Called from IntermissionTick.
+; Called from Intermission_tick.
 DoHiLights:							; play the pending highlights
 	lda.l OptPlayMode				; play mode of the game options
 	beq .rtl						; not playoffs: nothing to do

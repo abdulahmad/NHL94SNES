@@ -146,7 +146,7 @@ assdumpin:							; called from asstab
 	lda.w #$03C0
 	sec
 	sbc.b d4
-	jsl.l randoma					; A = a random number from 0 to A-1
+	jsl.l randomd0A					; A = a random number from 0 to A-1
 	clc
 	adc.w #$10E0
 	sta.w puckvz

@@ -14,7 +14,7 @@ assdefd:							; assignment: defenseman on defense
 .1:									; return
 	rtl								; return
 .2:									; clock running? no: do nothing
-	jmp.w assnothing				; do nothing
+	jmp.w donothing				; do nothing
 .16:								; defend: only while the clock is running
 	lda.w gmclock
 	bne .2							; clock stopped: do nothing

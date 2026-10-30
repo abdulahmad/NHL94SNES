@@ -238,7 +238,7 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l PrintPerLabel				;period
+	jsl.l printscores1_per				;period
 	lda.b d1						;keep d1
 	pha
 	lda.b a1+2

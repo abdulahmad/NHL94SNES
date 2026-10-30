@@ -105,9 +105,9 @@ chk4shot:							; called from asspuckc
 	iny
 	dec.b d3
 	bpl .2
-.6:									; call randoma, if carry set go to .t1x, ...
+.6:									; call randomd0A, if carry set go to .t1x, ...
 	lda.b d4
-	jsl.l randoma					; A = a random number from 0 to A-1
+	jsl.l randomd0A					; A = a random number from 0 to A-1
 	cmp.w #$0009					; no shot if random(d4) > 8
 	bcs .t1x						; too unlikely: no shot
 	lda.w pucky

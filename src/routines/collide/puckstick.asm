@@ -49,7 +49,7 @@ puckstick:							; called from checkpuckcoll_ccx
 	sbc.b d0						; minus a2 value
 	clc
 	adc.w #$0024					; plus 36
-	jsl.l randoma					; random number 0 to A-1
+	jsl.l randomd0A					; random number 0 to A-1
 	cmp.w #$0003					; steal fails
 	bcs .1
 .1x:								; call makepde, nopuck,y = d0 + $0014, a0 = a2, ...

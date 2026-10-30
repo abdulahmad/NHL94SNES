@@ -1,6 +1,6 @@
 ; d3 = the next game for the ticker, or negative when none is left
 ;
-; Called from InitTicker, TickerNext, NewTicker and NewTicker3.
+; Called from Intermission_ticker, NewTicker2_next, NewTicker and NewTicker3.
 NewTicker2:							; picks the next game
 	lda.w TickerNum					; ticker game
 	sta.b d3						; d3 = it

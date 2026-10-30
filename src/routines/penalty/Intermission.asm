@@ -1,8 +1,8 @@
 ; Between periods: the scores of the other games, then the highlights
 ;
 ; The pause screen between periods: the scores of the other games of the round on the ticker, then the
-; highlights. Starts the score ticker (InitTicker), sets the pause controller, then redraws the screen
-; until PauseMenu returns zero. Called from PeriodOver.
+; highlights. Starts the score ticker (Intermission_ticker), sets the pause controller, then redraws the screen
+; until Pausemode_menu returns zero. Called from PeriodOver.
 Intermission:						; the intermission screen
 	jsl.l SetupTeamForIntermission	; set up the two teams
 	lda.w #$0000
@@ -32,7 +32,7 @@ Intermission:						; the intermission screen
 	sec
 	sbc.w #$0150					; ticker clock = frame counter - $150
 	sta.w tickervc
-	jsl.l InitTicker				; start the score ticker
+	jsl.l Intermission_ticker				; start the score ticker
 	lda.w TickerNum					; remember the first ticker game
 	sta.l tickerstart
 	stz.w psfirst					; no pause menu item yet
@@ -88,7 +88,7 @@ Intermission:						; the intermission screen
 	sta.b d1
 	jsl.l Framer					; draw the frame
 	jsl.l printscores1				; print the scores of the other games
-	jsl.l PauseMenu					; run the pause menu
+	jsl.l Pausemode_menu					; run the pause menu
 	bne .loop2						; nonzero: redraw
 	lda.w #$0000					; pause menu off
 	sta.l pausemenuon

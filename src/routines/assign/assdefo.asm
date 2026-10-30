@@ -17,7 +17,7 @@ assdefo:							; assignment: defenseman on offense
 	rtl								; return
 
 .t1:								; unreferenced label
-	jmp.w assnothing				; do nothing
+	jmp.w donothing				; do nothing
 .2:									; this player carries the puck
 	lda.w #$0011					; assignment $11 (asspuckc)
 	sta.b d0
@@ -25,7 +25,7 @@ assdefo:							; assignment: defenseman on offense
 .11:								; clock stopped? (gmclock nonzero: do nothing)
 	lda.w gmclock
 	beq .t2							; clock running: go on
-	jmp.w assnothing				; do nothing
+	jmp.w donothing				; do nothing
 
 .t2:								; bench check
 	jsl.l check4bench				; may request a bench change for this player

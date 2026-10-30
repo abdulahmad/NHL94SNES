@@ -89,8 +89,8 @@ ShowThreeStars:						; called from InProgress
 	inc.b d3						;visitors
 	lda.w #$0002
 	sta.b a2						;visitors' team
-.1:									; call printteamname, printy = $0005, printx = $0011, ...
-	jsl.l printteamname				;team name
+.1:									; call printscores1_ps_name, printy = $0005, printx = $0011, ...
+	jsl.l printscores1_ps_name				;team name
 	lda.w #$0005
 	sta.w printy					;row 5
 	lda.w #$0011
@@ -113,8 +113,8 @@ ShowThreeStars:						; called from InProgress
 	inc.b d3						;visitors
 	lda.w #$0002
 	sta.b a2						;visitors' team
-.2:									; call printteamname, printy = $0006, printx = $0011, ...
-	jsl.l printteamname				;team name
+.2:									; call printscores1_ps_name, printy = $0006, printx = $0011, ...
+	jsl.l printscores1_ps_name				;team name
 	lda.w #$0006
 	sta.w printy					;row 6
 	lda.w #$0011
@@ -137,8 +137,8 @@ ShowThreeStars:						; called from InProgress
 	inc.b d3						;visitors
 	lda.w #$0002
 	sta.b a2						;visitors' team
-.3:									; call printteamname, printy = $0007, printx = $0011, ...
-	jsl.l printteamname				;team name
+.3:									; call printscores1_ps_name, printy = $0007, printx = $0011, ...
+	jsl.l printscores1_ps_name				;team name
 	lda.w #$0007
 	sta.w printy					;row 7
 	lda.w #$0011

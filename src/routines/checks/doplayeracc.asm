@@ -4,7 +4,7 @@
 ; d7 = frames elapsed. Decides skating backwards (pfrev), turns facedir toward the
 ; wanted direction and then accelerates through playeracc.
 ;
-; Called from assgoalietopuck, assnothing, doinput, lineinput, skateto and skatetopuck.
+; Called from assgoalietopuck, donothing, doinput, lineinput, skateto and skatetopuck.
 doplayeracc:						; player X skates toward d0
 	lda.w position,x				; goalie?
 	bne .t4							; skater: .t4

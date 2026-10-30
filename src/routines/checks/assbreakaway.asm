@@ -13,7 +13,7 @@ assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $
 	jsl.l GlideBack					;glide
 	lda.w #$003C					;60 frames
 	sta.w nopuck,x					;no puck for 60 frames
-	jmp.w assnothing				;stand still
+	jmp.w donothing				;stand still
 .8:									;computer carrier: skate in and shoot
 	lda.w gmclock					;clock stopped?
 	bne .2							;clock stopped: glide

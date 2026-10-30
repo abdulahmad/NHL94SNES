@@ -68,7 +68,7 @@ setoptions:							; called from Restart
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l InitSortObjects
+	jsl.l defaultsprites_0
 	lda.w #$0028					;roster x offset 40
 	sta.w rosxoff					;home and visitors
 	sta.w rosxoff+(6*2)

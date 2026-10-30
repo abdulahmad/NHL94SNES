@@ -1,5 +1,5 @@
 ; Clear the sorted objects and set up the objects from their start tables
-InitSortObjects:					; called from setoptions, setupice_reset
+defaultsprites_0:					; called from setoptions, setupice_reset
 	phb
 	phk								; data bank = program bank
 	plb

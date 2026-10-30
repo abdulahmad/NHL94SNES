@@ -67,15 +67,15 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	lda.w pfgoal,x					;attacking end
 	bne .4							;top
 	ldy.w #$FEF8					;bottom
-.4:									; d1 = Y, a0 = shotsets, d0 = [a0],y - puckx, ...
+.4:									; d1 = Y, a0 = doshot_shotsets, d0 = [a0],y - puckx, ...
 	sty.b d1						;goal line y
 	lda.w passdir					;shot direction
 	asl a
 	asl a							;x4
 	tay
-	lda.w #shotsets>>16
+	lda.w #doshot_shotsets>>16
 	sta.b a0+2
-	lda.w #shotsets					;target table
+	lda.w #doshot_shotsets					;target table
 	sta.b a0
 	lda.b [a0],y					;target x
 	sec
@@ -160,14 +160,14 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	lda.b 5,s						;down: full error
 	bpl .5x							;up: half
 	lsr.b d0
-.5x:								; call randomd0sd0, 5,s = 5,s + d0, call randoma, ...
+.5x:								; call randomd0sd0, 5,s = 5,s + d0, call randomd0A, ...
 	jsl.l randomd0sd0				;random +- d0
 	lda.b 5,s						;dy
 	adc.b d0						;plus the error
 	sta.b 5,s						;new dy
 	pla								;error
 	lsr a							;half
-	jsl.l randoma					;random lift
+	jsl.l randomd0A					;random lift
 	adc.b 5,s						;plus dz
 	sta.b 5,s						;new dz
 .6:									; call Mul8XS, call Mul16S, r1 = d3, ...

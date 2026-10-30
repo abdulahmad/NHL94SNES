@@ -52,7 +52,7 @@ Pausemode:							; called from Gameloop, PlayShootout
 	sta.b d1
 	jsl.l Framer					; draw a frame and fill it
 	jsl.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
-	jsl.l PauseMenu					; pick which pause menu is up
+	jsl.l Pausemode_menu					; pick which pause menu is up
 	bne .loop
 	lda.w #$0000
 	sta.l pausemenuon

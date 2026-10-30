@@ -1,5 +1,5 @@
 ; A = a random number from 0 to A-1
-randoma:							; called from StartHL2, assdumpin, check4check, chk4shot, doshot and 5...
+randomd0A:							; called from StartHL2, assdumpin, check4check, chk4shot, doshot and 5...
 	phx
 	pha
 	cmp.w #$0100

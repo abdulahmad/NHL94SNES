@@ -1,5 +1,5 @@
 ; Queue the rink map rows that the vertical scroll brought on screen
-ShowRinkRows:						; called from setvideo
+updatescroll_rows:						; called from setvideo
 	lda.w sfhormode
 	beq .t2
 	rtl

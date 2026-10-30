@@ -2,7 +2,7 @@
 SelectPauseController:				; called from PauseMenuPoll
 	jsl.l ShowMP5Warning			; draw the MultiPlayer 5 warning for the controller, Super Scope
 	jsr.w PulsePauseSide			; returns nothing
-	jsl.l IntermissionTick			; the intermission ticker timer
+	jsl.l Intermission_tick			; the intermission ticker timer
 	beq .t1
 	jmp.w .6
 
@@ -50,7 +50,7 @@ SelectPauseController:				; called from PauseMenuPoll
 	stx.w pausepad
 	stz.w psitem
 	stz.w psfirst
-	jsl.l Pmenu						; draw the pause menu: five items of the current list from item psfirst
+	jsl.l SetupPauseScreen						; draw the pause menu: five items of the current list from item psfirst
 	jsl.l SendTextMap
 	jsr.w PulseUntilRelease
 	lda.w #$003C

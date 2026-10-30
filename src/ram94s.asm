@@ -263,8 +263,8 @@ BG1HScroll			=	$07D6		;NMI_HookReturn writes the 6 words BG1HScroll..$07E1 to BG
 									;(x = 0..$0B, $07D7 = BG1HScroll+1); ...
 BG1VScroll			=	$07D8		;2nd word of the NMI_HookReturn scroll list
 									;(BG1VOFS); ResetPPURegs sets $FFFF
-BG2HScroll			=	$07DA		;ShowRinkRows stores Hscroll+$C0 here, as 93S writes BG2HOFS = Hscroll+$C0
-BG2VScroll			=	$07DC		; ShowRinkRows stores vramrow*8 + (Vscroll&7), the 93S BG2VOFS value
+BG2HScroll			=	$07DA		;updatescroll_rows stores Hscroll+$C0 here, as 93S writes BG2HOFS = Hscroll+$C0
+BG2VScroll			=	$07DC		; updatescroll_rows stores vramrow*8 + (Vscroll&7), the 93S BG2VOFS value
 BG3HScroll			=	$07DE		;5th word of the NMI_HookReturn scroll list (BG3HOFS);
 									;ResetPPURegs/PlayoffScreen/TitleScreen
 BG3VScroll			=	$07E0		;6th word (BG3VOFS); IRQ_BG1Scroll also writes BG3VScroll/$07E1 to BG1VOFS
@@ -430,7 +430,7 @@ WinBits			=	$0AD5			;ReadPassBits/WritePassBits at the 93S WinBits slot (range $
 mp5readall		=	$0AD7			;PlayerSelect sets $FFFF while it runs and clears it at the end; when
 									;nonzero Multi5Bios reads the multitap ...
 timestep		=	$0ADB			;Gameloop/SaveRegsStartHL2/ReplayMode/PauseReplay store d7 (frames
-									;elapsed) here (PauseMenu sets 2); ...
+									;elapsed) here (Pausemode_menu sets 2); ...
 padinputdone	=	$0ADD			;updateplayers: 5 words (pad*2) cleared each frame, set to 1 when the
 									;pad's doinput has run; ...
 PadControlObj	=	$0AE7			;setpads stores SCnum of the player each marker slot follows (slot 0 puck
@@ -598,7 +598,7 @@ nibblebuffer		=	$0CF9		; 4 words: the weights SetScore picks from
 OldVcount			=	$0D01		; Vcount at the last game frame (d7 = Vcount - OldVcount)
 passReceiverPlayerNum	=	$0D07	; the player the last pass was aimed at (negative = none)
 printa				=	$0D0D		; attribute (palette / priority bits) for print characters
-psfirst				=	$0D13		; pause menu: first item shown (Pmenu shows five from here)
+psfirst				=	$0D13		; pause menu: first item shown (SetupPauseScreen shows five from here)
 psitem				=	$0D15		; pause menu item
 puckcross			=	$0D17		;2 entries of (x, frames): where / when the puck crosses the top / bottom
 									;goal line
@@ -657,7 +657,7 @@ temp3		=	$1043
 temp4		=	$1063
 temp5		=	$1083
 temp2b		=	$10A3
-radiusx		=	$10C3				; collision width (InitSortObjects)
+radiusx		=	$10C3				; collision width (defaultsprites_0)
 radiusy		=	$10E3				; collision height
 SCnum		=	$1143				; object number (index / 2)
 facefrac	=	$1183				; turn fraction of facedir (doplayeracc)
@@ -793,7 +793,7 @@ tmpshots		=	$1956			; shots (goalies: shots against)
 ppenmin		=	$198A				; penalty minutes
 CwdExciteLvl		=	$19BE		;crowd excitement: raised by hits and goals, set per playoff stage at a
 									;period start
-CurCrowdMeter		=	$19C2		; the crowd meter in dB: sroot(CwdExciteLvl * 4) + 65, at most 128
+CurCrowdMeter		=	$19C2		; the crowd meter in dB: Sroot(CwdExciteLvl * 4) + 65, at most 128
 CrowdPeak			=	$19C4		; the highest CurCrowdMeter of the game
 
 ; Crowd meter
@@ -849,7 +849,7 @@ goaliemode1			=	$1C90		;Home manual goalie flag, word per team indexed goaliemod
 goaliemode2			=	$1C92		;Visitors manual goalie flag (goaliemode1+2), set with goaliemode1 by
 									;StartGame (94G goaliemode2)
 defcontrol			=	$1C94		;Defense control on/off per team (word, indexed by team 0/2):
-									;PauseDefControl toggles it, Pmenu prints ...
+									;PauseDefControl toggles it, SetupPauseScreen prints ...
 lcpad				=	$1D55		;Per team (y = 0/2) the pad (d4) that opened the line change box, negative
 									;= none: doinput sets it and ...
 asv					=	$1D5E		;Scouting text without delays: ScoutingReport sets $FFFF while down is
@@ -1014,9 +1014,9 @@ teamtaken			=	$1EAF		;InitializeGameStructures: nonzero when the random team's b
 									;set (pick again)
 teambit				=	$1EB3		;InitializeGameStructures: 1 << (team & $F), tested and ORed into the
 									;used-team bit sets $B3 / d3
-pmenulist			=	$1EB7		;Pause menu list shown (0-5): PauseMenu/ChoosePauseMenu pick it, Pmenu
+pmenulist			=	$1EB7		;Pause menu list shown (0-5): Pausemode_menu/ChoosePauseMenu pick it, SetupPauseScreen
 									;prints items and values by it, ...
-pmenucount			=	$1EB9		;Items in that pause menu list (PauseMenu/ChoosePauseMenu set it with
+pmenucount			=	$1EB9		;Items in that pause menu list (Pausemode_menu/ChoosePauseMenu set it with
 									;pmenulist); bounds psitem and psfirst
 pregamepause		=	$1EBB		;StartGame sets 1 when any pad has a team; StartPer then opens the pause
 									;menu at the start (startpause), ...
@@ -1145,7 +1145,7 @@ vispicaddr		=	$7E3472			;As homepicaddr for the visitors picture ($6900 or
 									;$2D00+MatchupPhotoOffsets).
 matchupphotos	=	$7E3474			;ScoutingReport / setoptions set 1: DrawPlayerPicture takes the preloaded
 									;matchup photos ...
-pausemenuon		=	$7E3476			;PauseMenu sets $FFFF, Pausemode / Intermission clear it after;
+pausemenuon		=	$7E3476			;Pausemode_menu sets $FFFF, Pausemode / Intermission clear it after;
 									;DrawHorTeams leaves the pulsing side ...
 playerstatson	=	$7E3478			;ShowPlayerStats sets 1 while it runs; DrawMatchupPictures then skips the
 									;picture DMA.
@@ -1223,7 +1223,7 @@ gamenum			=	$7E35D6			;FigureJoy stores -1 or the user's game index and InitScor
 vcountfrac		=	$7E35D8			; NMI_Tick: fraction accumulator; its carry adds an extra Vcount tick.
 vcountstep		=	$7E35DA			;CheckPAL: 0 on NTSC, $3333 on PAL; NMI_Tick adds it to vcountfrac each
 									;frame (60 / 50 time step).
-tickerstart		=	$7E35DC			;Intermission saves TickerNum here; IntermissionTick plays DoHiLights when
+tickerstart		=	$7E35DC			;Intermission saves TickerNum here; Intermission_tick plays DoHiLights when
 									;the ticker comes round to it, as ...
 replaypanel		=	$7E35F0			;ReplayMode sets $FFFF when it draws the control panel (map in
 									;rinkmapbuf); the first B press blanks it and ...
