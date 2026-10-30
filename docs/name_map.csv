@@ -352,7 +352,7 @@ $9FC6B2,clearTeamStats,CODE_9FC6B2,93S,"most instructions as the 93S routine cle
 $9FCDAC,ResetBench,CODE_9FCDAC,93S,"most instructions as the 93S routine ResetBench (score/module: 1.00 hockey)",src/routines/collide/ResetBench.asm
 $9FCE1D,forcepldata,CODE_9FCE1D,93S,"most instructions as the 93S routine forcepldata (score/module: 1.00 hockey)",src/routines/collide/forcepldata.asm
 $9FCED0,Setplass,CODE_9FCED0,93S,"most instructions as the 93S routine Setplass (score/module: 0.92 hockey)",src/routines/collide/Setplass.asm
-$9FD6D8,TryAddPlayerToList,CODE_9FD6D8,93S,"most instructions as the 93S routine TryAddPlayerToList (score/module: 0.91 hockey)",src/routines/collide/TryAddPlayerToList.asm
+$9FD6D8,SetPlList_s1,CODE_9FD6D8,93S,"most instructions as the 93S routine SetPlList_s1 (score/module: 0.91 hockey)",src/routines/collide/SetPlList_s1.asm
 $9FDD9D,reenergizeteam,CODE_9FDD9D,93S,"most instructions as the 93S routine reenergizeteam (score/module: 1.00 penalty)",src/routines/penalty/reenergizeteam.asm
 $9FE001,lcfound,CODE_9FE001,93S,"most instructions as the 93S routine lcfound (score/module: 0.91 logic)",src/routines/input/lcfound.asm
 $9FE03F,SetupTeamForIntermission,CODE_9FE03F,93S,"most instructions as the 93S routine SetupTeamForIntermission (score/module: 0.92 penalty)",src/routines/penalty/SetupTeamForIntermission.asm
@@ -552,9 +552,9 @@ $9FC721,.home,CODE_9FC721,93S,restoreteams,src/routines/hockey/restoreteams.asm
 $9CA1B7,.loop0,CODE_9CA1B7,93S,SprSort vertical,src/routines/setup/SprSort.asm
 $9BCD70,.char,CODE_9BCD70,93S,PWtoBits,src/routines/hockey/PWtoBits.asm
 $9FC595,.home,CODE_9FC595,93S,GetPlayerNumInitial,src/routines/hockey/GetPlayerInitial.asm
-$9FD6E7,.idx,CODE_9FD6E7,93S,TryAddPlayerToList,src/routines/collide/TryAddPlayerToList.asm
-$9FD6F5,.chk,CODE_9FD6F5,93S,TryAddPlayerToList,src/routines/collide/TryAddPlayerToList.asm
-$9FD707,.s2,CODE_9FD707,93S,TryAddPlayerToList,src/routines/collide/TryAddPlayerToList.asm
+$9FD6E7,.idx,CODE_9FD6E7,93S,SetPlList_s1,src/routines/collide/SetPlList_s1.asm
+$9FD6F5,.chk,CODE_9FD6F5,93S,SetPlList_s1,src/routines/collide/SetPlList_s1.asm
+$9FD707,.s2,CODE_9FD707,93S,SetPlList_s1,src/routines/collide/SetPlList_s1.asm
 $9FCDC4,.rb,CODE_9FCDC4,93S,ResetBench one team,src/routines/collide/ResetBench.asm
 $9FCDC9,.rb1,CODE_9FCDC9,93S,ResetBench roster loop,src/routines/collide/ResetBench.asm
 $9FCDD9,.idx,CODE_9FCDD9,93S,ResetBench index,src/routines/collide/ResetBench.asm
@@ -1258,7 +1258,7 @@ $9EE8C8,.2,CODE_9EE8C8,new,branch target only used in this routine,src/routines/
 $9EE8E7,.3,CODE_9EE8E7,new,branch target only used in this routine,src/routines/checks/chk4pass.asm
 $9F8CC1,.loop,CODE_9F8CC1,new,branch target only used in this routine,src/routines/setup/PeriodOver.asm
 $9E9B5E,.1,CODE_9E9B5E,new,branch target only used in this routine,src/routines/collide/FallDown.asm
-$9F9DED,.1,CODE_9F9DED,new,branch target only used in this routine,src/routines/penalty/PrintTeamNameAndScore.asm
+$9F9DED,.1,CODE_9F9DED,new,branch target only used in this routine,src/routines/penalty/printscores1_ps.asm
 $9EE321,.1,CODE_9EE321,new,branch target only used in this routine,src/routines/input/doshot.asm
 $9EE348,.2,CODE_9EE348,new,branch target only used in this routine,src/routines/input/doshot.asm
 $9EE354,.3,CODE_9EE354,new,branch target only used in this routine,src/routines/input/doshot.asm
@@ -1606,8 +1606,8 @@ $9CA208,.1,CODE_9CA208,new,branch target only used in this routine,src/routines/
 $9EDBD4,.1,CODE_9EDBD4,new,branch target only used in this routine,src/routines/logic/assgoalie.asm
 $9EDBE0,.2,CODE_9EDBE0,new,branch target only used in this routine,src/routines/logic/assgoalie.asm
 $9EDBEC,.3,CODE_9EDBEC,new,branch target only used in this routine,src/routines/logic/assgoalie.asm
-$9FDE26,.1,CODE_9FDE26,new,branch target only used in this routine,src/routines/input/lcfound2.asm
-$9FDE38,.2,CODE_9FDE38,new,branch target only used in this routine,src/routines/input/lcfound2.asm
+$9FDE26,.1,CODE_9FDE26,new,branch target only used in this routine,src/routines/input/lcfound_close.asm
+$9FDE38,.2,CODE_9FDE38,new,branch target only used in this routine,src/routines/input/lcfound_close.asm
 $9FD980,.1,CODE_9FD980,new,branch target only used in this routine,src/routines/assign/assbench.asm
 $9FD987,.2,CODE_9FD987,new,branch target only used in this routine,src/routines/assign/assbench.asm
 $9E8AD2,.1,CODE_9E8AD2,new,branch target only used in this routine,src/routines/checks/asswingo.asm
@@ -1623,13 +1623,13 @@ $9FA85C,.loop2,CODE_9FA85C,new,branch target only used in this routine,src/routi
 $9FA89B,.1,CODE_9FA89B,new,branch target only used in this routine,src/routines/checks/puckfaceoff2.asm
 $9FA8AB,.2,CODE_9FA8AB,new,branch target only used in this routine,src/routines/checks/puckfaceoff2.asm
 $9FA8D1,.3,CODE_9FA8D1,new,branch target only used in this routine,src/routines/checks/puckfaceoff2.asm
-$9FDE41,.loop,CODE_9FDE41,new,branch target only used in this routine,src/routines/input/lcfound2.asm
-$9FDE6A,.1,CODE_9FDE6A,new,branch target only used in this routine,src/routines/input/lcfound2.asm
-$9FDE7A,.loop2,CODE_9FDE7A,new,branch target only used in this routine,src/routines/input/lcfound2.asm
-$9FDE8F,.2,CODE_9FDE8F,new,branch target only used in this routine,src/routines/input/lcfound2.asm
-$9FDE9C,.3,CODE_9FDE9C,new,branch target only used in this routine,src/routines/input/lcfound2.asm
-$9FDEB6,.4,CODE_9FDEB6,new,branch target only used in this routine,src/routines/input/lcfound2.asm
-$9FDF02,.loop3,CODE_9FDF02,new,branch target only used in this routine,src/routines/input/lcfound2.asm
+$9FDE41,.loop,CODE_9FDE41,new,branch target only used in this routine,src/routines/input/lcfound_close.asm
+$9FDE6A,.1,CODE_9FDE6A,new,branch target only used in this routine,src/routines/input/lcfound_close.asm
+$9FDE7A,.loop2,CODE_9FDE7A,new,branch target only used in this routine,src/routines/input/lcfound_close.asm
+$9FDE8F,.2,CODE_9FDE8F,new,branch target only used in this routine,src/routines/input/lcfound_close.asm
+$9FDE9C,.3,CODE_9FDE9C,new,branch target only used in this routine,src/routines/input/lcfound_close.asm
+$9FDEB6,.4,CODE_9FDEB6,new,branch target only used in this routine,src/routines/input/lcfound_close.asm
+$9FDF02,.loop3,CODE_9FDF02,new,branch target only used in this routine,src/routines/input/lcfound_close.asm
 $9EBE8D,.1,CODE_9EBE8D,new,branch target only used in this routine,src/routines/assign/asspenalty.asm
 $9B9041,.1,CODE_9B9041,new,branch target only used in this routine,src/routines/stats/SelectLinePlayer.asm
 $9B906B,.2,CODE_9B906B,new,branch target only used in this routine,src/routines/stats/SelectLinePlayer.asm
@@ -3079,7 +3079,7 @@ $9FE21D,.t1,CODE_9FE21D,new,continued in the previous routine,src/routines/hocke
 $9FE1D8,.t1,CODE_9FE1D8,new,continued in the previous routine,src/routines/hockey/PauseMenu.asm
 $9FE13F,.t1,CODE_9FE13F,new,continued in the previous routine,src/routines/hockey/PauseMenu.asm
 $9FE03E,.t1,CODE_9FE03E,new,continued in the previous routine,src/routines/input/lcfound.asm
-$9FDE3C,.t1,CODE_9FDE3C,new,continued in the previous routine,src/routines/input/lcfound2.asm
+$9FDE3C,.t1,CODE_9FDE3C,new,continued in the previous routine,src/routines/input/lcfound_close.asm
 $9FDC8E,.t1,CODE_9FDC8E,new,continued in the previous routine,src/routines/assign/check4bench.asm
 $9FDC4B,.t1,CODE_9FDC4B,new,continued in the previous routine,src/routines/checks/chk4lc.asm
 $9FDAD7,.t1,CODE_9FDAD7,new,continued in the previous routine,src/routines/checks/CompLine.asm
@@ -3088,7 +3088,7 @@ $9FD907,.t1,CODE_9FD907,new,continued in the previous routine,src/routines/assig
 $9FD8D2,.t1,CODE_9FD8D2,new,continued in the previous routine,src/routines/assign/assbench.asm
 $9FD87A,.t1,CODE_9FD87A,new,continued in the previous routine,src/routines/assign/assbench.asm
 $9FD78D,.t1,CODE_9FD78D,new,continued in the previous routine,src/routines/input/lineinput.asm
-$9FD72D,.t1,CODE_9FD72D,new,continued in the previous routine,src/routines/collide/TryAddPlayerToList.asm
+$9FD72D,.t1,CODE_9FD72D,new,continued in the previous routine,src/routines/collide/SetPlList_s1.asm
 $9FD6BF,.t1,CODE_9FD6BF,new,continued in the previous routine,src/routines/collide/SetPlList.asm
 $9FD59A,.t1,CODE_9FD59A,new,continued in the previous routine,src/routines/collide/SetPlList.asm
 $9FD4FC,.t1,CODE_9FD4FC,new,continued in the previous routine,src/routines/collide/setpersonel.asm
@@ -3846,15 +3846,15 @@ $9E8BE6,assexit,CODE_9E8BE6,93S,"five assignment routines jump here where 93S ju
 $9FDBD0,chk4lc,CODE_9FDBD0,93S,asspuckc calls it where 93S calls chk4lc; the 93S body after a 94 test,src/routines/checks/chk4lc.asm
 $9FB9A4,ClrHor,CODE_9FB9A4,93S,puckfaceoff calls it where 93S calls ClrHor; most instructions as 93S,src/routines/penalty/ClrHor.asm
 $9FA3BE,TickerNext,CODE_9FA3BE,93S,IntermissionTick calls it where 93S calls TickerNext; same instructions for the most part,src/routines/penalty/TickerNext.asm
-$9FA697,ShowGoalBox,CODE_9FA697,93S,"SetPA calls it where 93S calls ShowGoalBox; the 93S body (lcfound2 twice, ScoreSum)",src/routines/data/ShowGoalBox.asm
+$9FA697,ShowGoalBox,CODE_9FA697,93S,"SetPA calls it where 93S calls ShowGoalBox; the 93S body (lcfound_close twice, ScoreSum)",src/routines/data/ShowGoalBox.asm
 $9ED0A8,ChkGoalies,CODE_9ED0A8,93S,periodicevents calls it where 93S calls ChkGoalies; same two-team loop,src/routines/checks/ChkGoalies.asm
 $9ED0FD,ReturnGoalies,CODE_9ED0FD,93S,puckfaceoff calls it where 93S calls ReturnGoalies; same two-team loop,src/routines/checks/ReturnGoalies.asm
 $9BCDE2,ResetPassWord,CODE_9BCDE2,93S,EncodePW calls it where 93S calls ResetPassWord; fills PassWord with $1E,src/routines/hockey/ResetPassWord.asm
 $9BCDB3,PushBits,CODE_9BCDB3,93S,WritePassBits calls it where 93S calls PushBits; SuperMult then SuperAdd as in 93S,src/routines/data/PushBits.asm
 $9CA4CF,SuperMult,CODE_9CA4CF,93S,PushBits and PWtoBits call it where 93S calls SuperMult; the 93S shift-and-add over passbits,src/routines/data/SuperMult.asm
 $9EA8A9,doplayeracc,CODE_9EA8A9,93S,lineinput calls it where 93S calls doplayeracc; most instructions as 93S,src/routines/checks/doplayeracc.asm
-$9FDE13,lcfound2,CODE_9FDE13,93S,lineinput and ShowGoalBox call it where 93S calls lcfound2; most instructions as 93S,src/routines/input/lcfound2.asm
-$9FE089,setlccords,CODE_9FE089,93S,SetLCmode2 and lcfound2 call it where 93S calls setlccords; the 93S start,src/routines/input/setlccords.asm
+$9FDE13,lcfound_close,CODE_9FDE13,93S,lineinput and ShowGoalBox call it where 93S calls lcfound_close; most instructions as 93S,src/routines/input/lcfound_close.asm
+$9FE089,setlccords,CODE_9FE089,93S,SetLCmode2 and lcfound_close call it where 93S calls setlccords; the 93S start,src/routines/input/setlccords.asm
 $9EDED4,chk4shot,CODE_9EDED4,93S,asspuckc calls it where 93S calls chk4shot; the 93S body after a 94 test,src/routines/checks/chk4shot.asm
 $9F9EB7,SetScore,CODE_9F9EB7,93S,UpdateScores calls it where 93S calls SetScore; most instructions as 93S,src/routines/penalty/SetScore.asm
 $9EFA36,PushRef,CODE_9EFA36,93S,SetPA2 calls it where 93S calls PushRef; most instructions as 93S,src/routines/penalty/PushRef.asm
@@ -4535,8 +4535,8 @@ $9E9A49,puckglue,CODE_9E9A49,93S,called from the puck-goalie and puck-stick code
 $9CA227,InitSortObjects,CODE_9CA227,93S,called from the setoptions and setupice code as in 93S; most instructions as 93S,src/routines/video/InitSortObjects.asm
 $9EDFF7,shotdiradj,CODE_9EDFF7,93S,called from the shot release (CODE_9EE220) where 93S doshot calls shotdiradj; most instructions as 93S,src/routines/input/shotdiradj.asm
 $9EE0CD,CalcAngleOffset,CODE_9EE0CD,93S,shotdiradj calls it where 93S calls CalcAngleOffset; the 93S body,src/routines/input/CalcAngleOffset.asm
-$9FBD66,printteamname,CODE_9FBD66,93S,"same instructions as 93S printteamname, with print; PrintTeamNameAndScore calls it as in 93S (CODE_9B9B35 is a copy that calls another print)",src/routines/penalty/printteamname.asm
-$9F9DB0,PrintTeamNameAndScore,CODE_9F9DB0,93S,"printscores1 calls it where 93S calls PrintTeamNameAndScore; printteamname, then the score as in 93S",src/routines/penalty/PrintTeamNameAndScore.asm
+$9FBD66,printteamname,CODE_9FBD66,93S,"same instructions as 93S printteamname, with print; printscores1_ps calls it as in 93S (CODE_9B9B35 is a copy that calls another print)",src/routines/penalty/printteamname.asm
+$9F9DB0,printscores1_ps,CODE_9F9DB0,93S,"printscores1 calls it where 93S calls printscores1_ps; printteamname, then the score as in 93S",src/routines/penalty/printscores1_ps.asm
 $9EA419,updateanim,CODE_9EA419,93S,updateplayers calls it where 93S calls updateanim; most instructions as 93S,src/routines/replay/updateanim.asm
 $9E8E91,wallcollb,CODE_9E8E91,93S,"checkwallcoll calls it where 93S calls wallcollb; the 93S body (the puck out of play goes to ShootoutWonBy, which ends in AddPenalty2)",src/routines/collide/wallcollb.asm
 $9FC1B9,doinput,CODE_9FC1B9,93S,"updateplayers calls it where 93S calls doinput; the 93S pause, face off and line change paths",src/routines/input/doinput.asm
@@ -5710,7 +5710,7 @@ $9EC913,ClearPenaltyMessage,CODE_9EC913,93S,93S ClearPenaltyMessage job; prefmes
 $9FC3F8,GetPlayerName,CODE_9FC3F8,93S,"The 93S GetPlayerName body (TempPlOffset, the team bit, PlayerNumName); UpdatePA calls it as in 93S",src/routines/data/GetPlayerName.asm
 $9FC4A1,GetPlayerNumInitial,CODE_9FC4A1,93S,"The 93S GetPlayerNumInitial body (TempPlOffset, the team bit, PlayerShortName); ShowInjuryBox calls it as in 93S. The name was on $9FC576 before (now GetPlayerInitial: it calls PlayerInitialName and has no caller)",src/routines/data/GetPlayerNumInitial.asm
 $9FC896,StatsReport,CODE_9FC896,93S,"The 93S StatsReport layout (position 0,0, a 32 x 29 erase with blankchar, then the rink map to VRAM); SetHor calls it as in 93S",src/routines/period/StatsReport.asm
-$9F9E15,Mod100,CODE_9F9E15,new,Behavior: printscores1 and PrintTeamNameAndScore use it before PushNumber for the scores,src/routines/middle/Mod100.asm
+$9F9E15,Mod100,CODE_9F9E15,new,Behavior: printscores1 and printscores1_ps use it before PushNumber for the scores,src/routines/middle/Mod100.asm
 $9F9DFB,AlignBigNumber,CODE_9F9DFB,new,Behavior: printscores1 calls it between PushNumber and printbig for the shot counts,src/routines/penalty/AlignBigNumber.asm
 $9FCB68,AssignPadPlayer,CODE_9FCB68,new,"Behavior: the MultiPlayer 5 pad and player tables; called from doinput, findpc and the other pad helpers",src/routines/logic/AssignPadPlayer.asm
 $9FCB5C,AssignPadIfFree,CODE_9FCB5C,new,Behavior: called from puckglue and dopass,src/routines/logic/AssignPadIfFree.asm

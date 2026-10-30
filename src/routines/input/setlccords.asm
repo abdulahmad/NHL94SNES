@@ -1,7 +1,7 @@
 ; printx / printy and the size of team a2's line change box
 ;
 ; Takes a2 = team. Returns the print position (printx/printy) and d0 = $C (width), d1 = 6 (height; 5 when
-; choice 2 has no line). Called from SetLCmode2 and lcfound2.
+; choice 2 has no line). Called from SetLCmode2 and lcfound_close.
 setlccords:							; position and size of the line change box of team a2
 	stz.b d0						; d0 = 0
 	lda.b a2						; team

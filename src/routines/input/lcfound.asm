@@ -1,7 +1,7 @@
 ; Change team a2 to the chosen line
 ;
 ; Takes a2 = team, a3 = player X, d2 = the chosen line change row. Leaves the box (tmflags bit 3 cleared),
-; sets tmline, puts the new line on the ice and ends in lcfound2. Called from lineinput and puckfaceoff.
+; sets tmline, puts the new line on the ice and ends in lcfound_close. Called from lineinput and puckfaceoff.
 lcfound:							; switch team a2 to the line chosen by row d2
 	ldx.b a3						; X = player
 	ldy.b a2						; Y = team offset
@@ -24,7 +24,7 @@ lcfound:							; switch team a2 to the line chosen by row d2
 	lda.w #$FFFF					; no pad has the box
 	sta.w lcpad,y					; store it
 	jsl.l setpersonel				; players for the new line
-	jmp.w lcfound2					; close the box and redraw the scoreboard
+	jmp.w lcfound_close					; close the box and redraw the scoreboard
 
 .t1:								; nothing chosen
 	rtl

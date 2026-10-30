@@ -20,7 +20,7 @@ lineinput:							; pad input for the line change box
 	sta.w tmflags,y
 	lda.w #$FFFF
 	sta.w lcpad,y					; no pad owns the box
-	jsl.l lcfound2					; close the box
+	jsl.l lcfound_close					; close the box
 	jsl.l SetLCmode2				; and open it again
 .2:									; d1 = pulled value, d2 = 0, if not zero go to .t3, ...
 	pla								; restore the presses
@@ -57,7 +57,7 @@ lineinput:							; pad input for the line change box
 	sta.w tmflags,y
 	lda.w #$FFFF					; no pad owns the box
 	sta.w lcpad,y
-	jmp.w lcfound2					; redraw the scoreboard
+	jmp.w lcfound_close					; redraw the scoreboard
 
 .t3:								; row chosen
 	jmp.w lcfound					; switch lines

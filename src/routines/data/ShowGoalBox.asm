@@ -26,10 +26,10 @@ ShowGoalBox:						; called from SetPA
 	sta.w lcpad
 	sta.w lcpad+2
 	stz.b a2						; find the line change data for both teams
-	jsl.l lcfound2					; close the line change box and redraw the scoreboard
+	jsl.l lcfound_close					; close the line change box and redraw the scoreboard
 	inc.b a2
 	inc.b a2
-	jsl.l lcfound2					; close the line change box and redraw the scoreboard
+	jsl.l lcfound_close					; close the line change box and redraw the scoreboard
 	lda.w #ScoreSum>>16
 	sta.b a4+2
 	lda.w #ScoreSum-6

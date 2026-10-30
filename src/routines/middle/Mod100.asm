@@ -1,5 +1,5 @@
 ; d0 = d0 mod 100
-Mod100:								; called from PrintTeamNameAndScore, printscores1
+Mod100:								; called from printscores1_ps, printscores1
 	lda.b d0
 .loop:								; loop: if carry clear go to .t1, ...
 	cmp.w #$0064

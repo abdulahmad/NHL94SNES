@@ -140,7 +140,7 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1+2
 	stz.b d3						;team 0
 	stz.b a2						;home
-	jsl.l PrintTeamNameAndScore		;home name and score
+	jsl.l printscores1_ps		;home name and score
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -157,7 +157,7 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	inc.b d3						;team 1
 	inc.b a2
 	inc.b a2						;visitors
-	jsl.l PrintTeamNameAndScore		;visitors' name and score
+	jsl.l printscores1_ps		;visitors' name and score
 	stz.b a2						;home
 	lda.w #$0002
 	sta.b a3						;a3 = visitors
