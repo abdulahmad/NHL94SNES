@@ -101,8 +101,8 @@ Reset_Fast:							; called from Reset
 	sta.l OAMHiMasks-1,x
 	dex
 	bne .loop9
-.1:									; call ResetStub, IniDispShadow = $8F
-	jsl.l ResetStub					; does nothing
+.1:									; call Reset_Fast_ret, IniDispShadow = $8F
+	jsl.l Reset_Fast_ret			; emptied in 94
 	sep #$20
 	rep #$10
 	lda.b #$8F

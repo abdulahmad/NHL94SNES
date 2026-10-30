@@ -3,7 +3,6 @@
 org $9F8000
 incsrc "../routines/hockey/ShowPeriodStats.asm"
 incsrc "../routines/hockey/DrawPeriodStats.asm"
-incsrc "../routines/snes/ResetStub.asm"
 incsrc "../routines/setup/Opening.asm"
 incsrc "../routines/hockey/StartGame.asm"
 incsrc "../routines/hockey/StartPer.asm"

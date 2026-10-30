@@ -34,7 +34,7 @@ PlayShootout:						; called from Restart
 	lda.w #$0002
 	sta.b a1
 	jsl.l .t1
-	jsl.l ShootoutStub				; does nothing
+	jsl.l PlayShootout_ret			; emptied in 94
 	inc.w shootoutround
 	lda.w shootoutround
 	cmp.w #$0006
