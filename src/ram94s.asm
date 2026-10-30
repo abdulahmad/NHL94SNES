@@ -4,7 +4,7 @@
 
 ; Direct page ($00-$FF), then work RAM $0100-$1FFF, then banks $7E / $7F, then constants (93S order)
 
-; Direct page the game logic uses as the 68k registers.
+; Scratch / port registers: the direct page the game logic uses as the 68k registers (a0-a5, d0-d7), scratch words and xsave.
 ;
 ; The engine's parameter / scratch registers at the bottom of the direct page, 4 bytes each like a0-a6 / d0-d7
 ; (NAME+2 is the upper word or the bank). What each holds changes per routine: r0-r2 the divider and
@@ -25,13 +25,23 @@ a0		=	$89						; long pointer; a0+2 is the bank
 a1		=	$8D						; long pointer; a1+2 is the bank
 a2		=	$91						; team index, 0 = home
 a3		=	$95						; long pointer; a3+2 is the bank
+a4			=	$99					; long pointer; a4+2 is the bank
+a5			=	$9D					; long pointer (the next of the 4-byte a registers); a5+2 is the bank
 d0		=	$A5
 d1		=	$A9						; d1+2 is the high word
 d2		=	$AD
+d3			=	$B1
+d4			=	$B5
+d5			=	$B9
+d6			=	$BD
 d7		=	$C1						; frames elapsed, added into speeds
 tmp0	=	$C5						; scratch word; tmp0+1 is the next byte
 tmp1	=	$C7						; scratch word
 tmp2	=	$C9						; scratch byte; tmp2+1 is the next byte
+tmp3		=	$CB					; scratch word (after tmp0-tmp2)
+tmp4		=	$CD					; scratch word
+tmp5		=	$CF					; scratch word
+xsave		=	$87					; X saved around the push/pop loops
 
 ; Direct page of the NMI / DMA queue, the software multiply, the sound stream and the sequencer. EventData1,
 ; EventData2 and EventCode are what ReadTrackEvent fills; StepTrack (the pitch bend event) and StartSoundVoice
@@ -170,19 +180,9 @@ curobjteam		=	$EA				;never read. Team of the object being updated, 0 = home, 2 
 curobjopp		=	$EC				;never read. The other team of the object being updated (2 for the home
 									;objects, 0 from X = $0C on), set ...
 
-xsave		=	$87					; X saved around the push/pop loops
-a4			=	$99					; long pointer; a4+2 is the bank
-d3			=	$B1
-d4			=	$B5
-d5			=	$B9
-d6			=	$BD
-a5			=	$9D					; long pointer (the next of the 4-byte a registers); a5+2 is the bank
 Vcount		=	$83					; 32-bit frame counter, +1 per NMI (NMI_Tick; 93S Vcount)
 crowdhold	=	$81					;frames the crowd level holds before it fades (Goal 120, puckglue 20;
 									;updatecrowdf counts it down)
-tmp3		=	$CB					; scratch word (after tmp0-tmp2)
-tmp4		=	$CD					; scratch word
-tmp5		=	$CF					; scratch word
 curobj		=	$E4					;object index of the object being updated (updateplayers,
 									;CalcPuckDistances store X; the assignments reload it)
 
