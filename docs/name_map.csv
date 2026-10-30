@@ -306,7 +306,7 @@ $9D9CD2,WeightedRandomSelect,CODE_9D9CD2,93S,"same instructions as the 93S routi
 $9E827C,chkpk2,CODE_9E827C,93S,"same instructions as the 93S routine chkpk2 (logic)",src/routines/checks/chkpk2.asm
 $9EA3DD,SetSPA,CODE_9EA3DD,93S,"same instructions as the 93S routine SetSPA (logic)",src/routines/checks/SetSPA.asm
 $9EA6FA,RemovePlayerFromList,CODE_9EA6FA,93S,"same instructions as the 93S routine RemovePlayerFromList (penalty)",src/routines/penalty/RemovePlayerFromList.asm
-$9EB6F7,coinsearch,CODE_9EB6F7,93S,"same instructions as the 93S routine coinsearch (penalty)",src/routines/penalty/coinsearch.asm
+$9EB6F7,InProgress_ap,CODE_9EB6F7,93S,"same instructions as the 93S routine InProgress_ap (penalty)",src/routines/penalty/InProgress_ap.asm
 $9ECFA5,appstring,CODE_9ECFA5,93S,"same instructions as the 93S routine appstring (middle)",src/routines/video/appstring.asm
 $9EC107,ClearPenaltyBuffer,CODE_9EC107,93S,"same instructions as the 93S routine ClearPenaltyBuffer (penalty)",src/routines/penalty/ClearPenaltyBuffer.asm
 $9EC071,releasepl,CODE_9EC071,93S,"same instructions as the 93S routine releasepl (penalty)",src/routines/penalty/releasepl.asm
@@ -513,9 +513,9 @@ $9EBB9F,.top,CODE_9EBB9F,93S,GetLowestPen box scan,src/routines/penalty/GetLowes
 $9EBBB7,.h0,CODE_9EBBB7,93S,GetLowestPen home roster,src/routines/penalty/GetLowestPen.asm
 $9EB85D,.rtl,CODE_9EB85D,93S,updatepwrplay_clr return,src/routines/penalty/updatepwrplay_clr.asm
 $9FC97E,.add,CODE_9FC97E,93S,addteamstat,src/routines/penalty/addteamstat.asm
-$9EB701,.top,CODE_9EB701,93S,coinsearch,src/routines/penalty/coinsearch.asm
-$9EB708,.tm,CODE_9EB708,93S,coinsearch team,src/routines/penalty/coinsearch.asm
-$9EB727,.nap,CODE_9EB727,93S,coinsearch not a penalty,src/routines/penalty/coinsearch.asm
+$9EB701,.top,CODE_9EB701,93S,InProgress_ap,src/routines/penalty/InProgress_ap.asm
+$9EB708,.tm,CODE_9EB708,93S,InProgress_ap team,src/routines/penalty/InProgress_ap.asm
+$9EB727,.nap,CODE_9EB727,93S,InProgress_ap not a penalty,src/routines/penalty/InProgress_ap.asm
 $9EA6FF,.loop,CODE_9EA6FF,93S,RemovePlayerFromList,src/routines/penalty/RemovePlayerFromList.asm
 $9F9D8F,.list,CODE_9F9D8F,new,PrintPerLabel overtime adjusts the period index,src/routines/penalty/PrintPerLabel.asm
 $9F9D99,.next,CODE_9F9D99,93S,PrintPerLabel,src/routines/penalty/PrintPerLabel.asm
@@ -5725,8 +5725,8 @@ $9EF78A,ChkOffsides,CODE_9EF78A,93S,"pucknorm calls it where 93S pucknorm calls 
 $9EB3C5,.2,CODE_9EB3C5,new,chkprogress: a penalty is on (folded into chkprogress),src/routines/penalty/chkprogress.asm
 $9EB3C4,.1,CODE_9EB3C4,new,chkprogress: the rtl,src/routines/penalty/chkprogress.asm
 $9EB4A1,chkprogress_find,CODE_9EB4A1,93S,chkprogress: look for any penalty left in PenBuf (93S chkprogress .find); InProgress jumps here too,src/routines/penalty/chkprogress.asm
-$9EB6B8,InProgress_exit,CODE_9EB6B8,93S,"InProgress: the penalties are over (as the 93S InProgress .exit: clear gmpen, coinsearch both teams); folded into InProgress.asm",src/routines/penalty/InProgress.asm
-$9EB6CC,InProgress_coin,CODE_9EB6CC,new,InProgress: coinsearch for both teams and restore the registers,src/routines/penalty/InProgress.asm
+$9EB6B8,InProgress_exit,CODE_9EB6B8,93S,"InProgress: the penalties are over (as the 93S InProgress .exit: clear gmpen, InProgress_ap both teams); folded into InProgress.asm",src/routines/penalty/InProgress.asm
+$9EB6CC,InProgress_coin,CODE_9EB6CC,new,InProgress: InProgress_ap for both teams and restore the registers,src/routines/penalty/InProgress.asm
 $9EB6F6,InProgress_rtl,CODE_9EB6F6,new,InProgress: the rtl,src/routines/penalty/InProgress.asm
 $9EBEA1,PenBoxSpot,CODE_9EBEA1,new,"Behavior: the computation 93S asspenalty does inline before its muls16 (d0 by team, the box count + 3); called from asspenalty and SeatPenaltyBox",src/routines/penalty/PenBoxSpot.asm
 $9EBF11,SeatPenaltyBox,CODE_9EBF11,new,Behavior: not in a shootout; called from puckfaceoff2 and chkprogress,src/routines/penalty/SeatPenaltyBox.asm

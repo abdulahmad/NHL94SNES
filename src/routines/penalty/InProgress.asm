@@ -275,15 +275,15 @@ InProgress_exit:					; the penalty list is empty: end the penalty mode
 	lda.w #$001B					; assignment 27: puck faceoff
 	sta.b d0
 	jsl.l assreplace				; replace the assignment
-; InProgress: coinsearch for both teams (not in a shootout), restore the registers
+; InProgress: InProgress_ap for both teams (not in a shootout), restore the registers
 InProgress_coin:					; restore the registers and leave; first look for coincidental penalties
 	lda.w penshot					; penalty shot in progress?
 	bne .1							; yes: skip
 	stz.b a2						; team 0
-	jsl.l coinsearch				; find coincidental penalties
+	jsl.l InProgress_ap				; find coincidental penalties
 	lda.w #$0002					; team 2
 	sta.b a2
-	jsl.l coinsearch
+	jsl.l InProgress_ap
 .1:									; registers back
 	stx.b xsave
 	ldx.w #$000E
