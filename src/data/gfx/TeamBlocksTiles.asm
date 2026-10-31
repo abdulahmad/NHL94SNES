@@ -1,4 +1,4 @@
-; The team block tiles (21), loaded at scorechars: DrawTeamBlocks draws TeamBlocksMap over them in the team's
+; The team block tiles (21), loaded at scorechars: DrawTeamBlocks draws TeamBlocksmap over them in the team's
 ; TeamBlockPalettes colours, as 93S TeamBlocksTiles (94 draws the name as sprites, so the tiles are a plain
 ; block)
 

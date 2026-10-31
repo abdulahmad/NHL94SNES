@@ -43,9 +43,9 @@ DrawSelectTeam:						; called from PlayerSelect
 	lda.l redrawblocks
 	beq .1x
 	ldy.w #$0000
-	lda.w #TeamBlocksMap>>16
+	lda.w #TeamBlocksmap>>16
 	sta.b a2+2
-	lda.w #TeamBlocksMap+6
+	lda.w #TeamBlocksmap+6
 	sta.b a2
 	lda.w printy
 	asl a
