@@ -1,10 +1,10 @@
 # Handoff
 
-## Comment pass (in progress)
+## Comment pass (done)
 
 Goal: every label in `src/routines/**/*.asm` has a trailing comment, every routine has a header comment (what it does, takes and returns, callers found with grep), and non-obvious steps have short comments, as in NHLPA93SNES. Rules: `CONTRIBUTING.md` sections 2 to 5. The pass is comment-only: the ROM must stay byte-identical.
 
-- Done: about 3,900 labels, with headers and step comments, in about 320 files. About 1,640 labels in 434 files are still uncommented. List them with `for f in $(find src/routines -name '*.asm'); do u=$(grep -E '^\.?[A-Za-z_][A-Za-z0-9_]*:' $f | grep -vc ';'); [ "$u" -gt 0 ] && echo "$u $f"; done | sort -rn`.
+- Done: every label in `src/routines/**/*.asm` has a trailing comment and every routine file has a header (31 Oct 2026 check; `tools/check_comments.py` prints `comment layout OK`). To re-check for uncommented labels use `for f in $(find src/routines -name '*.asm'); do u=$(grep -E '^\.?[A-Za-z_][A-Za-z0-9_]*:' $f | grep -vc ';'); [ "$u" -gt 0 ] && echo "$u $f"; done | sort -rn`.
 - Also done: `SoundBankGame` and `SoundBankMenu` replace the bare `sndbank` values; the SPC upload routines, `SPCSendSample` and `QueueSound` are explained; comments were carried over from identical NHLPA93SNES code.
 - Sources for wording: the same routine name in NHLPA93SNES `src/routines/**` (same CPU, closest), NHL94Genesis `src/*.asm` and NHLPA93Genesis `src/*.asm`. Port a comment only after checking that the logic is the same.
 - Check after every batch of about 15 files: `./build.sh` must print `MATCH` (or `tools/bin/asar --fix-checksum=off src/nhl94snes.asm /tmp/out.sfc && cmp nhl94retail.sfc /tmp/out.sfc`), and `python3 tools/check_comments.py` must print `comment layout OK`. The comment column is 36, lines are at most 110 columns, paragraphs at most 3 lines.
@@ -177,6 +177,8 @@ User-approved policy is in `docs/cleanup_plan.md` (section **Unsure decisions**,
 - `#$0800` and `#$0040` stay raw except `showclock` (`sf2replay`) and `freezewindow` (`sfslock`). `#$2000` and `#$4000` stay raw except `chkpk` (`sf2pwrplay`) and `chkpk2` (`sf2pwrtm`).
 
 ## Alignment
+
+- 31 Oct 2026 recheck of the 138 NHLPA93SNES routine names that 94S does not use: an instruction-for-instruction search of the 94S routines found no 93S routine whose body is a whole 94S routine under another name (`noturn` is `revplayeracc`; `ConvertByteToDigits`, `FinalizeTextBuffer`, `GetRosterEntry89` and `SortObjInitTable` are inlined inside `PutDigits2`, `MesAreaDone`, `GetPlayerRecord` and `defaultsprites_0`). No rename applied. 94G names are taken as the 94G alignment thread lands them.
 
 - Audit is `docs/align_plan.md`. The team database in `src/data/teamdata94s.asm` covers the old bank9C B000/C000/D000 range; screen text continues at `$9CEF59`.
 - Layout done: banks `$80` through `$9F` are `src/banks/` files. Code banks are `b80_engine`, `b9B_screens`, `b9C_teams`, `b9D_roster`, `b9E_game` and `b9F_flow`. Routines are in `src/routines/`, tables in `src/data/tables/`. The SNES header is `src/header/snes_header.asm`. `tools/verify_all.sh` MATCH.
