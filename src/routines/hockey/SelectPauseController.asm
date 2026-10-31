@@ -50,7 +50,7 @@ SelectPauseController:				; called from PauseMenuPoll
 	stx.w pausepad
 	stz.w psitem
 	stz.w psfirst
-	jsl.l SetupPauseScreen						; draw the pause menu: five items of the current list from item psfirst
+	jsl.l SetupPauseScreen			; draw the pause menu: five items of the current list from item psfirst
 	jsl.l SendTextMap
 	jsr.w PulseUntilRelease
 	lda.w #$003C

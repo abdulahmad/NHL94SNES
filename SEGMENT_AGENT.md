@@ -780,3 +780,4 @@ until traced (`--entry`, `--continue`). The column is the default pass, not the 
 - More graphics named. MATCH.
 - All-star palettes. MATCH.
 - SPA entries from 93S call points. MATCH.
+- Comment layout: trailing comments at column 36 and lines within 110 columns (check_comments.py clean). MATCH.

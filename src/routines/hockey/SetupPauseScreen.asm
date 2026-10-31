@@ -1,6 +1,6 @@
 ; Draw the pause menu: five items of the current list (by pmenulist) from item psfirst, the selected one
 ; (psitem) highlighted, each with its value
-SetupPauseScreen:								; called from PauseMenuPoll, SelectPauseController, ShowMP5Warning, Sta...
+SetupPauseScreen:					; called from PauseMenuPoll, SelectPauseController, ShowMP5Warning, Sta...
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -202,7 +202,7 @@ PmenuAppend:						;append [a4] from Y+1 to its length onto mesarea
 	inc.w mesarea					;longer
 	ply
 	bra PmenuAppend
-PmenuRtl:							; called from SetupPauseScreen, PmenuAppend, PmenuDefValue, PmenuGoalieValue
+PmenuRtl:							; called from SetupPauseScreen, PmenuAppend, PmenuDefValue, ...
 	rtl
 PmenuGoalieValue:					; called from SetupPauseScreen
 	lda.w #PmenuValueItems>>16		;goalie mode item numbers per list

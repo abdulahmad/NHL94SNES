@@ -75,7 +75,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	tay
 	lda.w #doshot_shotsets>>16
 	sta.b a0+2
-	lda.w #doshot_shotsets					;target table
+	lda.w #doshot_shotsets			;target table
 	sta.b a0
 	lda.b [a0],y					;target x
 	sec

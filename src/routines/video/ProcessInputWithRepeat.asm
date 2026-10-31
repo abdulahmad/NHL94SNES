@@ -4,7 +4,7 @@ ProcessInputWithRepeat:				; called from EditLinesMenu, EditLinesScreen, Passwor
 	beq .rtl						; none: leave
 	lda.b d2						; d2 = changed buttons
 	bne .t1							; a change: restart the delay
-	dec.w repeatdelayframes				; count down
+	dec.w repeatdelayframes			; count down
 	bpl .rtl						; not yet: leave
 	lda.w #$0006
 	sta.w repeatdelayframes

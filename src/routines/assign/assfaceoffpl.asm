@@ -52,7 +52,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	bne .t2							; already pulling: leave
 	lda.w #SPAfaceoff				; face off animation
 	sta.b d1
-	lda.w temp1+puckscnum				; puck temp1 above $10: sometimes the reverse pull
+	lda.w temp1+puckscnum			; puck temp1 above $10: sometimes the reverse pull
 	cmp.w #$0011
 	bcc .4
 	jsl.l RandomWord

@@ -524,7 +524,7 @@ updateplayers:						; called from DoGameFrame
 	bpl .1xxxxxxxxxx
 	lda.w #$FF78					;clamp
 	sta.w puckx
-	ldx.w frame+puckscnum				;puck frame
+	ldx.w frame+puckscnum			;puck frame
 	cpx.w #SPFpuck					;on the ice?
 	bne .1xxxxxxxxxx
 	sta.w Xpos+puckscnum+2			;move the shadow too

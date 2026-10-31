@@ -1,5 +1,5 @@
 ; Once per game frame: build the sprite table for the next vblank
-setvideo:							; called from DoGameFrame, Pausemode_menu, Pausemode, PeriodOver, ReloadRink...
+setvideo:							; called from DoGameFrame, Pausemode_menu, Pausemode, PeriodOver, ...
 	stx.b xsave
 	ldx.w #$0000
 .loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
@@ -10,7 +10,7 @@ setvideo:							; called from DoGameFrame, Pausemode_menu, Pausemode, PeriodOver
 	cpx.w #$0038
 	bne .loop
 	ldx.b xsave
-	jsl.l updatescroll					; set the rink scroll from the camera position
+	jsl.l updatescroll				; set the rink scroll from the camera position
 	jsl.l checkfo					; draw the face off sprites
 	jsl.l .t3
 	jsl.l setsortcords				; draw the sorted objects in display order
@@ -19,7 +19,7 @@ setvideo:							; called from DoGameFrame, Pausemode_menu, Pausemode, PeriodOver
 	jsl.l showzam					; draw the zamboni moving across the horizontal rink
 	jsl.l showcrowd					; draw the crowd sprites
 	jsl.l showref					; referee graphics: only clears the referee flag here
-	jsl.l updatescroll_rows				; queue the rink map rows that the vertical scroll brought on screen
+	jsl.l updatescroll_rows			; queue the rink map rows that the vertical scroll brought on screen
 	lda.w sfhormode
 	beq .1
 	jsl.l DrawHorTeams

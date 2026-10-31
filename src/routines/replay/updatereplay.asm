@@ -16,27 +16,27 @@ updatereplay:						; called from DoGameFrame
 	lda.w sflags					;flags
 	bit.w #$0400					;recording paused?
 	bne .2							;yes: overwrite the frame
-	lda.w recbpr			;record pointer
+	lda.w recbpr					;record pointer
 	clc
 	adc.w #replaysize				;next frame
 	sta.w recbpr
 	bcc .1x							;no carry
-	inc.w recbpr+2			;next bank
+	inc.w recbpr+2					;next bank
 .1x:								; if not zero go to .2, ...
-	cmp.w #replayend			;at the end?
+	cmp.w #replayend				;at the end?
 	bne .2							;no
 	lda.w recbpr+2
-	cmp.w #replayend>>16		;same bank?
+	cmp.w #replayend>>16			;same bank?
 	bne .2							;no
 	lda.w #$0010					;buffer wrapped
 	tsb.w sflags					;flag it
 	lda.w #replaystart>>16
-	sta.w recbpr+2			;back to the start
+	sta.w recbpr+2					;back to the start
 	lda.w #replaystart
 	sta.w recbpr
 .2:									; WMADDL = recbpr, WMADDH = recbpr+2, d2 = $0F, ...
 	sep #$20
-	ldx.w recbpr			;frame address
+	ldx.w recbpr					;frame address
 	stx.w WMADDL					;WRAM port address
 	lda.w recbpr+2
 	sta.w WMADDH					;bank

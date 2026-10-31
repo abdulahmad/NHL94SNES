@@ -51,18 +51,18 @@ ReplayMode:							; called from PauseReplay
 	lda.w Hpos
 	pha
 	lda.w recbpr
-	cmp.w #replaystart		;pointer below the buffer?
+	cmp.w #replaystart				;pointer below the buffer?
 	lda.w recbpr+2
 	sbc.w #replaystart>>16
 	bcs .1							;no
 .loop:								; loop: recbpr+2 = $007E, recbpr = replaystart
-	lda.w #replaystart>>16	;reset it to the start
+	lda.w #replaystart>>16			;reset it to the start
 	sta.w recbpr+2
 	lda.w #replaystart
 	sta.w recbpr
 .1:									; if carry clear go to .loop, ...
 	lda.w #replayend
-	cmp.w recbpr			;past the end?
+	cmp.w recbpr					;past the end?
 	lda.w #replayend>>16
 	sbc.w recbpr+2
 	bcc .loop						;yes: reset
@@ -78,7 +78,7 @@ ReplayMode:							; called from PauseReplay
 	jsl.l Div32U					;offset / frame size
 	lda.b r2+2						;remainder?
 	bne .loop						;misaligned: reset
-	lda.w recbpr+2			;playback pointer = record pointer
+	lda.w recbpr+2					;playback pointer = record pointer
 	sta.b a4+2
 	lda.w recbpr
 	sta.b a4
@@ -671,7 +671,7 @@ org $9BB001
 	pla
 	sta.w Vpos
 	pla
-	sta.w recbpr+2			;and the record pointer
+	sta.w recbpr+2					;and the record pointer
 	pla
 	sta.w recbpr
 	lda.w #$0020

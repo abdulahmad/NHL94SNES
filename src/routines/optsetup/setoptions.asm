@@ -163,7 +163,7 @@ setoptions:							; called from Restart
 	sta.w lastframevc
 	sta.w OldVcount
 	jsl.l ReadJoy1					; read pad 1: d0 = direction, d1 = new presses, d2 = changed buttons
-	dec.w repeatdelayframes				;repeat timer
+	dec.w repeatdelayframes			;repeat timer
 	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1						;new presses
 	and.w #$FFF0					;buttons only
@@ -195,7 +195,7 @@ setoptions:							; called from Restart
 	sta.l notdemo					;demo
 	lda.w #$0000
 	sta.l OptPlayMode				;exhibition
-	sta.l OptNOP				;no players
+	sta.l OptNOP					;no players
 .5:									; p0 = BigLetterTiles, p1 = bigtextbuf, call Decompress, ...
 	lda.w #BigLetterTiles>>16
 	sta.b p0+2
@@ -227,7 +227,7 @@ setoptions:							; called from Restart
 	jsl.l NewPO						; start new playoffs with team 1 and build the tree
 .2x:								; OptNOP = $0001, if OptPlayMode < $0001 go to .3x, ...
 	lda.w #$0001
-	sta.l OptNOP				;one player
+	sta.l OptNOP					;one player
 	lda.l OptPlayMode				;play mode
 	cmp.w #$0001					;exhibition?
 	bcc .3x							;yes

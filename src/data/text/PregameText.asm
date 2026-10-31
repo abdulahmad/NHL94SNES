@@ -14,7 +14,7 @@ PregameText:						;the text of the pre-game screen, each string ending in $0D: t
 	db "Los Angeles",$0D
 	db "Montreal",$0D
 	db "New Jersey",$0D
-	incsrc "../../../Extracted/data/text/PregameNewYork.asm"	;the two New York lines: the nicknames are licensed names, generated from the ROM
+	incsrc "../../../Extracted/data/text/PregameNewYork.asm"	;the two New York lines
 	db "Ottawa",$0D
 	db "Philadephia",$0D
 	db "Pittsburgh",$0D

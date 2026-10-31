@@ -368,7 +368,7 @@ org $9F9001
 	sta.b d1						;7 high
 	jsl.l Framer					; draw a frame and fill it
 	jsl.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
-	jsl.l SetupPauseScreen						; draw the pause menu: five items of the current list from item psfirst
+	jsl.l SetupPauseScreen			; draw the pause menu: five items of the current list from item psfirst
 	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	jsl.l ScreenOn					; DisplayStats
 	stx.b xsave						; keep X

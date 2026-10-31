@@ -11,8 +11,8 @@ updatepentime:						; called from PenaltyManager
 	beq .t1
 	jmp.w .4
 
-.t1:								; PenShotActive = 0: Penaltytimer = Penaltytimer - d7, if plus go to .4, ...
-	lda.w Penaltytimer					; second countdown
+.t1:								; PenShotActive = 0: Penaltytimer = Penaltytimer - d7, if plus go .4, ...
+	lda.w Penaltytimer				; second countdown
 	sec								; minus d7
 	sbc.b d7
 	sta.w Penaltytimer

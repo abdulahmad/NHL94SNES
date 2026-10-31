@@ -90,7 +90,7 @@ FigureJoy:							; set which team each controller plays
 	plb								; restore the data bank
 	rtl
 .3:									; other games only: table pointer (set but not used)
-	lda.l OptNOP				; OptNOP
+	lda.l OptNOP					; OptNOP
 	asl a
 	asl a
 	sta.b d0

@@ -1,8 +1,8 @@
 ; Go to the next ticker game
 ;
-; Like Intermission_ticker: wraps to the last game of the round when the ticker is at game 0 and the current game is 0.
-; Otherwise NewTicker2 steps to the next game. Called from Intermission_tick.
-NewTicker2_next:							; steps the ticker to the next game
+; Like Intermission_ticker: wraps to the last game of the round when the ticker is at game 0 and the current
+; game is 0. Otherwise NewTicker2 steps to the next game. Called from Intermission_tick.
+NewTicker2_next:					; steps the ticker to the next game
 	lda.w TickerNum					; current ticker game
 	bmi .1							; none (negative): start from the last game
 	ora.l gamenum					; ticker game 0 and the current game 0?

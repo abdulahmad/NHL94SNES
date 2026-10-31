@@ -5,7 +5,7 @@
 ;
 ; After the jml there is a second routine that nothing calls (.t1): it saves d0-d7 and a1, builds a four cell
 ; bar from d0 in mesarea (d0 >> 7 capped at 31, 8 per cell), prints it mirrored, and restores everything.
-lcfound_close:							; close the line change box and redraw the scoreboard
+lcfound_close:						; close the line change box and redraw the scoreboard
 	jsl.l setlccords				; box position and size
 	lda.w printy					; box y
 	sec

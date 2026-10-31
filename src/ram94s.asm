@@ -4,7 +4,7 @@
 ; Ordered like 93S ram93s.asm (93G order): scratch registers, ports, buttons and controllers, sounds,
 ; rink, replay, record offsets, then work RAM in 93G order; 94S-only names sit in the group they belong to.
 
-;scratch registers (SNES port artifacts: the 68k registers in direct page, scratch, math operands and the jml trampoline)
+;scratch registers (SNES port artifacts: 68k registers in direct page, scratch, math operands, jml trampoline)
 ; 65816 scratch registers in direct page
 r0		=	$00
 r1		=	$04
@@ -99,7 +99,7 @@ BG1HScroll			=	$07D6		;NMI_HookReturn writes the 6 words BG1HScroll..$07E1 to BG
 									;(x = 0..$0B, $07D7 = BG1HScroll+1); ...
 BG1VScroll			=	$07D8		;2nd word of the NMI_HookReturn scroll list
 									;(BG1VOFS); ResetPPURegs sets $FFFF
-BG2HScroll			=	$07DA		;updatescroll_rows stores Hscroll+$C0 here, as 93S writes BG2HOFS = Hscroll+$C0
+BG2HScroll			=	$07DA		;updatescroll_rows stores Hscroll+$C0 here, as 93S BG2HOFS
 BG2VScroll			=	$07DC		; updatescroll_rows stores vramrow*8 + (Vscroll&7), the 93S BG2VOFS value
 BG3HScroll			=	$07DE		;5th word of the NMI_HookReturn scroll list (BG3HOFS);
 									;ResetPPURegs/PlayoffScreen/TitleScreen
@@ -323,9 +323,9 @@ NewHandleSlot		=	$07A4		; NewHandle: the free handle being filled
 NewHandleSkipBank	=	$07A6		; NewHandle: the bank it must not use
 HandleTable			=	$7E2000		; handles of 4 bytes: address word, bank word (0,0 = free)
 
-replaystart	=	$7E577E		; first replay frame record
+replaystart	=	$7E577E				; first replay frame record
 replaysize	=	$7A					; bytes per replay frame record
-replayend		=	$7EE676		; replay buffer end
+replayend		=	$7EE676			; replay buffer end
 hlsavebuf		=	$7E47F4			;SaveRegsStartHL2 copies gmode-1 ($15D3) .. +$780 and then ScoreSumbytes
 									;here and back, as 93S StartHL2 ...
 lastframevc			=	$0D35		; Vcount of the last game frame (Gameloop)
@@ -529,7 +529,7 @@ fodropx			=	$7E3126			;puckfaceoff2 sets the faceoff box x; updatefaceoff ((x-$2
 									;and checkfo read it as 93S fodropx.
 fodropy			=	$7E3128			;puckfaceoff2 sets $5C; updatefaceoff ((y-$44)/8 to printy) and checkfo
 									;read it as 93S fodropy.
-recbpr		=	$0D1F		; long pointer to the next replay frame record
+recbpr		=	$0D1F				; long pointer to the next replay frame record
 
 ;vblank and frame timing
 Vcount		=	$83					; 32-bit frame counter, +1 per NMI (NMI_Tick; 93S Vcount)
@@ -547,7 +547,7 @@ velstep				=	$0CDF		; d7*16: velocity to position scale this game frame
 gravstep			=	$0CE1		; d7*96: gravity this game frame
 timestep		=	$0ADB			;Gameloop/SaveRegsStartHL2/ReplayMode/PauseReplay store d7 (frames
 									;elapsed) here (Pausemode_menu sets 2); ...
-repeatdelayframes		=	$0AC4			;ProcessInputWithRepeat: frames to the next key repeat (dec, reload 6 / 20
+repeatdelayframes		=	$0AC4	;ProcessInputWithRepeat: frames to the next key repeat (dec, reload 6 / 20
 									;on a change), as the 93S ...
 
 ; crowd sound level and the late game music cue timer (93G order)
@@ -650,7 +650,7 @@ GGSleft		=	aggress				; goalie glove save left (92 name), puckgoalie
 fighting	=	$1463				; fighting rating (stored; 94S has no fights; 93 $74)
 checking	=	$1483				; checking rating (check odds; 93 $75)
 handed		=	$14A3				; nonzero: left handed (inverted bit 0 of byte 4)
-puckscnum		=	$1C					; object index of the puck
+puckscnum		=	$1C				; object index of the puck
 ; puck fields (need puckscnum above)
 puckx		=	Xpos+puckscnum		; puck x position
 puckvx				=	$0EDF		; puck x speed
@@ -1015,7 +1015,7 @@ PenInst			=	$2E
 PenDelay		=	$30
 PenNoText3		=	$32
 PenCntDwn	=	$1620				; penalty/fight count down (negative = fight over)
-Penaltytimer	=	$1622				; frames to the next penalty clock second (updatepentime)
+Penaltytimer	=	$1622			; frames to the next penalty clock second (updatepentime)
 PBnum		=	$1624				; players in the penalty boxes: home*16 + visitors
 InjCntDown	=	$1626				; frames until the injury box is shown
 penmsgtimer	=	$1628				; count down to reprinting the horizontal penalty message line
@@ -1161,7 +1161,8 @@ PlList				=	$7E3114		; players wanted on the ice
 ;menus, bonuses, ticker, stats and scouting screens
 psitem				=	$0D15		; pause menu item
 psfirst				=	$0D13		; pause menu: first item shown (SetupPauseScreen shows five from here)
-pmenulist			=	$1EB7		;Pause menu list shown (0-5): Pausemode_menu/ChoosePauseMenu pick it, SetupPauseScreen
+pmenulist			=	$1EB7		;Pause menu list shown (0-5): Pausemode_menu/ChoosePauseMenu pick it,
+									;SetupPauseScreen
 									;prints items and values by it, ...
 pmenucount			=	$1EB9		;Items in that pause menu list (Pausemode_menu/ChoosePauseMenu set it with
 									;pmenulist); bounds psitem and psfirst
@@ -1176,7 +1177,8 @@ pausesavebuf		=	$7E4F7E		; Pausemode saves textmap here ($800 bytes, up to repla
 TickerNum			=	$0D31		; playoff game the score ticker shows next
 otherskip			=	$1DE9		;Other scores: 1 when FillOtherScores skipped the user's game (gamenum),
 									;added into the row math of ...
-tickerstart		=	$7E35DC			;Intermission saves TickerNum here; Intermission_tick plays DoHiLights when
+tickerstart		=	$7E35DC			;Intermission saves TickerNum here; Intermission_tick plays
+									;DoHiLights when
 									;the ticker comes round to it, as ...
 tickervc			=	$0D33		; Vcount when the ticker box was last shown
 PPBonus		=	$0D0B				; setplayer: power play bonus
@@ -1274,7 +1276,7 @@ star3score			=	$1E39		; ShowThreeStars: 32-bit score of star3
 ;options, demo, random seed
 OptPlayMode		=	$7E34BC			;Setup menu row 0 'Play Mode' (base of the 7-word option block setoptions
 									;edits; choices Regular Season .. ...
-OptNOP		=	$7E34CA			;FigureJoy regular season: index * 4 into the controller team list, as 93S
+OptNOP		=	$7E34CA				;FigureJoy regular season: index * 4 into the controller team list, as 93S
 									;FigureJoy .fjnpo lda OptNOP; ...
 Opt1team		=	$7E34BE			;Setup row 1 'Home': setoptions copies it to HomeTeam; NewPO takes it as
 									;the user's team (93S Opt1team).
