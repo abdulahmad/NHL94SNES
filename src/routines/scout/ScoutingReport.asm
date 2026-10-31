@@ -355,7 +355,7 @@ ScoutingReport:						; called from StartGame_scout
 	inc.b a0
 	inc.b a0
 .1xxxxxx:							;home team
-	lda.w HomeTeam
+	lda.w HomeTeam					; home team
 	sta.b d0
 	lda.w #$001F					;sentence $1F
 	sta.b [a0]
@@ -365,7 +365,7 @@ ScoutingReport:						; called from StartGame_scout
 	cmp.b d0						;same team?
 	beq .2xxx						;yes: skip
 	lda.w #$0020					;sentence $20
-	sta.b [a0]
+	sta.b [a0]						; append the away team
 	inc.b a0
 	inc.b a0
 .2xxx:								; [a0] = $0021, increment a0, increment a0, ...

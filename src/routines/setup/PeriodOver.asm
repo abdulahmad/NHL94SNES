@@ -40,7 +40,7 @@ PeriodOver:							; end of a period
 	jsl.l MusicStart				; start the song at [p0]: tempo from its second byte
 .5:									; music is set
 	lda.w gmode						; swap the direction of play (gmdir)
-	eor.w #gmdir
+	eor.w #gmdir					; toggle the direction bit
 	sta.w gmode
 	ldy.w #$0000					; Y = byte offset into tmpdst
 .loopx:								; the 52 roster players
@@ -76,8 +76,8 @@ PeriodOver:							; end of a period
 	lda.w #$0004					; gsp 4
 	sta.w gsp
 .2:									; tied?
-	lda.w tmscore
-	cmp.w tmscore+2
+	lda.w tmscore					; tied: overtime
+	cmp.w tmscore+2					; scores equal
 	beq .3
 	lda.w #$0004					; not tied: game over
 	sta.w gsp

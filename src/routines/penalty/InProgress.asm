@@ -285,7 +285,7 @@ InProgress_coin:					; restore the registers and leave; first look for coinciden
 	sta.b a2
 	jsl.l InProgress_ap
 .1:									; registers back
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$000E
 .loop:								; pull back a0 and the next 7 words
 	pla

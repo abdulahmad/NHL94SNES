@@ -28,7 +28,7 @@ assnearest:							; X = player; asstab entry
 	jml.l assgoalie					; Assignment: the goalie
 
 .t3:								; X is not the puck carrier: run the temp1 timer
-	lda.w temp1,x
+	lda.w temp1,x					; timer
 	sec
 	sbc.b d7						;reaction timer
 	sta.w temp1,x
@@ -202,7 +202,7 @@ assnearest:							; X = player; asstab entry
 	ror a							;half
 	sta.b d1						;d1
 	pla								;puck x
-	clc
+	clc								; add the puck spot
 	adc.b d0						;plus half the gap
 	sta.b d0						;d0
 	pla								;puck y

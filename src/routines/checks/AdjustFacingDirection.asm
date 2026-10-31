@@ -12,11 +12,11 @@ AdjustFacingDirection:				; turn the goalie one step toward d0
 	sbc.b r3						; difference to the current facing
 	beq .t1							; same: nothing to do
 	eor.w #$FFFF					; negate the difference
-	inc a
+	inc a							; direction of the shortest turn
 	and.w #$0004					; bit 2 of the negated difference tells the shorter way
-	lsr a
+	lsr a							; /2
 	dec a							; step of +1 or -1
-	sta.b d0
+	sta.b d0						; step
 	clc								; add the step to the facing
 	adc.b r3
 	and.w #$0007					; wrap to 0-7

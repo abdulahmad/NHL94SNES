@@ -43,7 +43,7 @@ assdefo:							; assignment: defenseman on offense
 .1x:								; re-think timer
 	lda.w temp1,x					; countdown minus the frame count
 	sec
-	sbc.b d7
+	sbc.b d7						; minus the frame count
 	sta.w temp1,x
 	bpl .4							; still counting
 	clc								; reload from aioff
@@ -90,7 +90,7 @@ assdefo:							; assignment: defenseman on offense
 	clc								; plus the spot x
 	adc.b d0
 .7:									; target x
-	sta.b d0
+	sta.b d0						; target x
 	ldy.b a2						; team of this player
 	lda.w tmflags,y
 	bit.w #tmfoside					; team offsides (tmfoside): hold at the blue line

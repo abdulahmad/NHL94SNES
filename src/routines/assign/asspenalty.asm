@@ -26,7 +26,7 @@ asspenalty:							; assignment: skate to the penalty box
 	sta.b d1
 	sta.w temp4,x					; target y
 	lda.w #Sideline					; target x at the side boards
-	sta.w temp3,x
+	sta.w temp3,x					; Sideline x
 	stz.w temp1,x					; clear the door timer
 	lda.w pflags,x					; player flags
 	ora.w #$8000					; set bit $8000 (pf2npc, no player collision)
@@ -56,7 +56,7 @@ asspenalty:							; assignment: skate to the penalty box
 	sta.b a0
 	jml.l skateto					; skate
 .6:									; close to the door in y?
-	lda.w Ypos,x
+	lda.w Ypos,x					; player y
 	sec
 	sbc.w temp4,x					; distance in y
 	cmp.w #$FFF3					; further than 13 above: keep skating
@@ -65,14 +65,14 @@ asspenalty:							; assignment: skate to the penalty box
 	bpl .4
 	lda.w Xpos,x					; distance in x
 	sec
-	sbc.w temp3,x
+	sbc.w temp3,x					; minus the box x
 	sta.b d0						; d0 = distance in x
 	sec
 	sbc.w #$FFE8					; more than 24 to go: keep skating
 	bmi .4
 	lda.w temp1,x					; door timer minus the frame count
 	sec
-	sbc.b d7
+	sbc.b d7						; minus the frame count
 	sta.w temp1,x
 	bpl .3							; still counting: return
 	adc.w #$0008					; reload 8
@@ -97,15 +97,15 @@ asspenalty:							; assignment: skate to the penalty box
 	lda.w #$0002					; left handed: face 2, toward the box
 	sta.b d2
 .3x:								; turn one step towards d2
-	lda.w facedir,x
-	cmp.b d2
+	lda.w facedir,x					; facing direction
+	cmp.b d2						; there yet?
 	beq .5							; facing d2 already?
 .4x:								; turn one step
-	inc a
+	inc a							; turn one step
 	and.w #$0007
 	sta.w facedir,x
 .5:									; slide towards the door
-	stz.w Yvel,x
+	stz.w Yvel,x					; stop in y
 	lda.w #$1000					; Xvel $1000
 	sta.w Xvel,x
 	lda.b d0						; distance in x
@@ -113,7 +113,7 @@ asspenalty:							; assignment: skate to the penalty box
 	sbc.w #$FFF8					; within 8 of the door?
 	bmi .8							; no: return
 	stz.w Xvel,x					; stop
-	lda.w facedir,x
+	lda.w facedir,x					; facing the right way?
 	cmp.b d2
 	bne .8							; not facing the right way: return
 .7:									; in the box

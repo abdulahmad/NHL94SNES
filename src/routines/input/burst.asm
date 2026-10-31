@@ -12,7 +12,7 @@ burst:								; speed burst by player X
 	jsl.l getpde					; line changes option
 	lda.l OptLine					; off: no energy cost
 	beq .1							; line change on: pay for the burst
-	lda.b d0
+	lda.b d0						; energy
 	sec
 	sbc.w #$00CC					; minus $CC
 	sta.b d0

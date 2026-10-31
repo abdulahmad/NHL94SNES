@@ -51,7 +51,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	lda.w #$0002
 	sta.b a2						;visitors scored
 .1x:								; gmdir set (ends swapped in this period): swap scorer and other
-	lda.w gmode
+	lda.w gmode						; gmdir: swap
 	bit.w #gmdir					;ends swapped?
 	beq .2x							;no
 	lda.b a1						;the other team
@@ -217,15 +217,15 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	tax
 	sep #$20
 	inc.w tmgoals,x					;goals +1
-	rep #$20
+	rep #$20						; 16-bit A
 .6x:								; first assist
-	ldy.b a2
+	ldy.b a2						; assists
 	lda.w tmtouch2,y				;second to touch it
 	sta.b d0						;first assist
 	bmi .9							;none: done
-	sep #$20
+	sep #$20						; 8-bit A
 	sta.b [a0]						;assist byte
-	rep #$20
+	rep #$20						; 16-bit A
 	lda.b a2						;team
 	beq .7							;home
 	lda.w #$001A					;visitors' slots
@@ -240,9 +240,9 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	lda.w tmtouch3,y				;third to touch it
 	sta.b d0						;second assist
 	bmi .9							;none
-	sep #$20
+	sep #$20						; 8-bit A
 	sta.b [a0]						;assist byte
-	rep #$20
+	rep #$20						; 16-bit A
 	lda.b a2						;team
 	beq .8							;home
 	lda.w #$001A					;visitors' slots

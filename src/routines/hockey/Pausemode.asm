@@ -13,9 +13,9 @@ Pausemode:							; called from Gameloop, PlayShootout
 	jsl.l MemCopy					; copy X bytes from [p0] to [p1]
 	plx
 	jsl.l FadeOutSound				; start the sound fade out
-	lda.w sfhormode
+	lda.w sfhormode					; keep horizontal mode
 	pha
-	lda.w sflags
+	lda.w sflags					; and the flags
 	pha
 	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black

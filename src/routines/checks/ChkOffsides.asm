@@ -1,7 +1,7 @@
 ; Clear each team's offsides flag once it is back onside; when the puck crosses a blue line into the zone with
 ; an attacker past it, flag that team offsides
 ChkOffsides:						; check both teams for offsides; called from pucknorm, no inputs
-	stz.b a1
+	stz.b a1						; a1 = home, a2 = away; then swapped
 	lda.w #$0002
 	sta.b a2
 	jsl.l ClearOffsidesIfAllPlayers	; clear the offsides flag when nobody is offside any more
@@ -42,7 +42,7 @@ ChkOffsides_blue:					; puck crossed the line: StartBreakaway, go on if gmoffs i
 	lda.w #$005E
 	sta.b d0
 	lda.w gmode
-	bit.w #gmdir
+	bit.w #gmdir					; gmdir
 	beq .1
 	lda.b a2
 	ldy.b a1
@@ -64,27 +64,27 @@ ChkOffsides_blue:					; puck crossed the line: StartBreakaway, go on if gmoffs i
 	lda.b a2
 	beq ChkOffsides_rtl
 ChkOffsides_team:					; check the six skaters of team a2 against the line d0
-	lda.w #$0005
+	lda.w #$0005					; check 6 players
 	sta.b d2
 	ldy.b a2
-	lda.w tmsort,y
+	lda.w tmsort,y					; first player of the attacking team
 	sta.b a0
 ChkOffsides_loop:					; skater a0: skip empty spots, flag if his Ypos is past the line
 	ldy.b a0
-	lda.w position,y
+	lda.w position,y				; skip empty positions
 	bmi ChkOffsides_next
 	lda.b d0
 	sec
-	sbc.w Ypos,y
+	sbc.w Ypos,y					; player y against the line
 	bpl ChkOffsides_next
 	ldy.b a2
-	lda.w tmflags,y
-	ora.w #tmfoside
+	lda.w tmflags,y					; flag the team offsides
+	ora.w #tmfoside					; tmfoside
 	sta.w tmflags,y
 ChkOffsides_rtl:					; return
 	rtl
 ChkOffsides_next:					; next skater (a0 += 2) until the six are done
-	inc.b a0
+	inc.b a0						; next player
 	inc.b a0
 	dec.b d2
 	bpl ChkOffsides_loop
@@ -119,7 +119,7 @@ ChkOffsides_other:					; puck in the negative half: same test with the line nega
 .t1x:								; offsides on: line = line - $0A
 	lda.b d0
 	sec
-	sbc.w #$000A
+	sbc.w #$000A					; -$A
 	sta.b d0
 	lda.w gmode
 	bit.w #gmdir

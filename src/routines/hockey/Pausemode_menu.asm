@@ -102,7 +102,7 @@ PauseMenuPoll:						; called from PauseCrowdLevel, PauseDefStore, PauseEditLines
 	bra PauseMenuPoll
 
 .t7:								; d0 = psitem * 2 * 2, if pmenulist = 0 go to .t1x, ...
-	lda.w psitem
+	lda.w psitem					; jmlvector = .jump[psitem]
 	asl a
 	asl a
 	sta.b d0

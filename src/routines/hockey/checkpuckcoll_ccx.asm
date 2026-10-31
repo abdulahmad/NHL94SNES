@@ -17,7 +17,7 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 .2:									; position,y = 0: go to .9
 	jmp.w .9
 .4:									; xsave = X
-	stx.b xsave
+	stx.b xsave						; keep the caller's X
 	ldx.w #$0000
 .loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b d0,x
@@ -39,8 +39,8 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	cmp.w #$0100					;fast: too high
 	bpl .1
 	tya								;his stick spot
-	jsl.l GetHot
-	ldy.b a2
+	jsl.l GetHot					; d0 / d1 = stick hot spot of the object's current frame
+	ldy.b a2						; Y = the object again
 	lda.b d0						;stick x offset
 	clc
 	adc.w Xpos,y					;plus his x
@@ -131,7 +131,7 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	bcs .6							;no
 	jsl.l puckbody					;puck hits his body
 .6:									; xsave = X
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$001A					;14 words
 .loopx:								; loop: d0,x = pulled value, X - 1, X - 1, ...
 	pla
@@ -139,7 +139,7 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	dex
 	dex
 	bpl .loopx
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	rtl
 .7:									; d0 = Xpos,y - puckx, if minus go to .6, ...
 	lda.w Xpos,y					;his x

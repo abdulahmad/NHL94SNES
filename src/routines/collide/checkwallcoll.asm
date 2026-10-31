@@ -131,7 +131,7 @@ checkwallcoll:						; called from ReplayMode, checkcoll
 	bmi .4
 	lda.w #$00FF
 .4:									; d1 = A, call wallcollb
-	sta.b d1
+	sta.b d1						; d1 = dx * 256 / distance
 	jsl.l wallcollb					; object X hits a wall
 .6:									; d2 = pulled value, d3 = pulled value, d4 = pulled value, ...
 	pla								; restore d2-d5

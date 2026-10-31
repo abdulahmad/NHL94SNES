@@ -39,7 +39,7 @@ chk4pass:							; called from assgoalie, asspuckc
 .6:									; a0 = d0, if position,y = 0 go to .4, ...
 	ldy.b d0
 	sty.b a0
-	lda.w position,y
+	lda.w position,y				; not to the goalie or an illegal player
 	beq .4
 	bmi .4
 	lda.w pflags,y
@@ -61,7 +61,7 @@ chk4pass:							; called from assgoalie, asspuckc
 	sbc.b d1
 	sta.b d1
 .1x:								; if gmode bits gmoffs clear go to .2x, ...
-	lda.w gmode
+	lda.w gmode						; offsides: no pass across the blue line
 	bit.w #gmoffs
 	beq .2x
 	lda.b d0
@@ -116,10 +116,10 @@ chk4pass:							; called from assgoalie, asspuckc
 	jsl.l dopass					; pass the puck in the pass direction, to the best teammate there if any
 	lda.w position,x
 	beq .t1
+	pla								; drop the return address (3 bytes): assexit returns for the caller
+	sep #$20						; 8-bit A
 	pla
-	sep #$20
-	pla
-	rep #$30
+	rep #$30						; 16-bit registers
 	jmp.w assexit					; end the player's current assignment and go back to the one under it
 
 .t1:								; return

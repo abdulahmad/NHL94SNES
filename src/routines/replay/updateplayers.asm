@@ -57,7 +57,7 @@ updateplayers:						; called from DoGameFrame
 	lda.w #$0000					;floor at 0
 .2x:								; nopuckb,x = A, if sflags3 bits $0020 clear go to .4, ...
 	sta.w nopuckb,x
-	lda.w sflags3
+	lda.w sflags3					; sflags3 bit 5: count frames on ice (loadTeamStruct)
 	bit.w #$0020					;team structs on?
 	beq .4							;no
 	lda.w pnum,x

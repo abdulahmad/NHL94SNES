@@ -39,12 +39,12 @@ setsortcords:						; called from setvideo
 .3:									; dw $2000,$2200,$2000,$2200
 	dw $2000,$2200,$2000,$2200
 .10:								; a4 = OOlist
-	lda.w #OOlist
-	sta.b a4
+	lda.w #OOlist					; a4 = OOlist
+	sta.b a4						; a4 = list
 .5:									; if $0000 != $001C go to .1x, ...
-	lda.b (a4)
-	and.w #$00FF
-	tax
+	lda.b (a4)						; object
+	and.w #$00FF					; byte
+	tax								; X = object
 	lda.w #$0000
 	cpx.w #$001C
 	bne .1x
@@ -82,9 +82,9 @@ setsortcords:						; called from setvideo
 	lda.w #SPFPen+7
 	sta.w frame,x
 .6:									; d0 = Xpos,x, d1 = Ypos,x, call projxy, ...
-	lda.w Xpos,x
+	lda.w Xpos,x					; x
 	sta.b d0
-	lda.w Ypos,x
+	lda.w Ypos,x					; y
 	sta.b d1
 	jsl.l projxy					; project a rink position to screen coordinates
 	cmp.w #$4E20

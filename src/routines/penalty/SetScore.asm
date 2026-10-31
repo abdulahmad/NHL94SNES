@@ -105,7 +105,7 @@ SetScore:							;add a period's goals to game a0; after period 3 a close game go
 	rtl
 .4:									;.getscore: d0 = scoring team, d1 = other team; adds their sctab rows (.5)
 									;as weights, returns d0 = goals 0-3
-	asl.b d0
+	asl.b d0						; team index to a word offset
 	asl.b d0						;x4: long index
 	lda.w #TeamList>>16
 	sta.b a1+2

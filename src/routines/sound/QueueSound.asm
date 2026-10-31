@@ -74,6 +74,6 @@ QueueSound:							; queue sound A
 	inc.w SoundLock					;sound update on
 	plp
 	plb
-	ply
+	ply								; restore Y
 	plx
 	rtl

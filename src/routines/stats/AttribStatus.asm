@@ -44,7 +44,7 @@ AttribStatus:						; print the player status or penalty time
 	jsl.l print						; print it
 	lda.w #$0004
 	sta.b d0						; text 4
-	lda.w #$4000
+	lda.w #$4000					; bit $4000
 	trb.b d1						; clear it
 	beq .1x							; clear
 	lda.w #$0005					; text 5

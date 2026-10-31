@@ -6,7 +6,7 @@
 ;
 ; Called from wallcollb (also as the bounce path) and from checkgoalp.
 wallcoll:							; bounce object X off a wall
-	lda.b d0
+	lda.b d0						; Wallcos/Wallsin
 	sta.w Wallcos,x					; Wallcos = cos
 	lda.b d1
 	sta.w Wallsin,x					; Wallsin = sin
@@ -14,7 +14,7 @@ wallcoll:							; bounce object X off a wall
 	pha								; 7,s = d2
 	lda.b d3
 	pha								; 5,s = d3
-	lda.b d1
+	lda.b d1						;v1n = (Yvel*cos - Xvel*sin)/256, negated; v1t = (Xvel*cos + Yvel*sin)/256
 	pha								; 3,s = d1, sin
 	lda.b d0
 	pha								; 1,s = d0, cos
@@ -29,7 +29,7 @@ wallcoll:							; bounce object X off a wall
 	lda.b d0						; negate Yvel*cos - Xvel*sin
 	sec
 	sbc.b r2+1
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	sta.b d2						; d2 = v1n, the speed into the wall
 	ldx.w Xvel,y					; Xvel * cos / 256
@@ -57,19 +57,19 @@ wallcoll:							; bounce object X off a wall
 	jmp.w .8						; no: moving away, no collision
 
 .t1:								; puck: v1n / 4
-	lsr a
+	lsr a							; normal speed /4
 	lsr a
 	bit.w #$2000					; sign extend the shift
 	beq .1
 	ora.w #$C000
 .1:									; keep v1n / 4
-	sta.b d2
+	sta.b d2						; keep it
 	sec
 	sbc.w #$FC00					; v1n >= -$400: soft hit, no pop up
 	bpl .3
 	jsl.l RandomWord				; hard hit: random pop up speed
 	and.w #$07FF
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	sta.w puckvz					; puckvz = minus a random 0-$7FF
 	sta.b d0
@@ -93,24 +93,24 @@ wallcoll:							; bounce object X off a wall
 	beq .4
 	ora.w #$FC00
 .4:									; d0 = v1t / 64
-	sta.b d0
+	sta.b d0						; d0 = tangent speed / 64
 	pha								; half of it in d0+2
 	asl a
 	pla
 	ror a
-	sta.b d0+2
+	sta.b d0+2						; and half of that
 	lda.b d3						; v1t minus both
 	sec
 	sbc.b d0
 org $9E9000
 	sec
 	sbc.b d0+2
-	sta.b d3
+	sta.b d3						; reduce the tangent speed
 	bra .7							; rotate back
 .5:									; far jump to the end (no collision)
 	jmp.w .8
 .6:									; player: v1n
-	lda.b d2
+	lda.b d2						; player: normal speed
 	sec
 	sbc.w #$03E8					; v1n >= 1000: no collision
 	bpl .5
@@ -118,7 +118,7 @@ org $9E9000
 	sec
 	sbc.w #$F000					; v1n >= -$1000: no board sound
 	bpl .1x
-	lda.w impact,x
+	lda.w impact,x					; impact
 	sec
 	sbc.w #$000A					; impact below 10: no board sound
 	bmi .1x
@@ -129,14 +129,14 @@ org $9E9000
 	lda.w #$000D					; play sound $0D (board hit)
 	jsl.l sfx						; play sound A with the velocity in p0 / p0+2
 .1x:								; player: v1n / 4
-	lda.b d2
+	lda.b d2						; normal speed / 4
 	lsr a
 	lsr a
 	bit.w #$2000					; sign extend the shift
 	beq .2x
 	ora.w #$C000
 .2x:								; keep v1n / 4
-	sta.b d2
+	sta.b d2						; keep it
 	sec
 	sbc.w #$FC7C					; v1n < -900: keep it
 	bmi .7

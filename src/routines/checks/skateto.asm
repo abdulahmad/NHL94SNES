@@ -29,7 +29,7 @@ skateto:							; player X skates toward d0 / d1
 	beq .1
 	ora.w #$FF00
 .1:									; lead on the x velocity
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	sta.b r3
 	clc
@@ -44,7 +44,7 @@ skateto:							; player X skates toward d0 / d1
 	beq .2
 	ora.w #$FF00
 .2:									; lead on the y velocity
-	eor.w #$FFFF
+	eor.w #$FFFF					; negate
 	inc a
 	sta.b r3+2
 	clc

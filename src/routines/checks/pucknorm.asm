@@ -125,7 +125,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	lda.w #$0078
 	sta.w temp2b+puckscnum
 .13:								; ora puckz, if zero go to .t1x, ...
-	lda.w puckvz
+	lda.w puckvz					; puck in the air: no unflip
 	and.w #$FF00
 	ora.w puckz
 	beq .t1x

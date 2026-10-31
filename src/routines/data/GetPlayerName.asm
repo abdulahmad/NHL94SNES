@@ -13,7 +13,7 @@ GetPlayerName:						; the number and name of player TempPlOffset into mesarea
 	pha
 	stz.b a2						; a2 = team offset, home 0
 	lda.w TempPlOffset				; player id
-	sta.b d0
+	sta.b d0						; id
 	bpl .1							; home team
 	and.w #$00FF					; visitors: player number only
 	sta.b d0

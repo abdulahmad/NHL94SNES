@@ -36,7 +36,7 @@ checkob:							; called from asspuckc, doinput
 	lda.w #$FFA4
 	sta.b d1
 	sec
-	sbc.w pucky
+	sbc.w pucky						; puck not in this zone: no offside
 	beq .1x
 	bpl .3
 .1x:								; loop: if position,y negative go to .2, ...
@@ -87,7 +87,7 @@ checkob:							; called from asspuckc, doinput
 .5:									; return
 	rtl
 .6:									; d0 = $0006, tsb sflags, if not zero go to .4, ...
-	lda.w #$0006
+	lda.w #$0006					; d0 = 6
 	sta.b d0
 	lda.w #$8000
 	tsb.w sflags

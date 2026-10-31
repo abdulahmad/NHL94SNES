@@ -15,7 +15,7 @@ InProgress_ap:						; called from InProgress_coin
 	lda.w tmpdst,y					; player state
 	bmi .nap						; empty
 	beq .nap
-	and.w #$DFFF
+	and.w #$DFFF					; clear bit $2000; coincidental or injured: does not count
 	sta.w tmpdst,y					; state back
 	bit.w #(TMPDINJ|$4000)
 	bne .nap

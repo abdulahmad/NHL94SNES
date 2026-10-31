@@ -13,7 +13,7 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	pha
 	lda.b d2+2
 	pha
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .savea:								; loop: X + 1, X + 1, if not zero go to .savea, ...
 	lda.b a0,x
@@ -22,7 +22,7 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	inx
 	cpx.w #$0010
 	bne .savea
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	lda.w sfhormode					;horizontal rink?
 	beq .v							;no: vertical boxes
 	jmp.w .sbscreen					;yes: scoreboard
@@ -201,7 +201,7 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	sta.b a1+2
 	jsl.l nullrtl89					; does nothing
 .ex:								; xsave = X
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$000E					;8 words
 .resta:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla								;restore a0-a7
@@ -209,7 +209,7 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	dex
 	dex
 	bpl .resta
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	pla								;restore d0-d2
 	sta.b d2+2
 	pla

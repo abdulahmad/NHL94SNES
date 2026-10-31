@@ -7,7 +7,7 @@ updatesound:						; called from periodicevents
 .1:									; adc #$0080, asl a, asl a, ...
 	clc
 	adc.w #$0080
-	asl a
+	asl a							; times 8
 	asl a
 	asl a
 	asl a

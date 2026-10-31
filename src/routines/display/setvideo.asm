@@ -1,7 +1,7 @@
 ; Once per game frame: build the sprite table for the next vblank
 setvideo:							; called from DoGameFrame, Pausemode_menu, Pausemode, PeriodOver, ...
-	stx.b xsave
-	ldx.w #$0000
+	stx.b xsave						; keep X
+	ldx.w #$0000					; save a0 through the 29 words after it
 .loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b a0,x
 	pha
@@ -9,7 +9,7 @@ setvideo:							; called from DoGameFrame, Pausemode_menu, Pausemode, PeriodOver
 	inx
 	cpx.w #$0038
 	bne .loop
-	ldx.b xsave
+	ldx.b xsave						; restore X
 	jsl.l updatescroll				; set the rink scroll from the camera position
 	jsl.l checkfo					; draw the face off sprites
 	jsl.l .t3
@@ -33,8 +33,8 @@ setvideo:							; called from DoGameFrame, Pausemode_menu, Pausemode, PeriodOver
 	dex
 	dex
 	bpl .loop2
-	ldx.b xsave
-	ldx.b a3
+	ldx.b xsave						; restore X
+	ldx.b a3						; X = a3
 	rtl
 
 .t3:								; subroutine: if pregamepause != 0 go to .rtl, ...

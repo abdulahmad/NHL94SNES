@@ -17,7 +17,7 @@ updatereplay:						; called from DoGameFrame
 	bit.w #$0400					;recording paused?
 	bne .2							;yes: overwrite the frame
 	lda.w recbpr					;record pointer
-	clc
+	clc								; step the pointer by one record
 	adc.w #replaysize				;next frame
 	sta.w recbpr
 	bcc .1x							;no carry
@@ -43,7 +43,7 @@ updatereplay:						; called from DoGameFrame
 	lda.b #$0F						;16 objects
 	sta.b d2
 	ldx.w #$0000					;from object 0
-	ldy.w #$0001
+	ldy.w #$0001					; y = 1: second byte of a word
 .loop:								; loop: WMDATA = Xpos,x, r3 = Xpos+1,x & $0F, ora r3, ...
 	lda.w Xpos,x					;x low
 	sta.w WMDATA					;byte 0
@@ -71,7 +71,7 @@ updatereplay:						; called from DoGameFrame
 	asl a
 	ora.b r3						;plus the frame high bits
 	sta.w WMDATA					;byte 4
-	inx
+	inx								; next object
 	inx
 	dec.b d2						;count
 	bpl .loop						;all 16
@@ -99,7 +99,7 @@ updatereplay:						; called from DoGameFrame
 	asl a
 	ora.b r3						;plus the first
 	sta.w WMDATA					;packed byte
-	inx
+	inx								; next pair
 	inx
 	inx
 	inx

@@ -19,14 +19,14 @@ getlinee:							; called from CompLine, linebar
 	ldy.b a2
 	lda.w tmdata,y
 	sta.b a1
-	lda.w #TeamList>>16
+	lda.w #TeamList>>16				; a1 = the team data (bank $83)
 	sta.b a1+2
 	ldy.w #$0006
 	lda.b [a1],y
 	clc
 	adc.b a1
 	sta.b a1
-	lda.b d0
+	lda.b d0						; line d0: 8 bytes
 	asl a
 	asl a
 	asl a
@@ -38,7 +38,7 @@ getlinee:							; called from CompLine, linebar
 	sta.b a0+2
 	lda.w #priolist
 	sta.b a0
-	ldy.b a2
+	ldy.b a2						; tmap: positions - 1
 	lda.w tmap,y
 	sta.b d4
 	bra .3
@@ -47,7 +47,7 @@ getlinee:							; called from CompLine, linebar
 	lda.b [a0],y
 	and.w #$00FF
 	beq .3
-	tay
+	tay								; player number
 	lda.b [a1],y
 	and.w #$00FF
 	asl a

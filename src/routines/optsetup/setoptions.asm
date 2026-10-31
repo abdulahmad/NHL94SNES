@@ -336,7 +336,7 @@ setoptions:							; called from Restart
 .8:									; return
 	rts
 .9:									;d3 += d2, wrapped to d5 .. d4-1
-	lda.b d3
+	lda.b d3						; add the step
 	clc
 	adc.b d2						;plus the step
 	sta.b d3
@@ -462,11 +462,11 @@ setoptions:							; called from Restart
 	sta.b a0+2
 	lda.w #.15
 	sta.b a0
-	clc
+	clc								; offset to the first string
 	adc.b [a0],y					;plus the line's list offset
 	sta.b a0						;list
 .loopx:								; loop: a1+2 = a0+2, a1 = a0, a0 = a0 + [a0], ...
-	lda.b a0+2
+	lda.b a0+2						; a1 = this string
 	sta.b a1+2						;this string
 	lda.b a0
 	sta.b a1
@@ -697,7 +697,7 @@ setoptions:							; called from Restart
 	rts
 .12:								;move the cursor d0, skipping hidden lines
 	phx
-	lda.b d7
+	lda.b d7						; keep the old line
 	sta.b d3						;old line
 .2xxxxxxxx:							; d7 = d7 + d0, if plus go to .1xxxxxxxxxx, ...
 	lda.b d7

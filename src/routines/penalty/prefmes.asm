@@ -112,12 +112,12 @@ prefmes:							;print penalty message d0 (negative: just clear it); called from 
 	lda.w printx					;column
 	sec
 	sbc.b d0						;minus half
-	sta.w printx
+	sta.w printx					; center the text
 	bpl .1x							;still on screen?
 	stz.w printx					;no: column 0
 .1x:								;box width = length, minus 1 if the last char is a space
 	lda.b [a1]						;length
-	sta.b d0
+	sta.b d0						; d0
 	tay
 	dec.b a1						;back one byte
 	lda.b [a1],y					;last char
@@ -164,15 +164,15 @@ prefmes:							;print penalty message d0 (negative: just clear it); called from 
 	adc.b a1						;plus the table
 	inc a
 	inc a
-	sta.b a1
+	sta.b a1						; text
 	lda.b [a1]
-	lsr a
+	lsr a							; half of the text length
 	sta.b d0
 	lda.w printx
 	sec
 	sbc.b d0
-	sta.w printx
-	jsl.l print
+	sta.w printx					; center
+	jsl.l print						; print it
 .3:									; a1+2 = pulled value, a1 = pulled value, d2+2 = pulled value, ...
 	pla
 	sta.b a1+2

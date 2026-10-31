@@ -1,7 +1,7 @@
 ; send the stream at [p0] through the boot loader: blocks of length, sound RAM address and data;
 SPCUpload:							; called from Reset_Fast
 									;length 0 ends it with the start address
-	rep #$30
+	rep #$30						; 16-bit registers
 	ldy.w #$0000
 	lda.w #$BBAA
 .loop:								; loop: if not zero go to .loop, ...
@@ -28,7 +28,7 @@ SPCUpload:							; called from Reset_Fast
 .3:									; APUIO0 = A, X - 1, if X not yet 0 go to .2
 	rep #$20
 	sta.w APUIO0
-	sep #$20
+	sep #$20						; 8-bit A
 	dex
 	bne .2
 .loopxx:							; loop: if not zero go to .loopxx
@@ -48,8 +48,8 @@ SPCUpload:							; called from Reset_Fast
 	iny
 	iny
 	sta.w APUIO2
-	sep #$20
-	cpx.w #$0001
+	sep #$20						; 8-bit A
+	cpx.w #$0001					; APUIO1 = 1 if more data (length > 0)
 	lda.b #$00
 	rol a
 	sta.w APUIO1

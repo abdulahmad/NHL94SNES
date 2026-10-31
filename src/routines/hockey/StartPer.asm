@@ -5,9 +5,9 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	lda.w #$1FFF
 	tcs
 .1:									; a2 = 0, call reenergizeteam, a2 = $0002, ...
-	stz.b a2
+	stz.b a2						; team 0
 	jsl.l reenergizeteam			; give every player of team a2 full energy
-	lda.w #$0002
+	lda.w #$0002					; team 1
 	sta.b a2
 	jsl.l reenergizeteam			; give every player of team a2 full energy
 	stz.w reloadtime

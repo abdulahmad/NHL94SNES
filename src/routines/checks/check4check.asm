@@ -1,16 +1,16 @@
 ; Look for a good chance to check an opponent
 check4check:						; called from assdefd, assnearest
-	lda.w #$0014
+	lda.w #$0014					; $14
 	sec
-	sbc.w checking,x
+	sbc.w checking,x				; minus the checking rating
 	sta.b d0
 	lda.l OptPen
 	beq .1
-	asl.b d0
+	asl.b d0						; double it
 .1:									; call randomd0A, if carry clear go to .2, ...
-	lda.b d0
+	lda.b d0						; random 0 to d0
 	jsl.l randomd0A					; A = a random number from 0 to A-1
-	cmp.w #$0004
+	cmp.w #$0004					; under 4: check
 	bcc .2
 	lda.b d0
 	jsl.l randomd0A					; A = a random number from 0 to A-1
@@ -44,7 +44,7 @@ check4check:						; called from assdefd, assnearest
 .6:									; return
 	rtl
 .7:									; d0 = Xpos,y - Xpos,x, if minus go to .5, ...
-	lda.w Xpos,y
+	lda.w Xpos,y					; x distance
 	sec
 	sbc.w Xpos,x
 	sta.b d0
@@ -52,7 +52,7 @@ check4check:						; called from assdefd, assnearest
 	bmi .5
 	cmp.w #$0022
 	bpl .5
-	lda.w Ypos,y
+	lda.w Ypos,y					; y distance
 	sec
 	sbc.w Ypos,x
 	sta.b d1
@@ -62,7 +62,7 @@ check4check:						; called from assdefd, assnearest
 	bpl .5
 	jsl.l vtoa						; direction of the vector d0 / d1
 	lda.b d0
-	cmp.w facedir,x
+	cmp.w facedir,x					; opponent in the facing direction
 	bne .5
 	lda.w Xpos,x
 	cmp.w #$004A

@@ -80,7 +80,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 .1x:								; if minus go to .6, ...
 	cmp.w #$F800
 	bmi .6
-	stz.b a1
+	stz.b a1						; tmnear of my team >= $E10 and of the other >= $640
 	lda.w #$0002
 	sta.b a2
 	lda.w pfteam,x

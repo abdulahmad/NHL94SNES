@@ -4,9 +4,9 @@
 ; Takes d1 = team number, printx / printy = position in tiles. Returns nothing, X and a2 are kept. Called
 ; from TeamRoster, setoptions, ShowMatchups and ShowGameStats.
 DrawTeamBlocks:						; entry: the block of team d1
-	lda.b a2
+	lda.b a2						; keep a2
 	pha								; save a2 and X
-	phx
+	phx								; keep X
 	lda.w printx					; X = printx * 8 + $24: pixel X of the name
 	asl a
 	asl a
@@ -91,13 +91,13 @@ DrawTeamBlocks:						; entry: the block of team d1
 	lda.w #TeamBlocksmap+6
 	sta.b a2
 	lda.w printy					; X = (printy * 32 + printx) * 2 + printm: byte offset in the text map
+	asl a							; times 32
 	asl a
 	asl a
 	asl a
 	asl a
-	asl a
-	adc.w printx
-	asl a
+	adc.w printx					; plus print x
+	asl a							; word offset
 	adc.w printm
 	tax
 	lda.w #$0009					; 9 tiles per row, 2 rows
@@ -112,9 +112,9 @@ DrawTeamBlocks:						; entry: the block of team d1
 	clc								; plus the palette attribute
 	adc.b r3
 	sta.l textmap,x					; store in the text map
+	iny								; next tile
 	iny
-	iny
-	inx
+	inx								; next text word
 	inx
 	dec.b tmp0						; next tile
 	bne .loop
@@ -131,10 +131,10 @@ DrawTeamBlocks:						; entry: the block of team d1
 	iny
 	inx
 	inx
-	dec.b tmp1
+	dec.b tmp1						; row done?
 	bne .loop2
 .3:									; restore X and a2
-	plx
-	pla
+	plx								; restore X
+	pla								; restore a2
 	sta.b a2
 	rtl

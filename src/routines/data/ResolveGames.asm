@@ -7,7 +7,7 @@ ResolveGames:						; record the played playoff game and the series wins
 	lda.l gamenum					; game number of the played game
 	asl a
 	sta.b d0
-	stz.b a0
+	stz.b a0						; copy the score of the played game
 	tax
 	lda.w tmscore					; copy the score of the played game
 	sta.l gss1,x

@@ -5,7 +5,7 @@
 ;
 ; Called from ShowRosterLine, PrintLinePlayerList and PrintShooterRows.
 GetNameandAttrib:					; print player name and one attribute
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .loop:								; save d0 to d9 on the stack
 	lda.b d0,x
@@ -49,12 +49,12 @@ GetNameandAttrib:					; print player name and one attribute
 	sta.b a0+2
 	lda.w #attribjmp
 	sta.b a0
-	ldy.b d4
+	ldy.b d4						; d4 selects the routine
 	lda.b [a0],y
 	clc
 	adc.b a0
 	sta.b a0
-	sta.w jmlvector+1
+	sta.w jmlvector+1				; patch the jump address
 	lda.b a0+1
 	sta.w jmlvector+2
 	jsl.l jmlvector					; call the handler
@@ -66,7 +66,7 @@ GetNameandAttrib:					; print player name and one attribute
 	sta.b a0+2
 	pla
 	sta.b a0
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0012
 .loopx:								; restore d0 to d9
 	pla

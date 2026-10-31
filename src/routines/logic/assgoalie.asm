@@ -259,7 +259,7 @@ assgoalie:							; called from assnearest, asstab
 	inc.b a0
 	dec.b d0						;one less
 	bpl .2xxx						;next player
-	lda.w #$0001
+	lda.w #$0001					; threat = 1, chk4pass
 	sta.w threat					;under threat
 	jsl.l chk4pass					;pass it out
 	lda.w puckc						;carrier now?
@@ -813,7 +813,7 @@ assgoalie:							; called from assnearest, asstab
 	clc
 	adc.w #$0004					;plus 4
 	sta.b d0						;low save
-	ldy.w #$0002
+	ldy.w #$0002					; more than 8 frames, facing up/down, puck carried: stack (-2)
 	lda.b [a0],y					;target y
 	cmp.w #$0009					;far enough?
 	bcc .42							;close: keep
@@ -845,7 +845,7 @@ assgoalie:							; called from assnearest, asstab
 .43:								;move to the target
 	lda.b [a0]						;target x from the slot
 	sta.b d0						;target x
-	lda.w pucky
+	lda.w pucky						; puck near the goal line: hug the post (+-$18)
 	sec
 	sbc.w #$00FC					;deep at the top?
 	bpl .1xxxxxxxxxxxxxxxxx			;deep
@@ -939,7 +939,7 @@ assgoalie:							; called from assnearest, asstab
 	sec
 	sbc.w Ypos,x					;minus his y
 	sta.b d1						;dy
-	lda.w #$0005
+	lda.w #$0005					; within 5 (10 with the puck): stop
 	sta.b tmp0						;step 5
 	cpx.w puckc						;the carrier?
 	bne .3xxxxx						;not holding
@@ -1030,7 +1030,7 @@ assgoalie:							; called from assnearest, asstab
 	lda.w #$0002
 	sta.b a1						;visitors
 .5xxx:								; if tmnear,y < $0132 go to .t1xxxxxxxxxxxxxxx, ...
-	ldy.b a1
+	ldy.b a1						; tmnear of my team >= $1324 and of the other >= $9C4
 	lda.w tmnear,y					;nearest distance
 	cmp.w #$0132					;within $132?
 	bcc .t1xxxxxxxxxxxxxxx			;teammate close: stay
