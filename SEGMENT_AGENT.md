@@ -785,3 +785,4 @@ until traced (`--entry`, `--continue`). The column is the default pass, not the 
 - 94G names: JoyPad is PadRaw1-PadRaw5 (93S, 94G PadRaw1-4); logoboxmap is LogoBoxMap (94G). MATCH.
 - TeamBlocksMap is TeamBlocksmap (93G spelling, as 94G). MATCH.
 - Comment pass 2: 93S comments carried to identical code (200 lines), step comments for NMI_HookReturn and Multi5Bios. MATCH.
+- Comment pass 3: avdgoal second half from the first half's matching code. MATCH.

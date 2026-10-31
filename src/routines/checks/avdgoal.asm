@@ -325,80 +325,80 @@ avdgoal:							; called from assgoalietopuck, skateto, skatetopuck
 	inc.b tmp2						;both ends inside the box in x: a crossing
 	rts
 .28:								; call .48, r3 = $0101, r3+2 = $011D, ...
-	ldx.w #$0102
-	ldy.w #$011C
-	jsr.w .48
-	ldx.w #$0101
-	ldy.w #$011D
-	stx.b r3
-	sty.b r3+2
-	lda.b tmp2
-	bne .t1xxxxx
-	ldx.w #$FEE4
-	ldy.w #$FEFE
-	jsr.w .48
-	ldx.w #$FEE3
-	ldy.w #$FEFF
-	stx.b r3
-	sty.b r3+2
-	lda.b tmp2
-	bne .2xxx
-	ldx.b curobj
-	plb
+	ldx.w #$0102					;box near
+	ldy.w #$011C					;box far
+	jsr.w .48						;region codes for the top net
+	ldx.w #$0101					;box near y
+	ldy.w #$011D					;box far y
+	stx.b r3						;box
+	sty.b r3+2						;box
+	lda.b tmp2						;crossing?
+	bne .t1xxxxx					;crossing the top net: fix the target
+	ldx.w #$FEE4					;box near
+	ldy.w #$FEFE					;box far
+	jsr.w .48						;bottom net box
+	ldx.w #$FEE3					;box far y
+	ldy.w #$FEFF					;box near y
+	stx.b r3						;box
+	sty.b r3+2						;box
+	lda.b tmp2						;crossing the bottom net?
+	bne .2xxx						;crossing: fix the target
+	ldx.b curobj					;player
+	plb								;restore the bank
 	rtl
 
 .t1xxxxx:							; tmp2 != 0: r3 = r3+2, r3+2 = r3, p0+2 = -(p0+2), ...
-	lda.b r3
-	ldy.b r3+2
-	sty.b r3
-	sta.b r3+2
-	lda.b p0+2
+	lda.b r3						;near line
+	ldy.b r3+2						;far line
+	sty.b r3						;swap the box lines
+	sta.b r3+2						;swap the box lines
+	lda.b p0+2						;start y
 	eor.w #$FFFF					; negate: two's complement
-	inc a
-	sta.b p0+2
+	inc a							;mirror start y
+	sta.b p0+2						;mirror start y
 	lda.b p1+2
 	eor.w #$FFFF					; negate: two's complement
-	inc a
-	sta.b p1+2
-	lda.b tmp0
-	bit.w #$000A
-	beq .1xxxx
-	eor.w #$000A
+	inc a							;mirror target y
+	sta.b p1+2						;mirror target y
+	lda.b tmp0						;start code
+	bit.w #$000A					;before or past?
+	beq .1xxxx						;not before or past
+	eor.w #$000A					;swap before / past
 	sta.b tmp0
 .1xxxx:								; if tmp1 bits $000A clear go to .2xxx, ...
-	lda.b tmp1
-	bit.w #$000A
-	beq .2xxx
-	eor.w #$000A
-	sta.b tmp1
+	lda.b tmp1						;target code
+	bit.w #$000A					;target code
+	beq .2xxx						;before or past?
+	eor.w #$000A					;swap before / past
+	sta.b tmp1						;swap before / past
 .2xxx:								; if tmp1 = 0 go to .t1xxxxxx, ...
-	lda.b tmp1
-	beq .t1xxxxxx
-	ldx.b tmp0
-	jsr (.47,x)
-	ldx.b curobj
-	plb
+	lda.b tmp1						;target code
+	beq .t1xxxxxx					;target code 0
+	ldx.b tmp0						;start code
+	jsr (.47,x)						;the handler for the start code
+	ldx.b curobj					;player
+	plb								;restore the bank
 	rtl
 
 .t1xxxxxx:							; tmp1 = 0: call .t3, return
 	jsr.w .t3
-	ldx.b curobj
-	plb
+	ldx.b curobj					;player
+	plb								;restore the bank
 	rtl
 
 .t3:								; subroutine: if p0+2 - $FEF8 >= 0 go to .t1xxxxxxx, ...
-	ldx.b curobj
-	lda.b p0+2
-	cmp.w #$FEF8
-	bpl .t1xxxxxxx
+	ldx.b curobj					;player
+	lda.b p0+2						;start y
+	cmp.w #$FEF8					;behind the goal line?
+	bpl .t1xxxxxxx					;start in front?
 	lda.b p1+2
-	cmp.w #$FEF8
-	bmi .t2xx
-	bra .31
+	cmp.w #$FEF8					;target y
+	bmi .t2xx						;target in front?
+	bra .31							;target behind too: keep
 
 .t1xxxxxxx:							; p0+2 - $FEF8 >= 0: if p1+2 - $FEF8 >= 0 go to .t2xx, ...
-	lda.b p1+2
-	cmp.w #$FEF8
+	lda.b p1+2						;target y
+	cmp.w #$FEF8					;target in front?
 	bpl .t2xx
 	bra .33
 
@@ -406,28 +406,28 @@ avdgoal:							; called from assgoalietopuck, skateto, skatetopuck
 	rts
 
 .t1xxxxxxxx:						; if plus go to .36, ...
-	cmp.w Xpos,y
-	bpl .36
-	lda.b r3+2
-	sta.b d1
+	cmp.w Xpos,y					;left of the goalie?
+	bpl .36							;start right of the goalie: keep
+	lda.b r3+2						;far line y
+	sta.b d1						;along the far line
 	rts
 .29:								; p0 - $FFDB negative: d0 = $FFDA, return
-	lda.w #$FFDA
-	sta.b d0
+	lda.w #$FFDA					;left of the net
+	sta.b d0						;aim left of the net
 	rts
 .30:								; if p0+2 - $FEF8 >= 0 go to .32
-	lda.b p0+2
-	cmp.w #$FEF8
-	bpl .32
+	lda.b p0+2						;start y
+	cmp.w #$FEF8					;behind the goal line?
+	bpl .32							;start behind the goal line
 .31:								; if p0 - $FFDB negative go to .29, ...
-	lda.b p0
-	cmp.w #$FFDB
-	bmi .29
-	cmp.w #$0026
-	bpl .39
+	lda.b p0						;start x
+	cmp.w #$FFDB					;left of the box?
+	bmi .29							;left of the box: aim left
+	cmp.w #$0026					;right of the box?
+	bpl .39							;right of the box: aim right
 	lda.b r3
-	sta.b d1
-	bra .35
+	sta.b d1						;near line y
+	bra .35							;along the near line
 .32:								; p0+2 - $FEF8 >= 0: if tmp1 bit $0002 set go to .36
 	lda.b tmp1
 	bit.w #$0002
@@ -437,98 +437,98 @@ avdgoal:							; called from assgoalietopuck, skateto, skatetopuck
 	sta.b d1
 	bra .35
 .34:								; d1 = r3+2, if tmp1 & $0008 != 0 go to .36
-	lda.b r3+2
-	sta.b d1
+	lda.b r3+2						;along the far line
+	sta.b d1						;far line
 	lda.b tmp1
-	and.w #$0008
-	bne .36
+	and.w #$0008					;side bit 8?
+	bne .36							;other side: keep x
 .35:								; if p1 >= 0 go to .t1xxxxxxxxx, ...
-	lda.b p1
-	bpl .t1xxxxxxxxx
-	cmp.w #$FFDB
-	bmi .36
+	lda.b p1						;target x
+	bpl .t1xxxxxxxxx				;target right of centre
+	cmp.w #$FFDB					;inside?
+	bmi .36							;left of the left post: keep
 	lda.w #$FFDA
-	sta.b d0
+	sta.b d0						;clamp to the left post
 	rts
 
 .t1xxxxxxxxx:						; p1 >= 0: if plus go to .36, ...
-	cmp.w #$0026
-	bpl .36
-	lda.w #$0026
-	sta.b d0
+	cmp.w #$0026					;past the right post?
+	bpl .36							;right of the right post: keep
+	lda.w #$0026					;inside: aim at the right post
+	sta.b d0						;clamp to the right post
 .36:								; return
 	rts
 .37:								; if tmp1 != $0010 go to .39
 	lda.b tmp1
-	cmp.w #$0010
+	cmp.w #$0010					;from the left?
 	bne .39
 .38:								; d1 = r3+2, return
-	lda.b r3+2
-	sta.b d1
+	lda.b r3+2						;far line y
+	sta.b d1						;along the far line
 	rts
 .39:								; d0 = $0026, return
-	lda.w #$0026
-	sta.b d0
+	lda.w #$0026					;aim right
+	sta.b d0						;right of the net
 	rts
 .40:								; d0 = $0026, if tmp1 & $000A = 0 go to .38, ...
-	lda.w #$0026
+	lda.w #$0026					;aim right of the net
 	sta.b d0
-	lda.b tmp1
+	lda.b tmp1						;target side bits
 	and.w #$000A
-	beq .38
+	beq .38							;no side bits: along the far line
 	rts
 .41:								; if tmp1 != $0010 go to .39
 	lda.b tmp1
-	cmp.w #$0010
+	cmp.w #$0010					;from the left?
 	bne .39
 .42:								; d1 = r3, return
-	lda.b r3
+	lda.b r3						;along the near line
 	sta.b d1
 	rts
 .43:								; d1 = r3, if tmp1 & $0002 != 0 go to .35, ...
-	lda.b r3
+	lda.b r3						;aim along the near line
 	sta.b d1
-	lda.b tmp1
-	and.w #$0002
+	lda.b tmp1						;target before?
+	and.w #$0002					;start past: keep x
 	bne .35
 	rts
 .44:								; if tmp1 = $0004 go to .42, ...
 	lda.b tmp1
-	cmp.w #$0004
+	cmp.w #$0004					;start from the right?
 	beq .42
-	lda.w #$FFDA
+	lda.w #$FFDA					;aim left of the net
 	sta.b d0
 	rts
 .45:								; d0 = $FFDA, if tmp1 & $000A = 0 go to .38, ...
-	lda.w #$FFDA
+	lda.w #$FFDA					;aim left of the net
 	sta.b d0
-	lda.b tmp1
+	lda.b tmp1						;target side bits
 	and.w #$000A
-	beq .38
+	beq .38							;no side bits: aim along the near line
 	rts
 .46:								; if tmp1 = $0004 go to .38, ...
-	lda.b tmp1
+	lda.b tmp1						;from the right side only
 	cmp.w #$0004
 	beq .38
-	lda.w #$FFDA
+	lda.w #$FFDA					;aim left of the net
 	sta.b d0
 	rts
 .47:								; jump table for jsr (.47,x)
 	dw .30,.34,.40,.37,.43,$0000,.41
 	dw $0000,.45,.46,$0000,$0000,.44
 .48:								; subroutine: r3 = X, r3+2 = Y, tmp0 = 0, ...
-	stx.b r3
-	sty.b r3+2
-	stz.b tmp0
-	stz.b tmp1
-	ldx.b p0+2
-	ldy.b p1+2
-	cpx.b r3
-	bpl .4xx
-	lda.w #$0008
-	sta.b tmp0
-	cpy.b r3
-	bpl .5xx
+	stx.b r3						;box near y
+	sty.b r3+2						;box far y
+	stz.b tmp0						;start code
+	stz.b tmp1						;target code
+	ldx.b p0+2						;start y
+	ldy.b p1+2						;target y
+	cpx.b r3						;start before the box?
+	bpl .4xx						;start not before the box
+	lda.w #$0008					;before = 8
+	sta.b tmp0						;start before the box
+	cpy.b r3						;target before the box?
+	bpl .5xx						;start before, target not: check x
 .1xxxxx:							; return
 	rts
 .2xxxx:								; if minus go to .6xx, ...
