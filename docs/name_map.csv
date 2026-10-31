@@ -630,7 +630,7 @@ $9FD733,lineinput,CODE_9FD733,93S,Pad input while the line change box is open,sr
 $9FCBB6,findpc,CODE_9FCBB6,93S,When and where the puck will cross each goal line,src/routines/checks/findpc.asm
 $9BCD30,BitstoPW,CODE_9BCD30,93S,Turn the password bits into the password characters,src/routines/hockey/BitstoPW.asm
 $9FDC4C,check4bench,CODE_9FDC4C,93S,"If a line change wants player X off, send him to the bench",src/routines/assign/check4bench.asm
-$9FC090,checkwindow,CODE_9FC090,93S,Move the view so the screen follows the puck,src/routines/replay/checkwindow.asm
+$9FC090,checkwindow,CODE_9FC090,93S,Move the view so the screen follows the puck,src/routines/logic/checkwindow.asm
 $9ECD9D,ScrollDisplayUp,CODE_9ECD9D,93S,The next line of the scouting report; scroll the text box up when it is full,src/routines/setup/ScrollDisplayUp.asm
 $9BCC41,ReadPassBits,CODE_9BCC41,93S,Turn the password bits back into the playoff state,src/routines/data/ReadPassBits.asm
 $9EC2D0,setInjuryType,CODE_9EC2D0,93S,Player a2 is injured: the crowd reacts and the injury box gets his name,src/routines/collide/setInjuryType.asm
@@ -646,7 +646,7 @@ $9EC124,checkagr,CODE_9EC124,93S,"How hard a check is, from the player's checkin
 $9FC5A6,EraseScoutName,CODE_9FC5A6,93S,Erase the scouting report name line,src/routines/hockey/EraseScoutName.asm
 $9EB188,PenaltyManager,CODE_9EB188,93S,"Run the penalty work once a frame: times, new calls, the referee",src/routines/penalty/PenaltyManager.asm
 $9FA626,clockcont,CODE_9FA626,93S,"When the clock runs out, freeze the view and end the period",src/routines/hockey/clockcont.asm
-$9FBA97,freezewindow,CODE_9FBA97,93S,Lock the view at its current position,src/routines/replay/freezewindow.asm
+$9FBA97,freezewindow,CODE_9FBA97,93S,Lock the view at its current position,src/routines/logic/freezewindow.asm
 $9BCD8F,ClrPassBits,CODE_9BCD8F,93S,Clear the password bits,src/routines/data/ClrPassBits.asm
 $9CA41B,SuperDiv,CODE_9CA41B,93S,Password bits divided by d0 with the remainder in d0,src/routines/data/SuperDiv.asm
 $9ECDE1,ScoutNamePos,CODE_9ECDE1,93S,Where the scouting report prints a player's name,src/routines/hockey/ScoutNamePos.asm
@@ -766,7 +766,7 @@ $9FB29D,.1,CODE_9FB29D,new,branch target only used in this routine,src/routines/
 $9FB2B1,.2,CODE_9FB2B1,new,branch target only used in this routine,src/routines/assign/assfaceoffpl.asm
 $9FB2C4,.3,CODE_9FB2C4,new,branch target only used in this routine,src/routines/assign/assfaceoffpl.asm
 $9FB2FA,.4,CODE_9FB2FA,new,branch target only used in this routine,src/routines/assign/assfaceoffpl.asm
-$9F86C8,.1,CODE_9F86C8,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
+$9F86C8,.1,CODE_9F86C8,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
 $9EB1B0,.1,CODE_9EB1B0,new,branch target only used in this routine,src/routines/penalty/chkatop.asm
 $9EB1BF,.2,CODE_9EB1BF,new,branch target only used in this routine,src/routines/penalty/chkatop.asm
 $9EB1C8,.rtl,CODE_9EB1C8,new,branch target only used in this routine,src/routines/penalty/chkatop.asm
@@ -987,10 +987,10 @@ $9FD370,.loop,CODE_9FD370,new,branch target only used in this routine,src/routin
 $9FD397,.1,CODE_9FD397,new,branch target only used in this routine,src/routines/input/SetLCmode2.asm
 $9FD3D5,.2,CODE_9FD3D5,new,branch target only used in this routine,src/routines/input/SetLCmode2.asm
 $9FD3D8,.3,CODE_9FD3D8,new,branch target only used in this routine,src/routines/input/SetLCmode2.asm
-$9F8A95,.1,CODE_9F8A95,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8AA7,.2,CODE_9F8AA7,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8ABB,.3,CODE_9F8ABB,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8AC5,.4,CODE_9F8AC5,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
+$9F8A95,.1,CODE_9F8A95,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8AA7,.2,CODE_9F8AA7,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8ABB,.3,CODE_9F8ABB,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8AC5,.4,CODE_9F8AC5,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
 $9ED476,.1,CODE_9ED476,new,branch target only used in this routine,src/routines/logic/assgoalie.asm
 $9FC826,.loop,CODE_9FC826,new,branch target only used in this routine,src/routines/data/InitializeGameStructures.asm
 $9EC234,.1,CODE_9EC234,new,branch target only used in this routine,src/routines/penalty/prefmes.asm
@@ -1008,7 +1008,7 @@ $9FC62F,.loop,CODE_9FC62F,new,branch target only used in this routine,src/routin
 $9EBA84,.1,CODE_9EBA84,new,branch target only used in this routine,src/routines/collide/checkint.asm
 $9E9674,.1,CODE_9E9674,new,branch target only used in this routine,src/routines/collide/checkplcoll.asm
 $9E9678,.2,CODE_9E9678,new,branch target only used in this routine,src/routines/collide/checkplcoll.asm
-$9FC0ED,.1,CODE_9FC0ED,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
+$9FC0ED,.1,CODE_9FC0ED,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
 $9EABFD,.1,CODE_9EABFD,new,branch target only used in this routine,src/routines/checks/avdgoal.asm
 $9E98AE,.1,CODE_9E98AE,new,branch target only used in this routine,src/routines/hockey/checkpuckcoll_ccx.asm
 $9E98C5,.2,CODE_9E98C5,new,branch target only used in this routine,src/routines/hockey/checkpuckcoll_ccx.asm
@@ -1447,8 +1447,8 @@ $9F983A,.1,CODE_9F983A,new,branch target only used in this routine,src/routines/
 $9E9A38,.1,CODE_9E9A38,new,branch target only used in this routine,src/routines/hockey/checkpuckcoll_ccx.asm
 $9E9A3C,.2,CODE_9E9A3C,new,branch target only used in this routine,src/routines/hockey/checkpuckcoll_ccx.asm
 $9E9A46,.3,CODE_9E9A46,new,branch target only used in this routine,src/routines/hockey/checkpuckcoll_ccx.asm
-$9FC150,.1,CODE_9FC150,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
-$9FC156,.2,CODE_9FC156,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
+$9FC150,.1,CODE_9FC150,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
+$9FC156,.2,CODE_9FC156,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
 $80CD13,.1,CODE_80CD13,new,branch target only used in this routine,src/routines/shootout/PrintShooterNames.asm
 $80CD22,.2,CODE_80CD22,new,branch target only used in this routine,src/routines/shootout/PrintShooterNames.asm
 $80CD4E,.3,CODE_80CD4E,new,branch target only used in this routine,src/routines/shootout/PrintShooterNames.asm
@@ -1563,13 +1563,13 @@ $9F85F0,.1,CODE_9F85F0,new,branch target only used in this routine,src/routines/
 $9F8613,.2,CODE_9F8613,new,branch target only used in this routine,src/routines/hockey/Gameloop.asm
 $9F8617,.3,CODE_9F8617,new,branch target only used in this routine,src/routines/hockey/Gameloop.asm
 $9DB1DD,.loop,CODE_9DB1DD,new,branch target only used in this routine,src/routines/hockey/TitleScreen.asm
-$9F86F2,.1,CODE_9F86F2,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8701,.2,CODE_9F8701,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F871A,.3,CODE_9F871A,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8727,.4,CODE_9F8727,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8735,.5,CODE_9F8735,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8738,.6,CODE_9F8738,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8742,.7,CODE_9F8742,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
+$9F86F2,.1,CODE_9F86F2,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8701,.2,CODE_9F8701,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F871A,.3,CODE_9F871A,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8727,.4,CODE_9F8727,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8735,.5,CODE_9F8735,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8738,.6,CODE_9F8738,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8742,.7,CODE_9F8742,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
 $80BBA4,.1,CODE_80BBA4,new,branch target only used in this routine,src/routines/snes/DecompressPairs.asm
 $9B87B2,.1,CODE_9B87B2,new,branch target only used in this routine,src/routines/hockey/EditLinesScreen.asm
 $80893C,.1,CODE_80893C,new,branch target only used in this routine,src/routines/snes/DMAToVRAM.asm
@@ -1831,7 +1831,7 @@ $9FB5D0,.loop,CODE_9FB5D0,new,branch target only used in this routine,src/routin
 $9FA1BF,.1,CODE_9FA1BF,new,branch target only used in this routine,src/routines/penalty/DispPen.asm
 $9FA1C1,.loop,CODE_9FA1C1,new,branch target only used in this routine,src/routines/penalty/DispPen.asm
 $9FA1D9,.2,CODE_9FA1D9,new,branch target only used in this routine,src/routines/penalty/DispPen.asm
-$9F897E,.1,CODE_9F897E,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
+$9F897E,.1,CODE_9F897E,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
 $9EE83C,.1,CODE_9EE83C,new,branch target only used in this routine,src/routines/checks/asspassrec.asm
 $9E8CB5,.loop,CODE_9E8CB5,new,branch target only used in this routine,src/routines/collide/checkcoll.asm
 $9EF3DA,.1,CODE_9EF3DA,new,branch target only used in this routine,src/routines/hockey/Goal.asm
@@ -1871,8 +1871,8 @@ $80BC10,.1,CODE_80BC10,new,branch target only used in this routine,src/routines/
 $80BC1D,.loop2,CODE_80BC1D,new,branch target only used in this routine,src/routines/snes/DecompressHuffman.asm
 $80BC3A,.loop3,CODE_80BC3A,new,branch target only used in this routine,src/routines/snes/DecompressHuffman.asm
 $80BC40,.loop4,CODE_80BC40,new,branch target only used in this routine,src/routines/snes/DecompressHuffman.asm
-$9FC1AB,.1,CODE_9FC1AB,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
-$9FC1B1,.2,CODE_9FC1B1,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
+$9FC1AB,.1,CODE_9FC1AB,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
+$9FC1B1,.2,CODE_9FC1B1,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
 $80C339,.loop,CODE_80C339,new,branch target only used in this routine,src/routines/snes/DecompressRLE.asm
 $80C352,.loop,CODE_80C352,new,branch target only used in this routine,src/routines/snes/DecompressRLE.asm
 $80C35C,.loop2,CODE_80C35C,new,branch target only used in this routine,src/routines/snes/DecompressRLE.asm
@@ -1996,19 +1996,19 @@ $9DA55A,.3,CODE_9DA55A,new,branch target only used in this routine,src/routines/
 $9DA55F,.4,CODE_9DA55F,new,branch target only used in this routine,src/routines/hockey/PlayerSelect.asm
 $808EAE,.loop,CODE_808EAE,new,branch target only used in this routine,src/routines/snes/PasteMapPart.asm
 $808EB3,.loop2,CODE_808EB3,new,branch target only used in this routine,src/routines/snes/PasteMapPart.asm
-$9F8B0B,.1,CODE_9F8B0B,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8B24,.2,CODE_9F8B24,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8B47,.3,CODE_9F8B47,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8B58,.4,CODE_9F8B58,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
+$9F8B0B,.1,CODE_9F8B0B,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8B24,.2,CODE_9F8B24,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8B47,.3,CODE_9F8B47,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8B58,.4,CODE_9F8B58,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
 $9FF1D6,.loop,CODE_9FF1D6,new,branch target only used in this routine,src/routines/hockey/ShowMP5Warning.asm
 $9FF1E3,.rtl,CODE_9FF1E3,new,branch target only used in this routine,src/routines/hockey/ShowMP5Warning.asm
 $9E8178,.1,CODE_9E8178,new,branch target only used in this routine,src/routines/checks/assnearest.asm
 $9E81A1,.2,CODE_9E81A1,new,branch target only used in this routine,src/routines/checks/assnearest.asm
 $9E81C7,.3,CODE_9E81C7,new,branch target only used in this routine,src/routines/checks/assnearest.asm
-$9EA4BF,.1,CODE_9EA4BF,new,branch target only used in this routine,src/routines/replay/updateanim.asm
-$9EA4C6,.2,CODE_9EA4C6,new,branch target only used in this routine,src/routines/replay/updateanim.asm
-$9EA4D5,.3,CODE_9EA4D5,new,branch target only used in this routine,src/routines/replay/updateanim.asm
-$9EA4D8,.4,CODE_9EA4D8,new,branch target only used in this routine,src/routines/replay/updateanim.asm
+$9EA4BF,.1,CODE_9EA4BF,new,branch target only used in this routine,src/routines/logic/updateanim.asm
+$9EA4C6,.2,CODE_9EA4C6,new,branch target only used in this routine,src/routines/logic/updateanim.asm
+$9EA4D5,.3,CODE_9EA4D5,new,branch target only used in this routine,src/routines/logic/updateanim.asm
+$9EA4D8,.4,CODE_9EA4D8,new,branch target only used in this routine,src/routines/logic/updateanim.asm
 $80A8C5,.1,CODE_80A8C5,new,branch target only used in this routine,src/routines/snes/StepTrack.asm
 $9EE264,.1,CODE_9EE264,new,branch target only used in this routine,src/routines/input/doshot.asm
 $9EE274,.2,CODE_9EE274,new,branch target only used in this routine,src/routines/input/doshot.asm
@@ -2035,12 +2035,12 @@ $9F82C8,.loop2,CODE_9F82C8,new,branch target only used in this routine,src/routi
 $9F82F6,.loop,CODE_9F82F6,new,branch target only used in this routine,src/routines/setup/Opening.asm
 $9F82FB,.1,CODE_9F82FB,new,branch target only used in this routine,src/routines/setup/Opening.asm
 $9F8309,.2,CODE_9F8309,new,branch target only used in this routine,src/routines/setup/Opening.asm
-$9F877D,.1,CODE_9F877D,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F87BA,.1,CODE_9F87BA,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F87D9,.2,CODE_9F87D9,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F87EA,.3,CODE_9F87EA,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8843,.1,CODE_9F8843,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F885F,.2,CODE_9F885F,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
+$9F877D,.1,CODE_9F877D,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F87BA,.1,CODE_9F87BA,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F87D9,.2,CODE_9F87D9,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F87EA,.3,CODE_9F87EA,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8843,.1,CODE_9F8843,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F885F,.2,CODE_9F885F,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
 $80B7C0,.1,CODE_80B7C0,new,branch target only used in this routine,src/routines/snes/FreeFrameTiles.asm
 $9EEDB9,.rtl,CODE_9EEDB9,new,branch target only used in this routine,src/routines/logic/assdumpin.asm
 $9EC460,.1,CODE_9EC460,new,branch target only used in this routine,src/routines/checks/checkob.asm
@@ -2238,11 +2238,11 @@ $9B8230,.3,CODE_9B8230,new,branch target only used in this routine,src/routines/
 $9B8235,.4,CODE_9B8235,new,branch target only used in this routine,src/routines/snes/Multi5Bios.asm
 $9FD156,.1,CODE_9FD156,new,branch target only used in this routine,src/routines/collide/setplayer.asm
 $80860B,.loop,CODE_80860B,new,branch target only used in this routine,src/routines/snes/WaitNoButtons.asm
-$9F890F,.1,CODE_9F890F,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F891D,.2,CODE_9F891D,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8926,.loop,CODE_9F8926,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8933,.loop2,CODE_9F8933,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F895A,.1,CODE_9F895A,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
+$9F890F,.1,CODE_9F890F,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F891D,.2,CODE_9F891D,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8926,.loop,CODE_9F8926,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8933,.loop2,CODE_9F8933,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F895A,.1,CODE_9F895A,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
 $9F8DFF,.loop,CODE_9F8DFF,new,branch target only used in this routine,src/routines/hockey/SaveRegsStartHL2.asm
 $9F8E10,.loop2,CODE_9F8E10,new,branch target only used in this routine,src/routines/hockey/SaveRegsStartHL2.asm
 $9E9E69,.1,CODE_9E9E69,new,branch target only used in this routine,src/routines/collide/FallDown.asm
@@ -2327,7 +2327,7 @@ $9BC295,.2,CODE_9BC295,new,branch target only used in this routine,src/routines/
 $808D86,.loop,CODE_808D86,new,branch target only used in this routine,src/routines/snes/Mode7MapToVRAM.asm
 $80A2C5,.loop,CODE_80A2C5,new,branch target only used in this routine,src/routines/snes/StopSound.asm
 $80A2CF,.1,CODE_80A2CF,new,branch target only used in this routine,src/routines/snes/StopSound.asm
-$9F89D5,.1,CODE_9F89D5,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
+$9F89D5,.1,CODE_9F89D5,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
 $9C9ED8,.1,CODE_9C9ED8,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
 $9C9F04,.2,CODE_9C9F04,new,branch target only used in this routine,src/routines/hockey/ShowThreeStars.asm
 $9ED8D4,.1,CODE_9ED8D4,new,branch target only used in this routine,src/routines/logic/assgoalie.asm
@@ -2987,8 +2987,8 @@ $9EA6F9,.t1,CODE_9EA6F9,new,continued in the previous routine,src/routines/assig
 $9EA64E,.t1,CODE_9EA64E,new,continued in the previous routine,src/routines/checks/skateto.asm
 $9EA598,.t1,CODE_9EA598,new,continued in the previous routine,src/routines/checks/dostop.asm
 $9EA55D,.t1,CODE_9EA55D,new,continued in the previous routine,src/routines/checks/dostop.asm
-$9EA46F,.t1,CODE_9EA46F,new,continued in the previous routine,src/routines/replay/updateanim.asm
-$9EA43B,.t1,CODE_9EA43B,new,continued in the previous routine,src/routines/replay/updateanim.asm
+$9EA46F,.t1,CODE_9EA46F,new,continued in the previous routine,src/routines/logic/updateanim.asm
+$9EA43B,.t1,CODE_9EA43B,new,continued in the previous routine,src/routines/logic/updateanim.asm
 $9EA3AD,.t1,CODE_9EA3AD,new,continued in the previous routine,src/routines/collide/holdcheck.asm
 $9EA333,.t1,CODE_9EA333,new,continued in the previous routine,src/routines/collide/holdcheck.asm
 $9EA25F,.t1,CODE_9EA25F,new,continued in the previous routine,src/routines/input/holdplayer.asm
@@ -3111,8 +3111,8 @@ $9FC639,.t1,CODE_9FC639,new,continued in the previous routine,src/routines/middl
 $9FC345,.t1,CODE_9FC345,new,continued in the previous routine,src/routines/input/doinput.asm
 $9FC311,.t1,CODE_9FC311,new,continued in the previous routine,src/routines/input/doinput.asm
 $9FC231,.t1,CODE_9FC231,new,continued in the previous routine,src/routines/input/doinput.asm
-$9FC17E,.t1,CODE_9FC17E,new,continued in the previous routine,src/routines/replay/checkwindow.asm
-$9FC0C6,.t1,CODE_9FC0C6,new,continued in the previous routine,src/routines/replay/checkwindow.asm
+$9FC17E,.t1,CODE_9FC17E,new,continued in the previous routine,src/routines/logic/checkwindow.asm
+$9FC0C6,.t1,CODE_9FC0C6,new,continued in the previous routine,src/routines/logic/checkwindow.asm
 $9FBFBA,.t1,CODE_9FBFBA,new,continued in the previous routine,src/routines/video/updatescroll_rows.asm
 $9FBE9E,.t1,CODE_9FBE9E,new,continued in the previous routine,src/routines/setup/DrawTeamBlocks.asm
 $9FBE3B,.t1,CODE_9FBE3B,new,continued in the previous routine,src/routines/setup/DrawTeamBlocks.asm
@@ -3166,13 +3166,13 @@ $9F8DF6,.t1,CODE_9F8DF6,new,continued in the previous routine,src/routines/setup
 $9F8DCE,.t1,CODE_9F8DCE,new,continued in the previous routine,src/routines/setup/GameOver.asm
 $9F8D96,.t1,CODE_9F8D96,new,continued in the previous routine,src/routines/setup/PeriodOver.asm
 $9F8B9B,.t1,CODE_9F8B9B,new,continued in the previous routine,src/routines/hockey/clockcont_0.asm
-$9F8AEA,.t1,CODE_9F8AEA,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F8A31,.t1,CODE_9F8A31,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F89B2,.t1,CODE_9F89B2,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F8904,.t1,CODE_9F8904,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F889D,.t1,CODE_9F889D,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F874D,.t1,CODE_9F874D,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F86D3,.t1,CODE_9F86D3,new,continued in the previous routine,src/routines/replay/updateplayers.asm
+$9F8AEA,.t1,CODE_9F8AEA,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F8A31,.t1,CODE_9F8A31,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F89B2,.t1,CODE_9F89B2,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F8904,.t1,CODE_9F8904,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F889D,.t1,CODE_9F889D,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F874D,.t1,CODE_9F874D,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F86D3,.t1,CODE_9F86D3,new,continued in the previous routine,src/routines/logic/updateplayers.asm
 $9F8622,.t1,CODE_9F8622,new,continued in the previous routine,src/routines/hockey/Gameloop.asm
 $9F84E3,.t1,CODE_9F84E3,new,continued in the previous routine,src/routines/hockey/StartPer.asm
 $9F8421,.t1,CODE_9F8421,new,continued in the previous routine,src/routines/hockey/StartGame.asm
@@ -3420,7 +3420,7 @@ $9FCD5E,.t1,CODE_9FCD5E,new,continued in the previous routine,src/routines/logic
 $9FC822,.t2,CODE_9FC822,new,continued in the previous routine,src/routines/data/InitializeGameStructures.asm
 $9FC315,.t2,CODE_9FC315,new,continued in the previous routine,src/routines/input/doinput.asm
 $9FC1EC,.t2,CODE_9FC1EC,new,continued in the previous routine,src/routines/input/doinput.asm
-$9FC123,.t1,CODE_9FC123,new,continued in the previous routine,src/routines/replay/checkwindow.asm
+$9FC123,.t1,CODE_9FC123,new,continued in the previous routine,src/routines/logic/checkwindow.asm
 $9FBFA6,.t2,CODE_9FBFA6,new,continued in the previous routine,src/routines/video/updatescroll_rows.asm
 $9FBE56,.t2,CODE_9FBE56,new,continued in the previous routine,src/routines/setup/DrawTeamBlocks.asm
 $9FBD37,.t1,CODE_9FBD37,new,continued in the previous routine,src/routines/display/setffo.asm
@@ -3445,10 +3445,10 @@ $9F9559,.t2,CODE_9F9559,new,continued in the previous routine,src/routines/data/
 $9F9125,.t2,CODE_9F9125,new,continued in the previous routine,src/routines/hockey/SaveRegsStartHL2.asm
 $9F8DD8,.t2,CODE_9F8DD8,new,continued in the previous routine,src/routines/setup/GameOver.asm
 $9F8CFD,.t1,CODE_9F8CFD,new,continued in the previous routine,src/routines/setup/PeriodOver.asm
-$9F8A63,.t1,CODE_9F8A63,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F8967,.t2,CODE_9F8967,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F8755,.t2,CODE_9F8755,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F86CB,.t2,CODE_9F86CB,new,continued in the previous routine,src/routines/replay/updateplayers.asm
+$9F8A63,.t1,CODE_9F8A63,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F8967,.t2,CODE_9F8967,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F8755,.t2,CODE_9F8755,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F86CB,.t2,CODE_9F86CB,new,continued in the previous routine,src/routines/logic/updateplayers.asm
 $9F85AA,.t1,CODE_9F85AA,new,continued in the previous routine,src/routines/hockey/Gameloop.asm
 $9F83EB,.t1,CODE_9F83EB,new,continued in the previous routine,src/routines/hockey/StartGame.asm
 $9F8183,.t2,CODE_9F8183,new,continued in the previous routine,src/routines/hockey/DrawPeriodStats.asm
@@ -3558,8 +3558,8 @@ $9F9EC6,.t3,CODE_9F9EC6,new,continued in the previous routine,src/routines/penal
 $9F9A3B,.t3,CODE_9F9A3B,new,continued in the previous routine,src/routines/cards/CalcAttrib.asm
 $9F9531,.t3,CODE_9F9531,new,continued in the previous routine,src/routines/data/ResolveGames.asm
 $9F8E3E,.t3,CODE_9F8E3E,new,continued in the previous routine,src/routines/hockey/SaveRegsStartHL2.asm
-$9F8A04,.t3,CODE_9F8A04,new,continued in the previous routine,src/routines/replay/updateplayers.asm
-$9F86DF,.t3,CODE_9F86DF,new,continued in the previous routine,src/routines/replay/updateplayers.asm
+$9F8A04,.t3,CODE_9F8A04,new,continued in the previous routine,src/routines/logic/updateplayers.asm
+$9F86DF,.t3,CODE_9F86DF,new,continued in the previous routine,src/routines/logic/updateplayers.asm
 $9F813E,.t3,CODE_9F813E,new,continued in the previous routine,src/routines/hockey/DrawPeriodStats.asm
 $80CFBE,.t4,CODE_80CFBE,new,continued in the previous routine,src/routines/shootout/ShooterSelectList.asm
 $80C3C5,.t4,CODE_80C3C5,new,continued in the previous routine,src/routines/snes/Decompress.asm
@@ -3598,7 +3598,7 @@ $9FC322,.t4,CODE_9FC322,new,continued in the previous routine,src/routines/input
 $9FB366,.t4,CODE_9FB366,new,continued in the previous routine,src/routines/checks/puckfaceoff.asm
 $9FB27B,.t4,CODE_9FB27B,new,continued in the previous routine,src/routines/assign/assfaceoff.asm
 $9FA8E3,.t3,CODE_9FA8E3,new,continued in the previous routine,src/routines/checks/puckfaceoff2.asm
-$9F88D6,.t1,CODE_9F88D6,new,continued in the previous routine,src/routines/replay/updateplayers.asm
+$9F88D6,.t1,CODE_9F88D6,new,continued in the previous routine,src/routines/logic/updateplayers.asm
 $80CFD1,.t5,CODE_80CFD1,new,continued in the previous routine,src/routines/shootout/ShooterSelectList.asm
 $80B52C,.t5,CODE_80B52C,new,continued in the previous routine,src/routines/snes/FindCachedFrame.asm
 $80AA48,.t5,CODE_80AA48,new,continued in the previous routine,src/routines/snes/StepTrack.asm
@@ -3877,7 +3877,7 @@ $9EB4C1,InProgress,CODE_9EB4C1,93S,"most instructions as 93S InProgress, the sam
 $9E8C35,checkcoll,CODE_9E8C35,93S,most of the 93S checkcoll body and its calls (checkwallcoll twice),src/routines/collide/checkcoll.asm
 $9E8BD7,donothing,CODE_9E8BD7,93S,the assignment routines jump here where 93S jumps to donothing; doplayeracc with direction 8,src/routines/assign/donothing.asm
 $9F8625,DoGameFrame,CODE_9F8625,93S,"the 93S DoGameFrame calls in order (periodicevents, updateplayers, checkwindow, updatereplay, the frame sprites)",src/routines/hockey/DoGameFrame.asm
-$9F8686,updateplayers,CODE_9F8686,93S,DoGameFrame calls it where 93S calls updateplayers; the routine that runs asstab for every object,src/routines/replay/updateplayers.asm
+$9F8686,updateplayers,CODE_9F8686,93S,DoGameFrame calls it where 93S calls updateplayers; the routine that runs asstab for every object,src/routines/logic/updateplayers.asm
 $9BA8DB,updatereplay,CODE_9BA8DB,93S,DoGameFrame calls it where 93S calls updatereplay; the 93S body,src/routines/replay/updatereplay.asm
 $9E9484,checkplcoll,CODE_9E9484,93S,checkcoll calls it where 93S calls checkplcoll; most instructions as 93S,src/routines/collide/checkplcoll.asm
 $9EB88A,AddPenalty2,CODE_9EB88A,93S,Goal calls it where 93S calls AddPenalty2; most instructions as 93S,src/routines/penalty/AddPenalty2.asm
@@ -4091,8 +4091,8 @@ $9EA20D,.2,CODE_9EA20D,new,branch target only used in this routine,src/routines/
 $9EA222,.3,CODE_9EA222,new,branch target only used in this routine,src/routines/checks/check4check.asm
 $9EA226,.4,CODE_9EA226,new,continued in the previous routine,src/routines/checks/check4check.asm
 $9EA233,.5,CODE_9EA233,new,branch target only used in this routine,src/routines/checks/check4check.asm
-$9EA4DD,.5,CODE_9EA4DD,new,branch target only used in this routine,src/routines/replay/updateanim.asm
-$9EA4DF,.6,CODE_9EA4DF,new,continued in the previous routine,src/routines/replay/updateanim.asm
+$9EA4DD,.5,CODE_9EA4DD,new,branch target only used in this routine,src/routines/logic/updateanim.asm
+$9EA4DF,.6,CODE_9EA4DF,new,continued in the previous routine,src/routines/logic/updateanim.asm
 $9EA653,.4,CODE_9EA653,new,branch target only used in this routine,src/routines/checks/skateto.asm
 $9EA65A,.5,CODE_9EA65A,new,continued in the previous routine,src/routines/checks/skateto.asm
 $9EA65E,.6,CODE_9EA65E,new,branch target only used in this routine,src/routines/checks/skateto.asm
@@ -4232,12 +4232,12 @@ $9FF05B,.2,CODE_9FF05B,new,branch target only used in this routine,src/routines/
 $9EBCB8,.2,CODE_9EBCB8,new,branch target only used in this routine,src/routines/collide/Bcheck.asm
 $9E8DEF,.5,CODE_9E8DEF,new,branch target only used in this routine,src/routines/collide/checkwallcoll.asm
 $9E8E3A,.6,CODE_9E8E3A,new,branch target only used in this routine,src/routines/collide/checkwallcoll.asm
-$9FC0DB,.2,CODE_9FC0DB,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
-$9FC102,.3,CODE_9FC102,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
-$9FC13C,.4,CODE_9FC13C,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
-$9FC15D,.5,CODE_9FC15D,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
-$9FC197,.6,CODE_9FC197,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
-$9FC1B8,.7,CODE_9FC1B8,new,branch target only used in this routine,src/routines/replay/checkwindow.asm
+$9FC0DB,.2,CODE_9FC0DB,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
+$9FC102,.3,CODE_9FC102,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
+$9FC13C,.4,CODE_9FC13C,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
+$9FC15D,.5,CODE_9FC15D,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
+$9FC197,.6,CODE_9FC197,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
+$9FC1B8,.7,CODE_9FC1B8,new,branch target only used in this routine,src/routines/logic/checkwindow.asm
 $9FE4F4,.1,CODE_9FE4F4,new,branch target only used in this routine,src/routines/hockey/ChoosePauseMenu.asm
 $9BC499,.2,CODE_9BC499,new,branch target only used in this routine,src/routines/hockey/DrawOtherScoresPage.asm
 $9F8197,.2,CODE_9F8197,new,branch target only used in this routine,src/routines/hockey/DrawPeriodStats.asm
@@ -4271,20 +4271,20 @@ $9D86AA,.1,CODE_9D86AA,new,branch target only used in this routine,src/routines/
 $9D8751,.2,CODE_9D8751,new,branch target only used in this routine,src/routines/hockey/ShowMatchups.asm
 $9FF2CC,.1,CODE_9FF2CC,new,branch target only used in this routine,src/routines/hockey/ShowMP5Warning.asm
 $9F8032,.1,CODE_9F8032,new,branch target only used in this routine,src/routines/hockey/ShowPeriodStats.asm
-$9F86A4,.2,CODE_9F86A4,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F86E2,.8,CODE_9F86E2,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F875F,.9,CODE_9F875F,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8796,.10,CODE_9F8796,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8834,.11,CODE_9F8834,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F88A8,.12,CODE_9F88A8,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F88DB,.13,CODE_9F88DB,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F88F6,.14,CODE_9F88F6,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8947,.15,CODE_9F8947,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8A14,.16,CODE_9F8A14,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8A44,.17,CODE_9F8A44,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8AD1,.18,CODE_9F8AD1,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8ADD,.19,CODE_9F8ADD,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
-$9F8B64,.20,CODE_9F8B64,new,branch target only used in this routine,src/routines/replay/updateplayers.asm
+$9F86A4,.2,CODE_9F86A4,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F86E2,.8,CODE_9F86E2,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F875F,.9,CODE_9F875F,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8796,.10,CODE_9F8796,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8834,.11,CODE_9F8834,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F88A8,.12,CODE_9F88A8,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F88DB,.13,CODE_9F88DB,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F88F6,.14,CODE_9F88F6,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8947,.15,CODE_9F8947,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8A14,.16,CODE_9F8A14,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8A44,.17,CODE_9F8A44,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8AD1,.18,CODE_9F8AD1,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8ADD,.19,CODE_9F8ADD,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
+$9F8B64,.20,CODE_9F8B64,new,branch target only used in this routine,src/routines/logic/updateplayers.asm
 $9BA8F1,.5,CODE_9BA8F1,new,branch target only used in this routine,src/routines/replay/updatereplay.asm
 $9BAA5F,.6,CODE_9BAA5F,new,branch target only used in this routine,src/routines/replay/updatereplay.asm
 $9EBF10,.2,CODE_9EBF10,new,branch target only used in this routine,src/routines/assign/assdopen.asm
@@ -4537,7 +4537,7 @@ $9EDFF7,shotdiradj,CODE_9EDFF7,93S,called from the shot release (CODE_9EE220) wh
 $9EE0CD,CalcAngleOffset,CODE_9EE0CD,93S,shotdiradj calls it where 93S calls CalcAngleOffset; the 93S body,src/routines/input/CalcAngleOffset.asm
 $9FBD66,printscores1_ps_name,CODE_9FBD66,93S,"same instructions as 93S printscores1_ps_name, with print; printscores1_ps calls it as in 93S (CODE_9B9B35 is a copy that calls another print)",src/routines/penalty/printscores1_ps_name.asm
 $9F9DB0,printscores1_ps,CODE_9F9DB0,93S,"printscores1 calls it where 93S calls printscores1_ps; printscores1_ps_name, then the score as in 93S",src/routines/penalty/printscores1_ps.asm
-$9EA419,updateanim,CODE_9EA419,93S,updateplayers calls it where 93S calls updateanim; most instructions as 93S,src/routines/replay/updateanim.asm
+$9EA419,updateanim,CODE_9EA419,93S,updateplayers calls it where 93S calls updateanim; most instructions as 93S,src/routines/logic/updateanim.asm
 $9E8E91,wallcollb,CODE_9E8E91,93S,"checkwallcoll calls it where 93S calls wallcollb; the 93S body (the puck out of play goes to ShootoutWonBy, which ends in AddPenalty2)",src/routines/collide/wallcollb.asm
 $9FC1B9,doinput,CODE_9FC1B9,93S,"updateplayers calls it where 93S calls doinput; the 93S pause, face off and line change paths",src/routines/input/doinput.asm
 $9EE9BF,dopass,CODE_9EE9BF,93S,chk4pass calls it where 93S calls dopass; the 93S body for the most part,src/routines/input/dopass.asm
@@ -4985,10 +4985,10 @@ $9E9EC2,.27,CODE_9E9EC2,new,"part of FallDown, used only by it",src/routines/col
 $9E9F7C,.28,CODE_9E9F7C,new,"part of FallDown, used only by it",src/routines/collide/FallDown.asm
 $9E9F7F,.29,CODE_9E9F7F,new,"part of FallDown, used only by it",src/routines/collide/FallDown.asm
 $9E9FA6,.30,CODE_9E9FA6,new,"part of FallDown, used only by it",src/routines/collide/FallDown.asm
-$9EA425,.1,CODE_9EA425,new,"part of updateanim, used only by it",src/routines/replay/updateanim.asm
-$9EA442,.2,CODE_9EA442,new,"part of updateanim, used only by it",src/routines/replay/updateanim.asm
-$9EA456,.3,CODE_9EA456,new,"part of updateanim, used only by it",src/routines/replay/updateanim.asm
-$9EA472,.7,CODE_9EA472,new,"part of updateanim, used only by it",src/routines/replay/updateanim.asm
+$9EA425,.1,CODE_9EA425,new,"part of updateanim, used only by it",src/routines/logic/updateanim.asm
+$9EA442,.2,CODE_9EA442,new,"part of updateanim, used only by it",src/routines/logic/updateanim.asm
+$9EA456,.3,CODE_9EA456,new,"part of updateanim, used only by it",src/routines/logic/updateanim.asm
+$9EA472,.7,CODE_9EA472,new,"part of updateanim, used only by it",src/routines/logic/updateanim.asm
 $9EBD2C,.3,CODE_9EBD2C,new,"part of asspenalty, used only by it",src/routines/assign/asspenalty.asm
 $9EBD2D,.4,CODE_9EBD2D,new,"part of asspenalty, used only by it",src/routines/assign/asspenalty.asm
 $9EBD45,.6,CODE_9EBD45,new,"part of asspenalty, used only by it",src/routines/assign/asspenalty.asm
@@ -5454,8 +5454,8 @@ $9EE6C7,.1,DATA8_9EE6C7,new,"part of Findhittype, used only by it",src/routines/
 $9EEED4,.6,DATA8_9EEED4,new,"part of CODE_9EED8D, used only by it",src/routines/logic/assdumpin.asm
 $9EEEEC,.7,DATA8_9EEEEC,new,"part of CODE_9EED8D, used only by it",src/routines/logic/assdumpin.asm
 $9EEF04,.8,DATA8_9EEF04,new,"part of CODE_9EED8D, used only by it",src/routines/logic/assdumpin.asm
-$9F8B65,.21,DATA8_9F8B65,new,"part of updateplayers, used only by it",src/routines/replay/updateplayers.asm
-$9F8B6F,.22,DATA8_9F8B6F,new,"part of updateplayers, used only by it",src/routines/replay/updateplayers.asm
+$9F8B65,.21,DATA8_9F8B65,new,"part of updateplayers, used only by it",src/routines/logic/updateplayers.asm
+$9F8B6F,.22,DATA8_9F8B6F,new,"part of updateplayers, used only by it",src/routines/logic/updateplayers.asm
 $9F9323,.20,DATA8_9F9323,new,"part of SaveRegsStartHL2, used only by it",src/routines/hockey/SaveRegsStartHL2.asm
 $9F9AD8,.18,DATA8_9F9AD8,new,"part of CODE_9F992E, used only by it",src/routines/cards/CalcAttrib.asm
 $9F9AF8,.19,DATA8_9F9AF8,new,"part of CODE_9F992E, used only by it",src/routines/cards/CalcAttrib.asm
