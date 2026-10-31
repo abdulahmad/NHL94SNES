@@ -86,9 +86,9 @@ DrawTeamBlocks:						; entry: the block of team d1
 
 .t1x:								; write the logo map into the text map
 	ldy.w #$0000					; Y = offset into the logo map
-	lda.w #TeamBlocksmap>>16		; a2 = TeamBlocksmap, past its 6 byte header
+	lda.w #Teamblocksmap>>16		; a2 = Teamblocksmap, past its 6 byte header
 	sta.b a2+2
-	lda.w #TeamBlocksmap+6
+	lda.w #Teamblocksmap+6
 	sta.b a2
 	lda.w printy					; X = (printy * 32 + printx) * 2 + printm: byte offset in the text map
 	asl a							; times 32

@@ -6243,7 +6243,7 @@ $9AC98B,RinkLogoTiles,DATA8_9AC98B,93S,12 tiles (93S 14) at the 93S RinkLogoTile
 $96F15D,RefsMap,DATA8_96F15D,93S,PushRef reads it for the vertical rink where 93S PushRef reads RefsMap,src/data/gfx/RefsMap.asm
 $95DB8E,RefsMapHor,DATA8_95DB8E,93S,PushRef reads it in horizontal mode where 93S PushRef reads RefsMapHor,src/data/gfx/RefsMapHor.asm
 $9ABD3D,BigFontMap,DATA8_9ABD3D,93S,"printbig reads it through BigFontIndex, as 93S BigFontMap",src/data/gfx/BigFontMap.asm
-$9AE99D,TeamBlocksmap,DATA8_9AE99D,93S,"DrawTeamBlocks copies it, as 93S DrawTeamBlocks copies TeamBlocksmap",src/data/gfx/TeamBlocksmap.asm
+$9AE99D,Teamblocksmap,DATA8_9AE99D,93S,"DrawTeamBlocks copies it, as 93S DrawTeamBlocks copies Teamblocksmap",src/data/gfx/Teamblocksmap.asm
 $9AEA3A,EASNLogoMap,DATA8_9AEA3A,93S,EASNLogo draws it (7 x 2),src/data/gfx/EASNLogoMap.asm
 $9AB610,BigLetterTiles,DATA8_9AB610,new,rendered: big letters A-Z; the player select and playoff screens unpack them for RenderBigText,src/data/gfx/BigLetterTiles.asm
 $9ADF59,BigLetterMap,DATA8_9ADF59,new,RenderBigText reads the letter tiles from it,src/data/gfx/BigLetterMap.asm
@@ -6311,7 +6311,7 @@ $9ADC8D,EALogoMap,DATA8_9ADC8D,render,IntroSequence's 128 x 128 mode 7 map over 
 $9ADBD3,EALogoEMap,DATA8_9ADBD3,render,IntroSequence pastes it at column $37 of the mode 7 map; renders the E of the EA logo,src/data/gfx/EALogoEMap.asm
 $9ADB19,EALogoAMap,DATA8_9ADB19,render,IntroSequence pastes it at the same place after EALogoEMap; renders the A of the EA logo,src/data/gfx/EALogoAMap.asm
 $94F8EC,EALogoSprites,DATA8_94F8EC,render,IntroSequence unpacks it to $7F4A40 and draws its two frames: the large E and A letters,src/data/gfx/EALogoSprites.asm
-$9AC1F3,TeamBlocksTiles,DATA8_9AC1F3,93S,"Loaded at scorechars, where 93S loads TeamBlocksTiles; DrawTeamBlocks draws TeamBlocksmap over them (rendered: one bevelled block), the team name drawn on it as sprites",src/data/gfx/TeamBlocksTiles.asm
+$9AC1F3,TeamBlocksTiles,DATA8_9AC1F3,93S,"Loaded at scorechars, where 93S loads TeamBlocksTiles; DrawTeamBlocks draws Teamblocksmap over them (rendered: one bevelled block), the team name drawn on it as sprites",src/data/gfx/TeamBlocksTiles.asm
 $9AD6A6,FaceOffMap,DATA8_9AD6A6,93S,93S FaceOffMap: the same 120 map words (94 adds the width / height header); puckfaceoff2 copies it into textmap over FaceOffTiles as 93S does,src/data/gfx/FaceOffMap.asm
 $9ADE57,SetupScreenPalette,DATA8_9ADE57,93S,"The 128 colours of the 93S RonBarrMap block (.ronpal; rows 1-7 the same, two colours of row 0 differ), which 93S ScoutingReport / TeamRoster send to colour 0; loaded at colour 0 by SetupScreen, LoadScoutingScreen and LoadPlayerCardScreen",src/data/gfx/SetupScreenPalette.asm
 $908000,CrowdTiles,DATA8_908000,behavior,"showcrowd sends each crowd frame from here (\$90:8000 + 32 x tile, written as #CrowdTiles / #CrowdTiles>>16); rendered: the crowd",src/data/gfx/CrowdTiles.asm
