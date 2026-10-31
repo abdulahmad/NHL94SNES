@@ -18,8 +18,8 @@ periodicevents:						; each frame: penalties, crowd, sound, clock; once a second
 	adc.w #$0018
 	sta.w lldisp					; store the reloaded count
 	jsl.l ChkGoalies				; goalie checks
-	jsl.l UpdateCwdExcite			; update the crowd excitement
-	jsl.l CheckLateGameSong			; late game song check
+	jsl.l UpdateCwdExcite			; emptied in 94
+	jsl.l CheckLateGameSong			; emptied in 94
 	jsl.l RestoreBenchEnergy		; bench players regain energy
 	jsl.l CheckInjury				; injury check
 	jsl.l updatepwrplay				; power play update

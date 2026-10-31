@@ -225,3 +225,6 @@ DrawPeriodStats:					;period stats box: goals (curitem 0) or shots for periods 1
 	sta.b a1+2
 .3:									; return
 	rtl
+; Reset_Fast still calls this; emptied in 94
+Reset_Fast_ret:						; emptied in 94
+	rtl

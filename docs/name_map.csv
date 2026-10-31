@@ -4622,8 +4622,8 @@ $9EF213,ChkShotStat,CODE_9EF213,93S,"called from Goal, puckglue and the goalie c
 $9FDCEB,makepde,CODE_9FDCEB,93S,doshot and the stick code call it as in 93S; rating times the getpde energy,src/routines/collide/makepde.asm
 $9B9FAF,showcrowd,CODE_9B9FAF,93S,setvideo calls it as in 93S; steps the crowd sprites by Crowdlevel,src/routines/display/showcrowd.asm
 $9EA539,stopna,CODE_9EA539,93S,dostop falls in and goalieacc jumps here as in 93S; slows the player on each axis without an animation change,src/routines/checks/dostop.asm
-$80D322,UpdateCwdExcite,CODE_80D322,93S,periodicevents calls it where 93S calls UpdateCwdExcite; does nothing in both,src/routines/hockey/UpdateCwdExcite.asm
-$80D323,CheckLateGameSong,CODE_80D323,93S,periodicevents calls it where 93S calls CheckLateGameSong; does nothing in both,src/routines/hockey/CheckLateGameSong.asm
+$80D322,UpdateCwdExcite,CODE_80D322,93S,periodicevents calls it where 93S calls UpdateCwdExcite; emptied in 94,src/routines/hockey/UpdateCwdExcite.asm
+$80D323,CheckLateGameSong,CODE_80D323,93S,periodicevents calls it where 93S calls CheckLateGameSong; emptied in 94,src/routines/hockey/CheckLateGameSong.asm
 $808F4C,Mul8U,CODE_808F4C,new,"A * X with the 8 by 8 hardware multiplier, unsigned",src/routines/snes/Mul8U.asm
 $808F5D,Mul8XS,CODE_808F5D,new,"A * X, 8 by 8, X signed",src/routines/snes/Mul8XS.asm
 $808F7D,Mul8S,CODE_808F7D,new,"A * X, 8 by 8, both signed",src/routines/snes/Mul8S.asm
@@ -5791,9 +5791,9 @@ $80AC7B,UpdateSfxVoices,CODE_80AC7B,new,Behavior: SoundUpdate calls it; UpdateVo
 $80B76C,FreeCacheEntryA,CODE_80B76C,new,FreeCacheEntry with the entry number in the high byte of A; FreeFrameTiles branches here (folded into FreeFrameTiles.asm),src/routines/snes/FreeFrameTiles.asm
 $80B77B,FreeCacheEntry_go,CODE_80B77B,new,FreeCacheEntry after the slot byte is cleared; FreeFrameTiles enters here,src/routines/snes/FreeFrameTiles.asm
 $9EE463,assbreakaway,CODE_9EE463,94G,"The 94G assbreakaway job (the puck carrier when the breakaway flag is set, else exit); 94S asspuckc gives it when the breakaway flag $1E8B (StartBreakaway) is on and the carrier is within $90 of the goal",src/routines/checks/assbreakaway.asm
-$9F8282,ResetStub,CODE_9F8282,new,Behavior: a lone rtl,src/routines/snes/ResetStub.asm
-$9DBCB2,TitleStub,CODE_9DBCB2,new,Behavior: a lone rts,src/routines/hockey/TitleStub.asm
-$80CA0A,ShootoutStub,CODE_80CA0A,new,Behavior: a lone rtl,src/routines/shootout/ShootoutStub.asm
+$9F8282,Reset_Fast_ret,CODE_9F8282,new,Reset_Fast still calls this; emptied in 94 (no 93S counterpart); folded into DrawPeriodStats.asm,src/routines/hockey/DrawPeriodStats.asm
+$9DBCB2,TitleScreen_ret,CODE_9DBCB2,new,TitleScreen still calls this; emptied in 94 (no 93S counterpart); folded into BuildTitlePath.asm,src/routines/hockey/BuildTitlePath.asm
+$80CA0A,PlayShootout_ret,CODE_80CA0A,new,PlayShootout still calls this; emptied in 94 (no 93S counterpart); folded into ShootoutWonBy.asm,src/routines/shootout/ShootoutWonBy.asm
 $9DAF5B,ClearBigText,CODE_9DAF5B,new,Behavior: PlayerSelect calls it before drawing the team names,src/routines/hockey/ClearBigText.asm
 $9DB0AB,SendBigText,CODE_9DB0AB,new,Behavior: PlayerSelect calls it after DrawSelectTeam,src/routines/hockey/SendBigText.asm
 $9DE074,InitSetupChars,CODE_9DE074,new,"Behavior: setoptions calls it before SetupScreen; the three bases are the 93S smallfontchars / framercset / scorechars (print, Framer and DrawTeamBlocks add them as in 93S)",src/routines/hockey/InitSetupChars.asm
