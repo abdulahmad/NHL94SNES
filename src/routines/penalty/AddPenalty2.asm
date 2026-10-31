@@ -62,13 +62,13 @@ AddPenalty2:						; called from AddPenalty, FallDown, Goal, ShootoutWonBy, assgo
 .t1:								; decrement a1, decrement a1, xba, ...
 	dec.b a1
 	dec.b a1
-	txa
+	txa								; store (SCnum << 8) | penalty
 	lsr a
 	xba
 	and.w #$FF00
 	ora.b d0
 	sta.b [a1]
-	lda.w #Penaltylist>>16
+	lda.w #Penaltylist>>16			; a0 = Penaltylist + [d0]
 	sta.b a0+2
 	lda.w #Penaltylist
 	sta.b a0
@@ -76,7 +76,7 @@ AddPenalty2:						; called from AddPenalty, FallDown, Goal, ShootoutWonBy, assgo
 	clc
 	adc.b [a0],y
 	sta.b a0
-	lda.b [a0]
+	lda.b [a0]						; penalty minutes
 	and.w #$00FF
 	beq .4
 	lda.w pflags,x

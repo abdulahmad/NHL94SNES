@@ -19,7 +19,7 @@ faceoffinput:						; pad input for a player taking a face off
 	sta.b a0
 .1:									; store the pad direction
 	lda.b d0						; d0 = pad direction
-	sta.b [a0]
+	sta.b [a0]						; store it
 	lda.w pf2aip,x					; already swinging?
 	bne .t2							; yes: leave
 	lda.b d1						; new presses

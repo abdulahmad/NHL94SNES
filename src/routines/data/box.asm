@@ -13,9 +13,9 @@ box:								; called from SetLCmode2
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #$0013
+	lda.w #$0013					; width $13
 	sta.b d0
-	lda.w #$0009
+	lda.w #$0009					; height 9
 	sta.b d1
 	lda.l blankchar
 	sta.b d2

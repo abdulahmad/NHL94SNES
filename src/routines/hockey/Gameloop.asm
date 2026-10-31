@@ -28,7 +28,7 @@ Gameloop:							; called from PlayShootout, StartPer
 									; velstep (x16), gravstep (x96)
 	jsl.l RandomWord
 	lda.b Vcount
-	tax
+	tax								; d7 = frames elapsed; the time steps
 	sec
 	sbc.w OldVcount
 	sta.b d7
@@ -75,7 +75,7 @@ Gameloop:							; called from PlayShootout, StartPer
 	beq .2x
 	lda.w gameclock+2
 	sec
-	sbc.w #$0AAA
+	sbc.w #$0AAA					; clock fraction: one second per $10000
 	sta.w gameclock+2
 	bcs .2x
 	dec.w gameclock

@@ -49,12 +49,12 @@ GetHot:								; takes A = object, returns d0 / d1 (many callers)
 .4:									; if sfhormode = 0 go to .5, ...
 	lda.w sfhormode
 	beq .5
-	lda.b d0
+	lda.b d0						; rotate by 90 degrees
 	ldy.b d1
 	eor.w #$FFFF					; negate: two's complement
 	inc a
 	sta.b d1
-	sty.b d0
+	sty.b d0						; swap x and y
 .5:									; return
-	plx
+	plx								; restore X
 	rtl

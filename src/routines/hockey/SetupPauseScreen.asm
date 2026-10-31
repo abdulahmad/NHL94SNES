@@ -81,7 +81,7 @@ SetupPauseScreen:					; called from PauseMenuPoll, SelectPauseController, ShowMP
 	sta.b a0						;next item
 	bra .loop
 .2:									;each shown item: normal palette
-	lda.w #$2400
+	lda.w #$2400					; normal item palette
 	sta.w printa
 	lda.b d0						;item
 	cmp.w psitem					;the selected one?
@@ -164,7 +164,7 @@ SetupPauseScreen:					; called from PauseMenuPoll, SelectPauseController, ShowMP
 .t2x:								; tmgoalie,y >= 0: tmp0 = A, a4 = long tmdata,y, ...
 	sta.b tmp0						;goalie index
 	lda.w tmdata,y					;team data
-	sta.b a4
+	sta.b a4						; team data
 	lda.w #TeamList>>16
 	sta.b a4+2
 	ldy.w #$0000					;start

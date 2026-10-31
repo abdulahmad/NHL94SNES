@@ -49,7 +49,7 @@ limitfo:							; called from Stop4Pen
 	and.w #$00FF
 	cmp.w #$0034
 	beq .3
-	lda.b [a0]
+	lda.b [a0]						; player SCnum*2; blue line +-$58 by pfgoal
 	xba
 	and.w #$007F
 	asl a

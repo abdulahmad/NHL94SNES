@@ -31,7 +31,7 @@ FigureJoy:							; set which team each controller plays
 	sta.b d2						; d2 = the user's playoff team
 	lda.b d1						; series index offset
 	asl a
-	sta.b a1
+	sta.b a1						; series index offset
 	lda.w #$FFFF					; gamenum -1: the team is not playing
 	sta.l gamenum
 	stz.b d0						; d0 = 0
@@ -69,7 +69,7 @@ FigureJoy:							; set which team each controller plays
 	lda.l gst1,x					; home team
 	sta.w HomeTeam
 	lda.l gst2,x					; visitor team
-	sta.w VisTeam
+	sta.w VisTeam					; visitor team
 	asl.b d0						; times 4: two words per entry
 	asl.b d0
 	phb								; data bank = this bank for the table
@@ -91,7 +91,7 @@ FigureJoy:							; set which team each controller plays
 	rtl
 .3:									; other games only: table pointer (set but not used)
 	lda.l OptNOP					; OptNOP
-	asl a
+	asl a							; times 4
 	asl a
 	sta.b d0
 	tay

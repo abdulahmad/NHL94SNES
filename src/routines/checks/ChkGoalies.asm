@@ -36,7 +36,7 @@ ChkGoalies:							; computer teams may pull their goalie
 .t1:								; delayed penalty
 	lda.w tmgoalie,y				; goalie flags
 	ora.w #$FF00					; high byte $FF: goalie pulled
-	sta.w tmgoalie,y
+	sta.w tmgoalie,y				; pulled
 	jsl.l setpersonel				; set up the players
 rtss:								; return
 	rtl

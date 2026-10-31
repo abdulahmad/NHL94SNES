@@ -33,7 +33,7 @@ asswingd:							; assignment: wing on defense
 .1x:								; re-think timer
 	lda.w temp1,x					; countdown minus the frame count
 	sec
-	sbc.b d7
+	sbc.b d7						; minus the frame count
 	sta.w temp1,x
 	bpl .4							; still counting
 	clc								; reload from aidef
@@ -66,7 +66,7 @@ asswingd:							; assignment: wing on defense
 	lda.w position,y				; carrier a goalie? (position 0)
 	beq .6
 	ldy.b a2						; team of this player
-	lda.w tmflags,y
+	lda.w tmflags,y					; offsides: stay at the blue line
 	bit.w #tmfoside					; team offsides: use the limit
 	bne .6
 	lda.b d2						; compare puck y with the blue line

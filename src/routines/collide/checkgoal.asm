@@ -242,7 +242,7 @@ checkgoal:							; called from checkwallcoll
 	eor.w #$FFFF					;down
 	inc a
 .1xxxx:								;reversed
-	sta.w puckvz
+	sta.w puckvz					; store it
 	rtl
 .11:								; if puckvx - $0800 >= 0 go to .2xx, ...
 	lda.w puckvx					;x speed

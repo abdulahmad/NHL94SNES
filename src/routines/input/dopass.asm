@@ -1,9 +1,9 @@
 ; Pass the puck in the pass direction, to the best teammate there if any
 dopass:								; called from chk4pass, passmode
 	stz.w onetimerreq				;no one-timer request
-	lda.w #$0004
+	lda.w #$0004					; sflags bit $0004
 	trb.w sflags					;clear the carry flag
-	lda.w #$FFFF
+	lda.w #$FFFF					; puckc = -1: puck not held
 	sta.w puckc						;puck loose
 	lda.w #$0010
 	sta.w nopuck,x					;passer can't touch it for 16
@@ -22,11 +22,11 @@ dopass:								; called from chk4pass, passmode
 	asl a
 	adc.w #$0090					;plus $90
 	sta.w passspeed					;pass speed
-	lda.w #$FFFF
+	lda.w #$FFFF					; no candidate yet
 	sta.b d4						;best distance none
-	lda.w #$0005
+	lda.w #$0005					; 6 players
 	sta.b d3						;6 teammates
-	stz.b a1
+	stz.b a1						; a1 = first player of the team
 	cpx.w #$000C					;home first object
 	bcc .2							;visitors?
 	lda.w #$000C					;no
@@ -64,7 +64,7 @@ dopass:								; called from chk4pass, passmode
 	cmp.b d4						;nearer than the best?
 	bcs .5							;no
 	sta.b d4						;best distance
-	lda.b a1
+	lda.b a1						; best teammate so far
 	sta.b a0						;best receiver
 .5:									; increment a1, increment a1, decrement d3, ...
 	inc.b a1						;next object
@@ -159,7 +159,7 @@ dopass_swing:						; called from assdumpin, dopass
 .1x:								; d1 = Y, call SetSPA, pfalock,x = $0001, ...
 	sty.b d1						;animation
 	jsl.l SetSPA					;start it
-	lda.w #$0001
+	lda.w #$0001					; lock the assignment
 	sta.w pfalock,x					;locked
 	lda.w position,x				;goalie?
 	bne .rtl						;no: done

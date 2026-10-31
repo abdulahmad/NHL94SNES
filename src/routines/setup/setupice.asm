@@ -242,7 +242,7 @@ setupice_reset:						; reset the rink state and fade in
 	jsl.l defaultsprites_0			; set up the sort objects
 	jsl.l nullrtl					; no-op hook
 	lda.w gmode						; direction of play (gmdir) set?
-	bit.w #gmdir
+	bit.w #gmdir					; gmdir
 	beq .1
 	ldx.w #$0016					; 12 players
 .loop:								; flip the goal each player shoots at

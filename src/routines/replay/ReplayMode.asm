@@ -50,7 +50,7 @@ ReplayMode:							; called from PauseReplay
 	pha								;keep the view
 	lda.w Hpos
 	pha
-	lda.w recbpr
+	lda.w recbpr					;recbpr must be inside
 	cmp.w #replaystart				;pointer below the buffer?
 	lda.w recbpr+2
 	sbc.w #replaystart>>16

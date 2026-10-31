@@ -49,9 +49,9 @@ EncodePW:							; work out the winners and the new password after a playoff game
 	jml.l MakeTree					; build the playoff tree from the seeds and the series wins
 
 .t1:								; the user won: reset the password
-	jsl.l ResetPassWord
+	jsl.l ResetPassWord				; reset the password
 .3:									; failed: set PassWord bit 7 (no password)
-	lda.w #$0080
+	lda.w #$0080					; PassWord bit 7: no password
 	ora.l PassWord
 	sta.l PassWord
 	lda.w #$0002					; play mode 2

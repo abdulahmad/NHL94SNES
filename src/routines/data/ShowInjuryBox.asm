@@ -12,7 +12,7 @@ ShowInjuryBox:						; called from CheckInjury
 	pha
 	lda.b d2+2
 	pha
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0000
 .loop:								; loop: X + 1, X + 1, if not zero go to .loop, ...
 	lda.b a0,x
@@ -74,7 +74,7 @@ ShowInjuryBox:						; called from CheckInjury
 .1:									; call GetPlayerNumInitial, call print, xsave = X, ...
 	jsl.l GetPlayerNumInitial		; the number, first initial and last name of player TempPlOffset
 	jsl.l print
-	stx.b xsave
+	stx.b xsave						; keep X
 	ldx.w #$0012
 .loop2:								; loop: a0,x = pulled value, X - 1, X - 1, ...
 	pla

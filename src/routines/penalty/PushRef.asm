@@ -77,7 +77,7 @@ PushRef:							; draws a referee frame
 	ldx.b tmp1						; text map offset
 	sta.l textmap,x					; store it
 	txa								; text map word index
-	lsr a
+	lsr a							; dirty range low
 	cmp.w textdirtylo				; widen the dirty range: low
 	bcs .3
 	sta.w textdirtylo
@@ -88,7 +88,7 @@ PushRef:							; draws a referee frame
 .4:									; next tile
 	inc.b a0
 	inc.b a0
-	inc.b tmp1
+	inc.b tmp1						; next position
 	inc.b tmp1
 	dey								; next tile of the row
 	bne .loop2

@@ -32,14 +32,14 @@ checkfo:							; called from setvideo
 .1:									; ora sprpriority, sprattr = A, call addframe, ...
 	ora.w sprpriority
 	sta.w sprattr
-	phx
-	jsl.l addframe
-	plx
+	phx								; keep the index
+	jsl.l addframe					; sprframe at sprx/spry
+	plx								; restore the index
+	inx								; next entry (4 bytes)
 	inx
 	inx
 	inx
-	inx
-	cpx.w #$000C
+	cpx.w #$000C					; three entries
 	bne .loop
 	lda.w #$2000
 	sta.w sprpriority

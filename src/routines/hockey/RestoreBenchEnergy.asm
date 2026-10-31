@@ -24,7 +24,7 @@ RestoreBenchEnergy:					; no input; adds energy to the benched players of both t
 	clc
 	adc.w #$000A					; plus 10
 	sta.w tmpde,y
-	sec
+	sec								; full is $1000
 	sbc.w #$1000					; above the limit $1000?
 	bmi .3							; no
 	lda.w #$1000					; cap at $1000

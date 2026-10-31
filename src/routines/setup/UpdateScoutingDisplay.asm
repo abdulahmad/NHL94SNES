@@ -7,9 +7,9 @@
 ; In the text a % followed by a letter or digit is a field (team names, hot and cold players) that the Scout
 ; routines print; any other character is a plain word.
 UpdateScoutingDisplay:				; print the next word of the scouting report when the timer is up
-	lda.w ScoutingReportTimer
+	lda.w ScoutingReportTimer		; text finished ($7FFF)
 	sec								; timer minus $1000
-	sbc.w #$1000
+	sbc.w #$1000					; $1000 and above: text finished
 	beq .2							; equal: counting
 	bmi .t1							; below (signed): check overflow
 	bvs .2							; overflow: counting
@@ -63,7 +63,7 @@ UpdateScoutingDisplay_skip:			; skip a line: read to the next $0D
 	lda.b [a2]
 	inc.b a2
 	and.w #$00FF
-	cmp.w #$000D
+	cmp.w #$000D					; end of line?
 	bne UpdateScoutingDisplay_skip
 UpdateScoutingDisplay_next:			; lines left to skip
 	dec.b d0

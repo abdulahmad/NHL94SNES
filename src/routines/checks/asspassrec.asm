@@ -6,8 +6,8 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	and.w #$FFFD
 	ora.w #$0001
 	sta.w pflags,x
-	stz.w temp2,x
-	lda.w #$0008
+	stz.w temp2,x					; temp2 = 8
+	lda.w #$0008					; temp2 = 8
 	sta.w temp2b,x
 .3:									; passwait,x = passwait,x - timestep, if minus go to .6, ...
 	lda.w passwait,x

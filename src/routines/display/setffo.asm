@@ -47,7 +47,7 @@ setffo:								; called from setvideo
 	lsr a
 	lsr a
 	lsr a
-	and.w #$000F
+	and.w #$000F					; high digit
 	beq .1x
 	sta.w mesarea+2,y
 	iny
@@ -76,7 +76,7 @@ setffo:								; called from setvideo
 	lda.l ButtonLabelCharTable-1,x
 	sta.w mesarea+2,y
 	iny
-	lda.b d0
+	lda.b d0						; left 6 more
 	sec
 	sbc.w #$0006
 	sta.b d0
@@ -85,9 +85,9 @@ setffo:								; called from setvideo
 	ldy.w #$0000
 .4:									; d2 = Y, if zero go to .t1, ...
 	sty.b d2
-	lda.w mesarea+2,y
+	lda.w mesarea+2,y				; character
 	and.w #$00FF
-	cmp.w #$00FF
+	cmp.w #$00FF					; blank?
 	beq .t1
 	adc.w #SPFsmallfont-1			; DrawSprite index (frame - 1) of the glyph
 	sta.b r0

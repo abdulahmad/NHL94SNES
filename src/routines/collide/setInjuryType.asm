@@ -27,7 +27,7 @@ setInjuryType:						; player a2 is injured
 	lda.w pfteam,y
 	beq .1							; home team: skip
 	lda.w #$8000
-	sta.b d1
+	sta.b d1						; away team flag $8000
 	lda.w #$0002					; away team offset 2
 	sta.b a0						; away team offset 2
 .1:									; player number plus the team flag
