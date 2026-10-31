@@ -2,9 +2,9 @@
 Multi5Init:							; check for the multitap, then clear the multitap pads and state
 	jsl.l Multi5ConnectCheck		; read 16 signature bits from each port
 	lda.w #$000F
-	sta.w JoyPad+4
-	sta.w JoyPad+6
-	sta.w JoyPad+8
+	sta.w PadRaw3
+	sta.w PadRaw4
+	sta.w PadRaw5
 	stz.w mp5present
 	stz.w mp5warning
 	stz.w mp5checktimer

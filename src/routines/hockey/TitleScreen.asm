@@ -336,7 +336,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	rts
 .framehook:							;frame hook: a press ends the title (titleskip), then the display
 									;registers and .irq1
-	lda.w JoyPad
+	lda.w PadRaw1
 	bit.w TitleSkipMask				; pad press that ends the title?
 	beq .5x							; no
 	lda.w #$0001

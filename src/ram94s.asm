@@ -110,7 +110,11 @@ Mode7InUse			=	$07E2		;TitleScreen/IntroSequence set $FF, ResetPPURegs clears; M
 
 ;joystick buttons and controllers
 ; pad reads
-JoyPad				=	$0776		; buttons held, a word per pad (5 pads)
+PadRaw1				=	$0776		; controller 1 buttons held (SNES joypad bits, JOY* masks)
+PadRaw2				=	PadRaw1+2	; controller 2 buttons
+PadRaw3				=	PadRaw1+4	; controller 3 buttons (Multitap / Multi5)
+PadRaw4				=	PadRaw1+6	; controller 4 buttons
+PadRaw5				=	PadRaw1+8	; controller 5 buttons (Multi5)
 padlast				=	$0A9A		; 5 words: each pad's buttons at the last ReadPads
 paddir				=	$0AA4		; 5 words: each pad's direction (PadDirection of the dpad bits)
 padchange			=	$0AAE		; 5 words: each pad's buttons that changed at the last ReadPads
@@ -519,7 +523,7 @@ screenmap		=	$7EA670			;PlayoffScreen map buffer (+0 width $80, +2 height $20, w
 									;bracket, team blocks, Stanley Cup); ...
 screenmap2		=	$7EC676			;Second PlayoffScreen map ($80 x $20: +0 / +2 header, words from +6) for
 									;the BigLetterPlayoff letters, sent ...
-logoboxmap		=	$7F7700			;SetupScreen pastes the 7 x 7 part of MenuBackMap here (header 7, 7 at +0
+LogoBoxMap		=	$7F7700			;SetupScreen pastes the 7 x 7 part of MenuBackMap here (header 7, 7 at +0
 									;/ +2, words from +6); ...
 picboxmap		=	$7F7780			;LoadPictureMap / LoadPlayerCardScreen unpack the 7 x 7 PictureMap here
 									;(+0 width, +2 height, words from ...
@@ -692,7 +696,7 @@ crowdanimtime	=	$0C7F			;showcrowd: per slot frames left on the current frame (c
 
 ; title, intro and credits
 titleskip			=	$0BE9		; set when a pad press ends the title sequence
-TitleSkipMask	=	$0BEB			;Title: the frame hook ends the title (titleskip) when JoyPad has a bit of
+TitleSkipMask	=	$0BEB			;Title: the frame hook ends the title (titleskip) when PadRaw1 has
 									;it; 0 at first, $F0C0 once the ...
 TitleWH1		=	$0BCB			;Title: the WH1 window edge the frame hook writes; TitleWindowWipe moves
 									;it, TitleScreen clears it.

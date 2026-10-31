@@ -12,7 +12,7 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	and.b #$01
 	bne .loop
 	ldx.w JOY1L
-	stx.w JoyPad
+	stx.w PadRaw1
 	txa
 	and.b #$0F
 	sta.w mp5padsig
@@ -20,7 +20,7 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	lsr a
 	rol.w mp5padsig
 	ldx.w JOY2L
-	stx.w JoyPad+2
+	stx.w PadRaw2
 	txa
 	and.b #$0F
 	sta.w mp5padsig+1
@@ -28,9 +28,9 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	bne .t2
 	jmp.w .2
 
-.t2:								; mp5present != 0: JoyPad+4 = JOY4L, mp5padsig+2 = JOY4L & $0F, rol mp5...
+.t2:								; mp5present != 0: PadRaw3 = JOY4L, mp5padsig+2 = JOY4L & $0F, rol mp5...
 	ldx.w JOY4L
-	stx.w JoyPad+4
+	stx.w PadRaw3
 	txa
 	and.b #$0F
 	sta.w mp5padsig+2
@@ -55,91 +55,91 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 .t1:								; mp5readdelay = 0: mp5readdelay = $1E
 	lda.b #$1E
 	sta.w mp5readdelay
-.1:									; rol JoyPad+7, lsr a, rol JoyPad+9, ...
+.1:									; rol PadRaw4+1, lsr a, rol PadRaw5+1, ...
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+7
+	rol.w PadRaw4+1
 	lsr a
-	rol.w JoyPad+9
+	rol.w PadRaw5+1
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+7
+	rol.w PadRaw4+1
 	lsr a
-	rol.w JoyPad+9
+	rol.w PadRaw5+1
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+7
+	rol.w PadRaw4+1
 	lsr a
-	rol.w JoyPad+9
+	rol.w PadRaw5+1
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+7
+	rol.w PadRaw4+1
 	lsr a
-	rol.w JoyPad+9
+	rol.w PadRaw5+1
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+7
+	rol.w PadRaw4+1
 	lsr a
-	rol.w JoyPad+9
+	rol.w PadRaw5+1
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+7
+	rol.w PadRaw4+1
 	lsr a
-	rol.w JoyPad+9
+	rol.w PadRaw5+1
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+7
+	rol.w PadRaw4+1
 	lsr a
-	rol.w JoyPad+9
+	rol.w PadRaw5+1
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+7
+	rol.w PadRaw4+1
 	lsr a
-	rol.w JoyPad+9
+	rol.w PadRaw5+1
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+6
+	rol.w PadRaw4
 	lsr a
-	rol.w JoyPad+8
+	rol.w PadRaw5
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+6
+	rol.w PadRaw4
 	lsr a
-	rol.w JoyPad+8
+	rol.w PadRaw5
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+6
+	rol.w PadRaw4
 	lsr a
-	rol.w JoyPad+8
+	rol.w PadRaw5
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+6
+	rol.w PadRaw4
 	lsr a
-	rol.w JoyPad+8
+	rol.w PadRaw5
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+6
+	rol.w PadRaw4
 	lsr a
-	rol.w JoyPad+8
+	rol.w PadRaw5
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+6
+	rol.w PadRaw4
 	lsr a
-	rol.w JoyPad+8
+	rol.w PadRaw5
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+6
+	rol.w PadRaw4
 	lsr a
-	rol.w JoyPad+8
+	rol.w PadRaw5
 	lda.w JOYSER1
 	lsr a
-	rol.w JoyPad+6
+	rol.w PadRaw4
 	lsr a
-	rol.w JoyPad+8
-	lda.w JoyPad+6
+	rol.w PadRaw5
+	lda.w PadRaw4
 	and.b #$0F
 	sta.w mp5padsig+3
-	lda.w JoyPad+8
+	lda.w PadRaw5
 	and.b #$0F
 	sta.w mp5padsig+4
 	lda.w JOYSER1
@@ -187,12 +187,12 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	bne .t1x
 	bra .7
 
-.t1x:								; mp5checktimer != 0: call Multi5ConnectCheck, JoyPad+4 = $000F, JoyPad...
+.t1x:								; mp5checktimer != 0: call Multi5ConnectCheck, PadRaw3 = $000F, PadRaw1...
 	jsl.l Multi5ConnectCheck		; read 16 signature bits from each port
 	ldx.w #$000F
-	stx.w JoyPad+4
-	stx.w JoyPad+6
-	stx.w JoyPad+8
+	stx.w PadRaw3
+	stx.w PadRaw4
+	stx.w PadRaw5
 	lda.w mp5connect
 	and.b #$80
 	beq .t2x
@@ -222,7 +222,7 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	cmp.b #$01
 	beq .2xx
 	ldx.w #$000F
-	stx.w JoyPad
+	stx.w PadRaw1
 	ldx.w mp5present
 	beq .2xx
 .1xx:								; call .12
@@ -232,7 +232,7 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	cmp.b #$01
 	beq .4x
 	ldx.w #$000F
-	stx.w JoyPad+2
+	stx.w PadRaw2
 	ldx.w mp5present
 	beq .8
 .3x:								; call .12
@@ -245,21 +245,21 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	cmp.b #$01
 	beq .6x
 	ldx.w #$000F
-	stx.w JoyPad+4
+	stx.w PadRaw3
 	jsr.w .12
 .6x:								; if mp5padsig+3 = $01 go to .7x, ...
 	lda.w mp5padsig+3
 	cmp.b #$01
 	beq .7x
 	ldx.w #$000F
-	stx.w JoyPad+6
+	stx.w PadRaw4
 	jsr.w .12
 .7x:								; if mp5padsig+4 = $01 go to .8, ...
 	lda.w mp5padsig+4
 	cmp.b #$01
 	beq .8
 	ldx.w #$000F
-	stx.w JoyPad+8
+	stx.w PadRaw5
 	jsr.w .12
 .8:									; if mp5warning = 0 go to .11
 	lda.w mp5warning
@@ -269,20 +269,20 @@ Multi5Bios:							;read the five pads: pads 1 and 2 from the auto read, pads 3 t
 	and.b #$10
 	bne .t1xxx
 	ldx.w #$1000
-	stx.w JoyPad
-	stx.w JoyPad+2
-	stx.w JoyPad+4
-	stx.w JoyPad+6
-	stx.w JoyPad+8
+	stx.w PadRaw1
+	stx.w PadRaw2
+	stx.w PadRaw3
+	stx.w PadRaw4
+	stx.w PadRaw5
 	bra .11
 
-.t1xxx:								; Vcount & $10 != 0: JoyPad = $0000, JoyPad+2 = $0000, JoyPad+4 = $0000...
+.t1xxx:								; Vcount & $10 != 0: PadRaw1 = $0000, PadRaw2 = $0000, PadRaw3 = $0000...
 	ldx.w #$0000
-	stx.w JoyPad
-	stx.w JoyPad+2
-	stx.w JoyPad+4
-	stx.w JoyPad+6
-	stx.w JoyPad+8
+	stx.w PadRaw1
+	stx.w PadRaw2
+	stx.w PadRaw3
+	stx.w PadRaw4
+	stx.w PadRaw5
 .11:								; return
 	plp
 	rtl

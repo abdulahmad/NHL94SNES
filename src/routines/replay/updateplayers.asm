@@ -362,7 +362,7 @@ updateplayers:						; called from DoGameFrame
 	bne .t1xxxxx					;yes
 	lda.w #$0001
 	sta.w padinputdone,y			;mark it read
-	lda.w JoyPad,y
+	lda.w PadRaw1,y
 	sta.b d3						;held buttons
 	lda.w padchange,y
 	sta.b d2						;changed buttons

@@ -201,7 +201,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	lda.b d4						;state
 	cmp.w #$000D					;state 13 (the end)?
 	beq .1x							;yes
-	lda.w JoyPad					;any button?
+	lda.w PadRaw1					;any button?
 	beq .1x							;(no skip test here)
 .1x:								; pending hook jobs: wait
 	lda.b introHookFlags
@@ -487,7 +487,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	lda.b Vcount					;frame count
 	cmp.b d7						;shown long enough?
 	bmi .20							;no: go on
-	lda.w JoyPad					;any button?
+	lda.w PadRaw1					;any button?
 	bne .t1xxxxxxxxxx				;yes: end
 	lda.b Vcount					;frame count
 	cmp.b d6						;timed out?

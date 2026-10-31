@@ -714,8 +714,8 @@ org $9D9000
 	ldy.w #$0010					;colour 16
 	ldx.w #$0010					;16 bytes
 	jsl.l DMAToCGRAM				; DMA X bytes of colours from [p0] to CGRAM at colour Y
-	lda.w JoyPad					;held buttons
-	ora.w JoyPad+2					;either pad
+	lda.w PadRaw1					;held buttons
+	ora.w PadRaw2					;either pad
 	bit.w #$0200					;left?
 	bne .t1xx						;yes: scroll left
 	bit.w #$0100					;right?

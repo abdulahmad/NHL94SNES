@@ -3,8 +3,8 @@ BadPasswordPrompt:					; called from PasswordRedraw
 	jsl.l DecodePW					; turn the password into the playoff state
 	lda.l postarts
 	bpl PasswordCursorRtl
-.loop:								; loop: if JoyPad bit $4000 set go to .loop, ...
-	lda.w JoyPad
+.loop:								; loop: if PadRaw1 bit $4000 set go to .loop, ...
+	lda.w PadRaw1
 	bit.w #$4000
 	bne .loop
 	bit.w #$8080

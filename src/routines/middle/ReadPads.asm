@@ -1,34 +1,34 @@
 ; Once per frame: each pad's direction, changed buttons and new presses
 ReadPads:							; called from AskExitGame, BadPasswordPrompt, EditLinesMenu, EditLinesS...
-	lda.w JoyPad
+	lda.w PadRaw1
 	xba
 	and.w #$000F
 	tax
 	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w paddir
-	lda.w JoyPad+2
+	lda.w PadRaw2
 	xba
 	and.w #$000F
 	tax
 	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w paddir+2
-	lda.w JoyPad+4
+	lda.w PadRaw3
 	xba
 	and.w #$000F
 	tax
 	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w paddir+4
-	lda.w JoyPad+6
+	lda.w PadRaw4
 	xba
 	and.w #$000F
 	tax
 	lda.l PadDirection,x
 	and.w #$00FF
 	sta.w paddir+6
-	lda.w JoyPad+8
+	lda.w PadRaw5
 	xba
 	and.w #$000F
 	tax

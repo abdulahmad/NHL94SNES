@@ -78,10 +78,10 @@ ScoutingReport:						; called from StartGame_scout
 	cmp.w #$012C					;300 frames?
 	bcs .8							;yes: next matchup
 	sta.w matchuptimer				;timer
-.1x:								; asv = 0, ora JoyPad+2, if zero go to .2x, ...
+.1x:								; asv = 0, ora PadRaw2, if zero go to .2x, ...
 	stz.w asv						;normal scroll speed
-	lda.w JoyPad					;pads 1
-	ora.w JoyPad+2					;and 2
+	lda.w PadRaw1					;pads 1
+	ora.w PadRaw2					;and 2
 	bit.w #$0400					;Down held?
 	beq .2x							;no
 	lda.w #$FFFF					;fast scroll

@@ -7,7 +7,7 @@
 WaitNoButtons:						; wait until no button is held on pad 1
 	pha
 .loop:								; still held?
-	lda.w JoyPad
+	lda.w PadRaw1
 	and.w #$FFF0
 	bne .loop
 	pla
@@ -16,7 +16,7 @@ WaitNoButtons:						; wait until no button is held on pad 1
 .t1:								; unused: wait until no button is held on pad 2
 	pha
 .loopx:								; still held?
-	lda.w JoyPad+2
+	lda.w PadRaw2
 	and.w #$FFF0
 	bne .loopx
 	pla
@@ -26,7 +26,7 @@ WaitNoButtons:						; wait until no button is held on pad 1
 	pha
 .loopx2:							; wait a frame
 	jsl.l WaitFrame
-	lda.w JoyPad
+	lda.w PadRaw1
 	and.w #$FFF0
 	beq .1
 	dex
@@ -39,7 +39,7 @@ WaitNoButtons:						; wait until no button is held on pad 1
 	pha
 .loopxx:							; wait a frame
 	jsl.l WaitFrame
-	lda.w JoyPad+2
+	lda.w PadRaw2
 	and.w #$FFF0
 	beq .1x
 	dex

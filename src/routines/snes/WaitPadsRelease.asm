@@ -9,7 +9,7 @@ WaitPadsRelease:					; wait until no standard pad has a button down
 .loop:								; rescan from the last pad
 	ldx.w #$0008					; pad offset, 5 pads
 .loop2:								; next pad
-	lda.w JoyPad,x					; buttons held on pad X
+	lda.w PadRaw1,x					; buttons held on pad X
 	bit.w #$000F					; low nibble set: not a standard pad
 	bne .1							; skip this pad
 	and.w #$FFF0					; buttons only

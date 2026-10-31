@@ -16,11 +16,11 @@ SelectPauseController:				; called from PauseMenuPoll
 	bpl .4
 	lda.w #$0000
 	pha								; 1,s = the controller counter
-.loop:								; loop: if JoyPad,x bit $000F set go to .1, ...
+.loop:								; loop: if PadRaw1,x bit $000F set go to .1, ...
 	lda.b 1,s
 	asl a
 	tax
-	lda.w JoyPad,x
+	lda.w PadRaw1,x
 	bit.w #$000F
 	bne .1
 	lda.w cont1team,x

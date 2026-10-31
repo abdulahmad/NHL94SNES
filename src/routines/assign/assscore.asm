@@ -13,7 +13,7 @@ assscore:							; assignment: celebrate a goal
 .1x:								; human pad?
 	ldy.w playerpad,x
 	bmi .t2							; no pad: computer
-	lda.w JoyPad,y					; buttons held? (any bit above the low nibble)
+	lda.w PadRaw1,y					; buttons held? (any bit above the low nibble)
 	and.w #$FFF0
 	beq .t2							; none held: go on
 	rtl								; a button is held: leave him
