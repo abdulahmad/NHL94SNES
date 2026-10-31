@@ -192,9 +192,9 @@ SetupScreen:						; common setup of the stats screens
 	sta.b p0+2
 	lda.w #unpackbuf
 	sta.b p0
-	lda.w #(logoboxmap+$6)>>16		;paste it into the logo box map
+	lda.w #(LogoBoxMap+$6)>>16		;paste it into the logo box map
 	sta.b p1+2
-	lda.w #logoboxmap+$6
+	lda.w #LogoBoxMap+$6
 	sta.b p1
 	lda.w #$0007
 	sta.b r7						;7 columns
@@ -208,8 +208,8 @@ SetupScreen:						; common setup of the stats screens
 	lda.w #$0C00					;palette 3
 	jsl.l PasteMapPart				; copy part of map [p0] into the map at [p1], column X, row Y
 	lda.w #$0007					;box is 7 wide
-	sta.l logoboxmap
-	sta.l logoboxmap+2				;and 7 high
+	sta.l LogoBoxMap
+	sta.l LogoBoxMap+2				;and 7 high
 	lda.w #unpackbuf>>16
 	sta.b p0+2
 	lda.w #unpackbuf

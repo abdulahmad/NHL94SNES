@@ -11,7 +11,7 @@ WaitSidePadsRelease:				; wait until the pads that have a team are released
 .loop2:								; next pad
 	lda.w cont1team,x				; team of pad X
 	beq .1							; no team: ignore the pad
-	lda.w JoyPad,x					; buttons held on the pad
+	lda.w PadRaw1,x					; buttons held on the pad
 	bne .loop						; still held: rescan
 .1:									; next pad
 	dex

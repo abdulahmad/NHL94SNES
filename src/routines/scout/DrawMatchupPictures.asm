@@ -54,9 +54,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0001
 	ldy.w #$0001
 	jsl.l ClearPictureBox			; blank the 6 x 6 picture area at x, y of the text map
-	lda.w #logoboxmap>>16			;paste the logo box frame
+	lda.w #LogoBoxMap>>16			;paste the logo box frame
 	sta.b p0+2
-	lda.w #logoboxmap
+	lda.w #LogoBoxMap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2
@@ -119,9 +119,9 @@ DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, Passw
 	ldx.w #$0018
 	ldy.w #$0001
 	jsl.l ClearPictureBox			; blank the 6 x 6 picture area at x, y of the text map
-	lda.w #logoboxmap>>16			;paste the logo box frame
+	lda.w #LogoBoxMap>>16			;paste the logo box frame
 	sta.b p0+2
-	lda.w #logoboxmap
+	lda.w #LogoBoxMap
 	sta.b p0
 	lda.w #textmap2>>16
 	sta.b p1+2

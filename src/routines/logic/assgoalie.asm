@@ -303,7 +303,7 @@ assgoalie:							; called from assnearest, asstab
 	sec
 	sbc.w Ypos,x					;minus his y
 	sta.b d1						;dy
-	lda.w JoyPad,y					;held buttons
+	lda.w PadRaw1,y					;held buttons
 	bit.w #$4000					;B held?
 	bne .t2xx						;B held: dive
 	lda.w padnew,y					;new presses
@@ -620,7 +620,7 @@ assgoalie:							; called from assnearest, asstab
 	bmi .t1xxxxxxxxxx				;computer
 	cpx.w puckc						;the carrier?
 	beq .1xxxxxxxxxxxxxx			;holding the puck: skate
-	lda.w JoyPad,y					;pad buttons
+	lda.w PadRaw1,y					;pad buttons
 	bit.w #$0080					;A?
 	bne .t3x						;A pressed: save
 .1xxxxxxxxxxxxxx:					; go to .43

@@ -22,7 +22,7 @@ $808639,JoyDirIndex_Hi,CODE_808639,code,,src/routines/snes/JoyDirIndex_Hi.asm
 $80863A,JoyDirIndex,CODE_80863A,code,d-pad bits to direction*2 in X,src/routines/snes/JoyDirIndex_Hi.asm
 $808648,JoyDirTable,,code,,src/data/tables/JoyDirTable.asm
 $808658,RandomWord,CODE_808658,code,two 16-bit LFSRs (eor $1D87) summed,src/routines/snes/RandomWord.asm
-$0776,JoyPad,JoyPad,NHL94SNESVault,RAM; joypad 1 held,src/ram94s.asm
+$0776,PadRaw1,JoyPad,94G,RAM; joypad 1 held (93S and 94G PadRaw1),src/ram94s.asm
 $809002,Mul16x8HiU_Pre,CODE_809002,code,,src/routines/snes/Mul16x8HiU_Pre.asm
 $809005,Mul16x8HiU,CODE_809005,code,,src/routines/snes/Mul16x8HiU.asm
 $80900C,Mul16x8HiU_Go,CODE_80900C,code,,src/routines/snes/Mul16x8HiU.asm
@@ -6653,7 +6653,7 @@ $0BF5,TitleM7Y,,behavior,RAM; Title .irq2 writes it to M7Y.,src/ram94s.asm
 $0BFD,TitlePathFlip,,behavior,RAM; TitleScreen .6: toggled at each path end; nonzero negates the path's horizontal offset.,src/ram94s.asm
 $0BF1,TitlePathFrac,,behavior,RAM; TitleScreen .6: fraction of the path position (+$0C00 a frame).,src/ram94s.asm
 $0BEF,TitlePathPos,,behavior,RAM; TitleScreen .6: integer part of the logo path position ($0BF1 carries into it); with TitlePathFrac+1 it ...,src/ram94s.asm
-$0BEB,TitleSkipMask,,behavior,"RAM; Title: the frame hook ends the title (titleskip) when JoyPad has a bit of it; 0 at first, $F0C0 once the ...",src/ram94s.asm
+$0BEB,TitleSkipMask,,behavior,"RAM; Title: the frame hook ends the title (titleskip) when PadRaw1 has a bit of it; 0 at first, $F0C0 once the ...",src/ram94s.asm
 $0BD5,TitleTeamIdx,,behavior,RAM; ShuffleTitleTeams fills the 26 team list at $7EF000 (it is the byte count while filling); NextTitleTeam ...,src/ram94s.asm
 $0BCB,TitleWH1,,behavior,"RAM; Title: the WH1 window edge the frame hook writes; TitleWindowWipe moves it, TitleScreen clears it.",src/ram94s.asm
 $0BCD,TitleWH3,,behavior,"RAM; Title: the WH3 window edge for the top band (frame hook); TitleScreen steps it $42, $7D, $FF as the title ...",src/ram94s.asm
@@ -6996,7 +6996,7 @@ $7F4000,introbuf,,behavior,"RAM; IntroSequence work buffer (it clears $4000 byte
 $7F8010,introchars,,behavior,RAM; IntroSequence unpacks EALogoTiles here and sends them as the mode 7 character bytes (VMDATAH); the same ...,src/ram94s.asm
 $7F6700,brackettiles,,behavior,RAM; PlayoffScreen draws the $70 bracket tiles (bytes $FF / $80 / $7F / $00) here and DMAs $E00 bytes to VRAM.,src/ram94s.asm
 $7F7500,colourbuf,,behavior,RAM; The colour buffer SetColours fills and SendColours sends (256 colours) on the menu screens; PlayoffScreen ...,src/ram94s.asm
-$7F7700,logoboxmap,,behavior,"RAM; SetupScreen pastes the 7 x 7 part of MenuBackMap here (header 7, 7 at +0 / +2, words from +6); ...",src/ram94s.asm
+$7F7700,LogoBoxMap,,behavior,"RAM; SetupScreen pastes the 7 x 7 part of MenuBackMap here (header 7, 7 at +0 / +2, words from +6); ...",src/ram94s.asm
 $7F7780,picboxmap,,behavior,"RAM; LoadPictureMap / LoadPlayerCardScreen unpack the 7 x 7 PictureMap here (+0 width, +2 height, words from ...",src/ram94s.asm
 $7F8000,titlescale,,behavior,RAM; BuildTitlePath: mode 7 scale of each of the $500 title logo path steps; TitleScreen reads it.,src/ram94s.asm
 $7F8A00,titlexofs,,behavior,RAM; BuildTitlePath: x offset of each title path step; TitleScreen adds $190.,src/ram94s.asm

@@ -3,7 +3,7 @@ ReadjoyA:							; called from ReadPausePad, SelectPauseController, demoread, wai
 	phx
 	asl a
 	tax
-	lda.w JoyPad,x
+	lda.w PadRaw1,x
 	sta.b d3
 	lda.w padchange,x
 	sta.b d2

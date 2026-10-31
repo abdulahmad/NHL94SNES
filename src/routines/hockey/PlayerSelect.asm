@@ -250,7 +250,7 @@ PlayerSelect:						; called from setoptions
 .5:									; if mp5warning != 0 go to .1xx, ...
 	lda.w mp5warning				;warning up?
 	bne .1xx						;yes: centre this pad
-	lda.w JoyPad,x					;held
+	lda.w PadRaw1,x					;held
 	and.w #$000F					;not a standard pad?
 	beq .t1xxxx						;standard: read it
 .1xx:								; cont1team,x = $0000, go to .10
@@ -258,7 +258,7 @@ PlayerSelect:						; called from setoptions
 	sta.w cont1team,x				;not playing
 	jmp.w .10
 
-.t1xxxx:							; JoyPad,x & $000F = 0: if padnew,x bit $1000 set go to .t3x, ...
+.t1xxxx:							; PadRaw1,x & $000F = 0: if padnew,x bit $1000 set go to .t3x, ...
 	lda.w padnew,x					;new presses
 	bit.w #$1000					;start?
 	bne .t3x
@@ -375,7 +375,7 @@ PlayerSelect:						; called from setoptions
 .loopxx:							; loop: if mp5warning != 0 go to .1xxxx, ...
 	lda.w mp5warning				;warning up?
 	bne .1xxxx						;yes: skip
-	lda.w JoyPad,x					;held
+	lda.w PadRaw1,x					;held
 	bit.w #$000F					;direction held?
 	bne .1xxxx						;yes: skip
 	and.w #$FFF0					;buttons held?
@@ -416,8 +416,8 @@ PlayerSelect:						; called from setoptions
 	jsl.l QueueTextDMA				; queue the changed part of the text map for transfer to video memory
 .loopxxx:							; loop: falls through
 	ldx.w #$0008					;pad 5
-.loop2x:							; loop: if JoyPad,x bit $000F set go to .1xxxxx, ...
-	lda.w JoyPad,x					;held
+.loop2x:							; loop: if PadRaw1,x bit $000F set go to .1xxxxx, ...
+	lda.w PadRaw1,x					;held
 	bit.w #$000F					;direction?
 	bne .1xxxxx						;yes: skip
 	bit.w #$1000					;start?
@@ -500,7 +500,7 @@ PlayerSelect:						; called from setoptions
 	phy
 	lda.w mp5warning				;warning up?
 	bne .2xx						;yes: no icon
-	lda.w JoyPad,y					;held
+	lda.w PadRaw1,y					;held
 	and.w #$000F					;direction?
 	bne .2xx						;yes: no icon
 	tya								;pad number

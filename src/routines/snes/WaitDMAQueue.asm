@@ -24,7 +24,7 @@ WaitDMAQueue:						; wait until the DMA queue is empty
 	rtl
 
 .t1x:								; button on pad 1?
-	lda.w JoyPad
+	lda.w PadRaw1
 	beq .1
 	rtl
 
@@ -40,7 +40,7 @@ WaitDMAQueue:						; wait until the DMA queue is empty
 	rtl
 
 .t1xx:								; button on pad 2?
-	lda.w JoyPad+2
+	lda.w PadRaw2
 	beq .2
 	rtl
 
@@ -57,7 +57,7 @@ WaitDMAQueue:						; wait until the DMA queue is empty
 	rtl
 
 .t1xxx:								; masked buttons of pad 1?
-	lda.w JoyPad
+	lda.w PadRaw1
 	and.b r3
 	beq .3
 	rtl
@@ -75,7 +75,7 @@ WaitDMAQueue:						; wait until the DMA queue is empty
 	rtl
 
 .t1xxxx:							; masked buttons of pad 2?
-	lda.w JoyPad+2
+	lda.w PadRaw2
 	and.b r3
 	beq .4
 	rtl
