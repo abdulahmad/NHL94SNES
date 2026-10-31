@@ -24,7 +24,7 @@ lcfound:							; switch team a2 to the line chosen by row d2
 	lda.w #$FFFF					; no pad has the box
 	sta.w lcpad,y					; store it
 	jsl.l setpersonel				; players for the new line
-	jmp.w lcfound_close					; close the box and redraw the scoreboard
+	jmp.w lcfound_close				; close the box and redraw the scoreboard
 
 .t1:								; nothing chosen
 	rtl

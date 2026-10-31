@@ -1,5 +1,5 @@
 ; sound driver command $08 (main volume, pitch modulation, noise, echo enable, FLG), 5 bytes from [p0]
-SPCSetMaster:							; entry point, no direct callers found
+SPCSetMaster:						; entry point, no direct callers found
 	sep #$30
 .wait:								; loop: if APUIO0 != 0 go to .wait, ...
 	lda.w APUIO0

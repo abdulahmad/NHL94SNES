@@ -11,7 +11,7 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 .1:									; playerpad,x >= 0: return
 	rtl
 .2:									; gmclock != 0: go to donothing
-	jmp.w donothing				; computer player stands still
+	jmp.w donothing					; computer player stands still
 .4:									; if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2

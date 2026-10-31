@@ -1,5 +1,5 @@
 ; sound driver command $0E (volume of voice X), X in APUIO1, A in APUIO2, Y in APUIO3
-SPCSetVolume:							; entry point, no direct callers found
+SPCSetVolume:						; entry point, no direct callers found
 	sep #$30
 	pha
 .wait:								; loop: if APUIO0 != 0 go to .wait, ...

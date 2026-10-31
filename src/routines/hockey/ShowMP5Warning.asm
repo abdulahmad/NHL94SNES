@@ -6,7 +6,7 @@ ShowMP5Warning:						; called from SelectPauseController
 	jsl.l .t4
 	lda.w mp5warning
 	bne .loop
-	jsl.l SetupPauseScreen						; draw the pause menu: five items of the current list from item psfirst
+	jsl.l SetupPauseScreen			; draw the pause menu: five items of the current list from item psfirst
 .rtl:								; return
 	rtl
 

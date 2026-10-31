@@ -14,7 +14,7 @@ asswingd:							; assignment: wing on defense
 .1:									; return
 	rtl								; return
 .2:									; clock stopped?
-	jmp.w donothing				; do nothing
+	jmp.w donothing					; do nothing
 .8:									; defend
 	lda.w gmclock
 	bne .2							; clock stopped: do nothing

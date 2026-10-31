@@ -3,7 +3,7 @@
 ; Takes X = number of bytes, Y = loop point, p0 = long pointer to the sample. Returns with 16-bit A.
 ;
 ; Called from SPCUploadBlock.
-SPCSendSample:							; send one sample to the sound CPU
+SPCSendSample:						; send one sample to the sound CPU
 	sep #$20
 .wait:								;wait for the driver to be idle
 	lda.w APUIO0

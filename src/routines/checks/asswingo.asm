@@ -13,7 +13,7 @@ asswingo:							; X = wing; asstab entry, skates to a spot via skateto
 .1:									; playerpad,x >= 0: return
 	rtl
 .2:									; gmclock != 0: go to donothing
-	jmp.w donothing				; computer player stands still
+	jmp.w donothing					; computer player stands still
 .3:									; d0 = $0011, go to assinsert
 	lda.w #$0011
 	sta.b d0

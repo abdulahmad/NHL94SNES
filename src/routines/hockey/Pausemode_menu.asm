@@ -1,5 +1,5 @@
 ; Pick which pause menu is up, then read the pad and run the selected item.
-Pausemode_menu:							; called from Intermission, Pausemode
+Pausemode_menu:						; called from Intermission, Pausemode
 	lda.w #$FFFF
 	sta.l pausemenuon
 	lda.w shootoutmode
@@ -59,7 +59,7 @@ Pausemode_menu:							; called from Intermission, Pausemode
 	sta.l colourbuf+$1DE
 	sta.l colourbuf+$1FE
 PauseMenuPoll:						; called from PauseCrowdLevel, PauseDefStore, PauseEditLines, PauseExit...
-	jsl.l SetupPauseScreen						; draw the pause menu: five items of the current list from item psfirst
+	jsl.l SetupPauseScreen			; draw the pause menu: five items of the current list from item psfirst
 	jsl.l SelectPauseController		; pick the controller that owns the pause menu
 	lda.b d3
 	bit.w #$1000

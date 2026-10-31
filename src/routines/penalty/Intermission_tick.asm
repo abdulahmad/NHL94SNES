@@ -11,7 +11,7 @@ Intermission_tick:					; the intermission ticker timer
 	sbc.w tickervc
 	cmp.w #$0150					; $150 frames
 	bcc IntermissionTick_done		; not yet: leave
-	jsl.l NewTicker2_next				; next ticker game
+	jsl.l NewTicker2_next			; next ticker game
 	lda.l tickerstart				; first ticker game
 	cmp.w TickerNum					; back at the first one?
 	bne Intermission_tick			; no: change again

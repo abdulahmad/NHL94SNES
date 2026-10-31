@@ -1,5 +1,5 @@
 ; sound driver command $07 (voice X: volume left / right, sample, ADSR1, ADSR2), X and 5 bytes from [p0]
-SPCSetVoice:							; entry point, no direct callers found
+SPCSetVoice:						; entry point, no direct callers found
 	sep #$30
 .wait:								; loop: if APUIO0 != 0 go to .wait, ...
 	lda.w APUIO0

@@ -3,7 +3,7 @@ pucknorm:							; called from asstab
 	lda.w #$0002
 	trb.w pflags+puckscnum
 	beq pucknorm_move
-	stz.w temp1+puckscnum				; temp1 = 0, temp2b = still puck timer 120
+	stz.w temp1+puckscnum			; temp1 = 0, temp2b = still puck timer 120
 	stz.w temp2+puckscnum
 	lda.w #$0078
 	sta.w temp2b+puckscnum
@@ -18,7 +18,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	sec
 	sbc.b d7
 	sta.w puckcross+pcsize+pcframes
-	lda.w temp1+puckscnum				; every 5 frames: findpc
+	lda.w temp1+puckscnum			; every 5 frames: findpc
 	sec
 	sbc.b d7
 	sta.w temp1+puckscnum

@@ -11,7 +11,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	rtl
 .2:									; gmclock != 0: call GlideBack, go to donothing
 	jsl.l GlideBack					; start SPAglideback on player X unless his animation is locked
-	jmp.w donothing				; computer player stands still
+	jmp.w donothing					; computer player stands still
 .clk:								; playerpad,x negative: if gmclock != 0 go to .2, ...
 	lda.w gmclock
 	bne .2
@@ -64,7 +64,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	cmp.w #$0011
 	bne .3
 	jsl.l chk4pass					; pass
-.3:									; d0 = $0006 + temp3,x, a0 = asspuckc_postab, if sflags bits $8000 clear go...
+.3:									; d0 = $0006 + temp3,x, a0 = asspuckc_postab, if sflags $8000 clear go...
 	lda.w #$0006					; spot index 6
 	clc
 	adc.w temp3,x

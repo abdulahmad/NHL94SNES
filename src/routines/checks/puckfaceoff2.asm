@@ -140,9 +140,9 @@ puckfaceoff2:						; called from asstab
 	sta.w Ypos+netobj2				;net 2 y -268
 	lda.w #SPFpuck					; object 15 (puck shadow) = SPFpuck
 	sta.w frame+puckscnum+2
-	stz.w SPA+puckscnum+2				;shadow animation 0
+	stz.w SPA+puckscnum+2			;shadow animation 0
 	stz.w attribute+puckscnum+2
-	stz.w attribute+puckscnum			;puck attributes clear
+	stz.w attribute+puckscnum		;puck attributes clear
 	lda.w #$0040
 	trb.w sflags					;clear the scroll lock flag
 	lda.w #$0064					; 100 scroll steps

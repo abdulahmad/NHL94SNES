@@ -2,7 +2,7 @@
 ;
 ; Starts the ticker at the last game of the round unless a game is already running.
 ; Called from Intermission.
-Intermission_ticker:							; starts the score ticker
+Intermission_ticker:				; starts the score ticker
 	lda.w TickerNum					; current ticker game
 	bmi .1							; none (negative): start from the last game
 	ora.l gamenum					; ticker game 0 and the current game 0?
