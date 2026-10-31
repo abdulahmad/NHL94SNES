@@ -783,3 +783,4 @@ until traced (`--entry`, `--continue`). The column is the default pass, not the 
 - Comment layout: trailing comments at column 36 and lines within 110 columns (check_comments.py clean). MATCH.
 - HANDOFF: comment pass marked done; 138 unmatched 93S names rechecked, no rename. MATCH.
 - 94G names: JoyPad is PadRaw1-PadRaw5 (93S, 94G PadRaw1-4); logoboxmap is LogoBoxMap (94G). MATCH.
+- TeamBlocksMap is TeamBlocksmap (93G spelling, as 94G). MATCH.
