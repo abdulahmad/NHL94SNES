@@ -176,9 +176,9 @@ dopass_count:						; called from dopass
 	lda.w gmclock					;clock stopped?
 	bne .1							;yes: no stat
 	ldy.b a2						;team
-	lda.w tmpassatt,y				;pass attempts
+	lda.w tmpasses,y				;pass attempts
 	inc a							;plus one
-	sta.w tmpassatt,y
+	sta.w tmpasses,y
 .1:									; temp1,x = aidef,x / 2 + $0001 + temp1,x, passReceiverPlayerNum = a0, ...
 	ldx.w topgoalie,y				;opposing goalie
 	lda.w aidef,x					;his defense

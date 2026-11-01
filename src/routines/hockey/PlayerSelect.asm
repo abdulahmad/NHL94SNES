@@ -258,13 +258,13 @@ PlayerSelect:						; called from setoptions
 	sta.w cont1team,x				;not playing
 	jmp.w .10
 
-.t1xxxx:							; PadRaw1,x & $000F = 0: if padnew,x bit $1000 set go to .t3x, ...
-	lda.w padnew,x					;new presses
+.t1xxxx:							; PadRaw1,x & $000F = 0: if padnew1,x bit $1000 set go to .t3x, ...
+	lda.w padnew1,x					;new presses
 	bit.w #$1000					;start?
 	bne .t3x
 	jmp.w .6						;no: left / right
 
-.t3x:								; padnew,x bit $1000 set: if d1+2 = 0 go to .1xxx, ...
+.t3x:								; padnew1,x bit $1000 set: if d1+2 = 0 go to .1xxx, ...
 	lda.b d1+2						;playoffs?
 	beq .1xxx						;no: check the picks
 	ldx.w #$0000					;every pad

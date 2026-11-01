@@ -42,12 +42,12 @@ ScoutingReport:						; called from StartGame_scout
 	jsl.l WaitFrame
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	ldx.w #$0002					;from pad 2
-	lda.w padnew					;pad 1 presses
+	lda.w padnew1					;pad 1 presses
 	sta.b r3						;r3 = presses of all team pads
 .loop:								; loop: if cont1team,x = 0 go to .1, ...
 	lda.w cont1team,x				;pad has a team?
 	beq .1							;no
-	lda.w padnew,x					;its presses
+	lda.w padnew1,x					;its presses
 	ora.b r3						;merged
 	sta.b r3
 .1:									; X + 1, X + 1, if carry clear go to .loop, ...

@@ -366,7 +366,7 @@ updateplayers:						; called from DoGameFrame
 	sta.b d3						;held buttons
 	lda.w padchange,y
 	sta.b d2						;changed buttons
-	lda.w padnew,y
+	lda.w padnew1,y
 	sta.b d1						;new presses
 	lda.w paddir,y
 	sta.b d0						;direction

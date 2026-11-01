@@ -21,7 +21,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	bne .8
 	ldy.w playerpad,x
 	bmi .t2
-	lda.w padnew,y
+	lda.w padnew1,y
 	bit.w #$8000
 	bne .6
 	bit.w #$0080
