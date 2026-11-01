@@ -1,7 +1,7 @@
 ; The cold start after Reset_Fast: password and default options, the title screen, then a fresh start
-; (Restart)
+; (Opening2)
 ;
-; Takes nothing, never returns. Jumped to from Reset_Fast. Falls into Restart.
+; Takes nothing, never returns. Jumped to from Reset_Fast. Falls into Opening2.
 Opening:							; called from Reset_Fast
 	rep #$30						; 16 bit registers
 	jsl.l Multi5Init				; init the multitap
@@ -33,7 +33,7 @@ Opening:							; called from Reset_Fast
 	bne .loop2
 ; Back to the menu song and the option screens, then the game. Takes nothing, never returns. Jumped to from
 ; demoread, BadPasswordPrompt, PauseExitGame and GameOver.
-Restart:							; start over at the option screens
+Opening2:							; start over at the option screens
 	lda.w #$0000					; playoff round 0
 	sta.l playoffRoundIdx
 	rep #$30
@@ -69,4 +69,4 @@ Restart:							; start over at the option screens
 	bne StartGame					; no: start the game
 	jsl.l PlayShootout				; shootout
 	stz.w FrameByNumber				; clear the frame cache flag
-	jmp.w Restart					; back to the start
+	jmp.w Opening2					; back to the start

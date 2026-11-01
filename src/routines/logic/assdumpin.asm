@@ -62,7 +62,7 @@ assdumpin:							; called from asstab
 	jsl.l .t2x
 	jmp.w assexit					; end the player's current assignment and go back to the one under it
 
-.t2x:								; subroutine: d4 = $000F - passacc,x * 2, call randomd0s, adc .8,y, ...
+.t2x:								; subroutine: d4 = $000F - passacc,x * 2, call randomas, adc .8,y, ...
 	phk								; data bank = program bank
 	plb
 	lda.w #$000F
@@ -74,7 +74,7 @@ assdumpin:							; called from asstab
 	lda.w .6,y
 	clc
 	adc.b d4
-	jsl.l randomd0s					; A = a random number from -A to A-1
+	jsl.l randomas					; A = a random number from -A to A-1
 	clc
 	adc.w .8,y
 	sec
@@ -83,7 +83,7 @@ assdumpin:							; called from asstab
 	lda.w .7,y
 	clc
 	adc.b d4
-	jsl.l randomd0s					; A = a random number from -A to A-1
+	jsl.l randomas					; A = a random number from -A to A-1
 	clc
 	adc.w .ytab,y
 	sec

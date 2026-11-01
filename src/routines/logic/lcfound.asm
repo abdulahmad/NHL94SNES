@@ -12,7 +12,7 @@ lcfound:							; switch team a2 to the line chosen by row d2
 	lda.b d0						; no line there?
 	bmi .t1							; leave
 	lda.w pflags,x					; player flags
-	ora.w #$0008					; set bit 3
+	ora.w #pfjoycon					; set bit 3
 	sta.w pflags,x
 	jsl.l loadTeamStruct			; a2 = team of X
 	ldy.b a2

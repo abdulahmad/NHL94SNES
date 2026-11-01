@@ -1,4 +1,4 @@
-; Takes: listend. Called by ShowPlayerStats and SwapPlayerStatsTeam.
+; Takes: listend. Called by PlayerStatsScreen and SwapPlayerStatsTeam.
 ; Fill the stats row order with 0, 1, 2 ...
 InitStatsOrder:						; statsorder[i] = i for the rows of the list
 	lda.w #$0000					; first number

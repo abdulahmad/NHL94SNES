@@ -1,5 +1,5 @@
 ; a1 = string d0 of the string list [a1]
-AdvanceStringPtr:					; called from DrawPeriodStats, DrawPlayerCard, EditLinesScreen, FillPen...
+AdvanceStringPtr:					; called from DrawPeriodStats, DrawPlayerCard, LineEditor, FillPen...
 	bra .2							; count first
 .1:									; loop: d0 still >= 0: a1 = a1 + [a1]
 	lda.b a1

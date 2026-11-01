@@ -2,7 +2,7 @@
 ; A, X and Y = the three split lines (stored in irqline1..irqline3). The scroll values of the three splits
 ; are set to $FFFF and IRQ_StatsScroll1 is started at line A with SetIRQ.
 ;
-; Called from ShowGameStats, ShowOtherScores, ShowScoringSummary, ShowPlayerStats and ShowPenaltySummary.
+; Called from StatsReport, ShowScores, ScoringSummaryScreen, PlayerStatsScreen and PenaltySummaryScreen.
 SetupScrollIRQ:						; set up the three-way scroll IRQ
 	sta.w irqline1					; line of the first split
 	stx.w irqline2					; line of the second split

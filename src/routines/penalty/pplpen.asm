@@ -42,7 +42,7 @@ pplpen:								; called from DispPen
 	sta.b a1+2
 	lda.w #mesarea+2
 	sta.b a1
-	jsl.l PutDigits2				; write the two digit number d0 as two characters at [a1]
+	jsl.l ConvertByteToDigits		; write the two digit number d0 as two characters at [a1]
 	lda.w #$0000
 	sta.b a1+2
 	lda.w #mesarea

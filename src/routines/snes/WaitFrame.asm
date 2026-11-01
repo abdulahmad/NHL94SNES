@@ -1,7 +1,7 @@
 ; Wait for the next frame (FrameCount changes)
 ; Takes nothing, returns when FrameCount has changed (it is incremented by the NMI).
 ;
-; Called from SetupScreen, SelectLinePlayer, TeamRoster, setoptions and many others.
+; Called from SetupScreen, SelectLinePlayer, TeamRosterScreen, setoptions and many others.
 WaitFrame:							; wait for the next frame
 	pha
 	lda.w FrameCount

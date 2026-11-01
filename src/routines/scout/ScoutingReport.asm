@@ -339,7 +339,7 @@ ScoutingReport:						; called from StartGame_scout
 .8x:								; return
 	rtl
 .12:								;queue the report sentences (word list at a0, $FFFF ends)
-	jsl.l InitScoutDisplay			; reset the scouting report scroll state
+	jsl.l InitScoutingDisplay		; reset the scouting report scroll state
 	lda.w #$001D					;sentence $1D
 	sta.b [a0]						;queued
 	inc.b a0

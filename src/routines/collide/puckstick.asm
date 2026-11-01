@@ -10,7 +10,7 @@ puckstick:							; called from checkpuckcoll_ccx
 	rtl
 .2:									; pflags,y = pflags,y & $FFFE, if puckc >= 0 go to .t1, ...
 	lda.w pflags,y
-	and.w #$FFFE
+	and.w #(~pfdoff&$FFFF)
 	sta.w pflags,y
 	ldy.w puckc
 	bpl .t1
@@ -110,7 +110,7 @@ puckstick:							; called from checkpuckcoll_ccx
 	sta.b d0+2
 	stz.b d1						; no stickhand bonus
 	lda.w sflags					; sf2shot: no stickhand bonus
-	bit.w #$1000
+	bit.w #sf2shot
 	bne .1xx
 	ldy.b a2
 	lda.w stickhand,y

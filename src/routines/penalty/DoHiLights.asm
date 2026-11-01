@@ -13,11 +13,11 @@ DoHiLights:							; play the pending highlights
 .loop:								; loop over the games, last to first
 	ldx.b a0
 	lda.l gsflags,x					; game flags
-	bit.w #$0004					; flag $0004: game already played out
+	bit.w #gsfso					; flag $0004: game already played out
 	bne .1							; played: next game
-	bit.w #$0002					; flag $0002: highlight pending
+	bit.w #gsfhl					; flag $0002: highlight pending
 	beq .1							; none: next game
-	and.w #$FFFD					; clear the highlight flag
+	and.w #(~gsfhl&$FFFF)			; clear the highlight flag
 	sta.l gsflags,x
 	jsl.l SaveRegsStartHL2			; play the highlight
 .1:									; previous game

@@ -11,7 +11,7 @@ AssignPadPlayer:					; called from AssignPadIfFree, PadTakePosition, PuckCarrier
 	cpy.w #$0018
 	bcs .1
 	lda.w pflags,y
-	and.w #$FFF7
+	and.w #(~pfjoycon&$FFFF)
 	ora.w #$0002
 	sta.w pflags,y
 	lda.w #$FFFF
@@ -25,7 +25,7 @@ AssignPadPlayer:					; called from AssignPadIfFree, PadTakePosition, PuckCarrier
 	cpy.w #$0018
 	bcs .rtl
 	lda.w pflags,y
-	ora.w #$0008
+	ora.w #pfjoycon
 	sta.w pflags,y
 	lda.b d4
 	sta.w playerpad,y

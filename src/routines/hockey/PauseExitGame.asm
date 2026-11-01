@@ -11,6 +11,6 @@ PauseExitGame:						; called from PauseMenuHandlers
 	bne .t1
 	jmp.w PauseMenuPoll
 
-.t1:								; FrameByNumber = 0, go to Restart
+.t1:								; FrameByNumber = 0, go to Opening2
 	stz.w FrameByNumber
-	jml.l Restart					; start over at the option screens
+	jml.l Opening2					; start over at the option screens

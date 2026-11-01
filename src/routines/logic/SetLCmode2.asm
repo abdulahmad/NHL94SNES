@@ -73,7 +73,7 @@ SetLCmode2:							; draw the line change box of team a2
 	sta.b a1+2
 	lda.w #linelist
 	sta.b a1
-	jsl.l PrintStringFromList		; print the line name
+	jsl.l Fprint					; print the line name
 	pla								; restore the line number
 	sta.b d0
 	jsl.l linebar					; draw its energy bar

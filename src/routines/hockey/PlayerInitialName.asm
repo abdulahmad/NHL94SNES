@@ -51,7 +51,7 @@ PlayerInitialName:					; called from FillPenaltyPage, FillPlayerStatsPage, FillS
 	lda.b a0
 	cmp.b a2
 	bne .loop2
-	jsl.l MesAreaDone				; end the string built in mesarea
+	jsl.l FinalizeTextBuffer		; end the string built in mesarea
 	pla
 	sta.b a0+2
 	pla

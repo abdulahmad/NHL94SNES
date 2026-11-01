@@ -8,15 +8,15 @@ ReturnToGameTxt:
 	dw $0013 : db CC_Font1Pri,$09,$0D,"Return to Game"
 RestoreDefaultLinesTxt:
 	dw $001A : db CC_Font1Pal2Pri,$06,$0E,"Restore default lines"
-EditLinesMenuPos:
+LineEditorExitPos:
 	dw $0005 : db CC_Font1Pri,$09,$0D
-EditLinesMenuPos2:
+LineEditorExitPos2:
 	dw $0005 : db CC_Font1Pal2Pri,$09,$0D
 ReturnToGame:
 	%String("Return to Game")
-EditLinesMenuPos3:
+LineEditorExitPos3:
 	dw $0005 : db CC_Font1Pri,$06,$0E
-EditLinesMenuPos4:
+LineEditorExitPos4:
 	dw $0005 : db CC_Font1Pal2Pri,$06,$0E
 RestoreDefaultLines:
 	%String("Restore default lines")
@@ -72,7 +72,7 @@ LeftArrowTxt2:
 	dw $0006 : db CC_Font1Pal1Pri,$0A,$07,"{"
 PrintScrollArrowsPos2:
 	dw $0006 : db CC_Font1Pal1Pri,$0A,$07," "
-ShowCrowdMeterPos:
+CrowdMeterScreenPos:
 	dw $0005 : db CC_Font1Pri,$06,$0A
 CrowdMeter:
 	%String("CROWD METER")
@@ -138,7 +138,7 @@ PressStartTxt:
 	dw $0010 : db CC_Font1Pal1Pri,$0A,$18,"Press start"
 PlayerStatsTitle:
 	%String("Player Stats")
-ShowPlayerStatsPos:
+PlayerStatsScreenPos:
 	dw $0005 : db CC_Font1Pri,$09,$06
 YSwitchTeamsTxt:
 	dw $0015 : db CC_Font1Pal2Pri,$08,$1A,"Y - Switch Teams"
@@ -152,9 +152,9 @@ SortPlayerStatsPos:
 	dw $0005 : db CC_Font1Pal1Pri,$0A,$07
 GameStats:
 	%String("Game Stats")
-ShowGameStatsPos:
+StatsReportPos:
 	dw $0005 : db CC_Font1Pri,$01,$09
-ShowGameStatsPos2:
+StatsReportPos2:
 	dw $0005 : db CC_Font1Pri,$16,$09
 StatPercent:
 	%String("%")
@@ -210,9 +210,9 @@ TeamRosterTitle:
 	%String("Team Roster")
 PlayerRatingTxt:
 	dw $0017 : db CC_Font1Pal2Pri,$07,$0C,"Player",CC_Font1Pal2Pri,$19,$0C,"Rating",CC_Font1Pri,$01,$08
-TeamRosterPos:
+TeamRosterScreenPos:
 	dw $0005 : db CC_Font1Pri,$10,$08
-TeamRosterPos2:
+TeamRosterScreenPos2:
 	dw $0005 : db CC_Font1Pri,$0B,$06
 TeamRosterSwap:
 	%String("Team Roster")
@@ -393,9 +393,9 @@ EASNLogoPos:
 	dw $0005 : db CC_Font1Pri,$01,$19
 PlayerNumNamePos:
 	%String(" ")
-StatsReportPos:
+SetHor_rinkPos:
 	dw $0005 : db CC_Font1,$00,$00
-StatsReportPos2:
+SetHor_rinkPos2:
 	dw $0005 : db CC_Font1,$00,$00
 setlccordsPos:
 	dw $0005 : db CC_Font1Pri,$13,$01

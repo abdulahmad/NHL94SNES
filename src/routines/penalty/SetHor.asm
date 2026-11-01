@@ -2,7 +2,7 @@
 ;
 ; Called from SaveRegsStartHL2, ReloadRink, Pausemode, chkprogress, ReplayMode and PeriodOver. Saves
 ; the d0 and a0 register blocks, halves the puck speed, blanks the screen, resets the scroll and the row
-; counters, sorts the sprites and runs StatsReport. Restores the registers and returns with x = a3.
+; counters, sorts the sprites and runs SetHor_rink. Restores the registers and returns with x = a3.
 SetHor:								; switches to the horizontal rink
 	stx.b xsave						; keep x
 	ldx.w #$0000
@@ -48,7 +48,7 @@ SetHor:								; switches to the horizontal rink
 	sta.w Oldrow					; row to draw from
 	stz.w vramrow					; VRAM row = 0
 	jsl.l SprSort					; sort the sprites
-	jsl.l StatsReport				; draw the stats screen
+	jsl.l SetHor_rink				; draw the stats screen
 	stx.b xsave						; keep x
 	ldx.w #$001A
 .resta:								; pull back a0 and the next 13 words

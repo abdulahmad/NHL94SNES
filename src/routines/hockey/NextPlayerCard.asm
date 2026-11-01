@@ -1,6 +1,6 @@
 ; Show the next player card.
 ;
-; Takes a2 = team. Called from ShowPlayerCards.
+; Takes a2 = team. Called from PlayerCards.
 NextPlayerCard:						; show the next player card
 	lda.w curitem					; already at the last card: wait for the pad again
 	cmp.w listend

@@ -39,7 +39,7 @@ dopass:								; called from chk4pass, passmode
 	bmi .5							;no
 	beq .5							;goalie: no
 	lda.w pflags,y					;flags
-	bit.w #$1000					;falling?
+	bit.w #pf2unav					;unavailable?
 	bne .5							;yes: skip
 	lda.w puckdir,y					;his direction from the puck
 	sec
@@ -312,14 +312,14 @@ dopass_count:						; called from dopass
 	jsl.l ApproxLength				;distance again
 	sta.b d4						;d4
 	pla								;speed
-.4:									; d5 = A, passspeed = A, call randomd0s, ...
+.4:									; d5 = A, passspeed = A, call randomas, ...
 	sta.b d5						;d5
 	sta.w passspeed					;pass speed
 	ldx.b curobj					;passer
 	lda.w #$0010					;16
 	sec
 	sbc.w passacc,x					;minus his accuracy
-	jsl.l randomd0s					;random spread
+	jsl.l randomas					;random spread
 	clc
 	adc.b d5						;plus the speed
 	sta.b d5						;d5

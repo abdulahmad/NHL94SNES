@@ -28,7 +28,7 @@ checkpuckcoll_ccx:					; called from checkpuckcoll
 	bne .loop
 	ldx.b xsave
 	lda.w pflags,y					;flags
-	bit.w #$1000					;falling?
+	bit.w #pf2unav					;unavailable?
 	bne .1							;yes: body only
 	lda.w position,y				;goalie?
 	beq .2							;yes: goalie check

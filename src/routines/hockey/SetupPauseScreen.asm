@@ -154,8 +154,8 @@ SetupPauseScreen:					; called from PauseMenuPoll, SelectPauseController, ShowMP
 	beq .t1x						;yes
 	jmp.w PmenuRtl					;no
 
-.t1x:								; [a3] = d0: call GetPadTeam, if tmgoalie,y >= 0 go to .t2x, ...
-	jsl.l GetPadTeam				; a2 = the team of the controller that paused, from its side
+.t1x:								; [a3] = d0: call seta2, if tmgoalie,y >= 0 go to .t2x, ...
+	jsl.l seta2						; a2 = the team of the controller that paused, from its side
 	ldy.b a2						;team
 	lda.w tmgoalie,y				;goalie in net
 	bpl .t2x						;one
@@ -219,8 +219,8 @@ PmenuGoalieValue:					; called from SetupPauseScreen
 	beq .t2
 	jmp.w PmenuRtl
 
-.t2:								; [a3] = d0: call GetPadTeam, if goaliemode1,y = 0 go to .t1, ...
-	jsl.l GetPadTeam				; a2 = the team of the controller that paused, from its side
+.t2:								; [a3] = d0: call seta2, if goaliemode1,y = 0 go to .t1, ...
+	jsl.l seta2						; a2 = the team of the controller that paused, from its side
 	ldy.b a2						;team
 	lda.w goaliemode1,y				;goalie control
 	beq .t1							;off
@@ -254,8 +254,8 @@ PmenuDefValue:						; called from SetupPauseScreen
 	beq .t2
 	jmp.w PmenuRtl
 
-.t2:								; [a3] = d0: call GetPadTeam, if defcontrol,y = 0 go to .t1, ...
-	jsl.l GetPadTeam				; a2 = the team of the controller that paused, from its side
+.t2:								; [a3] = d0: call seta2, if defcontrol,y = 0 go to .t1, ...
+	jsl.l seta2						; a2 = the team of the controller that paused, from its side
 	ldy.b a2						;team
 	lda.w defcontrol,y				;defence control
 	beq .t1							;off

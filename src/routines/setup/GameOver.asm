@@ -1,6 +1,6 @@
 ; After a game: the password and the playoff screen, then the next game or the start
 ;
-; Takes nothing, never returns. Jumped to from PeriodOver after the last period. Continues at Restart or at
+; Takes nothing, never returns. Jumped to from PeriodOver after the last period. Continues at Opening2 or at
 ; the scouting report of the next game.
 GameOver:							; called from PeriodOver
 	stz.w FrameByNumber				; clear the frame cache flag
@@ -9,12 +9,12 @@ GameOver:							; called from PeriodOver
 	lda.l OptPlayMode				; play mode 1 (a playoff series)?
 	cmp.w #$0001
 	beq .t1
-	jml.l Restart					; no: back to the start
+	jml.l Opening2					; no: back to the start
 
 .t1:								; playoff series: is this a user game?
 	lda.l gamenum
 	bpl .t2
-	jml.l Restart					; negative (no user game): back to the start
+	jml.l Opening2					; negative (no user game): back to the start
 
 .t2:								; next playoff game: mask the password characters
 	lda.l PassWord

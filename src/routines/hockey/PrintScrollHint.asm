@@ -1,5 +1,5 @@
 ; Print the scroll hint under a summary list.
-PrintScrollHint:					; called from ShowPenaltySummary, ShowScoringSummary
+PrintScrollHint:					; called from PenaltySummaryScreen, ScoringSummaryScreen
 	lda.b a1+2
 	pha
 	lda.b a1

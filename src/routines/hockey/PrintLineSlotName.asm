@@ -4,7 +4,7 @@ PrintLineSlotName:					; called from DrawPlayerCard
 	and.w #$00FF
 	dec a
 	sta.b d0
-	jsl.l PlayerShortName			; mesarea = the number
+	jsl.l FormatPlayerNumInitial	; mesarea = the number
 	txa
 	sta.b d1
 	lda.b [a1]

@@ -23,9 +23,9 @@ PrintShooterRows:					; called from PrintShooterList
 	lda.w picktop
 	inc a
 	sta.b a3
-	lda.w #PositionNames>>16
+	lda.w #PlayerPositionText>>16
 	sta.b a5+2
-	lda.w #PositionNames
+	lda.w #PlayerPositionText
 	sta.b a5
 	lda.w #$0008
 	sta.b d1
@@ -62,7 +62,7 @@ PrintShooterRows:					; called from PrintShooterList
 	sta.b d0
 	sta.b r1
 	stz.b r2
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.b r1
 	cmp.b d0
 	bpl .2

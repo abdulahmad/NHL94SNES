@@ -28,7 +28,7 @@ puckfaceoff:						; called from asstab
 
 .t2x:								; end of the period
 	lda.w gmode
-	bit.w #$0040					;game over flag?
+	bit.w #gmeog					;game over flag?
 	beq .t1xx
 .1x2:								; go to PeriodOver
 	jml.l PeriodOver				; end of a period
@@ -45,7 +45,7 @@ puckfaceoff:						; called from asstab
 
 .t3:								; no period over: check for a penalty delay
 	lda.w gmode
-	bit.w #$0008					;penalty pending?
+	bit.w #gmpendel					;penalty pending?
 	beq .t1x2						;no
 .1x3:								; go to Stop4Pen
 	jml.l Stop4Pen					; stop play for a penalty: stop the clock

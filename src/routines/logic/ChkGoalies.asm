@@ -24,7 +24,7 @@ ChkGoalies:							; computer teams may pull their goalie
 	bne rtss						; the other team has the puck: leave
 	ldy.b a2						; this team
 	lda.w gmode						; game mode
-	bit.w #$0008					; bit $0008: delayed penalty
+	bit.w #gmpendel					; bit $0008: delayed penalty
 	bne .t1							; delayed penalty: pull the goalie
 	lda.w teampads,y				; human pad on this team?
 	bne rtss						; yes: leave

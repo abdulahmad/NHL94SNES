@@ -1,7 +1,7 @@
 ; Wait until the active controller's buttons are up.
 ;
 ; Takes: pausepad = the pad to watch. Returns when its PadRaw1 word is 0; registers kept.
-; Called from EditLinesMenu and AskExitGame.
+; Called from LineEditorExit and AskExitGame.
 WaitButtonRelease:					; wait until the pause pad has no button down
 	phx								; save X and A
 	pha

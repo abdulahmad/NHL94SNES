@@ -291,11 +291,11 @@ ReplayMode:							; called from PauseReplay
 	bne .2xxxxx						;some
 .1xxxxxxx:							; X + 1
 	inx
-.2xxxxx:							; call WaitFrames_Inc, call ReadPads, call ReadPausePad, ...
+.2xxxxx:							; call WaitFrames_Inc, call ReadPads, call getpzjoy, ...
 	ldy.w #$0000
 	jsl.l WaitFrames_Inc			;wait them
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
-	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	lda.w #$0001					;step 1
 	sta.b d7
 	lda.b d0						;direction held
@@ -381,10 +381,10 @@ ReplayMode:							; called from PauseReplay
 	trb.w sflags					;unlock the scroll
 	jmp.w .10
 
-.t1xxxx:							; call ReadPausePad, replaylock = $FFFE, tsb sflags, ...
+.t1xxxx:							; call getpzjoy, replaylock = $FFFE, tsb sflags, ...
 	phk								;data bank = program bank
 	plb
-	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	lda.w #$FFFE					;free camera
 	sta.w replaylock
 	lda.w #$0020
@@ -525,7 +525,7 @@ ReplayMode:							; called from PauseReplay
 	sta.l replaypanel
 .1xxxxxxxxxxx:						; eor #$0002, sflags3 = A
 	lda.w sflags3
-	eor.w #$0002					;toggle play
+	eor.w #sf3rmplay				;toggle play
 	sta.w sflags3
 .2xxxxxxxxx:						; if d3 bit $0020 set go to .t1xxxxxx, ...
 	lda.b d3						;held buttons
@@ -586,7 +586,7 @@ ReplayMode:							; called from PauseReplay
 	jmp.w .10						;draw
 .12x:								; if sflags3 bit $0002 set go to .t1xxxxxxx, ...
 	lda.w sflags3					;playing?
-	bit.w #$0002					;yes
+	bit.w #sf3rmplay				;yes
 	bne .t1xxxxxxx
 	jmp.w .13						;paused: draw
 

@@ -17,7 +17,7 @@ InitScores:							; random scores for the other games of the round
 	beq .4							; skip
 	ldx.b a0
 	lda.l gsflags,x					; game flags
-	bit.w #$0004					; flag $0004: game over
+	bit.w #gsfso					; flag $0004: game over
 	bne .4							; over: skip
 	lda.w #$0000					; period 0
 	sta.l gsper,x

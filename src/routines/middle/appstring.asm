@@ -1,5 +1,5 @@
 ; Append string [a1] to string [a3].
-appstring:							; called from PlayerNumName, PrintTeamStatRows, ScoutAppend, ScoutHotTe...
+appstring:							; called from getname, DisplayStats, ScoutAppend, ScoutHotTe...
 	lda.w #strtext					; read from the 3rd byte on (after the length)
 	sta.b tmp0
 	lda.b [a3]						; length of the target string

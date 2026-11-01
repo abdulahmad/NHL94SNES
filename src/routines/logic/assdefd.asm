@@ -130,7 +130,7 @@ assdefd:							; assignment: defenseman on defense
 .loop:								; each opponent in turn
 	sty.b a0
 	lda.w pflags,y					; unavailable (bit $1000, pf2unav)?
-	bit.w #$1000
+	bit.w #pf2unav
 	bne .12
 	lda.w position,y				; skip empty positions
 	bmi .12
@@ -187,7 +187,7 @@ assdefd:							; assignment: defenseman on defense
 .14:								; mirror of .loop for the other goal
 	sty.b a0
 	lda.w pflags,y
-	bit.w #$1000					; unavailable (bit $1000, pf2unav)?
+	bit.w #pf2unav					; unavailable (bit $1000, pf2unav)?
 	bne .4x
 	lda.w position,y				; skip empty positions
 	bmi .4x

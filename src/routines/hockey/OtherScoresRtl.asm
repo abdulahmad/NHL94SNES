@@ -1,7 +1,7 @@
-; The rtl ShowOtherScores leaves through, then an unused IRQ wait
+; The rtl ShowScores leaves through, then an unused IRQ wait
 ;
-; Jumped to from ShowOtherScores; .waitirq has no caller.
-OtherScoresRtl:						; the rtl ShowOtherScores leaves through
+; Jumped to from ShowScores; .waitirq has no caller.
+OtherScoresRtl:						; the rtl ShowScores leaves through
 	rtl
 
 .waitirq:							;unused: wait for the stats scroll IRQ to set

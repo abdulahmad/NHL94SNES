@@ -4,7 +4,7 @@
 ; screen and celebrates. Humans (a pad with buttons held) are left alone.
 assscore:							; assignment: celebrate a goal
 	lda.w gmode						; game mode bit $0040: bench cheer on?
-	bit.w #$0040
+	bit.w #gmeog
 	beq .1x							; no: skip
 	lda.b a2						; team index + 2
 	inc a

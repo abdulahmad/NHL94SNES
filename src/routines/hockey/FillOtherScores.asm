@@ -1,5 +1,5 @@
 ; Fill the other-scores rows, skipping this game.
-FillOtherScores:					; called from ShowOtherScores
+FillOtherScores:					; called from ShowScores
 	lda.w #statspage>>16
 	sta.b p1+2
 	lda.w #statspage

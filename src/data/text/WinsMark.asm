@@ -35,9 +35,9 @@ RightArrowTxt3:
 	dw $0006 : db CC_Font1Pal1Pri,$09,$02,"}"
 PrintShooterRowsPos:
 	dw $0005 : db CC_Font1Pal1Pri,$00,$03
-EditLinesScreenPos:
+LineEditorPos:
 	dw $0005 : db CC_Font1Pal2Pri,$08,$0A
-EditLinesScreenPos2:
+LineEditorPos2:
 	dw $0005 : db CC_Font1Pri,$0B,$01
 PrintLineNamesPos:
 	dw $0005 : db CC_Font1Pal2Pri,$08,$0A

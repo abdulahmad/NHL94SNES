@@ -5,7 +5,7 @@
 ; linecursor) the neighbouring slots are searched for the same player, who then is swapped into the cursor
 ; slot, and the player is written to the cursor slot with WriteLineSlot.
 ;
-; Called from EditLinesScreen.
+; Called from LineEditor.
 SetLineSlot:						; put a player in the cursor slot of the line
 	sta.w lineplayer				;keep the player
 	lda.w SelectedPlayerIdx			;selected line

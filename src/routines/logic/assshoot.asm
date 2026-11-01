@@ -9,7 +9,7 @@ assshoot:							; X = shooter; asstab entry (SetShotMode / ShotMode are its part
 
 .t2:								; assignment not new: if sflags bit $0008 is clear, assexit
 	lda.w sflags
-	bit.w #$0008
+	bit.w #sfssdir
 	bne .t1
 	jmp.w assexit					; no: assignment over
 

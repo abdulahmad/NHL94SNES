@@ -96,7 +96,7 @@ BadPasswordPrompt:					; called from PasswordRedraw
 	jsl.l WaitNoButtons				; wait until no button is held on pad 1
 	jmp.w PasswordRedraw
 
-.t1:								; OptPlayMode = $0002, go to Restart
+.t1:								; OptPlayMode = $0002, go to Opening2
 	lda.w #$0002
 	sta.l OptPlayMode
-	jml.l Restart					; start over at the option screens
+	jml.l Opening2					; start over at the option screens

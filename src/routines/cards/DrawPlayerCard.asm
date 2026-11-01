@@ -69,7 +69,7 @@ DrawPlayerCard:						; draw the player card (or the team card)
 .2:									; print the name and the position group
 	lda.w curplayer					; current player
 	sta.b d0
-	jsl.l PlayerNumName				; number and name
+	jsl.l getname					; number and name
 	lda.b [a1]						; centre the name on column 16
 	dec a
 	dec a
@@ -82,7 +82,7 @@ DrawPlayerCard:						; draw the player card (or the team card)
 	lda.w #$000C					; row 12
 	sta.w printy
 	jsl.l print						; print them
-	jsl.l GoalieCount				; number of goalies
+	jsl.l GetGoalieCount			; number of goalies
 	lda.w curplayer
 	cmp.b d0						; goalie?
 	bmi .t2x						; skater: .t4
@@ -174,7 +174,7 @@ DrawPlayerCard:						; draw the player card (or the team card)
 	jmp.w .4						; go print the overall rating
 
 .t4:								; skater: forward or defenseman?
-	jsl.l GoalieCount				; number of goalies
+	jsl.l GetGoalieCount			; number of goalies
 	lda.b d0
 	sta.b d1
 	jsl.l GetForwardCount			; number of forwards

@@ -1,7 +1,7 @@
 ; Set up the player card screen: fade out, the logo sprites, fonts, card graphics, map and palettes, clear
 ; text maps, sprites on
 ;
-; Called from ShowPlayerCards. Takes no registers; the screen is shown with sprites on when it returns.
+; Called from PlayerCards. Takes no registers; the screen is shown with sprites on when it returns.
 LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	jsl.l FadeOut					; fade out while the team logo sprites unpack to logosprbuf
 	lda.w #TeamLogoSprites>>16
@@ -68,7 +68,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b a1+2
 	lda.w #PixelRemap8F
 	sta.b a1
-	jsl.l RemapTiles
+	jsl.l remap
 	lda.w #FramerTiles>>16
 	sta.b a0+2
 	lda.w #FramerTiles
@@ -79,7 +79,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b a1
 	lda.w #$0004					;4 tiles
 	sta.b d0
-	jsl.l RemapTiles
+	jsl.l remap
 	lda.w #TeamBlocksTiles>>16		; unpack the team block tiles; picchars = scorechars + their size - $100,
 									; then copy them to VRAM at scorechars
 	sta.b p0+2

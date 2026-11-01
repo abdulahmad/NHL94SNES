@@ -82,7 +82,7 @@ MakeTree:							; called from EncodePW, GameOver, NewPO, setoptions
 	sta.l gss2,x
 	sta.l gsper,x
 	lda.l gsflags,x
-	and.w #$FFFD
+	and.w #(~gsfhl&$FFFF)
 	sta.l gsflags,x
 	jsl.l .t2
 	inc.b a1
@@ -121,7 +121,7 @@ MakeTree:							; called from EncodePW, GameOver, NewPO, setoptions
 	cmp.w #$0005
 	beq .t1
 	lda.l gsflags,x
-	ora.w #$0001
+	ora.w #gsftf
 	sta.l gsflags,x
 	lda.b [a0]
 	inc.b a0
@@ -135,7 +135,7 @@ MakeTree:							; called from EncodePW, GameOver, NewPO, setoptions
 
 .t1:								; gsflags,x = gsflags,x & $FFFE, increment a0, gst1,x = [a0] & $00FF, ...
 	lda.l gsflags,x
-	and.w #$FFFE
+	and.w #(~gsftf&$FFFF)
 	sta.l gsflags,x
 	lda.b [a0]
 	inc.b a0

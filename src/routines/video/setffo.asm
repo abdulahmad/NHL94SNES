@@ -25,7 +25,7 @@ setffo:								; called from setvideo
 	lda.w Ypos,x
 	sta.b d1
 	stz.b d2
-	jsl.l projxy					; project a rink position to screen coordinates
+	jsl.l find3d					; project a rink position to screen coordinates
 	cmp.w #$4E20
 	beq .2
 	ldy.w position,x

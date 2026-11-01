@@ -219,7 +219,7 @@ ShowThreeStars:						; called from InProgress
 	jsl.l GetPlayerCount			; count the players of the team
 	lda.b d0						;players
 	sta.w starplayerend				;end of the home players
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.b d0						;goalies
 	sta.w stargoalieend				;end of the home goalies
 	ldx.w #$0000					;first player
@@ -374,7 +374,7 @@ ShowThreeStars:						; called from InProgress
 	clc
 	adc.w #$001A					;plus 26
 	sta.w starplayerend				;end of the visitors
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.b d0						;goalies
 	clc
 	adc.w #$001A					;plus 26

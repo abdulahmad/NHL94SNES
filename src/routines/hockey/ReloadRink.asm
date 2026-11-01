@@ -166,7 +166,7 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	sta.b a1+2
 	lda.w #PixelRemap83
 	sta.b a1
-	jsl.l RemapTiles
+	jsl.l remap
 	lda.w #FramerTiles>>16
 	sta.b a0+2
 	lda.w #FramerTiles
@@ -177,7 +177,7 @@ ReloadRink:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats,
 	sta.b a1
 	lda.w #$0004					;4 tiles
 	sta.b d0
-	jsl.l RemapTiles
+	jsl.l remap
 	lda.w #BigFontTiles>>16
 	sta.b p0+2
 	lda.w #BigFontTiles

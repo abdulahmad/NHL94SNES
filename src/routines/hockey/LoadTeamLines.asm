@@ -1,6 +1,6 @@
 ; Copy team a2's lines from its team data into its RAM lines (GetTeamLines)
 LoadTeamLines:						; copy team a2's lines from the team data into RAM
-; Takes a2 = team. Called from setoptions, SaveRegsStartHL2, EditLinesMenu and StartGame.
+; Takes a2 = team. Called from setoptions, SaveRegsStartHL2, LineEditorExit and StartGame.
 	lda.b a3+2						; save a3, a1, d0 and y
 	pha
 	lda.b a3

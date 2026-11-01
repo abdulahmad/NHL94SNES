@@ -31,7 +31,7 @@ AttribStatus:						; print the player status or penalty time
 	sta.b a1+2						; text list
 	lda.w #StatusTextTbl
 	sta.b a1
-	jml.l PrintStringFromList		; prints a string from a list
+	jml.l Fprint					; prints a string from a list
 .5:									; positive word: penalty time or state 3
 	lda.b d0						; state
 	bit.w #$1000
@@ -54,4 +54,4 @@ AttribStatus:						; print the player status or penalty time
 	sta.b a1+2
 	lda.w #StatusTextTbl
 	sta.b a1
-	jml.l PrintStringFromList		; prints a string from a list
+	jml.l Fprint					; prints a string from a list

@@ -20,7 +20,7 @@ GetPlayerNumInitial:				; the number, first initial and last name of player Temp
 	inc.b a2						; a2 = 2 for the visitors
 	inc.b a2
 .1:									; format the number, initial and name
-	jsl.l PlayerShortName			; format the text
+	jsl.l FormatPlayerNumInitial	; format the text
 	pla								; restore a2 and d0
 	sta.b a2+2
 	pla								; restore a2

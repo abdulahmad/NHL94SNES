@@ -15,7 +15,7 @@ reenergizeteam:						; called from PauseTimeout, SetupTeamForIntermission, Start
 	lda.w tmpdst,y					; out: back to the bench
 	cmp.w #TMPDOUT					; out of play?
 	bne .nb
-	cmp.w #rosterNone
+	cmp.w #TMPDINJGAME
 	bne .nb
 	lda.w #TMPDBENCH				; back to the bench
 	sta.w tmpdst,y

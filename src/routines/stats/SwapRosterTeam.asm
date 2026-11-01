@@ -2,7 +2,7 @@
 ; Toggles a2 between the two teams, redraws the sprites and prints the swap text, then jumps to
 ; TeamRosterRedraw.
 ;
-; Called from TeamRoster.
+; Called from TeamRosterScreen.
 SwapRosterTeam:						; switch the roster to the other team
 	lda.b a2
 	eor.w #$0002

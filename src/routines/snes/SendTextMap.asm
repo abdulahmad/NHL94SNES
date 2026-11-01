@@ -1,5 +1,5 @@
 ; Send the text map to video memory
-SendTextMap:						; called from AskExitGame, DrawHorTeams, DrawPlayerCard, EditLinesMenu...
+SendTextMap:						; called from AskExitGame, DrawHorTeams, DrawPlayerCard, LineEditorExit...
 	lda.w #textmap>>16
 	sta.b p0+2
 	lda.w #textmap

@@ -1,7 +1,7 @@
-; In the demo, Start pauses and any other button ends it (back through Restart); in mode 4 with controller
+; In the demo, Start pauses and any other button ends it (back through Opening2); in mode 4 with controller
 ; sides, Start on any of them pauses from that pad
 ;
-; Takes nothing. Start (bit $1000) starts the pause; any other button leaves via Restart.
+; Takes nothing. Start (bit $1000) starts the pause; any other button leaves via Opening2.
 ; Called from Gameloop.
 demoread:							; read the controllers during the demo
 	lda.l OptPlayMode				; play mode
@@ -55,4 +55,4 @@ demoread:							; read the controllers during the demo
 .4:									; leave the demo
 	stz.w fadestep					; no fade pending
 	stz.w FrameByNumber				; clear the cached frame
-	jml.l Restart					; back to the start (Restart does not return)
+	jml.l Opening2					; back to the start (Opening2 does not return)

@@ -7,7 +7,7 @@ AskExitGame:						; called from PauseExitGame
 	jsl.l SendTextMap
 	jsl.l WaitFrame
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
-	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	lda.b d1
 	bit.w #$1000
 	bne .t4

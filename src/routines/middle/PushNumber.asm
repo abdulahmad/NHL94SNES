@@ -1,5 +1,5 @@
 ; a1 = d0 as a decimal string, no leading zeros.
-PushNumber:							; called from AttribWeight, PrintTeamStatRows, TickerTeam, printscores1
+PushNumber:							; called from AttribWeight, DisplayStats, PrintGameInfo, printscores1
 	phx
 	lda.w #$0000
 	sta.b a1+2

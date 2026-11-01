@@ -1,7 +1,7 @@
-; d0 = rating column d1 (AttribMenuSkater / AttribMenuGoalie) of player curplayer of team a2 through
+; d0 = rating column d1 (PAttribColumns / GAttribColumns) of player curplayer of team a2 through
 ; CalcAttrib, with the hot / cold adjustment
 ; Takes d1 = rating column number, a2 = team offset, curplayer = player. Saves d0 to d9 and the pointers,
-; picks the AttribMenuGoalie list for a goalie (curplayer past the skaters) or AttribMenuSkater, finds the
+; picks the GAttribColumns list for a goalie (curplayer past the skaters) or PAttribColumns, finds the
 ; d1-th entry and gets the value with CalcAttrib. Returns d0 = rating, the other registers restored.
 ;
 ; Called from ScoutingReport, ShowMatchups, AddStrength, FindGoalieStrengths and DrawPlayerCard.
@@ -24,18 +24,18 @@ GetPlayerRating:					; rating of curplayer with hot / cold
 	pha
 	lda.b a1+2
 	pha
-	lda.w #AttribMenuSkater>>16
+	lda.w #PAttribColumns>>16
 	sta.b a1+2
-	lda.w #AttribMenuSkater
+	lda.w #PAttribColumns
 	sta.b a1
 	stz.b r2
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.w curplayer
 	cmp.b d0
 	bpl .1
-	lda.w #AttribMenuGoalie>>16
+	lda.w #GAttribColumns>>16
 	sta.b a1+2
-	lda.w #AttribMenuGoalie
+	lda.w #GAttribColumns
 	sta.b a1
 	lda.w #$0010
 	sta.b r2

@@ -1,5 +1,5 @@
 ; Read the pads with key repeat. A held button repeats after a delay
-ProcessInputWithRepeat:				; called from EditLinesMenu, EditLinesScreen, PasswordRedraw, PenaltySu...
+ProcessInputWithRepeat:				; called from LineEditorExit, LineEditor, PasswordRedraw, PenaltySu...
 	lda.b d3						; buttons held
 	beq .rtl						; none: leave
 	lda.b d2						; d2 = changed buttons

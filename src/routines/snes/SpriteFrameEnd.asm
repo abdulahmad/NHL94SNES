@@ -2,7 +2,7 @@
 ; Takes nothing. Fills the OAM entries from OAMNext up to OAMHideEnd with Y=$E1 (off screen), then swaps
 ; OAMDrawBuf and OAMShowBuf and sets OAMReady so that the NMI copies the buffer.
 ;
-; Called from SelectLinePlayer, TeamRoster, setoptions, ShowPeriodStats and SaveRegsStartHL2.
+; Called from SelectLinePlayer, TeamRosterScreen, setoptions, PeriodStatsScreen and SaveRegsStartHL2.
 SpriteFrameEnd:						;move the unused entries off screen, swap the OAM buffers and set OAMReady
 	phb								; save the data bank
 	pea.w (Ram7E>>16)*$0101			; data bank = $7E (pushed twice)

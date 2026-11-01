@@ -1,5 +1,5 @@
 ; Copy part of map [p0] into the screen map in video memory at column X, row Y
-MapPartToVRAM:						; called from PlayoffScreen, SendBigText, StatsReport
+MapPartToVRAM:						; called from PlayoffScreen, SendBigText, SetHor_rink
 	cpx.w #$0020
 	bcc .1
 	txa

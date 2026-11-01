@@ -30,7 +30,7 @@ ResolveGames:						; record the played playoff game and the series wins
 	beq .3
 	stz.b d3						; d3 = 0
 	lda.l gsflags,x					; gsflags bit 0: teams swapped
-	bit.w #$0001
+	bit.w #gsftf
 	beq .1							; not swapped
 	lda.w #$0010					; swapped: d3 = $10
 	sta.b d3
@@ -184,7 +184,7 @@ ResolveGames:						; record the played playoff game and the series wins
 .1xx:								; teams swapped?
 	ldx.b a0
 	lda.l gsflags,x
-	bit.w #$0001					; gsflags bit 0
+	bit.w #gsftf					; gsflags bit 0
 	beq .2x
 	lda.b d1
 	asl a

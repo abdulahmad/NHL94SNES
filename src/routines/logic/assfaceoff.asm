@@ -5,7 +5,7 @@ assfaceoff:							; assignment: wait for the face off to be over
 	lda.w pfalock,x
 	bne .t4							; animation locked: just return
 	lda.w sflags
-	bit.w #$0100					; bit $0100 of sflags: face off in progress
+	bit.w #sf2faceoff				; bit $0100 of sflags: face off in progress
 	bne .t4
 	jml.l assexit					; face off over: assignment over
 .t4:								; return

@@ -1,7 +1,7 @@
 ; Move the roster attribute column by d0 and redraw.
 ; Takes d0 = signed column step. Shows the column DispAttribCtr + d0 when that is not negative.
 ;
-; Called from TeamRoster.
+; Called from TeamRosterScreen.
 MoveRosterColumn:					; step the roster column
 	lda.b d0
 	clc

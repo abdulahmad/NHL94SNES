@@ -81,7 +81,7 @@ AddPenalty2:						; called from AddPenalty, FallDown, Goal, ShootoutWonBy, assgo
 	beq .4
 	lda.w pflags,x
 	pha
-	ora.w #$4000
+	ora.w #pf2pen
 	sta.w pflags,x
 	pla
 	bit.w #$4000

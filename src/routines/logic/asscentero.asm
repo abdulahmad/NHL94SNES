@@ -102,7 +102,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	lda.b [a0],y					; x random range
 	dey
 	dey
-	jsl.l randomd0s					; A = a random number from -A to A-1
+	jsl.l randomas					; A = a random number from -A to A-1
 	adc.b [a0],y					; plus the zone x
 	sta.w temp3,x					; temp3 = spot x
 	tya
@@ -112,7 +112,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	lda.b [a0],y					; y random range
 	dey
 	dey
-	jsl.l randomd0s					; A = a random number from -A to A-1
+	jsl.l randomas					; A = a random number from -A to A-1
 	adc.b [a0],y					; plus the zone y
 	sta.w temp4,x					; temp4 = spot y
 .6:									; d0 = temp3,x, d1 = temp4,x, if pfgoal,x != 0 go to .1xxx, ...

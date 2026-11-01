@@ -1,5 +1,5 @@
 ; Full brightness, no forced blank
-ScreenOn:							; called from EditLinesScreen, IntroSequence, PauseReplay, Pausemode, P...
+ScreenOn:							; called from LineEditor, IntroSequence, PauseReplay, Pausemode, P...
 	pha
 	lda.w brightness
 	cmp.w #$000F

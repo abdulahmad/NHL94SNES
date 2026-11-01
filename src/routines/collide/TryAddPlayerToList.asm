@@ -19,7 +19,7 @@ TryAddPlayerToList:					; called from SetPlList
 	lda.w tmpdst,y					; state
 	cmp.w #TMPDOUT					; TMPDOUT: not available
 	beq .t1
-	cmp.w #rosterNone
+	cmp.w #TMPDINJGAME
 	beq .t1
 	lda.w #$0005					; six list entries
 	sta.b d0

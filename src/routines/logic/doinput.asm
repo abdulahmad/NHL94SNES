@@ -26,7 +26,7 @@ doinput:							; pad input for player X
 	sta.b d0
 .1x:								; face off in progress?
 	lda.w sflags					; game flags
-	bit.w #$0100					; bit $0100 (face off)?
+	bit.w #sf2faceoff				; bit $0100 (face off)?
 	beq .t2
 	jmp.w .7						; face off input
 
@@ -150,7 +150,7 @@ doinput:							; pad input for player X
 	lda.w sflags					; game flags
 	bit.w #sfspdir					; pass direction set?
 	bne .t1x						; yes: pass mode
-	bit.w #$0008					; shot direction set (bit 3)?
+	bit.w #sfssdir					; shot direction set (bit 3)?
 	bne .t2x						; yes: shot mode
 	lda.w dumpinplayer				; puck dumped in by this player?
 	cmp.b curobj

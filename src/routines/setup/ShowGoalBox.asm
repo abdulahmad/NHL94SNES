@@ -89,7 +89,7 @@ ShowGoalBox:						; called from SetPA
 	and.w #$00FF
 	cmp.w #$0003					; third goal: hat trick text
 	bne .4
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	ldy.w #ssscorer
 	lda.b [a4],y
 	and.w #$00FF
@@ -106,13 +106,13 @@ ShowGoalBox:						; called from SetPA
 	clc
 	adc.w #$000A
 	sta.w PenCntDwn
-.4:									; call printbig, d0 = [a4],y & $00FF, call PlayerShortName, ...
+.4:									; call printbig, d0 = [a4],y & $00FF, call FormatPlayerNumInitial, ...
 	jsl.l printbig
 	ldy.w #ssscorer
 	lda.b [a4],y
 	and.w #$00FF
 	sta.b d0
-	jsl.l PlayerShortName			; mesarea = the number
+	jsl.l FormatPlayerNumInitial	; mesarea = the number
 	jsl.l print						; print it
 	ldy.w #ssassist1
 	lda.b [a4],y
@@ -133,7 +133,7 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l PlayerShortName			; mesarea = the number
+	jsl.l FormatPlayerNumInitial	; mesarea = the number
 	jsl.l print
 	ldy.w #ssassist2
 	lda.b [a4],y
@@ -154,7 +154,7 @@ ShowGoalBox:						; called from SetPA
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l PlayerShortName			; mesarea = the number
+	jsl.l FormatPlayerNumInitial	; mesarea = the number
 	jsl.l print						; print it
 .5:									; xsave = X
 	stx.b xsave						; keep X

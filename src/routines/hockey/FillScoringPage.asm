@@ -1,5 +1,5 @@
 ; Build the scoring summary page in the stats page buffer: a line per goal (ScoreSum, 6 bytes each)
-FillScoringPage:					; called from ShowScoringSummary
+FillScoringPage:					; called from ScoringSummaryScreen
 	lda.w #statspage>>16
 	sta.b p1+2
 	lda.w #statspage

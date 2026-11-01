@@ -14,9 +14,9 @@ UpdateScores:						; updates the other games
 	beq .1							; yes: skip it
 	ldx.b a0						; x = game offset
 	lda.l gsflags,x					; game flags
-	and.w #$FFFD					; clear the highlight flag
+	and.w #(~gsfhl&$FFFF)			; clear the highlight flag
 	sta.l gsflags,x
-	bit.w #$0004					; flag $0004: game over
+	bit.w #gsfso					; flag $0004: game over
 	bne .1							; over: keep the score
 	jsl.l SetScore					; add goals to the score
 .1:									; previous game

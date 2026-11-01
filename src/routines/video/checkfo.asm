@@ -5,7 +5,7 @@ checkfo:							; called from setvideo
 	lda.w penshot
 	bne .rtl
 	lda.w sflags
-	bit.w #$0100
+	bit.w #sf2faceoff
 	beq .rtl
 	bit.w #$0800
 	bne .rtl

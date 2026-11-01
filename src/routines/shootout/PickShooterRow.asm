@@ -2,7 +2,7 @@
 PickShooterRow:						; called from ShootersPick
 	lda.w curitem
 	bne ShooterSelectList
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.w #homeshooters>>16
 	sta.b a1+2
 	lda.w #homeshooters

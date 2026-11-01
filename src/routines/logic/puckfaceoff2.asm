@@ -373,7 +373,7 @@ puckfaceoff2:						; called from asstab
 	lda.b d0
 	sta.w facedir,x					;facing
 	lda.w pflags,x
-	and.w #$EFFF					;clear the falling flag
+	and.w #(~pf2unav&$FFFF)			;clear the unavailable flag
 	sta.w pflags,x
 	stz.w pfalock,x					;animation unlocked
 	stz.w SPA,x
@@ -673,7 +673,7 @@ puckfaceoff2:						; called from asstab
 	sta.b a1+2
 	lda.w #linelist
 	sta.b a1
-	jsl.l PrintStringFromList		;first line name
+	jsl.l Fprint					;first line name
 	inc.w printx
 	inc.w printx					;next column
 	inc.w printx
@@ -684,7 +684,7 @@ puckfaceoff2:						; called from asstab
 	sta.b a1+2
 	lda.w #linelist
 	sta.b a1
-	jsl.l PrintStringFromList		; prints a string from a list
+	jsl.l Fprint					; prints a string from a list
 .3xxxx:								; call RandomWord, and #$007F, adc #$00B4, ...
 	jsl.l RandomWord				;random
 	and.w #$007F					;0-127

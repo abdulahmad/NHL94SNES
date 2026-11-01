@@ -1,5 +1,5 @@
 ; Draw the visible scoring rows, or No Scoring when the list is empty.
-DrawScoringPage:					; called from ScrollScoringDown, ScrollScoringUp, ShowScoringSummary
+DrawScoringPage:					; called from ScrollScoringDown, ScrollScoringUp, ScoringSummaryScreen
 	lda.w listend
 	cmp.w #$0000
 	beq .t1

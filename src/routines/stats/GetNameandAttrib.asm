@@ -1,6 +1,6 @@
 ; Print a player's number and name, then the attribute d4 through attribjmp (ratings first through CalcAttrib)
 ; Takes d0 = player, d4 = attribute to show, a2 = team, X preserved. Saves d0 to d9 and the pointers, prints
-; the number and name with PlayerNumName and print, then calls the handler for d4 from attribjmp
+; the number and name with getname and print, then calls the handler for d4 from attribjmp
 ; (attributes from 3 on first set usehotcold and call CalcAttrib), and restores everything.
 ;
 ; Called from ShowRosterLine, PrintLinePlayerList and PrintShooterRows.
@@ -25,7 +25,7 @@ GetNameandAttrib:					; print player name and one attribute
 	pha
 	lda.b r2
 	pha
-	jsl.l PlayerNumName				; print the number and name
+	jsl.l getname					; print the number and name
 	jsl.l print
 	pla
 	sta.b r2

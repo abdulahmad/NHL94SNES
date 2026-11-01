@@ -1,7 +1,7 @@
 ; a1 = the full name of team A: its TeamList city, or LongNYI / LongNYR for teams $0D / $0E
 ;
 ; Called from setoptions, PrintOtherScoreTeam, PauseTimeout, ScoutVisName, ScoutHotTeam, ScoutHomeName,
-; TickerTeam and ShootoutWonBy.
+; PrintGameInfo and ShootoutWonBy.
 GetTeamLongName:					; a1 = full name of team A
 	cmp.w #$000D					; team $0D: NYI long name
 	beq .t1

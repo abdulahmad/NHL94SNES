@@ -17,7 +17,7 @@ ReadPassBits:						; password bits back into the playoff state
 .0:									; the 8 series scores, range 5
 	ldx.b a1
 	lda.l gsflags,x
-	and.w #$FFFB					; clear the series over flag ($0004)
+	and.w #(~gsfso&$FFFF)			; clear the series over flag ($0004)
 	sta.l gsflags,x
 	lda.w #$0005					; range 5 wins
 	sta.b d0
@@ -28,7 +28,7 @@ ReadPassBits:						; password bits back into the playoff state
 	cmp.w #$0004					; 4 wins: series over
 	bne .nsf0
 	lda.l gsflags,x
-	ora.w #$0004
+	ora.w #gsfso
 	sta.l gsflags,x
 .nsf0:								; range 5 wins
 	lda.w #$0005
@@ -40,7 +40,7 @@ ReadPassBits:						; password bits back into the playoff state
 	cmp.w #$0004					; 4 wins: series over
 	bne .nsf1
 	lda.l gsflags,x
-	ora.w #$0004
+	ora.w #gsfso
 	sta.l gsflags,x
 .nsf1:								; next series
 	dec.b a1						; next series

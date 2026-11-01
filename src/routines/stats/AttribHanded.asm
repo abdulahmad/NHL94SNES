@@ -1,6 +1,6 @@
 ; Roster column: left or right handed
 ; Takes d0 = player attribute word. Bit 0 inverted selects the string of HandedTextTbl and
-; PrintStringFromList prints it (this is a jump, it returns to the caller).
+; Fprint prints it (this is a jump, it returns to the caller).
 ;
 ; Called through attribjmp.
 AttribHanded:						; print left or right handed
@@ -12,4 +12,4 @@ AttribHanded:						; print left or right handed
 	sta.b a1+2
 	lda.w #HandedTextTbl
 	sta.b a1
-	jml.l PrintStringFromList		; prints a string from a list
+	jml.l Fprint					; prints a string from a list

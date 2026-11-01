@@ -34,7 +34,7 @@ PrintShooterNames:					;print the goalie and shooter rows, the row at the cursor
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l GoalieCount				;count the goalies
+	jsl.l GetGoalieCount			;count the goalies
 	lda.b d0						;goalie count
 	dec a							;minus 1
 	sta.b d1						;rows - 1
@@ -118,7 +118,7 @@ PrintShooterNames:					;print the goalie and shooter rows, the row at the cursor
 	and.w #$00FF					;slot byte
 	dec a							;roster index
 	sta.b d0
-	jsl.l PlayerNumName				;number and name
+	jsl.l getname					;number and name
 	jsl.l print						;print it
 	inc.b a3						;next slot
 	inc.w printy

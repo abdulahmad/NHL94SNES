@@ -81,7 +81,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	sta.b a1+2
 	lda.w #PixelRemap8F
 	sta.b a1
-	jsl.l RemapTiles
+	jsl.l remap
 	lda.w #FramerTiles>>16			; framer tiles (4 tiles) remapped with PixelRemap87; scorechars follows
 									; framercset
 	sta.b a0+2
@@ -100,7 +100,7 @@ LoadScoutingScreen:					; set up the scouting screen graphics and palettes
 	clc
 	adc.l framercset				;plus the framer start
 	sta.l scorechars				;score digits after it
-	jsl.l RemapTiles
+	jsl.l remap
 	lda.w #TeamBlocksTiles>>16		; team block tiles: outlinechars advances by their size, tiles copied to
 									; VRAM at scorechars
 	sta.b p0+2

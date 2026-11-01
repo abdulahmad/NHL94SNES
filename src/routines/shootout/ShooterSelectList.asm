@@ -53,7 +53,7 @@ ShooterSelectList:					; called from PickShooterRow
 	jsl.l GetPlayerCount			;count the players
 	lda.b d0
 	sta.w listcount					;players
-	jsl.l GoalieCount				;count the goalies
+	jsl.l GetGoalieCount			;count the goalies
 	lda.w listcount					;players
 	sec
 	sbc.b d0						;minus the goalies
@@ -114,7 +114,7 @@ ShooterSelectList:					; called from PickShooterRow
 	jsl.l SendTextMap2				;send the text maps
 	jsl.l WaitFrame					;wait for the frame
 	jsl.l ReadPads					;read the pads
-	jsl.l ReadPausePad				;the pause pad
+	jsl.l getpzjoy					;the pause pad
 	jsl.l ProcessInputWithRepeat	;presses with repeat
 	lda.b d1						;new presses
 	bit.w #$1000					;start?

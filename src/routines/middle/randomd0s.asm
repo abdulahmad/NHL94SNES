@@ -1,9 +1,10 @@
-; A = a random number from -A to A-1
-randomd0s:							; called from asscentero, assdumpin, asswingo, dopass_count, doshot
-	sta.b r3
-	asl a
+; randomas with the range in d0
+randomd0s:							; called from doshot
+	lda.b d0
+	asl a							; times 2
 	jsl.l randomd0A					; A = a random number from 0 to A-1
 	sec
-	sbc.b r3
+	sbc.b d0						; minus A: -A to A-1
+	sta.b d0
 	clc
 	rtl

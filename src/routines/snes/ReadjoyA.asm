@@ -1,5 +1,5 @@
 ; Read pad A: d0 = direction, d1 = new presses, d2 = changed buttons, d3 = buttons held
-ReadjoyA:							; called from ReadPausePad, SelectPauseController, demoread, waitxsr
+ReadjoyA:							; called from getpzjoy, SelectPauseController, demoread, waitxsr
 	phx
 	asl a
 	tax

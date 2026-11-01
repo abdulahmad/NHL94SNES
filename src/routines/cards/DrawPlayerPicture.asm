@@ -226,12 +226,12 @@ DrawPlayerPicture:					; draw the picture of a player
 	and.w #$0001					; bit 0 only
 	rtl								; return
 .8:									; goalie (1) or skater (0)?
-	lda.w #AttribMenuSkater>>16		; attribute menu of the skaters
+	lda.w #PAttribColumns>>16		; attribute menu of the skaters
 	sta.b a1+2
-	lda.w #AttribMenuSkater
+	lda.w #PAttribColumns
 	sta.b a1
 	stz.b r2
-	jsl.l GoalieCount				; number of goalies
+	jsl.l GetGoalieCount			; number of goalies
 	lda.w curplayer					; current player
 	cmp.b d0
 	bpl .t1xxxxxx					; not a goalie: 0

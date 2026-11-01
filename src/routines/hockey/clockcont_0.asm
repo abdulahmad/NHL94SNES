@@ -35,7 +35,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	tax
 	stz.b d3						; d3 = 0: team 0 side of the wins tables
 	lda.l gsflags,x					; game flags
-	bit.w #$0001					; team flag set?
+	bit.w #gsftf					; team flag set?
 	beq .1
 	lda.w #$0010					; yes: the other side's wins, $10 on
 	sta.b d3
@@ -67,7 +67,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	sta.b d2
 .loop:								; for each of the 12 players
 	lda.w pflags,x
-	and.w #$FFF7					; clear bit 3 of pflags (the pad flag)
+	and.w #(~pfjoycon&$FFFF)		; clear bit 3 of pflags (the pad flag)
 	sta.w pflags,x
 	inx
 	inx
