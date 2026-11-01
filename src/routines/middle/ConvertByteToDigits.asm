@@ -1,5 +1,5 @@
 ; Write the two digit number d0 as two characters at [a1], blank leading zero.
-PutDigits2:							; called from PlayerNumName, PlayerShortName, pplpen
+ConvertByteToDigits:				; called from getname, FormatPlayerNumInitial, pplpen
 	lda.w #$2020					; blank, then the tens digit when d0 >= 10
 	sta.b tmp0
 	lda.b d0						; number

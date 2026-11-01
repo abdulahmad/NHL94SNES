@@ -38,7 +38,7 @@ ShowOtherScores:					; called from PauseOtherScores
 	sta.w listrows
 	jsl.l DrawOtherScoresPage		; draw the other-scores rows
 OtherScoresLoop:					; called from OtherScoresNext, ScrollOtherScoresDown, ScrollOtherScoresUp
-	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	lda.b d3
 	bit.w #$1000
 	beq .t2

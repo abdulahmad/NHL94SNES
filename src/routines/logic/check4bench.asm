@@ -5,7 +5,7 @@
 ; assdefo, asswingd, asscenterd, asscentero, asswingo, assgoalietopuck and assbench.
 check4bench:						; check whether a line change wants this player off
 	lda.w pflags,x					; player flags
-	bit.w #$4000					; bit $4000 = pf2pen (caused a penalty)
+	bit.w #pf2pen					; bit $4000 = pf2pen (caused a penalty)
 	bne .t1							; penalty: leave him
 	lda.w newpos,x					; new position requested?
 	bpl .1							; yes
@@ -25,7 +25,7 @@ check4bench:						; check whether a line change wants this player off
 	rep #$30						; 16-bit registers
 	pla
 	lda.w pflags,x					; player flags
-	ora.w #$1000					; set pf2unav ($1000)
+	ora.w #pf2unav					; set pf2unav ($1000)
 	sta.w pflags,x
 	stz.w temp1,x					; clear temp1
 	lda.w #$000C					; bench assignment
@@ -41,7 +41,7 @@ check4bench:						; check whether a line change wants this player off
 	rep #$30						; 16-bit registers
 	pla
 	lda.w pflags,x					; player flags
-	and.w #$EFFF					; clear pf2unav
+	and.w #(~pf2unav&$FFFF)			; clear pf2unav
 	sta.w pflags,x					; store
 	stz.w pfnc,x					; collisions on
 	lda.w #$FFFF					; nothing requested any more

@@ -482,7 +482,7 @@ MapVRAM				=	$079C		;VRAM word address of the screen map:
 									;MapToVRAM/MapPartToVRAM/MapPartToVRAMOffset/Mode7MapToVRAM add row*32 ...
 MapScreenStep		=	$079E		;MapToVRAM/MapPartToVRAM add MapScreenStep to the VRAM address after row
 									;31 (to the next 32-row screen); no writer ...
-RemapOut		=	$0A0A			; sixteen words: the tile RemapTiles is building
+RemapOut		=	$0A0A			; sixteen words: the tile remap is building
 reloadtime		=	$0CC7			;StartPer clears it, ReloadRink adds 60 each time it reloads the rink;
 									;never read.
 logosprbuf		=	$7F7800			;team logo sprites, unpacked by LoadScoutingScreen, LoadPlayerCardScreen,
@@ -618,6 +618,11 @@ newpnum		=	$1263				; requested next roster player (negative = none)
 pflags		=	$1283				;pflags (bits 0-7) and pflags2 (bit n at bit n+10); some flags have their
 									;own arrays below
 pfna		=	$0002				; new assignment
+pfdoff		=	$0001				; deceleration off (94G pfdoff)
+pfjoycon	=	$0008				; player is joystick controlled (94G pfjoycon)
+pf2unav		=	$1000				; unavailable: to or from the bench or box (94G pf2unav, pflags2 bit 2)
+pf2pen		=	$4000				; caused a penalty (94G pf2pen, pflags2 bit 4)
+pf2npc		=	$8000				; no player collision (94G pf2npc, pflags2 bit 5)
 pfnc		=	$1563				; nonzero: no collision mode. pflags bit pfnc
 pfrev		=	$1523				; nonzero: skating backwards. pflags bit pfrev
 pfalock				=	$14E3		; nonzero: locked until the animation is done
@@ -825,6 +830,9 @@ ltx				=	$7E30F8			;a2touchpuck stores Xpos,y (93S ltx); Stop4Pen loads it as th
 									;x like 93S; EndPenaltyShot ...
 lty				=	$7E30FA			; a2touchpuck stores Ypos,y (93S lty); Stop4Pen loads it into d1 like 93S.
 iflags				=	$0CF1		; icing flags (if* masks)
+ifcgl		=	$0001				; crossed the goal line (94G ifcgl)
+ifdir		=	$0002				; must cross the top line (94G ifdir)
+ifok		=	$0004				; icing (94G ifok)
 carriedy		=	$7E30F4			;updateplayers stores pucky here while puckc >= 0, as 93S updateplayers
 									;.cy stores carriedy.
 
@@ -924,6 +932,8 @@ TileRunPrev		=	$7E3093			; previous run of each tile run ($FF = none)
 
 ;game mode and state flags
 gmode		=	$15D4				; game mode flags (gm* masks)
+gmpendel	=	$0008				; delayed penalty called (94G gmpendel)
+gmeog		=	$0040				; game over reached: the next face off goes to PeriodOver (94G gmeog)
 gmclock				=	$15D6		; nonzero: game clock is stopped
 gmdir		=	$0002				; 0 = home team goes up
 gmpen		=	$0004				; penalty called, ref in progress
@@ -939,7 +949,14 @@ sf2drec		=	$0400				; disable replay record
 sf2replay	=	$0800				; replay in progress
 sf2pwrplay	=	$2000				; power play in progress
 sf2pwrtm	=	$4000				; 0 for team 1 in power play
+sfssdir		=	$0008				; set shot direction mode (94G sfssdir)
+sf2faceoff	=	$0100				; face off in progress (94G sf2faceoff)
+sf2shot		=	$1000				; a shot was taken (94G sf2shot)
+sf2offsig	=	$8000				; offsides little ref on (94G sf2offsig)
 sflags3		=	$15DC				; sflags3 (sf3* masks)
+sf3rmplay	=	$0002				; play mode on for replay (94G sf3rmplay)
+sf3alttree	=	$0004				; alternate playoff tree (94G sf3alttree)
+sf3sbut		=	$0008				; start button flag (94G sf3sbut)
 CurCrowdMeter		=	$19C2		; the crowd meter in dB: Sroot(CwdExciteLvl * 4) + 65, at most 128
 CrowdAvg		=	$19C6			; the game's average meter (CrowdMeterSum / CrowdMeterCount)
 CrowdLoud		=	$19C0			; 1 at 110 dB or more; cleared under 105 dB (CheckCrowdMeter)
@@ -1077,7 +1094,7 @@ tmPwrPlays			=	$1746		; power plays
 tmPenalties			=	$174A		; penalties
 tmPenmin			=	$174E		; penalty minutes
 tmATOP				=	$1752		; attack zone time (chkatop)
-tmPwrPlayTime		=	$1756		; power play time (CountPowerPlayTime)
+tmPwrPlayTime		=	$1756		; power play time (updatePPTeamTime)
 tmPPShots			=	$175A		; power play shots (ChkShotStat)
 tmSHShots			=	$175E		; shorthanded shots (ChkShotStat; not on the stats screen)
 tmSHGoals			=	$1762		; shorthanded goals
@@ -1094,6 +1111,7 @@ tmgoalie	=	$17AA				; home and away goalie (words): low byte = goalie 0/1, $FFxx
 tmflags		=	$17DE				; team flags
 tmfoside	=	$0010				; team flagged offsides
 tmftimeout	=	$0002				; 93G/94G timeout bit (94S counts tmtimeouts); shared as in 93G
+tmflcc		=	$0001				; line change on (94G tmflcc)
 tmfmid		=	tmftimeout			; nearest player always takes the in-between spot (assnearest)
 tmfslide	=	tmftimeout			; 93 roster screen name slide; not used here
 tmfowon				=	$1792		; faceoffs won
@@ -1143,6 +1161,9 @@ gss1			=	$7E3578			; SetScore: team 1 score (93S gss1,y).
 gss2			=	$7E3588			; SetScore: team 2 score (93S gss2,y).
 gsflags			=	$7E3598			;ReadPassBits / InitScores test and set bit 2
 									;(series over) as 93S gsflags,y.
+gsftf		=	$0001				; teams are flipped (94G gsftf)
+gsfhl		=	$0002				; highlight requested (94G gsfhl)
+gsfso		=	$0004				; series over (94G gsfso)
 gamenum			=	$7E35D6			;FigureJoy stores -1 or the user's game index and InitScores skips that
 									;game, as 93S gamenum.
 postarts		=	$7E34D0			;ReadPassBits stores the range-32 field ($FFFF on a bad checksum) like 93S
@@ -1262,8 +1283,8 @@ otgoalscorer		=	$1E1F		;ShowThreeStars: player (+$1A for visitors, $FFFF none) t
 									;entry whose period field is 3 ...
 starplayerend		=	$1E21		;ShowThreeStars: end of the team's player indexes in the scan
 									;(GetPlayerCount, +$1A for visitors)
-stargoalieend		=	$1E23		;ShowThreeStars: end of the team's goalie indexes (GoalieCount, +$1A for
-									;visitors); below it the goalie scoring ...
+stargoalieend		=	$1E23		;ShowThreeStars: end of the team's goalie indexes (GetGoalieCount, +$1A
+									;for visitors); below it the goalie scoring ...
 starswapplayer		=	$1E25		;ShowThreeStars: player pushed down a place while
 									;inserting into the three stars
 starswapscore		=	$1E27		;ShowThreeStars: 32-bit star score (low word, high word at +2) of the

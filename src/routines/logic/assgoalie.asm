@@ -249,7 +249,7 @@ assgoalie:							; called from assnearest, asstab
 .2xxx:								;any opponent near the puck?
 	ldy.b a0						;player index
 	lda.w pflags,y					;flags
-	bit.w #$1000					;off the ice?
+	bit.w #pf2unav					;off the ice?
 	bne .3xx						;skip
 	lda.w puckdist,y				;distance to the puck
 	cmp.w #$0023					;within $23?
@@ -582,7 +582,7 @@ assgoalie:							; called from assnearest, asstab
 	lda.w #$0014					;speed $14
 	sta.b d4						;speed $14
 	lda.w sflags					;flags
-	bit.w #$0008					;sflags bit 3?
+	bit.w #sfssdir					;sflags bit 3?
 	beq .1xxxxxxxxxxxxx				;normal
 	lda.w #$001C					;$1C when bit 3
 	sta.b d4						;fast speed
@@ -988,7 +988,7 @@ assgoalie:							; called from assnearest, asstab
 	lda.w puckc						;loose puck?
 	bpl .46							;carried: stay
 	lda.w iflags					;icing flags
-	bit.w #$0004					;icing?
+	bit.w #ifok						;icing?
 	bne .46							;icing: stay
 	lda.w puckx						;|puck x|
 	bit.w #$8000

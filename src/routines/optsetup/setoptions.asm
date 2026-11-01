@@ -440,13 +440,13 @@ setoptions:							; called from Restart
 	sta.b a1+2
 	lda.w #PlayoffSetupNames
 	sta.b a1
-.2xxxxx:							; printx = $0003, d0 = X / 2, call PrintStringFromList, ...
+.2xxxxx:							; printx = $0003, d0 = X / 2, call Fprint, ...
 	lda.w #$0003					;column 3
 	sta.w printx
 	txa
 	lsr a							;/2
 	sta.b d0						;line number
-	jsl.l PrintStringFromList		;print the line name
+	jsl.l Fprint					;print the line name
 	lda.w #$0011
 	sta.w printx					;column 17
 	stx.b d7						;this line
@@ -676,11 +676,11 @@ setoptions:							; called from Restart
 .rts:								; return
 	rts
 
-.t1xxxxxxxxxxx:						; subroutine: a2 = X, call GetMatchupPlayer, call PlayerShortName, ...
+.t1xxxxxxxxxxx:						; a2 = X, GetMatchupPlayer, FormatPlayerNumInitial, ...
 	stx.b a2						;team
 	lda.l setupmatchup				;matchup
 	jsl.l GetMatchupPlayer			;which player
-	jsl.l PlayerShortName			;his short name
+	jsl.l FormatPlayerNumInitial	;his short name
 	cpx.w #$0000					;home?
 	bne .rtsx						;no
 	lda.b a1+2						;name string

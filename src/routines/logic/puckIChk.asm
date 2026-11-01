@@ -6,16 +6,16 @@
 ; Called from pucknorm.
 PuckIChk:							; icing check
 	lda.w iflags					; icing flags
-	bit.w #$0004					; bit $0004: icing armed
+	bit.w #ifok						; bit $0004: icing armed
 	beq .1							; not armed: .1
-	bit.w #$0001					; bit $0001: icing already called
+	bit.w #ifcgl					; bit $0001: icing already called
 	bne .1							; called: .1
 	lda.w puckc						; puck carrier
 	bpl .1							; somebody has it: .1
 	lda.w #$0108					; d0 = $0108, the far goal line y
 	sta.b d0
 	lda.w iflags
-	bit.w #$0002					; bit $0002: direction of the play
+	bit.w #ifdir					; bit $0002: direction of the play
 	bne .2							; .2: goal line at the other end
 	lda.w #$FEF8					; $FEF8 = -$0108
 	sec

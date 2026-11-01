@@ -1,7 +1,7 @@
 ; Reset the scouting report text scroll
 ;
 ; Called from ScoutingReport.
-InitScoutDisplay:					; reset the scouting report scroll state
+InitScoutingDisplay:				; reset the scouting report scroll state
 	lda.w #$FFFF					; no vertical scroll, no player scroll
 	sta.w VertLineScrolling
 	sta.w PlayerScrollCtr			; no player scrolling

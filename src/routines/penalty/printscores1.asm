@@ -68,12 +68,12 @@ printscores1:						; called from ClrHor, Goal, Intermission, Pausemode, StartHL2
 	bne .noso						;no
 	dec.w printx					;one column left
 	inc.b d0						;overtime label
-.noso:								; a1 = PerLabels, call PrintStringFromList, call EASNLogo, ...
+.noso:								; a1 = PerLabels, call Fprint, call EASNLogo, ...
 	lda.w #PerLabels>>16
 	sta.b a1+2
 	lda.w #PerLabels
 	sta.b a1
-	jsl.l PrintStringFromList		;print the period
+	jsl.l Fprint					;print the period
 	jsl.l EASNLogo					;logo
 	jsl.l updatepwrplay				;power play box
 	bra .scores

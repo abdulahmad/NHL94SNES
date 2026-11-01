@@ -57,14 +57,14 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	jsl.l a2offsides
 	ldy.b a2
 	lda.w iflags					; ifok and ifcgl and a skater: icing
-	bit.w #$0004
+	bit.w #ifok
 	beq .8
-	bit.w #$0001
+	bit.w #ifcgl
 	beq .8
 	lda.w position,y
 	beq .8
 	lda.w iflags
-	bit.w #$0002
+	bit.w #ifdir
 	bne .7
 	lda.w pfgoal,y
 	beq .8

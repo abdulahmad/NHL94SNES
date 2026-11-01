@@ -35,7 +35,7 @@ EncodePW:							; work out the winners and the new password after a playoff game
 	jsl.l WritePassBits				; turn the playoff state into the password bits, with a checksum
 	jsl.l BitstoPW					; turn the password bits into the password characters
 	lda.w sflags3					; sflags3 bit $0004: use the saved passbits
-	bit.w #$0004
+	bit.w #sf3alttree
 	beq .2							; normal tree
 	ldx.w #$000E					; 8 words
 .loop:								; copy the saved bits back

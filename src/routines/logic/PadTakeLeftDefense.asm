@@ -41,7 +41,7 @@ PadTakePosition:					; called from PadTakeGoalie, PadTakeLeftDefense, PadTakeRig
 	lda.w playerpad,x
 	bpl .2
 	lda.w pflags,x
-	bit.w #$1000
+	bit.w #pf2unav
 	bne .2
 	lda.w padinputdone,y
 	inc a

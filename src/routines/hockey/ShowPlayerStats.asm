@@ -72,7 +72,7 @@ ShowPlayerStats:					; called from PausePlayerStats
 	jsl.l ScreenOn
 ShowPlayerStats_loop:				; called from ShowPlayerStats_down, ShowPlayerStats_redraw, ShowPlayerS...
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
-	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d3
 	bit.w #$1000

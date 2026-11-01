@@ -13,7 +13,7 @@ asspenalty:							; assignment: skate to the penalty box
 	jsl.l .9						; pad hand-over
 	lda.w pflags,x					; player flags
 	and.w #$FFF9					; clear pfna and $0004
-	ora.w #$1000					; set pf2unav ($1000)
+	ora.w #pf2unav					; set pf2unav ($1000)
 	sta.w pflags,x
 	lda.w #$0000					; d4 = 0
 	sta.b d4
@@ -29,7 +29,7 @@ asspenalty:							; assignment: skate to the penalty box
 	sta.w temp3,x					; Sideline x
 	stz.w temp1,x					; clear the door timer
 	lda.w pflags,x					; player flags
-	ora.w #$8000					; set bit $8000 (pf2npc, no player collision)
+	ora.w #pf2npc					; set bit $8000 (pf2npc, no player collision)
 	sta.w pflags,x
 	stz.w Wallcos,x					; no wall bounce
 	stz.w Wallsin,x
@@ -127,7 +127,7 @@ asspenalty:							; assignment: skate to the penalty box
 	lda.w #SPAwallright				; wall animation
 	jsl.l SetSPAFromA				; start sprite animation A on object X
 	lda.w pflags,x					; player flags
-	and.w #$BFFF					; clear bit $4000 (pf2pen)
+	and.w #(~pf2pen&$FFFF)			; clear bit $4000 (pf2pen)
 	sta.w pflags,x
 	lda.w #$000E					; assignment $0E: assdopen
 	sta.b d0

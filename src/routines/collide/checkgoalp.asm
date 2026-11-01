@@ -1,7 +1,7 @@
 ; Player X runs into the goal a2
 checkgoalp:							; called from checkgoal
 	lda.w pflags,x
-	bit.w #$8000
+	bit.w #pf2npc
 	bne .1
 	cpx.w #$0017
 	bcc .11

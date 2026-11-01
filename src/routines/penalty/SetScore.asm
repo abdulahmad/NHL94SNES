@@ -55,7 +55,7 @@ SetScore:							;add a period's goals to game a0; after period 3 a close game go
 	lda.w #$0003					;OT
 	sta.l gsper,x
 	lda.l gsflags,x
-	ora.w #$0002					;gsfhl: wants a highlight
+	ora.w #gsfhl					;gsfhl: wants a highlight
 	sta.l gsflags,x
 	bra .2
 

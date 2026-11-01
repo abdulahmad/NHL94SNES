@@ -74,7 +74,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	lda.w #asspuckc_postab
 	sta.b a0
 	lda.w sflags
-	bit.w #$8000
+	bit.w #sf2offsig
 	beq .2xx
 .1xx:								; d0 = position,x
 	lda.w position,x				; position index

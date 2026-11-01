@@ -66,7 +66,7 @@ assnearest:							; X = player; asstab entry
 	bne .3							;yes
 	ldy.b a1						;the other player
 	lda.w pflags,y
-	bit.w #$1000					;falling?
+	bit.w #pf2unav					;unavailable?
 	bne .3							;yes
 	lda.w position,y				;goalie?
 	beq .3							;yes
@@ -75,7 +75,7 @@ assnearest:							; X = player; asstab entry
 	beq .3							;yes: leave him
 	ldx.b a1
 	lda.w pflags,x					;his flags
-	and.w #$FFFE					;clear bit 0
+	and.w #(~pfdoff&$FFFF)			;clear bit 0
 	sta.w pflags,x
 	lda.w #$0012					;assignment $12: support
 	sta.b d0

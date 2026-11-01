@@ -275,7 +275,7 @@ FallDown:							; called from Bcheck, checkcheck, checkint, puckbody
 	and.w #$0003					;facing 0 or 4?
 	bne .23							;not facing straight: no injury
 	lda.w pflags,y					;flags
-	bit.w #$4000					;injured flag?
+	bit.w #pf2pen					;caused a penalty?
 	bne .23							;already injured: no
 	lda.w #$0096					;150
 	jsl.l randoma8					;random 0-149

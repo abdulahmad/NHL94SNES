@@ -22,7 +22,7 @@ SaveRegsStartHL2:					; called from DoHiLights
 	ldx.b xsave						; restore X
 StartHL2:							; entry point, no direct callers found
 	lda.w sflags3
-	bit.w #$0008					;highlight running already?
+	bit.w #sf3sbut					;highlight running already?
 	beq .t1
 	jmp.w .15						;yes: skip the intro
 
@@ -32,7 +32,7 @@ StartHL2:							; entry point, no direct callers found
 	sta.b d3
 	jsl.l NewTicker3				;show the highlight ticker
 	lda.w sflags3
-	bit.w #$0008					;set while it ran?
+	bit.w #sf3sbut					;set while it ran?
 	beq .t3
 	jmp.w .14						;yes: leave
 

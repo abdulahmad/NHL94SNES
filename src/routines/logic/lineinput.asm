@@ -14,9 +14,9 @@ lineinput:							; pad input for the line change box
 .1:									; if tmflags,y bits $0001 clear go to .2, ...
 	ldy.b a2						; Y = team offset
 	lda.w tmflags,y					; team flags
-	bit.w #$0001					; redraw request (bit 0)?
+	bit.w #tmflcc					; redraw request (bit 0)?
 	beq .2							; no
-	and.w #$FFFE					; clear the request
+	and.w #(~tmflcc&$FFFF)			; clear the request
 	sta.w tmflags,y
 	lda.w #$FFFF
 	sta.w lcpad,y					; no pad owns the box
@@ -37,7 +37,7 @@ lineinput:							; pad input for the line change box
 	bit.w #$2000					; Select ($2000): leave the box?
 	bne .t2							; yes
 	lda.w pflags,x					; player flags
-	bit.w #$0008					; bit 3 set (pad controlled)?
+	bit.w #pfjoycon					; bit 3 set (pad controlled)?
 	beq .t1							; no
 	lda.w pfalock,x					; animation locked?
 	bne .t1							; yes
@@ -48,7 +48,7 @@ lineinput:							; pad input for the line change box
 
 .t2:								; leave the box without changing lines
 	lda.w pflags,x					; player flags
-	ora.w #$0008					; set bit 3
+	ora.w #pfjoycon					; set bit 3
 	sta.w pflags,x
 	jsl.l loadTeamStruct			; a2 = team of X
 	ldy.b a2						; Y = team offset

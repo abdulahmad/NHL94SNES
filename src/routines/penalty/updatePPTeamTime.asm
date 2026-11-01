@@ -1,6 +1,6 @@
 ; On a penalty clock tick: the team with more players on the ice (tmap against tmap+2) gets one more tick of
 ; power play time (tmPwrPlayTime home, $1758 visitors)
-CountPowerPlayTime:					; called from updatepentime
+updatePPTeamTime:					; called from updatepentime
 	stz.b d1
 	lda.w tmap
 	sec

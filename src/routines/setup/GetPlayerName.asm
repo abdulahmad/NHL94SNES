@@ -20,7 +20,7 @@ GetPlayerName:						; the number and name of player TempPlOffset into mesarea
 	inc.b a2						; a2 = 2 for the visitors
 	inc.b a2
 .1:									; format the number and name
-	jsl.l PlayerNumName				; format the text
+	jsl.l getname					; format the text
 	pla								; restore a2 and d0
 	sta.b a2+2
 	pla

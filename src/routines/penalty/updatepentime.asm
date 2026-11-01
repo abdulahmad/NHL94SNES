@@ -22,7 +22,7 @@ updatepentime:						; called from PenaltyManager
 	lda.w #$0020					; set flag $20
 	tsb.w sflags3
 	jsl.l chkatop					; attack zone time
-	jsl.l CountPowerPlayTime		; on a penalty clock tick
+	jsl.l updatePPTeamTime			; on a penalty clock tick
 	stz.b a2						; team 0
 	jsl.l .1						; do it
 	lda.w #$0002					; team 1

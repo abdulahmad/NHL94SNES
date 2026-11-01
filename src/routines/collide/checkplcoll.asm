@@ -1,7 +1,7 @@
 ; Check object X against the objects near it in y
 checkplcoll:						; called from checkcoll
 	lda.w pflags,x
-	bit.w #$8000					;no-clip?
+	bit.w #pf2npc					;no-clip?
 	bne .rtl						;yes: no collisions
 	cpx.w #$0018					;a player?
 	bcc .t2							;yes: check

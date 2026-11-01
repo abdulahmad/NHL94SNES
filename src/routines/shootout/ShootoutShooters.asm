@@ -40,7 +40,7 @@ ShootersLoop:						; called from ShootersNext
 	jsl.l SendTextMap				;send the text map
 	jsl.l WaitFrame					;wait for the frame
 	jsl.l ReadPads					;read the pads
-	jsl.l ReadPausePad				;the pause pad
+	jsl.l getpzjoy					;the pause pad
 	jsl.l ProcessInputWithRepeat	;presses with repeat
 	lda.b d1						;new presses
 	bit.w #$0800					;up?

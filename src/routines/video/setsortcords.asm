@@ -81,12 +81,12 @@ setsortcords:						; called from setvideo
 .t2:								; sfhormode != 0: frame,x = SPFPen+7
 	lda.w #SPFPen+7
 	sta.w frame,x
-.6:									; d0 = Xpos,x, d1 = Ypos,x, call projxy, ...
+.6:									; d0 = Xpos,x, d1 = Ypos,x, call find3d, ...
 	lda.w Xpos,x					; x
 	sta.b d0
 	lda.w Ypos,x					; y
 	sta.b d1
-	jsl.l projxy					; project a rink position to screen coordinates
+	jsl.l find3d					; project a rink position to screen coordinates
 	cmp.w #$4E20
 	beq .8
 	sta.w spry

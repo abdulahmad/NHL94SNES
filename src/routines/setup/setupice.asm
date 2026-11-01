@@ -172,7 +172,7 @@ setupice:							; set up the rink screen
 	sta.b a1+2
 	lda.w #PixelRemap83
 	sta.b a1
-	jsl.l RemapTiles				; remap the small font tiles into VRAM
+	jsl.l remap						; remap the small font tiles into VRAM
 	lda.w #FramerTiles>>16			; a0 = FramerTiles
 	sta.b a0+2
 	lda.w #FramerTiles
@@ -183,7 +183,7 @@ setupice:							; set up the rink screen
 	sta.b a1
 	lda.w #$0004					; 4 tiles
 	sta.b d0
-	jsl.l RemapTiles				; remap them into VRAM
+	jsl.l remap						; remap them into VRAM
 	lda.w #BigFontTiles>>16			; p0 = BigFontTiles
 	sta.b p0+2
 	lda.w #BigFontTiles

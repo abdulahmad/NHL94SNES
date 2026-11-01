@@ -33,7 +33,7 @@ PrintLinePlayers:					; called from PrintLineNames
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.b d0
 	dec a
 	sta.b d1
@@ -57,9 +57,9 @@ PrintLinePlayers:					; called from PrintLineNames
 	sec
 	adc.b d0
 	sta.b a3
-	lda.w #PositionNames
+	lda.w #PlayerPositionText
 	sta.b a5
-	lda.w #PositionNames>>16
+	lda.w #PlayerPositionText>>16
 	sta.b a5+2
 	lda.w #$0004
 	sta.b d1
@@ -110,7 +110,7 @@ PrintLinePlayers:					; called from PrintLineNames
 	and.w #$00FF
 	dec a
 	sta.b d0
-	jsl.l PlayerNumName				; mesarea = the uniform number and name of roster player d0 of team a2
+	jsl.l getname					; mesarea = the uniform number and name of roster player d0 of team a2
 	jsl.l print
 	inc.b a3
 	pla

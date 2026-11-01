@@ -1,4 +1,4 @@
-PositionNames:						; position names
+PlayerPositionText:					; position names
 	%String("LD")
 	%String("RD")
 	%String("LW")

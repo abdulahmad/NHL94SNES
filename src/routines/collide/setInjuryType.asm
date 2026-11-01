@@ -5,7 +5,7 @@
 setInjuryType:						; player a2 is injured
 	ldy.b a2
 	lda.w pflags,y
-	ora.w #$1000					; pf2inj: the player is injured (pflags2 bit, stored at bit n+10)
+	ora.w #pf2unav					; unavailable, as 94G setInjuryType sets pf2unav
 	sta.w pflags,y
 	lda.l Crowdlevel
 	clc

@@ -2,7 +2,7 @@
 ;
 ; Prints string d0 of the string list [a1]; each string starts with its length word.
 ; Called from AttribStatus, AttribHanded, puckfaceoff2, setoptions, SetLCmode2, NewTicker3 and printscores1.
-PrintStringFromList:				; prints a string from a list
+Fprint:								; prints a string from a list
 	lda.b d0						; keep the number
 	sta.b p1
 .1:									; count down the list

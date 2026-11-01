@@ -68,7 +68,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b a1+2
 	lda.w #PixelRemap8F
 	sta.b a1
-	jsl.l RemapTiles
+	jsl.l remap
 	lda.w #FramerTiles>>16
 	sta.b a0+2
 	lda.w #FramerTiles
@@ -79,7 +79,7 @@ LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	sta.b a1
 	lda.w #$0004					;4 tiles
 	sta.b d0
-	jsl.l RemapTiles
+	jsl.l remap
 	lda.w #TeamBlocksTiles>>16		; unpack the team block tiles; picchars = scorechars + their size - $100,
 									; then copy them to VRAM at scorechars
 	sta.b p0+2

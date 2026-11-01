@@ -1,5 +1,5 @@
 ; d0 = the number of goalies on team a2.
-GoalieCount:						; called from DrawPlayerCard, DrawPlayerPicture, GetPlayerBaseRating, G...
+GetGoalieCount:						; called from DrawPlayerCard, DrawPlayerPicture, GetPlayerBaseRating, G...
 	lda.b a2
 	tay
 	lda.w #TeamList>>16				; team list bank

@@ -68,7 +68,7 @@ ShowScoringSummary:					; called from PauseScoringSummary
 	sta.w listrows
 	jsr.w DrawScoringPage			; draw the visible scoring rows, or No Scoring when the list is empty
 ScoringSummaryLoop:					; called from ScoringSummaryWait, ScrollScoringDown, ScrollScoringUp
-	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	lda.b d3
 	bit.w #$1000
 	beq .t1

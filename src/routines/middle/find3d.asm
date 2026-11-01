@@ -1,5 +1,5 @@
 ; Project a rink position to screen coordinates
-projxy:								; called from setffo, setsortcords
+find3d:								; called from setffo, setsortcords
 	lda.w sfhormode
 	beq .t1
 	lda.b d0						; x

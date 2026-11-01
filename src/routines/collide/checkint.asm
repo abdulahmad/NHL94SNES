@@ -44,7 +44,7 @@ checkint:							; called from checkplcoll
 	sbc.w #$001F					; minus 31
 	bmi .rtl
 	lda.w pflags,x
-	bit.w #$4000
+	bit.w #pf2pen
 	bne .rtl
 	lda.w #$0014
 	sec

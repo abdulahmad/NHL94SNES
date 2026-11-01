@@ -10,7 +10,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 
 .t1:								; not locked: is the face off still on?
 	lda.w sflags					; bit $0100 of sflags: face off in progress
-	bit.w #$0100
+	bit.w #sf2faceoff
 	beq .t3							; over: leave
 	lda.w pflags,x					; player flags
 	bit.w #pfna

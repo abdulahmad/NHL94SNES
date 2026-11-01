@@ -1,5 +1,5 @@
 ; Copy tiles to video memory with each pixel colour remapped through a table.
-RemapTiles:							; called from LoadPlayerCardScreen, LoadScoutingScreen, PlayoffScreen...
+remap:								; called from LoadPlayerCardScreen, LoadScoutingScreen, PlayoffScreen...
 	lda.w #$000E
 	sta.b tmp2+1
 	sta.b tmp2+1
@@ -68,5 +68,5 @@ RemapTiles:							; called from LoadPlayerCardScreen, LoadScoutingScreen, Playof
 	adc.w #$0020
 	sta.b a0
 	dec.b d0						; tiles left
-	bne RemapTiles
+	bne remap
 	rtl

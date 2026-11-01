@@ -75,7 +75,7 @@ SetupScreen:						; common setup of the stats screens
 	sta.b a1+2
 	lda.w #PixelRemap8F
 	sta.b a1
-	jsl.l RemapTiles				;send them remapped
+	jsl.l remap						;send them remapped
 	lda.w #FramerTiles>>16			; frame tiles
 	sta.b a0+2
 	lda.w #FramerTiles
@@ -90,7 +90,7 @@ SetupScreen:						; common setup of the stats screens
 	adc.l nextfreechar
 	sta.l nextfreechar
 	sta.l scorechars				;score characters start here
-	jsl.l RemapTiles
+	jsl.l remap
 	lda.w #TeamBlocksTiles>>16		; team blocks tiles
 	sta.b p0+2
 	lda.w #TeamBlocksTiles

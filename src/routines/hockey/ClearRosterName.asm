@@ -1,5 +1,5 @@
 ; Erase the scouting report name line
-EraseScoutName:						; entry point, no direct callers found
+ClearRosterName:					; entry point, no direct callers found
 	jsl.l ScoutNamePos				; set the print position of a scouting report name
 	lda.w #$000B					; width 11
 	sta.b d0

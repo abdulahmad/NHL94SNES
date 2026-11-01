@@ -1,7 +1,7 @@
 ; a0 = the roster record of player d0 of team a2
 ;
 ; Takes d0 = player index and a2 = team (0/2); called from ScoutPlayerName, PlayerInitialName,
-; PlayerShortName and PlayerNumName.
+; FormatPlayerNumInitial and getname.
 GetPlayerRecord:					; a0 = roster record of player d0 of team a2
 	lda.w #TeamList>>16				; a0 = start of the team data, then step over its header to the first
 									; player record

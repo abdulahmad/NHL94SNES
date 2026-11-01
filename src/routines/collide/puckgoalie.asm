@@ -216,7 +216,7 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	bpl .8
 	ldy.b a2
 	lda.w pflags,y
-	bit.w #$1000
+	bit.w #pf2unav
 	bne .8
 	stz.w puckvz
 	jmp.w puckglue					; player a2 takes the puck

@@ -108,7 +108,7 @@ updateplayers:						; called from DoGameFrame
 	and.w #$00FF
 	sta.b d2
 	lda.w pflags,y					;flags
-	bit.w #$0001					;gliding?
+	bit.w #pfdoff					;gliding?
 	beq .1xx
 	lda.l .22-1,x					;gliding friction
 	and.w #$00FF
@@ -261,9 +261,9 @@ updateplayers:						; called from DoGameFrame
 	cmp.w #$001E					;within 30?
 	bcs .14							;no
 	lda.w iflags					;icing flags
-	bit.w #$0004					;icing pending?
+	bit.w #ifok						;icing pending?
 	beq .14							;no
-	bit.w #$0001					;already waved?
+	bit.w #ifcgl					;already waved?
 	bne .14							;yes
 	and.w #$0002					;which side iced?
 	beq .t1xxx

@@ -56,7 +56,7 @@ releasepl:							; called from updatepentime
 	jsl.l Setplass					; assignment from the position
 	jsl.l setplayer					; set up the player
 	lda.w pflags,x
-	ora.w #$1000
+	ora.w #pf2unav
 	sta.w pflags,x
 	stx.b xsave						; X again
 	ldx.w #$000E

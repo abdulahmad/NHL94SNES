@@ -137,7 +137,7 @@ chk4shot:							; called from asspuckc
 	bpl .t1x
 .2x:								; if sflags bit $8000 set go to .t1x, ...
 	lda.w sflags
-	bit.w #$8000
+	bit.w #sf2offsig
 	bne .t1x
 	jmp.w CompShoot					; computer player X shoots
 

@@ -3,7 +3,7 @@ PauseTimeout:						; called from PauseMenuHandlers
 	lda.b d1
 	bit.w #$8080
 	beq PauseDefStore
-	jsl.l GetPadTeam				; a2 = the team of the controller that paused, from its side
+	jsl.l seta2						; a2 = the team of the controller that paused, from its side
 	ldy.b a2
 	lda.w tmtimeouts,y
 	dec a

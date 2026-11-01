@@ -57,7 +57,7 @@ ShowPenaltySummary:					; called from PausePenaltySummary
 	sta.w listrows
 	jsr.w DrawPenaltyPage			; draw the visible penalty rows, or No Penalties when the list is empty
 PenaltySummaryLoop:					; called from PenaltySummaryWait, ScrollPenaltyDown, ScrollPenaltyUp
-	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d3
 	bit.w #$1000

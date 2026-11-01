@@ -4,7 +4,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	bit.w #pfna
 	beq .3
 	and.w #$FFFD
-	ora.w #$0001
+	ora.w #pfdoff
 	sta.w pflags,x
 	stz.w temp2,x					; temp2 = 8
 	lda.w #$0008					; temp2 = 8
@@ -61,7 +61,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	stz.w pfalock,x
 	stz.w onetimerreq
 	lda.w pflags,x
-	and.w #$FFFE
+	and.w #(~pfdoff&$FFFF)
 	sta.w pflags,x
 	jmp.w assexit					; end the player's current assignment and go back to the one under it
 .7:									; return

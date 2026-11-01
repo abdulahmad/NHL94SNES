@@ -2,7 +2,7 @@
 ; GetNameandAttrib
 ; Takes a2 = team offset, SelectedPlayerIdx = line (0 = goalies), DispAttribCtr = attribute column. Prints
 ; the line name and the column title, clears the area below and prints each player of the line with
-; GetNameandAttrib, with the position names (PositionNames) of the line or the goalie marks.
+; GetNameandAttrib, with the position names (PlayerPositionText) of the line or the goalie marks.
 ;
 ; Called from MoveRosterColumn and TeamRoster.
 ShowRosterLine:						; print the roster line with the chosen attribute
@@ -32,17 +32,17 @@ ShowRosterLine:						; print the roster line with the chosen attribute
 	lda.w #$0009
 	sta.w printy
 .col:								; find the attribute entry of the current column
-	lda.w #AttribMenuSkater>>16
+	lda.w #PAttribColumns>>16
 	sta.b a1+2
-	lda.w #AttribMenuSkater
+	lda.w #PAttribColumns
 	sta.b a1
 	lda.w DispAttribCtr
 	sta.b d0
 	lda.w SelectedPlayerIdx
 	bne .top
-	lda.w #AttribMenuGoalie>>16
+	lda.w #GAttribColumns>>16
 	sta.b a1+2
-	lda.w #AttribMenuGoalie
+	lda.w #GAttribColumns
 	sta.b a1
 	bra .top
 .next:								; skip to the next entry of the menu
@@ -102,7 +102,7 @@ ShowRosterLine:						; print the roster line with the chosen attribute
 	sta.b a1
 	pla
 	sta.b a1+2
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.b d0
 	dec a
 	sta.b d1
@@ -133,9 +133,9 @@ ShowRosterLine:						; print the roster line with the chosen attribute
 	sec
 	adc.b d0
 	sta.b a3
-	lda.w #PositionNames>>16
+	lda.w #PlayerPositionText>>16
 	sta.b a5+2
-	lda.w #PositionNames
+	lda.w #PlayerPositionText
 	sta.b a5
 	lda.w #$0004
 	sta.b d1
@@ -174,7 +174,7 @@ org $9DA000
 	sta.b d0
 	sta.b r1
 	stz.b r2
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.b r1
 	cmp.b d0
 	bpl .1xx

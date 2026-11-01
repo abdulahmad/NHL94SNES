@@ -11,7 +11,7 @@ assbench:							; assignment: skate to the bench door and swap players
 .t2:								; not at the wall yet: look for a bench change
 	jsl.l check4bench				; may request a bench change for this player
 	lda.w pflags,x					; player flags
-	bit.w #$4000					; bit $4000 = pf2pen (caused a penalty)
+	bit.w #pf2pen					; bit $4000 = pf2pen (caused a penalty)
 	beq .t1x
 .1x:								; unreferenced label
 	jml.l assexit					; penalised: leave this assignment
@@ -169,7 +169,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	jml.l skateto					; player X skates toward d0 / d1
 .7:									; same player: clear the unavailable flag
 	lda.w pflags,x
-	and.w #$EFFF					; clear pf2unav ($1000)
+	and.w #(~pf2unav&$FFFF)			; clear pf2unav ($1000)
 	sta.w pflags,x
 .8:									; take the new position (newpos) and clear the requests
 	lda.w newpos,x					; new position

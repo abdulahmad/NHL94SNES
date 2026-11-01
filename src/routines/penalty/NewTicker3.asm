@@ -1,7 +1,7 @@
 ; Show the ticker box for game d3: round, period and both teams with their scores
 ;
 ; a0 = game offset. Skips games that are over or have a highlight pending (flags $0006). Draws a framed
-; box with the round label, the period label and the two team lines (TickerTeam).
+; box with the round label, the period label and the two team lines (PrintGameInfo).
 ; Called from NewTicker2.
 NewTicker3:							; shows the ticker box
 	lda.b d3						; d3 = game
@@ -91,7 +91,7 @@ NewTicker3:							; shows the ticker box
 	sta.b a1+2
 	lda.w #GameLabels
 	sta.b a1
-	jsl.l PrintStringFromList		; print it
+	jsl.l Fprint					; print it
 	lda.b 1,s						; x plus $15
 	clc
 	adc.w #$0015
@@ -104,7 +104,7 @@ NewTicker3:							; shows the ticker box
 	sta.b a1+2
 	lda.w #PerLabels
 	sta.b a1
-	jsl.l PrintStringFromList		; print it
+	jsl.l Fprint					; print it
 	lda.w #$2000					; palette for the scores
 	sta.w printa
 	ldx.b a0						; first team and score
@@ -112,12 +112,12 @@ NewTicker3:							; shows the ticker box
 	sta.b d0
 	lda.l gss1,x					; score
 	sta.b d1
-	jsl.l TickerTeam				; print the line
+	jsl.l PrintGameInfo				; print the line
 	ldx.b a0						; second team and score
 	lda.l gst2,x
 	sta.b d0
 	lda.l gss2,x
 	sta.b d1
-	jsl.l TickerTeam				; print the line
+	jsl.l PrintGameInfo				; print the line
 	pla								; drop the saved x
 	rtl								; return

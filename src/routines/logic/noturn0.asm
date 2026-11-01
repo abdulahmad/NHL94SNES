@@ -79,7 +79,7 @@ noturn0:							; direction needs no turn: skate, stop or turn one step
 	sta.b d1
 .2:									; start the animation unless one runs
 	lda.w pf2aip,x					; animation in progress?
-	bne revplayeracc				; yes: accelerate
+	bne noturn						; yes: accelerate
 	tya								; pf2aip = y
 	sta.w pf2aip,x
 	jsl.l SetSPA					; start animation d1
@@ -87,7 +87,7 @@ noturn0:							; direction needs no turn: skate, stop or turn one step
 ; Takes player X, d2 = direction. Flips d2 when X skates backwards and goes on to playeracc.
 ;
 ; Falls in from noturn0, also called from doplayeracc.
-revplayeracc:						; accelerate: reverse the direction when skating backwards
+noturn:								; accelerate: reverse the direction when skating backwards
 	lda.w pfrev,x					; backwards?
 	beq .1
 	lda.b d2						; yes: d2 = opposite direction

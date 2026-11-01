@@ -1,5 +1,5 @@
 ; mesarea = the uniform number and name of roster player d0 of team a2
-PlayerNumName:						; called from DrawPlayerCard, GetNameandAttrib, GetPlayerName, PrintLin...
+getname:							; called from DrawPlayerCard, GetNameandAttrib, GetPlayerName, PrintLin...
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -38,7 +38,7 @@ PlayerNumName:						; called from DrawPlayerCard, GetNameandAttrib, GetPlayerNam
 	lda.b [a0]
 	and.w #$00FF
 	sta.b d0
-	jsl.l PutDigits2				; write the two digit number d0 as two characters at [a1]
+	jsl.l ConvertByteToDigits		; write the two digit number d0 as two characters at [a1]
 	lda.w #PlayerNumNamePos>>16
 	sta.b a1+2
 	lda.w #PlayerNumNamePos

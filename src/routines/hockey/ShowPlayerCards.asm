@@ -22,7 +22,7 @@ PlayerCardsRedraw:					; called from NextPlayerCard, PrevPlayerCard, SwapPlayerC
 PlayerCardsLoop:					; called from PlayerCardsWait
 	jsl.l WaitFrame
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
-	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1
 	bit.w #$1000

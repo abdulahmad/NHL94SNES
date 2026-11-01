@@ -253,7 +253,7 @@ doplayeracc:						; player X skates toward d0
 	lda.b d3
 	cmp.w #$0003
 	bcc .t1xx
-	jmp.w revplayeracc				; accelerate (revplayeracc flips d2 when backwards)
+	jmp.w noturn					; accelerate (noturn flips d2 when backwards)
 
 .t1xx:								; return
 	rtl

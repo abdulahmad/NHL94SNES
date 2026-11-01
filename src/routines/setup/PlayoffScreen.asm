@@ -158,7 +158,7 @@ PlayoffScreen:						; called from GameOver, StartGame
 	sta.b a1+2
 	lda.w #PixelRemap8F
 	sta.b a1
-	jsl.l RemapTiles				;remap the font colours
+	jsl.l remap						;remap the font colours
 	lda.w #SmallFontTiles>>16
 	sta.b p0+2
 	lda.w #SmallFontTiles

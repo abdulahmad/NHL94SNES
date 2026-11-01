@@ -1,5 +1,5 @@
 ; mesarea = the number, first initial and last name of roster player d0 of team a2
-PlayerShortName:					; called from GetPlayerNumInitial, PrintLineSlotName, ShowGoalBox, seto...
+FormatPlayerNumInitial:				; called from GetPlayerNumInitial, PrintLineSlotName, ShowGoalBox, seto...
 	lda.b d0
 	pha
 	lda.b d0+2
@@ -32,7 +32,7 @@ PlayerShortName:					; called from GetPlayerNumInitial, PrintLineSlotName, ShowG
 	lda.b [a0]
 	and.w #$00FF
 	sta.b d0
-	jsl.l PutDigits2				; write the two digit number d0 as two characters at [a1]
+	jsl.l ConvertByteToDigits		; write the two digit number d0 as two characters at [a1]
 	lda.w #$0020
 	sta.b [a1]
 	inc.b a1
@@ -73,7 +73,7 @@ PlayerShortName:					; called from GetPlayerNumInitial, PrintLineSlotName, ShowG
 	lda.b a0
 	cmp.b a2
 	bne .loop2
-	jsl.l MesAreaDone				; end the string built in mesarea
+	jsl.l FinalizeTextBuffer		; end the string built in mesarea
 	pla
 	sta.b a0+2
 	pla

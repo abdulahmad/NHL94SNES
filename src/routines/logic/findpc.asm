@@ -62,7 +62,7 @@ findpc:								; choose the player for pad d4
 	bmi .8
 	beq .8
 	lda.w pflags,x					; flags bit $1000 set: skip
-	bit.w #$1000
+	bit.w #pf2unav
 	bne .8
 	lda.w SPA,x						; animation of the candidate
 	cmp.w #SPAturnl

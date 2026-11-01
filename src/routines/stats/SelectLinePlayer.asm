@@ -66,7 +66,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	jsl.l GetDefenseCount			; count the defensemen of the team
 	lda.b d0
 	sta.w listcount					;list length = defensemen
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.b d0
 	sta.w pickfirst					;skip the goalies
 	jsl.l GetForwardCount			; count the forwards of the team
@@ -80,7 +80,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	jsl.l GetForwardCount			; count the forwards of the team
 	lda.b d0
 	sta.w listcount					;list length = forwards
-	jsl.l GoalieCount				; d0 = the number of goalies on team a2
+	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	lda.b d0
 	sta.w pickfirst					;first forward follows the goalies
 .3:									; first player of the list
@@ -142,7 +142,7 @@ SelectLinePlayer:					; pick a player for a line slot
 	jsl.l SendTextMap2
 	jsl.l WaitFrame
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
-	jsl.l ReadPausePad				; ReadjoyA for the controller that owns the pause menu
+	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d1						;new presses
 	bit.w #$1000					;start?
@@ -253,9 +253,9 @@ SelectLinePlayer:					; pick a player for a line slot
 	sta.b d0
 	lda.w SelectedPlayerIdx			;goalie line?
 	bne .3x							;no: skater columns
-	lda.w #AttribMenuGoalie			;goalie columns
+	lda.w #GAttribColumns			;goalie columns
 	sta.b a1
-	lda.w #AttribMenuGoalie>>16
+	lda.w #GAttribColumns>>16
 	sta.b a1+2
 	bra .3x
 .2x:								; next entry of the menu
