@@ -690,11 +690,11 @@ org $9D9000
 	ldx.w #$0070					;$70 bytes
 	jsl.l DMAToCGRAM				;send palettes 1-4
 	jsl.l ScreenOn
-.2x:								; call WaitFrame, call ReadPads, ora padnew+2, ...
+.2x:								; call WaitFrame, call ReadPads, ora padnew1+2, ...
 	jsl.l WaitFrame					;next frame
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
-	lda.w padnew					;new presses
-	ora.w padnew+2					;either pad
+	lda.w padnew1					;new presses
+	ora.w padnew1+2					;either pad
 	cmp.w #$1000					;start alone?
 	bne .t2x
 	jmp.w .3						;yes: leave

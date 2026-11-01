@@ -306,7 +306,7 @@ assgoalie:							; called from assnearest, asstab
 	lda.w PadRaw1,y					;held buttons
 	bit.w #$4000					;B held?
 	bne .t2xx						;B held: dive
-	lda.w padnew,y					;new presses
+	lda.w padnew1,y					;new presses
 	bit.w #$0040					;Y pressed?
 	beq .18							;no press: position
 	lda.w paddir,y					;pad direction

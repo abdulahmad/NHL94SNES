@@ -6418,7 +6418,7 @@ $9AD1B6,CardSpritePalette,DATA8_9AD1B6,code,"LoadPlayerCardScreen sends its firs
 $9AD3B6,SetupSpritePalette,DATA8_9AD3B6,render,"SetupScreen / LoadScoutingScreen send it to sprite palette 0, the palette of LetterSprites (gold letters, rendered; the CROWD METER title)",src/data/gfx/SetupSpritePalette.asm
 $9DE452,SPAgwallright,DATA8_9DE452,code,asseben gives a goalie it where skaters get SPAwallright (leaving the bench); frames 370-373 rendered: the goalie climbing,src/data/frames94s.asm
 $9DE484,SPAgwallleft,DATA8_9DE484,code,assbench gives a goalie it where skaters get SPAwallleft (going to the bench); SPAgwallright's frames reversed,src/data/frames94s.asm
-$9DE528,SPAgpoke,DATA8_9DE528,code,"assgoalie: the controlled goalie's X button (padnew $0040; Y with a direction is SPAgdive), and the CPU goalie at random when an opponent has the puck within $23, then $F0 frames before again (a poke check, confirmed in game by the user)",src/data/frames94s.asm
+$9DE528,SPAgpoke,DATA8_9DE528,code,"assgoalie: the controlled goalie's X button (padnew1 $0040; Y with a direction is SPAgdive), and the CPU goalie at random when an opponent has the puck within $23, then $F0 frames before again (a poke check, confirmed in game by the user)",src/data/frames94s.asm
 $9DE59A,SPAgcover2,DATA8_9DE59A,code,"SPAgcover's frames with a 20-frame hold, not 90; nothing sets it",src/data/frames94s.asm
 $9DE66C,SPAgcover,DATA8_9DE66C,code,assgoalie: the goalie drops onto the puck and holds 90 frames ($1543 = $5A) when an opponent is within $14 of it (rendered: down on the ice),src/data/frames94s.asm
 $9DE73E,SPAgbutterfly,DATA8_9DE73E,code,assgoalie_list entry 8: assgoalie picks it for a slow shot (puckvy within $800) straight at the goalie; rendered: the butterfly drop,src/data/frames94s.asm
@@ -6588,7 +6588,7 @@ $1762,tmSHGoals,,behavior,RAM; shorthanded goals,src/ram94s.asm
 $176A,tmPerShots,,behavior,RAM; shots by period: + period*4 + team*2,src/ram94s.asm
 $177E,tmPerGoals,,behavior,RAM; goals by period: + period*4 + team*2,src/ram94s.asm
 $17B2,tmnearpl,,behavior,"RAM; the team's player nearest the puck (updateplayers, assnearest)",src/ram94s.asm
-$17BE,tmpassatt,,behavior,RAM; pass attempts (dopass),src/ram94s.asm
+$17BE,tmpasses,,behavior,RAM; pass attempts (dopass),src/ram94s.asm
 $17C2,tmBreakaways,,behavior,RAM; breakaways (StartBreakaway),src/ram94s.asm
 $17C6,tmBreakawayGoals,,behavior,RAM; breakaway goals,src/ram94s.asm
 $17CA,tmPenShots,,behavior,RAM; penalty shots (StartPenaltyShot),src/ram94s.asm

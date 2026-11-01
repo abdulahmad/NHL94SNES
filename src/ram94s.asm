@@ -109,20 +109,6 @@ Mode7InUse			=	$07E2		;TitleScreen/IntroSequence set $FF, ResetPPURegs clears; M
 									;Mode7InUse / MulFrac16 bit $07E1 (16-bit: ...
 
 ;joystick buttons and controllers
-; pad reads
-PadRaw1				=	$0776		; controller 1 buttons held (SNES joypad bits, JOY* masks)
-PadRaw2				=	PadRaw1+2	; controller 2 buttons
-PadRaw3				=	PadRaw1+4	; controller 3 buttons (Multitap / Multi5)
-PadRaw4				=	PadRaw1+6	; controller 4 buttons
-PadRaw5				=	PadRaw1+8	; controller 5 buttons (Multi5)
-padlast				=	$0A9A		; 5 words: each pad's buttons at the last ReadPads
-paddir				=	$0AA4		; 5 words: each pad's direction (PadDirection of the dpad bits)
-padchange			=	$0AAE		; 5 words: each pad's buttons that changed at the last ReadPads
-padnew				=	$0AB8		; 5 words: each pad's buttons newly pressed at the last ReadPads
-padchangeany	=	$0AC2			;ReadPads: OR of the five padchange words; ReadAnyPad returns it in d1;
-									;SaveRegsStartHL2 clears it.
-padinputdone	=	$0ADD			;updateplayers: 5 words (pad*2) cleared each frame, set to 1 when the
-									;pad's doinput has run; ...
 
 ; multitap (MP5) detection
 Multi5Sig			=	$0781		;Multi5ConnectCheck rol.w JOYSER0/1 bit 1 into $0782/Multi5Sig (port 1)
@@ -506,10 +492,10 @@ textdirtyhi		=	$0CD7			; highest changed word of the text map
 ; -(priority << 6 | palette << 4 | font).
 CC_Font1		=	$FF				; font 1
 CC_Font1Pal1	=	$EF				; font 1, palette 1
+CC_Font1Pal2	=	$DF				; font 1, palette 2
+CC_Font1Pal3	=	$CF				; font 1, palette 3
 CC_Font1Pri		=	$BF				; font 1, priority set
 CC_Font1Pal1Pri	=	$AF				; font 1, palette 1, priority set
-CC_Font1Pal3	=	$CF				; font 1, palette 3
-CC_Font1Pal2	=	$DF				; font 1, palette 2
 CC_Font1Pal2Pri	=	$9F				; font 1, palette 2, priority set
 charofs			=	$7E35AA			;Tile offset added to text map words: setupice / ReloadRink set $FF00,
 									;PlayoffScreen 0; PushRef, EASNLogo, ...
@@ -517,6 +503,7 @@ charofs2		=	$7E35AC			;Second tile offset, cleared with charofs by the screen se
 									;(SetupScreen, LoadScoutingScreen, setupice) ...
 textmap			=	$7E37F4			; the text map
 textmap2			=	$7E3FF4		; the second text map (ClearTextMap2, SendTextMap2)
+textsave		=	$7E4F7E		; Pausemode saves textmap here ($800 bytes, up to replaystart), copies it back on exit (93S textsave)
 bigtextbuf		=	$7E4EF4			;RenderBigText ORs the letter pixels in here, PlayerSelect clears $290
 									;bytes, SendBigText / PlayoffScreen ...
 screenmap		=	$7EA670			;PlayoffScreen map buffer (+0 width $80, +2 height $20, words from +6:
@@ -617,13 +604,10 @@ newpos		=	$1243				; requested next position (negative = none)
 newpnum		=	$1263				; requested next roster player (negative = none)
 pflags		=	$1283				;pflags (bits 0-7) and pflags2 (bit n at bit n+10); some flags have their
 									;own arrays below
-pfna		=	$0002				; new assignment
 pfdoff		=	$0001				; deceleration off (94G pfdoff)
-pfjoycon	=	$0008				; player is joystick controlled (94G pfjoycon)
-pf2unav		=	$1000				; unavailable: to or from the bench or box (94G pf2unav, pflags2 bit 2)
-pf2pen		=	$4000				; caused a penalty (94G pf2pen, pflags2 bit 4)
-pf2npc		=	$8000				; no player collision (94G pf2npc, pflags2 bit 5)
+pfna		=	$0002				; new assignment
 pfnc		=	$1563				; nonzero: no collision mode. pflags bit pfnc
+pfjoycon	=	$0008				; player is joystick controlled (94G pfjoycon)
 pfrev		=	$1523				; nonzero: skating backwards. pflags bit pfrev
 pfalock				=	$14E3		; nonzero: locked until the animation is done
 pfteam		=	$1503				; 0 = home, nonzero = visitors. pflags bit pfteam
@@ -637,6 +621,9 @@ PlayersUnused	=	$E6				;never read: updateplayers sets $FFFF for every object at
 									;per-object loop (lda #$FFFF / sta ...
 pfgoal		=	$14C3				; nonzero: shoots at the top goal. pflags bit pfgoal
 pf2aip		=	$1543				; nonzero: animation in progress. pflags2 bit pf2aip
+pf2unav		=	$1000				; unavailable: to or from the bench or box (94G pf2unav, pflags2 bit 2)
+pf2pen		=	$4000				; caused a penalty (94G pf2pen, pflags2 bit 4)
+pf2npc		=	$8000				; no player collision (94G pf2npc, pflags2 bit 5)
 pf2inj		=	$0004				; injured
 pnum		=	$12A3				; player's team location number (low byte)
 ; player attributes, stored by setplayer in the 93S order
@@ -824,6 +811,20 @@ dumpintarget		=	$0BA5		;assdumpin: the target index (DumpInTarget), a word offse
 threat				=	$0D2D		; direction of threat on puck handler (nonzero = threat)
 puckcross			=	$0D17		;2 entries of (x, frames): where / when the puck crosses the top / bottom
 									;goal line
+; pad reads
+PadRaw1				=	$0776		; controller 1 buttons held (SNES joypad bits, JOY* masks)
+PadRaw2				=	PadRaw1+2	; controller 2 buttons
+PadRaw3				=	PadRaw1+4	; controller 3 buttons (Multitap / Multi5)
+PadRaw4				=	PadRaw1+6	; controller 4 buttons
+PadRaw5				=	PadRaw1+8	; controller 5 buttons (Multi5)
+padlast1				=	$0A9A		; 5 words: each pad's buttons at the last ReadPads (93S padlast1)
+paddir				=	$0AA4		; 5 words: each pad's direction (PadDirection of the dpad bits)
+padchange			=	$0AAE		; 5 words: each pad's buttons that changed at the last ReadPads
+padnew1				=	$0AB8		; 5 words: each pad's buttons newly pressed at the last ReadPads (93S padnew1)
+padchangeany	=	$0AC2			;ReadPads: OR of the five padchange words; ReadAnyPad returns it in d1;
+									;SaveRegsStartHL2 clears it.
+padinputdone	=	$0ADD			;updateplayers: 5 words (pad*2) cleared each frame, set to 1 when the
+									;pad's doinput has run; ...
 ltplayer		=	$7E30F6			;a2touchpuck stores the touching player (index / 2) here like 93S
 									;a2touchpuck sta ltplayer.
 ltx				=	$7E30F8			;a2touchpuck stores Xpos,y (93S ltx); Stop4Pen loads it as the OOP faceoff
@@ -932,31 +933,33 @@ TileRunPrev		=	$7E3093			; previous run of each tile run ($FF = none)
 
 ;game mode and state flags
 gmode		=	$15D4				; game mode flags (gm* masks)
-gmpendel	=	$0008				; delayed penalty called (94G gmpendel)
-gmeog		=	$0040				; game over reached: the next face off goes to PeriodOver (94G gmeog)
 gmclock				=	$15D6		; nonzero: game clock is stopped
 gmdir		=	$0002				; 0 = home team goes up
 gmpen		=	$0004				; penalty called, ref in progress
+gmpendel	=	$0008				; delayed penalty called (94G gmpendel)
 gmhl		=	$0010				; highlight mode
 gmoffs		=	$0020				; offsides on
+gmeog		=	$0040				; game over reached: the next face off goes to PeriodOver (94G gmeog)
 sflags		=	$15D8				; sflags (low byte) and sflags2 (high byte) as one word (sf*/sf2* masks)
 sfpz		=	$0001				; pause mode
 sfspdir		=	$0004				; a pass direction is set (passdir)
+sfssdir		=	$0008				; set shot direction mode (94G sfssdir)
 sfwrap		=	$0010				; replay has wrapped around
 sfslock		=	$0040				; scroll lock to xc1/yc1
+sf2faceoff	=	$0100				; face off in progress (94G sf2faceoff)
 sf2refref	=	$0200				; ref needs refresh
 sf2drec		=	$0400				; disable replay record
 sf2replay	=	$0800				; replay in progress
+sf2shot		=	$1000				; a shot was taken (94G sf2shot)
 sf2pwrplay	=	$2000				; power play in progress
 sf2pwrtm	=	$4000				; 0 for team 1 in power play
-sfssdir		=	$0008				; set shot direction mode (94G sfssdir)
-sf2faceoff	=	$0100				; face off in progress (94G sf2faceoff)
-sf2shot		=	$1000				; a shot was taken (94G sf2shot)
 sf2offsig	=	$8000				; offsides little ref on (94G sf2offsig)
 sflags3		=	$15DC				; sflags3 (sf3* masks)
+sf3llcs		=	$0001				; lower line change box on screen
 sf3rmplay	=	$0002				; play mode on for replay (94G sf3rmplay)
 sf3alttree	=	$0004				; alternate playoff tree (94G sf3alttree)
 sf3sbut		=	$0008				; start button flag (94G sf3sbut)
+sfhormode	=	$15DA				; nonzero: screen in horizontal mode. sflags bit sfhor
 CurCrowdMeter		=	$19C2		; the crowd meter in dB: Sroot(CwdExciteLvl * 4) + 65, at most 128
 CrowdAvg		=	$19C6			; the game's average meter (CrowdMeterSum / CrowdMeterCount)
 CrowdLoud		=	$19C0			; 1 at 110 dB or more; cleared under 105 dB (CheckCrowdMeter)
@@ -968,8 +971,6 @@ CrowdPeak			=	$19C4		; the highest CurCrowdMeter of the game
 pausepad			=	$0AC6		; the controller that owns the pause menu
 pausepadidle	=	$0AC8			;SelectPauseController: 60 when the pause pad holds a button, -3 per idle
 									;frame; at 0 pausepad goes back to ...
-sf3llcs		=	$0001				; lower line change box on screen
-sfhormode	=	$15DA				; nonzero: screen in horizontal mode. sflags bit sfhor
 c1playernum		=	$19EC			;per pad (5 words): the player object it controls (93S c1playernum,
 									;c2playernum ...)
 teampads		=	$19D0			; pads on the home / away team
@@ -1087,18 +1088,12 @@ PenSum			=	$163E			;penalty log: $41 entries of (time word, player | $80 away, p
 
 ;team structures
 tmshots				=	$177A		; shots
-tmPerGoals			=	$177E		; goals by period: + period*4 + team*2
 tmPwrGoals			=	$1742		;power play goals (team word pair); the first word clearTeamStats clears
 									;(through $18ED)
 tmPwrPlays			=	$1746		; power plays
 tmPenalties			=	$174A		; penalties
 tmPenmin			=	$174E		; penalty minutes
 tmATOP				=	$1752		; attack zone time (chkatop)
-tmPwrPlayTime		=	$1756		; power play time (updatePPTeamTime)
-tmPPShots			=	$175A		; power play shots (ChkShotStat)
-tmSHShots			=	$175E		; shorthanded shots (ChkShotStat; not on the stats screen)
-tmSHGoals			=	$1762		; shorthanded goals
-tmPerShots			=	$176A		; shots by period: + period*4 + team*2
 tmdata		=	$1CDC				; team data address
 tmsort		=	$1766				; first object index of the team
 tmscore				=	$178E		; score
@@ -1109,22 +1104,15 @@ awaylines			=	$1D1C		; the visitors lines, as homelines
 tmap		=	$17A6				; active players on ice
 tmgoalie	=	$17AA				; home and away goalie (words): low byte = goalie 0/1, $FFxx = pulled
 tmflags		=	$17DE				; team flags
+tmflcc		=	$0001				; line change on (94G tmflcc)
 tmfoside	=	$0010				; team flagged offsides
 tmftimeout	=	$0002				; 93G/94G timeout bit (94S counts tmtimeouts); shared as in 93G
-tmflcc		=	$0001				; line change on (94G tmflcc)
 tmfmid		=	tmftimeout			; nearest player always takes the in-between spot (assnearest)
 tmfslide	=	tmftimeout			; 93 roster screen name slide; not used here
 tmfowon				=	$1792		; faceoffs won
 tmchecks			=	$17B6		; body checks (FallDown)
+tmpasses			=	$17BE		; pass attempts (dopass) (93G/94G tmpasses)
 tmpasscomp			=	$17BA		; completed passes (puckglue)
-tmpassatt			=	$17BE		; pass attempts (dopass)
-tmBreakaways		=	$17C2		; breakaways (StartBreakaway)
-tmBreakawayGoals	=	$17C6		; breakaway goals
-tmPenShots			=	$17CA		; penalty shots (StartPenaltyShot)
-tmPenShotGoals		=	$17CE		; penalty shot goals
-tmOneTimerSwings	=	$17D2		; one-timer swings started (asspassrec; not on the stats screen)
-tmOneTimers			=	$17D6		; one-timers (asspassrec)
-tmOneTimerGoals		=	$17DA		; one-timer goals
 tmtimeouts			=	$17E2		; timeouts left (StartGame sets 1; PauseTimeout)
 tmtouch1	=	$179A				; pnum of the last touch
 tmtouch2	=	$179E				; second last touch
@@ -1148,6 +1136,20 @@ TMPDBENCH	=	$FFFE				; on the bench
 TMPDOUT		=	$FFFD				; out of the game
 TMPDINJGAME	=	$FFFC				; injured for the game (setInjuryType, one time in 8; 94G $FFFC)
 TMPDINJ		=	$1000				; injured: box time with this bit has no penalty
+; stats new in 94, in 94G order (94G keeps them after tmHotCold, at the end of the team struct)
+tmPerGoals			=	$177E		; goals by period: + period*4 + team*2
+tmPerShots			=	$176A		; shots by period: + period*4 + team*2
+tmPwrPlayTime		=	$1756		; power play time (updatePPTeamTime)
+tmPPShots			=	$175A		; power play shots (ChkShotStat)
+tmSHShots			=	$175E		; shorthanded shots (ChkShotStat; not on the stats screen)
+tmSHGoals			=	$1762		; shorthanded goals
+tmBreakaways		=	$17C2		; breakaways (StartBreakaway)
+tmBreakawayGoals	=	$17C6		; breakaway goals
+tmOneTimerSwings	=	$17D2		; one-timer swings started (asspassrec; not on the stats screen)
+tmOneTimers			=	$17D6		; one-timers (asspassrec)
+tmOneTimerGoals		=	$17DA		; one-timer goals
+tmPenShots			=	$17CA		; penalty shots (StartPenaltyShot)
+tmPenShotGoals		=	$17CE		; penalty shot goals
 
 ;playoff game structures
 gst1			=	$7E3528			;Playoff game team 1 (8 words): FigureJoy / SetScore compare and load it
@@ -1198,7 +1200,6 @@ pausesubmenu	=	$7E346A			;PauseEditLines / PauseShootoutSetup set it around Line
 pausemenuon		=	$7E3476			;Pausemode_menu sets $FFFF, Pausemode / Intermission clear it after;
 									;DrawHorTeams leaves the pulsing side ...
 PauseUnused		=	$1D60			; Pausemode clears it when the pause menu is left (with pregamepause)
-pausesavebuf		=	$7E4F7E		; Pausemode saves textmap here ($800 bytes, up to replaystart)
 TickerNum			=	$0D31		; playoff game the score ticker shows next
 otherskip			=	$1DE9		;Other scores: 1 when FillOtherScores skipped the user's game (gamenum),
 									;added into the row math of ...

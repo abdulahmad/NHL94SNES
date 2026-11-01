@@ -15,6 +15,6 @@ TeamStatSources:
 	dw $0010,tmchecks,$FFFF
 	dw $0001,tmPenalties,tmPenmin
 	dw $0013,tmATOP,$FFFF
-	dw $0011,tmpasscomp,tmpassatt
-	dw $0012,tmpasscomp,tmpassatt
+	dw $0011,tmpasscomp,tmpasses
+	dw $0012,tmpasscomp,tmpasses
 	dw $FFFF,$FFFF,$FFFF

@@ -5,9 +5,9 @@ Pausemode:							; called from Gameloop, PlayShootout
 	sta.b p0+2
 	lda.w #textmap
 	sta.b p0
-	lda.w #pausesavebuf>>16
+	lda.w #textsave>>16
 	sta.b p1+2
-	lda.w #pausesavebuf
+	lda.w #textsave
 	sta.b p1
 	ldx.w #$0800
 	jsl.l MemCopy					; copy X bytes from [p0] to [p1]
@@ -63,9 +63,9 @@ Pausemode:							; called from Gameloop, PlayShootout
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	jsl.l SoundInit					; reset the sound player
 	phx
-	lda.w #pausesavebuf>>16
+	lda.w #textsave>>16
 	sta.b p0+2
-	lda.w #pausesavebuf
+	lda.w #textsave
 	sta.b p0
 	lda.w #textmap>>16
 	sta.b p1+2
