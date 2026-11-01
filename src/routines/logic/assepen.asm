@@ -48,7 +48,7 @@ assepen:							; assignment: leave the penalty box
 	sta.w newpnum,x
 	sta.w newpos,x
 	lda.w pflags,x					; clear the flags in $9008
-	and.w #$6FF7
+	and.w #(~(pfjoycon|pf2unav|pf2npc)&$FFFF)
 	sta.w pflags,x
 	stz.w pfnc,x					; collisions on
 	lda.w #$F000					; skate out at Xvel -$1000

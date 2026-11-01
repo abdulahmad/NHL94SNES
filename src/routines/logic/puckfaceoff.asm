@@ -80,7 +80,7 @@ puckfaceoff:						; called from asstab
 	beq .1xx2						;no
 	lda.w sfhormode					;horizontal rink?
 	beq .1xx2						;no
-	lda.w #$0040					;scroll lock
+	lda.w #sfslock					;scroll lock
 	tsb.w sflags
 	jsl.l ClrHor					;back to the vertical rink
 .1xx2:								; if newperiod != 0 go to .2, ...

@@ -48,7 +48,7 @@ assgoalietopuck:					; X = goalie; asstab entry
 	lda.w pflags,x
 	bit.w #pfna
 	beq .5
-	and.w #$FFFD
+	and.w #(~pfna&$FFFF)
 	sta.w pflags,x
 	stz.w temp1,x
 	stz.w GoalieUnused

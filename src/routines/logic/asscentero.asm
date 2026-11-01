@@ -27,7 +27,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	lda.w pflags,x
 	bit.w #pfna
 	beq .1x
-	and.w #$FFFD
+	and.w #(~pfna&$FFFF)
 	sta.w pflags,x
 	lda.w #$FFFF					; no zone yet
 	sta.w temp5,x					; clear the timers

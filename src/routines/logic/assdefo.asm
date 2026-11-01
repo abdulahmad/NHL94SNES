@@ -34,7 +34,7 @@ assdefo:							; assignment: defenseman on offense
 	lda.w pflags,x					; player flags
 	bit.w #pfna						; first frame of the assignment (pfna)?
 	beq .1x
-	and.w #$FFFD					; clear pfna
+	and.w #(~pfna&$FFFF)			; clear pfna
 	sta.w pflags,x
 	stz.w temp1,x					; reset the timers
 	stz.w temp2,x

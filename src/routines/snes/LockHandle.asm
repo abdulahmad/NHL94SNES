@@ -1,9 +1,9 @@
 ; set the locked bit of handle A's block
 LockHandle:							; set the locked bit of handle A's block
 	pha
-	cmp.w #$2000
+	cmp.w #HandleTable
 	bcc .exit
-	cmp.w #$2100
+	cmp.w #HandleTable+$100
 	bcs .exit
 	tax
 	lda.l Ram7E+2,x

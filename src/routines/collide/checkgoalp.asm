@@ -198,7 +198,7 @@ checkgoalp:							; called from checkgoal
 	sta.w Yvel,y
 	stz.w Xvel,x
 	stz.w Yvel,x
-	lda.w #$0040
+	lda.w #sfslock
 	tsb.w sflags
 	lda.w gmclock
 	bne .9

@@ -3,13 +3,13 @@ chkatop:							; called from updatepentime
 	stz.b d1						; team 0
 	lda.w pucky						; puck y
 	sec
-	sbc.w #$0058					; minus $58
+	sbc.w #Blueline					; minus Blueline
 	bpl .1
 	inc.b d1						; team 1
 	inc.b d1
 	lda.w pucky						; puck y
 	sec
-	sbc.w #$FFA8					; minus -$58
+	sbc.w #-Blueline				; minus -Blueline
 	bpl .rtl
 .1:									; if gmode bits gmdir clear go to .2, ...
 	lda.w gmode						; gmdir: swap the teams

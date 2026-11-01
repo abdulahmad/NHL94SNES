@@ -7,7 +7,7 @@ checkwindow:						; called from DoGameFrame, puckfaceoff2
 	lda.w sflags					; sfslock: use xc1/yc1
 	bit.w #sfslock
 	bne .3							; locked: keep the old target
-	ldx.w #$001C
+	ldx.w #puckscnum
 	lda.w puckc
 	bmi .2
 	tax

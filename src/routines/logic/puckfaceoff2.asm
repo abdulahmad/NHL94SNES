@@ -97,9 +97,9 @@ puckfaceoff2:						; called from asstab
 	jsl.l PlayTeamSong				; play song slot A of the home team
 	stz.w percue					;cue used
 .4:									; trb sflags, trb sflags3, iflags = 0, ...
-	lda.w #$000D
+	lda.w #sfpz|sfspdir|sfssdir
 	trb.w sflags					;clear the stop flags
-	lda.w #$0001
+	lda.w #sf3llcs
 	trb.w sflags3					;clear the play-stopped bit
 	stz.w iflags					; no icing, no lower lc box, glove spots cleared
 	stz.w replaydelay				;no replay delay
@@ -111,12 +111,12 @@ puckfaceoff2:						; called from asstab
 	sta.w passReceiverPlayerNum
 	asl a							;$FFFE
 	sta.w puckc						;no puck carrier
-	lda.w #$8200
+	lda.w #sf2refref|sf2offsig
 	trb.w sflags					;clear the goal and offside flags
 	lda.w #$0000
 	sta.l refwindow					;no ref window
 	sta.l penmsgbox					;no penalty message
-	lda.w #$0500
+	lda.w #sf2faceoff|sf2drec
 	tsb.w sflags					;set the faceoff and stopped flags
 	jsl.l ClrHor					; back to the vertical rink
 	stz.w Vpos						; Vpos = Hpos = 0
@@ -143,7 +143,7 @@ puckfaceoff2:						; called from asstab
 	stz.w SPA+puckscnum+2			;shadow animation 0
 	stz.w attribute+puckscnum+2
 	stz.w attribute+puckscnum		;puck attributes clear
-	lda.w #$0040
+	lda.w #sfslock
 	trb.w sflags					;clear the scroll lock flag
 	lda.w #$0064					; 100 scroll steps
 	sta.b d4
@@ -198,7 +198,7 @@ puckfaceoff2:						; called from asstab
 	tax
 	lda.w tmpdst,x					;roster flags
 	bmi .t2x						;not dressed: off the ice
-	bit.w #$1000					;injured / penalised?
+	bit.w #TMPDINJ					;injured / penalised?
 	bne .t2x						;yes: off the ice
 	jmp.w .16						;no: next object
 

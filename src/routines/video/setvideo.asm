@@ -41,7 +41,7 @@ setvideo:							; called from DoGameFrame, Pausemode_menu, Pausemode, PeriodOver
 	lda.w pregamepause
 	bne .rtl
 	lda.w sflags
-	and.w #$0800
+	and.w #sf2replay
 	bne .rtl
 	lda.w #SpriteFrames>>16
 	sta.b p1+2

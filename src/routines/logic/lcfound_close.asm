@@ -11,7 +11,7 @@ lcfound_close:						; close the line change box and redraw the scoreboard
 	sec
 	sbc.w #$000F					; compare with 15
 	bmi .1							; upper half: the lower box flag was never set
-	lda.w #$0001					; lower half: clear sf3llcs
+	lda.w #sf3llcs					; lower half: clear sf3llcs
 	trb.w sflags3
 .1:									; erase the area
 	inc.b d1						; one more row

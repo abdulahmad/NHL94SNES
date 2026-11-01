@@ -118,7 +118,7 @@ PenGoalStuff:						; handles the penalties after a goal
 	lda.w tmPwrGoals,y				; power play goals + 1
 	inc a
 	sta.w tmPwrGoals,y
-	lda.w #$0001					; line change box redraw (bit 0 of tmflags)
+	lda.w #tmflcc					; line change box redraw (bit 0 of tmflags)
 	tsb.w tmflags					; both teams' tmflags
 	tsb.w tmflags+2
 .3x:								; restore the registers

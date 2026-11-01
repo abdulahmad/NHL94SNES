@@ -27,9 +27,9 @@ assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $
 	sta.b d0						;distance up the ice
 .2x:								;new assignment: start the path
 	lda.w pflags,x					;flags
-	bit.w #$0002					;new assignment?
+	bit.w #pfna						;new assignment?
 	beq .1x							;not new
-	and.w #$FFFD					;clear bit 1
+	and.w #(~pfna&$FFFF)			;clear bit 1
 	sta.w pflags,x					;clear the flag
 	stz.w temp1,x					;clear
 	stz.w temp2,x					;clear

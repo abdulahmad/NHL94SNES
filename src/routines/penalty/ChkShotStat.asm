@@ -1,6 +1,6 @@
 ; If a shot was taken, add it to the shooting team's shots
 ChkShotStat:						; called from Goal, checkgoal, puckglue, puckgoalie
-	lda.w #$1000
+	lda.w #sf2shot
 	trb.w sflags
 	bne .t1
 	jmp.w .7

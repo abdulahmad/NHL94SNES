@@ -85,7 +85,7 @@ setplayer:							; put roster player d3 on the ice as object X
 
 .t1:								; power play / penalty kill bonus
 	lda.w sflags
-	bit.w #$2000
+	bit.w #sf2pwrplay
 	beq .5							; sf2pwrplay not set: skip
 	jsl.l chkpk2					; which side is short handed?
 	beq .t2							; Z: this team is short handed

@@ -21,7 +21,7 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	lda.w pflags,x
 	bit.w #pfna
 	beq .1x
-	and.w #$FFFD
+	and.w #(~pfna&$FFFF)
 	sta.w pflags,x
 	stz.w temp1,x					; temp1 = 0
 	stz.w temp2,x

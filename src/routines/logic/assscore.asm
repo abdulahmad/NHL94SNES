@@ -45,7 +45,7 @@ assscore:							; assignment: celebrate a goal
 	lda.w pflags,x
 	bit.w #pfna						; pfna
 	beq .3
-	and.w #$FFFD					; clear pfna
+	and.w #(~pfna&$FFFF)			; clear pfna
 	sta.w pflags,x
 	jsl.l .6						; temp1 = random countdown
 	stz.w temp2,x

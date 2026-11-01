@@ -14,7 +14,7 @@ updatereplay:						; called from DoGameFrame
 	sta.w replaydelay
 .5:									; if sflags bit $0400 set go to .2, ...
 	lda.w sflags					;flags
-	bit.w #$0400					;recording paused?
+	bit.w #sf2drec					;recording paused?
 	bne .2							;yes: overwrite the frame
 	lda.w recbpr					;record pointer
 	clc								; step the pointer by one record
@@ -28,7 +28,7 @@ updatereplay:						; called from DoGameFrame
 	lda.w recbpr+2
 	cmp.w #replayend>>16			;same bank?
 	bne .2							;no
-	lda.w #$0010					;buffer wrapped
+	lda.w #sfwrap					;buffer wrapped
 	tsb.w sflags					;flag it
 	lda.w #replaystart>>16
 	sta.w recbpr+2					;back to the start

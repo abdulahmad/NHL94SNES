@@ -8,7 +8,7 @@ CheckBreakaway:						; called from PenShotChk, StartBreakaway, doshot
 
 .t4:								; puckc >= 0: if gmode bit $0002 set go to .t1, ...
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	bne .t1
 	lda.w puckc
 	cmp.w #$000C

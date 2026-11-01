@@ -24,7 +24,7 @@ assdefd:							; assignment: defenseman on defense
 	lda.w pflags,x					; player flags
 	bit.w #pfna						; first frame of the assignment (pfna)?
 	beq .1x
-	and.w #$FFFD					; clear pfna
+	and.w #(~pfna&$FFFF)			; clear pfna
 	sta.w pflags,x
 	stz.w temp1,x					; reset the timers
 	stz.w temp2,x
@@ -79,8 +79,8 @@ assdefd:							; assignment: defenseman on defense
 	clc
 	adc.b d1
 	sta.b d3						; d3 = puck y plus lead
-	sec								; compare with the line at $58 (Blueline)
-	sbc.w #$0058
+	sec								; compare with Blueline
+	sbc.w #Blueline
 	bmi .7							; not past the line
 	ldy.b a2						; team of this player
 	lda.w tmflags,y					; team offsides: stay back

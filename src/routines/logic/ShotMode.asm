@@ -40,7 +40,7 @@ ShotMode:							; shot input for the puck carrier
 	sta.w SPAnum,x
 	bra doshot						; shoot
 .off:								; not shooting any more
-	lda.w #$0008					; clear the shot mode flag
+	lda.w #sfssdir					; clear the shot mode flag
 	trb.w sflags
 .rts:								; return
 	rtl

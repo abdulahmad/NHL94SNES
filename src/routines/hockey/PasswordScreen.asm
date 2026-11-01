@@ -121,7 +121,7 @@ PasswordScreen:						;password entry: a 5 by 6 grid of characters, 16 positions;
 	sta.w PWCharStr+2				;in the string
 	lda.w #$0000
 	sta.b a1+2
-	lda.w #$0A4A					;text at $0A4A
+	lda.w #PWCharStr				;the one-character string
 	sta.b a1
 	inc.w printx					;inside the box
 	dec.w printy					;up 2 rows
@@ -232,7 +232,7 @@ PasswordRedraw:						; called from BadPasswordPrompt
 	sta.w PWCharStr+2				;in the string
 	lda.w #$0000
 	sta.b a1+2
-	lda.w #$0A4A					;text at $0A4A
+	lda.w #PWCharStr				;the one-character string
 	sta.b a1
 	inc.w printx					;inside the box
 	dec.w printy					;up 2 rows
@@ -250,7 +250,7 @@ PasswordRedraw:						; called from BadPasswordPrompt
 	sta.w PWCharStr+2				;in the string
 	lda.w #$0000
 	sta.b a1+2
-	lda.w #$0A4A					;text at $0A4A
+	lda.w #PWCharStr				;the one-character string
 	sta.b a1
 	inc.w printx					;inside the box
 	dec.w printy					;up 2 rows

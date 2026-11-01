@@ -43,7 +43,7 @@ chk4pass:							; called from assgoalie, asspuckc
 	beq .4
 	bmi .4
 	lda.w pflags,y
-	and.w #$1000
+	and.w #pf2unav
 	ora.w pfalock,y
 	bne .4
 	lda.w Ypos,y
@@ -66,16 +66,16 @@ chk4pass:							; called from assgoalie, asspuckc
 	beq .2x
 	lda.b d0
 	sec
-	sbc.w #$0058
+	sbc.w #Blueline
 	sta.b tmp0
 	lda.b d1
 	sec
-	sbc.w #$0058
+	sbc.w #Blueline
 	eor.b tmp0
 	bmi .4
-.2x:								; if d0 - $0058 >= 0 go to .3x, ...
+.2x:								; if d0 - Blueline >= 0 go to .3x, ...
 	lda.b d0
-	cmp.w #$0058
+	cmp.w #Blueline
 	bpl .3x
 	lda.b d0
 	sec

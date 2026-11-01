@@ -146,7 +146,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	clc
 	adc.b d0
 	tay
-	lda.w #$FFFE					; TMPDBENCH: on the bench
+	lda.w #TMPDBENCH				; TMPDBENCH: on the bench
 	sta.w tmpdst,y
 	lda.w newpnum,x					; the player who comes on
 	sta.b d3
@@ -156,7 +156,7 @@ assbench:							; assignment: skate to the bench door and swap players
 	lda.w pfnc,x					; already gliding: leave him
 	bne .1
 	lda.w pflags,x					; bit $4008 = pf2pen or pfjoycon
-	bit.w #$4008
+	bit.w #pfjoycon|pf2pen
 	bne .1
 	lda.w temp3,x					; skate to (temp3,temp4) avoiding the puck carrier
 	sta.b d0

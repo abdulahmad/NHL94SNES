@@ -1,6 +1,6 @@
 ; Collision with the goal: over the top, into the net, off a post or off the side
 checkgoal:							; called from checkwallcoll
-	cpx.w #$001C					;the puck?
+	cpx.w #puckscnum				;the puck?
 	beq .t3							;yes
 	jmp.w checkgoalp				; player X runs into the goal a2
 

@@ -5,9 +5,9 @@
 ; No caller found.
 UnlockHandle:						; clear the locked bit of handle A's block
 	pha
-	cmp.w #$2000					; handle in range?
+	cmp.w #HandleTable				; handle in range?
 	bcc .exit
-	cmp.w #$2100
+	cmp.w #HandleTable+$100
 	bcs .exit
 	tax								; X = offset in the handle table
 	lda.l Ram7E+2,x					; bank of the block

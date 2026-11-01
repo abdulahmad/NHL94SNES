@@ -18,7 +18,7 @@ SetLCmode2:							; draw the line change box of team a2
 	sec
 	sbc.w #$000F					; compare with 15
 	bmi .t1							; upper half of the screen: draw a plain box
-	lda.w #$0001					; lower half of the screen: flag it in sflags3
+	lda.w #sf3llcs					; lower half of the screen: flag it in sflags3
 	tsb.w sflags3					; sf3llcs, lower line change box on screen
 	bra .4							; go frame it
 

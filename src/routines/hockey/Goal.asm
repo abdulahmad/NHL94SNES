@@ -316,7 +316,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	lda.w #PenGoal					;the goal entry
 	sta.b d0						;d0
 	jsl.l AddPenalty2				; call penalty d0 on player X without the checks
-	ldx.w #$001C					;puck object
+	ldx.w #puckscnum				;puck object
 	stx.b a3						;a3
 	rtl
 

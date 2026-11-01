@@ -29,6 +29,6 @@ PuckIChk:							; icing check
 	sbc.w pucky
 	bpl .1							; not past it: return
 .3:									; call icing
-	lda.w #$0001					; bit $0001: icing called
+	lda.w #ifcgl					; bit $0001: icing called
 	tsb.w iflags					; set it in iflags
 	rtl

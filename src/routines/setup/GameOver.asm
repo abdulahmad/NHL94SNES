@@ -22,7 +22,7 @@ GameOver:							; called from PeriodOver
 	sta.l PassWord
 	jsl.l DecodePW					; decode the password back into the game state
 	jsl.l MakeTree					; rebuild the playoff tree
-	lda.w #$0004					; sflags3 mask $0004:
+	lda.w #sf3alttree				; sflags3 mask $0004:
 	trb.w sflags3					; test and clear it
 	beq .t1x
 	jmp.w StartGame					; it was set: start the game directly

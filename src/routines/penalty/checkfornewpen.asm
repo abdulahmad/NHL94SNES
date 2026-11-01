@@ -110,10 +110,10 @@ checkfornewpen:						; called from PenaltyManager
 .6:									; return
 	rtl
 .7:									; tsb gmode, if not zero go to .5, ...
-	lda.w #$0008
+	lda.w #gmpendel
 	tsb.w gmode
 	bne .5
-	lda.w #$0030
+	lda.w #PenDelay
 	sta.b d0
 	jsl.l SetPA						; starts the referee animation for penalty d0
 	jmp.w .4
