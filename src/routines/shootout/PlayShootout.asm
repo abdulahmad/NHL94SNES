@@ -56,7 +56,7 @@ PlayShootout:						; called from Opening2
 	stz.w gmode
 	lda.b a2
 	beq .1x
-	lda.w #$0002
+	lda.w #gmdir
 	sta.w gmode
 .1x:								; call StartPer, a2 = pulled value, BA_Sktr_SCnum = $0000, ...
 	jsl.l StartPer					; start a period: reset the teams, the rink and the clock

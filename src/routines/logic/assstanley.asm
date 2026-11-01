@@ -5,7 +5,7 @@ assstanley:							; assignment: Stanley Cup celebration
 	lda.w pflags,x					; player flags
 	bit.w #pfna						; first frame of the assignment (pfna)?
 	beq .2
-	and.w #$FFFD					; clear pfna
+	and.w #(~pfna&$FFFF)			; clear pfna
 	sta.w pflags,x
 	lda.w #$005A					; x target 90
 	sta.w temp3,x

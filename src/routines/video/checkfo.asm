@@ -7,7 +7,7 @@ checkfo:							; called from setvideo
 	lda.w sflags
 	bit.w #sf2faceoff
 	beq .rtl
-	bit.w #$0800
+	bit.w #sf2replay
 	bne .rtl
 	stz.w sprvflip
 	lda.w #$3000

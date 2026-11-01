@@ -6,7 +6,7 @@ DumpInTarget:						; called from assdumpin
 	lda.w pfgoal,x
 	bne .t3
 	lda.w Ypos,x
-	cmp.w #$FFA8
+	cmp.w #-Blueline
 	bmi .t2
 .1:									; passdir = $0004, if Xpos,x negative go to .t1, ...
 	lda.w #$0004
@@ -22,7 +22,7 @@ DumpInTarget:						; called from assdumpin
 	sta.w dumpintarget
 	rtl
 
-.t2:								; Ypos,x - $FFA8 negative: passdir = puckdir+$1A - $0004 & $0007, dumpi...
+.t2:								; Ypos,x + Blueline negative: passdir = puckdir+$1A - $0004 & $0007, du...
 	lda.w puckdir+$1A
 	sec
 	sbc.w #$0004
@@ -32,9 +32,9 @@ DumpInTarget:						; called from assdumpin
 	sta.w dumpintarget
 	rtl
 
-.t3:								; pfgoal,x != 0: if Ypos,x - $0058 >= 0 go to .t2x, ...
+.t3:								; pfgoal,x != 0: if Ypos,x - Blueline >= 0 go to .t2x, ...
 	lda.w Ypos,x
-	cmp.w #$0058
+	cmp.w #Blueline
 	bpl .t2x
 	lda.w #$0000
 	sta.w passdir
@@ -49,7 +49,7 @@ DumpInTarget:						; called from assdumpin
 	sta.w dumpintarget
 	rtl
 
-.t2x:								; Ypos,x - $0058 >= 0: passdir = puckdir+$18 - $0004 & $0007, dumpintar...
+.t2x:								; Ypos,x - Blueline >= 0: passdir = puckdir+$18 - $0004 & $0007, dumpin...
 	lda.w puckdir+$18
 	sec
 	sbc.w #$0004

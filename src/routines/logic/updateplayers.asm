@@ -97,7 +97,7 @@ updateplayers:						; called from DoGameFrame
 	jmp.w .11						;yes: no movement step
 
 .t2x:								; if not zero go to .9, ...
-	cpx.w #$001C					;puck?
+	cpx.w #puckscnum				;puck?
 	bne .9
 	lda.w puckz						;in the air?
 	bne .10							;yes: no friction
@@ -154,7 +154,7 @@ updateplayers:						; called from DoGameFrame
 	adc.w Ypos,x					;plus the carry
 	sta.w Ypos,x					;new y
 .2xx:								; if not zero go to .11, ...
-	cpx.w #$001C					;puck?
+	cpx.w #puckscnum				;puck?
 	bne .11							;no
 	lda.w puckz						;height
 	bmi .11							;below the ice: done
@@ -233,7 +233,7 @@ updateplayers:						; called from DoGameFrame
 	bmi .12							;no
 	beq .12							;goalie: not counted
 	lda.w pflags,x
-	and.w #$1000					;falling flag
+	and.w #pf2unav					;unavailable (bench or box)
 	ora.w pfalock,x					;or locked animation
 	bne .12							;busy: not counted
 	lda.b r3						;his distance
@@ -265,7 +265,7 @@ updateplayers:						; called from DoGameFrame
 	beq .14							;no
 	bit.w #ifcgl					;already waved?
 	bne .14							;yes
-	and.w #$0002					;which side iced?
+	and.w #ifdir					;which side iced?
 	beq .t1xxx
 	lda.w pfgoal,x					;defending this end?
 	bne .14							;no
@@ -283,7 +283,7 @@ updateplayers:						; called from DoGameFrame
 	bcs .14							;yes: still icing
 	cmp.w #$DC00					;fast the other way?
 	bmi .14							;yes: still icing
-	lda.w #$0005					;cancel the icing
+	lda.w #ifcgl|ifok				;cancel the icing
 	trb.w iflags					;he touched it
 .14:								; call vtoa, puckdir,x = A, X - 1, ...
 	jsl.l vtoa						;direction to the puck
@@ -459,7 +459,7 @@ updateplayers:						; called from DoGameFrame
 	lda.w position,x				;goalie?
 	beq .18							;yes: can enter the net
 	lda.w pflags,x
-	and.w #$8000					;no-clip flag
+	and.w #pf2npc					;no-clip flag
 	ora.w sfhormode					;or horizontal mode
 	bne .18							;no net check
 	lda.w Xpos,x
@@ -520,9 +520,9 @@ updateplayers:						; called from DoGameFrame
 	cmp.w #$0018					;high: no side clamp
 	bcs .2xxxxxx
 	lda.w puckx
-	cmp.w #$FF78					;past the left boards?
+	cmp.w #-Sideline				;past the left boards?
 	bpl .1xxxxxxxxxx
-	lda.w #$FF78					;clamp
+	lda.w #-Sideline				;clamp
 	sta.w puckx
 	ldx.w frame+puckscnum			;puck frame
 	cpx.w #SPFpuck					;on the ice?

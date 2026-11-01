@@ -8,7 +8,7 @@ asseben:							; assignment: skate on from the bench
 	lda.w pflags,x					; player flags
 	bit.w #pfna						; first frame of the assignment (pfna)?
 	beq .t2							; not new
-	and.w #$FFFD					; clear pfna
+	and.w #(~pfna&$FFFF)			; clear pfna
 	sta.w pflags,x
 	stz.w Xvel,x					; stand still
 	stz.w Yvel,x					; no speed
@@ -27,7 +27,7 @@ asseben:							; assignment: skate on from the bench
 	plx								; restore X
 	lda.b r2						; Ypos = result of Mul16x8XS
 	sta.w Ypos,x					; y
-	lda.w #$FF78					; door x = -136
+	lda.w #-Sideline				; door x at the left boards
 	sta.w Xpos,x
 	lda.w #$0002					; face left
 	sta.w facedir,x
@@ -47,7 +47,7 @@ asseben:							; assignment: skate on from the bench
 	lda.w #$0004					; face right
 	sta.w facedir,x
 	lda.w pflags,x					; clear the flags in $9000
-	and.w #$6FFF
+	and.w #(~(pf2unav|pf2npc)&$FFFF)
 	sta.w pflags,x
 	stz.w pfnc,x					; collisions on again
 	stz.w SPA,x						; clear the animation

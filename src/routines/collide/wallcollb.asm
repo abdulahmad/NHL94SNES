@@ -9,7 +9,7 @@ wallcollb_over:						; branch target: over the glass
 ; Takes X = object. Called from checkwallcoll. Only the puck can go over the glass; anything else, and a
 ; puck that is low or outside the goal mouth, bounces through wallcoll.
 wallcollb:							; object X hits a wall
-	cpx.w #$001C					; the puck?
+	cpx.w #puckscnum				; the puck?
 	bne wallcollb_bounce			; no: bounce
 	lda.w puckz						; puck height
 	cmp.w #$0021					; $21 or more: over the glass
@@ -58,7 +58,7 @@ wallcollb:							; object X hits a wall
 	bmi wallcollb_out				; negative: skip the store
 	sta.w CwdExciteLvl
 wallcollb_out:						; puck out of play
-	lda.w #$0040					; sfslock: lock the screen
+	lda.w #sfslock					; sfslock: lock the screen
 	tsb.w sflags
 	sta.w pfnc+puckscnum			; puck pfnc (no collision mode)
 	lda.w pucky						; puck y negative (bottom)?
@@ -76,7 +76,7 @@ wallcollb_out:						; puck out of play
 	lda.w #$0006
 	sta.b d0						; d0 = 6
 	jsl.l ShootoutWonBy				; shootout result for that player
-	ldx.w #$001C					; X = the puck again
+	ldx.w #puckscnum				; X = the puck again
 	stx.b a3
 .2:									; end the penalty shot
 	jsl.l EndPenaltyShot			; clear breakaway and the one-timer below

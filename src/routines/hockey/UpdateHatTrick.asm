@@ -4,7 +4,7 @@ UpdateHatTrick:						; called from showcrowd
 	lda.w sfhormode					;horizontal rink?
 	bne .rtl						;yes: no hats
 	lda.w sflags					;flags
-	and.w #$0800					;replay?
+	and.w #sf2replay				;replay?
 	bne .rtl						;yes: no hats
 	lda.l hattrick					;hat trick on?
 	bne .t1

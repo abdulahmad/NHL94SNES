@@ -3,7 +3,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	jsl.l shotdiradj				;aim adjust
 	lda.w #$0007
 	pha								; 1,s = the shot code (7 until set below)
-	lda.w #$0008
+	lda.w #sfssdir
 	trb.w sflags					;clear the shot-pending flag
 	sta.w pfalock,x					;animation locked
 	stx.w shotplayer				;shooter
@@ -14,7 +14,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 .t2:								; 1,s = $0001, tsb sflags, if SPA,x != SPAshotb go to .1, ...
 	lda.w #$0001					;sound 1 (slap)
 	sta.b 1,s
-	lda.w #$1000
+	lda.w #sf2shot
 	tsb.w sflags					;shot flag
 	lda.w SPA,x						;his animation
 	cmp.w #SPAshotb					;backhand?

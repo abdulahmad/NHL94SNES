@@ -12,7 +12,7 @@ AssignPadPlayer:					; called from AssignPadIfFree, PadTakePosition, PuckCarrier
 	bcs .1
 	lda.w pflags,y
 	and.w #(~pfjoycon&$FFFF)
-	ora.w #$0002
+	ora.w #pfna
 	sta.w pflags,y
 	lda.w #$FFFF
 	sta.w playerpad,y

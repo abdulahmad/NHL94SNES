@@ -138,7 +138,7 @@ puckgoalie:							; called from checkpuckcoll_ccx
 	tya
 	lsr a
 	sta.w lastplayer				; lastplayer
-	lda.w #$000C
+	lda.w #sfspdir|sfssdir
 	trb.w sflags
 .6:									; puckvz = 0, nopuck,y = $000A, temp4,y = $0004, ...
 	stz.w puckvz

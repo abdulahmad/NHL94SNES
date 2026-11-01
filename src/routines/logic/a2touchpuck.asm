@@ -52,7 +52,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	lda.w #$FFFF
 	sta.w tmtouch3,y
 .4:									; trb sflags, call a2offsides, if iflags bits $0004 clear go to .8, ...
-	lda.w #$1000
+	lda.w #sf2shot
 	trb.w sflags
 	jsl.l a2offsides
 	ldy.b a2
@@ -94,7 +94,7 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 	sta.b d0
 	lda.w pfgoal,y
 	beq .1x
-	lda.w #$0002
+	lda.w #ifdir
 	tsb.w iflags
 	lda.w #$0000
 	sec
@@ -116,6 +116,6 @@ a2touchpuck:						; takes a2 = player; called when a player touches the puck
 .2x:								; if d0 negative go to .6, ...
 	lda.b d0
 	bmi .6
-	lda.w #$0004
+	lda.w #ifok
 	tsb.w iflags
 	rtl

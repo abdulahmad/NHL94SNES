@@ -45,7 +45,7 @@ assgoalie:							; called from assnearest, asstab
 	lda.w pflags,x					;flags
 	bit.w #pfna						;new assignment?
 	beq .5							;not new
-	and.w #$FFFD					;clear pfna
+	and.w #(~pfna&$FFFF)			;clear pfna
 	sta.w pflags,x					;clear the flag
 	stz.w temp1,x					;clear the timers
 	stz.w temp2,x					;clear the timers
@@ -410,7 +410,7 @@ assgoalie:							; called from assnearest, asstab
 	bne .t1xxxxxxx					;bottom end?
 	lda.w #$0000					;bank 0
 	sta.b a0+2
-	lda.w #$0D17					;top post table
+	lda.w #puckcross				;top crossing entry
 	sta.b a0
 	lda.w #$0104					;post y
 	sta.b d3
@@ -419,8 +419,8 @@ assgoalie:							; called from assnearest, asstab
 	bra .1xxxxxxx
 
 .t1xxxxxxx:							;bottom end
-	lda.w #$0D1B
-	sta.b a0						;bottom post table
+	lda.w #puckcross+pcsize
+	sta.b a0						;bottom crossing entry
 	lda.w #$FEFC
 	sta.b d3						;post y
 	lda.w #$FEF8
@@ -478,7 +478,7 @@ assgoalie:							; called from assnearest, asstab
 	sta.b d0						;right wall
 	lda.w Xpos,x
 	bpl .1xxxxxxxx					;right side: right wall
-	lda.w #$FF78
+	lda.w #-Sideline
 	sta.b d0						;left wall
 .1xxxxxxxx:							; go to .44
 	jmp.w .44

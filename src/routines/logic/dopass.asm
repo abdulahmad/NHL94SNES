@@ -1,7 +1,7 @@
 ; Pass the puck in the pass direction, to the best teammate there if any
 dopass:								; called from chk4pass, passmode
 	stz.w onetimerreq				;no one-timer request
-	lda.w #$0004					; sflags bit $0004
+	lda.w #sfspdir					; sflags bit $0004
 	trb.w sflags					;clear the carry flag
 	lda.w #$FFFF					; puckc = -1: puck not held
 	sta.w puckc						;puck loose

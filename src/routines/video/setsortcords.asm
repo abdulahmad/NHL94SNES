@@ -46,7 +46,7 @@ setsortcords:						; called from setvideo
 	and.w #$00FF					; byte
 	tax								; X = object
 	lda.w #$0000
-	cpx.w #$001C
+	cpx.w #puckscnum
 	bne .1x
 	lda.w puckz
 .1x:								; if not zero go to .2x, ...

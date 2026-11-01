@@ -25,7 +25,7 @@ holdcheck:							; called from checkcheck
 	lda.w puckc
 	cmp.b a3						; X?
 	bne .t2
-	lda.w #$0008					; puck not held anymore
+	lda.w #sfssdir					; puck not held anymore
 	trb.w sflags					; X has the puck
 	bra .t2
 

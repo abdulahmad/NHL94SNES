@@ -57,7 +57,7 @@ resetplstuff:						; reset the players of both teams
 .t1:								; reset the players of team a2 / 2
 	ldy.b a2						; Y = team * 2
 	lda.w tmflags,y					; clear team flag $0010
-	and.w #$FFEF
+	and.w #(~tmfoside&$FFFF)
 	sta.w tmflags,y
 	lda.w #$0005					; 6 players (d2 counts 5 to 0)
 	sta.b d2
@@ -66,7 +66,7 @@ resetplstuff:						; reset the players of both teams
 .1:									; next player
 	stz.w pf2aip,x					; no animation in progress
 	lda.w pflags,x					; pflags: clear bits $D000
-	and.w #$2FFF
+	and.w #(~(pf2unav|pf2pen|pf2npc)&$FFFF)
 	sta.w pflags,x
 	lda.w position,x				; player position
 	bmi .3							; negative: not a skater slot, skip
@@ -81,7 +81,7 @@ resetplstuff:						; reset the players of both teams
 	stz.w impact,x					; no impact, no puck collision block
 	stz.w nopuck,x
 	lda.w pflags,x					; pflags: clear bits $0009
-	and.w #$FFF6
+	and.w #(~(pfdoff|pfjoycon)&$FFFF)
 	sta.w pflags,x
 	stz.w pfnc,x					; no collision mode, not backwards, not locked
 	stz.w pfrev,x

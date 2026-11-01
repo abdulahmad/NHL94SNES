@@ -231,7 +231,7 @@ setupice_reset:						; reset the rink state and fade in
 	jsl.l forceblack				; black screen
 	lda.w #$03E7					; last rink map row = $03E7
 	sta.w Oldrow
-	lda.w #$0001					; sflags $0001 (sfpz): clear pause mode
+	lda.w #sfpz						; sflags $0001 (sfpz): clear pause mode
 	trb.w sflags
 	stz.w Hpos						; scroll position 0, 0
 	stz.w Vpos

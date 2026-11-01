@@ -40,6 +40,6 @@ ClearOffsidesIfAllPlayers:			; clear the offsides flag when nobody is offside an
 	bpl .2							; more players
 	ldy.b a2						; nobody past the line: clear the flag
 	lda.w tmflags,y
-	and.w #$FFEF					; clear tmfoside
+	and.w #(~tmfoside&$FFFF)		; clear tmfoside
 	sta.w tmflags,y
 	rtl								; return

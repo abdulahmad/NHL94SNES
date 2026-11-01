@@ -18,7 +18,7 @@ RestoreBenchEnergy:					; no input; adds energy to the benched players of both t
 	adc.b d0
 	tay								; y = index
 	lda.w tmpdst,y					; tmpdst entry of the player
-	cmp.w #$FFFE					; probably the benched marker?
+	cmp.w #TMPDBENCH				; probably the benched marker?
 	bne .3							; no
 	lda.w tmpde,y					; energy
 	clc

@@ -28,7 +28,7 @@ StartGame_go:						; called from PlayShootout
 	lda.l OptPen
 	cmp.w #$0001
 	bne .1
-	lda.w #$0020
+	lda.w #gmoffs
 	tsb.w gmode
 .1:									; call clearTeamStats, call restoreteams, call InitScores, ...
 	jsl.l clearTeamStats			; clear the team stats and set up the teams
@@ -38,7 +38,7 @@ StartGame_go:						; called from PlayShootout
 	sta.w recbpr+2
 	lda.w #replaystart
 	sta.w recbpr
-	lda.w #$0010
+	lda.w #sfwrap
 	trb.w sflags
 	lda.b a2
 	pha

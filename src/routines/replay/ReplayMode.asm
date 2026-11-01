@@ -5,7 +5,7 @@ ReplayMode:							; called from PauseReplay
 	jsl.l SPCGameUpload				; upload the Game sample set
 	lda.w #$0000
 	sta.l Crowdlevel				;no crowd noise
-	lda.w #$0800					;replay flag
+	lda.w #sf2replay				;replay flag
 	tsb.w sflags					;set it
 	jsl.l ClrHor					; switch back from the horizontal rink to the vertical ice rink
 	lda.w #$FFFF					;nothing dirty yet:
@@ -126,7 +126,7 @@ ReplayMode:							; called from PauseReplay
 	jsl.l SpriteFrameEnd
 	lda.w #$0001					;step 1
 	sta.b d7
-	lda.w #$0002					;pause flag
+	lda.w #sf3rmplay				;play mode off (paused)
 	trb.w sflags3
 	jmp.w .13						;show the first frame
 .10:								; if replaylock >= 0 go to .t2, ...
@@ -481,14 +481,14 @@ ReplayMode:							; called from PauseReplay
 	sta.w Ypos+camobj
 	bra .9x
 
-.t1xxxxx:							; PadControlObj = $000F: PadControlObj+$C = $000F, if puckx - $FF78 >=...
+.t1xxxxx:							; PadControlObj = $000F: PadControlObj+$C = $000F, if puckx + Sideline...
 	lda.w #$000F
 	sta.w PadControlObj+$C			;no marker
 	lda.w puckx						;puck x
-	cmp.w #$FF78					;left of the boards?
+	cmp.w #-Sideline				;left of the boards?
 	bpl .2xxxxxxxx
 .1xxxxxxxxxx:						; falls through
-	lda.w #$FF78					;clamp
+	lda.w #-Sideline				;clamp
 .2xxxxxxxx:							; if minus go to .4xxxxx
 	cmp.w #Sideline					;right of the boards?
 	bmi .4xxxxx
@@ -581,7 +581,7 @@ ReplayMode:							; called from PauseReplay
 	jsl.l SoundVoicesOff			;silence
 	lda.w #$0001
 	sta.b d7						;step 1
-	lda.w #$0002
+	lda.w #sf3rmplay
 	trb.w sflags3					;pause
 	jmp.w .10						;draw
 .12x:								; if sflags3 bit $0002 set go to .t1xxxxxxx, ...
@@ -681,7 +681,7 @@ org $9BB001
 	lda.w recbpr
 	sta.b a4
 	jsl.l RestoreReplayFrame		;restore it
-	lda.w #$0800					;replay flag
+	lda.w #sf2replay				;replay flag
 	trb.w sflags					;clear it
 	jsl.l SetHor					;horizontal rink back
 	jsl.l SpriteFrameStart

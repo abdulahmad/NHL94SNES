@@ -98,7 +98,7 @@ PushRef:							; draws a referee frame
 	sta.b tmp1
 	dec.b tmp2						; rows left
 	bne .loop
-	lda.w #$0200					; referee window changed
+	lda.w #sf2refref				; referee window changed
 	tsb.w sflags
 	bra .5							; done
 
@@ -120,7 +120,7 @@ PushRef:							; draws a referee frame
 	sta.w printy
 .1x:								; call eraser, tsb sflags, d0 = $FFFF, ...
 	jsl.l eraser					; erase it
-	lda.w #$0200					; referee window changed
+	lda.w #sf2refref				; referee window changed
 	tsb.w sflags
 	lda.w #$FFFF					; no message
 	sta.b d0

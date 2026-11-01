@@ -20,7 +20,7 @@ setInjuryType:						; player a2 is injured
 	sta.w xc1						; scroll lock target x = the player's x
 	lda.w Ypos,y
 	sta.w yc1						; scroll lock target y = the player's y
-	lda.w #$0040
+	lda.w #sfslock
 	tsb.w sflags					; sfslock: lock the screen on xc1/yc1
 	stz.b d1						; d1 = team flag, home 0
 	stz.b a0						; a0 = team offset, home 0

@@ -1,7 +1,7 @@
 ; Draw the crowd sprites
 showcrowd:							; called from setvideo
 	lda.w sflags					;flags
-	and.w #$0800					;replay?
+	and.w #sf2replay				;replay?
 	beq .t1							;no
 	lda.w replaynewframe			;new replay frame?
 	bne .t1							;yes: draw

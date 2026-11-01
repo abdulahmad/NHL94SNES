@@ -84,7 +84,7 @@ Pausemode:							; called from Gameloop, PlayShootout
 	bne .1
 	jsl.l ClrHor					; switch back from the horizontal rink to the vertical ice rink
 .1:									; trb sflags, call printscores1, call InitSprites, ...
-	lda.w #$0001
+	lda.w #sfpz
 	trb.w sflags
 	jsl.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
 	ldx.w #$0000

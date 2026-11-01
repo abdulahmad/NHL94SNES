@@ -52,7 +52,7 @@ puckglue:							; called from puckgoalie, puckstick
 	inc a							; one more
 	sta.w tmpasscomp,y
 .4:									; trb sflags, if position,y != 0 go to .6, ...
-	lda.w #$000C
+	lda.w #sfspdir|sfssdir
 	trb.w sflags
 	ldy.b a2						; player
 	lda.w position,y				; position

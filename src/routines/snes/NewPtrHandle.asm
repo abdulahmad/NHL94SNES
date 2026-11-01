@@ -2,7 +2,7 @@
 NewPtrHandle:						; entry point, no direct callers found
 	stx.b r3+2
 	sta.b r3
-	ldx.w #$2000
+	ldx.w #HandleTable
 .find:								; loop: ora Ram7E+2,x, if zero go to .slot, ...
 	lda.l Ram7E,x
 	ora.l Ram7E+2,x

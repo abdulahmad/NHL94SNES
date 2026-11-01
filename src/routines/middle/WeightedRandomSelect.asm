@@ -10,7 +10,7 @@ WeightedRandomSelect:				; called from SetScore
 	pha
 	lda.w #$0000
 	sta.b a1+2
-	lda.w #$0CF9
+	lda.w #nibblebuffer
 	sta.b a1
 	stz.b d1						; sum = 0
 	bra .2							; go

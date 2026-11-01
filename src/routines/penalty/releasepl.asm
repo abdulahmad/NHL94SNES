@@ -37,7 +37,7 @@ releasepl:							; called from updatepentime
 	sta.b d1
 	inc a							; one more
 	sta.w tmap,y
-	lda.w #$0001
+	lda.w #tmflcc
 	tsb.w tmflags					; team flags
 	tsb.w tmflags+2
 	lda.w #priolist>>16
