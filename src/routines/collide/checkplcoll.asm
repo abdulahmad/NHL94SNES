@@ -34,7 +34,7 @@ checkplcoll:						; called from checkcoll
 	cmp.w #$000F					;within 15 right?
 	bpl .1							;no: skip
 	lda.w pflags,y					;no-clip
-	and.w #$8000					;or
+	and.w #pf2npc					;or
 	ora.w pfnc,y					;no-collision flag
 	bne .1							;set: skip
 	cpy.w #$0018					;a player?
@@ -69,7 +69,7 @@ checkplcoll:						; called from checkcoll
 	cmp.w #$000F					;within 15 right?
 	bpl .1x							;no: skip
 	lda.w pflags,y					;no-clip
-	and.w #$8000
+	and.w #pf2npc
 	ora.w pfnc,y					;or no-collision
 	bne .1x							;set: skip
 	cpy.w #$0018					;a player?

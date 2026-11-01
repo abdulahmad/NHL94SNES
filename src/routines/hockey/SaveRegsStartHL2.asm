@@ -137,17 +137,17 @@ StartHL2:							; entry point, no direct callers found
 	sta.w tmscore
 	lda.l gss2,x					;visitors' score
 	sta.w tmscore+2
-	lda.w #$0010					;highlight mode
+	lda.w #gmhl						;highlight mode
 	sta.w gmode						;clock running
 	stz.w gmclock
 	lda.w gsp						; odd period: gmdir
 	lsr a							;odd period?
 	bcc .2							;no
-	lda.w #$0002
+	lda.w #gmdir
 	tsb.w gmode						;flip the ends
 .2:									; sflags3 = 0, sflags = $0400, sfhormode = 0, ...
 	stz.w sflags3
-	lda.w #$0400					;faceoff stop flag only
+	lda.w #sf2drec					;replay recording off, nothing else
 	sta.w sflags
 	stz.w sfhormode
 	stz.w iflags					;no icing
@@ -246,7 +246,7 @@ org $9F9001
 	stx.w OldVcount					;start of the next
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	lda.w sflags
-	bit.w #$0001					;clock stopped?
+	bit.w #sfpz						;clock stopped?
 	bne .7							;yes: no clock
 	lda.w gmclock
 	bne .7							;stopped?
@@ -431,11 +431,11 @@ org $9F9001
 	bit.w #$1000					;start?
 	beq .12							;no
 .11:								;start: skip the rest
-	lda.w #$0008					;skip flag
+	lda.w #sf3sbut					;skip flag
 	tsb.w sflags3
 	bra .13
 .12:								;no skip
-	lda.w #$0008					;clear the skip flag
+	lda.w #sf3sbut					;clear the skip flag
 	trb.w sflags3
 .13:								; call LoadCenterIce, p0 = FaceOffTiles, p1+2 = $007F, ...
 	jsl.l LoadCenterIce				; unpack the home team's centre ice logo to VRAM

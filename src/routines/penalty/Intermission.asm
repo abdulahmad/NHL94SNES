@@ -16,7 +16,7 @@ Intermission:						; the intermission screen
 	ldy.b Vcount+2
 	sta.w vcountmark				; remember the frame counter
 	sty.w vcountmark+2
-	lda.w #$0001					; clear flag bit 0 (pause mode) of sflags
+	lda.w #sfpz						; clear flag bit 0 (pause mode) of sflags
 	trb.w sflags					; clear the first flag bit of sflags
 	lda.w gsp						; the gsp value
 	cmp.w #$0004

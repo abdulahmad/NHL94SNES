@@ -101,8 +101,8 @@ updateanim:							; called from SetSPAUpdate, assbreakaway, puckfaceoff2, update
 .5:									; return
 	ply
 	rtl
-.6:									; Xpos,x = $FF78, facedir,x = $0002, pfalock,x = $0002, ...
-	lda.w #$FF78
+.6:									; Xpos,x = -Sideline, facedir,x = $0002, pfalock,x = $0002, ...
+	lda.w #-Sideline
 	sta.w Xpos,x
 	lda.w #$0002
 	sta.w facedir,x

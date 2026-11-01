@@ -5,7 +5,7 @@
 ; cleared.
 ; Called from clockcont and puckfaceoff.
 clockcont_0:						; period over: end of period scene, then the period or game over message
-	ldx.w #$001C					; object at offset $1C
+	ldx.w #puckscnum				; the puck
 	stx.b a3
 	lda.w #$0018					; assignment $18
 	sta.b d0

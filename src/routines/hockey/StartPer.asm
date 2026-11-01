@@ -40,8 +40,8 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	stz.w pausepad
 .3:									; call startpause
 	jsl.l startpause				; set the pause mode flag and return
-.4:									; a3 = $001C, fox = $0000, foy = $0000, ...
-	ldx.w #$001C
+.4:									; a3 = the puck, fox = $0000, foy = $0000, ...
+	ldx.w #puckscnum
 	stx.b a3
 	lda.w #$0000
 	sta.l fox
@@ -50,7 +50,7 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	sta.b d0
 	jsl.l assreplace
 	jsl.l ClearTextMap				; fill the text map with the blank tile
-	lda.w #$0400
+	lda.w #sf2drec
 	tsb.w sflags
 	lda.w #$FFFF
 	sta.w recsfx
@@ -59,7 +59,7 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	lda.l OptPlayMode
 	cmp.w #$0004
 	beq .t1
-	lda.w #$0010
+	lda.w #sfwrap
 	trb.w sflags
 	lda.w #replaystart>>16
 	sta.w recbpr+2

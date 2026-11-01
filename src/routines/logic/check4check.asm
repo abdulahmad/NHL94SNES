@@ -72,7 +72,7 @@ check4check:						; called from assdefd, assnearest
 	lda.w pfgoal,x
 	bne .4x
 	lda.w Ypos,x
-	cmp.w #$0058
+	cmp.w #Blueline
 	bmi .5x
 	cmp.w #$0108
 	bpl .5x
@@ -88,9 +88,9 @@ check4check:						; called from assdefd, assnearest
 	beq .8
 .3x:								; go to Acheck
 	jml.l Acheck					; hook or hold the chosen player
-.4x:								; pfgoal,x != 0: if Ypos,x - $FFA8 >= 0 go to .5x, ...
+.4x:								; pfgoal,x != 0: if Ypos,x + Blueline >= 0 go to .5x, ...
 	lda.w Ypos,x
-	cmp.w #$FFA8
+	cmp.w #-Blueline
 	bpl .5x
 	cmp.w #$FEF8
 	bpl .2x

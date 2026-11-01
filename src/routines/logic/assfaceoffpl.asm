@@ -15,7 +15,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	lda.w pflags,x					; player flags
 	bit.w #pfna
 	beq .1xx						; new assignment?
-	and.w #$FFFD					; clear pfna
+	and.w #(~pfna&$FFFF)			; clear pfna
 	sta.w pflags,x
 	stz.w temp1,x					; clear temp1
 .1xx:								; a0 = fofdata2 (home) or fofdata2+fosize (visitors)
@@ -25,7 +25,7 @@ assfaceoffpl:						; assignment: the two players taking the face off
 	sta.b a0
 	lda.w pfteam,x					; visitors?
 	beq .2
-	lda.w #$312E					; visitors entry
+	lda.w #fofdata2+fosize			; visitors entry
 	sta.b a0
 .2:									; frame = SPAnum/4 + 1
 	lda.w SPAnum,x					; frame = SPAnum/4 + 1, +3 for a righty

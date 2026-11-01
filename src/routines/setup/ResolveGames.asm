@@ -124,7 +124,7 @@ ResolveGames:						; record the played playoff game and the series wins
 	dex
 	dex
 	bpl .loop
-	lda.w #$0004					; sflags3 bit $0004: the saved passbits are used later
+	lda.w #sf3alttree				; sflags3 bit $0004: the saved passbits are used later
 	tsb.w sflags3
 .7:									; advance to the next round
 	stz.w bosgames					; reset the game counter

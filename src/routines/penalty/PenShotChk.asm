@@ -5,7 +5,7 @@
 ; shot instead of the penalty; else 0
 PenShotChk:							; penalty shot check -> A
 	lda.w gmode						; game mode
-	bit.w #$0010					; flag $0010: highlight mode
+	bit.w #gmhl						; flag $0010: highlight mode
 	bne .t3							; set: no penalty shot
 	lda.b a2						; player hit
 	cmp.w puckc						; the puck carrier?

@@ -111,7 +111,7 @@ Gameloop:							; called from PlayShootout, StartPer
 	lda.w mp5warning				; mp5warning set and gmode bit $0010 clear: force pause mode
 	beq .3
 	lda.w gmode
-	bit.w #$0010
+	bit.w #gmhl
 	bne .3
 	lda.w #sfpz
 	tsb.w sflags

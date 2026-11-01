@@ -3,7 +3,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	lda.w pflags,x
 	bit.w #pfna
 	beq .3
-	and.w #$FFFD
+	and.w #(~pfna&$FFFF)
 	ora.w #pfdoff
 	sta.w pflags,x
 	stz.w temp2,x					; temp2 = 8
@@ -40,7 +40,7 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	lda.w pfgoal,x
 	bne .2
 	lda.w Ypos,x
-	cmp.w #$FFA8
+	cmp.w #-Blueline
 	bpl .5
 .1:									; call RandomWord, and #$0080, if not zero go to .5, ...
 	jsl.l RandomWord
@@ -48,9 +48,9 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	bne .5
 	inc.w onetimerreq
 	jmp.w .8
-.2:									; pfgoal,x != 0: if Ypos,x - $0058 >= 0 go to .1
+.2:									; pfgoal,x != 0: if Ypos,x - Blueline >= 0 go to .1
 	lda.w Ypos,x
-	cmp.w #$0058
+	cmp.w #Blueline
 	bpl .1
 .5:									; if puckc negative go to .7
 	lda.w puckc

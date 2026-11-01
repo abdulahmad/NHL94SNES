@@ -129,9 +129,9 @@ SetPlList:							; called from setpersonel
 	adc.b d3						; plus the player index
 	tay
 	lda.w tmpdst,y					; player state
-	cmp.w #$FFFD
+	cmp.w #TMPDOUT
 	beq .3x
-	cmp.w #$FFFC
+	cmp.w #TMPDINJGAME
 	beq .3x
 	lda.w tmpdst,y
 	bmi .5							; bench or ice: ok

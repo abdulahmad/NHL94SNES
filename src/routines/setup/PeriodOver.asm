@@ -45,9 +45,9 @@ PeriodOver:							; end of a period
 	ldy.w #$0000					; Y = byte offset into tmpdst
 .loopx:								; the 52 roster players
 	lda.w tmpdst,y
-	cmp.w #$FFFD					; out of the game (TMPDOUT)?
+	cmp.w #TMPDOUT					; out of the game (TMPDOUT)?
 	bne .1
-	lda.w #$FFFE					; yes: back to the bench (TMPDBENCH)
+	lda.w #TMPDBENCH				; yes: back to the bench (TMPDBENCH)
 	sta.w tmpdst,y
 .1:									; next player
 	iny

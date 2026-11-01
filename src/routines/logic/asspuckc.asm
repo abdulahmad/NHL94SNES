@@ -18,7 +18,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	lda.w pflags,x
 	bit.w #pfna
 	beq .1x
-	and.w #$FFFD
+	and.w #(~pfna&$FFFF)
 	sta.w pflags,x
 	stz.w temp1,x
 	stz.w temp2,x

@@ -5,11 +5,11 @@ assdumpin:							; called from asstab
 	cpx.w puckc
 	bne .t2
 	lda.w pflags,x
-	bit.w #$0002
+	bit.w #pfna
 	beq .t3
 	jsl.l DumpInTarget				; assdumpin: dumpinplayer = X
 	lda.w pflags,x
-	and.w #$FFFD
+	and.w #(~pfna&$FFFF)
 	sta.w pflags,x
 	lda.w playerpad,x
 	bpl .t3

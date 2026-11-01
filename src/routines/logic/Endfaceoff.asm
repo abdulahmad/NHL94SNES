@@ -5,11 +5,11 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	stz.b p0+2
 	lda.w #$0007
 	jsl.l sfx						; play sound A with the velocity in p0 / p0+2
-	lda.w #$0100
+	lda.w #sf2faceoff
 	trb.w sflags
 	lda.w #$0000
 	sta.l fobox
-	lda.w #$0400
+	lda.w #sf2drec
 	trb.w sflags
 	stz.w replaydelay
 	stz.w gmclock

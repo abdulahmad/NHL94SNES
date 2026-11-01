@@ -77,7 +77,7 @@ puckstick:							; called from checkpuckcoll_ccx
 	tya								; old carrier
 	lsr a
 	sta.w lastplayer				; lastplayer = the old carrier
-	lda.w #$000C
+	lda.w #sfspdir|sfssdir
 	trb.w sflags
 .3:									; call PuckSfx, call a2touchpuck, go to deflect
 	lda.w #$0003

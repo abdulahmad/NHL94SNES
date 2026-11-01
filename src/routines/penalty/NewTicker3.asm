@@ -9,7 +9,7 @@ NewTicker3:							; shows the ticker box
 	sta.b a0						; a0 = word offset
 	tax								; x = it
 	lda.l gsflags,x					; game flags
-	bit.w #$0006					; flags $0006: over or highlight pending
+	bit.w #gsfhl|gsfso				; flags $0006: over or highlight pending
 	bne NewTicker2					; yes: take the next game
 	lda.b a1+2						; save a1 (long pointer)
 	pha
@@ -25,7 +25,7 @@ NewTicker3:							; shows the ticker box
 	pla
 	sta.b a1+2
 	lda.w sflags					; pause mode?
-	bit.w #$0001					; flag sfpz
+	bit.w #sfpz						; flag sfpz
 	bne .pj							; yes: one position is enough
 	lda.b a1+2						; save a1
 	pha

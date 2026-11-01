@@ -95,7 +95,7 @@ StartSoundVoice:					; start the note on a voice
 	cmp.w #$0010					;sound effect track $10?
 	bne .1x							;no
 	lda.w sflags					;flags
-	bit.w #$0800					;replay?
+	bit.w #sf2replay				;replay?
 	bne .1x							;yes: don't record
 	lda.b StartGain					;gain
 	sta.w recsfxvol					;record the volume
@@ -237,7 +237,7 @@ StartSoundVoice:					; start the note on a voice
 	cmp.w #$0010					;sound effects?
 	bne .1xxx						;no
 	lda.w sflags					;flags
-	bit.w #$0800					;replay?
+	bit.w #sf2replay				;replay?
 	bne .1xxx						;yes: don't record
 	lda.w VoicePitch,x				;pitch
 	sta.w recsfxpitch				;record it

@@ -3,7 +3,7 @@ assshoot:							; X = shooter; asstab entry (SetShotMode / ShotMode are its part
 	lda.w pflags,x
 	bit.w #pfna
 	beq .t2
-	and.w #$FFFD
+	and.w #(~pfna&$FFFF)
 	sta.w pflags,x
 	bra SetShotMode					; set the shot mode
 

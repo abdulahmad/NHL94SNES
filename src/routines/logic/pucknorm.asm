@@ -76,7 +76,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	lda.w PenShotActive
 	beq .9
 	lda.w gmode
-	bit.w #$0002
+	bit.w #gmdir
 	bne .t1
 	lda.w BA_Team
 	beq .7
@@ -190,11 +190,11 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	bmi .2x
 	lda.w #Sideline
 	sta.b d0
-.2x:								; if d0 - $FF78 >= 0 go to .3x, ...
+.2x:								; if d0 + Sideline >= 0 go to .3x, ...
 	lda.b d0
-	cmp.w #$FF78
+	cmp.w #-Sideline
 	bpl .3x
-	lda.w #$FF78
+	lda.w #-Sideline
 	sta.b d0
 .3x:								; puckcross,y = d0, return
 	lda.b d0

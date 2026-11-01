@@ -56,7 +56,7 @@ checkob:							; called from asspuckc, doinput
 .3:									; d0 = $0040, trb sflags, if zero go to .4, ...
 	lda.w #$0040
 	sta.b d0
-	lda.w #$8000
+	lda.w #sf2offsig
 	trb.w sflags
 	beq .4
 	lda.l refwindow
@@ -89,7 +89,7 @@ checkob:							; called from asspuckc, doinput
 .6:									; d0 = $0006, tsb sflags, if not zero go to .4, ...
 	lda.w #$0006					; d0 = 6
 	sta.b d0
-	lda.w #$8000
+	lda.w #sf2offsig
 	tsb.w sflags
 	bne .4
 	lda.w RefCnt

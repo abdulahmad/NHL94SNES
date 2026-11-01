@@ -194,7 +194,7 @@ InProgress:							; sends the last PenBuf entry to the box
 	tay								; y = index into tmpdst
 	lda.w tmpdst,y					; old state of the player
 	bmi .7							; negative: no old time
-	and.w #$1000					; keep bit 12 of the old state
+	and.w #TMPDINJ					; keep bit 12 of the old state
 	tsb.b d2						; into the new word
 .7:									; store the penalty time
 	lda.b d2
@@ -268,9 +268,9 @@ InProgress:							; sends the last PenBuf entry to the box
 ; InProgress: the penalties are over (chkprogress_find found none): clear gmpen, puck faceoff assignment, then
 ; InProgress_coin
 InProgress_exit:					; the penalty list is empty: end the penalty mode
-	lda.w #$0004					; the penalty mode flag
+	lda.w #gmpen					; the penalty mode flag
 	trb.w gmode
-	ldx.w #$001C					; object 14 (the puck)
+	ldx.w #puckscnum				; the puck
 	stx.b a3
 	lda.w #$001B					; assignment 27: puck faceoff
 	sta.b d0

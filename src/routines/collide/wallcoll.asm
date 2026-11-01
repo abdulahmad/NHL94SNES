@@ -45,12 +45,12 @@ wallcoll:							; bounce object X off a wall
 	adc.b d0
 	sta.b d3						; d3 = v1t = Xvel*cos + Yvel*sin, the speed along the wall
 	tyx								; back to X
-	cpx.w #$001C					; the puck?
+	cpx.w #puckscnum				; the puck?
 	beq .t2
 	jmp.w .6						; no: a player
 
 .t2:								; puck: clear sflags bit $1000
-	lda.w #$1000
+	lda.w #sf2shot
 	trb.w sflags
 	lda.b d2						; moving into the wall?
 	bmi .t1
@@ -179,7 +179,7 @@ org $9E9000
 	sta.b d3
 	pla
 	sta.b d2
-	cpx.w #$001C					; the puck?
+	cpx.w #puckscnum				; the puck?
 	bne .rtl						; no: done
 	lda.w puckc						; puck carrier set (not loose)?
 	bpl .rtl						; yes: done

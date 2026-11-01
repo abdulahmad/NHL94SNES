@@ -76,7 +76,7 @@ findpc:								; choose the player for pad d4
 	bcc .4
 .3:									; neither: locked or flag $1000 skips him
 	lda.w pflags,x
-	and.w #$1000
+	and.w #pf2unav
 	ora.w pfalock,x
 	bne .8
 .4:									; candidate already has a pad?

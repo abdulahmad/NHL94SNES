@@ -5,8 +5,8 @@ ShootoutWonBy:						; "<team> Wins!" once the shootout is decided
 	jmp.w .3						;not a shootout: just the penalty
 
 .t1:								;in a shootout
-	lda.w #$000A					;penalty $A
-	sta.b d0						;d0 = $A for the penalty
+	lda.w #PenWhistle				;the whistle penalty
+	sta.b d0						;d0 = PenWhistle for the penalty
 	lda.w shootoutdecider			;shootout decided?
 	bne .t3							;decided?
 	jmp.w .3						;no decider: just the penalty

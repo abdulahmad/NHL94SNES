@@ -15,7 +15,7 @@ chkprogress:						; called from PenaltyManager
 	sbc.b d7
 	sta.w PenCntDwn
 	bpl .1
-	lda.w #$0008
+	lda.w #gmpendel
 	trb.w gmode
 	lda.w #PenBuf>>16
 	sta.b a0+2
@@ -50,7 +50,7 @@ chkprogress:						; called from PenaltyManager
 	beq .loop
 	cmp.w #$0001
 	beq .loop
-	lda.w #$0400
+	lda.w #sf2drec
 	tsb.w sflags
 	lda.w brightness
 	beq .1x
@@ -60,7 +60,7 @@ chkprogress:						; called from PenaltyManager
 	jsl.l SetHor					; switches to the horizontal rink
 	lda.w #$FF00
 	tsb.w puckc
-	ldx.w #$001C
+	ldx.w #puckscnum
 	stx.b a3
 	lda.w #$001A
 	sta.b d0

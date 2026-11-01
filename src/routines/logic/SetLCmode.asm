@@ -14,7 +14,7 @@ SetLCmode:							; open the line change box for the team of player X
 	bne .t1							; yes: leave
 	ora.w #$0008					; mark the box as open
 	sta.w tmflags,y					; store the team flags
-	lda.w #$000C					; clear sflags bits 2 and 3 (pass and shot direction set)
+	lda.w #sfspdir|sfssdir			; clear sflags bits 2 and 3 (pass and shot direction set)
 	trb.w sflags
 	jmp.w SetLCmode2				; draw the box
 

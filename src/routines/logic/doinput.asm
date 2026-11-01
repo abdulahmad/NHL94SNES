@@ -202,7 +202,7 @@ doinput:							; pad input for player X
 	ldy.w passReceiverPlayerNum		; pass receiver
 	bmi .23							; none
 	lda.w pflags,y					; his flags
-	and.w #$1000					; bit $1000 and his animation lock
+	and.w #pf2unav					; unavailable, or his animation locked
 	ora.w pfalock,y
 	bne .23							; set: leave
 	lda.w playerpad,y				; his pad

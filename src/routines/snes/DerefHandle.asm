@@ -1,8 +1,8 @@
 ; address of handle A in A, bank in X; 0 and 0 for a bad handle
 DerefHandle:						; entry point, no direct callers found
-	cmp.w #$2000
+	cmp.w #HandleTable
 	bcc .bad
-	cmp.w #$2100
+	cmp.w #HandleTable+$100
 	bcs .bad
 	stx.b r3
 	tax

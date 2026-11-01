@@ -3,7 +3,7 @@ assnearest:							; X = player; asstab entry
 	lda.w pflags,x
 	bit.w #pfna						;new assignment?
 	beq .1							;no
-	and.w #$FFFD					;clear the new flag
+	and.w #(~pfna&$FFFF)			;clear the new flag
 	sta.w pflags,x
 	stz.w temp3,x					;no chase timer
 	stz.w temp2,x					;reaction timer 0
@@ -93,7 +93,7 @@ assnearest:							; X = player; asstab entry
 	beq .9							;yes: no chase
 .1xx:								; if sflags bits $2000 clear go to .2x, ...
 	lda.w sflags					;power play?
-	bit.w #$2000					;no
+	bit.w #sf2pwrplay				;no
 	beq .2x							;shift 0
 	dec.b d1
 	dec.b d1						;short handed?

@@ -6,7 +6,7 @@
 SetShotMode:						; start a shot by player X
 	lda.w #$0008					; no direction yet
 	sta.w passdir
-	lda.w #$0008					; shot mode flag
+	lda.w #sfssdir					; shot mode flag
 	tsb.w sflags					; shot mode
 	stz.b d0						; goal x = 0
 	lda.w #$0128					; goal y = +$128

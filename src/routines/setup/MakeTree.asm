@@ -44,7 +44,7 @@ MakeTree:							; called from EncodePW, GameOver, NewPO, setoptions
 	dey
 	dey
 	bpl .loop3
-	lda.w #$34E2
+	lda.w #potree+$10				; the next round, after the 16 seeds
 	sta.b a1
 	lda.b a0+2
 	sta.b a1+2
