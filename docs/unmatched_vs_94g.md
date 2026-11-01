@@ -1,7 +1,7 @@
 # NHL 94 SNES vs NHL 94 Genesis: unmatched symbols
 
-> **Status.** Made with the pull request that adds it. Applied there: the 18 renames and the 21 flag equates
-> in the first two tables. The other tables are candidates only; rows below that name an applied symbol use the
+> **Status.** Made with the pull request that adds it. Applied there: the 18 renames, the 21 flag equates and
+> the second pass (screens, `randomd0s`, `TMPDINJGAME`) in the first three tables. The other tables are candidates only; rows below that name an applied symbol use the
 > new name. The ROM stays byte-identical (`./build.sh` prints `MATCH`).
 
 Source: every global label and `=` equate in `src/` (4028 symbols) against every label, `equ` / `=` and `rs`
@@ -38,6 +38,31 @@ but not one to one, **NO MATCH** SNES only.
 | `revplayeracc` | `noturn` | EXACT | flip d2 when skating backwards, then `playeracc`: the 94G `noturn` body exactly |
 | `TickerTeam` | `PrintGameInfo` | LIKELY | team d0's name at x, score d1 further right, then print; 94G does the same with `PushNumberWidth`; 93S rename |
 | `GetPadTeam` | `seta2` | LIKELY | a2 = the team of the controller that paused, from the `cont1team` sides; 94G `seta2` tests `cont1team` / `cont2team`; 93S rename |
+
+## Applied: second pass (screens and checks)
+
+Each pair was read in 94S, 94G and 93S before the rename.
+
+| old 94S name | new name | conf. | evidence |
+|---|---|---|---|
+| `StatsReport` (the `SetHor` tail) | `SetHor_rink` | EXACT | the 93S name of the same tail; frees `StatsReport` for the screen below |
+| `ShowGameStats` | `StatsReport` | LIKELY | the "Game Statistics" pause screen; 94G and 93S `StatsReport` |
+| `PrintTeamStatRows` | `DisplayStats` | LIKELY | prints the team stat rows of that screen, the 94G `DisplayStats` job |
+| `StatColumnNames` | `StatSortTitles` | EXACT | the six sort column titles in order, read by the sort screen as in 94G |
+| `ShowPlayerStats` (and its `_*` labels) | `PlayerStatsScreen` | LIKELY | the player stats pause screen; 94G / 93S name |
+| `ShowScoringSummary` | `ScoringSummaryScreen` | LIKELY | same screen and strings |
+| `ShowPenaltySummary` | `PenaltySummaryScreen` | LIKELY | same screen and strings |
+| `TeamRoster` | `TeamRosterScreen` | LIKELY | the pause item roster screen; 93S rename, 94G name |
+| `ShowOtherScores` | `ShowScores` | LIKELY | the "Other Scores" screen in the playoff / season modes |
+| `ShowCrowdMeter` | `CrowdMeterScreen` | LIKELY | the crowd meter pause screen |
+| `ShowPeriodStats` | `PeriodStatsScreen` | LIKELY | the period stats pause screen |
+| `ShowPlayerCards` | `PlayerCards` | LIKELY | the "Player Cards" pause item built with `DrawPlayerCard` |
+| `EditLinesScreen` | `LineEditor` | LIKELY | the line editor pause screen |
+| `EditLinesMenu` | `LineEditorExit` | LIKELY | its exit menu (Exit / Set Original lines, 94G Return to Game / Restore default lines) |
+| `Restart` | `Opening2` | LIKELY | resets the stack, then options, shootout check and the game loop, as 94G `Opening2` |
+| `randomd0s` | `randomas` | EXACT | random number in the range in A; it had the 94G name of the other routine |
+| `randomd0sd0` | `randomd0s` | EXACT | random number in the range in d0: the 94G `randomd0s`. The old names made a false name match |
+| `rosterNone` | `TMPDINJGAME` | EXACT | `$FFFC` in `tmpdst`: 94G `setInjuryType` writes it for "injured for the game", 94S one time in eight |
 
 ## Applied: flag equates (94G names, 94S masks)
 
@@ -78,20 +103,20 @@ the variable right before the mask.
 | 94S | 94G | evidence | why not applied |
 |---|---|---|---|
 | `TeamStatNames`, `TeamStatNamesNoPen` | `TeamStatTextTbl`, `TeamStatTextTblNoPen` | the same rows in the same order (Score, Shots, Shooting Pct., Power Play ...; the NoPen list drops the power play rows) | 94G keeps the stat offsets in the same table; 93S `TeamStatTextTbl` is only the offsets. Needs a naming decision |
-| `StatColumnNames` | `StatSortTitles` | the six sort column titles in order (Goalies / Goalie Saves, Goals, Assists, Points, Shots, Penalties) | read by `SortPlayerStats` here, `DrawStatsList` in 94G |
 | `CreditNames` + `CreditTitles` | `CreditsList` | the same titles and names | 94S splits titles and names into two tables |
 | `jdtab8F` | `jdtab` | the same 16 bytes | 93S has a different table called `jdtab`; `jdtab8F` is the 93S name of this copy |
 | `doshot_shotsets` | `shotsets` | x / z offset per pass direction, read by `doshot`; values 15 here, 16 in 94G | `doshot_shotsets` is the 93S name |
-| `ShowPlayerCards` | `PlayerCards` | the "Player Cards" pause item screen built with `DrawPlayerCard` | 94S also has `PausePlayerCards`; 94G `PlayerCards` is both |
 | `ReloadRink` | `ExitStatsScreen` / `ReloadRinkGraphics` | every pause screen handler calls it to rebuild the rink, where 94G screens leave through `ExitStatsScreen` | different steps (SNES palettes, rink map) |
 | `PauseFromPad` | `startpause2` / `startpause3` / `startpause4` | `pausepad` = A, then `startpause`; same callers (`demoread`, `doinput`) | one 94S routine for three 94G entries |
 | `LineSlotNames` | `MatchupPosNames` | the matchup position names | 94S adds a "Team" row |
 | `GameSetupNames` | `OptionNames` | the game setup option names (Play Mode, Penalties, Line Changes, ...) | different lists |
 | `hotplayer1`, `coldplayer1` | `homehotplayer` / `awayhotplayer`, `homecoldplayer` / `awaycoldplayer` | hottest / coldest starter per team, visitors at +2 | 94S is one array per kind |
 | `sfhormode` | `sfhor` | its own word here, a bit of sflags in 94G (the 94S comment says so) | the 94G name is a bit number |
-| `Restart` | `Opening2` | 93S rename | body 0.33 of the 93S opcodes; check first |
-| `TeamRoster` | `TeamRosterScreen` | 93S rename | 72 lines against 354 in 93S; check first |
-| `randomd0sd0` / `randomd0s` | `randomd0s` / `randomas` | 93S swapped these two | needs the swap in one step |
+
+Recommendation for the rows above: leave them. Each one is a different layout (split tables, extra rows, one
+routine for three) or a 93S name already in place, so a 94G name would claim more than the code shows.
+`TeamStatNames` is the names half of 94G `TeamStatTextTbl` (94S `TeamStatSources` is the offsets half, which is
+all 93S `TeamStatTextTbl` holds); a rename is possible but would split one 94G name over two 94S tables.
 
 ## Not applied: POSSIBLE
 
@@ -101,7 +126,8 @@ the variable right before the mask.
 `Decompress` / `DecompressGraphics` (different formats), `checkpuckcoll_ccx` (the 94G local
 `checkpuckcoll.ccx`, not a global), `pmenulist` / `menulist`, `star1score`.. / `starscores`.
 Checked and rejected: `Pausemode_menu` / `Pausemode_Pmenu`, `GetPadTeam` / `GetCardTeam`, `FadeOut` / `forcefade`,
-`CheckBreakaway` / `getBAplayerInfo`.
+`CheckBreakaway` / `getBAplayerInfo`, and the pause menu items `PauseTimeout` / `TimeoutMenu`,
+`PauseGoalieMode` / `ManualGoalieMenu`, `PauseGoalie` / `Pausemode_go` (inline items of a different menu layout).
 
 ## Constants
 
@@ -114,15 +140,13 @@ Same name, different value, as expected from the layouts:
 * `replaysize` 122 against 98 (bytes per replay frame), `cbut` `$80` against bit 5, `SPFarrow` 374 against 384
   (the 94S frame numbers are not the 94G SPF values).
 
-Worth a look:
+Checked and consistent:
 
-* `pf2inj = $0004` is bit 2 of `pflags` (the 94G `pfnc` position), and `noturn0` tests it for the stumble.
-  94G `pf2inj` is pflags2 bit 6, which would be `$10000` in this layout. `setInjuryType` sets `$1000`, which 94G
-  sets as `pf2unav` there; that site is now written `pf2unav`.
-* `rosterNone = $FFFC`: 94G compares `tmpdst` with `$FFFC` as "injured for the game" (collide94.asm around
-  `ResetBench`).
+* `pf2inj = $0004`: tested in `noturn0` (the stumble) and cleared in `setplayer`, the same two sites where 94G tests
+  and clears `pf2inj` (pflags2 bit 6). Neither game ever sets it, so it is a dead flag in both and the 94S value is
+  not a bug. `asspenalty`'s `and.w #$FFF9` clears `pfna` and `pf2inj`.
 
-94S names, 94G uses the number: `TMPDICE` / `TMPDBENCH` / `TMPDOUT` / `rosterNone` (`$FFFF`-`$FFFC` in `tmpdst`) and
+94S names, 94G uses the number: `TMPDICE` / `TMPDBENCH` / `TMPDOUT` / `TMPDINJGAME` (`$FFFF`-`$FFFC` in `tmpdst`) and
 `TMPDINJ` (`$1000`). 94G has no name for them.
 
 94S only (NO MATCH): `SoundBankGame` / `SoundBankMenu`, the `DSP_*` registers, `pwlength` / `PWrange` (94G saves to

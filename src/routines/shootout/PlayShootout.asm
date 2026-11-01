@@ -1,5 +1,5 @@
 ; the shootout: both shooter lists, then a turn for each team every round, until after five rounds
-PlayShootout:						; called from Restart
+PlayShootout:						; called from Opening2
 									;tmscore and $1790 differ
 	lda.l OptLine
 	pha

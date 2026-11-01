@@ -1,5 +1,5 @@
 ; Switch player cards to the other team.
-SwapPlayerCardTeam:					; a2 = team side; called from ShowPlayerCards
+SwapPlayerCardTeam:					; a2 = team side; called from PlayerCards
 	lda.b a2
 	eor.w #$0002					; other team (0 <-> 2)
 	sta.b a2

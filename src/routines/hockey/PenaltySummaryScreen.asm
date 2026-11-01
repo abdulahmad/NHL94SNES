@@ -1,5 +1,5 @@
 ; Penalty summary for both teams. Start leaves.
-ShowPenaltySummary:					; called from PausePenaltySummary
+PenaltySummaryScreen:				; called from PausePenaltySummary
 	lda.w VisTeam
 	sta.l setupvis
 	lda.w HomeTeam

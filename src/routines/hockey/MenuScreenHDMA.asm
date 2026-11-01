@@ -1,7 +1,7 @@
 ; Start the window and COLDATA HDMA (channels 2 and 3) of the stats and menu screens
 ;
-; Called from EditLinesScreen, PlayerSelect, ShootoutShooters, ShowGameStats, ShowOtherScores,
-; ShowPenaltySummary, ShowPeriodStats and ShowPlayerStats.
+; Called from LineEditor, PlayerSelect, ShootoutShooters, StatsReport, ShowScores,
+; PenaltySummaryScreen, PeriodStatsScreen and PlayerStatsScreen.
 MenuScreenHDMA:						; start the window and COLDATA HDMA
 	sep #$20
 	lda.b #$A0						; window mask settings: WOBJSEL $A0, window 1 left edge $40

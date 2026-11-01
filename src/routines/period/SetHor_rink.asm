@@ -1,14 +1,14 @@
 ; Clear the text screen and draw the horizontal rink scoreboard background
-StatsReport:						; called from SetHor
+SetHor_rink:						; called from SetHor
 	lda.b a1+2
 	pha
 	lda.b a1
 	pha
-	lda.w #StatsReportPos>>16
+	lda.w #SetHor_rinkPos>>16
 	sta.b a1+2
-	lda.w #StatsReportPos
+	lda.w #SetHor_rinkPos
 	sta.b a1
-	jsl.l print						; print StatsReportPos
+	jsl.l print						; print SetHor_rinkPos
 	pla
 	sta.b a1
 	pla
@@ -24,11 +24,11 @@ StatsReport:						; called from SetHor
 	pha
 	lda.b a1
 	pha
-	lda.w #StatsReportPos2>>16
+	lda.w #SetHor_rinkPos2>>16
 	sta.b a1+2
-	lda.w #StatsReportPos2
+	lda.w #SetHor_rinkPos2
 	sta.b a1
-	jsl.l print						; print StatsReportPos2
+	jsl.l print						; print SetHor_rinkPos2
 	pla
 	sta.b a1
 	pla

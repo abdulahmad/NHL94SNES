@@ -1,5 +1,5 @@
 ; Other scores screen
-ShowOtherScores:					; called from PauseOtherScores
+ShowScores:							; called from PauseOtherScores
 	lda.w #$001C
 	sta.l setupvis
 	lda.w #$001D
@@ -42,7 +42,7 @@ OtherScoresLoop:					; called from OtherScoresNext, ScrollOtherScoresDown, Scrol
 	lda.b d3
 	bit.w #$1000
 	beq .t2
-	jmp.w OtherScoresRtl			; the rtl ShowOtherScores leaves through
+	jmp.w OtherScoresRtl			; the rtl ShowScores leaves through
 
 .t2:								; d3 bits $1000 clear: if zero go to .t1
 	bit.w #$0800

@@ -1,5 +1,5 @@
 ; Game stats screen: both teams and the stat rows
-ShowGameStats:						; called from PauseGameStats
+StatsReport:						; called from PauseGameStats
 	lda.w VisTeam
 	sta.l setupvis
 	lda.w HomeTeam
@@ -16,11 +16,11 @@ ShowGameStats:						; called from PauseGameStats
 	pha
 	lda.b a1
 	pha
-	lda.w #ShowGameStatsPos>>16
+	lda.w #StatsReportPos>>16
 	sta.b a1+2
-	lda.w #ShowGameStatsPos
+	lda.w #StatsReportPos
 	sta.b a1
-	jsl.l print						; print ShowGameStatsPos
+	jsl.l print						; print StatsReportPos
 	pla
 	sta.b a1
 	pla
@@ -32,11 +32,11 @@ ShowGameStats:						; called from PauseGameStats
 	pha
 	lda.b a1
 	pha
-	lda.w #ShowGameStatsPos2>>16
+	lda.w #StatsReportPos2>>16
 	sta.b a1+2
-	lda.w #ShowGameStatsPos2
+	lda.w #StatsReportPos2
 	sta.b a1
-	jsl.l print						; print ShowGameStatsPos2
+	jsl.l print						; print StatsReportPos2
 	pla
 	sta.b a1
 	pla
@@ -74,6 +74,6 @@ ShowGameStats:						; called from PauseGameStats
 	sta.w irqvscroll2
 	jsl.l MenuScreenHDMA			; start the window and COLDATA HDMA
 	jsl.l ScreenOn
-	jsr.w PrintTeamStatRows			; print each team-stat name and both teams' numbers
+	jsr.w DisplayStats				; print each team-stat name and both teams' numbers
 	jsl.l SendTextMap
 	bra MarkGameStatRows

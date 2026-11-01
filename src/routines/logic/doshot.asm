@@ -146,7 +146,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	sta.b d0
 .3x:								;error
 	pha								; 1,s adjust, 3,s x diff, 5,s y diff; after its pla 5,s is the z diff
-	jsl.l randomd0s					;random +-
+	jsl.l randomas					;random +-
 	adc.b 3,s						;plus dx
 	sta.b 3,s						;new dx
 	lda.b 1,s						;error
@@ -160,8 +160,8 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 	lda.b 5,s						;down: full error
 	bpl .5x							;up: half
 	lsr.b d0
-.5x:								; call randomd0sd0, 5,s = 5,s + d0, call randomd0A, ...
-	jsl.l randomd0sd0				;random +- d0
+.5x:								; call randomd0s, 5,s = 5,s + d0, call randomd0A, ...
+	jsl.l randomd0s					;random +- d0
 	lda.b 5,s						;dy
 	adc.b d0						;plus the error
 	sta.b 5,s						;new dy

@@ -1,4 +1,4 @@
-; The crowd meter bar, lit (18 x 3); ShowCrowdMeter pastes as many columns as the level
+; The crowd meter bar, lit (18 x 3); CrowdMeterScreen pastes as many columns as the level
 
 CrowdMeterLitMap:					;an 18 x 3 map packed for DecompressRLE (width,
 									;height, , then the map words)

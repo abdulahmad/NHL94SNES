@@ -1,7 +1,7 @@
 ; Set up the player card screen: fade out, the logo sprites, fonts, card graphics, map and palettes, clear
 ; text maps, sprites on
 ;
-; Called from ShowPlayerCards. Takes no registers; the screen is shown with sprites on when it returns.
+; Called from PlayerCards. Takes no registers; the screen is shown with sprites on when it returns.
 LoadPlayerCardScreen:				; set up the player card screen graphics and palettes
 	jsl.l FadeOut					; fade out while the team logo sprites unpack to logosprbuf
 	lda.w #TeamLogoSprites>>16

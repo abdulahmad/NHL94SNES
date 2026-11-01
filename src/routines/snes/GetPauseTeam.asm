@@ -1,7 +1,7 @@
 ; a2 = the team of the controller that owns the pause menu
 ;
 ; Takes: pausepad. Returns a2 = 2 if the pause pad belongs to the away team (cont1team = 2), else 0.
-; Called by TeamRoster, ShowPlayerStats, ShowPlayerCards, ShootoutShooters and EditLinesScreen.
+; Called by TeamRosterScreen, PlayerStatsScreen, PlayerCards, ShootoutShooters and LineEditor.
 GetPauseTeam:						; team of the pause controller
 	stz.b a2						; default 0
 	ldx.w pausepad					; pause pad

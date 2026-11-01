@@ -1,5 +1,5 @@
 ; Switch player stats to the other team and redraw the heading.
-SwapPlayerStatsTeam:				; a2 = team side; called from ShowPlayerStats, SetPlayerStatsRange
+SwapPlayerStatsTeam:				; a2 = team side; called from PlayerStatsScreen, SetPlayerStatsRange
 	lda.b a2
 	eor.w #$0002					; other team (0 <-> 2)
 	sta.b a2
@@ -22,4 +22,4 @@ SwapPlayerStatsTeam:				; a2 = team side; called from ShowPlayerStats, SetPlayer
 	jsl.l DrawPlayerStatsPage		; draw the stats page
 	jsl.l SpriteFrameEnd			; close the frame
 	jsl.l SendColours				; send the palette
-	jmp.w ShowPlayerStats_redraw	; redraw and return
+	jmp.w PlayerStatsScreen_redraw	; redraw and return

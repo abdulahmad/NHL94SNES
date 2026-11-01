@@ -1,5 +1,5 @@
 ; Change the lines on the ice. Start opens the line menu.
-EditLinesScreen:					; called from PauseEditLines
+LineEditor:							; called from PauseEditLines
 	jsl.l GetPauseTeam				; team of the pause controller
 	ldy.b a2
 	lda.w tmline,y
@@ -33,10 +33,10 @@ EditLinesScreen:					; called from PauseEditLines
 	lda.b d1
 	bit.w #$1000
 	beq .t2
-	jsr.w EditLinesMenu				; edit Lines menu: Return to Game and Restore default lines
+	jsr.w LineEditorExit			; edit Lines menu: Return to Game and Restore default lines
 	cmp.w #$0000
 	beq .t1
-	jmp.w EditLinesRtl				; the rtl EditLinesScreen leaves through
+	jmp.w EditLinesRtl				; the rtl LineEditor leaves through
 
 .t1:								; call PrintLineNames, go to .3
 	jsl.l PrintLineNames			; print the current line name
@@ -52,7 +52,7 @@ EditLinesScreen:					; called from PauseEditLines
 	cmp.w #$0000
 	bmi .1
 	jsr.w SetLineSlot				; put a player in the cursor slot of the line
-.1:									; drawlinesback = $0001, call PrintLineNames, a1 = EditLinesScreenPos, ...
+.1:									; drawlinesback = $0001, call PrintLineNames, a1 = LineEditorPos, ...
 	lda.w #$0001
 	sta.l drawlinesback
 	jsl.l PrintLineNames			; print the current line name
@@ -60,11 +60,11 @@ EditLinesScreen:					; called from PauseEditLines
 	pha
 	lda.b a1
 	pha
-	lda.w #EditLinesScreenPos>>16
+	lda.w #LineEditorPos>>16
 	sta.b a1+2
-	lda.w #EditLinesScreenPos
+	lda.w #LineEditorPos
 	sta.b a1
-	jsl.l print						; print EditLinesScreenPos
+	jsl.l print						; print LineEditorPos
 	pla
 	sta.b a1
 	pla
@@ -89,11 +89,11 @@ EditLinesScreen:					; called from PauseEditLines
 	pha
 	lda.b a1
 	pha
-	lda.w #EditLinesScreenPos2>>16
+	lda.w #LineEditorPos2>>16
 	sta.b a1+2
-	lda.w #EditLinesScreenPos2
+	lda.w #LineEditorPos2
 	sta.b a1
-	jsl.l print						; print EditLinesScreenPos2
+	jsl.l print						; print LineEditorPos2
 	pla
 	sta.b a1
 	pla

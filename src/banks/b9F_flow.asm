@@ -1,7 +1,7 @@
 ; Bank $9F: period flow, goals and menus. Files in ROM order.
 
 org $9F8000
-incsrc "../routines/hockey/ShowPeriodStats.asm"
+incsrc "../routines/hockey/PeriodStatsScreen.asm"
 incsrc "../routines/hockey/DrawPeriodStats.asm"
 incsrc "../routines/snes/ResetStub.asm"
 incsrc "../routines/setup/Opening.asm"
@@ -115,7 +115,7 @@ incsrc "../routines/hockey/seta2.asm"
 incsrc "../routines/setup/InitializeGameStructures.asm"
 incsrc "../routines/penalty/InitScores.asm"
 incsrc "../routines/hockey/InitScoutingDisplay.asm"
-incsrc "../routines/period/StatsReport.asm"
+incsrc "../routines/period/SetHor_rink.asm"
 incsrc "../routines/stats/GetPlayerCount.asm"
 incsrc "../routines/penalty/ChkShotStat_add.asm"
 incsrc "../routines/logic/FaceoffPads.asm"

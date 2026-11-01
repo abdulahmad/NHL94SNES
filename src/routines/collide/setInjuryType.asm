@@ -48,13 +48,13 @@ setInjuryType:						; player a2 is injured
 .3:									; index into the tmpdst table
 	adc.b d1
 	tay								; Y = index
-	lda.w #$FFFD
-	sta.w tmpdst,y					; mark this entry $FFFD
+	lda.w #TMPDOUT
+	sta.w tmpdst,y					; out of the game
 	lda.w #$0007
 	jsl.l randoma8					; roll 0-7
 	cmp.w #$0000
 	bne .rtl						; usually done
-	lda.w #$FFFC					; one time in eight the entry is $FFFC instead
+	lda.w #TMPDINJGAME				; one time in eight: injured for the game
 	sta.w tmpdst,y
 	lda.w TempPlOffset				; and TempPlOffset gets bit $4000 (probably marks the longer injury)
 	ora.w #$4000

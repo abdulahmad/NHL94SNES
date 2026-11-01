@@ -44,7 +44,7 @@ ResetBench:							; called from SetupTeamForIntermission, StartHL2, puckfaceoff2
 	lda.w tmpdst,y					; state
 	cmp.w #TMPDOUT					; TMPDOUT stays out
 	beq .next						; stays out
-	cmp.w #rosterNone
+	cmp.w #TMPDINJGAME
 	beq .next
 	lda.w #TMPDBENCH				; TMPDBENCH
 	sta.w tmpdst,y					; on the bench

@@ -1,5 +1,5 @@
 ; Print each team-stat name and both teams' numbers.
-PrintTeamStatRows:					; called from ShowGameStats
+DisplayStats:						; called from StatsReport
 	lda.w #statspage>>16
 	sta.b p1+2
 	lda.w #statspage

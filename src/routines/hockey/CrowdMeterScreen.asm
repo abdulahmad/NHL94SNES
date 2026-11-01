@@ -1,5 +1,5 @@
 ; Crowd meter screen
-ShowCrowdMeter:						; called from PauseCrowdLevel
+CrowdMeterScreen:					; called from PauseCrowdLevel
 	lda.w VisTeam					;visitors' logo
 	sta.l setupvis
 	lda.w HomeTeam					;home logo
@@ -26,11 +26,11 @@ ShowCrowdMeter:						; called from PauseCrowdLevel
 	pha
 	lda.b a1
 	pha
-	lda.w #ShowCrowdMeterPos>>16
+	lda.w #CrowdMeterScreenPos>>16
 	sta.b a1+2
-	lda.w #ShowCrowdMeterPos
+	lda.w #CrowdMeterScreenPos
 	sta.b a1
-	jsl.l print						; print ShowCrowdMeterPos
+	jsl.l print						; print CrowdMeterScreenPos
 	pla
 	sta.b a1
 	pla

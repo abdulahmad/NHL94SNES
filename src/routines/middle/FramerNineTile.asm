@@ -1,6 +1,6 @@
 ; Framer with a nine-tile box (FramerNineTileMap: eight border tiles and a centre tile, no flips) from tile
 ; set ninetilechars
-FramerNineTile:						; called from ShowCrowdMeter
+FramerNineTile:						; called from CrowdMeterScreen
 	phx
 	phy
 	lda.l ninetilechars

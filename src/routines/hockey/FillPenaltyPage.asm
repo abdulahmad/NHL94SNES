@@ -1,5 +1,5 @@
 ; Build the penalty summary page in the stats page buffer
-FillPenaltyPage:					; called from ShowPenaltySummary
+FillPenaltyPage:					; called from PenaltySummaryScreen
 	lda.w #statspage>>16
 	sta.b p1+2
 	lda.w #statspage

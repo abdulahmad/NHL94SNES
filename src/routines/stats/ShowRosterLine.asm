@@ -4,7 +4,7 @@
 ; the line name and the column title, clears the area below and prints each player of the line with
 ; GetNameandAttrib, with the position names (PlayerPositionText) of the line or the goalie marks.
 ;
-; Called from MoveRosterColumn and TeamRoster.
+; Called from MoveRosterColumn and TeamRosterScreen.
 ShowRosterLine:						; print the roster line with the chosen attribute
 	lda.b a1+2
 	pha

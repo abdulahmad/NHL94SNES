@@ -1,6 +1,6 @@
 ; Update the scoreboard, with the players in the penalty box and their time left
 ;
-; Called from InProgress and StatsReport. Saves the d0 and a0 register blocks, redraws the scores
+; Called from InProgress and SetHor_rink. Saves the d0 and a0 register blocks, redraws the scores
 ; (printscores1), then prints the box list of team 0 and of team 1 (DispPen). Returns with x = a3.
 USBoard:							; redraws the scoreboard with the penalty boxes
 	stx.b xsave						; keep x

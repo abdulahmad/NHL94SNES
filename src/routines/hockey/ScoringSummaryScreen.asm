@@ -1,5 +1,5 @@
 ; Scoring summary for both teams. Start leaves.
-ShowScoringSummary:					; called from PauseScoringSummary
+ScoringSummaryScreen:				; called from PauseScoringSummary
 	lda.w VisTeam
 	sta.l setupvis
 	lda.w HomeTeam

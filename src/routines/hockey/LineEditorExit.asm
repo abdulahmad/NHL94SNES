@@ -1,5 +1,5 @@
 ; Edit Lines menu: Return to Game and Restore default lines
-EditLinesMenu:						; called from EditLinesScreen
+LineEditorExit:						; called from LineEditor
 	jsr.w ClearEditLinesMenu		; line editor: erase the menu area
 	lda.b a1+2
 	pha
@@ -39,27 +39,27 @@ EditLinesMenu:						; called from EditLinesScreen
 	pha
 	lda.b a1
 	pha
-	lda.w #EditLinesMenuPos>>16
+	lda.w #LineEditorExitPos>>16
 	sta.b a1+2
-	lda.w #EditLinesMenuPos
+	lda.w #LineEditorExitPos
 	sta.b a1
-	jsl.l print						; print EditLinesMenuPos
+	jsl.l print						; print LineEditorExitPos
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	bra .2
 
-.t1:								; $0000 != linemenuitem: a1 = EditLinesMenuPos2, call print, a1 = pulle...
+.t1:								; $0000 != linemenuitem: a1 = LineEditorExitPos2, call print, a1 =...
 	lda.b a1+2
 	pha
 	lda.b a1
 	pha
-	lda.w #EditLinesMenuPos2>>16
+	lda.w #LineEditorExitPos2>>16
 	sta.b a1+2
-	lda.w #EditLinesMenuPos2
+	lda.w #LineEditorExitPos2
 	sta.b a1
-	jsl.l print						; print EditLinesMenuPos2
+	jsl.l print						; print LineEditorExitPos2
 	pla
 	sta.b a1
 	pla
@@ -85,27 +85,27 @@ EditLinesMenu:						; called from EditLinesScreen
 	pha
 	lda.b a1
 	pha
-	lda.w #EditLinesMenuPos3>>16
+	lda.w #LineEditorExitPos3>>16
 	sta.b a1+2
-	lda.w #EditLinesMenuPos3
+	lda.w #LineEditorExitPos3
 	sta.b a1
-	jsl.l print						; print EditLinesMenuPos3
+	jsl.l print						; print LineEditorExitPos3
 	pla
 	sta.b a1
 	pla
 	sta.b a1+2
 	bra .3
 
-.t1x:								; $0001 != linemenuitem: a1 = EditLinesMenuPos4, call print, a1 = pulle...
+.t1x:								; $0001 != linemenuitem: a1 = LineEditorExitPos4, call print, a1 =...
 	lda.b a1+2
 	pha
 	lda.b a1
 	pha
-	lda.w #EditLinesMenuPos4>>16
+	lda.w #LineEditorExitPos4>>16
 	sta.b a1+2
-	lda.w #EditLinesMenuPos4
+	lda.w #LineEditorExitPos4
 	sta.b a1
-	jsl.l print						; print EditLinesMenuPos4
+	jsl.l print						; print LineEditorExitPos4
 	pla
 	sta.b a1
 	pla

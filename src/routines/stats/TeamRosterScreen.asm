@@ -4,7 +4,7 @@
 ; line (0-7).
 ;
 ; Called from PauseTeamRoster.
-TeamRoster:							; roster screen of a team
+TeamRosterScreen:					; roster screen of a team
 	jsl.l GetPauseTeam				; team of the pause controller
 	ldy.b a2
 	lda.w tmline,y
@@ -61,11 +61,11 @@ TeamRoster:							; roster screen of a team
 	pha
 	lda.b a1
 	pha
-	lda.w #TeamRosterPos>>16
+	lda.w #TeamRosterScreenPos>>16
 	sta.b a1+2
-	lda.w #TeamRosterPos
+	lda.w #TeamRosterScreenPos
 	sta.b a1
-	jsl.l print						; print TeamRosterPos
+	jsl.l print						; print TeamRosterScreenPos
 	pla
 	sta.b a1
 	pla
@@ -82,11 +82,11 @@ TeamRosterRedraw:					; redraw the screen for the team in a2
 	pha
 	lda.b a1
 	pha
-	lda.w #TeamRosterPos2>>16
+	lda.w #TeamRosterScreenPos2>>16
 	sta.b a1+2
-	lda.w #TeamRosterPos2
+	lda.w #TeamRosterScreenPos2
 	sta.b a1
-	jsl.l print						; print TeamRosterPos2
+	jsl.l print						; print TeamRosterScreenPos2
 	pla
 	sta.b a1
 	pla

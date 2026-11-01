@@ -5,7 +5,7 @@ PauseCrowdLevel:					; called from PauseMenuHandlers
 	bne .t1
 	jmp.w PauseMenuPoll
 
-.t1:								; d1 bit $8080 set: call ShowCrowdMeter, call ReloadRink, go to PauseSu...
-	jsl.l ShowCrowdMeter			; crowd meter screen
+.t1:								; d1 bit $8080 set: call CrowdMeterScreen, call ReloadRink, go to...
+	jsl.l CrowdMeterScreen			; crowd meter screen
 	jsl.l ReloadRink				; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

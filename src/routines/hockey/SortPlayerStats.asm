@@ -1,6 +1,6 @@
 ; Player stats: print the column name, sort the player order (statsorder) by stat column statcolumn
 ; (ComparePlayerStats), then FillPlayerStatsPage
-SortPlayerStats:					; called from ShowPlayerStats, ShowPlayerStats_column, ShowPlayerStats_...
+SortPlayerStats:					; called from PlayerStatsScreen, PlayerStatsScreen_column...
 	lda.w statcolumn
 	sta.b d0
 	lda.b a1+2
@@ -16,9 +16,9 @@ SortPlayerStats:					; called from ShowPlayerStats, ShowPlayerStats_column, Show
 	sta.b a1
 	pla
 	sta.b a1+2
-	lda.w #StatColumnNames>>16
+	lda.w #StatSortTitles>>16
 	sta.b a1+2
-	lda.w #StatColumnNames
+	lda.w #StatSortTitles
 	sta.b a1
 	jsl.l AdvanceStringPtr			; a1 = string d0 of the string list [a1]
 	jsl.l print

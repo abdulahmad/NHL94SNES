@@ -1,5 +1,5 @@
 ; Player stats for the team in a2.
-ShowPlayerStats:					; called from PausePlayerStats
+PlayerStatsScreen:					; called from PausePlayerStats
 	jsl.l GetPauseTeam				; team of the pause controller
 	lda.b a2
 	pha
@@ -22,11 +22,11 @@ ShowPlayerStats:					; called from PausePlayerStats
 	pha
 	lda.b a1
 	pha
-	lda.w #ShowPlayerStatsPos>>16
+	lda.w #PlayerStatsScreenPos>>16
 	sta.b a1+2
-	lda.w #ShowPlayerStatsPos
+	lda.w #PlayerStatsScreenPos
 	sta.b a1
-	jsl.l print						; print ShowPlayerStatsPos
+	jsl.l print						; print PlayerStatsScreenPos
 	pla
 	sta.b a1
 	pla
@@ -70,46 +70,46 @@ ShowPlayerStats:					; called from PausePlayerStats
 	jsl.l DrawPlayerStatsPage		; player stats
 	jsl.l MenuScreenHDMA			; start the window and COLDATA HDMA
 	jsl.l ScreenOn
-ShowPlayerStats_loop:				; called from ShowPlayerStats_down, ShowPlayerStats_redraw, ShowPlayerS...
+PlayerStatsScreen_loop:				; called from PlayerStatsScreen_down, PlayerStatsScreen_redraw...
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
 	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	jsl.l ProcessInputWithRepeat	; read the pads with key repeat
 	lda.b d3
 	bit.w #$1000
 	beq .t2
-	jmp.w ShowPlayerStats_exit
+	jmp.w PlayerStatsScreen_exit
 
 .t2:								; d3 bits $1000 clear: if zero go to .t1
 	bit.w #$0800
 	beq .t1
-.1:									; go to ShowPlayerStats_up
-	jmp.w ShowPlayerStats_up
+.1:									; go to PlayerStatsScreen_up
+	jmp.w PlayerStatsScreen_up
 
 .t1:								; if zero go to .t3, ...
 	bit.w #$0400
 	beq .t3
-	jmp.w ShowPlayerStats_down
+	jmp.w PlayerStatsScreen_down
 
 .t3:								; if d1 bits $0200 clear go to .t1x
 	lda.b d1
 	bit.w #$0200
 	beq .t1x
-.1x:								; go to ShowPlayerStats_left
-	jmp.w ShowPlayerStats_left
+.1x:								; go to PlayerStatsScreen_left
+	jmp.w PlayerStatsScreen_left
 
 .t1x:								; d1 bits $0200 clear: if zero go to .t2x
 	bit.w #$0100
 	beq .t2x
-.1xx:								; go to ShowPlayerStats_right
-	jmp.w ShowPlayerStats_right
+.1xx:								; go to PlayerStatsScreen_right
+	jmp.w PlayerStatsScreen_right
 
-.t2x:								; if zero go to ShowPlayerStats_redraw
+.t2x:								; if zero go to PlayerStatsScreen_redraw
 	bit.w #$4000
-	beq ShowPlayerStats_redraw
+	beq PlayerStatsScreen_redraw
 .1x2:								; go to SwapPlayerStatsTeam
 	jmp.w SwapPlayerStatsTeam		; switch player stats to the other team and redraw the heading
 
-ShowPlayerStats_redraw:				; called from ShowPlayerStats_column, ShowPlayerStats_down, ShowPlayerS...
+PlayerStatsScreen_redraw:			; called from PlayerStatsScreen_column, PlayerStatsScreen_down...
 	lda.w statcolumn
 	cmp.w #$0000
 	beq .4
@@ -153,18 +153,18 @@ ShowPlayerStats_redraw:				; called from ShowPlayerStats_column, ShowPlayerStats
 	jsl.l PrintToStatsPage
 .3:									; call DrawPlayerStatsPage
 	jsl.l DrawPlayerStatsPage		; player stats
-.4:									; call WaitFrame, go to ShowPlayerStats_loop
+.4:									; call WaitFrame, go to PlayerStatsScreen_loop
 	jsl.l WaitFrame
-	jmp.w ShowPlayerStats_loop
+	jmp.w PlayerStatsScreen_loop
 
-ShowPlayerStats_exit:				; called from ShowPlayerStats_loop
+PlayerStatsScreen_exit:				; called from PlayerStatsScreen_loop
 	lda.w #$0000
 	sta.l playerstatson
 	pla
 	sta.b a2
 	rtl
 
-ShowPlayerStats_down:				; called from ShowPlayerStats_loop
+PlayerStatsScreen_down:				; called from PlayerStatsScreen_loop
 	jsl.l ClearPlayerStatBraces		; erase the braces around the visible player-stat rows
 	lda.w curitem
 	clc
@@ -172,7 +172,7 @@ ShowPlayerStats_down:				; called from ShowPlayerStats_loop
 	dec a
 	cmp.w listend
 	bmi .t1x2
-	jmp.w ShowPlayerStats_redraw
+	jmp.w PlayerStatsScreen_redraw
 
 .t1x2:								; increment listrows, call DrawPlayerStatsPage, decrement listrows, ...
 	inc.w listrows
@@ -193,15 +193,15 @@ ShowPlayerStats_down:				; called from ShowPlayerStats_loop
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1
-	jmp.w ShowPlayerStats_loop
+	jmp.w PlayerStatsScreen_loop
 
-ShowPlayerStats_up:					; called from ShowPlayerStats_loop
+PlayerStatsScreen_up:				; called from PlayerStatsScreen_loop
 	jsl.l ClearPlayerStatBraces		; erase the braces around the visible player-stat rows
 	lda.w curitem
 	dec a
 	cmp.w listtop
 	bpl .t1x3
-	jmp.w ShowPlayerStats_redraw
+	jmp.w PlayerStatsScreen_redraw
 
 .t1x3:								; curitem = A, increment listrows, call DrawPlayerStatsPage, ...
 	sta.w curitem
@@ -222,38 +222,38 @@ ShowPlayerStats_up:					; called from ShowPlayerStats_loop
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1
-	jmp.w ShowPlayerStats_loop
+	jmp.w PlayerStatsScreen_loop
 
-ShowPlayerStats_left:				; called from ShowPlayerStats_loop
+PlayerStatsScreen_left:				; called from PlayerStatsScreen_loop
 	lda.w statcolumn
 	dec a
 	bpl .t1x4
-	jmp.w ShowPlayerStats_redraw
+	jmp.w PlayerStatsScreen_redraw
 
-.t1x4:								; a still >= 0: if zero go to ShowPlayerStats_setrange, ...
+.t1x4:								; a still >= 0: if zero go to PlayerStatsScreen_setrange, ...
 	cmp.w #$0000
-	beq ShowPlayerStats_setrange
-	bra ShowPlayerStats_column
+	beq PlayerStatsScreen_setrange
+	bra PlayerStatsScreen_column
 
-ShowPlayerStats_right:				; called from ShowPlayerStats_loop
+PlayerStatsScreen_right:			; called from PlayerStatsScreen_loop
 	lda.w statcolumn
 	cmp.w #$0005
 	bmi .t1x5
-	jmp.w ShowPlayerStats_redraw
+	jmp.w PlayerStatsScreen_redraw
 
 .t1x5:								; statcolumn - $0005 negative: increment a, if zero go to ShowPlayerSta...
 	inc a
 	cmp.w #$0001
-	beq ShowPlayerStats_setrange
-ShowPlayerStats_column:				; called from ShowPlayerStats_left
+	beq PlayerStatsScreen_setrange
+PlayerStatsScreen_column:			; called from PlayerStatsScreen_left
 	sta.w statcolumn
 	jsl.l SortPlayerStats			; player stats: print the column name
 	jsl.l DrawPlayerStatsPage		; player stats
-	jmp.w ShowPlayerStats_redraw
-ShowPlayerStats_setrange:			; called from ShowPlayerStats_left, ShowPlayerStats_right
+	jmp.w PlayerStatsScreen_redraw
+PlayerStatsScreen_setrange:			; called from PlayerStatsScreen_left, PlayerStatsScreen_right
 	sta.w statcolumn
 	jsl.l SetPlayerStatsRange		; set the row range of the player stats list
 	jsl.l InitStatsOrder			; statsorder[i] = i for the rows of the list
 	jsl.l SortPlayerStats			; player stats: print the column name
 	jsl.l DrawPlayerStatsPage		; player stats
-	jmp.w ShowPlayerStats_redraw
+	jmp.w PlayerStatsScreen_redraw

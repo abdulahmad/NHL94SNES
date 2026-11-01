@@ -1,6 +1,6 @@
 ; Draw the period stats title and both teams' period columns.
 DrawPeriodStats:					;period stats box: goals (curitem 0) or shots for periods 1-3, OT and
-									;total; called from ShowPeriodStats
+									;total; called from PeriodStatsScreen
 	jsl.l SpriteFrameStart			;sprite frame for the title letters
 	jsl.l DrawMatchupPictures		;team photos
 	jsl.l WaitDMAQueue				; wait until the DMA queue is empty

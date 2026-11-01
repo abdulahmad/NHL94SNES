@@ -1,3 +1,3 @@
-; The rtl EditLinesScreen leaves through
-EditLinesRtl:						; called from EditLinesScreen
+; The rtl LineEditor leaves through
+EditLinesRtl:						; called from LineEditor
 	rtl

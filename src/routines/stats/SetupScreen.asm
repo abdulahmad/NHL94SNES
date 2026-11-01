@@ -4,7 +4,7 @@
 ; registers and loads fonts, frame tiles, team blocks and the menu background into VRAM and the palettes,
 ; then clears the text map and starts the sprites and the matchup pictures.
 ;
-; Called from TeamRoster, setoptions, ShowPeriodStats, ShowGameStats, ShowOtherScores and EditLinesScreen.
+; Called from TeamRosterScreen, setoptions, PeriodStatsScreen, StatsReport, ShowScores and LineEditor.
 SetupScreen:						; common setup of the stats screens
 	stz.w FrameByNumber				; no frame picture
 	lda.b a2						; keep the team offset

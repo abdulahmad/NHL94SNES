@@ -1,5 +1,5 @@
 ; Period stats for both teams. Start leaves, Y swaps the view.
-ShowPeriodStats:					; called from PausePeriodStats
+PeriodStatsScreen:					; called from PausePeriodStats
 	lda.w VisTeam
 	sta.l setupvis
 	lda.w HomeTeam

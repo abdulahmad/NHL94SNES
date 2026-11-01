@@ -3,7 +3,7 @@
 ; (= listtop) for the rows of the player stats page. Goalies come first in the roster, so the skaters start
 ; after GetGoalieCount.
 ;
-; Called from ShowPlayerStats and SwapPlayerStatsTeam.
+; Called from PlayerStatsScreen and SwapPlayerStatsTeam.
 SetPlayerStatsRange:				; set the row range of the player stats list
 	lda.w statcolumn				; statcolumn: 0 = goalies page
 	cmp.w #$0000					; compare with 0

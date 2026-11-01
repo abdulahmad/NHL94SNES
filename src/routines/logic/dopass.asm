@@ -312,14 +312,14 @@ dopass_count:						; called from dopass
 	jsl.l ApproxLength				;distance again
 	sta.b d4						;d4
 	pla								;speed
-.4:									; d5 = A, passspeed = A, call randomd0s, ...
+.4:									; d5 = A, passspeed = A, call randomas, ...
 	sta.b d5						;d5
 	sta.w passspeed					;pass speed
 	ldx.b curobj					;passer
 	lda.w #$0010					;16
 	sec
 	sbc.w passacc,x					;minus his accuracy
-	jsl.l randomd0s					;random spread
+	jsl.l randomas					;random spread
 	clc
 	adc.b d5						;plus the speed
 	sta.b d5						;d5

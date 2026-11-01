@@ -1,5 +1,5 @@
 ; Player cards. Left and right change the player, start leaves.
-ShowPlayerCards:					; called from PausePlayerCards
+PlayerCards:						; called from PausePlayerCards
 	jsl.l GetPauseTeam				; team of the pause controller
 	lda.b a2
 	pha

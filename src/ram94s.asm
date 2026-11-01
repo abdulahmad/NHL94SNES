@@ -410,7 +410,7 @@ centericechars	=	$7E35B8			;setupice: tile count of IceRinkTiles = first tile of
 ExtraChars		=	$7E35C2			;setupice: first tile after TeamBlocksTiles (the last set), as 93S
 									;setupice sta ExtraChars; no reader found.
 nextfreechar	=	$7E35C4			;SetupScreen: running next free tile while it loads each set;
-									;ShowCrowdMeter puts CrowdMeterTiles there and ...
+									;CrowdMeterScreen puts CrowdMeterTiles there and ...
 cupchars		=	$7E35C6			;PlayoffScreen: scorechars+$70, the StanleyCupTiles after the bracket
 									;tiles; StanleyCupMap is pasted with it.
 refcharshor		=	$7E35C8			;setupice: first tile of RefTilesHor; PushRef uses it on the horizontal
@@ -776,7 +776,7 @@ Hscroll				=	$0CED		; horizontal scroll
 Vscroll				=	$0D39		; vertical scroll (low 3 bits = BG2 fine scroll)
 vramrow				=	$0D25		; BG2 tile map row at the top of the ring buffer
 rinkmapbuf		=	$7FC800			;BuildRinkMap unpacks IceRinkMap here and pastes the centre ice logo at
-									;+$10B6; ReplayMode and StatsReport send parts of it to VRAM
+									;+$10B6; ReplayMode and SetHor_rink send parts of it to VRAM
 
 ;palette fades and brightness
 brightness			=	$0AD3		;screen brightness 0-15 the fade sets; BrightnessHook writes it to INIDISP
@@ -962,7 +962,7 @@ CrowdAvg		=	$19C6			; the game's average meter (CrowdMeterSum / CrowdMeterCount)
 CrowdLoud		=	$19C0			; 1 at 110 dB or more; cleared under 105 dB (CheckCrowdMeter)
 CrowdMeterCount	=	$19C8			; meter samples taken
 CrowdMeterSum	=	$19CA			; 32-bit sum of the meter samples
-crowdmeterlit		=	$1DD1		;ShowCrowdMeter: lit columns of the crowd meter (level/4), the width the
+crowdmeterlit		=	$1DD1		;CrowdMeterScreen: lit columns of the crowd meter (level/4), the width the
 									;CrowdMeterLitMap paste loop uses
 CrowdPeak			=	$19C4		; the highest CurCrowdMeter of the game
 pausepad			=	$0AC6		; the controller that owns the pause menu
@@ -1059,7 +1059,7 @@ gameclock	=	$1632				; game clock seconds; gameclock+2 = jiffies
 PerTimeTotal		=	$1C82		; length of this period (seconds)
 TempPlOffset		=	$1636		; pnum of the penalized player, high bit set for the visitors
 ScoreSumbytes	=	$7E313A			;Goal adds 6 per goal (capped at $258) and writes the goal at ScoreSum+it;
-									;ShowScoringSummary loops on it; ...
+									;ScoringSummaryScreen loops on it; ...
 ScoreSum		=	$7E313C			;Extra, not in the list (only as an immediate): the goal log Goal writes
 									;6 bytes per goal into (93S ...
 hatx			=	$7E3394			;UpdateHatTrick: x (12.4 fixed) of each of the ten hats, plus hatvx each
@@ -1146,7 +1146,7 @@ ppenmin		=	$198A				; penalty minutes
 TMPDICE		=	$FFFF				; on the ice
 TMPDBENCH	=	$FFFE				; on the bench
 TMPDOUT		=	$FFFD				; out of the game
-rosterNone	=	$FFFC				; no roster slot (beside TMPDOUT in bench checks)
+TMPDINJGAME	=	$FFFC				; injured for the game (setInjuryType, one time in 8; 94G $FFFC)
 TMPDINJ		=	$1000				; injured: box time with this bit has no penalty
 
 ;playoff game structures
@@ -1193,7 +1193,7 @@ pmenucount			=	$1EB9		;Items in that pause menu list (Pausemode_menu/ChoosePause
 									;pmenulist); bounds psitem and psfirst
 pregamepause		=	$1EBB		;StartGame sets 1 when any pad has a team; StartPer then opens the pause
 									;menu at the start (startpause), ...
-pausesubmenu	=	$7E346A			;PauseEditLines / PauseShootoutSetup set it around EditLinesScreen /
+pausesubmenu	=	$7E346A			;PauseEditLines / PauseShootoutSetup set it around LineEditor /
 									;ShootoutShooters run from the pause ...
 pausemenuon		=	$7E3476			;Pausemode_menu sets $FFFF, Pausemode / Intermission clear it after;
 									;DrawHorTeams leaves the pulsing side ...
@@ -1222,7 +1222,7 @@ pausetimer			=	$0CE3		; pause menu: frames left before a demo pause ends by itse
 
 ; roster and line lists
 curitem				=	$1DB9		;Current item of the screen up: exit prompt choice (AskExitGame,
-									;DrawExitPrompt), card (ShowPlayerCards, ...
+									;DrawExitPrompt), card (PlayerCards, ...
 curplayer			=	$1D9B		;Roster index of the player being worked on:
 									;DrawPlayerCard/NextPlayerCard/PrevPlayerCard/DrawPlayerPicture ...
 listcount			=	$1DA3		;Size of the current list: the defense/forward (SelectLinePlayer) or
@@ -1233,15 +1233,15 @@ listend				=	$1DC1		;End of the current list: penalty count (PenSumLength), goal
 									;games + 1, last player card (players+6), ...
 listrows			=	$1DC5		;Rows of a scrolled stats list in the window / sent to VRAM (5 summaries,
 									;6 game stats, 7 player stats; one ...
-linecursor			=	$1D8B		;Line editor slot cursor row: EditLinesScreen starts it at 4 and moves it
+linecursor			=	$1D8B		;Line editor slot cursor row: LineEditor starts it at 4 and moves it
 									;within 0..lineslots-1, ...
 lineplayer			=	$1D8F		;SetLineSlot: the player being put in the cursor slot (A on entry),
 									;compared with the slots for the swap ...
 lineswap			=	$1D93		;Temporary slot byte while SetLineSlot (.5) and
 									;SwapLineSlots swap two line slots
-linemenuitem		=	$1D97		;EditLinesMenu item: 0 Return to Game, 1 Restore default lines (down/up
+linemenuitem		=	$1D97		;LineEditorExit item: 0 Return to Game, 1 Restore default lines (down/up
 									;set it, the button acts on it, ...
-lineslots			=	$1D9F		;Rows (slots) of the line being edited: EditLinesScreen sets 5, drops it
+lineslots			=	$1D9F		;Rows (slots) of the line being edited: LineEditor sets 5, drops it
 									;to 4 for lines 6-7 and back; ...
 picktop				=	$1DA7		;Pick list (line editor, shootout shooters): roster index of the first
 									;player shown; ...
@@ -1256,13 +1256,13 @@ statspage		=	$7F2780			;stats page buffer (32 wide) that PrintToStatsPage and th
 statstemp			=	$1DC9		;Player stats scratch: ComparePlayerStats returns nonzero to swap and uses
 									;it as a temp, SortPlayerStats ...
 statcolumn			=	$1DF9		;Player stats page column: 0 = goalies, 1-5 = skater sort column;
-									;left/right in ShowPlayerStats, ...
+									;left/right in PlayerStatsScreen, ...
 statsorder			=	$1DFB		;Player stats row order, a byte per roster player (InitStatsOrder fills
 									;0,1,2..; ...
-statpenrows			=	$1E15		;Game stats: $10 when penalties are on, 0 when off (ShowGameStats);
-									;PrintTeamStatRows ORs it with each ...
-playerstatson	=	$7E3478			;ShowPlayerStats sets 1 while it runs; DrawMatchupPictures then skips the
-									;picture DMA.
+statpenrows			=	$1E15		;Game stats: $10 when penalties are on, 0 when off (StatsReport);
+									;DisplayStats ORs it with each ...
+playerstatson	=	$7E3478			;PlayerStatsScreen sets 1 while it runs; DrawMatchupPictures then skips
+									;the picture DMA.
 scrollirqdone		=	$1DCD		;IRQ_StatsScroll1 sets $FFFF each frame; the unused waits in
 									;ScrollGameStatsDown (.t1) and OtherScoresRtl ...
 irqline1			=	$1DED		;Line of the first split IRQ: SetupScrollIRQ/SetupBandIRQ store A here and
@@ -1274,7 +1274,7 @@ irqline3			=	$1DF1		;Line of the third split IRQ: SetupScrollIRQ stores Y, IRQ_S
 irqvscroll1			=	$1DF3		;BG1VOFS written by IRQ_StatsScroll1 (low byte, then $1DF4): the scroll
 									;routines step it by 2 per frame for ...
 irqvscroll2			=	$1DF5		;BG1VOFS of the second split, written by IRQ_StatsScroll2;
-									;ShowGameStats/ShowPlayerStats and the summary ...
+									;StatsReport/PlayerStatsScreen and the summary ...
 irqvscroll3			=	$1DF7		;BG1VOFS of the third split, written by IRQ_StatsScroll3; SetupScrollIRQ
 									;sets $FFFF
 
@@ -1400,7 +1400,7 @@ cardblock		=	$7E3464			;Set while DrawPlayerCard draws its team block: DrawTeamB
 									;name sprites (x -8, +4 / +4).
 bigtextchar		=	$7E3466			;RenderBigText: next letter tile (+2 per letter), used by the BigLetter
 									;hooks and by SendBigText / ...
-drawlinesback	=	$7E3468			;EditLinesScreen sets 1; DrawEditLinesTitle then draws DrawEditLinesBack
+drawlinesback	=	$7E3468			;LineEditor sets 1; DrawEditLinesTitle then draws DrawEditLinesBack
 									;first and clears it.
 phototeams		=	$7E346C			;LoadMatchupPhotos: team (home +0, visitors +2) whose matchup photos are
 									;unpacked in the $7F photo buffer, ...

@@ -1,5 +1,5 @@
 ; Print the current line name. A zero select word uses the best-line list.
-PrintLineNames:						; called from EditLinesScreen
+PrintLineNames:						; called from LineEditor
 	lda.b a1+2
 	pha
 	lda.b a1

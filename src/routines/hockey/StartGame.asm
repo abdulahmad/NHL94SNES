@@ -1,5 +1,5 @@
 ; Reset the game state for a new game, then start the first period
-StartGame:							; called from GameOver, Restart
+StartGame:							; called from GameOver, Opening2
 	jsl.l PlayoffScreen				; the playoff tree screen
 StartGame_scout:					; called from GameOver
 	jsl.l Create_HotCold_Table		; fill HotColdTable with random values -12 to 12

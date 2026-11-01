@@ -2,7 +2,7 @@
 ; rows of 9 words) in its palette
 ;
 ; Takes d1 = team number, printx / printy = position in tiles. Returns nothing, X and a2 are kept. Called
-; from TeamRoster, setoptions, ShowMatchups and ShowGameStats.
+; from TeamRosterScreen, setoptions, ShowMatchups and StatsReport.
 DrawTeamBlocks:						; entry: the block of team d1
 	lda.b a2						; keep a2
 	pha								; save a2 and X

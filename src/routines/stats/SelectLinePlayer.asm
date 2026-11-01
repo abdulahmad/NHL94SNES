@@ -5,7 +5,7 @@
 ; pickrows, listcount), starting at the player already in the slot. Returns A = chosen player
 ; (roster index), or $FFFF when start cancels. Left/right change the attribute column (DispAttribCtr).
 ;
-; Called from EditLinesScreen.
+; Called from LineEditor.
 SelectLinePlayer:					; pick a player for a line slot
 	lda.b a1+2						;keep a1
 	pha

@@ -1,5 +1,5 @@
 ; Once per frame: each pad's direction, changed buttons and new presses
-ReadPads:							; called from AskExitGame, BadPasswordPrompt, EditLinesMenu, EditLinesS...
+ReadPads:							; called from AskExitGame, BadPasswordPrompt, LineEditorExit...
 	lda.w PadRaw1
 	xba
 	and.w #$000F
