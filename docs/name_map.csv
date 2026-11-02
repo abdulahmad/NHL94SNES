@@ -2181,7 +2181,7 @@ $8089D4,.1,CODE_8089D4,new,branch target only used in this routine,src/routines/
 $808A0E,.2,CODE_808A0E,new,branch target only used in this routine,src/routines/video/DMAToVRAMHigh.asm
 $9BA153,.1,CODE_9BA153,new,branch target only used in this routine,src/routines/video/crowd/showcrowd.asm
 $9DB409,.loop,CODE_9DB409,new,branch target only used in this routine,src/routines/title/TitleScreen.asm
-$9FE415,.1,CODE_9FE415,new,branch target only used in this routine,src/routines/hockey/ManualGoalieMenu.asm
+$9FE415,.1,CODE_9FE415,new,branch target only used in this routine,src/routines/goalie/ManualGoalieMenu.asm
 $9E95DA,.1,CODE_9E95DA,new,branch target only used in this routine,src/routines/collide/checkplcoll.asm
 $9E95DC,.2,CODE_9E95DC,new,branch target only used in this routine,src/routines/collide/checkplcoll.asm
 $9E9608,.3,CODE_9E9608,new,branch target only used in this routine,src/routines/collide/checkplcoll.asm
@@ -3750,7 +3750,7 @@ $9FE33C,PauseScoringSummary,CODE_9FE33C,new,Scoring Summary,src/routines/hockey/
 $9FE351,PausePenaltySummary,CODE_9FE351,new,Penalty Summary,src/routines/hockey/PausePenaltySummary.asm
 $9FE390,PausePeriodStats,CODE_9FE390,new,Period Stats,src/routines/hockey/PausePeriodStats.asm
 $9FE3BA,Pausemode_go,CODE_9FE3BA,94G,"role match with the 94G pause item; was PauseGoalie",src/routines/stats/Pausemode_go.asm
-$9FE3FF,ManualGoalieMenu,CODE_9FE3FF,94G,"role match with the 94G pause item; was PauseGoalieMode",src/routines/hockey/ManualGoalieMenu.asm
+$9FE3FF,ManualGoalieMenu,CODE_9FE3FF,94G,"role match with the 94G pause item; was PauseGoalieMode",src/routines/goalie/ManualGoalieMenu.asm
 $9FE418,PauseDefControl,CODE_9FE418,new,toggle defensive control,src/routines/hockey/PauseDefControl.asm
 $9FE366,PausePlayerCards,CODE_9FE366,new,Player Cards,src/routines/hockey/PausePlayerCards.asm
 $9FE37B,PauseOtherScores,CODE_9FE37B,new,Other Scores,src/routines/hockey/PauseOtherScores.asm
