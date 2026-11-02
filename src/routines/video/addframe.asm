@@ -10,12 +10,12 @@ addframe:							; draw SpriteFrames frame sprframe (at most $3D0) at sprx, spry
 	lda.w sprhflip
 	beq .1
 	lda.w #$4000
-	tsb.w sprattr
+	tsb.w sprpal
 .1:									; if sprvflip = 0 go to .2, ...
 	lda.w sprvflip
 	beq .2
 	lda.w #$8000
-	tsb.w sprattr
+	tsb.w sprpal
 .2:									; if a still >= 0 go to .3, ...
 	lda.w sprframe
 	dec a
@@ -27,7 +27,7 @@ addframe:							; draw SpriteFrames frame sprframe (at most $3D0) at sprx, spry
 	lda.w #$03D0
 .4:									; r0 = A, call DrawSprite
 	sta.b r0
-	lda.w sprattr
+	lda.w sprpal
 	ldx.w sprx
 	ldy.w spry
 	jsl.l DrawSprite

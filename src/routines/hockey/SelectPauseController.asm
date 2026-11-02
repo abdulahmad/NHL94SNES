@@ -12,7 +12,7 @@ SelectPauseController:				; called from PauseMenuPoll
 	jsl.l WaitFrame
 	jsl.l SpriteFrameEnd
 	jsl.l ReadPads					; once per frame: each pad's direction, changed buttons and new presses
-	lda.w pausepad
+	lda.w sfpj
 	bpl .4
 	lda.w #$0000
 	pha								; 1,s = the controller counter
@@ -45,9 +45,9 @@ SelectPauseController:				; called from PauseMenuPoll
 	lda.w cont1team,x
 	eor.w #$FFFF					; negate: two's complement
 	inc a
-	cmp.w pausepad
+	cmp.w sfpj
 	beq .3
-	stx.w pausepad
+	stx.w sfpj
 	stz.w psitem
 	stz.w psfirst
 	jsl.l SetupPauseScreen			; draw the pause menu: five items of the current list from item psfirst
@@ -67,8 +67,8 @@ SelectPauseController:				; called from PauseMenuPoll
 	jsl.l ChoosePauseMenu			; use the longer pause menu when this side still has a timeout
 .2:									; return
 	rtl
-.3:									; pausepad = X, pausepadidle = $003C
-	stx.w pausepad
+.3:									; sfpj = X, pausepadidle = $003C
+	stx.w sfpj
 	lda.w #$003C
 	sta.w pausepadidle
 	txa
@@ -87,13 +87,13 @@ SelectPauseController:				; called from PauseMenuPoll
 	sta.w pausepadidle
 	beq .1x
 	bpl .5
-.1x:								; pausepadidle = 0, pausepad = -(cont1team,x), return
+.1x:								; pausepadidle = 0, sfpj = -(cont1team,x), return
 	stz.w pausepadidle
-	ldx.w pausepad
+	ldx.w sfpj
 	lda.w cont1team,x
 	eor.w #$FFFF					; negate: two's complement
 	inc a
-	sta.w pausepad
+	sta.w sfpj
 	rtl
 
 .t1xx:								; d3 != 0: pausepadidle = $003C

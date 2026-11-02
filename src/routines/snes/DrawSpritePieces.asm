@@ -181,7 +181,7 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 	ldx.w FrameByNumber
 	beq FindCachedFrame
 	ldx.w DrawFrameNum
-	lda.w FrameCacheOf,x
+	lda.w sprframetime,x
 	bmi LoadFrameTiles
 	xba
 	and.w #$00FF

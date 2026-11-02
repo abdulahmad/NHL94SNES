@@ -28,7 +28,7 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	jsr.w .2
 	stz.b introHookFlags
 	jsr.w .3
-	stz.w fadestep
+	stz.w fadein
 	stz.w brightness
 	jsl.l SpriteFrameStart			; no pending jobs, fade and brightness 0, one empty sprite frame
 	jsl.l SpriteFrameEnd

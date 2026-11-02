@@ -29,9 +29,9 @@ checkfo:							; called from setvideo
 	cpx.w #$0004
 	bne .1
 	lda.w #$0200
-.1:									; ora sprpriority, sprattr = A, call addframe, ...
+.1:									; ora sprpriority, sprpal = A, call addframe, ...
 	ora.w sprpriority
-	sta.w sprattr
+	sta.w sprpal
 	phx								; keep the index
 	jsl.l addframe					; sprframe at sprx/spry
 	plx								; restore the index

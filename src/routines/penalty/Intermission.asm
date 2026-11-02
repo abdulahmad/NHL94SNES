@@ -37,8 +37,8 @@ Intermission:						; the intermission screen
 	sta.l tickerstart
 	stz.w psfirst					; no pause menu item yet
 	stz.w psitem
-	lda.w #$FFFF					; pausepad = $FFFF: no controller
-	sta.w pausepad
+	lda.w #$FFFF					; sfpj = $FFFF: no controller
+	sta.w sfpj
 	ldy.w #$FFFE					; y = -2: the loop starts at pad 0
 .loopx:								; look for the first pad with a team
 	iny
@@ -47,17 +47,17 @@ Intermission:						; the intermission screen
 	bcs .1
 	lda.w cont1team,y				; team on that pad
 	beq .loopx						; none: next pad
-	eor.w #$FFFF					; pausepad = minus the team word
+	eor.w #$FFFF					; sfpj = minus the team word
 	inc a
-	sta.w pausepad
+	sta.w sfpj
 .1:									; end of the pad search
 	lda.w cont1team					; teams of the five pads
 	ora.w cont2team
 	ora.w cont3team
 	ora.w cont4team
 	ora.w cont5team
-	bne .2							; some pad is used: keep pausepad
-	stz.w pausepad					; else pausepad = 0
+	bne .2							; some pad is used: keep sfpj
+	stz.w sfpj						; else sfpj = 0
 .2:									; InIntermission = $0001
 	lda.w #$0001					; InIntermission = 1
 	sta.w InIntermission			; ticker starts from the current game

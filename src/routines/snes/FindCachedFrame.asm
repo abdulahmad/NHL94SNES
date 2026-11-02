@@ -65,7 +65,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	lda.b #$00						;first run
 .loop:								; next run: a length of 0 ends the list
 	tax								;run
-	lda.w BlockRuns,x				;its length
+	lda.w sprbigslot,x				;its length
 	beq .t3							;end of the list: fail
 	cmp.b #$10						;used?
 	bcs .1							;yes: skip
@@ -91,7 +91,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	rep #$30
 	stx.b r2+2						;run start
 	sep #$30
-	lda.w BlockRuns,x				;its length
+	lda.w sprbigslot,x				;its length
 	sec
 	sbc.b r3						;minus the units needed
 	beq .1x							;exact fit
@@ -101,19 +101,19 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	adc.b r3						;leftover run start
 	tay
 	lda.b r3+2						;leftover length
-	sta.w BlockRuns,y
+	sta.w sprbigslot,y
 	txa								;its previous run
-	sta.w BlockRunPrev,y			;BlockRunPrev
+	sta.w sprbigslotprev,y			;sprbigslotprev
 	phy
 	tya
 	adc.b r3+2						;plus the leftover
 	tay								;the run after
 	pla
-	sta.w BlockRunPrev,y			;points back to the leftover
+	sta.w sprbigslotprev,y			;points back to the leftover
 .1x:								; mark the run used
 	lda.b r3						;units
 	ora.b #$80						;used flag
-	sta.w BlockRuns,x				;run used
+	sta.w sprbigslot,x				;run used
 	rep #$30
 	ldx.b DMAlistend				; queue the DMA of the first part of the tiles to the VRAM address worked
 									; out below
@@ -130,7 +130,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 									; frame number
 	sep #$20
 	lda.w FrameCacheCount			;entry number
-	sta.w FrameCacheOf+1,y			;the frame's cache entry
+	sta.w sprframetime+1,y			;the frame's cache entry
 	rep #$20
 	lda.w FrameCacheCount
 	asl a							;word index
@@ -206,7 +206,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	lda.b #$00						;first run
 .2:									; look for a free run of exactly 8 units
 	tax								;run
-	lda.w BlockRuns,x				;its length
+	lda.w sprbigslot,x				;its length
 	beq .4							;end of the list: fail
 	cmp.b #$08						;a free run of 8?
 	bne .3							;no: skip
@@ -215,9 +215,9 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	sta.b r8+2						;r8+2 = chain length
 	txa
 	clc
-	adc.w BlockRuns,x
+	adc.w sprbigslot,x
 	tax								;next run
-	lda.w BlockRuns,x				;its length
+	lda.w sprbigslot,x				;its length
 	beq .t1xx						;end: check
 	cmp.b #$10						;used?
 	bcs .t1xx						;yes: check
@@ -229,7 +229,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	lda.b r8+2						;chain length
 	cmp.b r3						;enough?
 	bcs .5							;yes: take it
-	lda.w BlockRuns,x				;this run
+	lda.w sprbigslot,x				;this run
 .3:									; not enough: continue after this run
 	and.b #$3F						;run length
 	sta.b r8+2
@@ -252,12 +252,12 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 .loopxx:							; mark runs of 8 used until the rest fits in one run
 	lda.b r3+2
 	sec
-	sbc.w BlockRuns,x				;exact: last run
+	sbc.w sprbigslot,x				;exact: last run
 	beq .1xx						;ends inside it
 	bmi .t1xxx						;units left
 	sta.b r3+2						;used flag + 8
 	lda.b #$C8
-	sta.w BlockRuns,x				;run used
+	sta.w sprbigslot,x				;run used
 	txa
 	clc
 	adc.b #$08						;next run of 8
@@ -273,19 +273,19 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	adc.b r3+2						;leftover run start
 	tay
 	lda.b r8+2						;leftover length
-	sta.w BlockRuns,y
+	sta.w sprbigslot,y
 	txa								;its previous run
-	sta.w BlockRunPrev,y
+	sta.w sprbigslotprev,y
 	phy
 	tya
 	adc.b r8+2						;plus the leftover
 	tay								;the run after
 	pla
-	sta.w BlockRunPrev,y			;points back to the leftover
+	sta.w sprbigslotprev,y			;points back to the leftover
 .1xx:								; mark the last run used
 	lda.b r3+2						;units in the last run
 	ora.b #$80						;used flag
-	sta.w BlockRuns,x				;run used
+	sta.w sprbigslot,x				;run used
 	rep #$30						; queue the DMA of the first part
 	ldx.b DMAlistend
 	lda.b r1						;type and source
@@ -300,7 +300,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	ldy.w DrawFrameNum
 	sep #$20
 	lda.w FrameCacheCount			;entry number
-	sta.w FrameCacheOf+1,y			;the frame's cache entry
+	sta.w sprframetime+1,y			;the frame's cache entry
 	rep #$20
 	lda.w FrameCacheCount			;word index
 	asl a
@@ -381,7 +381,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	lda.b #$00						;first run
 .loopxxx:							; search the tile runs
 	tax								;run
-	lda.w TileRuns,x				;its length
+	lda.w sprslot,x					;its length
 	beq .t1xxxxx					;end of the list: fail
 	bmi .1xxx						;used: skip
 	cmp.b r3						;long enough?
@@ -389,7 +389,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 .1xxx:								; used or too short: skip to the next run
 	txa								;this run
 	clc
-	adc.w TileRuns,x				;plus the length
+	adc.w sprslot,x					;plus the length
 	and.b #$7F						;without the used bit
 	bra .loopxxx					;next run
 
@@ -405,7 +405,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	rep #$30
 	stx.b r2+2						;run start
 	sep #$30
-	lda.w TileRuns,x				;its length
+	lda.w sprslot,x					;its length
 	sec
 	sbc.b r3						;minus the tiles needed
 	beq .1xxxx						;exact fit
@@ -415,19 +415,19 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	adc.b r3						;leftover run start
 	tay
 	lda.b r3+2						;leftover length
-	sta.w TileRuns,y
+	sta.w sprslot,y
 	txa								;its previous run
-	sta.w TileRunPrev,y				;TileRunPrev
+	sta.w sprslotprev,y				;sprslotprev
 	phy
 	tya
 	adc.b r3+2						;plus the leftover
 	tay								;the run after
 	pla
-	sta.w TileRunPrev,y				;points back to the leftover
+	sta.w sprslotprev,y				;points back to the leftover
 .1xxxx:								; mark the run used
 	lda.b r3						;tiles
 	ora.b #$80						;used flag
-	sta.w TileRuns,x				;run used
+	sta.w sprslot,x					;run used
 	rep #$30
 	ldx.b DMAlistend				; queue the DMA of the tiles, record the frame in the cache
 	lda.b r1
@@ -439,7 +439,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	ldy.w DrawFrameNum
 	sep #$20
 	lda.w FrameCacheCount			;entry number
-	sta.w FrameCacheOf+1,y			;the frame's cache entry
+	sta.w sprframetime+1,y			;the frame's cache entry
 	rep #$20
 	lda.w FrameCacheCount
 	asl a							;word index

@@ -34,8 +34,8 @@ NMI_Tick:							; called from NMI_HookReturn, NMI_SendOAM
 	bcc .2
 .1:									; increment Vcount+2
 	inc.b Vcount+2
-.2:									; if fadestep = 0 go to .7, ...
-	lda.w fadestep
+.2:									; if fadein = 0 go to .7, ...
+	lda.w fadein
 	beq .7
 	bmi .4
 	cmp.w #$0001
@@ -48,11 +48,11 @@ NMI_Tick:							; called from NMI_HookReturn, NMI_SendOAM
 	inc.w brightness
 	bra .7
 
-.t1:								; decrement fadestep, go to .7
-	dec.w fadestep
+.t1:								; decrement fadein, go to .7
+	dec.w fadein
 	bra .7
-.3:									; increment fadestep, go to .7
-	inc.w fadestep
+.3:									; increment fadein, go to .7
+	inc.w fadein
 	bra .7
 .4:									; if not zero go to .3, ...
 	cmp.w #$FFFF
@@ -68,8 +68,8 @@ NMI_Tick:							; called from NMI_HookReturn, NMI_SendOAM
 .5:									; brightness >= $000F: brightness = $000F
 	lda.w #$000F
 	sta.w brightness
-.6:									; fadestep = 0
-	stz.w fadestep
+.6:									; fadein = 0
+	stz.w fadein
 .7:									; if FrameCountHold != 0 go to .1xx, ...
 	rep #$20
 	lda.w FrameCountHold

@@ -121,7 +121,7 @@ $80BA63,DecompressPairs,CODE_80BA63,code,format $FB46 in the $80C373 dispatcher,
 $80BBB3,DecompressHuffman,CODE_80BBB3,code,format $FB30 in the $80C373 dispatcher; Vault name LoadGameSetupScreen,src/routines/snes/DecompressHuffman.asm
 $0766,OAMReady,,code,RAM,src/ram94s.asm
 $07A8,OAMLastEnd,,code,RAM,src/ram94s.asm
-$07AA,OAMDrawBuf,,code,RAM,src/ram94s.asm
+$07AA,Satt,,code,RAM,src/ram94s.asm
 $07AC,OAMShowBuf,,code,RAM,src/ram94s.asm
 $07AE,SpritesLeft,,code,RAM,src/ram94s.asm
 $07B0,OAMHiPtr,,code,RAM,src/ram94s.asm
@@ -4783,8 +4783,8 @@ $9EC881,.5,CODE_9EC881,new,branch target only used in this routine,src/routines/
 $9EC888,.6,CODE_9EC888,new,continued in the previous routine,src/routines/middle/print.asm
 $9ECF91,.9,CODE_9ECF91,new,continued in the previous routine,src/routines/middle/printbig.asm
 $9C9971,BrightnessHook,9C9971,new,the NMI hook FadeIn and FadeOut install: writes brightness to INIDISP,src/routines/snes/BrightnessHook.asm
-$9F96F7,FadeOut,CODE_9F96F7,new,fadestep = $FFFF and the BrightnessHook: the NMI lowers brightness to 0,src/routines/snes/FadeOut.asm
-$9F96E6,FadeIn,CODE_9F96E6,new,fadestep = 5 and the BrightnessHook: after the delay the NMI raises brightness to 15,src/routines/snes/FadeIn.asm
+$9F96F7,FadeOut,CODE_9F96F7,new,fadein = $FFFF and the BrightnessHook: the NMI lowers brightness to 0,src/routines/snes/FadeOut.asm
+$9F96E6,FadeIn,CODE_9F96E6,new,fadein = 5 and the BrightnessHook: after the delay the NMI raises brightness to 15,src/routines/snes/FadeIn.asm
 $9F9708,WaitFadeOut,CODE_9F9708,new,waits frames until brightness is 0,src/routines/snes/WaitFadeOut.asm
 $80855E,SetFrameHook,CODE_80855E,new,run the routine at X:A as the frame hook of the next NMI,src/routines/snes/SetFrameHook.asm
 $808EDF,MemFill,CODE_808EDF,new,fills X bytes at [$10] with A,src/routines/snes/MemFill.asm
@@ -4793,13 +4793,13 @@ $9DE0BD,SetColours,CODE_9DE0BD,new,copies X colours from [$0C] into the colour b
 $9DE0D4,SendColours,CODE_9DE0D4,new,DMAToCGRAM of the colour buffer $7F7500,src/routines/snes/SendColours.asm
 $9DD923,SendTextMap,CODE_9DD923,new,DMAToVRAM of the text map,src/routines/snes/SendTextMap.asm
 $9DD977,ClearTextMap,CODE_9DD977,new,MemFill of the text map with the blank tile,src/routines/snes/ClearTextMap.asm
-$0AD1,fadestep,$0AD1,new,"RAM; the NMI fade: counts down to a fade in, $FFFF fades out",src/ram94s.asm
+$0AD1,fadein,$0AD1,new,"RAM; the NMI fade: counts down to a fade in, $FFFF fades out",src/ram94s.asm
 $0AD3,brightness,$0AD3,new,"RAM; the brightness the fade sets, written to INIDISP by BrightnessHook",src/ram94s.asm
 $9C936C,PrintLetterSprites,CODE_9C936C,new,"each character of [a1] drawn with DrawSprite from LetterSprites, advancing by LetterSpriteWidths",src/routines/snes/PrintLetterSprites.asm
 $9C93F1,LetterSpriteWidths,DATA8_9C93F1,new,the advance PrintLetterSprites uses per letter,src/data/tables/LetterSpriteWidths.asm
 $9DD9AD,SetupScreen,CODE_9DD9AD,94G,"the common start of the stats screens, called first as 94G calls SetupScreen (ShootoutShooters and the stats screens)",src/routines/stats/SetupScreen.asm
-$9B851F,getpzjoy,CODE_9B851F,94G,"ReadjoyA for pausepad: reads the pad that paused, as 94G getpzjoy (93S getpzjoy reads pad 1 or 2); was getpzjoy",src/routines/snes/getpzjoy.asm
-$0AC6,pausepad,$0AC6,new,RAM; set by SelectPauseController and StartPer: the controller that owns the pause menu,src/ram94s.asm
+$9B851F,getpzjoy,CODE_9B851F,94G,"ReadjoyA for sfpj: reads the pad that paused, as 94G getpzjoy (93S getpzjoy reads pad 1 or 2); was getpzjoy",src/routines/snes/getpzjoy.asm
+$0AC6,sfpj,$0AC6,new,RAM; set by SelectPauseController and StartPer: the controller that owns the pause menu,src/ram94s.asm
 $80D3EB,Penaltylist,DATA8_80D3EB,93S,"word offset per penalty number to its entry (name and data) as 93S Penaltylist and 94G Penaltylist; AddPenalty2, prefmes and checkfornewpen read it where 93S reads Penaltylist",src/data/tables/Penaltylist.asm
 $9E8F42,wallcoll,CODE_9E8F42,93S,"called from checkgoalp and the wall and goal code as in 93S; most of the 93S body (Wallcos / Wallsin, speed loss)",src/routines/collide/wallcoll.asm
 $1103,Wallcos,$1103,93S,"RAM; per object, where 93S has Wallcos in checkcoll, checkwallcoll, wallcoll and playeracc",src/ram94s.asm
@@ -5521,7 +5521,7 @@ $9B8526,ReadAnyPad,CODE_9B8526,new,$0AC2 from ReadPads,src/routines/snes/ReadAny
 $80B286,DrawSpritePieces,CODE_80B286,new,"DrawSprite's piece loop: frame header words, SpritesLeft, sprcount and the high table",src/routines/snes/DrawSpritePieces.asm
 $80B3CE,FindCachedFrame,CODE_80B3CE,new,the $2540 / $2640 cache addresses compared with [$0C],src/routines/snes/FindCachedFrame.asm
 $9D804F,FramerRow,CODE_9D804F,new,the row Framer draws,src/routines/middle/FramerRow.asm
-$9DE0E9,GetPauseTeam,CODE_9DE0E9,new,pausepad and the team per controller,src/routines/snes/GetPauseTeam.asm
+$9DE0E9,GetPauseTeam,CODE_9DE0E9,new,sfpj and the team per controller,src/routines/snes/GetPauseTeam.asm
 $9DD94D,SendTextMap2,CODE_9DD94D,new,DMAToVRAM of $7E3FF4 to $0400,src/routines/snes/SendTextMap2.asm
 $9DD938,SendTextMapRows,CODE_9DD938,new,DMAToVRAM of $7E3834 to $0020,src/routines/snes/SendTextMapRows.asm
 $9DD962,SendTextMap2Rows,CODE_9DD962,new,DMAToVRAM of $7E4034 to $0420,src/routines/snes/SendTextMap2Rows.asm
@@ -5576,7 +5576,7 @@ $9D9C53,BigLetterPlayoff,CODE_9D9C53,new,RenderBigText letter hook of PlayoffScr
 $9D9C76,BigLetterSelect,CODE_9D9C76,new,RenderBigText letter hook of DrawSelectTeam (was only an immediate in the jmlvector setup),src/routines/hockey/RenderBigText.asm
 $9DDF73,LoadPictureMap,CODE_9DDF73,new,Behavior: the map DrawMatchupPictures pastes for a player picture; called from LoadScoutingScreen and SetupScreen (LoadPlayerCardScreen does the same inline with DATA8_9AEA15),src/routines/hockey/LoadPictureMap.asm
 $9D96A9,PulseColour,CODE_9D96A9,new,"Behavior: $83 mod 30 and the half picked by ($83 / 30) mod 2, Mul16S / Div32S per 5 bit component; PlayoffScreen and PulsePauseSide use it",src/routines/snes/PulseColour.asm
-$9FE75E,PulsePauseSide,CODE_9FE75E,new,"Behavior: pausepad, its $1C84 side; called from SelectPauseController",src/routines/hockey/PulsePauseSide.asm
+$9FE75E,PulsePauseSide,CODE_9FE75E,new,"Behavior: sfpj, its $1C84 side; called from SelectPauseController",src/routines/hockey/PulsePauseSide.asm
 $80D398,asspuckc_postab,asstab+116,93S,the bytes after asstab equal 93S asspuckc_postab; asspuckc points at it (was the immediate #$D398),src/data/tables/asspuckc_postab.asm
 $80D3C0,PixelRemap8D,asstab+156,93S,equals 93S PixelRemap8D,src/data/tables/PixelRemap8D.asm
 $80D3D0,PixelRemap83,asstab+172,93S,equals 93S PixelRemap83; setupice remaps the small font with it as 93S,src/data/tables/PixelRemap83.asm
@@ -6625,7 +6625,7 @@ $0AD5,WinBits,,93S,RAM; ReadPassBits/WritePassBits at the 93S WinBits slot (rang
 $0CC1,percue,,93S,RAM; StartPer sets $FFFF (cleared in some modes); puckfaceoff2 then plays team song slot 0 (the period start ...,src/ram94s.asm
 $0CC3,cursong,,93S,RAM; PlayTeamSong stores the TeamSongs slot + 1 of the song started; the SPC uploads and UpdateStreamSfx (no ...,src/ram94s.asm
 $0CC5,sprhflip,,93S,RAM; addframe parameter: nonzero = x flip (attribute $4000); setsortcords/checkfo set attribute & $0800 as 93S ...,src/ram94s.asm
-$0CCB,sprpriority,,93S,"RAM; checkfo sets $3000 for the faceoff sprites and $2000 after, ORed into sprattr; setoptions sets 0: as 93S ...",src/ram94s.asm
+$0CCB,sprpriority,,93S,"RAM; checkfo sets $3000 for the faceoff sprites and $2000 after, ORed into sprpal; setoptions sets 0: as 93S ...",src/ram94s.asm
 $0CCD,sprframe,,93S,"RAM; addframe parameter: sprite frame number (1-based, at most $3D0), as 93S sprframe; set by setsortcords, ...",src/ram94s.asm
 $0CCF,sprx,,93S,RAM; addframe parameter: screen x of the frame (93S sprx).,src/ram94s.asm
 $0CD1,spry,,93S,RAM; addframe parameter: screen y of the frame (93S spry).,src/ram94s.asm
@@ -6682,7 +6682,7 @@ $0B01,passpad,,behavior,"RAM; dopass stores the passer's pad ($19D4,x) per team 
 $0BA7,passtargetx,,behavior,RAM; dopass: puckx + the pass vector x (where the receiver meets the puck); asspassrec aims the one-timer from ...,src/ram94s.asm
 $0BA9,passtargety,,behavior,RAM; dopass: pucky + the pass vector y; asspassrec: goal line y (+-$108) minus it for the one-timer direction.,src/ram94s.asm
 $0BAD,passwait,,behavior,RAM; Per player: dopass sets the receiver's frames until the puck arrives (d6+6); asspassrec counts it down by ...,src/ram94s.asm
-$0AC8,pausepadidle,,behavior,"RAM; SelectPauseController: 60 when the pause pad holds a button, -3 per idle frame; at 0 pausepad goes back to ...",src/ram94s.asm
+$0AC8,pausepadidle,,behavior,"RAM; SelectPauseController: 60 when the pause pad holds a button, -3 per idle frame; at 0 sfpj goes back to ...",src/ram94s.asm
 $0AFD,puckpadnext,,behavior,"RAM; PuckCarrierPad/puckfaceoff2, indexed by team: the pad that last got the puck carrier, the round-robin ...",src/ram94s.asm
 $0CAD,recsfx,,behavior,RAM; QueueSound: the sound queued this frame ($FFFF none) for the replay record; updatereplay records it ...,src/ram94s.asm
 $0CB3,recsfx2,,behavior,RAM; QueueSound moves recsfx here when a second sound comes in the same frame; recorded and replayed like recsfx.,src/ram94s.asm
@@ -6696,7 +6696,7 @@ $0CBF,replayVpos,,behavior,"RAM; ReplayMode: the replay camera y, eased the same
 $0CAB,replaylock,,behavior,RAM; ReplayMode: object the replay camera / cursor locks onto; $FFFF = none (follows PadControlObj slot 0 or ...,src/ram94s.asm
 $0CBB,replaymusic,,behavior,RAM; PauseReplay saves MusicOn here; at the end of ReplayMode a nonzero value restarts the menu / playoff song.,src/ram94s.asm
 $0CB9,replaynewframe,,behavior,"RAM; RestoreReplayFrame increments it, ReplayMode clears it after drawing; showcrowd animates during a replay ...",src/ram94s.asm
-$0CC9,sprattr,,behavior,"RAM; addframe parameter: the OAM attribute word for DrawSprite (priority, palette $0200; addframe ORs in the ...",src/ram94s.asm
+$0CC9,sprpal,,behavior,"RAM; addframe parameter: the OAM attribute word for DrawSprite (priority, palette $0200; addframe ORs in the ...",src/ram94s.asm
 $0ADB,timestep,,behavior,RAM; Gameloop/SaveRegsStartHL2/ReplayMode/PauseReplay store d7 (frames elapsed) here (Pausemode_menu sets 2); ...,src/ram94s.asm
 $0B9D,topgoalie,,behavior,"RAM; updateplayers: each frame the goalie (position 0) with Ypos >= 0 (top goal end), $FFFF none; avdgoal uses ...",src/ram94s.asm
 $0792,seed,,93S,"RAM; RandomWord's two 16-bit generators ($0792, $0794); FallDown/chk4shot/asspuckc/chk4lc read $0792 where 93S ...",src/ram94s.asm
@@ -6711,7 +6711,7 @@ $076E,CGDMABank,,behavior,RAM; DMAToCGRAM sta $076E ($0E); NMI_HookReturn ldx $0
 $076A,CGDMAColour,,behavior,RAM; DMAToCGRAM sty $076A (first colour); NMI_HookReturn ldx $076A -> CGADD,src/ram94s.asm
 $0768,CGDMALen,,behavior,RAM; DMAToCGRAM (screen on) stores colours*2 at $0768; NMI_HookReturn DMAs that many bytes to CGRAM when ...,src/ram94s.asm
 $076C,CGDMASrc,,behavior,RAM; DMAToCGRAM sta $076C ($0C); NMI_HookReturn -> A1T0L,src/ram94s.asm
-$07C2,CacheUseMark,,behavior,"RAM; InitSprites sets 2; GetFrameTiles stores it in the entry's $2D40 use word, which SpriteFrameStart shifts ...",src/ram94s.asm
+$07C2,sprslotlife,,behavior,"RAM; InitSprites sets 2; GetFrameTiles stores it in the entry's $2D40 use word, which SpriteFrameStart shifts ...",src/ram94s.asm
 $07FF,CurTrackOfs,,behavior,"RAM; StepTrack stx $07FF (track*2) and reloads X from it; PlaySound/QueueSound set $20 (track 16, sound effects)",src/ram94s.asm
 $0100,DMAList,,behavior,RAM; Ring of 128 8-byte VRAM transfer entries: ...,src/ram94s.asm
 $0500,DecompTab1,,behavior,"RAM; DecompressPairs: first byte of each pair code (sta $0500,x, read in the expand loop); DecompressHuffman: ...",src/ram94s.asm
@@ -7093,15 +7093,15 @@ $28,r8,,behavior,RAM; engine parameter / scratch register (4 bytes),src/ram94s.a
 $2C,r9,,behavior,RAM; engine parameter / scratch register (4 bytes),src/ram94s.asm
 $7E2540,FrameCacheAddr,,behavior,RAM; address of the frame (LoadFrameTiles; FindCachedFrame compares it),src/ram94s.asm
 $7E2640,FrameCacheBank,,behavior,RAM; bank of the frame,src/ram94s.asm
-$7E2740,FrameCacheOf,,behavior,"RAM; a byte per frame number ($2741 + DrawFrameNum): its cache entry, $FF none (InitSprites fills $FF)",src/ram94s.asm
+$7E2740,sprframetime,,behavior,"RAM; a byte per frame number ($2741 + DrawFrameNum): its cache entry, $FF none (InitSprites fills $FF)",src/ram94s.asm
 $7E2B40,FrameCacheNum,,behavior,RAM; frame number of the entry,src/ram94s.asm
 $7E2C40,FrameCacheAlloc,,behavior,"RAM; the entry's allocation: block run index | $8000 (16x16 blocks), else the single tile run index",src/ram94s.asm
-$7E2D40,FrameCacheUse,,behavior,"RAM; use bits: GetFrameTiles sets CacheUseMark when drawn, SpriteFrameStart shifts them each frame",src/ram94s.asm
+$7E2D40,sprslottime,,behavior,"RAM; use bits: GetFrameTiles sets sprslotlife when drawn, SpriteFrameStart shifts them each frame",src/ram94s.asm
 $7E2E40,FrameCacheTile,,behavior,RAM; first VRAM tile of the entry's tiles (the DMA destination),src/ram94s.asm
-$7E2F40,BlockRuns,,behavior,RAM; 16x16 block area of sprite VRAM (InitSprites: one free run of SpriteBlockTiles / 4),src/ram94s.asm
-$7E2FB9,BlockRunPrev,,behavior,RAM; previous run of each block run ($FF = none),src/ram94s.asm
-$7E3032,TileRuns,,behavior,RAM; single 8x8 tile area (from SpriteBlockTiles to $200),src/ram94s.asm
-$7E3093,TileRunPrev,,behavior,RAM; previous run of each tile run ($FF = none),src/ram94s.asm
+$7E2F40,sprbigslot,,behavior,RAM; 16x16 block area of sprite VRAM (InitSprites: one free run of SpriteBlockTiles / 4),src/ram94s.asm
+$7E2FB9,sprbigslotprev,,behavior,RAM; previous run of each block run ($FF = none),src/ram94s.asm
+$7E3032,sprslot,,behavior,RAM; single 8x8 tile area (from SpriteBlockTiles to $200),src/ram94s.asm
+$7E3093,sprslotprev,,behavior,RAM; previous run of each tile run ($FF = none),src/ram94s.asm
 $9AF17C,TeamBlockPaletteANH,,behavior,"the ANH team block colours: TeamBlockPalettes entry 0 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/UnusedSetupSpritePalette.asm
 $9AEF5C,TeamBlockPaletteBOS,,behavior,"the BOS team block colours: TeamBlockPalettes entry 1 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/LogoPalettePHI.asm
 $9AF19C,TeamBlockPaletteBUF,,behavior,"the BUF team block colours: TeamBlockPalettes entry 2 (DrawTeamBlocks, DrawSelectTeam, PlayoffScreen)",src/data/gfx/UnusedSetupSpritePalette.asm

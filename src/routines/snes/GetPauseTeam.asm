@@ -1,10 +1,10 @@
 ; a2 = the team of the controller that owns the pause menu
 ;
-; Takes: pausepad. Returns a2 = 2 if the pause pad belongs to the away team (cont1team = 2), else 0.
+; Takes: sfpj. Returns a2 = 2 if the pause pad belongs to the away team (cont1team = 2), else 0.
 ; Called by TeamRosterScreen, PlayerStatsScreen, PlayerCards, ShootoutShooters and LineEditor.
 GetPauseTeam:						; team of the pause controller
 	stz.b a2						; default 0
-	ldx.w pausepad					; pause pad
+	ldx.w sfpj						; pause pad
 	lda.w cont1team,x
 	cmp.w #$0002
 	bne .rtl						; not team 2: keep 0

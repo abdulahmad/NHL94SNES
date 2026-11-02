@@ -115,7 +115,7 @@ ReplayMode:							; called from PauseReplay
 	jsl.l InitSprites
 	stz.w brightness				;dark
 	lda.w #$000A
-	sta.w fadestep					;fade speed
+	sta.w fadein					;fade speed
 	ldx.w #BrightnessHook>>16
 	lda.w #BrightnessHook
 	jsl.l SetFrameHook				; run the routine at X:A as the frame hook of the next NMI

@@ -53,6 +53,6 @@ demoread:							; read the controllers during the demo
 .3:									; return
 	rtl								; return
 .4:									; leave the demo
-	stz.w fadestep					; no fade pending
+	stz.w fadein					; no fade pending
 	stz.w FrameByNumber				; clear the cached frame
 	jml.l Opening2					; back to the start (Opening2 does not return)

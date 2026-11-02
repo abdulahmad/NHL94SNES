@@ -23,31 +23,32 @@ InitSprites:						;A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block a
 	sep #$30
 	tax
 	lda.b #$00
-.loop:								; loop: BlockRuns,x = A, BlockRunPrev,x = X - $08, if $08 - $00 >= 0 go...
-	sta.w BlockRuns,x
+.loop:								;loop: sprbigslot,x = A, sprbigslotprev,x = X - $08, if $08 - $00 >= 0
+									;go...
+	sta.w sprbigslot,x
 	txa
 	sec
 	sbc.b #$08
-	sta.w BlockRunPrev,x
+	sta.w sprbigslotprev,x
 	tax
 	lda.b #$08
 	cpx.b #$00
 	bpl .loop
 	lda.b #$FF
-	sta.w BlockRunPrev
+	sta.w sprbigslotprev
 	rep #$30
 	lda.w #$0002
-	sta.w CacheUseMark
+	sta.w sprslotlife
 	lda.w #$0200
 	sec
 	sbc.w SpriteBlockTiles
 	sep #$30
 	tax
-	sta.w TileRuns
-	stz.w TileRuns,x
-	stz.w TileRunPrev,x
+	sta.w sprslot
+	stz.w sprslot,x
+	stz.w sprslotprev,x
 	lda.b #$FF
-	sta.w TileRunPrev
+	sta.w sprslotprev
 	rep #$30
 	lda.w #$0080
 	sta.w SpritesLeft
@@ -60,7 +61,7 @@ InitSprites:						;A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block a
 	lda.w #$2320
 	sta.w OAMShowBuf
 	lda.w #$2100
-	sta.w OAMDrawBuf
+	sta.w Satt
 	jsr.w .t1
 	plb
 	jmp.w SpriteFrameEnd
@@ -68,8 +69,8 @@ InitSprites:						;A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block a
 .t1:								; subroutine: falls through
 	ldx.w #$03D0
 	lda.w #$FFFF
-.loopx:								; loop: FrameCacheOf,x = A, X - 1, X - 1, ...
-	sta.w FrameCacheOf,x
+.loopx:								; loop: sprframetime,x = A, X - 1, X - 1, ...
+	sta.w sprframetime,x
 	dex
 	dex
 	bpl .loopx
