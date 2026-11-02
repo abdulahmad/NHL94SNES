@@ -364,7 +364,7 @@ until traced (`--entry`, `--continue`). The column is the default pass, not the 
 - Alignment audit: `docs/align_plan.md`. No bytes moved. bank9C_A000's teamdata include covers bank9C_B000, C000 and D000 (next org is `$9CEF59`). Layout work follows that plan, one bank per commit.
 - Bank $81: the eight slices are `src/banks/b81_rink_logos.asm`, which includes `data/gfx/IceRinkTiles.asm`, `data/gfx/TeamLogoSprites.asm` and `data/sound/DATA8_81FE45.asm`. MATCH.
 - Bank $82: slices merged into `src/banks/b82_spriteframes.asm` (`data/gfx/SpriteFrames82.asm`, `data/gfx/CenterIceTilesHFD.asm`). MATCH.
-- Bank $8F: slices merged into `src/banks/b8F_sound.asm`. MATCH.
+- Bank $8F: slices merged into `src/banks/b8F_samples_songs.asm`. MATCH.
 - Banks $83-$8E: each bank's slices are `src/banks/bXX_spriteframes.asm` (the frames, then that bank's tail: a centre-ice logo, a photo palette, a map, a song or a sound block). MATCH.
 - Bank $9A: slices merged into `src/banks/`. MATCH.
 - Abbreviation labels ANA/LAK/NJD/OTT/SJS/TBL renamed to the team-record strings ANH/LA/NJ/OTW/SJ/TB. MATCH.
@@ -642,12 +642,12 @@ until traced (`--entry`, `--continue`). The column is the default pass, not the 
 - Naming pass 4 (RAM from 93S): aligning the routines named from 93S with their 93S source gives the 93S name of the RAM each instruction uses. 47 addresses seen with the same name at least twice (and HomeTeam, VisTeam, Xpos, Ypos) are named in src/ram94s.asm (Xpos, Ypos, pucky, puckvx, puckvy, position, pflags, pfteam, gmode, sflags, the tm* team arrays, the penalty and ref variables, printx/printy, HomeTeam, VisTeam ...) and their absolute operands across the source use the names; Selected_Goalie becomes the 93S tmgoalie. MATCH.
 - Naming pass 5 (93S calls): routines called at the same place where the matching 93S routine calls a named routine, and whose instructions agree (score 0.7 or more, or identical), take that name: SuperAdd, SprSort, updatepwrplay_clr, AddPenalty, a2offsides, setplayer, SetPlList, getlchoice, randomd0, assinsert, GetPeriodTime (with its table GetPeriodTime_timetab and the option Optperlen). MATCH.
 - Naming pass 6: eight more RAM names from the 93S alignment (HmAwBonus, PKBonus, PPBonus, attribute, Ylist, OOlistpos, OOlist, gameclock) now that more routines carry 93S names; DATA8_85FFDF is PhotoPaletteBOS (Boston's entry of PhotoPaletteTable). MATCH.
-- Bank $9C: the five slices are `src/banks/b9C_teams.asm`. Code is one file per routine under `src/routines/` (a 93S name uses that 93S folder; other code is `routines/snes/`). Data tables are `src/data/tables/`. Fall-through code stays in the first routine's file. MATCH.
-- Bank $9B: the eight slices are `src/banks/b9B_screens.asm`, split the same way. `adda43` stays in `CODE_9BB176.asm` (that routine falls through into it). MATCH.
-- Bank $9D: the eight slices are `src/banks/b9D_roster.asm`, split the same way. The animation sequences stay a data table for now (`frames94s.asm` is a later pass). MATCH.
+- Bank $9C: the five slices are `src/banks/b9C_teams_stats.asm`. Code is one file per routine under `src/routines/` (a 93S name uses that 93S folder; other code is `routines/snes/`). Data tables are `src/data/tables/`. Fall-through code stays in the first routine's file. MATCH.
+- Bank $9B: the eight slices are `src/banks/b9B_stats_replay.asm`, split the same way. `adda43` stays in `CODE_9BB176.asm` (that routine falls through into it). MATCH.
+- Bank $9D: the eight slices are `src/banks/b9D_setup_playoffs_scouting.asm`, split the same way. The animation sequences stay a data table for now (`frames94s.asm` is a later pass). MATCH.
 - Bank $9E: the eight slices are `src/banks/b9E_game.asm`, split the same way. Matched 93S names are in `routines/logic/` and `routines/penalty/`. MATCH.
-- Bank $9F: the eight slices are `src/banks/b9F_flow.asm`, split the same way. `setteams` stays in `clearTeamStats.asm` (that routine falls through into it). Two entries with no label are `CODE_9F9901` and `CODE_9FA835`. MATCH.
-- Bank $80: the eight slices are `src/banks/b80_engine.asm`, split the same way. ShootoutWonBy, ShootoutShooters, InitShooters and ShooterSelectList are in `routines/shootout/`. The internal header and vectors are `src/header/snes_header.asm`. MATCH.
+- Bank $9F: the eight slices are `src/banks/b9F_flow_hud.asm`, split the same way. `setteams` stays in `clearTeamStats.asm` (that routine falls through into it). Two entries with no label are `CODE_9F9901` and `CODE_9FA835`. MATCH.
+- Bank $80: the eight slices are `src/banks/b80_engine_sound.asm`, split the same way. ShootoutWonBy, ShootoutShooters, InitShooters and ShooterSelectList are in `routines/shootout/`. The internal header and vectors are `src/header/snes_header.asm`. MATCH.
 - Animation sequences from bank `$9D` are `src/data/frames94s.asm`. The 94G SPA names are not applied: the frame numbers do not match the 94G SPF values. MATCH.
 - Raw `jmp.w`/`jsr.w` targets and `dd` long pointers that already had a label now use that label (745 jumps, 190 pointers). Targets with no label stay numbers. MATCH.
 - START_HERE.md, PROMPT.md and the Sources note in this file describe `src/banks/`, `src/routines/` and `src/data/`.
