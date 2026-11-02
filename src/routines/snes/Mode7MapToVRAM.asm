@@ -62,25 +62,25 @@ Mode7MapToVRAM:						; called from LoadTitleLogo, TitleScreen
 	rtl
 .3:									; p0 = X
 	stx.b p0
-	ldx.b DMAQueueTail
-.loopx:								; loop: DMAQueue+1,x = p0, p0 = p0 + r4, DMAQueue+4,x = r4, ...
+	ldx.b DMAlistend
+.loopx:								; loop: DMAList+1,x = p0, p0 = p0 + r4, DMAList+4,x = r4, ...
 	lda.b p0
-	sta.w DMAQueue+1,x
+	sta.w DMAList+1,x
 	clc
 	adc.b r4
 	sta.b p0
 	lda.b r4
-	sta.w DMAQueue+4,x
+	sta.w DMAList+4,x
 	tya
-	sta.w DMAQueue+6,x
+	sta.w DMAList+6,x
 	clc
 	adc.w #$0080
 	tay
 	sep #$20
 	lda.b p0+2
-	sta.w DMAQueue+3,x
+	sta.w DMAList+3,x
 	lda.b #$FB
-	sta.w DMAQueue,x
+	sta.w DMAList,x
 	rep #$20
 	txa
 	clc
@@ -89,7 +89,7 @@ Mode7MapToVRAM:						; called from LoadTitleLogo, TitleScreen
 	tax
 	dec.b r4+2
 	bne .loopx
-	stx.b DMAQueueTail
+	stx.b DMAlistend
 	rtl
 
 .t1:								; r7+2 = A, r5 = X, call Mul16U, ...

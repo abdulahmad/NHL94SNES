@@ -1,5 +1,5 @@
 ; move the unused entries off screen, swap the OAM buffers and set OAMReady
-; Takes nothing. Fills the OAM entries from OAMNext up to OAMHideEnd with Y=$E1 (off screen), then swaps
+; Takes nothing. Fills the OAM entries from sprcount up to OAMHideEnd with Y=$E1 (off screen), then swaps
 ; OAMDrawBuf and OAMShowBuf and sets OAMReady so that the NMI copies the buffer.
 ;
 ; Called from SelectLinePlayer, TeamRosterScreen, setoptions, PeriodStatsScreen and SaveRegsStartHL2.
@@ -9,7 +9,7 @@ SpriteFrameEnd:						;move the unused entries off screen, swap the OAM buffers a
 	plb
 	plb
 	lda.w SpritesLeft				; (SpritesLeft value is not used)
-	ldx.w OAMNext					; first unused entry
+	ldx.w sprcount					; first unused entry
 	lda.w #$E100					; off screen value for the Y and X bytes
 .loop:								; hide loop
 	cpx.w OAMHideEnd				; reached the end of the entries hidden last frame?
@@ -22,7 +22,7 @@ SpriteFrameEnd:						;move the unused entries off screen, swap the OAM buffers a
 	bne .loop						; loop until the index wraps
 .1:									; entries hidden
 	ldy.w OAMLastEnd				; end of last frame's entries
-	lda.w OAMNext					; this frame's end
+	lda.w sprcount					; this frame's end
 org $80B001
 	sta.w OAMLastEnd				; remember this frame's end
 	sty.w OAMHideEnd				; and the end for the next hiding pass

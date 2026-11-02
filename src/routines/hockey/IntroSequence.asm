@@ -18,8 +18,8 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	lda.w #$6000
 	ldx.w #$0000					;sprite chars from 0
 	jsl.l InitSprites				; reset the DMA queue
-	stz.b DMAQueueHead
-	stz.b DMAQueueTail
+	stz.b DMAlisthead
+	stz.b DMAlistend
 	lda.w #.1						; p0 = the video register table (.1), set the registers with .33
 	sta.b p0
 	lda.w #.1>>16
@@ -51,8 +51,8 @@ IntroSequence:						; power-on animation, returns when it ends or a button is pr
 	jsl.l RandomWord				;stir the random seed
 	jsr.w .4						;one state step
 	bne .t1							;finished?
-	lda.b DMAQueueTail
-	cmp.b DMAQueueHead
+	lda.b DMAlistend
+	cmp.b DMAlisthead
 	beq .loop2
 	bra .loop2
 

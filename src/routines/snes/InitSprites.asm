@@ -52,7 +52,7 @@ InitSprites:						;A: SpriteVRAM, X: SpritesReserved, Y: sizes the 16x16 block a
 	lda.w #$0080
 	sta.w SpritesLeft
 	lda.w #$2100
-	sta.w OAMNext
+	sta.w sprcount
 	lda.w #$2300
 	sta.w OAMHideEnd
 	lda.w #$2520
