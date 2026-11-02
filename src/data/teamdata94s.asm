@@ -13,7 +13,7 @@
 ; Extracted/TeamNicknames.txt (one per line, in the order they appear below).
 
 ; tools/build.js (the 'names' step) copies this file to output/names/ with the real names
-; put back, and src/banks/b9C_teams.asm includes that copy.
+; put back, and src/banks/b9C_teams_stats.asm includes that copy.
 
 ; Keep the placeholder lengths when editing a name or adding a player.
 

@@ -37,7 +37,7 @@ Where these docs say "push to main", contributors push to their fork and open a 
 
 ## 3. Work loop
 
-The ROM is all source. `src/nhl94snes.asm` includes `src/banks/b80_engine.asm` through `b9F_flow.asm`. Each bank file is one `org` (and a later `org` only where the PC skips) and `incsrc` lines in ROM order. Routines are `src/routines/<module>/<Name>.asm` (a 93S name uses that 93S folder, shootout names are `routines/shootout/`, other code is `routines/snes/`). Data is `src/data/` (`gfx/`, `sound/`, `text/`, `tables/`, `teamdata94s.asm`, `frames94s.asm`). The internal header is `src/header/snes_header.asm`.
+The ROM is all source. `src/nhl94snes.asm` includes `src/banks/b80_engine_sound.asm` through `b9F_flow_hud.asm`. Each bank file is one `org` (and a later `org` only where the PC skips) and `incsrc` lines in ROM order. Routines are `src/routines/<module>/<Name>.asm` (a 93S name uses that 93S folder, shootout names are `routines/shootout/`, other code is `routines/snes/`). Data is `src/data/` (`gfx/`, `sound/`, `text/`, `tables/`, `teamdata94s.asm`, `frames94s.asm`). The internal header is `src/header/snes_header.asm`.
 
 `sh tools/verify_all.sh` must print MATCH before every commit. One area per commit. Update `docs/HANDOFF.md` and add a History line in `SEGMENT_AGENT.md`. Push to main (contributors: fork and PR, section 0).
 
