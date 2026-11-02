@@ -132,7 +132,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	jmp.w checkpuckcoll				; puck collision with the players near it
 
 .t1x:								; stop spinning, check collisions
-	jsl.l pucknothing				; pucknothing: stop spinning
+	jsl.l puckunflip				; puckunflip: stop spinning
 	jmp.w checkpuckcoll				; bra checkpuckcoll
 .14:								; subroutine: d4 = $0108, call .16, d4 = $FEF8, ...
 	phx

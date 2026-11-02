@@ -310,7 +310,7 @@ $9EB6F7,InProgress_ap,CODE_9EB6F7,93S,"same instructions as the 93S routine InPr
 $9ECFA5,appstring,CODE_9ECFA5,93S,"same instructions as the 93S routine appstring (middle)",src/routines/print/appstring.asm
 $9EC107,ClearPenaltyBuffer,CODE_9EC107,93S,"same instructions as the 93S routine ClearPenaltyBuffer (penalty)",src/routines/penalty/penalties/ClearPenaltyBuffer.asm
 $9EC071,releasepl,CODE_9EC071,93S,"same instructions as the 93S routine releasepl (penalty)",src/routines/penalty/penalties/releasepl.asm
-$9EDE81,pucknothing,CODE_9EDE81,93S,"same instructions as the 93S routine pucknothing (logic)",src/routines/logic/puck/pucknothing.asm
+$9EDE81,puckunflip,CODE_9EDE81,94G,"the 94G puckunflip: asstab slot and the pucknorm call (was pucknothing, the 92G name of the asstab entry)",src/routines/logic/puck/puckunflip.asm
 $9EDEA7,skatetopuckinit,CODE_9EDEA7,93S,"same instructions as the 93S routine skatetopuckinit (logic)",src/routines/logic/skating/skatetopuckinit.asm
 $9ED323,AdvanceStringPtr,CODE_9ED323,93S,"same instructions as the 93S routine AdvanceStringPtr (penalty)",src/routines/penalty/util/AdvanceStringPtr.asm
 $9EE698,Findhittype,CODE_9EE698,93S,"same instructions as the 93S routine Findhittype (logic)",src/routines/logic/skating/Findhittype.asm
@@ -486,7 +486,7 @@ $9FBDE4,.hi,CODE_9FBDE4,93S,eraser dirty-range high,src/routines/print/eraser.as
 $9FBE07,.rtl,CODE_9FBE07,93S,eraser return,src/routines/print/eraser.asm
 $9ED31A,.cnt,CODE_9ED31A,93S,GetGoalieCount,src/routines/stats/GetGoalieCount.asm
 $9EA3F0,.rtl,CODE_9EA3F0,93S,SetSPA return,src/routines/logic/animation/SetSPA.asm
-$9EDE97,.k,CODE_9EDE97,93S,pucknothing,src/routines/logic/puck/pucknothing.asm
+$9EDE97,.k,CODE_9EDE97,93S,puckunflip,src/routines/logic/puck/puckunflip.asm
 $9EE1EA,.ss0,CODE_9EE1EA,93S,ShotMode aim,src/routines/logic/controls/ShotMode.asm
 $9EE219,.off,CODE_9EE219,new,ShotMode clears the shot flag and returns,src/routines/logic/controls/ShotMode.asm
 $9EE21F,.rts,CODE_9EE21F,93S,ShotMode return,src/routines/logic/controls/ShotMode.asm
