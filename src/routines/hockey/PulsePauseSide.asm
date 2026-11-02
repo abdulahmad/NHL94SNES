@@ -3,7 +3,7 @@
 PulsePauseSide:						; returns nothing (rts); takes no input
 	lda.l notdemo					; not a demo game?
 	beq .2							; demo: both sides white
-	ldx.w pausepad					; pad that paused
+	ldx.w sfpj						; pad that paused
 	bmi .2							; no pad: both white
 	lda.w cont1team,x				; team side of that pad
 	beq .2							; no side: both white

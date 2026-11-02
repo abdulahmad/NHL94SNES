@@ -8,8 +8,8 @@ GetFrameTiles:						; look the frame up in the tile cache, load it if it is not 
 	ldx.w FrameByNumber
 	beq .5							; not by frame number: search the entries by address
 	ldx.w DrawFrameNum
-	lda.w FrameCacheOf,x
-	bpl .3							; frame number known: entry from FrameCacheOf, load if none
+	lda.w sprframetime,x
+	bpl .3							; frame number known: entry from sprframetime, load if none
 .2:									; load the frame: keep r3 and the registers, return into .t2
 	lda.b r3
 	pha
@@ -45,8 +45,8 @@ GetFrameTiles:						; look the frame up in the tile cache, load it if it is not 
 	asl a
 	tax
 .4:									; mark the entry as used this frame and return its first tile
-	lda.w CacheUseMark
-	sta.w FrameCacheUse,x
+	lda.w sprslotlife
+	sta.w sprslottime,x
 	lda.w FrameCacheTile,x
 	rts
 .5:									; search the cache for the frame address and bank

@@ -1,6 +1,6 @@
 ; Use the longer pause menu when this side still has a timeout, otherwise the standard menu.
 ChoosePauseMenu:					; called from Pausemode_menu, PauseTimeout, SelectPauseController
-	ldx.w pausepad
+	ldx.w sfpj
 	bmi .t1
 	lda.w gmclock
 	beq .t1

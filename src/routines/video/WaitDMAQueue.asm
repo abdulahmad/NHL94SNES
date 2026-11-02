@@ -1,13 +1,13 @@
 ; Wait until the DMA queue is empty ($3A = $3C)
-; Takes nothing. Spins until the DMA queue head (DMAQueueHead) equals its tail (DMAQueueTail).
+; Takes nothing. Spins until the DMA queue head (DMAlisthead) equals its tail (DMAlistend).
 ; The code after the rtl (.t1 to .t1xxxx) are waits for a button with a frame timeout; nothing calls them.
 ;
 ; Called from DrawPeriodStats and Decompress.
 WaitDMAQueue:						; wait until the DMA queue is empty
 	pha
 .loop:								; queue head equals tail?
-	lda.b DMAQueueHead
-	cmp.b DMAQueueTail
+	lda.b DMAlisthead
+	cmp.b DMAlistend
 	bne .loop
 	pla
 	rtl

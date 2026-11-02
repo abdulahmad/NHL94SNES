@@ -254,7 +254,7 @@ setupice_reset:						; reset the rink state and fade in
 	bpl .loop
 .1:									; set the colours
 	jsl.l setplayercolors			; set the team colours and send the whole palette to CGRAM
-	stz.w fadestep					; fade in
+	stz.w fadein					; fade in
 	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	jsl.l ScreenOn					; show the screen
 	rtl

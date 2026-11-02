@@ -128,7 +128,7 @@ PasswordScreen:						;password entry: a 5 by 6 grid of characters, 16 positions;
 	dec.w printy
 	jsl.l print						;print the character
 	lda.w #$000A					;fade-in step
-	sta.w fadestep
+	sta.w fadein
 PasswordRedraw:						; called from BadPasswordPrompt
 	jsr.w PrintPasswordHelp			; print the password screen keys: Select, A Next, Y Back, Press start
 .1:									; a1 = PasswordScreenPos2, call print, a1 = pulled value, ...

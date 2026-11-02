@@ -1,21 +1,21 @@
 ; Write the OAM entries of each piece of the frame at [p0]; DrawSprite jumps here
 ;
-; Takes: p0 = frame record, Y = offset of the next piece, r0 = pieces left, X = OAMNext, r3 = attribute xor
+; Takes: p0 = frame record, Y = offset of the next piece, r0 = pieces left, X = sprcount, r3 = attribute xor
 ; word (bit 15 vertical flip, bit 14 horizontal flip), r3+2 = first tile, r5/r5+2 = X/Y of the sprite.
 ; Data bank is $7E. Called only by a jump from DrawSprite, which also ends the draw from here.
 DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 	lda.w SpritesLeft
 	beq DrawSpriteExit				; no OAM entries left: end the draw
 	lda.b [p0],y					; read the piece x offset, y offset, tile word and size byte
-	sta.w PieceX
+	sta.w sprox
 	iny
 	iny
 	lda.b [p0],y
-	sta.w PieceY
+	sta.w sproy
 	iny
 	iny
 	lda.b [p0],y
-	sta.w PieceTile
+	sta.w sprtile
 	iny
 	iny
 	lda.b [p0],y
@@ -27,7 +27,7 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 	beq .t1
 	lda.b r5+2
 	sec
-	sbc.w PieceY
+	sbc.w sproy
 	sec
 	sbc.w #$000F
 	bra .2
@@ -35,7 +35,7 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 .t1:								; 8x8 piece (size 0): centre 7
 	lda.b r5+2
 	sec
-	sbc.w PieceY
+	sbc.w sproy
 	sec
 	sbc.w #$0007
 .2:									; y must be -16 <= y < $E0
@@ -55,7 +55,7 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 	beq .t1x
 	lda.b r5
 	sec
-	sbc.w PieceX
+	sbc.w sprox
 	sec
 	sbc.w #$000F
 	bra .3
@@ -63,13 +63,13 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 .t1x:								; 8x8 piece, mirrored x: centre 7
 	lda.b r5
 	sec
-	sbc.w PieceX
+	sbc.w sprox
 	sec
 	sbc.w #$0007
 	bra .3
 
 .t3:								; not mirrored
-	lda.w PieceX
+	lda.w sprox
 	clc
 	adc.b r5
 .3:									; x must be -16 <= x < $100, else skip the piece
@@ -82,7 +82,7 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 	sta.w $0000,x
 	lda.b r7+2
 	sta.w $0001,x
-	lda.w PieceTile
+	lda.w sprtile
 	clc
 	adc.b r3+2
 	eor.b r3
@@ -128,11 +128,11 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 
 .t1xxxx:							; same byte: remember the shift
 	stx.w OAMHiShift
-.5:									; advance OAMNext by one entry (4 bytes)
-	lda.w OAMNext
+.5:									; advance sprcount by one entry (4 bytes)
+	lda.w sprcount
 	clc
 	adc.w #$0004
-	sta.w OAMNext
+	sta.w sprcount
 	tax
 .6:									; next piece, unless this was the last one
 	ldy.w PieceNext
@@ -181,7 +181,7 @@ DrawSpritePieces:					; flipped sprite: one OAM entry per piece
 	ldx.w FrameByNumber
 	beq FindCachedFrame
 	ldx.w DrawFrameNum
-	lda.w FrameCacheOf,x
+	lda.w sprframetime,x
 	bmi LoadFrameTiles
 	xba
 	and.w #$00FF

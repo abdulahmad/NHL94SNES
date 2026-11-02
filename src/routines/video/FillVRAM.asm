@@ -34,28 +34,28 @@ FillVRAM:							; fill VRAM with a word
 
 .t1:								; screen on: queue the fill in pieces of at most $1000 bytes
 	txa
-	ldx.b DMAQueueTail
+	ldx.b DMAlistend
 .loop:								; next piece
 	pha
 	cmp.w #$1001					; piece size = min(remaining, $1000)
 	bcc .1x
 	lda.w #$1000
 .1x:								; piece size into the entry, then its VRAM address
-	sta.w DMAQueue+4,x
+	sta.w DMAList+4,x
 	lsr a
 	pha
 	tya
-	sta.w DMAQueue+6,x
+	sta.w DMAList+6,x
 	pla
 	clc
-	adc.w DMAQueue+6,x
+	adc.w DMAList+6,x
 	tay
 	lda.w #$0016					; entry source address $0016, bank 0, type 9
-	sta.w DMAQueue+1,x
+	sta.w DMAList+1,x
 	sep #$20
-	stz.w DMAQueue+3,x
+	stz.w DMAList+3,x
 	lda.b #$09
-	sta.w DMAQueue,x
+	sta.w DMAList,x
 	rep #$20
 	txa								; next ring entry (8 bytes), wrap at $400
 	clc
@@ -68,5 +68,5 @@ FillVRAM:							; fill VRAM with a word
 	beq .2
 	bcs .loop
 .2:									; save the new queue tail
-	stx.b DMAQueueTail
+	stx.b DMAlistend
 	rtl

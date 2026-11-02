@@ -1,15 +1,15 @@
 ; a2 = the team of the controller that paused (0 home, 2 visitors), from its side (cont1team)
 ;
-; Returns a2 = 0 or 2 (the team index of the pad that paused, set from pausepad) and a2+2 = the side
+; Returns a2 = 0 or 2 (the team index of the pad that paused, set from sfpj) and a2+2 = the side
 ; searched for. Called from PauseGoalieMode, PauseDefControl, PauseTimeout, PauseGoalie and SetupPauseScreen.
 seta2:								; a2 = team (0/2) of the controller that paused
 	stz.b a2						; a2 = 0 (home), a2+2 = 1
 	lda.w #$0001
 	sta.b a2+2
-	ldx.w pausepad
-	bpl .t1							; pausepad >= 0: use it as the controller index
+	ldx.w sfpj
+	bpl .t1							; sfpj >= 0: use it as the controller index
 	txa
-	eor.w #$FFFF					; negative: look for the first controller whose team equals -pausepad
+	eor.w #$FFFF					; negative: look for the first controller whose team equals -sfpj
 	inc a
 	sta.b a2+2
 	ldx.w #$0000

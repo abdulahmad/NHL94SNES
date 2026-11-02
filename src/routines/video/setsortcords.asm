@@ -116,8 +116,8 @@ setsortcords:						; called from setvideo
 	lsr a
 	bcc .1xxx
 	ldx.w #$2200
-.1xxx:								; sprattr = X, call addframe, if sprframe < SPFcup go to .8, ...
-	stx.w sprattr
+.1xxx:								; sprpal = X, call addframe, if sprframe < SPFcup go to .8, ...
+	stx.w sprpal
 	jsl.l addframe
 	lda.w sprframe
 	cmp.w #SPFcup
@@ -126,7 +126,7 @@ setsortcords:						; called from setvideo
 	bcs .8
 	adc.w #SPFcupover-SPFcup-1		; DrawSprite index of the cup over SPFcup+n
 	sta.b r0
-	lda.w sprattr
+	lda.w sprpal
 	and.w #$F000
 	ldx.w sprx
 	ldy.w spry

@@ -9,7 +9,7 @@ PulseUntilRelease:					; no input; returns when the pause pad lets go of A and B
 	ldx.w #$0020					; x = bytes (16 colours)
 	jsl.l WaitFrame					; wait for the frame
 	jsl.l DMAToCGRAM				; send to CGRAM
-	ldx.w pausepad					; pad that paused
+	ldx.w sfpj						; pad that paused
 	lda.w PadRaw1,x					; its buttons
 	bit.w #$8080					; B or A (PadRaw1 $8000 / $0080) still held?
 	bne PulseUntilRelease			; yes, keep pulsing
