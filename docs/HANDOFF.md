@@ -186,7 +186,7 @@ User-approved policy is in `docs/cleanup_plan.md` (section **Unsure decisions**,
 
 ## Alignment
 
-- 31 Oct 2026 recheck of the 138 NHLPA93SNES routine names that 94S does not use: an instruction-for-instruction search of the 94S routines found no 93S routine whose body is a whole 94S routine under another name (`noturn` is `noturn`; `ConvertByteToDigits`, `FinalizeTextBuffer`, `GetRosterEntry89` and `SortObjInitTable` are inlined inside `ConvertByteToDigits`, `FinalizeTextBuffer`, `GetPlayerRecord` and `defaultsprites_0`). No rename applied. 94G names are taken as the 94G alignment thread lands them.
+- 31 Oct 2026 recheck of the 138 NHLPA93SNES routine names that 94S does not use: an instruction-for-instruction search of the 94S routines found no 93S routine whose body is a whole 94S routine under another name (`noturn` is `noturn`; `ConvertByteToDigits`, `FinalizeTextBuffer`, `GetRosterEntry89` and `SortObjInitTable` are inlined inside `ConvertByteToDigits`, `FinalizeTextBuffer`, `GetPlayerNamePointer` and `defaultsprites_0`). No rename applied. 94G names are taken as the 94G alignment thread lands them.
 
 - Audit is `docs/align_plan.md`. The team database in `src/data/teamdata94s.asm` covers the old bank9C B000/C000/D000 range; screen text continues at `$9CEF59`.
 - Layout done: banks `$80` through `$9F` are `src/banks/` files. Code banks are `b80_engine_sound`, `b9B_stats_replay`, `b9C_teams_stats`, `b9D_setup_playoffs_scouting`, `b9E_game` and `b9F_flow_hud`. Routines are in `src/routines/`, tables in `src/data/tables/`. The SNES header is `src/header/snes_header.asm`. `tools/verify_all.sh` MATCH.

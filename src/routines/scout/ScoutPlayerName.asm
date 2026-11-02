@@ -1,10 +1,10 @@
-; Put the name of player d0 of team a2 (GetPlayerRecord) into mesarea and type it (ScoutTypeText)
+; Put the name of player d0 of team a2 (GetPlayerNamePointer) into mesarea and type it (ScoutTypeText)
 ScoutPlayerName:					; A = nothing, d0 = player, a2 = team (0 home, 2 visitors), x = column to
 									; restore
 	phx								; save the column
 	lda.b a0						; save a0
 	pha
-	jsl.l GetPlayerRecord			; a0 = pointer to the player record
+	jsl.l GetPlayerNamePointer			; a0 = pointer to the player record
 	lda.b a0+2
 	sta.b a1+2						; a1 = the record (its name string)
 	lda.b a0

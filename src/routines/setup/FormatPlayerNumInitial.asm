@@ -12,7 +12,7 @@ FormatPlayerNumInitial:				; called from GetPlayerNumInitial, PrintLineSlotName,
 	pha
 	lda.b a0+2
 	pha
-	jsl.l GetPlayerRecord			; a0 = the roster record of player d0 of team a2
+	jsl.l GetPlayerNamePointer			; a0 = the roster record of player d0 of team a2
 	lda.w #mesarea>>16
 	sta.b a1+2
 	lda.w #mesarea
