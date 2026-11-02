@@ -786,3 +786,4 @@ until traced (`--entry`, `--continue`). The column is the default pass, not the 
 - TeamBlocksMap is TeamBlocksmap (93G spelling, as 94G). MATCH.
 - Comment pass 2: 93S comments carried to identical code (200 lines), step comments for NMI_HookReturn and Multi5Bios. MATCH.
 - Comment pass 3: avdgoal second half from the first half's matching code. MATCH.
+- routines/snes split into the 93S folders by job: 63 to `video`, 41 to `sound`, 66 to `middle` (math, heap, pads, multitap, memory, letter sprites), 5 to the new `decompress`, 4 to the new `main` (reset, CheckPAL), `getpzjoy` / `GetPauseTeam` to `hockey`, `CenterOSpots` to `logic`, `InitStatsOrder` / `SetPlayerStatsRange` to `stats`. Bank includes and `docs/name_map.csv` follow. MATCH.
