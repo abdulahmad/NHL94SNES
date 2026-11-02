@@ -25,4 +25,4 @@ rule in the same commit as the fix that confirmed it, newest last: `- YYYY-MM-DD
 - Data and banks follow 93S: one asset per file, `src/data/tables/`, `src/banks/` in ROM order.
 
 ## Learned
-
+- 2026-11-02 names: `SetupPauseScreen` (5 callers) and `DrawTeamBlocks` (14 callers) are not folded into `Pausemode` / `PlayoffScreen` as 94G's locals: they are shared routines in 94S, so they keep their global 93S names. (step C2, jsl callers in src/routines)
