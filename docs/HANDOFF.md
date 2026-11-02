@@ -1,5 +1,13 @@
 # Handoff
 
+## Now
+
+- Stage / unit: see the shared plan (https://github.com/abdulahmad/nhl-disasm-report/blob/main/docs/ALIGNMENT.md); alignment work for 94S is on `claude/project-thread-ggw7zu`.
+- Branch: `claude/project-thread-ggw7zu`
+- Last check: (update when you stop)
+- Next: (update when you stop)
+- Open PRs: none
+
 ## Comment pass (done)
 
 Goal: every label in `src/routines/**/*.asm` has a trailing comment, every routine has a header comment (what it does, takes and returns, callers found with grep), and non-obvious steps have short comments, as in NHLPA93SNES. Rules: `CONTRIBUTING.md` sections 2 to 5. The pass is comment-only: the ROM must stay byte-identical.
