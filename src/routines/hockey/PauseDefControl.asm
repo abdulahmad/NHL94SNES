@@ -8,5 +8,5 @@ PauseDefControl:					; called from PauseMenuHandlers
 	lda.w defcontrol,y
 	eor.w #$0001
 	sta.w defcontrol,y
-PauseDefStore:						; called from PauseDefControl, PauseTimeout
+PauseDefStore:						; called from PauseDefControl, TimeoutMenu
 	jmp.w PauseMenuPoll

@@ -469,7 +469,7 @@ MapVRAM				=	$079C		;VRAM word address of the screen map:
 MapScreenStep		=	$079E		;MapToVRAM/MapPartToVRAM add MapScreenStep to the VRAM address after row
 									;31 (to the next 32-row screen); no writer ...
 RemapOut		=	$0A0A			; sixteen words: the tile remap is building
-reloadtime		=	$0CC7			;StartPer clears it, ReloadRink adds 60 each time it reloads the rink;
+reloadtime		=	$0CC7			;StartPer clears it, ExitStatsScreen adds 60 each time it reloads the rink;
 									;never read.
 logosprbuf		=	$7F7800			;team logo sprites, unpacked by LoadScoutingScreen, LoadPlayerCardScreen,
 									;SetupScreen and DrawMatchupPictures; DrawLogoSprite draws from here
@@ -497,7 +497,7 @@ CC_Font1Pal3	=	$CF				; font 1, palette 3
 CC_Font1Pri		=	$BF				; font 1, priority set
 CC_Font1Pal1Pri	=	$AF				; font 1, palette 1, priority set
 CC_Font1Pal2Pri	=	$9F				; font 1, palette 2, priority set
-charofs			=	$7E35AA			;Tile offset added to text map words: setupice / ReloadRink set $FF00,
+charofs			=	$7E35AA			;Tile offset added to text map words: setupice / ExitStatsScreen set $FF00,
 									;PlayoffScreen 0; PushRef, EASNLogo, ...
 charofs2		=	$7E35AC			;Second tile offset, cleared with charofs by the screen setups
 									;(SetupScreen, LoadScoutingScreen, setupice) ...
@@ -899,7 +899,7 @@ SpriteBlockTiles	=	$07B8		;InitSprites: (Y+$1F)&~$1F (at least $1A0) = tiles of 
 									;of sprite VRAM; LoadFrameTiles ...
 DrawFrameNum		=	$07C4		;DrawSprite/FreeFrameTiles/GetFrameTiles store the frame number here; with
 									;FrameByNumber set the cache ...
-FrameByNumber		=	$07C6		;Nonzero ($FFFF from StartGame/ReloadRink):
+FrameByNumber		=	$07C6		;Nonzero ($FFFF from StartGame/ExitStatsScreen):
 									;GetFrameTiles/FreeFrameTiles/DrawSpritePieces find the entry by ...
 sprox				=	$07C8		;(93S sprox) DrawSprite/DrawSpritePieces: x offset of the current frame
 									;piece (with $1C); ...
@@ -1121,7 +1121,7 @@ tmfowon				=	$1792		; faceoffs won
 tmchecks			=	$17B6		; body checks (FallDown)
 tmpasses			=	$17BE		; pass attempts (dopass) (93G/94G tmpasses)
 tmpasscomp			=	$17BA		; completed passes (puckglue)
-tmtimeouts			=	$17E2		; timeouts left (StartGame sets 1; PauseTimeout)
+tmtimeouts			=	$17E2		; timeouts left (StartGame sets 1; TimeoutMenu)
 tmtouch1	=	$179A				; pnum of the last touch
 tmtouch2	=	$179E				; second last touch
 tmtouch3	=	$17A2				; third last touch

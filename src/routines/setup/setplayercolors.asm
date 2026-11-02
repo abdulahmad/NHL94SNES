@@ -1,6 +1,6 @@
 ; Set both teams' colours (SetTeamColors) and send the whole palette (palbuffer) to CGRAM
 ;
-; Takes nothing, returns nothing. Called from SaveRegsStartHL2, ReloadRink and setupice.
+; Takes nothing, returns nothing. Called from SaveRegsStartHL2, ExitStatsScreen and setupice.
 setplayercolors:					; set the team colours and send the whole palette to CGRAM
 	jsl.l SetTeamColors				; build the uniform palettes in palbuffer
 	lda.w #palbuffer>>16			; p0 = palbuffer

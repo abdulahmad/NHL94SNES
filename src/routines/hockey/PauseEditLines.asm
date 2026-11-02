@@ -11,5 +11,5 @@ PauseEditLines:						; called from PauseMenuHandlers
 	jsl.l LineEditor				; change the lines on the ice
 	lda.w #$0000
 	sta.l pausesubmenu
-	jsl.l ReloadRink				; after a pause screen: unpack the rink map, tiles and palettes again
+	jsl.l ExitStatsScreen				; after a pause screen: unpack the rink map, tiles and palettes again
 	bra PauseSubmenuDone

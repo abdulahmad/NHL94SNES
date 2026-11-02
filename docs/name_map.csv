@@ -1882,7 +1882,7 @@ $9DA03A,.1,CODE_9DA03A,new,branch target only used in this routine,src/routines/
 $9B947C,.1,CODE_9B947C,new,branch target only used in this routine,src/routines/stats/ScoringSummaryScreen.asm
 $9B9480,.2,CODE_9B9480,new,branch target only used in this routine,src/routines/stats/ScoringSummaryScreen.asm
 $9B8849,.1,CODE_9B8849,new,branch target only used in this routine,src/routines/stats/PrintLineNames.asm
-$9FE4BC,.1,CODE_9FE4BC,new,branch target only used in this routine,src/routines/hockey/PauseTimeout.asm
+$9FE4BC,.1,CODE_9FE4BC,new,branch target only used in this routine,src/routines/stats/TimeoutMenu.asm
 $9FB378,.1,CODE_9FB378,new,branch target only used in this routine,src/routines/logic/puck/puckfaceoff.asm
 $9F92CE,.loop,CODE_9F92CE,new,branch target only used in this routine,src/routines/setup/SaveRegsStartHL2.asm
 $9F92F8,.loop2,CODE_9F92F8,new,branch target only used in this routine,src/routines/setup/SaveRegsStartHL2.asm
@@ -2181,7 +2181,7 @@ $8089D4,.1,CODE_8089D4,new,branch target only used in this routine,src/routines/
 $808A0E,.2,CODE_808A0E,new,branch target only used in this routine,src/routines/video/DMAToVRAMHigh.asm
 $9BA153,.1,CODE_9BA153,new,branch target only used in this routine,src/routines/video/crowd/showcrowd.asm
 $9DB409,.loop,CODE_9DB409,new,branch target only used in this routine,src/routines/title/TitleScreen.asm
-$9FE415,.1,CODE_9FE415,new,branch target only used in this routine,src/routines/hockey/PauseGoalieMode.asm
+$9FE415,.1,CODE_9FE415,new,branch target only used in this routine,src/routines/hockey/ManualGoalieMenu.asm
 $9E95DA,.1,CODE_9E95DA,new,branch target only used in this routine,src/routines/collide/checkplcoll.asm
 $9E95DC,.2,CODE_9E95DC,new,branch target only used in this routine,src/routines/collide/checkplcoll.asm
 $9E9608,.3,CODE_9E9608,new,branch target only used in this routine,src/routines/collide/checkplcoll.asm
@@ -3061,8 +3061,8 @@ $9FE71B,.t1,CODE_9FE71B,new,continued in the previous routine,src/routines/hocke
 $9FE6A9,.t1,CODE_9FE6A9,new,continued in the previous routine,src/routines/hockey/SelectPauseController.asm
 $9FE628,.t1,CODE_9FE628,new,continued in the previous routine,src/routines/hockey/SelectPauseController.asm
 $9FE4E8,.t1,CODE_9FE4E8,new,continued in the previous routine,src/routines/hockey/ChoosePauseMenu.asm
-$9FE3FA,.t1,CODE_9FE3FA,new,continued in the previous routine,src/routines/hockey/PauseGoalie.asm
-$9FE3D7,.t1,CODE_9FE3D7,new,continued in the previous routine,src/routines/hockey/PauseGoalie.asm
+$9FE3FA,.t1,CODE_9FE3FA,new,continued in the previous routine,src/routines/stats/Pausemode_go.asm
+$9FE3D7,.t1,CODE_9FE3D7,new,continued in the previous routine,src/routines/stats/Pausemode_go.asm
 $9FE3AF,.t1,CODE_9FE3AF,new,continued in the previous routine,src/routines/hockey/PauseCrowdLevel.asm
 $9FE39A,.t1,CODE_9FE39A,new,continued in the previous routine,src/routines/hockey/PausePeriodStats.asm
 $9FE385,.t1,CODE_9FE385,new,continued in the previous routine,src/routines/hockey/PauseOtherScores.asm
@@ -3749,14 +3749,14 @@ $9FE327,PausePlayerStats,CODE_9FE327,new,Player Stats,src/routines/hockey/PauseP
 $9FE33C,PauseScoringSummary,CODE_9FE33C,new,Scoring Summary,src/routines/hockey/PauseScoringSummary.asm
 $9FE351,PausePenaltySummary,CODE_9FE351,new,Penalty Summary,src/routines/hockey/PausePenaltySummary.asm
 $9FE390,PausePeriodStats,CODE_9FE390,new,Period Stats,src/routines/hockey/PausePeriodStats.asm
-$9FE3BA,PauseGoalie,CODE_9FE3BA,new,cycle the goalie,src/routines/hockey/PauseGoalie.asm
-$9FE3FF,PauseGoalieMode,CODE_9FE3FF,new,toggle the goalie control,src/routines/hockey/PauseGoalieMode.asm
+$9FE3BA,Pausemode_go,CODE_9FE3BA,94G,"role match with the 94G pause item; was PauseGoalie",src/routines/stats/Pausemode_go.asm
+$9FE3FF,ManualGoalieMenu,CODE_9FE3FF,94G,"role match with the 94G pause item; was PauseGoalieMode",src/routines/hockey/ManualGoalieMenu.asm
 $9FE418,PauseDefControl,CODE_9FE418,new,toggle defensive control,src/routines/hockey/PauseDefControl.asm
 $9FE366,PausePlayerCards,CODE_9FE366,new,Player Cards,src/routines/hockey/PausePlayerCards.asm
 $9FE37B,PauseOtherScores,CODE_9FE37B,new,Other Scores,src/routines/hockey/PauseOtherScores.asm
 $9FE3A5,PauseCrowdLevel,CODE_9FE3A5,new,Crowd Level,src/routines/hockey/PauseCrowdLevel.asm
 $9FE741,PauseExitGame,CODE_9FE741,new,Exit Game,src/routines/hockey/PauseExitGame.asm
-$9FE431,PauseTimeout,CODE_9FE431,new,Timeout,src/routines/hockey/PauseTimeout.asm
+$9FE431,TimeoutMenu,CODE_9FE431,94G,"role match with the 94G pause item; was PauseTimeout",src/routines/stats/TimeoutMenu.asm
 $9FE2CF,PauseShootoutSetup,CODE_9FE2CF,new,Shootout Setup,src/routines/hockey/PauseShootoutSetup.asm
 $9FF00B,AskExitGame,CODE_9FF00B,new,yes or no exit prompt,src/routines/hockey/AskExitGame.asm
 $9B93F3,ScoringSummaryScreen,CODE_9B93F3,new,prints ScoringLabel and ScoringSummaryHead; only PauseScoringSummary calls it,src/routines/stats/ScoringSummaryScreen.asm
@@ -4738,10 +4738,10 @@ $9FD61C,.7,CODE_9FD61C,new,branch target only used in this routine,src/routines/
 $9FD96D,.1,CODE_9FD96D,new,branch target only used in this routine,src/routines/logic/assignments/assbench.asm
 $9FD96E,.5,CODE_9FD96E,new,branch target only used in this routine,src/routines/logic/assignments/assbench.asm
 $9FD99D,.6,CODE_9FD99D,new,continued in the previous routine,src/routines/logic/assignments/assbench.asm
-$9FE3DC,.1,CODE_9FE3DC,new,branch target only used in this routine,src/routines/hockey/PauseGoalie.asm
-$9FE3DD,.2,CODE_9FE3DD,new,branch target only used in this routine,src/routines/hockey/PauseGoalie.asm
-$9FE3E7,.3,CODE_9FE3E7,new,branch target only used in this routine,src/routines/hockey/PauseGoalie.asm
-$9FE3EB,.4,CODE_9FE3EB,new,continued in the previous routine,src/routines/hockey/PauseGoalie.asm
+$9FE3DC,.1,CODE_9FE3DC,new,branch target only used in this routine,src/routines/stats/Pausemode_go.asm
+$9FE3DD,.2,CODE_9FE3DD,new,branch target only used in this routine,src/routines/stats/Pausemode_go.asm
+$9FE3E7,.3,CODE_9FE3E7,new,branch target only used in this routine,src/routines/stats/Pausemode_go.asm
+$9FE3EB,.4,CODE_9FE3EB,new,continued in the previous routine,src/routines/stats/Pausemode_go.asm
 $9B8017,ReadPads,CODE_9B8017,93S,"waitxsr and the menus call it as 93S calls ReadPads; per pad the direction, changed buttons and new presses, from the pad words the NMI reads",src/routines/middle/input/ReadPads.asm
 $9B84DC,ReadjoyA,CODE_9B84DC,new,"93S Readjoy1 for pad A: d0 direction, d1 new presses, d2 changed, d3 held; waitxsr calls it where 93S calls Readjoy1",src/routines/middle/ReadjoyA.asm
 $9EA2CB,Acheck,CODE_9EA2CB,93S,"check4check calls it as in 93S; the hook animation, or the hold one by the angle, then SetSPA, as 93S Acheck",src/routines/logic/controls/holdplayer.asm
@@ -5694,7 +5694,7 @@ $9FBE08,DrawTeamBlocks,CODE_9FBE08,93S,"The 93S DrawTeamBlocks job and loop (d1 
 $9FC427,PlayerInitialName,CODE_9FC427,new,"Behavior: GetPlayerRecord, then the name; GetPlayerNumInitial and the stats pages call it",src/routines/stats/PlayerInitialName.asm
 $9FB901,setplayercolors,CODE_9FB901,93S,"Same job as 93S setplayercolors (SetTeamColors, then the whole CGRAM from palbuffer); setupice and SaveRegsStartHL2 call it as 93S setupice and StartHL2 do",src/routines/setup/setplayercolors.asm
 $9FBD65,nullrtl,CODE_9FBD65,93S,"setupice calls it right after defaultsprites_0, where 93S setupice calls nullrtl",src/routines/setup/nullrtl.asm
-$9FE79F,ReloadRink,CODE_9FE79F,new,Behavior: every pause menu item handler calls it when its screen closes,src/routines/hockey/ReloadRink.asm
+$9FE79F,ExitStatsScreen,CODE_9FE79F,94G,"role match with the 94G pause item; was ReloadRink",src/routines/stats/ExitStatsScreen.asm
 $9FB91A,SetTeamColors,CODE_9FB91A,93S,"setplayercolors: the uniform colours of both teams into palbuffer, as 93S SetTeamColors (was the local .t1)",src/routines/setup/setplayercolors.asm
 $9FC76C,seta2,CODE_9FC76C,93S,"The 93S seta2 test (team 1 = home, a2 = 0, else 2) on the 94 per pad sides; the pause goalie, timeout and defense items call it as 93S Pausemode_menu does",src/routines/hockey/seta2.asm
 $9FE9FD,PulseUntilRelease,CODE_9FE9FD,new,Behavior: called from SelectPauseController,src/routines/hockey/PulseUntilRelease.asm
@@ -5741,7 +5741,7 @@ $9B9822,PenaltySummaryWait,CODE_9B9822,new,"PenaltySummaryScreen: no key, wait a
 $9B94A5,ScoringSummaryLoop,CODE_9B94A5,new,ScoringSummaryScreen: draw the page and read the keys; the scroll routines come back here,src/routines/stats/ScoringSummaryScreen.asm
 $9B94BB,ScoringSummaryWait,CODE_9B94BB,new,"ScoringSummaryScreen: no key, wait a frame and loop",src/routines/stats/ScoringSummaryScreen.asm
 $9FE73D,PauseResumeRtl,CODE_9FE73D,new,PauseResume: A = 0 and rtl; Pausemode_menu leaves through it on Start,src/routines/hockey/PauseResume.asm
-$9FE42E,PauseDefStore,CODE_9FE42E,new,PauseDefControl: store the new setting ($1C94) and back to PauseMenuPoll; PauseTimeout shares it,src/routines/hockey/PauseDefControl.asm
+$9FE42E,PauseDefStore,CODE_9FE42E,new,PauseDefControl: store the new setting ($1C94) and back to PauseMenuPoll; TimeoutMenu shares it,src/routines/hockey/PauseDefControl.asm
 $9BC946,PasswordRedraw,CODE_9BC946,new,PasswordScreen: print the key help and the password again; BadPasswordPrompt comes back here,src/routines/setup/PasswordScreen.asm
 $9BCAF7,PasswordCursorRtl,CODE_9BCAF7,new,"PlacePasswordCursor: the end (d1, rtl); BadPasswordPrompt jumps here",src/routines/setup/PlacePasswordCursor.asm
 $9F8334,StartGame_scout,CODE_9F8334,new,StartGame after the playoff screen: Create_HotCold_Table and ScoutingReport; GameOver enters here,src/routines/hockey/StartGame.asm
@@ -6596,7 +6596,7 @@ $17CE,tmPenShotGoals,,behavior,RAM; penalty shot goals,src/ram94s.asm
 $17D2,tmOneTimerSwings,,behavior,RAM; one-timer swings started (asspassrec; not on the stats screen),src/ram94s.asm
 $17D6,tmOneTimers,,behavior,RAM; one-timers (asspassrec),src/ram94s.asm
 $17DA,tmOneTimerGoals,,behavior,RAM; one-timer goals,src/ram94s.asm
-$17E2,tmtimeouts,,behavior,RAM; timeouts left (StartGame sets 1; PauseTimeout),src/ram94s.asm
+$17E2,tmtimeouts,,behavior,RAM; timeouts left (StartGame sets 1; TimeoutMenu),src/ram94s.asm
 $1922,tmassists,,93G,RAM; assists,src/ram94s.asm
 $1956,tmpshots,,93G,RAM; shots (goalies: shots against),src/ram94s.asm
 $198A,ppenmin,,behavior,RAM; penalty minutes,src/ram94s.asm
@@ -6690,7 +6690,7 @@ $0CAF,recsfxpitch,,behavior,RAM; StartSoundVoice / PuckSfx / updatepwrplay store
 $0CB5,recsfxpitch2,,behavior,RAM; QueueSound copies recsfxpitch here with recsfx2; ReplayMode restores $094A from it.,src/ram94s.asm
 $0CB1,recsfxvol,,behavior,RAM; StartSoundVoice stores the sound's volume ($093A); ReplayMode puts it in $64 (the volume in the high byte) ...,src/ram94s.asm
 $0CB7,recsfxvol2,,behavior,RAM; QueueSound copies recsfxvol here; ReplayMode loads $64 from it.,src/ram94s.asm
-$0CC7,reloadtime,,behavior,"RAM; StartPer clears it, ReloadRink adds 60 each time it reloads the rink; never read.",src/ram94s.asm
+$0CC7,reloadtime,,behavior,"RAM; StartPer clears it, ExitStatsScreen adds 60 each time it reloads the rink; never read.",src/ram94s.asm
 $0CBD,replayHpos,,behavior,"RAM; ReplayMode: the replay camera x, eased toward the locked object / cursor (4 or 2 a frame, clamped) and ...",src/ram94s.asm
 $0CBF,replayVpos,,behavior,"RAM; ReplayMode: the replay camera y, eased the same way and written to Vpos.",src/ram94s.asm
 $0CAB,replaylock,,behavior,RAM; ReplayMode: object the replay camera / cursor locks onto; $FFFF = none (follows PadControlObj slot 0 or ...,src/ram94s.asm
@@ -6721,7 +6721,7 @@ $07EA,EchoDelay,,behavior,RAM; Controller $33; SeqCmd08 command $83 APUIO2 -> dr
 $07EC,EchoFeedback,,behavior,RAM; Controller $35; SeqCmd08 command $09 APUIO3 -> DSP EFB ($0D),src/ram94s.asm
 $07E7,EchoVoices,,behavior,"RAM; Controller $32 (StepTrack); SeqCmd08 sends it with command $82, which the driver ($0631) writes to DSP EON ...",src/ram94s.asm
 $07EB,EchoVolume,,behavior,RAM; Controller $34; SeqCmd08 command $09 APUIO1/2 -> DSP EVOL L/R ($2C/$3C),src/ram94s.asm
-$07C6,FrameByNumber,,behavior,RAM; Nonzero ($FFFF from StartGame/ReloadRink): GetFrameTiles/FreeFrameTiles/DrawSpritePieces find the entry by ...,src/ram94s.asm
+$07C6,FrameByNumber,,behavior,RAM; Nonzero ($FFFF from StartGame/ExitStatsScreen): GetFrameTiles/FreeFrameTiles/DrawSpritePieces find the entry by ...,src/ram94s.asm
 $07BA,FrameCacheCount,,behavior,"RAM; Tile cache entries in use: InitSprites stz, LoadFrameTiles inc (max $80), FreeCacheEntry dec; ...",src/ram94s.asm
 $0764,FrameCount,,behavior,RAM; NMI_SendOAM inc $0764 each NMI (unless $0787); WaitFrame waits for it to change; Reset_Fast clears it; ...,src/ram94s.asm
 $0787,FrameCountHold,,behavior,RAM; NMI_SendOAM: lda $0787 bne skips inc FrameCount; no writer in routines apart from the Reset_Fast clear,src/ram94s.asm
@@ -6927,7 +6927,7 @@ $7E3568,gsper,,93S,"RAM; InitScores clears it per game (93S sta gsper,y); SetSco
 $7E3578,gss1,,93S,"RAM; SetScore: team 1 score (93S gss1,y).",src/ram94s.asm
 $7E3588,gss2,,93S,"RAM; SetScore: team 2 score (93S gss2,y).",src/ram94s.asm
 $7E3598,gsflags,,93S,"RAM; ReadPassBits / InitScores test and set bit 2 (series over) as 93S gsflags,y.",src/ram94s.asm
-$7E35AA,charofs,,93S,"RAM; Tile offset added to text map words: setupice / ReloadRink set $FF00, PlayoffScreen 0; PushRef, EASNLogo, ...",src/ram94s.asm
+$7E35AA,charofs,,93S,"RAM; Tile offset added to text map words: setupice / ExitStatsScreen set $FF00, PlayoffScreen 0; PushRef, EASNLogo, ...",src/ram94s.asm
 $7E35AC,charofs2,,93S,"RAM; Second tile offset, cleared with charofs by the screen setups (SetupScreen, LoadScoutingScreen, setupice) ...",src/ram94s.asm
 $7E35AE,BigFontchars,,93S,"RAM; setupice sets it to framercset+4 ahead of the BigFontTiles; printbig adds it, as 93S BigFontchars.",src/ram94s.asm
 $7E35BA,faceoffvrcset,,93S,RAM; LoadCenterIce sets it after the logo tiles; setupice loads FaceOffTiles there and puckfaceoff2 adds it to ...,src/ram94s.asm

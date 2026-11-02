@@ -1,5 +1,5 @@
 ; Pause menu: toggle the goalie control
-PauseGoalieMode:					; called from PauseMenuHandlers
+ManualGoalieMenu:					; called from PauseMenuHandlers
 	lda.b d1
 	bit.w #$8380
 	beq .1

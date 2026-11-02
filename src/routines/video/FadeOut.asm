@@ -2,7 +2,7 @@
 ;
 ; Starts a fade out: fadeout ($FFFF in fadein) makes the frame hook lower the brightness each frame. Callers
 ; follow it with WaitFadeOut. Takes nothing, returns nothing. Called by SetupScreen, StartGame, Pausemode,
-; ReloadRink, PeriodOver and many other screen changes.
+; ExitStatsScreen, PeriodOver and many other screen changes.
 FadeOut:							; fade out: install BrightnessHook as the frame hook
 	lda.w #$FFFF					; $FFFF = fade out
 	sta.w fadeout					; $FFFF: fade out

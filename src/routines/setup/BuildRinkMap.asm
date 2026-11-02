@@ -1,6 +1,6 @@
 ; Unpack IceRinkMap to rinkmapbuf and copy the home team's centre ice logo map (CenterIceTable+4) into its
 ; middle
-BuildRinkMap:						; called from LoadCenterIce, ReloadRink
+BuildRinkMap:						; called from LoadCenterIce, ExitStatsScreen
 	lda.w #IceRinkMap>>16
 	sta.b p0+2
 	lda.w #IceRinkMap

@@ -1,5 +1,5 @@
 ; Pause menu: cycle the goalie
-PauseGoalie:						; called from PauseMenuHandlers
+Pausemode_go:						; called from PauseMenuHandlers
 	jsl.l seta2						; a2 = the team of the controller that paused, from its side
 	jsl.l GetGoalieCount			; d0 = the number of goalies on team a2
 	jsl.l seta2						; a2 = the team of the controller that paused, from its side

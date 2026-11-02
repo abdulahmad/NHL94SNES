@@ -1,6 +1,6 @@
 ; Switch to the horizontal rink (the scoreboard screen)
 ;
-; Called from SaveRegsStartHL2, ReloadRink, Pausemode, chkprogress, ReplayMode and PeriodOver. Saves
+; Called from SaveRegsStartHL2, ExitStatsScreen, Pausemode, chkprogress, ReplayMode and PeriodOver. Saves
 ; the d0 and a0 register blocks, halves the puck speed, blanks the screen, resets the scroll and the row
 ; counters, sorts the sprites and runs SetHor_rink. Restores the registers and returns with x = a3.
 SetHor:								; switches to the horizontal rink

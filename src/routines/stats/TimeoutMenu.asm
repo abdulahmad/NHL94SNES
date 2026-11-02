@@ -1,5 +1,5 @@
 ; Pause menu Timeout
-PauseTimeout:						; called from PauseMenuHandlers
+TimeoutMenu:						; called from PauseMenuHandlers
 	lda.b d1
 	bit.w #$8080
 	beq PauseDefStore

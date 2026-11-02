@@ -98,6 +98,17 @@ written with the name.
 Not applied: `sfscrl` (`$0020`) and `sf3fo` (`$0010`) are used in the 94G counterparts but no 94S site loads
 the variable right before the mask.
 
+## Applied: role names (alignment pass, stats unit)
+
+Same job in both games, different steps. Abdul's rule for the alignment: a role match shares the name.
+
+| old 94S name | new name | evidence |
+|---|---|---|
+| `PauseTimeout` | `TimeoutMenu` | the pause menu "Timeout" item for team a2: frame, "Timeout", the team name centred, both teams rested, a wait |
+| `PauseGoalie` | `Pausemode_go` | the pause menu goalie item: pick team a2's goalie or pull him, then `setpersonel`. 94S cycles with left / right, 94G opens a list |
+| `PauseGoalieMode` | `ManualGoalieMenu` | the pause menu "Manual Goalie" item: toggle goalie control for team a2 |
+| `ReloadRink` | `ExitStatsScreen` | every pause screen leaves through it: screen off, rink, tiles and palettes again. 94G `ExitStatsScreen` is forceblack then `ReloadRinkGraphics`; 94S has no separate second entry |
+
 ## Not applied: LIKELY
 
 | 94S | 94G | evidence | why not applied |
@@ -106,7 +117,6 @@ the variable right before the mask.
 | `CreditNames` + `CreditTitles` | `CreditsList` | the same titles and names | 94S splits titles and names into two tables |
 | `jdtab8F` | `jdtab` | the same 16 bytes | 93S has a different table called `jdtab`; `jdtab8F` is the 93S name of this copy |
 | `doshot_shotsets` | `shotsets` | x / z offset per pass direction, read by `doshot`; values 15 here, 16 in 94G | `doshot_shotsets` is the 93S name |
-| `ReloadRink` | `ExitStatsScreen` / `ReloadRinkGraphics` | every pause screen handler calls it to rebuild the rink, where 94G screens leave through `ExitStatsScreen` | different steps (SNES palettes, rink map) |
 | `PauseFromPad` | `startpause2` / `startpause3` / `startpause4` | `pausepad` = A, then `startpause`; same callers (`demoread`, `doinput`) | one 94S routine for three 94G entries |
 | `LineSlotNames` | `MatchupPosNames` | the matchup position names | 94S adds a "Team" row |
 | `GameSetupNames` | `OptionNames` | the game setup option names (Play Mode, Penalties, Line Changes, ...) | different lists |
@@ -126,8 +136,7 @@ all 93S `TeamStatTextTbl` holds); a rename is possible but would split one 94G n
 `Decompress` / `DecompressGraphics` (different formats), `checkpuckcoll_ccx` (the 94G local
 `checkpuckcoll.ccx`, not a global), `pmenulist` / `menulist`, `star1score`.. / `starscores`.
 Checked and rejected: `Pausemode_menu` / `Pausemode_Pmenu`, `GetPadTeam` / `GetCardTeam`, `FadeOut` / `forcefade`,
-`CheckBreakaway` / `getBAplayerInfo`, and the pause menu items `PauseTimeout` / `TimeoutMenu`,
-`PauseGoalieMode` / `ManualGoalieMenu`, `PauseGoalie` / `Pausemode_go` (inline items of a different menu layout).
+`CheckBreakaway` / `getBAplayerInfo`.
 
 ## Constants
 

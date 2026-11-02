@@ -1,5 +1,5 @@
 ; Give every player of team a2 full energy
-reenergizeteam:						; called from PauseTimeout, SetupTeamForIntermission, StartHL2, StartPer
+reenergizeteam:						; called from TimeoutMenu, SetupTeamForIntermission, StartHL2, StartPer
 	lda.w #$0032					; last player
 	sta.b d0
 .top:								; loop: if a2 = 0 go to .tm, ...
