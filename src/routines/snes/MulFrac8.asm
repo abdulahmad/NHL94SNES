@@ -5,42 +5,42 @@ MulFrac8:							; called from StartSoundVoice, StepTrack
 	bvc .hw
 	rep #$20
 	asl a
-	sta.b MulCand+2
+	sta.b MulShift
 	lsr a
 	and.w #$00FF
 	sta.b MulCand
 	lda.w #$0000
-	asl.b MulCand+2
+	asl.b MulShift
 	bcc .0
 	adc.b MulCand
-.0:									; asl a, asl MulCand+2, if carry clear go to .1, ...
+.0:									; asl a, asl MulShift, if carry clear go to .1, ...
 	asl a
-	asl.b MulCand+2
+	asl.b MulShift
 	bcc .1
 	adc.b MulCand
-.1:									; asl a, asl MulCand+2, if carry clear go to .2, ...
+.1:									; asl a, asl MulShift, if carry clear go to .2, ...
 	asl a
-	asl.b MulCand+2
+	asl.b MulShift
 	bcc .2
 	adc.b MulCand
-.2:									; asl a, asl MulCand+2, if carry clear go to .3, ...
+.2:									; asl a, asl MulShift, if carry clear go to .3, ...
 	asl a
-	asl.b MulCand+2
+	asl.b MulShift
 	bcc .3
 	adc.b MulCand
-.3:									; asl a, asl MulCand+2, if carry clear go to .4, ...
+.3:									; asl a, asl MulShift, if carry clear go to .4, ...
 	asl a
-	asl.b MulCand+2
+	asl.b MulShift
 	bcc .4
 	adc.b MulCand
-.4:									; asl a, asl MulCand+2, if carry clear go to .5, ...
+.4:									; asl a, asl MulShift, if carry clear go to .5, ...
 	asl a
-	asl.b MulCand+2
+	asl.b MulShift
 	bcc .5
 	adc.b MulCand
-.5:									; asl a, asl MulCand+2, if carry clear go to .6, ...
+.5:									; asl a, asl MulShift, if carry clear go to .6, ...
 	asl a
-	asl.b MulCand+2
+	asl.b MulShift
 	bcc .6
 	adc.b MulCand
 .6:									; asl a, xba, return
