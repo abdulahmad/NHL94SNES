@@ -3,7 +3,7 @@ $808000,Mode7Identity,DATA8_808000,code,M7A-M7D identity matrix written at reset
 $808006,InitHooks,,code,initial hook long pointers and random seed,src/data/tables/InitHooks.asm
 $808013,InitTag,,code,6-byte tag copied to RAM at reset,src/data/tables/InitTag.asm
 $808019,NullHook,,code,rtl; default hook target,src/routines/video/NullHook.asm
-$80801A,Reset,CODE_80801A,code,reset vector,src/routines/main/Reset.asm
+$80801A,Start,CODE_80801A,93S,"reset vector; the 93S and 94G Start (was Reset)",src/routines/main/Start.asm
 $80802A,Reset_Fast,CODE_80802A,code,reset continues in the FastROM bank,src/routines/main/Reset_Fast.asm
 $808147,NMI,CODE_808147,code,NMI vector,src/routines/video/NMI.asm
 $80814B,NMI_Fast,CODE_80814B,code,,src/routines/video/NMI_Fast.asm
