@@ -5709,7 +5709,7 @@ $9FA669,box,CODE_9FA669,93S,"The 93S box body (the same position string, 19 x 9 
 $9EC913,ClearPenaltyMessage,CODE_9EC913,93S,93S ClearPenaltyMessage job; prefmes and UpdatePA call it at the 93S call points (the 94 version draws a frame),src/routines/penalty/ClearPenaltyMessage.asm
 $9FC3F8,GetPlayerName,CODE_9FC3F8,93S,"The 93S GetPlayerName body (TempPlOffset, the team bit, getname); UpdatePA calls it as in 93S",src/routines/setup/GetPlayerName.asm
 $9FC4A1,GetPlayerNumInitial,CODE_9FC4A1,93S,"The 93S GetPlayerNumInitial body (TempPlOffset, the team bit, FormatPlayerNumInitial); ShowInjuryBox calls it as in 93S. The name was on $9FC576 before (now GetPlayerInitial: it calls PlayerInitialName and has no caller)",src/routines/setup/GetPlayerNumInitial.asm
-$9FC896,SetHor_rink,CODE_9FC896,93S,"The 93S SetHor_rink layout (position 0,0, a 32 x 29 erase with blankchar, then the rink map to VRAM); SetHor calls it as in 93S",src/routines/period/SetHor_rink.asm
+$9FC896,SetHor_rink,CODE_9FC896,93S,"The 93S SetHor_rink layout (position 0,0, a 32 x 29 erase with blankchar, then the rink map to VRAM); SetHor calls it as in 93S",src/routines/penalty/SetHor_rink.asm
 $9F9E15,Mod100,CODE_9F9E15,new,Behavior: printscores1 and printscores1_ps use it before PushNumber for the scores,src/routines/middle/Mod100.asm
 $9F9DFB,AlignBigNumber,CODE_9F9DFB,new,Behavior: printscores1 calls it between PushNumber and printbig for the shot counts,src/routines/penalty/AlignBigNumber.asm
 $9FCB68,AssignPadPlayer,CODE_9FCB68,new,"Behavior: the MultiPlayer 5 pad and player tables; called from doinput, findpc and the other pad helpers",src/routines/logic/AssignPadPlayer.asm
