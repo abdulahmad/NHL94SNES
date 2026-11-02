@@ -2062,7 +2062,7 @@ $9E87AE,.4,CODE_9E87AE,new,branch target only used in this routine,src/routines/
 $9E87C9,.5,CODE_9E87C9,new,branch target only used in this routine,src/routines/logic/assdefd.asm
 $9BC442,.loop,CODE_9BC442,new,branch target only used in this routine,src/routines/stats/OtherScoresRtl.asm
 $9C904C,.1,CODE_9C904C,new,branch target only used in this routine,src/routines/period/DisplayStats.asm
-$9FC030,.loop,CODE_9FC030,new,branch target only used in this routine,src/routines/middle/updatescroll_rows.asm
+$9FC030,.loop,CODE_9FC030,new,branch target only used in this routine,src/routines/video/updatescroll_rows.asm
 $9EBB63,.loop,CODE_9EBB63,new,branch target only used in this routine,src/routines/logic/assepen.asm
 $9EBB6D,.1,CODE_9EBB6D,new,branch target only used in this routine,src/routines/logic/assepen.asm
 $9EBB8C,.2,CODE_9EBB8C,new,branch target only used in this routine,src/routines/logic/assepen.asm
@@ -3113,7 +3113,7 @@ $9FC311,.t1,CODE_9FC311,new,continued in the previous routine,src/routines/logic
 $9FC231,.t1,CODE_9FC231,new,continued in the previous routine,src/routines/logic/doinput.asm
 $9FC17E,.t1,CODE_9FC17E,new,continued in the previous routine,src/routines/logic/checkwindow.asm
 $9FC0C6,.t1,CODE_9FC0C6,new,continued in the previous routine,src/routines/logic/checkwindow.asm
-$9FBFBA,.t1,CODE_9FBFBA,new,continued in the previous routine,src/routines/middle/updatescroll_rows.asm
+$9FBFBA,.t1,CODE_9FBFBA,new,continued in the previous routine,src/routines/video/updatescroll_rows.asm
 $9FBE9E,.t1,CODE_9FBE9E,new,continued in the previous routine,src/routines/setup/DrawTeamBlocks.asm
 $9FBE3B,.t1,CODE_9FBE3B,new,continued in the previous routine,src/routines/setup/DrawTeamBlocks.asm
 $9FBD50,.t1,CODE_9FBD50,new,continued in the previous routine,src/routines/video/setffo.asm
@@ -3421,7 +3421,7 @@ $9FC822,.t2,CODE_9FC822,new,continued in the previous routine,src/routines/setup
 $9FC315,.t2,CODE_9FC315,new,continued in the previous routine,src/routines/logic/doinput.asm
 $9FC1EC,.t2,CODE_9FC1EC,new,continued in the previous routine,src/routines/logic/doinput.asm
 $9FC123,.t1,CODE_9FC123,new,continued in the previous routine,src/routines/logic/checkwindow.asm
-$9FBFA6,.t2,CODE_9FBFA6,new,continued in the previous routine,src/routines/middle/updatescroll_rows.asm
+$9FBFA6,.t2,CODE_9FBFA6,new,continued in the previous routine,src/routines/video/updatescroll_rows.asm
 $9FBE56,.t2,CODE_9FBE56,new,continued in the previous routine,src/routines/setup/DrawTeamBlocks.asm
 $9FBD37,.t1,CODE_9FBD37,new,continued in the previous routine,src/routines/video/setffo.asm
 $9FBB56,.t2,CODE_9FBB56,new,continued in the previous routine,src/routines/video/setvideo.asm
@@ -4613,7 +4613,7 @@ $9DFA12,SPApump,DATA8_9DFA12,93S,93S SPApump: same frames and times as 93S (no r
 $9DE8F4,SPAwallright,DATA8_9DE8F4,93S,93S SPAwallright: set where 93S asseben sets it,src/data/frames94s.asm
 $9DE936,SPAwallleft,DATA8_9DE936,93S,93S SPAwallleft: set where 93S assepen sets it,src/data/frames94s.asm
 $9EDBF4,assgoalie_list,DATA8_9EDBF4,93S,"the save animation by save type: the six 93S entries in the 93S order, read by the goalie code as in 93S; entries 6-8 are new in 94",src/data/tables/assgoalie_list.asm
-$9FBFA0,updatescroll_rows,CODE_9FBFA0,93S,setvideo calls it as in 93S; most instructions as 93S updatescroll_rows,src/routines/middle/updatescroll_rows.asm
+$9FBFA0,updatescroll_rows,CODE_9FBFA0,93S,setvideo calls it as in 93S; most instructions as 93S updatescroll_rows,src/routines/video/updatescroll_rows.asm
 $9FB1FD,checkfo,CODE_9FB1FD,93S,setvideo calls it as in 93S; draws the face off sprites as 93S checkfo,src/routines/video/checkfo.asm
 $9E92F8,checkgoalp,CODE_9E92F8,93S,checkgoal jumps here where 93S jumps to checkgoalp; the 93S body for the most part,src/routines/collide/checkgoalp.asm
 $9FBC5F,setffo,CODE_9FBC5F,93S,setvideo calls it as in 93S; draws the pad labels from ButtonLabelCharTable as 93S setffo,src/routines/video/setffo.asm
@@ -5093,10 +5093,10 @@ $9FB518,.9,CODE_9FB518,new,"part of puckfaceoff, used only by it",src/routines/l
 $9FB5CD,.10,CODE_9FB5CD,new,"part of puckfaceoff, used only by it",src/routines/logic/puckfaceoff.asm
 $9FB5E5,.11,CODE_9FB5E5,new,"part of puckfaceoff, used only by it",src/routines/logic/puckfaceoff.asm
 $9FB5F3,.12,CODE_9FB5F3,new,"part of puckfaceoff, used only by it",src/routines/logic/puckfaceoff.asm
-$9FBFDA,.1,CODE_9FBFDA,new,"part of updatescroll_rows, used only by it",src/routines/middle/updatescroll_rows.asm
-$9FBFE6,.2,CODE_9FBFE6,new,"part of updatescroll_rows, used only by it",src/routines/middle/updatescroll_rows.asm
-$9FC00D,.3,CODE_9FC00D,new,"part of updatescroll_rows, used only by it",src/routines/middle/updatescroll_rows.asm
-$9FC072,.4,CODE_9FC072,new,"part of updatescroll_rows, used only by it",src/routines/middle/updatescroll_rows.asm
+$9FBFDA,.1,CODE_9FBFDA,new,"part of updatescroll_rows, used only by it",src/routines/video/updatescroll_rows.asm
+$9FBFE6,.2,CODE_9FBFE6,new,"part of updatescroll_rows, used only by it",src/routines/video/updatescroll_rows.asm
+$9FC00D,.3,CODE_9FC00D,new,"part of updatescroll_rows, used only by it",src/routines/video/updatescroll_rows.asm
+$9FC072,.4,CODE_9FC072,new,"part of updatescroll_rows, used only by it",src/routines/video/updatescroll_rows.asm
 $9FC1CD,.1,CODE_9FC1CD,new,"part of doinput, used only by it",src/routines/logic/doinput.asm
 $9FC1CE,.5,CODE_9FC1CE,new,"part of doinput, used only by it",src/routines/logic/doinput.asm
 $9FC26C,.6,CODE_9FC26C,new,"part of doinput, used only by it",src/routines/logic/doinput.asm
