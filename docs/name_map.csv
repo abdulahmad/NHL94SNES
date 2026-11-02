@@ -3,7 +3,7 @@ $808000,Mode7Identity,DATA8_808000,code,M7A-M7D identity matrix written at reset
 $808006,InitHooks,,code,initial hook long pointers and random seed,src/data/tables/InitHooks.asm
 $808013,InitTag,,code,6-byte tag copied to RAM at reset,src/data/tables/InitTag.asm
 $808019,NullHook,,code,rtl; default hook target,src/routines/video/NullHook.asm
-$80801A,Reset,CODE_80801A,code,reset vector,src/routines/main/Reset.asm
+$80801A,Start,CODE_80801A,code,reset vector (93S/Genesis Start),src/routines/main/Start.asm
 $80802A,Reset_Fast,CODE_80802A,code,reset continues in the FastROM bank,src/routines/main/Reset_Fast.asm
 $808147,NMI,CODE_808147,code,NMI vector,src/routines/video/NMI.asm
 $80814B,NMI_Fast,CODE_80814B,code,,src/routines/video/NMI_Fast.asm
@@ -320,7 +320,7 @@ $9FA130,ShowInjuryBox,CODE_9FA130,93S,"same instructions as the 93S routine Show
 $9FA21E,pplpen,CODE_9FA21E,93S,"same instructions as the 93S routine pplpen (penalty)",src/routines/penalty/pplpen.asm
 $9FBC41,updatescroll,CODE_9FBC41,93S,"same instructions as the 93S routine updatescroll (video)",src/routines/middle/updatescroll.asm
 $9FC576,GetPlayerInitial,CODE_9FC576,new,"TempPlOffset into PlayerInitialName (no number); no caller. Was named GetPlayerNumInitial from its instruction shape; that name moved to $9FC4A1, which calls FormatPlayerNumInitial and is called from ShowInjuryBox as in 93S",src/routines/hockey/GetPlayerInitial.asm
-$9FC732,GetPlayerRecord,CODE_9FC732,93S,"same instructions as the 93S routine GetPlayerRecord (hockey)",src/routines/hockey/GetPlayerRecord.asm
+$9FC732,GetRosterEntry,CODE_9FC732,93S,"same instructions as the 93S routine GetRosterEntry89 (hockey); 93G/94G GetRosterEntry",src/routines/hockey/GetRosterEntry.asm
 $9FC87C,InitScoutingDisplay,CODE_9FC87C,93S,"same instructions as the 93S routine InitScoutingDisplay (hockey)",src/routines/hockey/InitScoutingDisplay.asm
 $9FC702,restoreteams,CODE_9FC702,93S,"same instructions as the 93S routine restoreteams (hockey)",src/routines/hockey/restoreteams.asm
 $9FC6D8,setteams,CODE_9FC6D8,93S,"same instructions as the 93S routine setteams (hockey)",src/routines/setup/clearTeamStats.asm
@@ -4195,8 +4195,8 @@ $9FBC7B,.3,CODE_9FBC7B,new,continued in the previous routine,src/routines/video/
 $9FBD10,.4,CODE_9FBD10,new,branch target only used in this routine,src/routines/video/setffo.asm
 $9FBD3F,.5,CODE_9FBD3F,new,branch target only used in this routine,src/routines/video/setffo.asm
 $9FBD47,.6,CODE_9FBD47,new,branch target only used in this routine,src/routines/video/setffo.asm
-$9FC748,.1,CODE_9FC748,new,continued in the previous routine,src/routines/hockey/GetPlayerRecord.asm
-$9FC752,.2,CODE_9FC752,new,branch target only used in this routine,src/routines/hockey/GetPlayerRecord.asm
+$9FC748,.1,CODE_9FC748,new,continued in the previous routine,src/routines/hockey/GetRosterEntry.asm
+$9FC752,.2,CODE_9FC752,new,branch target only used in this routine,src/routines/hockey/GetRosterEntry.asm
 $9FC845,.1,CODE_9FC845,new,branch target only used in this routine,src/routines/penalty/InitScores.asm
 $9FC86B,.2,CODE_9FC86B,new,continued in the previous routine,src/routines/penalty/InitScores.asm
 $9FC86F,.3,CODE_9FC86F,new,branch target only used in this routine,src/routines/penalty/InitScores.asm
@@ -5691,7 +5691,7 @@ $9EF34B,.1,CODE_9EF34B,new,Goal: shootout goal (folded into Goal),src/routines/h
 $9EF357,.6,CODE_9EF357,new,Goal (folded into Goal),src/routines/hockey/Goal.asm
 $9EF5D9,.16,CODE_9EF5D9,new,Goal: the end (folded into Goal),src/routines/hockey/Goal.asm
 $9FBE08,DrawTeamBlocks,CODE_9FBE08,93S,"The 93S DrawTeamBlocks job and loop (d1 = team, 9 x 2 map words at printx / printy into the text map), plus the 94 name sprites; TeamRosterScreen and the matchups screen call it as 93S TeamRosterScreen and ScoutingReport do",src/routines/setup/DrawTeamBlocks.asm
-$9FC427,PlayerInitialName,CODE_9FC427,new,"Behavior: GetPlayerRecord, then the name; GetPlayerNumInitial and the stats pages call it",src/routines/hockey/PlayerInitialName.asm
+$9FC427,PlayerInitialName,CODE_9FC427,new,"Behavior: GetRosterEntry, then the name; GetPlayerNumInitial and the stats pages call it",src/routines/hockey/PlayerInitialName.asm
 $9FB901,setplayercolors,CODE_9FB901,93S,"Same job as 93S setplayercolors (SetTeamColors, then the whole CGRAM from palbuffer); setupice and SaveRegsStartHL2 call it as 93S setupice and StartHL2 do",src/routines/setup/setplayercolors.asm
 $9FBD65,nullrtl,CODE_9FBD65,93S,"setupice calls it right after defaultsprites_0, where 93S setupice calls nullrtl",src/routines/hockey/nullrtl.asm
 $9FE79F,ReloadRink,CODE_9FE79F,new,Behavior: every pause menu item handler calls it when its screen closes,src/routines/hockey/ReloadRink.asm
