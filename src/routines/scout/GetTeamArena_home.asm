@@ -1,5 +1,5 @@
 ; Script code %r: the home arena (the fourth team String)
-ScoutHomeArena:						; Script code %r entry
+GetTeamArena_home:						; Script code %r entry
 	lda.w tmdata					; a1 = home team data
 	sta.b a1
 	lda.w #TeamList>>16				; bank of the team strings

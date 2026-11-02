@@ -67,7 +67,7 @@ PlayerStatsScreen:					; called from PausePlayerStats
 	lda.w #$0001
 	sta.l playerstatson
 	jsl.l SendTextMap
-	jsl.l DrawPlayerStatsPage		; player stats
+	jsl.l DrawStatsList		; player stats
 	jsl.l MenuScreenHDMA			; start the window and COLDATA HDMA
 	jsl.l ScreenOn
 PlayerStatsScreen_loop:				; called from PlayerStatsScreen_down, PlayerStatsScreen_redraw...
@@ -151,8 +151,8 @@ PlayerStatsScreen_redraw:			; called from PlayerStatsScreen_column, PlayerStatsS
 	lda.w #LineBraces+3
 	sta.b a1
 	jsl.l PrintToStatsPage
-.3:									; call DrawPlayerStatsPage
-	jsl.l DrawPlayerStatsPage		; player stats
+.3:									; call DrawStatsList
+	jsl.l DrawStatsList		; player stats
 .4:									; call WaitFrame, go to PlayerStatsScreen_loop
 	jsl.l WaitFrame
 	jmp.w PlayerStatsScreen_loop
@@ -174,9 +174,9 @@ PlayerStatsScreen_down:				; called from PlayerStatsScreen_loop
 	bmi .t1x2
 	jmp.w PlayerStatsScreen_redraw
 
-.t1x2:								; increment listrows, call DrawPlayerStatsPage, decrement listrows, ...
+.t1x2:								; increment listrows, call DrawStatsList, decrement listrows, ...
 	inc.w listrows
-	jsl.l DrawPlayerStatsPage		; player stats
+	jsl.l DrawStatsList		; player stats
 	dec.w listrows
 	jsl.l WaitFrame
 	inc.w curitem
@@ -189,7 +189,7 @@ PlayerStatsScreen_down:				; called from PlayerStatsScreen_loop
 	lda.w irqvscroll1
 	cmp.w #$000D
 	bne .loop
-	jsl.l DrawPlayerStatsPage		; player stats
+	jsl.l DrawStatsList		; player stats
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1
@@ -203,10 +203,10 @@ PlayerStatsScreen_up:				; called from PlayerStatsScreen_loop
 	bpl .t1x3
 	jmp.w PlayerStatsScreen_redraw
 
-.t1x3:								; curitem = A, increment listrows, call DrawPlayerStatsPage, ...
+.t1x3:								; curitem = A, increment listrows, call DrawStatsList, ...
 	sta.w curitem
 	inc.w listrows
-	jsl.l DrawPlayerStatsPage		; player stats
+	jsl.l DrawStatsList		; player stats
 	dec.w listrows
 	jsl.l WaitFrame
 	lda.w #$000D
@@ -218,7 +218,7 @@ PlayerStatsScreen_up:				; called from PlayerStatsScreen_loop
 	lda.w irqvscroll1
 	cmp.w #$0001
 	bne .loopx
-	jsl.l DrawPlayerStatsPage		; player stats
+	jsl.l DrawStatsList		; player stats
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1
@@ -248,12 +248,12 @@ PlayerStatsScreen_right:			; called from PlayerStatsScreen_loop
 PlayerStatsScreen_column:			; called from PlayerStatsScreen_left
 	sta.w statcolumn
 	jsl.l SortPlayerStats			; player stats: print the column name
-	jsl.l DrawPlayerStatsPage		; player stats
+	jsl.l DrawStatsList		; player stats
 	jmp.w PlayerStatsScreen_redraw
 PlayerStatsScreen_setrange:			; called from PlayerStatsScreen_left, PlayerStatsScreen_right
 	sta.w statcolumn
 	jsl.l SetPlayerStatsRange		; set the row range of the player stats list
 	jsl.l InitStatsOrder			; statsorder[i] = i for the rows of the list
 	jsl.l SortPlayerStats			; player stats: print the column name
-	jsl.l DrawPlayerStatsPage		; player stats
+	jsl.l DrawStatsList		; player stats
 	jmp.w PlayerStatsScreen_redraw

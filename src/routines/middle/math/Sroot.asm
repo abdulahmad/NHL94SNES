@@ -1,5 +1,5 @@
 ; d0 = the square root of $A7:d0 (binary search, the range narrowed first)
-Sroot:								; called from UpdateCrowdMeter
+Sroot:								; called from Crowd_Noise_meter
 	phx
 	lda.b d0+2
 	beq .3

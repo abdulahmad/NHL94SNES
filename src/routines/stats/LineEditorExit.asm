@@ -1,6 +1,6 @@
 ; Edit Lines menu: Return to Game and Restore default lines
 LineEditorExit:						; called from LineEditor
-	jsr.w ClearEditLinesMenu		; line editor: erase the menu area
+	jsr.w ClearLineArea_erase		; line editor: erase the menu area
 	lda.b a1+2
 	pha
 	lda.b a1
@@ -156,9 +156,9 @@ LineEditorExit:						; called from LineEditor
 	lda.w #$FFFF
 	bra .1x
 
-.t2:								; call LoadTeamLines, call ClearEditLinesMenu, call DrawEditLinesTop, ...
+.t2:								; call LoadTeamLines, call ClearLineArea_erase, call DrawEditLinesTop, ...
 	jsl.l LoadTeamLines				; copy team a2's lines from the team data into RAM
-	jsr.w ClearEditLinesMenu		; line editor: erase the menu area
+	jsr.w ClearLineArea_erase		; line editor: erase the menu area
 	jsl.l DrawEditLinesTop			; line editor: clear the top, the title and the line frame
 	lda.w #$0000
 .1x:								; return

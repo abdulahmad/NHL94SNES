@@ -1,8 +1,8 @@
 ; Script code %h: the home city (the first team String)
-ScoutHomeCity:						; Script code %h entry
+GetTeamCity_home:						; Script code %h entry
 	lda.w tmdata					; a1 = home team data
 	sta.b a1
-ScoutTeamCity:						; shared by the city codes: a1 = team data
+GetTeamCity:						; shared by the city codes: a1 = team data
 	lda.w #TeamList>>16				; bank of the team strings
 	sta.b a1+2
 	ldy.w #$0004					; y = offset of the string table

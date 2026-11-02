@@ -54,7 +54,7 @@ chkprogress:						; called from PenaltyManager
 	tsb.w sflags
 	lda.w brightness
 	beq .1x
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 .1x:								; call SetHor, tsb puckc, a3 = $001C, ...
 	jsl.l SetHor					; switches to the horizontal rink

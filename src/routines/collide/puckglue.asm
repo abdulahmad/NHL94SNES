@@ -5,7 +5,7 @@ puckglue:							; called from puckgoalie, puckstick
 	beq .1
 	lda.w #$0003
 	jsl.l PuckSfx					; play sound A with half the puck velocity
-	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
+	jsl.l EndPenaltyShotPlay			; end the penalty shot or shootout attempt in progress: clear it
 	stz.w breakaway
 	stz.w onetimer
 .1:									; puckc = a2, d0 = a2, a0 = 0, ...

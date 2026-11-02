@@ -63,7 +63,7 @@ Gameloop:							; called from PlayShootout, StartPer
 	sbc.b d7
 	sta.w pstimer
 	bne .2
-	jsl.l EndPenaltyShot			; timer ran out: end the penalty shot
+	jsl.l EndPenaltyShotPlay			; timer ran out: end the penalty shot
 .2:									; skip the game clock this frame
 	bra .4
 
@@ -85,7 +85,7 @@ Gameloop:							; called from PlayShootout, StartPer
 	bmi .1x
 	sta.w CwdExciteLvl
 .1x:								; update the crowd meter
-	jsl.l CheckCrowdMeter			; UpdateCrowdMeter into CurCrowdMeter
+	jsl.l Crowd_Noise			; Crowd_Noise_meter into CurCrowdMeter
 .2x:								; next tick
 	dex
 	bne .loop

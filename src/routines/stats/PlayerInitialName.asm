@@ -1,5 +1,5 @@
 ; mesarea = the first initial, a period and the last name of roster player d0 of team a2 (no number)
-PlayerInitialName:					; called from FillPenaltyPage, FillPlayerStatsPage, FillScoringPage, Ge...
+PlayerInitialName:					; called from FillPenaltyPage, DrawStatsList_rows, FillScoringPage, Ge...
 	lda.b d0
 	pha
 	lda.b d0+2

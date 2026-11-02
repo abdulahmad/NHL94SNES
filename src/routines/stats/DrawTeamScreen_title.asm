@@ -1,9 +1,9 @@
 ; Line editor: the EditLinesLabel title sprites, the team name and picture; the background first when
 ; drawlinesback is set
-DrawEditLinesTitle:					; called from DrawEditLinesTop, PrintLinePlayers
+DrawTeamScreen_title:					; called from DrawEditLinesTop, PrintLinePlayers
 	lda.l drawlinesback
 	beq .1
-	jsr.w DrawEditLinesBack			; redraw the line editor background: clear the top, the frame
+	jsr.w DrawTeamScreen			; redraw the line editor background: clear the top, the frame
 .1:									; call SpriteFrameStart, a1 = EditLinesLabel, call PrintLetterSprites, ...
 	jsl.l SpriteFrameStart
 	ldx.w #$0058

@@ -183,7 +183,7 @@ org $9E9000
 	bne .rtl						; no: done
 	lda.w puckc						; puck carrier set (not loose)?
 	bpl .rtl						; yes: done
-	jsl.l EndPenaltyShot			; loose puck: end the penalty shot
+	jsl.l EndPenaltyShotPlay			; loose puck: end the penalty shot
 	stz.w breakaway					; clear breakaway and the one-timer
 	stz.w onetimer
 .rtl:								; return

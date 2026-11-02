@@ -1,5 +1,5 @@
 ; Fill a d0 by d1 rectangle of the text map at printx / printy with tile d2.
-eraser:								; called from BadPasswordPrompt, ClearEditLinesMenu, DrawEditLinesBack...
+eraser:								; called from BadPasswordPrompt, ClearLineArea_erase, DrawTeamScreen...
 	phx								; keep X
 	lda.b d2						; tile
 	clc

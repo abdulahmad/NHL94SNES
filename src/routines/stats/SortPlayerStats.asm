@@ -1,5 +1,5 @@
 ; Player stats: print the column name, sort the player order (statsorder) by stat column statcolumn
-; (ComparePlayerStats), then FillPlayerStatsPage
+; (ComparePlayerStats), then DrawStatsList_rows
 SortPlayerStats:					; called from PlayerStatsScreen, PlayerStatsScreen_column...
 	lda.w statcolumn
 	sta.b d0
@@ -45,5 +45,5 @@ SortPlayerStats:					; called from PlayerStatsScreen, PlayerStatsScreen_column..
 	inx
 	cpx.w listend
 	bcc .loop
-	jsl.l FillPlayerStatsPage		; build the player stats page in the stats page buffer
+	jsl.l DrawStatsList_rows		; build the player stats page in the stats page buffer
 	rtl

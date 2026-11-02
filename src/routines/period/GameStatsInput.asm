@@ -12,12 +12,12 @@ GameStatsInput:						; called from MarkGameStatRows
 	bit.w #$0800
 	beq .t2							; not Up
 .1:									; scroll up (shared with the test in GameStatsKeys)
-	jmp.w ScrollGameStatsUp			; Up ($0800): scroll the rows up
+	jmp.w SetStatScroll_up			; Up ($0800): scroll the rows up
 
 .t2:								; test Down
 	bit.w #$0400
 	beq .t1x						; not Down
-	jmp.w ScrollGameStatsDown		; Down ($0400): scroll the rows down
+	jmp.w SetStatScroll_down		; Down ($0400): scroll the rows down
 
 .t1x:								; nothing pressed: poll again
 	bra GameStatsInput
@@ -28,7 +28,7 @@ GameStatsKeys:						; scroll routines of the game stats screen return here: read
 	bit.w #$1000
 	bne GameStatsRtl
 	bit.w #$0800
-	bne ScrollGameStatsUp
+	bne SetStatScroll_up
 	bit.w #$0400
 	beq MarkGameStatRows
-	jmp.w ScrollGameStatsDown		; scroll the game stats down one row
+	jmp.w SetStatScroll_down		; scroll the game stats down one row

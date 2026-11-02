@@ -19,7 +19,7 @@ SwapPlayerStatsTeam:				; a2 = team side; called from PlayerStatsScreen, SetPlay
 	jsl.l PrintLetterSprites		; print it
 	jsl.l DrawMatchupPictures		; team pictures
 	jsl.l WaitFrame					; show the frame
-	jsl.l DrawPlayerStatsPage		; draw the stats page
+	jsl.l DrawStatsList		; draw the stats page
 	jsl.l SpriteFrameEnd			; close the frame
 	jsl.l SendColours				; send the palette
 	jmp.w PlayerStatsScreen_redraw	; redraw and return

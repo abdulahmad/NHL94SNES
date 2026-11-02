@@ -58,13 +58,13 @@ jmlvector			=	$1D59		; RAM jml trampoline: $5C (jml opcode), target at +1..+3
 
 ;video and sound ports
 ; NMI, DMA queue, IRQ and scroll shadows
-NMISkip				=	$38			;NMI_Fast: lda.b $38 : beq -> nonzero = just pla/plb/rti (no hook, DMA,
+NMISkip				=	$38			;VBlank: lda.b $38 : beq -> nonzero = just pla/plb/rti (no hook, DMA,
 									;OAM, sound)
 DMAlisthead			=	$3A			;Read index into the DMAList ring ($0100, 8-byte entries, and #$03FF):
 									;NMI_HookReturn ldx $3A ...
 DMAlistend			=	$3C			;(93S DMAlistend) Write index of the DMAList ring: QueueVRAMDMA,
 									;DMAToVRAMHigh, FillVRAM, FillVRAMSplit, ...
-DMABudget			=	$3E			;NMI_Fast sets $16D3 each NMI; NMI_HookReturn subtracts the CGRAM DMA
+DMABudget			=	$3E			;VBlank sets $16D3 each NMI; NMI_HookReturn subtracts the CGRAM DMA
 									;(len+$48) and per queue ...
 DMAList				=	$0100		; (93S DMAList, 7-byte list) Ring of 128 8-byte VRAM transfer entries: ...
 FrameCount			=	$0764		;NMI_SendOAM inc FrameCount each NMI (unless FrameCountHold); WaitFrame
@@ -79,11 +79,11 @@ CGDMASrc			=	$076C		; DMAToCGRAM sta CGDMASrc ($0C); NMI_HookReturn -> A1T0L
 CGDMABank			=	$076E		; DMAToCGRAM sta CGDMABank ($0E); NMI_HookReturn ldx CGDMABank -> A1B0
 FrameHookNext		=	$0770		;SetFrameHook sta FrameHookNext / stx $0772 (bank); NMI_SendOAM: when
 									;$0771 (address high byte) is nonzero copies ...
-NMIHookNext			=	$0773		;ClearNMIHook sta NMIHookNext / stx $0775 (bank); NMI_Fast: when $0774 is
+NMIHookNext			=	$0773		;ClearNMIHook sta NMIHookNext / stx $0775 (bank); VBlank: when $0774 is
 									;nonzero copies it to NMIHook ...
 FrameHook			=	$0789		;NMI_SendOAM jml [FrameHook] (returns to NMI_FrameHookReturn); loaded from
 									;FrameHookNext; Reset_Fast copies ...
-NMIHook				=	$078C		;NMI_Fast jml [NMIHook] (returns to NMI_HookReturn); loaded from
+NMIHook				=	$078C		;VBlank jml [NMIHook] (returns to NMI_HookReturn); loaded from
 									;NMIHookNext
 IRQHook				=	$078F		;IRQ_Fast jml [IRQHook]; SetIRQ sta IRQHook / stx $0791 (bank =
 									;IRQHook+2); IRQOff sets IRQHook_Off; the IRQ_* ...
@@ -830,7 +830,7 @@ padinputdone	=	$0ADD			;updateplayers: 5 words (pad*2) cleared each frame, set t
 ltplayer		=	$7E30F6			;a2touchpuck stores the touching player (index / 2) here like 93S
 									;a2touchpuck sta ltplayer.
 ltx				=	$7E30F8			;a2touchpuck stores Xpos,y (93S ltx); Stop4Pen loads it as the OOP faceoff
-									;x like 93S; EndPenaltyShot ...
+									;x like 93S; EndPenaltyShotPlay ...
 lty				=	$7E30FA			; a2touchpuck stores Ypos,y (93S lty); Stop4Pen loads it into d1 like 93S.
 iflags				=	$0CF1		; icing flags (if* masks)
 ifcgl		=	$0001				; crossed the goal line (94G ifcgl)
@@ -970,7 +970,7 @@ sf3sbut		=	$0008				; start button flag (94G sf3sbut)
 sfhormode	=	$15DA				; nonzero: screen in horizontal mode. sflags bit sfhor
 CurCrowdMeter		=	$19C2		; the crowd meter in dB: Sroot(CwdExciteLvl * 4) + 65, at most 128
 CrowdAvg		=	$19C6			; the game's average meter (CrowdMeterSum / CrowdMeterCount)
-CrowdLoud		=	$19C0			; 1 at 110 dB or more; cleared under 105 dB (CheckCrowdMeter)
+CrowdLoud		=	$19C0			; 1 at 110 dB or more; cleared under 105 dB (Crowd_Noise)
 CrowdMeterCount	=	$19C8			; meter samples taken
 CrowdMeterSum	=	$19CA			; 32-bit sum of the meter samples
 crowdmeterlit		=	$1DD1		;CrowdMeterScreen: lit columns of the crowd meter (level/4), the width the
@@ -1273,7 +1273,7 @@ statpenrows			=	$1E15		;Game stats: $10 when penalties are on, 0 when off (Stats
 playerstatson	=	$7E3478			;PlayerStatsScreen sets 1 while it runs; DrawMatchupPictures then skips
 									;the picture DMA.
 scrollirqdone		=	$1DCD		;IRQ_StatsScroll1 sets $FFFF each frame; the unused waits in
-									;ScrollGameStatsDown (.t1) and OtherScoresRtl ...
+									;SetStatScroll_down (.t1) and OtherScoresRtl ...
 irqline1			=	$1DED		;Line of the first split IRQ: SetupScrollIRQ/SetupBandIRQ store A here and
 									;SetIRQ at it, IRQ_BandEnd ...
 irqline2			=	$1DEF		;Line of the second split IRQ: SetupScrollIRQ/SetupBandIRQ store X,
@@ -1353,7 +1353,7 @@ IsBreakaway		=	$1638			; 1 while the puck carrier has a breakaway (CheckBreakawa
 breakaway			=	$1E8B		;Breakaway in progress (CheckBreakaway result IsBreakaway):
 									;StartBreakaway, PenShotChk, doshot set it; Goal ...
 PenShotActive	=	$163A			; 1 during a penalty shot (SetupPenaltyShot .. puckfaceoff2)
-penshot				=	$1E9B		;Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShot
+penshot				=	$1E9B		;Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShotPlay
 									;and StartGame clear; Goal, ...
 penshotlive			=	$1E9D		;Set 1 by SetupPenaltyShot when the shot starts, cleared by puckfaceoff
 									;(.9) and StartGame; ...
@@ -1362,8 +1362,8 @@ pstimer				=	$1E9F		;Penalty shot time limit: SetupPenaltyShot sets 1000, Gamelo
 pspad				=	$1E93		;Pad index (into padside) controlling the penalty shooter, $FFFF none:
 									;Bcheck copies playerpad,y, PlayShootout ...
 psfoxsave			=	$1E97		;StartPenaltyShot saves the faceoff spot x (fox) here and zeroes it;
-									;EndPenaltyShot puts it back into ...
-psfoysave			=	$1E99		;StartPenaltyShot saves the faceoff spot y (foy); EndPenaltyShot puts
+									;EndPenaltyShotPlay puts it back into ...
+psfoysave			=	$1E99		;StartPenaltyShot saves the faceoff spot y (foy); EndPenaltyShotPlay puts
 									;it into lty (last touch y)
 pspuckback		=	$7E3450			;pucknorm: during a penalty shot (PenShotActive) counts the frames the
 									;loose puck moves back from the goal; ...
@@ -1409,7 +1409,7 @@ cardblock		=	$7E3464			;Set while DrawPlayerCard draws its team block: DrawTeamB
 									;name sprites (x -8, +4 / +4).
 bigtextchar		=	$7E3466			;RenderBigText: next letter tile (+2 per letter), used by the BigLetter
 									;hooks and by SendBigText / ...
-drawlinesback	=	$7E3468			;LineEditor sets 1; DrawEditLinesTitle then draws DrawEditLinesBack
+drawlinesback	=	$7E3468			;LineEditor sets 1; DrawTeamScreen_title then draws DrawTeamScreen
 									;first and clears it.
 phototeams		=	$7E346C			;LoadMatchupPhotos: team (home +0, visitors +2) whose matchup photos are
 									;unpacked in the $7F photo buffer, ...

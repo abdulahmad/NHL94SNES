@@ -1,6 +1,6 @@
 ; d0 = the crowd meter: Sroot(CwdExciteLvl * 4) + 65, at most 128; keeps CrowdPeak and the running average
 ; CrowdAvg
-UpdateCrowdMeter:					; called from CheckCrowdMeter
+Crowd_Noise_meter:					; called from Crowd_Noise
 	phx								;save x
 	phy								;save y
 	lda.w CwdExciteLvl				;crowd excitement

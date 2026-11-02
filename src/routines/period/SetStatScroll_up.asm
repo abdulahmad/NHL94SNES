@@ -1,5 +1,5 @@
 ; Scroll the game stats up one row.
-ScrollGameStatsUp:					; called from GameStatsInput, GameStatsKeys
+SetStatScroll_up:					; called from GameStatsInput, GameStatsKeys
 	jsr.w ClearGameStatBraces		; erase the braces around the visible game-stat rows
 	lda.w listtop
 	dec a

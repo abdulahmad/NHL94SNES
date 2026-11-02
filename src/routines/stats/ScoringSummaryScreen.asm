@@ -67,18 +67,18 @@ ScoringSummaryScreen:				; called from PauseScoringSummary
 	lda.w #$0005
 	sta.w listrows
 	jsr.w DrawScoringPage			; draw the visible scoring rows, or No Scoring when the list is empty
-ScoringSummaryLoop:					; called from ScoringSummaryWait, ScrollScoringDown, ScrollScoringUp
+ScoringSummaryLoop:					; called from ScoringSummaryWait, UpdateScoringScroll_down, UpdateScoringScroll_up
 	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	lda.b d3
 	bit.w #$1000
 	beq .t1
 	rtl
 
-.t1:								; d3 bits $1000 clear: if not zero go to ScrollScoringUp, ...
+.t1:								; d3 bits $1000 clear: if not zero go to UpdateScoringScroll_up, ...
 	bit.w #$0800
-	bne ScrollScoringUp
+	bne UpdateScoringScroll_up
 	bit.w #$0400
-	bne ScrollScoringDown
-ScoringSummaryWait:					; called from ScrollScoringDown, ScrollScoringUp
+	bne UpdateScoringScroll_down
+ScoringSummaryWait:					; called from UpdateScoringScroll_down, UpdateScoringScroll_up
 	jsl.l WaitFrame
 	bra ScoringSummaryLoop

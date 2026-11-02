@@ -109,6 +109,27 @@ Same job in both games, different steps. Abdul's rule for the alignment: a role 
 | `PauseGoalieMode` | `ManualGoalieMenu` | the pause menu "Manual Goalie" item: toggle goalie control for team a2 |
 | `ReloadRink` | `ExitStatsScreen` | every pause screen leaves through it: screen off, rink, tiles and palettes again. 94G `ExitStatsScreen` is forceblack then `ReloadRinkGraphics`; 94S has no separate second entry |
 
+Second round (Abdul's call on the unsure list). Where 94S splits a 94G routine, the entry takes the 94G name
+and each extra piece is `<94G name>_<part>`; where one 94S routine stands for several 94G ones, it takes their
+stem and a suffix.
+
+| old 94S name | new name | 94G |
+|---|---|---|
+| `ScrollPenaltyDown` / `Up` | `UpdatePenaltyScroll_down` / `_up` | `UpdatePenaltyScroll` (94S scrolls a page with the IRQ scroll, 94G a line) |
+| `ScrollScoringDown` / `Up` | `UpdateScoringScroll_down` / `_up` | `UpdateScoringScroll` |
+| `ScrollGameStatsDown` / `Up` | `SetStatScroll_down` / `_up` | `SetStatScroll` (game stats) |
+| `DrawEditLinesBack`, `DrawEditLinesTitle` | `DrawTeamScreen`, `DrawTeamScreen_title` | `DrawTeamScreen` |
+| `DrawPlayerStatsPage`, `FillPlayerStatsPage` | `DrawStatsList`, `DrawStatsList_rows` | `DrawStatsList` |
+| `ClearEditLinesMenu` | `ClearLineArea_erase` | `ClearLineArea` and its `.erase` |
+| `ScoutTeamCity`, `ScoutHomeCity`, `ScoutVisCity` | `GetTeamCity`, `GetTeamCity_home`, `GetTeamCity_vis` | `GetTeamCity` |
+| `ScoutHomeArena` | `GetTeamArena_home` | `GetTeamArena` |
+| `ScoutTeamNick`, `ScoutHomeNick`, `ScoutVisNick` | `GetTeamNickname`, `GetTeamNickname_home`, `GetTeamNickname_vis` | `GetTeamNickname` |
+| `CheckCrowdMeter`, `UpdateCrowdMeter` | `Crowd_Noise`, `Crowd_Noise_meter` | `Crowd_Noise` (94S has the meter, not the noise switch) |
+| `NMI_Fast` | `VBlank` | `VBlank` (93S `VBlank`); `NMI` stays the vector stub |
+| `PauseFromPad` | `startpause_pad` | `startpause2` / `3` / `4` |
+| `EndPenaltyShot` | `EndPenaltyShotPlay` | `EndPenaltyShotPlay` |
+| `FadeOut` | `forcefade` (moved to `middle/`) | `forcefade` |
+
 ## Not applied: LIKELY
 
 | 94S | 94G | evidence | why not applied |
@@ -117,7 +138,6 @@ Same job in both games, different steps. Abdul's rule for the alignment: a role 
 | `CreditNames` + `CreditTitles` | `CreditsList` | the same titles and names | 94S splits titles and names into two tables |
 | `jdtab8F` | `jdtab` | the same 16 bytes | 93S has a different table called `jdtab`; `jdtab8F` is the 93S name of this copy |
 | `doshot_shotsets` | `shotsets` | x / z offset per pass direction, read by `doshot`; values 15 here, 16 in 94G | `doshot_shotsets` is the 93S name |
-| `PauseFromPad` | `startpause2` / `startpause3` / `startpause4` | `pausepad` = A, then `startpause`; same callers (`demoread`, `doinput`) | one 94S routine for three 94G entries |
 | `LineSlotNames` | `MatchupPosNames` | the matchup position names | 94S adds a "Team" row |
 | `GameSetupNames` | `OptionNames` | the game setup option names (Play Mode, Penalties, Line Changes, ...) | different lists |
 | `hotplayer1`, `coldplayer1` | `homehotplayer` / `awayhotplayer`, `homecoldplayer` / `awaycoldplayer` | hottest / coldest starter per team, visitors at +2 | 94S is one array per kind |
@@ -130,12 +150,12 @@ all 93S `TeamStatTextTbl` holds); a rename is possible but would split one 94G n
 
 ## Not applied: POSSIBLE
 
-`EndPenaltyShot` / `EndPenaltyShotPlay` (both end a penalty shot, different steps), `DrawShootersBack` /
+`DrawShootersBack` /
 `ClearShooterScreen` (first step of `ShootersBackground`), `PrintShooterRows` / `PrintShooterSlots`,
 `PrintScrollArrows` / `DrawScrollArrows` and `PrintStatScrollArrows`, `WaitDMAQueue` / `WaitDMA`,
 `Decompress` / `DecompressGraphics` (different formats), `checkpuckcoll_ccx` (the 94G local
 `checkpuckcoll.ccx`, not a global), `pmenulist` / `menulist`, `star1score`.. / `starscores`.
-Checked and rejected: `Pausemode_menu` / `Pausemode_Pmenu`, `GetPadTeam` / `GetCardTeam`, `FadeOut` / `forcefade`,
+Checked and rejected: `Pausemode_menu` / `Pausemode_Pmenu`, `GetPadTeam` / `GetCardTeam`,
 `CheckBreakaway` / `getBAplayerInfo`.
 
 ## Constants

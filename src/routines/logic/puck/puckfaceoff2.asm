@@ -47,7 +47,7 @@ puckfaceoff2:						; called from asstab
 .1:									; if brightness = 0 go to .2, ...
 	lda.w brightness				;screen faded?
 	beq .2							;no
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	stz.w brightness				;full dark
 .2:									; call FadeIn, fadein = $000A, if MusicOn != 0 go to .4, ...

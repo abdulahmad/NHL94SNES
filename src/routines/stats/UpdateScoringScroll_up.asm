@@ -1,12 +1,12 @@
-; Scroll the penalty summary up one page.
-ScrollPenaltyUp:					; called from PenaltySummaryLoop
+; Scroll the scoring summary up one page.
+UpdateScoringScroll_up:					; called from ScoringSummaryLoop
 	lda.w listtop
 	dec a
-	bmi PenaltySummaryWait
+	bmi ScoringSummaryWait
 	sta.w listtop
 	lda.w #$0006
 	sta.w listrows
-	jsr.w DrawPenaltyPage			; draw the visible penalty rows, or No Penalties when the list is empty
+	jsr.w DrawScoringPage			; draw the visible scoring rows, or No Scoring when the list is empty
 	jsl.l WaitFrame
 	lda.w #$0015
 	sta.w irqvscroll1
@@ -22,8 +22,8 @@ ScrollPenaltyUp:					; called from PenaltySummaryLoop
 	jsl.l PrintScrollArrows			; show or clear the scroll arrows beside a summary list
 	lda.w #$0005
 	sta.w listrows
-	jsr.w DrawPenaltyPage			; draw the visible penalty rows, or No Penalties when the list is empty
+	jsr.w DrawScoringPage			; draw the visible scoring rows, or No Scoring when the list is empty
 	jsl.l WaitFrame
 	lda.w #$FFFF
 	sta.w irqvscroll1
-	jmp.w PenaltySummaryLoop
+	jmp.w ScoringSummaryLoop

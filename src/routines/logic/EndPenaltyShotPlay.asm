@@ -1,6 +1,6 @@
 ; End the penalty shot or shootout attempt in progress (PenShotActive and penshot): clear it, no shooter,
 ; ShootoutWonBy 10, put back the saved scores
-EndPenaltyShot:						; called from Gameloop, Goal, clockcont_0, puckglue, pucknorm_move and...
+EndPenaltyShotPlay:						; called from Gameloop, Goal, clockcont_0, puckglue, pucknorm_move and...
 	lda.w PenShotActive
 	beq .rtl
 	lda.w penshot

@@ -12,7 +12,7 @@ ClrHor:								; called from Pausemode, ReplayMode, StartHL2, puckfaceoff, puckf
 	ldx.b xsave
 	lda.w brightness
 	beq .1
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	lda.w #$000A

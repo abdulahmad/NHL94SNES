@@ -1,4 +1,4 @@
-; Line editor: clear the top, the title (DrawEditLinesTitle) and the line frame
+; Line editor: clear the top, the title (DrawTeamScreen_title) and the line frame
 DrawEditLinesTop:					; called from LineEditorExit, LineEditor
 	lda.b a1+2
 	pha
@@ -20,7 +20,7 @@ DrawEditLinesTop:					; called from LineEditorExit, LineEditor
 	lda.l blankchar
 	sta.b d2
 	jsl.l eraser
-	jsl.l DrawEditLinesTitle		; line editor: the EditLinesLabel title sprites
+	jsl.l DrawTeamScreen_title		; line editor: the EditLinesLabel title sprites
 	lda.b a1+2
 	pha
 	lda.b a1

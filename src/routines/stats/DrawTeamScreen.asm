@@ -1,5 +1,5 @@
 ; Redraw the line editor background: clear the top, the frame, and the background map in map 2
-DrawEditLinesBack:					; called from DrawEditLinesTitle
+DrawTeamScreen:					; called from DrawTeamScreen_title
 	pha
 	lda.b a1+2
 	pha

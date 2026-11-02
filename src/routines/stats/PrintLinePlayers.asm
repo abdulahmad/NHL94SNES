@@ -123,8 +123,8 @@ PrintLinePlayers:					; called from PrintLineNames
 	bmi .t1x
 	jmp.w .3
 
-.t1x:								; d1 counted below 0: call DrawEditLinesTitle, return
-	jsl.l DrawEditLinesTitle		; line editor: the EditLinesLabel title sprites
+.t1x:								; d1 counted below 0: call DrawTeamScreen_title, return
+	jsl.l DrawTeamScreen_title		; line editor: the EditLinesLabel title sprites
 	rts
 .4:									; db $01,$02,$03,$04
 	db $01,$02,$03,$04

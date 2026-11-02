@@ -11,7 +11,7 @@ doinput:							; pad input for player X
 	bit.w #$1000					; Start?
 	beq .5							; no
 	lda.b d4						; pad number
-	jmp.w PauseFromPad				; pause from this pad
+	jmp.w startpause_pad				; pause from this pad
 .1:									; leave
 	rtl
 .5:									; not paused

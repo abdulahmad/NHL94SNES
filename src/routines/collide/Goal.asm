@@ -1,5 +1,5 @@
 ; The puck is in the goal: the siren, the score, the log, the scoreboard and the celebration (shootout goals
-; through EndPenaltyShot)
+; through EndPenaltyShotPlay)
 ;
 ; Takes no registers; the puck position and gmdir decide which team scored. Called from checkgoal.
 Goal:								; the puck is in the net: score, log, scoreboard, celebration
@@ -31,7 +31,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	lda.w BA_Team					;shooter's team
 	beq .6							;home: count it
 .1:									; penalty shot ends without a goal
-	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
+	jsl.l EndPenaltyShotPlay			; end the penalty shot or shootout attempt in progress: clear it
 	jmp.w .16
 .in:								; shot at the right net
 	lda.w BA_Team
@@ -136,7 +136,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 									; shot, clear breakaway and one timer
 	lda.b Vcount
 	sta.w sfxmutetime				;goal time
-	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
+	jsl.l EndPenaltyShotPlay			; end the penalty shot or shootout attempt in progress: clear it
 	stz.w breakaway					;no breakaway
 	stz.w onetimer					;no one-timer
 	phx

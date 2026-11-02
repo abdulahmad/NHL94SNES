@@ -100,7 +100,7 @@ pucknorm_move:						; called from puckfaceoff, pucknorm
 	sta.l pspuckback
 	cmp.w #$0030
 	bcc .10
-	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
+	jsl.l EndPenaltyShotPlay			; end the penalty shot or shootout attempt in progress: clear it
 .9:									; pspuckback = $0000
 	lda.w #$0000
 	sta.l pspuckback

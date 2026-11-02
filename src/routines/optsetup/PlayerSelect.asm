@@ -10,10 +10,10 @@ PlayerSelect:						; called from setoptions
 	bne .t1							;yes
 	rtl
 
-.t1:								; notdemo != 0: mp5readall = $FFFF, call FadeOut, call WaitFadeOut, ...
+.t1:								; notdemo != 0: mp5readall = $FFFF, call forcefade, call WaitFadeOut, ...
 	lda.w #$FFFF					;read every multitap pad
 	sta.w mp5readall
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	sep #$20

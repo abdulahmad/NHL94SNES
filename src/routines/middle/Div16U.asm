@@ -1,5 +1,5 @@
 ; $08 / $04 into $00, unsigned
-Div16U:								; called from AvgCline, Div16S, FillPlayerStatsPage, ShowThreeStars,
+Div16U:								; called from AvgCline, Div16S, DrawStatsList_rows, ShowThreeStars,
 									;TitlePa...
 	sep #$20
 Div16U_Go:							; called from Div32U

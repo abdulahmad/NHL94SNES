@@ -1,6 +1,6 @@
 ; Draw the two 6 x 6 pictures, visitors at x 1 and home at x $18: a team logo (setupvis / setuphome) or, when
 ; that is negative, the matchup player picture (matchupvis / matchuphome)
-DrawMatchupPictures:				; called from DrawEditLinesTitle, DrawPeriodStats, PasswordScreen, Play...
+DrawMatchupPictures:				; called from DrawTeamScreen_title, DrawPeriodStats, PasswordScreen, Play...
 	lda.b a2						;keep the team offset
 	pha
 	lda.l setupvis					;visitors' side

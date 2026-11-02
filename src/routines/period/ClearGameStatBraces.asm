@@ -1,5 +1,5 @@
 ; Erase the braces around the visible game-stat rows.
-ClearGameStatBraces:				; called from ScrollGameStatsDown, ScrollGameStatsUp
+ClearGameStatBraces:				; called from SetStatScroll_down, SetStatScroll_up
 	lda.w #$0001
 	sta.w printx
 	lda.w listtop
@@ -28,7 +28,7 @@ ClearGameStatBraces:				; called from ScrollGameStatsDown, ScrollGameStatsUp
 	jsl.l PrintToStatsPage
 	rts
 
-SendGameStatsPage:					; called from MarkGameStatRows, ScrollGameStatsDown, ScrollGameStatsUp
+SendGameStatsPage:					; called from MarkGameStatRows, SetStatScroll_down, SetStatScroll_up
 	lda.w listtop
 	xba
 	lsr a

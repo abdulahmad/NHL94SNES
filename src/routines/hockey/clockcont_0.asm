@@ -137,7 +137,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	lda.l OptPlayMode				; play mode 0: game over
 	beq .7
 .1xx:								; end any penalty shot, then ShootoutWonBy
-	jsl.l EndPenaltyShot			; end the penalty shot or shootout attempt in progress: clear it
+	jsl.l EndPenaltyShotPlay			; end the penalty shot or shootout attempt in progress: clear it
 	lda.w #$0002					; d0 = 2
 	sta.b d0
 	jml.l ShootoutWonBy				; continue in ShootoutWonBy

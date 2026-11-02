@@ -1,7 +1,7 @@
 ; Password entry screen
 PasswordScreen:						;password entry: a 5 by 6 grid of characters, 16 positions; called from
 									;setoptions
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	lda.w #$FF7F					;clear bit 7 of the first character
 	and.l PassWord					;password

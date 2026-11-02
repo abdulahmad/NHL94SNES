@@ -9,7 +9,7 @@ SetupScreen:						; common setup of the stats screens
 	stz.w FrameByNumber				; no frame picture
 	lda.b a2						; keep the team offset
 	pha
-	jsl.l FadeOut					; fade the old screen out
+	jsl.l forcefade					; fade the old screen out
 	lda.w #TeamLogoSprites>>16		; decompress the team logo sprites to the work RAM
 	sta.b p0+2
 	lda.w #TeamLogoSprites

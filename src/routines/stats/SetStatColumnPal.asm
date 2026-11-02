@@ -1,5 +1,5 @@
 ; Text palette $2000 for the sorted stat column (A = statcolumn), else $2400
-SetStatColumnPal:					; A = column number; sets printa; called from FillPlayerStatsPage
+SetStatColumnPal:					; A = column number; sets printa; called from DrawStatsList_rows
 	cmp.w statcolumn				; the sorted column?
 	beq .t1							; yes
 	lda.w #$2400					; normal text palette

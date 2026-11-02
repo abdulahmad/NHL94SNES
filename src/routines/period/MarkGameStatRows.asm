@@ -1,6 +1,6 @@
 ; Draw the braces around the visible game-stat rows.
 ;
-; Called from GameStatsInput, ScrollGameStatsUp, ScrollGameStatsDown and StatsReport.
+; Called from GameStatsInput, SetStatScroll_up, SetStatScroll_down and StatsReport.
 MarkGameStatRows:					; draw the braces around the visible rows, then wait for input
 	lda.w listtop					; rows hidden above (listtop not 0)?
 	beq .1

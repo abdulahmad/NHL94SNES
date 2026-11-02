@@ -1,5 +1,5 @@
 ; Build the player stats page in the stats page buffer, a row per player in the sorted order
-FillPlayerStatsPage:				; called from SortPlayerStats
+DrawStatsList_rows:				; called from SortPlayerStats
 	lda.w #statspage>>16
 	sta.b p1+2
 	lda.w #statspage

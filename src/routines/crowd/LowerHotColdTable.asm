@@ -1,7 +1,7 @@
 ; While HotColdRaised is not 0: lower four hot / cold bytes of each of 52 entries (HotColdTable, 12 bytes
 ; apart) by 2, and count HotColdRaised down
 ;
-; Called from CheckCrowdMeter.
+; Called from Crowd_Noise.
 LowerHotColdTable:					; lower the raised hot/cold bytes and count HotColdRaised down
 	lda.w HotColdRaised				; nothing to do when HotColdRaised is 0
 	beq .rtl

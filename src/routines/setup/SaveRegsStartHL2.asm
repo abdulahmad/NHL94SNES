@@ -70,9 +70,9 @@ StartHL2:							; entry point, no direct callers found
 	beq .t1x
 	jmp.w .14						;yes: skip the highlight
 
-.t1x:								; d3 bits $1000 clear: padchangeany = 0, call FadeOut, call WaitFadeOut...
+.t1x:								; d3 bits $1000 clear: padchangeany = 0, call forcefade, call WaitFadeOut...
 	stz.w padchangeany
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	jsl.l FadeOutSound				; start the sound fade out
@@ -313,7 +313,7 @@ org $9F9001
 	inx
 	cpx.w #$0018					;every player
 	bcc .loop5
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	jsl.l .19						;back to the saved game

@@ -1,7 +1,7 @@
 ; After a pause screen: unpack the rink map, tiles and palettes again, set the colours, SetHor and the
 ; sprites, then fade in
 ExitStatsScreen:							; called from PauseCrowdLevel, PauseEditLines, PauseGameStats, PauseOth...
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	lda.w #$FFFF					;no cached sprite frame
 	sta.w FrameByNumber				;forget the frame cache
 	jsl.l BuildRinkMap				;rebuild the rink map

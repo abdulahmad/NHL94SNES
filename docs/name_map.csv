@@ -6,7 +6,7 @@ $808019,NullHook,,code,rtl; default hook target,src/routines/video/NullHook.asm
 $80801A,Start,CODE_80801A,93S,"reset vector; the 93S and 94G Start (was Reset)",src/routines/main/Start.asm
 $80802A,Reset_Fast,CODE_80802A,code,reset continues in the FastROM bank,src/routines/main/Reset_Fast.asm
 $808147,NMI,CODE_808147,code,NMI vector,src/routines/video/NMI.asm
-$80814B,NMI_Fast,CODE_80814B,code,,src/routines/video/NMI_Fast.asm
+$80814B,VBlank,CODE_80814B,94G,"role match with 94G; was NMI_Fast",src/routines/video/VBlank.asm
 $808186,NMI_HookReturn,,code,return point of the hook called with pea/jml,src/routines/video/NMI_HookReturn.asm
 $808469,NMI_FrameHookReturn,,code,,src/routines/video/NMI_FrameHookReturn.asm
 $808481,BCDTable,,code,0-99 as packed BCD,src/data/tables/BCDTable.asm
@@ -857,8 +857,8 @@ $9EEB40,.1,CODE_9EEB40,new,branch target only used in this routine,src/routines/
 $9C9FEC,.rtl,CODE_9C9FEC,new,branch target only used in this routine,src/routines/crowd/StartBenchCheer.asm
 $9DBCB6,.loop,CODE_9DBCB6,new,branch target only used in this routine,src/routines/title/TitleWindowWipe.asm
 $9DBCD5,.1,CODE_9DBCD5,new,branch target only used in this routine,src/routines/title/TitleWindowWipe.asm
-$9C89A2,.1,CODE_9C89A2,new,branch target only used in this routine,src/routines/stats/FillPlayerStatsPage.asm
-$9C89A5,.2,CODE_9C89A5,new,branch target only used in this routine,src/routines/stats/FillPlayerStatsPage.asm
+$9C89A2,.1,CODE_9C89A2,new,branch target only used in this routine,src/routines/stats/DrawStatsList_rows.asm
+$9C89A5,.2,CODE_9C89A5,new,branch target only used in this routine,src/routines/stats/DrawStatsList_rows.asm
 $9EA04E,.1,CODE_9EA04E,new,branch target only used in this routine,src/routines/collide/checkcheck.asm
 $9DBFDA,.1,CODE_9DBFDA,new,branch target only used in this routine,src/routines/cards/DrawPlayerCard.asm
 $9F9E86,.1,CODE_9F9E86,new,branch target only used in this routine,src/routines/video/DrawHorTeams.asm
@@ -887,10 +887,10 @@ $9FF6B7,.2,CODE_9FF6B7,new,branch target only used in this routine,src/routines/
 $9FF7EA,.1,CODE_9FF7EA,new,branch target only used in this routine,src/routines/setup/IntroSequence.asm
 $9FD269,.loop,CODE_9FD269,new,branch target only used in this routine,src/routines/setup/resetplstuff.asm
 $9FD289,.loop2,CODE_9FD289,new,branch target only used in this routine,src/routines/setup/resetplstuff.asm
-$9ECD39,.loop,CODE_9ECD39,new,branch target only used in this routine,src/routines/scout/ScoutHomeCity.asm
-$9ECD73,.1,CODE_9ECD73,new,branch target only used in this routine,src/routines/scout/ScoutHomeCity.asm
-$9ECD76,.2,CODE_9ECD76,new,branch target only used in this routine,src/routines/scout/ScoutHomeCity.asm
-$9ECD7C,.3,CODE_9ECD7C,new,branch target only used in this routine,src/routines/scout/ScoutHomeCity.asm
+$9ECD39,.loop,CODE_9ECD39,new,branch target only used in this routine,src/routines/scout/GetTeamCity_home.asm
+$9ECD73,.1,CODE_9ECD73,new,branch target only used in this routine,src/routines/scout/GetTeamCity_home.asm
+$9ECD76,.2,CODE_9ECD76,new,branch target only used in this routine,src/routines/scout/GetTeamCity_home.asm
+$9ECD7C,.3,CODE_9ECD7C,new,branch target only used in this routine,src/routines/scout/GetTeamCity_home.asm
 $9ED7E1,.1,CODE_9ED7E1,new,branch target only used in this routine,src/routines/logic/assignments/assgoalie.asm
 $9ED7C2,.1,CODE_9ED7C2,new,branch target only used in this routine,src/routines/logic/assignments/assgoalie.asm
 $9BAFCC,.1,CODE_9BAFCC,new,branch target only used in this routine,src/routines/replay/ReplayMode.asm
@@ -914,8 +914,8 @@ $9FBEDD,.loop2,CODE_9FBEDD,new,branch target only used in this routine,src/routi
 $9EC51C,.1,CODE_9EC51C,new,branch target only used in this routine,src/routines/logic/puck/a2touchpuck.asm
 $9EC547,.2,CODE_9EC547,new,branch target only used in this routine,src/routines/logic/puck/a2touchpuck.asm
 $9D9CB8,.loop,CODE_9D9CB8,new,branch target only used in this routine,src/routines/setup/DefaultMenus.asm
-$9B94DC,.1,CODE_9B94DC,new,branch target only used in this routine,src/routines/stats/ScrollScoringDown.asm
-$9B94EF,.loop,CODE_9B94EF,new,branch target only used in this routine,src/routines/stats/ScrollScoringDown.asm
+$9B94DC,.1,CODE_9B94DC,new,branch target only used in this routine,src/routines/stats/UpdateScoringScroll_down.asm
+$9B94EF,.loop,CODE_9B94EF,new,branch target only used in this routine,src/routines/stats/UpdateScoringScroll_down.asm
 $9EB253,.1,CODE_9EB253,new,branch target only used in this routine,src/routines/penalty/penalties/checkfornewpen.asm
 $9EB25B,.2,CODE_9EB25B,new,branch target only used in this routine,src/routines/penalty/penalties/checkfornewpen.asm
 $9EB25F,.3,CODE_9EB25F,new,branch target only used in this routine,src/routines/penalty/penalties/checkfornewpen.asm
@@ -1014,7 +1014,7 @@ $9E98AE,.1,CODE_9E98AE,new,branch target only used in this routine,src/routines/
 $9E98C5,.2,CODE_9E98C5,new,branch target only used in this routine,src/routines/collide/checkpuckcoll_ccx.asm
 $9E98F1,.loop,CODE_9E98F1,new,branch target only used in this routine,src/routines/collide/checkpuckcoll_ccx.asm
 $9EE896,.1,CODE_9EE896,new,branch target only used in this routine,src/routines/logic/assignments/asspassrec.asm
-$9B9536,.loop,CODE_9B9536,new,branch target only used in this routine,src/routines/stats/ScrollScoringUp.asm
+$9B9536,.loop,CODE_9B9536,new,branch target only used in this routine,src/routines/stats/UpdateScoringScroll_up.asm
 $9B8F14,.1,CODE_9B8F14,new,branch target only used in this routine,src/routines/stats/SelectLinePlayer.asm
 $808773,.loop,CODE_808773,new,branch target only used in this routine,src/routines/video/DMAToCGRAM.asm
 $9EB540,.loop,CODE_9EB540,new,branch target only used in this routine,src/routines/penalty/penalties/InProgress.asm
@@ -1120,7 +1120,7 @@ $9E8C99,.2,CODE_9E8C99,new,branch target only used in this routine,src/routines/
 $9E8CA8,.3,CODE_9E8CA8,new,branch target only used in this routine,src/routines/collide/checkcoll.asm
 $9E9429,.1,CODE_9E9429,new,branch target only used in this routine,src/routines/collide/checkgoalp.asm
 $9DAC5F,.1,CODE_9DAC5F,new,branch target only used in this routine,src/routines/optsetup/setoptions.asm
-$9C8EBB,.loop,CODE_9C8EBB,new,branch target only used in this routine,src/routines/period/ScrollGameStatsUp.asm
+$9C8EBB,.loop,CODE_9C8EBB,new,branch target only used in this routine,src/routines/period/SetStatScroll_up.asm
 $9EAFF1,.1,CODE_9EAFF1,new,branch target only used in this routine,src/routines/logic/skating/skatetopuck.asm
 $9EB00F,.2,CODE_9EB00F,new,branch target only used in this routine,src/routines/logic/skating/skatetopuck.asm
 $9EB045,.3,CODE_9EB045,new,branch target only used in this routine,src/routines/logic/skating/skatetopuck.asm
@@ -1156,7 +1156,7 @@ $9BB186,.1,CODE_9BB186,new,branch target only used in this routine,src/routines/
 $9BB19C,.rtl,CODE_9BB19C,new,branch target only used in this routine,src/routines/replay/adda4.asm
 $9DDF9F,.loop,CODE_9DDF9F,new,branch target only used in this routine,src/routines/stats/LoadPictureMap.asm
 $9DDFA3,.loop2,CODE_9DDFA3,new,branch target only used in this routine,src/routines/stats/LoadPictureMap.asm
-$9C8F2D,.loop,CODE_9C8F2D,new,branch target only used in this routine,src/routines/period/ScrollGameStatsDown.asm
+$9C8F2D,.loop,CODE_9C8F2D,new,branch target only used in this routine,src/routines/period/SetStatScroll_down.asm
 $9D99FA,.loop,CODE_9D99FA,new,branch target only used in this routine,src/routines/setup/FigureJoy.asm
 $9D9A05,.1,CODE_9D9A05,new,branch target only used in this routine,src/routines/setup/FigureJoy.asm
 $9B956A,.1,CODE_9B956A,new,branch target only used in this routine,src/routines/stats/DrawScoringPage.asm
@@ -1354,7 +1354,7 @@ $9FBAEC,.1,CODE_9FBAEC,new,branch target only used in this routine,src/routines/
 $9FBAF5,.loop2,CODE_9FBAF5,new,branch target only used in this routine,src/routines/video/sprites/setvideo.asm
 $9BC4D6,.1,CODE_9BC4D6,new,branch target only used in this routine,src/routines/stats/FillOtherScores.asm
 $9EE014,.1,CODE_9EE014,new,branch target only used in this routine,src/routines/logic/puck/shotdiradj.asm
-$9C8AA8,.1,CODE_9C8AA8,new,branch target only used in this routine,src/routines/stats/FillPlayerStatsPage.asm
+$9C8AA8,.1,CODE_9C8AA8,new,branch target only used in this routine,src/routines/stats/DrawStatsList_rows.asm
 $9DBD45,.1,CODE_9DBD45,new,branch target only used in this routine,src/routines/title/NextTitleTeam.asm
 $9C8679,.1,CODE_9C8679,new,branch target only used in this routine,src/routines/stats/PlayerStatsScreen.asm
 $9EC977,.1,CODE_9EC977,new,branch target only used in this routine,src/routines/setup/UpdateScoutingDisplay.asm
@@ -1403,7 +1403,7 @@ $9C99BB,.loop,CODE_9C99BB,new,branch target only used in this routine,src/routin
 $9C99C4,.1,CODE_9C99C4,new,branch target only used in this routine,src/routines/sound/UpdateStreamSfx.asm
 $9E9DF2,.1,CODE_9E9DF2,new,branch target only used in this routine,src/routines/collide/FallDown.asm
 $9E9E3C,.2,CODE_9E9E3C,new,branch target only used in this routine,src/routines/collide/FallDown.asm
-$9C8F05,.loop,CODE_9C8F05,new,branch target only used in this routine,src/routines/period/ScrollGameStatsDown.asm
+$9C8F05,.loop,CODE_9C8F05,new,branch target only used in this routine,src/routines/period/SetStatScroll_down.asm
 $9ED022,.1,CODE_9ED022,new,branch target only used in this routine,src/routines/logic/skating/goalieacc.asm
 $9ED039,.2,CODE_9ED039,new,branch target only used in this routine,src/routines/logic/skating/goalieacc.asm
 $9DBC67,.loop,CODE_9DBC67,new,branch target only used in this routine,src/routines/title/LoadTitleLogo.asm
@@ -1580,12 +1580,12 @@ $9FB8F1,.1,CODE_9FB8F1,new,branch target only used in this routine,src/routines/
 $9EA132,.1,CODE_9EA132,new,branch target only used in this routine,src/routines/collide/checkcheck.asm
 $9EA151,.2,CODE_9EA151,new,branch target only used in this routine,src/routines/collide/checkcheck.asm
 $9ECB47,.loop,CODE_9ECB47,new,branch target only used in this routine,src/routines/scout/ScoutPlainWord.asm
-$9EC7BD,.rtl,CODE_9EC7BD,new,branch target only used in this routine,src/routines/logic/EndPenaltyShot.asm
+$9EC7BD,.rtl,CODE_9EC7BD,new,branch target only used in this routine,src/routines/logic/EndPenaltyShotPlay.asm
 $8086CA,.1,CODE_8086CA,new,branch target only used in this routine,src/routines/video/ScreenOn.asm
 $9BA8EB,.1,CODE_9BA8EB,new,branch target only used in this routine,src/routines/replay/updatereplay.asm
 $9EB1DB,.1,CODE_9EB1DB,new,branch target only used in this routine,src/routines/period/updatePPTeamTime.asm
 $9EB1E4,.rtl,CODE_9EB1E4,new,branch target only used in this routine,src/routines/period/updatePPTeamTime.asm
-$80817D,.1,CODE_80817D,new,branch target only used in this routine,src/routines/video/NMI_Fast.asm
+$80817D,.1,CODE_80817D,new,branch target only used in this routine,src/routines/video/VBlank.asm
 $9BA785,.1,CODE_9BA785,new,branch target only used in this routine,src/routines/stats/CrowdMeterScreen.asm
 $9BA78E,.2,CODE_9BA78E,new,branch target only used in this routine,src/routines/stats/CrowdMeterScreen.asm
 $9D999F,.loop,CODE_9D999F,new,branch target only used in this routine,src/routines/setup/FigureJoy.asm
@@ -1694,7 +1694,7 @@ $9FE6DB,.1,CODE_9FE6DB,new,branch target only used in this routine,src/routines/
 $9E8659,.1,CODE_9E8659,new,branch target only used in this routine,src/routines/logic/assignments/assdefd.asm
 $9B9640,.1,CODE_9B9640,new,branch target only used in this routine,src/routines/stats/FillScoringPage.asm
 $9B9668,.2,CODE_9B9668,new,branch target only used in this routine,src/routines/stats/FillScoringPage.asm
-$9B9856,.loop,CODE_9B9856,new,branch target only used in this routine,src/routines/stats/ScrollPenaltyDown.asm
+$9B9856,.loop,CODE_9B9856,new,branch target only used in this routine,src/routines/stats/UpdatePenaltyScroll_down.asm
 $808A18,.1,CODE_808A18,new,branch target only used in this routine,src/routines/video/MapPartToVRAMOffset.asm
 $9FF7C0,.1,CODE_9FF7C0,new,branch target only used in this routine,src/routines/setup/IntroSequence.asm
 $9BC226,.1,CODE_9BC226,new,branch target only used in this routine,src/routines/setup/BuildRinkMap.asm
@@ -1889,7 +1889,7 @@ $9F92F8,.loop2,CODE_9F92F8,new,branch target only used in this routine,src/routi
 $9D8028,.1,CODE_9D8028,new,branch target only used in this routine,src/routines/print/Framer.asm
 $9D802C,.loop,CODE_9D802C,new,branch target only used in this routine,src/routines/print/Framer.asm
 $9D804C,.2,CODE_9D804C,new,branch target only used in this routine,src/routines/print/Framer.asm
-$9B989D,.loop,CODE_9B989D,new,branch target only used in this routine,src/routines/stats/ScrollPenaltyUp.asm
+$9B989D,.loop,CODE_9B989D,new,branch target only used in this routine,src/routines/stats/UpdatePenaltyScroll_up.asm
 $9E88C6,.1,CODE_9E88C6,new,branch target only used in this routine,src/routines/logic/assignments/assdefo.asm
 $80A74B,.1,CODE_80A74B,new,branch target only used in this routine,src/routines/sound/StartSoundVoice.asm
 $9FF998,.loop,CODE_9FF998,new,branch target only used in this routine,src/routines/setup/IntroSequence.asm
@@ -2206,9 +2206,9 @@ $9DCAE6,.loop,CODE_9DCAE6,new,branch target only used in this routine,src/routin
 $9DCAEB,.loop2,CODE_9DCAEB,new,branch target only used in this routine,src/routines/cards/DrawPlayerPicture.asm
 $9F93DB,.loop,CODE_9F93DB,new,branch target only used in this routine,src/routines/hockey/Pausemode.asm
 $9F945E,.1,CODE_9F945E,new,branch target only used in this routine,src/routines/hockey/Pausemode.asm
-$9B9BC2,.1,CODE_9B9BC2,new,branch target only used in this routine,src/routines/crowd/UpdateCrowdMeter.asm
-$9B9BCC,.2,CODE_9B9BCC,new,branch target only used in this routine,src/routines/crowd/UpdateCrowdMeter.asm
-$9B9BDA,.3,CODE_9B9BDA,new,branch target only used in this routine,src/routines/crowd/UpdateCrowdMeter.asm
+$9B9BC2,.1,CODE_9B9BC2,new,branch target only used in this routine,src/routines/crowd/Crowd_Noise_meter.asm
+$9B9BCC,.2,CODE_9B9BCC,new,branch target only used in this routine,src/routines/crowd/Crowd_Noise_meter.asm
+$9B9BDA,.3,CODE_9B9BDA,new,branch target only used in this routine,src/routines/crowd/Crowd_Noise_meter.asm
 $9FCD3A,.1,CODE_9FCD3A,new,branch target only used in this routine,src/routines/logic/PadTakeRightDefense.asm
 $9E9491,.rtl,CODE_9E9491,new,branch target only used in this routine,src/routines/collide/checkplcoll.asm
 $9E811C,.1,CODE_9E811C,new,branch target only used in this routine,src/routines/logic/assignments/assnearest.asm
@@ -2457,10 +2457,10 @@ $9D8F4E,.1,CODE_9D8F4E,new,branch target only used in this routine,src/routines/
 $9D8FC3,.loop3,CODE_9D8FC3,new,branch target only used in this routine,src/routines/setup/PlayoffScreen.asm
 $9D8FF6,.loop4,CODE_9D8FF6,new,branch target only used in this routine,src/routines/setup/PlayoffScreen.asm
 $80BA3A,.loop,CODE_80BA3A,new,branch target only used in this routine,src/routines/decompress/DecompressLZ.asm
-$9B8979,.1,CODE_9B8979,new,branch target only used in this routine,src/routines/stats/DrawEditLinesTitle.asm
-$9B89B4,.2,CODE_9B89B4,new,branch target only used in this routine,src/routines/stats/DrawEditLinesTitle.asm
-$9B89BC,.3,CODE_9B89BC,new,branch target only used in this routine,src/routines/stats/DrawEditLinesTitle.asm
-$9B89E1,.4,CODE_9B89E1,new,branch target only used in this routine,src/routines/stats/DrawEditLinesTitle.asm
+$9B8979,.1,CODE_9B8979,new,branch target only used in this routine,src/routines/stats/DrawTeamScreen_title.asm
+$9B89B4,.2,CODE_9B89B4,new,branch target only used in this routine,src/routines/stats/DrawTeamScreen_title.asm
+$9B89BC,.3,CODE_9B89BC,new,branch target only used in this routine,src/routines/stats/DrawTeamScreen_title.asm
+$9B89E1,.4,CODE_9B89E1,new,branch target only used in this routine,src/routines/stats/DrawTeamScreen_title.asm
 $9D8252,.1,CODE_9D8252,new,branch target only used in this routine,src/routines/scout/ScoutingReport.asm
 $9E837E,.1,CODE_9E837E,new,branch target only used in this routine,src/routines/logic/assignments/asspuckc.asm
 $9E8381,.2,CODE_9E8381,new,branch target only used in this routine,src/routines/logic/assignments/asspuckc.asm
@@ -2637,7 +2637,7 @@ $808578,.t1,CODE_808578,new,continued in the previous routine,src/routines/video
 $808415,.t1,CODE_808415,new,continued in the previous routine,src/routines/video/NMI_SendOAM.asm
 $808313,.t1,CODE_808313,new,continued in the previous routine,src/routines/video/NMI_HookReturn.asm
 $80823D,.t1,CODE_80823D,new,continued in the previous routine,src/routines/video/NMI_HookReturn.asm
-$808160,.t1,CODE_808160,new,continued in the previous routine,src/routines/video/NMI_Fast.asm
+$808160,.t1,CODE_808160,new,continued in the previous routine,src/routines/video/VBlank.asm
 $9BCBCD,.t1,CODE_9BCBCD,new,continued in the previous routine,src/routines/setup/BadPasswordPrompt.asm
 $9BC9FD,.t1,CODE_9BC9FD,new,continued in the previous routine,src/routines/setup/PasswordScreen.asm
 $9BC9C0,.t1,CODE_9BC9C0,new,continued in the previous routine,src/routines/setup/PasswordScreen.asm
@@ -2684,7 +2684,7 @@ $9BA10F,.t1,CODE_9BA10F,new,continued in the previous routine,src/routines/video
 $9BA003,.t1,CODE_9BA003,new,continued in the previous routine,src/routines/video/crowd/showcrowd.asm
 $9B9FBD,.t1,CODE_9B9FBD,new,continued in the previous routine,src/routines/video/crowd/showcrowd.asm
 $9B9F91,.t1,CODE_9B9F91,new,continued in the previous routine,src/routines/hockey/updatecrowdf.asm
-$9B9C16,.t1,CODE_9B9C16,new,continued in the previous routine,src/routines/crowd/CheckCrowdMeter.asm
+$9B9C16,.t1,CODE_9B9C16,new,continued in the previous routine,src/routines/crowd/Crowd_Noise.asm
 $9B9B16,.t1,CODE_9B9B16,new,continued in the previous routine,src/routines/middle/PrintScrollArrows.asm
 $9B995D,.t1,CODE_9B995D,new,continued in the previous routine,src/routines/stats/FillPenaltyPage.asm
 $9B98F8,.t1,CODE_9B98F8,new,continued in the previous routine,src/routines/stats/DrawPenaltyPage.asm
@@ -2695,7 +2695,7 @@ $9B9591,.t1,CODE_9B9591,new,continued in the previous routine,src/routines/stats
 $9B94B1,.t1,CODE_9B94B1,new,continued in the previous routine,src/routines/stats/ScoringSummaryScreen.asm
 $9B93DE,.t1,CODE_9B93DE,new,continued in the previous routine,src/routines/video/IRQ_BG1Scroll.asm
 $9B932E,.t1,CODE_9B932E,new,continued in the previous routine,src/routines/stats/GetTeamLines.asm
-$9B91A2,DrawEditLinesBack,CODE_9B91A1_t1,new,"split from CODE_9B91A1 (after its rtl); DrawEditLinesTitle called it as jsr.w Div16S_divneg, a bank $80 label with the same low word",src/routines/stats/DrawEditLinesBack.asm
+$9B91A2,DrawTeamScreen,CODE_9B91A1_t1,94G,"role match with 94G; was DrawEditLinesBack",src/routines/stats/DrawTeamScreen.asm
 $9B8FF0,.t1,CODE_9B8FF0,new,continued in the previous routine,src/routines/stats/SelectLinePlayer.asm
 $9B8EF4,.t1,CODE_9B8EF4,new,continued in the previous routine,src/routines/stats/SelectLinePlayer.asm
 $9B8EAA,.t1,CODE_9B8EAA,new,continued in the previous routine,src/routines/stats/SelectLinePlayer.asm
@@ -2751,15 +2751,15 @@ $9C90B8,.t1,CODE_9C90B8,new,continued in the previous routine,src/routines/perio
 $9C9074,.t1,CODE_9C9074,new,continued in the previous routine,src/routines/period/DisplayStats.asm
 $9C9056,.t1,CODE_9C9056,new,continued in the previous routine,src/routines/period/DisplayStats.asm
 $9C902A,.t1,CODE_9C902A,new,continued in the previous routine,src/routines/period/DisplayStats.asm
-$9C8F27,.t1,CODE_9C8F27,new,continued in the previous routine,src/routines/period/ScrollGameStatsDown.asm
+$9C8F27,.t1,CODE_9C8F27,new,continued in the previous routine,src/routines/period/SetStatScroll_down.asm
 $9C8E20,.t1,CODE_9C8E20,new,continued in the previous routine,src/routines/period/GameStatsInput.asm
 $9C8E10,.t1,CODE_9C8E10,new,continued in the previous routine,src/routines/period/GameStatsInput.asm
 $9C8D24,.t1,CODE_9C8D24,new,continued in the previous routine,src/routines/stats/SetStatColumnPal.asm
 $9C8CF5,.t1,CODE_9C8CF5,new,continued in the previous routine,src/routines/stats/ComparePlayerStats.asm
 $9C8C7D,.t1,CODE_9C8C7D,new,continued in the previous routine,src/routines/stats/ComparePlayerStats.asm
-$9C8B21,.t1,CODE_9C8B21,new,continued in the previous routine,src/routines/stats/FillPlayerStatsPage.asm
-$9C8973,.t1,CODE_9C8973,new,continued in the previous routine,src/routines/stats/FillPlayerStatsPage.asm
-$9C88DF,.t1,CODE_9C88DF,new,continued in the previous routine,src/routines/stats/DrawPlayerStatsPage.asm
+$9C8B21,.t1,CODE_9C8B21,new,continued in the previous routine,src/routines/stats/DrawStatsList_rows.asm
+$9C8973,.t1,CODE_9C8973,new,continued in the previous routine,src/routines/stats/DrawStatsList_rows.asm
+$9C88DF,.t1,CODE_9C88DF,new,continued in the previous routine,src/routines/stats/DrawStatsList.asm
 $9C8842,.t1,CODE_9C8842,new,continued in the previous routine,src/routines/stats/SetPlayerStatsRange.asm
 $9C87B1,.t1,CODE_9C87B1,new,continued in the previous routine,src/routines/stats/PlayerStatsScreen.asm
 $9C879F,.t1,CODE_9C879F,new,continued in the previous routine,src/routines/stats/PlayerStatsScreen.asm
@@ -2920,7 +2920,7 @@ $9ED008,.t1,CODE_9ED008,new,continued in the previous routine,src/routines/logic
 $9ECFD1,.t1,CODE_9ECFD1,new,continued in the previous routine,src/routines/penalty/Fprint.asm
 $9ECE69,.t1,CODE_9ECE69,new,continued in the previous routine,src/routines/print/printbig.asm
 $9ECE4B,.t1,CODE_9ECE4B,new,continued in the previous routine,src/routines/print/printbig.asm
-$9ECD98,.t1,CODE_9ECD98,new,continued in the previous routine,src/routines/scout/ScoutHomeCity.asm
+$9ECD98,.t1,CODE_9ECD98,new,continued in the previous routine,src/routines/scout/GetTeamCity_home.asm
 $9ECC7B,.t1,CODE_9ECC7B,new,continued in the previous routine,src/routines/scout/ScoutExtremely.asm
 $9ECB5D,.t1,CODE_9ECB5D,new,continued in the previous routine,src/routines/scout/ScoutPlainWord.asm
 $9ECAAF,.t1,CODE_9ECAAF,new,continued in the previous routine,src/routines/setup/UpdateScoutingDisplay.asm
@@ -3269,7 +3269,7 @@ $9C94A7,.t2,CODE_9C94A7,new,continued in the previous routine,src/routines/optse
 $9C93A0,.t2,CODE_9C93A0,new,continued in the previous routine,src/routines/middle/PrintLetterSprites.asm
 $9C9086,.t2,CODE_9C9086,new,continued in the previous routine,src/routines/period/DisplayStats.asm
 $9C9040,.t2,CODE_9C9040,new,continued in the previous routine,src/routines/period/DisplayStats.asm
-$9C8EEF,.t2,CODE_9C8EEF,new,continued in the previous routine,src/routines/period/ScrollGameStatsDown.asm
+$9C8EEF,.t2,CODE_9C8EEF,new,continued in the previous routine,src/routines/period/SetStatScroll_down.asm
 $9C8E18,.t2,CODE_9C8E18,new,continued in the previous routine,src/routines/period/GameStatsInput.asm
 $9C8C75,.t2,CODE_9C8C75,new,continued in the previous routine,src/routines/stats/ComparePlayerStats.asm
 $9C867C,.t2,CODE_9C867C,new,continued in the previous routine,src/routines/stats/PlayerStatsScreen.asm
@@ -3779,11 +3779,11 @@ $9B8810,PrintLineNames,CODE_9B8810,new,"LineMenuNames, or BestLineNames when $7E
 $9C87DB,SwapPlayerStatsTeam,CODE_9C87DB,new,prints PlayerStatsHeading; PlayerStatsScreen jumps here,src/routines/stats/SwapPlayerStatsTeam.asm
 $9DB954,PrintCopyright,CODE_9DB954,new,prints CopyrightLines,src/routines/title/PrintCopyright.asm
 $9FF1D1,ShowMP5Warning,CODE_9FF1D1,new,pause pad reader calls it while the warning flag is set,src/routines/hockey/ShowMP5Warning.asm
-$9B9514,ScrollScoringUp,CODE_9B9514,new,Up from ScoringSummaryScreen; decrements the page,src/routines/stats/ScrollScoringUp.asm
-$9B94C1,ScrollScoringDown,CODE_9B94C1,new,Down from ScoringSummaryScreen,src/routines/stats/ScrollScoringDown.asm
+$9B9514,UpdateScoringScroll_up,CODE_9B9514,94G,"role match with 94G; was ScrollScoringUp",src/routines/stats/UpdateScoringScroll_up.asm
+$9B94C1,UpdateScoringScroll_down,CODE_9B94C1,94G,"role match with 94G; was ScrollScoringDown",src/routines/stats/UpdateScoringScroll_down.asm
 $9B9562,DrawScoringPage,CODE_9B9562,new,same shape as DrawPenaltyPage; prints NoScoring when empty,src/routines/stats/DrawScoringPage.asm
-$9B987B,ScrollPenaltyUp,CODE_9B987B,new,Up from PenaltySummaryScreen,src/routines/stats/ScrollPenaltyUp.asm
-$9B9828,ScrollPenaltyDown,CODE_9B9828,new,Down from PenaltySummaryScreen,src/routines/stats/ScrollPenaltyDown.asm
+$9B987B,UpdatePenaltyScroll_up,CODE_9B987B,94G,"role match with 94G; was ScrollPenaltyUp",src/routines/stats/UpdatePenaltyScroll_up.asm
+$9B9828,UpdatePenaltyScroll_down,CODE_9B9828,94G,"role match with 94G; was ScrollPenaltyDown",src/routines/stats/UpdatePenaltyScroll_down.asm
 $9DBE06,NextPlayerCard,CODE_9DBE06,new,Right from PlayerCards,src/routines/cards/NextPlayerCard.asm
 $9DBDAE,PrevPlayerCard,CODE_9DBDAE,new,Left from PlayerCards,src/routines/cards/PrevPlayerCard.asm
 $9DBE5B,SwapPlayerCardTeam,CODE_9DBE5B,new,Y from PlayerCards,src/routines/cards/SwapPlayerCardTeam.asm
@@ -3804,8 +3804,8 @@ $9BC35C,ScrollOtherScoresDown,CODE_9BC35C,new,Down from ShowScores,src/routines/
 $9BC49A,FillOtherScores,CODE_9BC49A,new,ShowScores calls it before drawing the page,src/routines/stats/FillOtherScores.asm
 $9C8DFE,GameStatsInput,CODE_9C8DFE,new,StatsReport reaches this through MarkGameStatRows,src/routines/period/GameStatsInput.asm
 $9C8E3A,MarkGameStatRows,CODE_9C8E3A,new,"prints LineBraces and the closing brace, then enters GameStatsInput",src/routines/period/MarkGameStatRows.asm
-$9C8E9C,ScrollGameStatsUp,CODE_9C8E9C,new,Up from GameStatsInput,src/routines/period/ScrollGameStatsUp.asm
-$9C8EDD,ScrollGameStatsDown,CODE_9C8EDD,new,Down from GameStatsInput,src/routines/period/ScrollGameStatsDown.asm
+$9C8E9C,SetStatScroll_up,CODE_9C8E9C,94G,"role match with 94G; was ScrollGameStatsUp",src/routines/period/SetStatScroll_up.asm
+$9C8EDD,SetStatScroll_down,CODE_9C8EDD,94G,"role match with 94G; was ScrollGameStatsDown",src/routines/period/SetStatScroll_down.asm
 $9C8858,ClearPlayerStatBraces,CODE_9C8858,new,prints the blank from LineBraces before the player-stat window moves,src/routines/stats/ClearPlayerStatBraces.asm
 $9C8F36,ClearGameStatBraces,CODE_9C8F36,new,prints the blank from LineBraces before the game-stat window moves,src/routines/period/ClearGameStatBraces.asm
 $9BC4F3,ClearOtherScoreBraces,CODE_9BC4F3,new,prints the blank from LineBraces before that window moves,src/routines/stats/ClearOtherScoreBraces.asm
@@ -4352,7 +4352,7 @@ $9B9331,.1,CODE_9B9331,new,branch target only used in this routine,src/routines/
 $9B96FE,.3,CODE_9B96FE,new,branch target only used in this routine,src/routines/stats/FillScoringPage.asm
 $9B9AF4,.1,CODE_9B9AF4,new,branch target only used in this routine,src/routines/middle/PrintScrollArrows.asm
 $9B9B30,.2,CODE_9B9B30,new,branch target only used in this routine,src/routines/middle/PrintScrollArrows.asm
-$9B9C22,.1,CODE_9B9C22,new,branch target only used in this routine,src/routines/crowd/CheckCrowdMeter.asm
+$9B9C22,.1,CODE_9B9C22,new,branch target only used in this routine,src/routines/crowd/Crowd_Noise.asm
 $9BA5D2,.2,CODE_9BA5D2,new,branch target only used in this routine,src/routines/stats/CrowdMeterScreen.asm
 $9BA662,.3,CODE_9BA662,new,branch target only used in this routine,src/routines/stats/CrowdMeterScreen.asm
 $9BA6F2,.4,CODE_9BA6F2,new,branch target only used in this routine,src/routines/stats/CrowdMeterScreen.asm
@@ -4371,10 +4371,10 @@ $9BB348,.8,CODE_9BB348,new,branch target only used in this routine,src/routines/
 $9BC5E6,.1,CODE_9BC5E6,new,branch target only used in this routine,src/routines/stats/GetTeamLongName.asm
 $9BC75D,.1,CODE_9BC75D,new,branch target only used in this routine,src/routines/setup/PWprint.asm
 $9C884E,.1,CODE_9C884E,new,branch target only used in this routine,src/routines/stats/SetPlayerStatsRange.asm
-$9C8912,.1,CODE_9C8912,new,branch target only used in this routine,src/routines/stats/DrawPlayerStatsPage.asm
-$9C8957,.1,CODE_9C8957,new,branch target only used in this routine,src/routines/stats/FillPlayerStatsPage.asm
-$9C8977,.2,CODE_9C8977,new,branch target only used in this routine,src/routines/stats/FillPlayerStatsPage.asm
-$9C8B26,.2,CODE_9C8B26,new,branch target only used in this routine,src/routines/stats/FillPlayerStatsPage.asm
+$9C8912,.1,CODE_9C8912,new,branch target only used in this routine,src/routines/stats/DrawStatsList.asm
+$9C8957,.1,CODE_9C8957,new,branch target only used in this routine,src/routines/stats/DrawStatsList_rows.asm
+$9C8977,.2,CODE_9C8977,new,branch target only used in this routine,src/routines/stats/DrawStatsList_rows.asm
+$9C8B26,.2,CODE_9C8B26,new,branch target only used in this routine,src/routines/stats/DrawStatsList_rows.asm
 $9C8D2A,.1,CODE_9C8D2A,new,branch target only used in this routine,src/routines/stats/SetStatColumnPal.asm
 $9C99A2,.2,CODE_9C99A2,new,branch target only used in this routine,src/routines/sound/UpdateStreamSfx.asm
 $9C99E4,.3,CODE_9C99E4,new,branch target only used in this routine,src/routines/sound/UpdateStreamSfx.asm
@@ -4782,8 +4782,8 @@ $9EC827,.4,CODE_9EC827,new,branch target only used in this routine,src/routines/
 $9EC881,.5,CODE_9EC881,new,branch target only used in this routine,src/routines/print/print.asm
 $9EC888,.6,CODE_9EC888,new,continued in the previous routine,src/routines/print/print.asm
 $9ECF91,.9,CODE_9ECF91,new,continued in the previous routine,src/routines/print/printbig.asm
-$9C9971,BrightnessHook,9C9971,new,the NMI hook FadeIn and FadeOut install: writes brightness to INIDISP,src/routines/video/BrightnessHook.asm
-$9F96F7,FadeOut,CODE_9F96F7,new,fadein = $FFFF and the BrightnessHook: the NMI lowers brightness to 0,src/routines/video/FadeOut.asm
+$9C9971,BrightnessHook,9C9971,new,the NMI hook FadeIn and forcefade install: writes brightness to INIDISP,src/routines/video/BrightnessHook.asm
+$9F96F7,forcefade,CODE_9F96F7,94G,"role match with 94G; was FadeOut",src/routines/middle/forcefade.asm
 $9F96E6,FadeIn,CODE_9F96E6,new,fadein = 5 and the BrightnessHook: after the delay the NMI raises brightness to 15,src/routines/video/FadeIn.asm
 $9F9708,WaitFadeOut,CODE_9F9708,new,waits frames until brightness is 0,src/routines/video/WaitFadeOut.asm
 $80855E,SetFrameHook,CODE_80855E,new,run the routine at X:A as the frame hook of the next NMI,src/routines/video/SetFrameHook.asm
@@ -5122,8 +5122,8 @@ $9FD9C2,.7,CODE_9FD9C2,new,"part of assbench, used only by it",src/routines/logi
 $9FD9CB,.8,CODE_9FD9CB,new,"part of assbench, used only by it",src/routines/logic/assignments/assbench.asm
 $9B8D32,.5,CODE_9B8D32,new,"part of CODE_9B8C7A, used only by it",src/routines/stats/SetLineSlot.asm
 $9B8F7B,.10,CODE_9B8F7B,new,"part of CODE_9B8D86, used only by it",src/routines/stats/SelectLinePlayer.asm
-$9C8980,.3,CODE_9C8980,new,"part of CODE_9C8934, used only by it",src/routines/stats/FillPlayerStatsPage.asm
-$9C8A83,.4,CODE_9C8A83,new,"part of CODE_9C8934, used only by it",src/routines/stats/FillPlayerStatsPage.asm
+$9C8980,.3,CODE_9C8980,new,"part of CODE_9C8934, used only by it",src/routines/stats/DrawStatsList_rows.asm
+$9C8A83,.4,CODE_9C8A83,new,"part of CODE_9C8934, used only by it",src/routines/stats/DrawStatsList_rows.asm
 $9C99E5,.4,CODE_9C99E5,new,"part of CODE_9C9981, used only by it",src/routines/sound/UpdateStreamSfx.asm
 $9C9A20,.5,CODE_9C9A20,new,"part of CODE_9C9981, used only by it",src/routines/sound/UpdateStreamSfx.asm
 $9C9A21,.6,CODE_9C9A21,new,"part of CODE_9C9981, used only by it",src/routines/sound/UpdateStreamSfx.asm
@@ -5592,7 +5592,7 @@ $80D6E1,PerLabels,(equate),93S,"93S PerLabels plus a sixth entry, now a label in
 $9B8C7A,SetLineSlot,CODE_9B8C7A,94G,"The job of 94G SetLineSlot; LineEditor calls it with the player SelectLinePlayer returns, as 94G LineEditorMenu",src/routines/stats/SetLineSlot.asm
 $9B8D86,SelectLinePlayer,CODE_9B8D86,94G,"The job of 94G SelectLinePlayer; called from LineEditor on a button, its result goes to SetLineSlot",src/routines/stats/SelectLinePlayer.asm
 $9B92DC,GetForwardCount,CODE_9B92DC,94G,"The 94G GetForwardCount body (the +8 offset, byte 3, high nibble); DrawPlayerCard adds it to GetGoalieCount as 94G GetDefenseStart",src/routines/stats/GetForwardCount.asm
-$9B91A1,SelectLinePlayerRtl,CODE_9B91A1,new,SelectLinePlayer jumps here; the code after it is DrawEditLinesBack,src/routines/stats/SelectLinePlayerRtl.asm
+$9B91A1,SelectLinePlayerRtl,CODE_9B91A1,new,SelectLinePlayer jumps here; the code after it is DrawTeamScreen,src/routines/stats/SelectLinePlayerRtl.asm
 $9B8D4D,SwapLineSlots,CODE_9B8D4D,new,Behavior: ReadLineSlot / WriteLineSlot on a3; called from SetLineSlot,src/routines/stats/SwapLineSlots.asm
 $9B8D72,ReadLineSlot,CODE_9B8D72,new,Behavior,src/routines/stats/SwapLineSlots.asm
 $9B8D7C,WriteLineSlot,CODE_9B8D7C,new,Behavior,src/routines/stats/WriteLineSlot.asm
@@ -5600,15 +5600,15 @@ $9B9320,GetTeamLines,CODE_9B9320,new,Behavior,src/routines/stats/GetTeamLines.as
 $9B9334,LoadTeamLines,CODE_9B9334,new,"Behavior: called from StartGame, setoptions and the line editor Restore choice",src/routines/optsetup/LoadTeamLines.asm
 $9B9300,GetDefenseCount,CODE_9B9300,new,Behavior: GetForwardCount with the low nibble,src/routines/stats/GetDefenseCount.asm
 $9B890F,DrawEditLinesTop,CODE_9B890F,new,Behavior: called from LineEditor and LineEditorExit,src/routines/stats/DrawEditLinesTop.asm
-$9B8970,DrawEditLinesTitle,CODE_9B8970,new,Behavior,src/routines/stats/DrawEditLinesTitle.asm
-$9B89E6,ClearEditLinesMenu,CODE_9B89E6,new,Behavior: at the start and end of LineEditorExit,src/routines/stats/ClearEditLinesMenu.asm
+$9B8970,DrawTeamScreen_title,CODE_9B8970,94G,"role match with 94G; was DrawEditLinesTitle",src/routines/stats/DrawTeamScreen_title.asm
+$9B89E6,ClearLineArea_erase,CODE_9B89E6,94G,"role match with 94G; was ClearEditLinesMenu",src/routines/stats/ClearLineArea_erase.asm
 $9B8860,EditLinesRtl,CODE_9B8860,new,Behavior,src/routines/stats/EditLinesRtl.asm
 $9B9249,PrintLinePlayerList,CODE_9B9249,new,Behavior: the rows half of 94G PrintAttribHeader; called from SelectLinePlayer,src/routines/stats/PrintLinePlayerList.asm
 $9B8B60,PrintLinePlayers,CODE_9B8B60,new,Behavior: called from PrintLineNames,src/routines/stats/PrintLinePlayers.asm
 $9B8472,GetNewPresses,CODE_9B8472,93S,"The 93S ReadPads .new block (new presses = changed and down, then the last buttons) as a subroutine of ReadPads",src/routines/middle/GetNewPresses.asm
 $9B866C,WaitSidePadsRelease,CODE_9B866C,new,Behavior: WaitButtonRelease for all the playing pads; called from ScoutingReport,src/routines/middle/WaitSidePadsRelease.asm
 $9B8682,WaitPadsRelease,CODE_9B8682,new,Behavior: called from PlayerSelect,src/routines/middle/WaitPadsRelease.asm
-$9BC43B,OtherScoresRtl,CODE_9BC43B,new,Behavior: ShowScores jumps here; .waitirq is a copy of the ScrollGameStatsDown wait,src/routines/stats/OtherScoresRtl.asm
+$9BC43B,OtherScoresRtl,CODE_9BC43B,new,Behavior: ShowScores jumps here; .waitirq is a copy of the SetStatScroll_down wait,src/routines/stats/OtherScoresRtl.asm
 $9EC894,PrintToStatsPage,CODE_9EC894,new,"Behavior: the stats pages (other scores, scoring and penalty summaries, team and player stats) print with it",src/routines/stats/PrintToStatsPage.asm
 $9FC623,PushNumberWrap,CODE_9FC623,new,Behavior: falls into PushNumberWidth,src/routines/middle/PushNumberWrap.asm
 $9BC5AB,GetTeamLongName,CODE_9BC5AB,new,Behavior: the 94G PrintOptTeamName name choice without the print,src/routines/stats/GetTeamLongName.asm
@@ -5617,9 +5617,9 @@ $9BC543,PrintOtherScore,CODE_9BC543,new,Behavior: called from FillOtherScores,sr
 $9B9B35,PrintTeamAbbrev,CODE_9B9B35,new,Behavior: the second team data String; called from FillScoringPage and FillPenaltyPage,src/routines/stats/PrintTeamAbbrev.asm
 $9B95B0,FillScoringPage,CODE_9B95B0,new,"Behavior: called from ScoringSummaryScreen, as FillOtherScores for the other scores",src/routines/stats/FillScoringPage.asm
 $9B9917,FillPenaltyPage,CODE_9B9917,new,"Behavior: called from PenaltySummaryScreen, as FillScoringPage",src/routines/stats/FillPenaltyPage.asm
-$9BB3BE,Sroot,CODE_9BB3BE,93S,"Same job as 93S Sroot (binary search on the square, rewritten with narrowed ranges); UpdateCrowdMeter uses it as 94G Crowd_Noise uses Sroot",src/routines/middle/math/Sroot.asm
-$9B9BA5,UpdateCrowdMeter,CODE_9B9BA5,94G,"The 94G Crowd_Noise .meter step (Sroot(CwdExciteLvl * 4) + $41, CrowdPeak) plus an average",src/routines/crowd/UpdateCrowdMeter.asm
-$9B9BF8,CheckCrowdMeter,CODE_9B9BF8,new,Behavior: called from Gameloop,src/routines/crowd/CheckCrowdMeter.asm
+$9BB3BE,Sroot,CODE_9BB3BE,93S,"Same job as 93S Sroot (binary search on the square, rewritten with narrowed ranges); Crowd_Noise_meter uses it as 94G Crowd_Noise uses Sroot",src/routines/middle/math/Sroot.asm
+$9B9BA5,Crowd_Noise_meter,CODE_9B9BA5,94G,"role match with 94G; was UpdateCrowdMeter",src/routines/crowd/Crowd_Noise_meter.asm
+$9B9BF8,Crowd_Noise,CODE_9B9BF8,94G,"role match with 94G; was CheckCrowdMeter",src/routines/crowd/Crowd_Noise.asm
 $9BA89F,LowerHotColdTable,CODE_9BA89F,new,Behavior,src/routines/crowd/LowerHotColdTable.asm
 $9B9B6B,InitCrowdExcite,CODE_9B9B6B,new,Behavior: called from StartPer,src/routines/crowd/InitCrowdExcite.asm
 $9BC17C,LoadCenterIce,CODE_9BC17C,new,Behavior: called from setupice and SaveRegsStartHL2,src/routines/setup/LoadCenterIce.asm
@@ -5635,11 +5635,11 @@ $808F7A,Mul8S_swap,CODE_808F7A,new,"Mul8S: X = A, into Mul8XS_neg (folded into M
 $80B284,DrawSpriteExit,CODE_80B284,new,plb / rtl shared by DrawSprite and DrawSpritePieces (folded into DrawSprite.asm),src/routines/video/DrawSprite.asm
 $9C8E22,GameStatsKeys,CODE_9C8E22,new,the game stats key dispatch the scroll routines come back to (folded into GameStatsInput.asm),src/routines/period/GameStatsInput.asm
 $9C8E9B,GameStatsRtl,CODE_9C8E9B,new,the rtl the game stats screen leaves through (folded into MarkGameStatRows.asm),src/routines/period/MarkGameStatRows.asm
-$9C88A0,DrawPlayerStatsPage,CODE_9C88A0,new,Behavior: as DrawOtherScoresPage / DrawScoringPage for the player stats; called from PlayerStatsScreen and SwapPlayerStatsTeam,src/routines/stats/DrawPlayerStatsPage.asm
+$9C88A0,DrawStatsList,CODE_9C88A0,94G,"role match with 94G; was DrawPlayerStatsPage",src/routines/stats/DrawStatsList.asm
 $9C8B69,SortPlayerStats,CODE_9C8B69,new,Behavior: called from PlayerStatsScreen and SwapPlayerStatsTeam,src/routines/stats/SortPlayerStats.asm
 $9C8C22,ComparePlayerStats,CODE_9C8C22,new,"Behavior: the per column compares of the stat tables ($18EE, $1922, $1956, $198A); called from SortPlayerStats",src/routines/stats/ComparePlayerStats.asm
-$9C8934,FillPlayerStatsPage,CODE_9C8934,new,Behavior: as FillOtherScores for the player stats; called from SortPlayerStats,src/routines/stats/FillPlayerStatsPage.asm
-$9C8D17,SetStatColumnPal,CODE_9C8D17,new,Behavior: called from FillPlayerStatsPage,src/routines/stats/SetStatColumnPal.asm
+$9C8934,DrawStatsList_rows,CODE_9C8934,94G,"role match with 94G; was FillPlayerStatsPage",src/routines/stats/DrawStatsList_rows.asm
+$9C8D17,SetStatColumnPal,CODE_9C8D17,new,Behavior: called from DrawStatsList_rows,src/routines/stats/SetStatColumnPal.asm
 $9C943E,PrintTeamSprites,CODE_9C943E,new,Behavior: called from setoptions and CODE_9FBE08,src/routines/optsetup/PrintTeamSprites.asm
 $9C9415,PrintStringSprites,CODE_9C9415,new,Behavior: enters PrintTeamSprites_go; called from PrintCopyright and the title,src/routines/title/PrintStringSprites.asm
 $9C9590,PrintSmallLetterSprites,CODE_9C9590,new,"Behavior: PrintLetterSprites with the small letter set (space 3, a period); called from DrawPlayerCard and PrintLineSlotName",src/routines/cards/PrintSmallLetterSprites.asm
@@ -5664,20 +5664,20 @@ $9ECBD0,ScoutVisCold3,CODE_9ECBD0,new,Behavior: the PregameText script code it s
 $9ECBD5,ScoutHomePlayer,CODE_9ECBD5,new,Behavior: entered from ScoutHomeHot1 ... ScoutHomeCold3,src/routines/scout/ScoutHomePlayer.asm
 $9ECBDD,ScoutVisPlayer,CODE_9ECBDD,new,Behavior: entered from ScoutVisHot1 ... ScoutVisCold3,src/routines/scout/ScoutVisPlayer.asm
 $9ECBE8,ScoutPlayerName,CODE_9ECBE8,new,Behavior,src/routines/scout/ScoutPlayerName.asm
-$9ECC1E,ScoutVisNick,CODE_9ECC1E,new,Behavior: the PregameText script code it serves; UpdateScoutingDisplay dispatches on the character after %,src/routines/scout/ScoutVisNick.asm
-$9ECC4B,ScoutHomeArena,CODE_9ECC4B,new,Behavior: the PregameText script code it serves; UpdateScoutingDisplay dispatches on the character after %,src/routines/scout/ScoutHomeArena.asm
+$9ECC1E,GetTeamNickname_vis,CODE_9ECC1E,94G,"role match with 94G; was ScoutVisNick",src/routines/scout/GetTeamNickname_vis.asm
+$9ECC4B,GetTeamArena_home,CODE_9ECC4B,94G,"role match with 94G; was ScoutHomeArena",src/routines/scout/GetTeamArena_home.asm
 $9ECC71,ScoutExtremely,CODE_9ECC71,new,Behavior: the PregameText script code it serves; UpdateScoutingDisplay dispatches on the character after %,src/routines/scout/ScoutExtremely.asm
 $9ECCA1,ScoutHotTeam,CODE_9ECCA1,new,Behavior: the PregameText script code it serves; UpdateScoutingDisplay dispatches on the character after %,src/routines/scout/ScoutHotTeam.asm
 $9ECCEC,ScoutVisName,CODE_9ECCEC,new,Behavior: the PregameText script code it serves; UpdateScoutingDisplay dispatches on the character after %,src/routines/scout/ScoutVisName.asm
 $9ECCF5,ScoutHomeName,CODE_9ECCF5,new,Behavior: the PregameText script code it serves; UpdateScoutingDisplay dispatches on the character after %,src/routines/scout/ScoutHomeName.asm
-$9ECCFE,ScoutVisCity,CODE_9ECCFE,new,Behavior: the PregameText script code it serves; UpdateScoutingDisplay dispatches on the character after %,src/routines/scout/ScoutVisCity.asm
-$9ECD05,ScoutHomeCity,CODE_9ECD05,new,Behavior: the PregameText script code it serves; UpdateScoutingDisplay dispatches on the character after %,src/routines/scout/ScoutHomeCity.asm
+$9ECCFE,GetTeamCity_vis,CODE_9ECCFE,94G,"role match with 94G; was ScoutVisCity",src/routines/scout/GetTeamCity_vis.asm
+$9ECD05,GetTeamCity_home,CODE_9ECD05,94G,"role match with 94G; was ScoutHomeCity",src/routines/scout/GetTeamCity_home.asm
 $9ECAB7,ScoutPlainWord,CODE_9ECAB7,new,Behavior: UpdateScoutingDisplay jumps here when the character is not %,src/routines/scout/ScoutPlainWord.asm
-$9ECC25,ScoutHomeNick,CODE_9ECC25,new,Script code %n: the home nickname (ScoutVisNick for the home team),src/routines/scout/ScoutVisNick.asm
-$9ECC2A,ScoutTeamNick,CODE_9ECC2A,new,ScoutVisNick / ScoutHomeNick: the nickname String of team data a1,src/routines/scout/ScoutVisNick.asm
-$9ECD0A,ScoutTeamCity,CODE_9ECD0A,new,ScoutVisCity / ScoutHomeCity: the city String of team data a1,src/routines/scout/ScoutHomeCity.asm
-$9ECD19,ScoutAppend,CODE_9ECD19,new,"put String [a1] into mesarea, then ScoutTypeText",src/routines/scout/ScoutHomeCity.asm
-$9ECD36,ScoutTypeText,CODE_9ECD36,new,type the mesarea text word by word,src/routines/scout/ScoutHomeCity.asm
+$9ECC25,GetTeamNickname_home,CODE_9ECC25,94G,"role match with 94G; was ScoutHomeNick",src/routines/scout/GetTeamNickname_vis.asm
+$9ECC2A,GetTeamNickname,CODE_9ECC2A,94G,"role match with 94G; was ScoutTeamNick",src/routines/scout/GetTeamNickname_vis.asm
+$9ECD0A,GetTeamCity,CODE_9ECD0A,94G,"role match with 94G; was ScoutTeamCity",src/routines/scout/GetTeamCity_home.asm
+$9ECD19,ScoutAppend,CODE_9ECD19,new,"put String [a1] into mesarea, then ScoutTypeText",src/routines/scout/GetTeamCity_home.asm
+$9ECD36,ScoutTypeText,CODE_9ECD36,new,type the mesarea text word by word,src/routines/scout/GetTeamCity_home.asm
 $9ECB2B,ScoutTypeWord,CODE_9ECB2B,new,ScoutPlainWord: type the word in mesarea; ScoutTypeText enters here,src/routines/scout/ScoutPlainWord.asm
 $9EA242,Sweepcheck,CODE_9EA242,93S,"Same job as 93S Sweepcheck (SPAsweepchk and a lock, then the animation start); 94S skatetopuck jumps to it at the distance test where 93S skatetopuck branches to Sweepcheck; also called from findpc",src/routines/logic/controls/Sweepcheck.asm
 $9E8000,GlideBack,CODE_9E8000,new,"Behavior: called from assnearest, asspuckc and CODE_9EE463",src/routines/logic/GlideBack.asm
@@ -5717,8 +5717,8 @@ $9FCB5C,AssignPadIfFree,CODE_9FCB5C,new,Behavior: called from puckglue and dopas
 $9FCB16,PuckCarrierPad,CODE_9FCB16,new,Behavior: called from puckglue,src/routines/logic/PuckCarrierPad.asm
 $9FCD2A,PadTakeGoalie,CODE_9FCD2A,new,Behavior: called from doinput and CODE_9FAFBE,src/routines/logic/PadTakeGoalie.asm
 $9FCD69,PadTakePosition,CODE_9FCD69,new,"pad d4 takes the player of its team ($1C84 side) at position d1, if he has no pad and is not locked (pflags bit 12); counts it in $0ADD",src/routines/logic/PadTakeLeftDefense.asm
-$9F9365,startpause,CODE_9F9365,93S,"The 93S startpause body (lda #sfpz, tsb sflags, rtl); startpause1 and PauseFromPad end in it as 93S startpause1 / startpause2 do",src/routines/hockey/startpause.asm
-$9F936C,PauseFromPad,CODE_9F936C,new,Behavior: doinput and CODE_9F967B jump here on a start press,src/routines/hockey/PauseFromPad.asm
+$9F9365,startpause,CODE_9F9365,93S,"The 93S startpause body (lda #sfpz, tsb sflags, rtl); startpause1 and startpause_pad end in it as 93S startpause1 / startpause2 do",src/routines/hockey/startpause.asm
+$9F936C,startpause_pad,CODE_9F936C,94G,"role match with 94G; was PauseFromPad",src/routines/hockey/startpause_pad.asm
 $9F9372,startpause1,CODE_9F9372,93S,"93S startpause1 job (pause from controller 1, then startpause); demoread jumps to it on Start as in 93S",src/routines/hockey/startpause1.asm
 $9FE0E8,Create_HotCold_Table,CODE_9FE0E8,94G,The 94G Create_HotCold_Table job (random signed hot / cold values per player attribute); StartGame calls it as 94G StartGame does,src/routines/crowd/Create_HotCold_Table.asm
 $9EF78A,ChkOffsides,CODE_9EF78A,93S,"pucknorm calls it where 93S pucknorm calls ChkOffsides; ClearOffsidesIfAllPlayers for both teams, then the blue line tests as 93S",src/routines/logic/offsides/ChkOffsides.asm
@@ -5752,11 +5752,11 @@ $9D9E86,TeamRosterShowLine,CODE_9D9E86,new,"TeamRosterScreen: ShowRosterLine, th
 $9BA189,StartHatTrick,CODE_9BA189,new,Behavior: ShowGoalBox calls it when the scorer's goal count ($18EE) reaches 3 (the HAT TRICK! box) for a home skater,src/routines/setup/StartHatTrick.asm
 $9BA1A1,UpdateHatTrick,CODE_9BA1A1,new,Behavior: showcrowd calls it first; StartHatTrick starts it,src/routines/video/UpdateHatTrick.asm
 $9F9E24,DrawHorTeams,CODE_9F9E24,new,Behavior: setvideo calls it in horizontal mode (sfhormode),src/routines/video/DrawHorTeams.asm
-$80CB5C,DrawShootersBack,CODE_80CB5C,new,Behavior: the DrawEditLinesBack steps for the shooters screen; ShootersBackground calls it first,src/routines/shootout/DrawShootersBack.asm
+$80CB5C,DrawShootersBack,CODE_80CB5C,new,Behavior: the DrawTeamScreen steps for the shooters screen; ShootersBackground calls it first,src/routines/shootout/DrawShootersBack.asm
 $9FC79F,InitializeGameStructures,CODE_9FC79F,94G,"The 94G InitializeGameStructures job (random pairs for all 8 games, excluding HomeTeam / VisTeam); FigureJoy calls it as in 94G",src/routines/setup/InitializeGameStructures.asm
 $9FAFBE,SetupPenaltyShot,CODE_9FAFBE,94G,The 94G SetupPenaltyShot job (the shooter alone with the puck at centre); puckfaceoff2 jumps to it after Endfaceoff when a penalty shot is pending ($1E9B),src/routines/collide/SetupPenaltyShot.asm
 $9EC72D,StartPenaltyShot,CODE_9EC72D,new,Behavior: called from InProgress (a penalty shot call) and PlayShootout (each shootout attempt); SetupPenaltyShot then plays it,src/routines/logic/StartPenaltyShot.asm
-$9EC791,EndPenaltyShot,CODE_9EC791,new,"Behavior: called on the stop events (Goal, the puck frozen or out, the clock), as 94G UpdatePenaltyShotEnd / EndPenaltyShotPlay end the attempt",src/routines/logic/EndPenaltyShot.asm
+$9EC791,EndPenaltyShotPlay,CODE_9EC791,94G,"role match with 94G; was EndPenaltyShot",src/routines/logic/EndPenaltyShotPlay.asm
 $9CA58C,CalcPuckDistances,CODE_9CA58C,new,"Behavior; called from CODE_9FC988 (puckfaceoff2); updateplayers, chk4pass, findpc and the goalie code read the tables",src/routines/logic/CalcPuckDistances.asm
 $9FC988,FaceoffPads,CODE_9FC988,new,Behavior: called from puckfaceoff2,src/routines/logic/FaceoffPads.asm
 $9FCD0A,PassPadToTeammate,CODE_9FCD0A,new,Behavior: asspenalty calls it when the penalized player had a pad ($19D4),src/routines/logic/PassPadToTeammate.asm
@@ -6600,7 +6600,7 @@ $17E2,tmtimeouts,,behavior,RAM; timeouts left (StartGame sets 1; TimeoutMenu),sr
 $1922,tmassists,,93G,RAM; assists,src/ram94s.asm
 $1956,tmpshots,,93G,RAM; shots (goalies: shots against),src/ram94s.asm
 $198A,ppenmin,,behavior,RAM; penalty minutes,src/ram94s.asm
-$19C0,CrowdLoud,,behavior,RAM; 1 at 110 dB or more; cleared under 105 dB (CheckCrowdMeter),src/ram94s.asm
+$19C0,CrowdLoud,,behavior,RAM; 1 at 110 dB or more; cleared under 105 dB (Crowd_Noise),src/ram94s.asm
 $19C6,CrowdAvg,,behavior,RAM; the game's average meter (CrowdMeterSum / CrowdMeterCount),src/ram94s.asm
 $19C8,CrowdMeterCount,,behavior,RAM; meter samples taken,src/ram94s.asm
 $19CA,CrowdMeterSum,,behavior,RAM; 32-bit sum of the meter samples,src/ram94s.asm
@@ -6743,8 +6743,8 @@ $07E2,Mode7InUse,,behavior,"RAM; TitleScreen/IntroSequence set $FF, ResetPPURegs
 $0781,Multi5Sig,,behavior,RAM; Multi5ConnectCheck rol.w JOYSER0/1 bit 1 into $0782/$0781 (port 1) and $0784/$0783 (port 2); $FF then ...,src/ram94s.asm
 $0802,MusicDuck,,behavior,RAM; StartSoundVoice: nonzero halves (negative: quarters) the volumes of music voices (track != $10); no writer ...,src/ram94s.asm
 $07F1,MusicPause,,behavior,RAM; SequencerTick: nonzero -> UpdateVoices but no StepTrack; SoundUpdate tests it around a no-op save/restore ...,src/ram94s.asm
-$078C,NMIHook,,behavior,RAM; NMI_Fast jml [$078C] (returns to NMI_HookReturn); loaded from NMIHookNext,src/ram94s.asm
-$0773,NMIHookNext,,behavior,RAM; ClearNMIHook sta $0773 / stx $0775 (bank); NMI_Fast: when $0774 is nonzero copies it to NMIHook ...,src/ram94s.asm
+$078C,NMIHook,,behavior,RAM; VBlank jml [$078C] (returns to NMI_HookReturn); loaded from NMIHookNext,src/ram94s.asm
+$0773,NMIHookNext,,behavior,RAM; ClearNMIHook sta $0773 / stx $0775 (bank); VBlank: when $0774 is nonzero copies it to NMIHook ...,src/ram94s.asm
 $07E8,NoiseVoices,,behavior,RAM; Controller $39; SeqCmd08 command $82 APUIO1 -> driver writes DSP NON ($3D),src/ram94s.asm
 $07D0,PieceNext,,behavior,RAM; DrawSprite/DrawSpritePieces sty $07D0: offset of the next piece record of the frame,src/ram94s.asm
 $07CE,PieceSize,,behavior,"RAM; DrawSpritePieces: piece size byte (0 = 8x8, else 16x16: centre 15 not 7, size bit in the OAM high table)",src/ram94s.asm
@@ -6855,7 +6855,7 @@ $1E3F,matchuphold,,behavior,"RAM; ScoutingReport: $FFFF once a pad paged the mat
 $1E89,onetimer,,behavior,RAM; A one-timer shot is under way: asspassrec sets 1 when the receiver shoots the pass directly (counts ...,src/ram94s.asm
 $1E1F,otgoalscorer,,behavior,"RAM; ShowThreeStars: player (+$1A for visitors, $FFFF none) taken from a goal entry whose period field is 3 ...",src/ram94s.asm
 $1DE9,otherskip,,behavior,"RAM; Other scores: 1 when FillOtherScores skipped the user's game ($7E35D6), added into the row math of ...",src/ram94s.asm
-$1E9B,penshot,,behavior,"RAM; Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShot and StartGame clear; Goal, ...",src/ram94s.asm
+$1E9B,penshot,,behavior,"RAM; Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShotPlay and StartGame clear; Goal, ...",src/ram94s.asm
 $1E9D,penshotlive,,behavior,"RAM; Set 1 by SetupPenaltyShot when the shot starts, cleared by puckfaceoff (.9) and StartGame; ...",src/ram94s.asm
 $1E87,picattr,,behavior,"RAM; DrawPlayerPicture: map attribute (palette) of the picture, $3400 home / $2400 visitors, added to the ...",src/ram94s.asm
 $1DAB,pickfirst,,behavior,"RAM; Pick list: roster index of the first player of the listed category (goalie count, + forwards for defense), ...",src/ram94s.asm
@@ -6864,11 +6864,11 @@ $1DA7,picktop,,behavior,"RAM; Pick list (line editor, shootout shooters): roster
 $1EB9,pmenucount,,behavior,RAM; Items in that pause menu list (Pausemode_menu/ChoosePauseMenu set it with pmenulist); bounds psitem and psfirst,src/ram94s.asm
 $1EB7,pmenulist,,behavior,"RAM; Pause menu list shown (0-5): Pausemode_menu/ChoosePauseMenu pick it, SetupPauseScreen prints items and values by it, ...",src/ram94s.asm
 $1EBB,pregamepause,,behavior,"RAM; StartGame sets 1 when any pad has a team; StartPer then opens the pause menu at the start (startpause), ...",src/ram94s.asm
-$1E97,psfoxsave,,behavior,RAM; StartPenaltyShot saves the faceoff spot x ($7E3136) here and zeroes it; EndPenaltyShot puts it back into ...,src/ram94s.asm
-$1E99,psfoysave,,behavior,RAM; StartPenaltyShot saves the faceoff spot y ($7E3138); EndPenaltyShot puts it into $7E30FA (last touch y),src/ram94s.asm
+$1E97,psfoxsave,,behavior,RAM; StartPenaltyShot saves the faceoff spot x ($7E3136) here and zeroes it; EndPenaltyShotPlay puts it back into ...,src/ram94s.asm
+$1E99,psfoysave,,behavior,RAM; StartPenaltyShot saves the faceoff spot y ($7E3138); EndPenaltyShotPlay puts it into $7E30FA (last touch y),src/ram94s.asm
 $1E93,pspad,,behavior,"RAM; Pad index (into $19F6) controlling the penalty shooter, $FFFF none: Bcheck copies $19D4,y, PlayShootout ...",src/ram94s.asm
 $1E9F,pstimer,,behavior,"RAM; Penalty shot time limit: SetupPenaltyShot sets 1000, Gameloop subtracts d7 outside the shootout and calls ...",src/ram94s.asm
-$1DCD,scrollirqdone,,behavior,RAM; IRQ_StatsScroll1 sets $FFFF each frame; the unused waits in ScrollGameStatsDown (.t1) and OtherScoresRtl ...,src/ram94s.asm
+$1DCD,scrollirqdone,,behavior,RAM; IRQ_StatsScroll1 sets $FFFF each frame; the unused waits in SetStatScroll_down (.t1) and OtherScoresRtl ...,src/ram94s.asm
 $1D89,shootoutdecider,,behavior,RAM; PlayShootout sets 0 before each round and 1 before the home team's turn from round 5 on; ShootoutWonBy ...,src/ram94s.asm
 $1D81,shootoutmode,,behavior,"RAM; Nonzero during the shootout: PlayShootout sets 1 and clears it at the end, Opening clears it; ...",src/ram94s.asm
 $1D83,shootoutstop,,behavior,"RAM; Shootout turn whistle: PlayShootout .t1 clears it, SetPA sets 1 in shootoutmode when the ref animation is ...",src/ram94s.asm
@@ -6895,7 +6895,7 @@ $1EB3,teambit,,behavior,"RAM; InitializeGameStructures: 1 << (team & $F), tested
 $1EAF,teamtaken,,behavior,RAM; InitializeGameStructures: nonzero when the random team's bit was already set (pick again),src/ram94s.asm
 $7E30F4,carriedy,,93S,"RAM; updateplayers stores pucky here while puckc >= 0, as 93S updateplayers .cy stores carriedy.",src/ram94s.asm
 $7E30F6,ltplayer,,93S,RAM; a2touchpuck stores the touching player (index / 2) here like 93S a2touchpuck sta ltplayer.,src/ram94s.asm
-$7E30F8,ltx,,93S,"RAM; a2touchpuck stores Xpos,y (93S ltx); Stop4Pen loads it as the OOP faceoff x like 93S; EndPenaltyShot ...",src/ram94s.asm
+$7E30F8,ltx,,93S,"RAM; a2touchpuck stores Xpos,y (93S ltx); Stop4Pen loads it as the OOP faceoff x like 93S; EndPenaltyShotPlay ...",src/ram94s.asm
 $7E30FA,lty,,93S,"RAM; a2touchpuck stores Ypos,y (93S lty); Stop4Pen loads it into d1 like 93S.",src/ram94s.asm
 $7E3120,fobox,,93S,"RAM; puckfaceoff2 sets it (FaceOffMap+6) when the faceoff box is drawn, Endfaceoff clears it, SetLCmode2 / ...",src/ram94s.asm
 $7E3122,fodir1,,93S,RAM; Endfaceoff loads it into d3 (home pull direction) as 93S lda fodir1; puckfaceoff2 sets $FFFF.,src/ram94s.asm
@@ -6966,7 +6966,7 @@ $7E3460,redrawblocks,,behavior,"RAM; Nonzero: DrawTeamBlocks / DrawSelectTeam al
 $7E3462,horblocks,,behavior,"RAM; Set while DrawHorTeams draws the blocks: DrawTeamBlocks skips the map when redrawblocks is 0, ...",src/ram94s.asm
 $7E3464,cardblock,,behavior,"RAM; Set while DrawPlayerCard draws its team block: DrawTeamBlocks moves the name sprites (x -8, +4 / +4).",src/ram94s.asm
 $7E3466,bigtextchar,,behavior,"RAM; RenderBigText: next letter tile (+2 per letter), used by the BigLetter hooks and by SendBigText / ...",src/ram94s.asm
-$7E3468,drawlinesback,,behavior,RAM; LineEditor sets 1; DrawEditLinesTitle then draws DrawEditLinesBack first and clears it.,src/ram94s.asm
+$7E3468,drawlinesback,,behavior,RAM; LineEditor sets 1; DrawTeamScreen_title then draws DrawTeamScreen first and clears it.,src/ram94s.asm
 $7E346A,pausesubmenu,,behavior,RAM; PauseEditLines / PauseShootoutSetup set it around LineEditor / ShootoutShooters run from the pause ...,src/ram94s.asm
 $7E346C,phototeams,,behavior,"RAM; LoadMatchupPhotos: team (home +0, visitors +2) whose matchup photos are unpacked in the $7F photo buffer, ...",src/ram94s.asm
 $7E3470,homepicaddr,,behavior,RAM; DrawPlayerPicture: bank $7F address of the home picture tiles ($6F00 or $5100+MatchupPhotoOffsets); ...,src/ram94s.asm
@@ -7050,7 +7050,7 @@ $30,ClipTopUnused,,behavior,"RAM; ResetPPURegs is the only access: sta.b $30 = $
 $4A,CurTrack,,behavior,RAM; Track number being worked: StepTrack txa : sta $4A (restores X from it at the end); ...,src/ram94s.asm
 $4C,CurTrackPtr,,behavior,"RAM; StepTrack: lda TrackPtr,x : sta $4C; after each ReadTrackEvent copies EventPtr ($56) back to ...",src/ram94s.asm
 $4B,CurVoice,,behavior,"RAM; Voice number being worked: FindFreeVoice returns it ($FF = none, stx $4B; the steal scan keeps ...",src/ram94s.asm
-$3E,DMABudget,,behavior,RAM; NMI_Fast sets $16D3 each NMI; NMI_HookReturn subtracts the CGRAM DMA (len+$48) and per queue ...,src/ram94s.asm
+$3E,DMABudget,,behavior,RAM; VBlank sets $16D3 each NMI; NMI_HookReturn subtracts the CGRAM DMA (len+$48) and per queue ...,src/ram94s.asm
 $3A,DMAlisthead,,behavior,"RAM; Read index into the DMAList ring ($0100, 8-byte entries, and #$03FF): NMI_HookReturn ldx $3A ...",src/ram94s.asm
 $3C,DMAlistend,,behavior,"RAM; Write index of the DMAList ring: QueueVRAMDMA, DMAToVRAMHigh, FillVRAM, FillVRAMSplit, ...",src/ram94s.asm
 $5B,DSPGain,,behavior,"RAM; GAIN byte sent by SeqCmd0C / SeqCmd0C0B (APUIO2 with command $0C, APUIO1 = voice): ReleaseVoice ...",src/ram94s.asm
@@ -7066,7 +7066,7 @@ $43,MulFracResult,,behavior,RAM; MulFrac16 returns A*Y/128 in A and $43 (soft pa
 $46,MulPlier,,behavior,"RAM; MulFrac16: sty $46 (multiplier Y), lda $46 : lsr : sta $46 each step, the carry adds MulCand ...",src/ram94s.asm
 $42,MulProd,,behavior,"RAM; MulFrac16: stz $42/$44, adds MulCand ($3E/$40) into $42/$44 (32-bit) for each set multiplier ...",src/ram94s.asm
 $40,MulShift,,behavior,"RAM; MulFrac8: sta $40 = A*2, then asl $40 seven times; each carry (a bit of the high byte B) adds ...",src/ram94s.asm
-$38,NMISkip,,behavior,"RAM; NMI_Fast: lda.b $38 : beq -> nonzero = just pla/plb/rti (no hook, DMA, OAM, sound)",src/ram94s.asm
+$38,NMISkip,,behavior,"RAM; VBlank: lda.b $38 : beq -> nonzero = just pla/plb/rti (no hook, DMA, OAM, sound)",src/ram94s.asm
 $5A,NotePitch,,behavior,"RAM; Pitch word of the note: StartSoundVoice PitchTable[note] -> VoiceBasePitch and $5A, bent by ...",src/ram94s.asm
 $60,SendPitch,,behavior,"RAM; UpdateSfxVoices: VoicePitch,x (+ VoiceVibOfs while the vibrato runs) -> $60; SeqCmd0B sends $60 ...",src/ram94s.asm
 $64,SfxVelocity,,behavior,"RAM; Velocity of the next sound effect, in the high byte ($65 = SfxVelocity+1): PlaySound lda $65 : ...",src/ram94s.asm
