@@ -16,7 +16,7 @@ ClrHor:								; called from Pausemode, ReplayMode, StartHL2, puckfaceoff, puckf
 	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	lda.w #$000A
-	sta.w fadestep
+	sta.w fadein
 .1:									; sfhormode = 0, Oldrow = $03E7, call SprSort, ...
 	stz.w sfhormode
 	lda.w #$03E7

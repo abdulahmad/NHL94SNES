@@ -50,10 +50,10 @@ puckfaceoff2:						; called from asstab
 	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	stz.w brightness				;full dark
-.2:									; call FadeIn, fadestep = $000A, if MusicOn != 0 go to .4, ...
+.2:									; call FadeIn, fadein = $000A, if MusicOn != 0 go to .4, ...
 	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	lda.w #$000A
-	sta.w fadestep					;fade speed 10
+	sta.w fadein					;fade speed 10
 	lda.w MusicOn
 	bne .4							;music already on: skip the song
 	lda.w PBnum						;score digits

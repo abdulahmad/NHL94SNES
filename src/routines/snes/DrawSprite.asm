@@ -26,7 +26,7 @@ DrawSprite_draw:					; called from GetFrameTiles
 	jsr.w GetFrameTiles				; look the frame up in the tile cache, load it if it is not there
 	bmi .1
 	sta.b r3+2
-	ldx.w OAMNext
+	ldx.w sprcount
 	ldy.w #$0000
 	lda.b [p0],y
 	and.w #$00FF
@@ -50,15 +50,15 @@ DrawSprite_draw:					; called from GetFrameTiles
 	lda.w SpritesLeft
 	beq .1
 	lda.b [p0],y
-	sta.w PieceX
+	sta.w sprox
 	iny
 	iny
 	lda.b [p0],y
-	sta.w PieceY
+	sta.w sproy
 	iny
 	iny
 	lda.b [p0],y
-	sta.w PieceTile
+	sta.w sprtile
 	iny
 	iny
 	lda.b [p0],y
@@ -66,7 +66,7 @@ DrawSprite_draw:					; called from GetFrameTiles
 	sta.w PieceSize
 	iny
 	sty.w PieceNext
-	lda.w PieceY
+	lda.w sproy
 	clc
 	adc.b r5+2
 	cmp.w #$FFF0
@@ -78,7 +78,7 @@ DrawSprite_draw:					; called from GetFrameTiles
 
 .t2:								; r7+2 = A, if plus go to .5, ...
 	sta.b r7+2
-	lda.w PieceX
+	lda.w sprox
 	clc
 	adc.b r5
 	cmp.w #$0100
@@ -89,7 +89,7 @@ DrawSprite_draw:					; called from GetFrameTiles
 	sta.w $0000,x
 	lda.b r7+2
 	sta.w $0001,x
-	lda.w PieceTile
+	lda.w sprtile
 	clc
 	adc.b r3+2
 	eor.b r3
@@ -135,11 +135,11 @@ DrawSprite_draw:					; called from GetFrameTiles
 
 .t1xxx:								; X still >= 0: OAMHiShift = X
 	stx.w OAMHiShift
-.4:									; OAMNext = OAMNext + $0004
-	lda.w OAMNext
+.4:									; sprcount = sprcount + $0004
+	lda.w sprcount
 	clc
 	adc.w #$0004
-	sta.w OAMNext
+	sta.w sprcount
 	tax
 .5:									; decrement r0, if r0 counted to 0 go to .7, ...
 	ldy.w PieceNext
@@ -153,15 +153,15 @@ DrawSprite_draw:					; called from GetFrameTiles
 	lda.w SpritesLeft
 	beq .7
 	lda.b [p0],y
-	sta.w PieceX
+	sta.w sprox
 	iny
 	iny
 	lda.b [p0],y
-	sta.w PieceY
+	sta.w sproy
 	iny
 	iny
 	lda.b [p0],y
-	sta.w PieceTile
+	sta.w sprtile
 	iny
 	iny
 	lda.b [p0],y
@@ -169,7 +169,7 @@ DrawSprite_draw:					; called from GetFrameTiles
 	sta.w PieceSize
 	iny
 	sty.w PieceNext
-	lda.w PieceY
+	lda.w sproy
 	clc
 	adc.b r5+2
 	cmp.w #$FFF0
@@ -185,7 +185,7 @@ DrawSprite_draw:					; called from GetFrameTiles
 	beq .t2x
 	lda.b r5
 	sec
-	sbc.w PieceX
+	sbc.w sprox
 	sec
 	sbc.w #$000F
 	bra .2x
@@ -193,7 +193,7 @@ DrawSprite_draw:					; called from GetFrameTiles
 .t2x:								; PieceSize = 0: falls through
 	lda.b r5
 	sec
-	sbc.w PieceX
+	sbc.w sprox
 	sec
 	sbc.w #$0007
 .2x:								; if plus go to .5x, ...
@@ -205,7 +205,7 @@ DrawSprite_draw:					; called from GetFrameTiles
 	sta.w $0000,x
 	lda.b r7+2
 	sta.w $0001,x
-	lda.w PieceTile
+	lda.w sprtile
 	clc
 	adc.b r3+2
 	eor.b r3
@@ -251,11 +251,11 @@ DrawSprite_draw:					; called from GetFrameTiles
 
 .t1xxxxxxx:							; X still >= 0: OAMHiShift = X
 	stx.w OAMHiShift
-.4x:								; OAMNext = OAMNext + $0004
-	lda.w OAMNext
+.4x:								; sprcount = sprcount + $0004
+	lda.w sprcount
 	clc
 	adc.w #$0004
-	sta.w OAMNext
+	sta.w sprcount
 	tax
 .5x:								; decrement r0, if r0 counted to 0 go to DrawSpriteExit, ...
 	ldy.w PieceNext

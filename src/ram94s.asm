@@ -60,13 +60,13 @@ jmlvector			=	$1D59		; RAM jml trampoline: $5C (jml opcode), target at +1..+3
 ; NMI, DMA queue, IRQ and scroll shadows
 NMISkip				=	$38			;NMI_Fast: lda.b $38 : beq -> nonzero = just pla/plb/rti (no hook, DMA,
 									;OAM, sound)
-DMAQueueHead		=	$3A			;Read index into the DMAQueue ring ($0100, 8-byte entries, and #$03FF):
+DMAlisthead			=	$3A			;Read index into the DMAList ring ($0100, 8-byte entries, and #$03FF):
 									;NMI_HookReturn ldx $3A ...
-DMAQueueTail		=	$3C			;Write index of the DMAQueue ring: QueueVRAMDMA, DMAToVRAMHigh, FillVRAM,
-									;FillVRAMSplit, ...
+DMAlistend			=	$3C			;(93S DMAlistend) Write index of the DMAList ring: QueueVRAMDMA,
+									;DMAToVRAMHigh, FillVRAM, FillVRAMSplit, ...
 DMABudget			=	$3E			;NMI_Fast sets $16D3 each NMI; NMI_HookReturn subtracts the CGRAM DMA
 									;(len+$48) and per queue ...
-DMAQueue			=	$0100		; Ring of 128 8-byte VRAM transfer entries: ...
+DMAList				=	$0100		; (93S DMAList, 7-byte list) Ring of 128 8-byte VRAM transfer entries: ...
 FrameCount			=	$0764		;NMI_SendOAM inc FrameCount each NMI (unless FrameCountHold); WaitFrame
 									;waits for it to change; Reset_Fast clears it; ...
 FrameCountHold		=	$0787		;NMI_SendOAM: lda FrameCountHold bne skips inc FrameCount; no writer in
@@ -412,7 +412,7 @@ unpackbuf		=	$7F0000			;Decompress output buffer (bank $7F, as 93S unpackbuf): t
 cmpformat			=	0			;Decompress header: word format ($FB10 LZ, $FB46, $FB30, $FB7A)
 cmpsizelow			=	3			;low word of the unpacked size (24-bit, high byte first, at bytes 2-4)
 DecompBuf			=	$0100		;DecompressPairs / DecompressHuffman scratch (pair flags, the Huffman
-									;symbol list): the DMAQueue RAM
+									;symbol list): the DMAList RAM
 DecompTab1			=	$0500		;DecompressPairs: first byte of each pair code (sta DecompTab1,x, read in
 									;the expand loop); DecompressHuffman: ...
 DecompTab2			=	$0600		;DecompressPairs: second byte of each pair code (sta DecompTab2,x);
@@ -767,7 +767,9 @@ rinkmapbuf		=	$7FC800			;BuildRinkMap unpacks IceRinkMap here and pastes the cen
 
 ;palette fades and brightness
 brightness			=	$0AD3		;screen brightness 0-15 the fade sets; BrightnessHook writes it to INIDISP
-fadestep			=	$0AD1		; fade: a delay counting down to a fade in, or $FFFF to fade out (NMI)
+fadein				=	$0AD1		;fade (NMI): >1 = delay, 1 = fade in, $FFFF = fade out. As 93S fadein for
+									;the fade in; 93S keeps the fade out in its own word, fadeout
+fadeout				=	fadein		; $FFFF in fadein: fade out (93S fadeout)
 palbuffer			=	$7E35F4		; the palette buffer (256 colours) sent to CGRAM
 colourbuf		=	$7F7500			;The colour buffer SetColours fills and SendColours sends (256 colours) on
 									;the menu screens; PlayoffScreen ...
@@ -863,7 +865,7 @@ PushWidthBuf	=	$0A8E			;PushNumberWrap/PushNumberWidth: length word (digits + 2)
 
 ;sprites: sprite attribute table
 sprpriority		=	$0CCB			;checkfo sets $3000 for the faceoff sprites and $2000 after, ORed into
-									;sprattr; setoptions sets 0: as 93S ...
+									;sprpal; setoptions sets 0: as 93S ...
 sprframe		=	$0CCD			;addframe parameter: sprite frame number (1-based, at most $3D0), as 93S
 									;sprframe; set by setsortcords, ...
 sprx			=	$0CCF			; addframe parameter: screen x of the frame (93S sprx).
@@ -872,22 +874,25 @@ sprhflip		=	$0CC5			;addframe parameter: nonzero = x flip (attribute $4000);
 									;setsortcords/checkfo set attribute & $0800 as 93S ...
 sprvflip		=	$0CD3			;addframe parameter: nonzero = y flip (attribute $8000); setsortcords sets
 									;attribute & $1000 as 93S sprvflip.
-sprattr			=	$0CC9			;addframe parameter: the OAM attribute word for DrawSprite (priority,
-									;palette $0200; addframe ORs in the ...
+sprpal			=	$0CC9			;(93S sprpal, here with priority too) addframe parameter: the OAM
+									;attribute word for DrawSprite (priority, palette $0200; addframe ORs in
+									;the ...
 
 ; OAM and the sprite engine
 OAMReady			=	$0766		; nonzero: the NMI copies the OAM buffer at OAMShowBuf to OAM
-OAMDrawBuf			=	$07AA		; OAM buffer (bank $7E) the sprites are drawn into
+Satt				=	$07AA		;(93S Satt; here a pointer, double buffered) OAM buffer (bank $7E) the
+									;sprites are drawn into
 OAMShowBuf			=	$07AC		; OAM buffer (bank $7E) the NMI copies
-OAMNext				=	$07BC		; next OAM entry to fill in OAMDrawBuf
-OAMLastEnd			=	$07A8		; OAMNext of the frame last finished
-OAMHideEnd			=	$07BE		; SpriteFrameEnd moves the entries from OAMNext up to here off screen
+sprcount			=	$07BC		;next OAM entry to fill in Satt (byte offset; 93S sprcount counts
+									;entries)
+OAMLastEnd			=	$07A8		; sprcount of the frame last finished
+OAMHideEnd			=	$07BE		; SpriteFrameEnd moves the entries from sprcount up to here off screen
 OAMHiPtr			=	$07B0		;byte of the OAM high table that takes the next
 									;entry's size and X high bits
 OAMHiShift			=	$07B2		; position of the next entry in that byte, 3 down to 0
-OAMHiMasks		=	$7EE67C			;Reset_Fast copies OAMHighMasks (16 bytes) here; DrawSprite /
-									;DrawSpritePieces AND with it (x indexed).
-SpritesLeft			=	$07AE		; OAM entries still free this frame
+OAMHiMasks		=	$7EE67C			;(93S: SetSframe .himask) Reset_Fast copies OAMHighMasks (16 bytes) here;
+									;DrawSprite / DrawSpritePieces AND with it (x indexed).
+SpritesLeft			=	$07AE		; OAM entries still free this frame (93S checks sprcount against 128)
 SpritesReserved		=	$07B6		; OAM entries at the start that the sprite drawing leaves alone
 SpriteVRAM			=	$07B4		; VRAM word address of sprite tile 0
 SpriteBlockTiles	=	$07B8		;InitSprites: (Y+$1F)&~$1F (at least $1A0) = tiles of the 16x16 block area
@@ -896,12 +901,12 @@ DrawFrameNum		=	$07C4		;DrawSprite/FreeFrameTiles/GetFrameTiles store the frame 
 									;FrameByNumber set the cache ...
 FrameByNumber		=	$07C6		;Nonzero ($FFFF from StartGame/ReloadRink):
 									;GetFrameTiles/FreeFrameTiles/DrawSpritePieces find the entry by ...
-PieceX				=	$07C8		;DrawSprite/DrawSpritePieces: x offset of the current frame piece (with
-									;$1C); ...
-PieceY				=	$07CA		;DrawSprite/DrawSpritePieces: y offset of the piece (from $1E);
-									;LoadFrameTiles reuses it for the 8x8 tile ...
-PieceTile			=	$07CC		;DrawSpritePieces: piece tile/attribute word, + first tile $16, eor $14 ->
-									;OAM +2
+sprox				=	$07C8		;(93S sprox) DrawSprite/DrawSpritePieces: x offset of the current frame
+									;piece (with $1C); ...
+sproy				=	$07CA		;(93S sproy) DrawSprite/DrawSpritePieces: y offset of the piece (from
+									;$1E); LoadFrameTiles reuses it for the 8x8 tile ...
+sprtile				=	$07CC		;(93S sprtile) DrawSpritePieces: piece tile/attribute word, + first tile
+									;$16, eor $14 -> OAM +2
 PieceSize			=	$07CE		;DrawSpritePieces: piece size byte (0 = 8x8, else 16x16: centre 15 not 7,
 									;size bit in the OAM high table)
 PieceNext			=	$07D0		;DrawSprite/DrawSpritePieces sty PieceNext: offset of the next piece
@@ -912,24 +917,26 @@ FrameCacheCount		=	$07BA		;Tile cache entries in use: InitSprites stz, LoadFrame
 									;FreeCacheEntry dec; ...
 FrameTilesFail		=	$07C0		;GetFrameTiles stores $FFFF here when LoadFrameTiles finds no room; never
 									;read
-CacheUseMark		=	$07C2		;InitSprites sets 2; GetFrameTiles stores it in the entry's FrameCacheUse
-									;word, which SpriteFrameStart shifts ...
+sprslotlife		=	$07C2			;(93S sprslotlife: here use bits, not frames) InitSprites sets 2;
+									;GetFrameTiles stores it in the entry's sprslottime word, which
+									;SpriteFrameStart shifts ...
 FrameCacheAddr	=	$7E2540			; address of the frame (LoadFrameTiles; FindCachedFrame compares it)
 FrameCacheBank	=	$7E2640			; bank of the frame
-FrameCacheOf	=	$7E2740			;a byte per frame number ($2741 + DrawFrameNum): its cache entry, $FF none
-									;(InitSprites fills $FF)
+sprframetime	=	$7E2740			;(93S sprframetime; here an entry number) a byte per frame number ($2741 +
+									;DrawFrameNum): its cache entry, $FF none (InitSprites fills $FF)
 FrameCacheNum	=	$7E2B40			; frame number of the entry
 FrameCacheAlloc	=	$7E2C40			;the entry's allocation: block run index | $8000 (16x16 blocks), else the
 									;single tile run index
-FrameCacheUse	=	$7E2D40			;use bits: GetFrameTiles sets CacheUseMark when drawn, SpriteFrameStart
-									;shifts them each frame
+sprslottime		=	$7E2D40			;(93S sprslottime; here per cache entry) use bits: GetFrameTiles sets
+									;sprslotlife when drawn, SpriteFrameStart shifts them each frame
 									; and frees the entry when they run out
 FrameCacheTile	=	$7E2E40			; first VRAM tile of the entry's tiles (the DMA destination)
-BlockRuns		=	$7E2F40			;16x16 block area of sprite VRAM (InitSprites: one free run of
-									;SpriteBlockTiles / 4)
-BlockRunPrev	=	$7E2FB9			; previous run of each block run ($FF = none)
-TileRuns		=	$7E3032			; single 8x8 tile area (from SpriteBlockTiles to $200)
-TileRunPrev		=	$7E3093			; previous run of each tile run ($FF = none)
+sprbigslot		=	$7E2F40			;(93S sprbigslot; here free runs, not a rotor) 16x16 block area of sprite
+									;VRAM (InitSprites: one free run of SpriteBlockTiles / 4)
+sprbigslotprev	=	$7E2FB9			; previous run of each block run ($FF = none)
+sprslot			=	$7E3032			;(93S sprslot; here free runs, not a rotor) single 8x8 tile area (from
+									;SpriteBlockTiles to $200)
+sprslotprev		=	$7E3093			; previous run of each tile run ($FF = none)
 
 ;game mode and state flags
 gmode		=	$15D4				; game mode flags (gm* masks)
@@ -945,6 +952,7 @@ sfpz		=	$0001				; pause mode
 sfspdir		=	$0004				; a pass direction is set (passdir)
 sfssdir		=	$0008				; set shot direction mode (94G sfssdir)
 sfwrap		=	$0010				; replay has wrapped around
+sfscrl		=	$0020				; replay scrolled by hand (ReplayMode sets and clears it, never read)
 sfslock		=	$0040				; scroll lock to xc1/yc1
 sf2faceoff	=	$0100				; face off in progress (94G sf2faceoff)
 sf2refref	=	$0200				; ref needs refresh
@@ -968,9 +976,9 @@ CrowdMeterSum	=	$19CA			; 32-bit sum of the meter samples
 crowdmeterlit		=	$1DD1		;CrowdMeterScreen: lit columns of the crowd meter (level/4), the width the
 									;CrowdMeterLitMap paste loop uses
 CrowdPeak			=	$19C4		; the highest CurCrowdMeter of the game
-pausepad			=	$0AC6		; the controller that owns the pause menu
+sfpj				=	$0AC6		; the controller that owns the pause menu (93S sfpj: an sflags bit)
 pausepadidle	=	$0AC8			;SelectPauseController: 60 when the pause pad holds a button, -3 per idle
-									;frame; at 0 pausepad goes back to ...
+									;frame; at 0 sfpj goes back to ...
 c1playernum		=	$19EC			;per pad (5 words): the player object it controls (93S c1playernum,
 									;c2playernum ...)
 teampads		=	$19D0			; pads on the home / away team

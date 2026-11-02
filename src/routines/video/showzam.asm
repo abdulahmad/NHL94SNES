@@ -14,7 +14,7 @@ showzam:							; called from setvideo
 	stz.w sprhflip
 	stz.w sprvflip
 	lda.w #$2000
-	sta.w sprattr
+	sta.w sprpal
 	lda.b tmp0
 	lsr a							; elapsed / 4
 	lsr a

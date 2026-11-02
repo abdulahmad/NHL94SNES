@@ -47,7 +47,7 @@ FillVRAMSplit:						; fill VRAM with the low bytes, then the high bytes
 
 .t1:								; screen on: queue the fill in pieces of at most $1000 bytes
 	txa
-	ldx.b DMAQueueTail
+	ldx.b DMAlistend
 .loop:								; next piece
 	pha
 	cmp.w #$1001
@@ -55,15 +55,15 @@ FillVRAMSplit:						; fill VRAM with the low bytes, then the high bytes
 	lda.w #$1000
 .1:									; piece size = min(remaining, $1000)
 	pha
-	sta.w DMAQueue+4,x
+	sta.w DMAList+4,x
 	tya
-	sta.w DMAQueue+6,x
+	sta.w DMAList+6,x
 	lda.w #$0016
-	sta.w DMAQueue+1,x
+	sta.w DMAList+1,x
 	sep #$20
-	stz.w DMAQueue+3,x
+	stz.w DMAList+3,x
 	lda.b #$FD						; entry type $FD: low byte fill
-	sta.w DMAQueue,x
+	sta.w DMAList,x
 	rep #$20
 	txa
 	clc
@@ -71,20 +71,20 @@ FillVRAMSplit:						; fill VRAM with the low bytes, then the high bytes
 	and.w #$03FF
 	tax
 	pla
-	sta.w DMAQueue+4,x
+	sta.w DMAList+4,x
 	pha
 	tya
-	sta.w DMAQueue+6,x
+	sta.w DMAList+6,x
 	pla
 	clc
-	adc.w DMAQueue+6,x
+	adc.w DMAList+6,x
 	tay
 	lda.w #$0017
-	sta.w DMAQueue+1,x
+	sta.w DMAList+1,x
 	sep #$20
-	stz.w DMAQueue+3,x
+	stz.w DMAList+3,x
 	lda.b #$FC						; entry type $FC: high byte fill from $0017
-	sta.w DMAQueue,x
+	sta.w DMAList,x
 	rep #$20
 	txa
 	clc
@@ -97,5 +97,5 @@ FillVRAMSplit:						; fill VRAM with the low bytes, then the high bytes
 	beq .2
 	bcs .loop
 .2:									; save the new queue tail
-	stx.b DMAQueueTail
+	stx.b DMAlistend
 	rtl

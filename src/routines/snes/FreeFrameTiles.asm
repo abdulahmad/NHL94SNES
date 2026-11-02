@@ -38,7 +38,7 @@ FreeFrameTiles:						; free the tiles of the frame at [p0]: save registers, data
 	ldx.w FrameByNumber
 	beq .3
 	ldy.w DrawFrameNum
-	lda.w FrameCacheOf,y
+	lda.w sprframetime,y
 	bpl FreeCacheEntryA
 .2:									; not cached: restore the registers and return
 	plb
@@ -60,7 +60,7 @@ FreeFrameTiles:						; free the tiles of the frame at [p0]: save registers, data
 	bra .2
 ; FreeCacheEntry for the entry number in the high byte of A
 ;
-; Takes: A = entry number in the high byte (as in FrameCacheOf).
+; Takes: A = entry number in the high byte (as in sprframetime).
 FreeCacheEntryA:					; entry number to entry offset
 	xba
 	and.w #$00FF
@@ -72,7 +72,7 @@ FreeCacheEntryA:					; entry number to entry offset
 FreeCacheEntry:						; free the entry X; mark the frame as not cached
 	sep #$20
 	lda.b #$FF
-	sta.w FrameCacheOf+1,y
+	sta.w sprframetime+1,y
 	rep #$20
 ; FreeCacheEntry after the slot byte is cleared; FreeFrameTiles enters here
 ;
@@ -98,13 +98,13 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 	sta.w FrameCacheAlloc,x
 	lda.w FrameCacheTile,y
 	sta.w FrameCacheTile,x
-	lda.w FrameCacheUse,y
-	sta.w FrameCacheUse,x
+	lda.w sprslottime,y
+	sta.w sprslottime,x
 	ldy.w FrameCacheNum,x			; point the moved frame at its new entry number
 	txa
 	lsr a
 	sep #$20
-	sta.w FrameCacheOf+1,y
+	sta.w sprframetime+1,y
 	rep #$20
 .1:									; give back the tiles: negative allocation = 16x16 block run
 	ldx.b r0
@@ -113,10 +113,10 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 
 .t2:								; block run: a run with the $40 bit is a chain of 8-unit runs
 	sep #$30
-	lda.w BlockRuns,x
+	lda.w sprbigslot,x
 	and.b #$40
 	bne .2
-	lda.w BlockRuns,x				; single run: its length
+	lda.w sprbigslot,x				; single run: its length
 	and.b #$3F
 	sta.b r3+2
 	clc
@@ -124,7 +124,7 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 	tay
 	and.b #$07
 	beq .1x							; join with the run after it if that is free and in the same row of 8
-	lda.w BlockRuns,y
+	lda.w sprbigslot,y
 	bmi .1x
 	clc
 	adc.b r3+2
@@ -133,19 +133,19 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 	txa
 	and.b #$07
 	beq .t1
-	lda.w BlockRunPrev,x
+	lda.w sprbigslotprev,x
 	bmi .t1
 	tay
-	lda.w BlockRuns,y
+	lda.w sprbigslot,y
 	bmi .t1
 	clc
 	adc.b r3+2
-	sta.w BlockRuns,y
+	sta.w sprbigslot,y
 	tya
-	adc.w BlockRuns,y
+	adc.w sprbigslot,y
 	tax
 	tya
-	sta.w BlockRunPrev,x
+	sta.w sprbigslotprev,x
 	rep #$30
 	plb
 	ply
@@ -154,24 +154,24 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 
 .t1:								; no run before to join: this run is free with the length found
 	lda.b r3+2
-	sta.w BlockRuns,x
+	sta.w sprbigslot,x
 	txa
 	clc
 	adc.b r3+2
 	tay
 	txa
-	sta.w BlockRunPrev,y
+	sta.w sprbigslotprev,y
 	rep #$30
 	plb
 	ply
 	plx
 	rtl
 .2:									; chain of runs: free each 8-unit run of the chain
-	lda.w BlockRuns,x
+	lda.w sprbigslot,x
 	and.b #$40
 	beq .t1x
 	lda.b #$08
-	sta.w BlockRuns,x
+	sta.w sprbigslot,x
 	txa
 	clc
 	adc.b #$08
@@ -179,7 +179,7 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 	bra .2
 
 .t1x:								; last run of the chain: free it, joining the run after it if free
-	lda.w BlockRuns,x
+	lda.w sprbigslot,x
 	and.b #$3F
 	sta.b r3+2
 	txa
@@ -188,20 +188,20 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 	tay
 	and.b #$07
 	beq .1xx
-	lda.w BlockRuns,y
+	lda.w sprbigslot,y
 	bmi .1xx
 	clc
 	adc.b r3+2
 	sta.b r3+2
 .1xx:								; store the length of the freed run
 	lda.b r3+2
-	sta.w BlockRuns,x
+	sta.w sprbigslot,x
 	txa
 	clc
 	adc.b r3+2
 	tay
 	txa
-	sta.w BlockRunPrev,y
+	sta.w sprbigslotprev,y
 	rep #$30
 	plb
 	ply
@@ -209,31 +209,31 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 	rtl
 .3:									; tile run: its length
 	sep #$30
-	lda.w TileRuns,x
+	lda.w sprslot,x
 	and.b #$7F
 	sta.b r3+2
 	clc
 	adc.b r0
 	tay
-	lda.w TileRuns,y
+	lda.w sprslot,y
 	bmi .1xxx
 	clc
 	adc.b r3+2
 	sta.b r3+2
 .1xxx:								; join with the previous run if it is free
-	lda.w TileRunPrev,x
+	lda.w sprslotprev,x
 	bmi .t1xx
 	tay
-	lda.w TileRuns,y
+	lda.w sprslot,y
 	bmi .t1xx
 	clc
 	adc.b r3+2
-	sta.w TileRuns,y
+	sta.w sprslot,y
 	tya
-	adc.w TileRuns,y
+	adc.w sprslot,y
 	tax
 	tya
-	sta.w TileRunPrev,x
+	sta.w sprslotprev,x
 	rep #$30
 	plb
 	ply
@@ -242,13 +242,13 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 
 .t1xx:								; no free previous run: this run is free with its length
 	lda.b r3+2
-	sta.w TileRuns,x
+	sta.w sprslot,x
 	txa
 	clc
 	adc.b r3+2
 	tay
 	txa
-	sta.w TileRunPrev,y
+	sta.w sprslotprev,y
 	rep #$30
 	plb
 	ply
@@ -256,7 +256,7 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 	rtl
 
 .countfree:							;unused entry (no caller in the ROM): A = the sum of the free run lengths
-									;in BlockRuns, walking the runs from index SpriteBlockTiles
+									;in sprbigslot, walking the runs from index SpriteBlockTiles
 	phb
 	pea.w (Ram7E>>16)*$0101
 	plb
@@ -265,7 +265,7 @@ FreeCacheEntry_go:					; r0 = the allocation of the entry; one entry less
 	lda.w SpriteBlockTiles
 .loop:								; walk the block runs
 	tax
-	lda.w BlockRuns,x
+	lda.w sprbigslot,x
 	and.w #$00FF
 	beq .t1xxx
 	cmp.w #$0010

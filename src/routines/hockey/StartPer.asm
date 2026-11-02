@@ -18,7 +18,7 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	lda.w pregamepause
 	beq .4
 	lda.w #$FFFF
-	sta.w pausepad
+	sta.w sfpj
 	ldy.w #$FFFE
 .loop:								; loop: Y + 1, Y + 1, if carry set go to .2, ...
 	iny
@@ -29,7 +29,7 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	beq .loop
 	eor.w #$FFFF					; negate: two's complement
 	inc a
-	sta.w pausepad
+	sta.w sfpj
 .2:									; ora cont2team, ora cont3team, ora cont4team, ...
 	lda.w cont1team
 	ora.w cont2team
@@ -37,7 +37,7 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	ora.w cont4team
 	ora.w cont5team
 	bne .3
-	stz.w pausepad
+	stz.w sfpj
 .3:									; call startpause
 	jsl.l startpause				; set the pause mode flag and return
 .4:									; a3 = the puck, fox = $0000, foy = $0000, ...

@@ -10,6 +10,6 @@ BlankScreen:						; called from forceblack
 	jsl.l WaitFrame
 	stz.w HDMAEN
 	rep #$20
-	lda.b DMAQueueHead
-	sta.b DMAQueueTail
+	lda.b DMAlisthead
+	sta.b DMAlistend
 	rtl

@@ -44,8 +44,8 @@ ReplayMode:							; called from PauseReplay
 	pha								;keep the record pointer
 	lda.w recbpr+2
 	pha
-	lda.w #$0020
-	trb.w sflags					;clear the scroll lock
+	lda.w #sfscrl
+	trb.w sflags					;manual scroll off
 	lda.w Vpos
 	pha								;keep the view
 	lda.w Hpos
@@ -115,7 +115,7 @@ ReplayMode:							; called from PauseReplay
 	jsl.l InitSprites
 	stz.w brightness				;dark
 	lda.w #$000A
-	sta.w fadestep					;fade speed
+	sta.w fadein					;fade speed
 	ldx.w #BrightnessHook>>16
 	lda.w #BrightnessHook
 	jsl.l SetFrameHook				; run the routine at X:A as the frame hook of the next NMI
@@ -377,8 +377,8 @@ ReplayMode:							; called from PauseReplay
 	sta.w replaylock				;lock on him
 	lda.w #$001E					;30-frame step
 	sta.b d7
-	lda.w #$0020
-	trb.w sflags					;unlock the scroll
+	lda.w #sfscrl
+	trb.w sflags					;manual scroll off
 	jmp.w .10
 
 .t1xxxx:							; call getpzjoy, replaylock = $FFFE, tsb sflags, ...
@@ -387,8 +387,8 @@ ReplayMode:							; called from PauseReplay
 	jsl.l getpzjoy					; ReadjoyA for the controller that owns the pause menu
 	lda.w #$FFFE					;free camera
 	sta.w replaylock
-	lda.w #$0020
-	tsb.w sflags					;scroll lock on
+	lda.w #sfscrl
+	tsb.w sflags					;manual scroll on (free camera)
 	asl.b d0						;direction
 	asl.b d0						;x4: word pair
 	ldy.b d0
@@ -558,7 +558,7 @@ ReplayMode:							; called from PauseReplay
 .t3:								; d1 bit $2000 set: replaylock = $FFFF, trb sflags, go to .13
 	lda.w #$FFFF					;free camera
 	sta.w replaylock
-	lda.w #$0020					;unlock the scroll
+	lda.w #sfscrl					;manual scroll off
 	trb.w sflags
 	jmp.w .13						;show it
 
@@ -674,8 +674,8 @@ org $9BB001
 	sta.w recbpr+2					;and the record pointer
 	pla
 	sta.w recbpr
-	lda.w #$0020
-	trb.w sflags					;unlock the scroll
+	lda.w #sfscrl
+	trb.w sflags					;manual scroll off
 	lda.w recbpr+2
 	sta.b a4+2						;at the live frame
 	lda.w recbpr

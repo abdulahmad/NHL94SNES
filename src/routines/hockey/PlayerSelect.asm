@@ -47,7 +47,7 @@ PlayerSelect:						; called from setoptions
 	jsl.l ScreenOn
 	jsl.l FadeIn					; fade in: install BrightnessHook as the frame hook
 	lda.w #$000A
-	sta.w fadestep					;fade speed
+	sta.w fadein					;fade speed
 	stz.b d1						;the visitors can be picked
 	stz.b d1+2						;not playoffs
 	lda.l OptPlayMode				;play mode
