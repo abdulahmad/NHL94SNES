@@ -2084,11 +2084,12 @@ $9BAD6F,.3,CODE_9BAD6F,new,branch target only used in this routine,src/routines/
 $9BAD81,.4,CODE_9BAD81,new,branch target only used in this routine,src/routines/replay/ReplayMode.asm
 $9FC470,.loop,CODE_9FC470,new,branch target only used in this routine,src/routines/stats/PlayerInitialName.asm
 $9FC47C,.loop2,CODE_9FC47C,new,branch target only used in this routine,src/routines/stats/PlayerInitialName.asm
-$9FA5EE,.loop,CODE_9FA5EE,new,branch target only used in this routine,src/routines/middle/util/waitxsr.asm
-$9FA5F1,.loop2,CODE_9FA5F1,new,branch target only used in this routine,src/routines/middle/util/waitxsr.asm
-$9FA602,.1,CODE_9FA602,new,branch target only used in this routine,src/routines/middle/util/waitxsr.asm
-$9FA616,.loop3,CODE_9FA616,new,branch target only used in this routine,src/routines/middle/util/waitxsr.asm
-$9FA623,.2,CODE_9FA623,new,branch target only used in this routine,src/routines/middle/util/waitxsr.asm
+$9FA5EA,waitx,CODE_9FA5EA,94G,"wait d0 frames or a button; was waitxsr (the 93S name), renamed to the 93G / 94G / 95G waitx",src/routines/middle/util/waitx.asm
+$9FA5EE,.loop,CODE_9FA5EE,new,branch target only used in this routine,src/routines/middle/util/waitx.asm
+$9FA5F1,.loop2,CODE_9FA5F1,new,branch target only used in this routine,src/routines/middle/util/waitx.asm
+$9FA602,.1,CODE_9FA602,new,branch target only used in this routine,src/routines/middle/util/waitx.asm
+$9FA616,.loop3,CODE_9FA616,new,branch target only used in this routine,src/routines/middle/util/waitx.asm
+$9FA623,.2,CODE_9FA623,new,branch target only used in this routine,src/routines/middle/util/waitx.asm
 $9E8F19,.1,CODE_9E8F19,new,branch target only used in this routine,src/routines/collide/wallcollb.asm
 $9E8F37,.2,CODE_9E8F37,new,branch target only used in this routine,src/routines/collide/wallcollb.asm
 $9ED436,.1,CODE_9ED436,new,branch target only used in this routine,src/routines/logic/assignments/assgoalie.asm
@@ -4656,7 +4657,7 @@ $9EF5EA,.2,CODE_9EF5EA,new,puckstick: the 93S body,src/routines/collide/puckstic
 $9EF5E9,.1,CODE_9EF5E9,new,branch target only used in this routine,src/routines/collide/puckstick.asm
 $9EF042,puckgoalie,CODE_9EF042,93S,checkpuckcoll_ccx calls it where 93S calls puckgoalie; most of the 93S body and its calls,src/routines/collide/puckgoalie.asm
 $9EF722,deflect,CODE_9EF722,93S,puckstick calls it as in 93S; same instructions for the most part,src/routines/collide/deflect.asm
-$9FA5EA,waitxsr,CODE_9FA5EA,93S,the StartHL2 code calls it as in 93S; same instructions for the most part,src/routines/middle/util/waitxsr.asm
+$9FA5EA,waitx,CODE_9FA5EA,93S,the StartHL2 code calls it as in 93S; same instructions for the most part,src/routines/middle/util/waitx.asm
 $808663,.1,CODE_808663,new,branch target only used in this routine,src/routines/middle/RandomWord.asm
 $808671,.2,CODE_808671,new,branch target only used in this routine,src/routines/middle/RandomWord.asm
 $808679,.3,CODE_808679,new,branch target only used in this routine,src/routines/middle/RandomWord.asm
@@ -4742,8 +4743,8 @@ $9FE3DC,.1,CODE_9FE3DC,new,branch target only used in this routine,src/routines/
 $9FE3DD,.2,CODE_9FE3DD,new,branch target only used in this routine,src/routines/stats/Pausemode_go.asm
 $9FE3E7,.3,CODE_9FE3E7,new,branch target only used in this routine,src/routines/stats/Pausemode_go.asm
 $9FE3EB,.4,CODE_9FE3EB,new,continued in the previous routine,src/routines/stats/Pausemode_go.asm
-$9B8017,ReadPads,CODE_9B8017,93S,"waitxsr and the menus call it as 93S calls ReadPads; per pad the direction, changed buttons and new presses, from the pad words the NMI reads",src/routines/middle/input/ReadPads.asm
-$9B84DC,ReadjoyA,CODE_9B84DC,new,"93S Readjoy1 for pad A: d0 direction, d1 new presses, d2 changed, d3 held; waitxsr calls it where 93S calls Readjoy1",src/routines/middle/ReadjoyA.asm
+$9B8017,ReadPads,CODE_9B8017,93S,"waitx and the menus call it as 93S calls ReadPads; per pad the direction, changed buttons and new presses, from the pad words the NMI reads",src/routines/middle/input/ReadPads.asm
+$9B84DC,ReadjoyA,CODE_9B84DC,new,"93S Readjoy1 for pad A: d0 direction, d1 new presses, d2 changed, d3 held; waitx calls it where 93S calls Readjoy1",src/routines/middle/ReadjoyA.asm
 $9EA2CB,Acheck,CODE_9EA2CB,93S,"check4check calls it as in 93S; the hook animation, or the hold one by the angle, then SetSPA, as 93S Acheck",src/routines/logic/controls/holdplayer.asm
 $9FBF75,QueueTextDMA,CODE_9FBF75,93S,setvideo and the screens call it as in 93S; sends the textdirtylo-textdirtyhi part of the text map and resets them,src/routines/middle/text/QueueTextDMA.asm
 $80A17D,QueueSound,CODE_80A17D,93S,sfx calls it as 93S sfx calls QueueSound; sound A through the effect table to the driver,src/routines/sound/QueueSound.asm

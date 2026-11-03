@@ -1,5 +1,5 @@
 ; Wait d0 frames or until a button in d1 is pressed
-waitxsr:							; called from StartHL2
+waitx:								; called from StartHL2
 	phx
 	lda.b d0
 	pha

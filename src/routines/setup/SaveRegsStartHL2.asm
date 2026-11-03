@@ -64,7 +64,7 @@ StartHL2:							; entry point, no direct callers found
 	sta.b a1+2
 	lda.w #$00B4					;3 seconds
 	sta.b d0
-	jsl.l waitxsr					; wait d0 frames or until a button in d1 is pressed
+	jsl.l waitx						; wait d0 frames or until a button in d1 is pressed
 	lda.b d3						;button pressed
 	bit.w #$1000					;start?
 	beq .t1x
@@ -426,7 +426,7 @@ org $9F9001
 	jsl.l NewTicker3				;final ticker
 	lda.w #$00B4					;3 seconds
 	sta.b d0
-	jsl.l waitxsr					; wait d0 frames or until a button in d1 is pressed
+	jsl.l waitx						; wait d0 frames or until a button in d1 is pressed
 	lda.b d1						;button
 	bit.w #$1000					;start?
 	beq .12							;no
