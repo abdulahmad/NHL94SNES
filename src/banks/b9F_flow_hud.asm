@@ -3,7 +3,6 @@
 org $9F8000
 incsrc "../routines/period/PeriodStatsScreen.asm"
 incsrc "../routines/period/DrawPeriodStats.asm"
-incsrc "../routines/main/ResetStub.asm"
 incsrc "../routines/setup/Opening.asm"
 incsrc "../routines/hockey/StartGame.asm"
 incsrc "../routines/hockey/StartPer.asm"

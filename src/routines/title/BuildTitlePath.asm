@@ -19,3 +19,6 @@ BuildTitlePath:						; called from TitleScreen
 	cpy.w #$0500
 	bcc .loop
 	rts
+; TitleScreen still calls this; emptied in 94
+TitleScreen_ret:					; emptied in 94
+	rts
