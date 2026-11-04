@@ -1,5 +1,5 @@
 ; Show or clear the scroll arrows beside a summary list, then send the text map
-PrintScrollArrows:					; called from ScrollPenaltyDown, ScrollPenaltyUp, ScrollScoringDown, Sc...
+PrintScrollArrows:					; called from UpdatePenaltyScroll_down, UpdatePenaltyScroll_up, UpdateScoringScroll_down, Sc...
 	lda.w listtop
 	clc
 	adc.w #$0005

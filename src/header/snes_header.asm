@@ -15,12 +15,12 @@
 	dw $0000						; BRK
 	dw $0000						; ABORT
 	dw NMI&$FFFF					; NMI
-	dw Reset&$FFFF					; (unused)
+	dw Start&$FFFF					; (unused)
 	dw IRQ&$FFFF					; IRQ
 	db $FF,$FF,$FF,$FF				; emulation mode vectors:
 	dw $0000						; COP
 	dw $0000						; (unused)
 	dw $0000						; ABORT
 	dw NMI&$FFFF					; NMI
-	dw Reset&$FFFF					; RESET
+	dw Start&$FFFF					; RESET
 	dw IRQ&$FFFF					; IRQ/BRK

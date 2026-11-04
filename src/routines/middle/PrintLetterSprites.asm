@@ -1,5 +1,5 @@
 ; Draw string [a1] with the letter sprites at X / Y
-PrintLetterSprites:					; called from DrawEditLinesTitle, DrawPeriodStats, PasswordScreen, Play...
+PrintLetterSprites:					; called from DrawTeamScreen_title, DrawPeriodStats, PasswordScreen, Play...
 	stx.w letterx
 	sty.w lettery
 	ldy.w #$0002

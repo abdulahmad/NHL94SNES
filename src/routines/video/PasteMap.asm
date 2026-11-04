@@ -1,5 +1,5 @@
 ; Copy map [p0] (width, height) into the map at [p1], column X, row Y, adding A to each entry
-PasteMap:							; called from DrawEditLinesBack, DrawMatchupPictures, DrawPlayerPicture...
+PasteMap:							; called from DrawTeamScreen, DrawMatchupPictures, DrawPlayerPicture...
 	sta.b r7+2
 	stx.b r5
 	tya

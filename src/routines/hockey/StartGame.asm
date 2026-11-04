@@ -7,7 +7,7 @@ StartGame_scout:					; called from GameOver
 StartGame_go:						; called from PlayShootout
 	lda.w #$FFFF
 	sta.w FrameByNumber
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	ldx.w #$0AD7
 	lda.w #$0000
 .loop:								; loop: r0,x = A, X + 1, if not zero go to .loop, ...

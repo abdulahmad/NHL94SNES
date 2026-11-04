@@ -5,7 +5,7 @@ PausePenaltySummary:				; called from PauseMenuHandlers
 	bne .t1
 	jmp.w PauseMenuPoll
 
-.t1:								; d1 bit $8080 set: call PenaltySummaryScreen, call ReloadRink, go to...
+.t1:								; d1 bit $8080 set: call PenaltySummaryScreen, call ExitStatsScreen, go to...
 	jsl.l PenaltySummaryScreen		; penalty summary for both teams
-	jsl.l ReloadRink				; after a pause screen: unpack the rink map, tiles and palettes again
+	jsl.l ExitStatsScreen				; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

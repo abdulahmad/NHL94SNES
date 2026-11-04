@@ -1,5 +1,5 @@
 ; $08-$0B / $04 into $00, unsigned; $7FFF when the quotient does not fit
-Div32U:								; called from Div32S, Gameloop, ReplayMode, UpdateCrowdMeter, doshot
+Div32U:								; called from Div32S, Gameloop, ReplayMode, Crowd_Noise_meter, doshot
 	sep #$20
 	lda.b r2+3
 	beq .hi0

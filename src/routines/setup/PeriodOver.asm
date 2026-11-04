@@ -5,7 +5,7 @@
 ; turns the teams around, counts gsp (period; tied after period 3: overtime, a playoff game plays on) and
 ; ends in GameOver or the next period (StartPer).
 PeriodOver:							; end of a period
-	jsl.l FadeOut					; fade the screen and the sound out
+	jsl.l forcefade					; fade the screen and the sound out
 	jsl.l FadeOutSound				; start the sound fade out
 	jsl.l WaitFrame					; let two frames pass
 	jsl.l WaitFrame
@@ -95,7 +95,7 @@ PeriodOver:							; end of a period
 	lda.w gsp
 	sta.w lastperiod				; remember the period just finished
 	jsl.l FadeOutSound				; fade out again
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 .loopxx:							; wait for the sound fade
 	lda.w SoundFadeSpeed
 	bne .loopxx

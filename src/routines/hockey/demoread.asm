@@ -25,7 +25,7 @@ demoread:							; read the controllers during the demo
 	bit.w #$1000					; Start?
 	beq .t1							; no: next pad
 	pla								; A = saved pad offset (the pause pad)
-	jmp.w PauseFromPad				; pause from this pad
+	jmp.w startpause_pad				; pause from this pad
 
 .t1:								; next pad
 	plx								; restore X

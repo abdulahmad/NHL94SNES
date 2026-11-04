@@ -11,5 +11,5 @@ PauseShootoutSetup:					; called from PauseMenuHandlers
 	jsl.l ShootoutShooters			; shootout shooters menu item: pick the 3 shooters of each team
 	lda.w #$0000
 	sta.l pausesubmenu
-	jsl.l ReloadRink				; after a pause screen: unpack the rink map, tiles and palettes again
+	jsl.l ExitStatsScreen				; after a pause screen: unpack the rink map, tiles and palettes again
 	bra PauseSubmenuDone

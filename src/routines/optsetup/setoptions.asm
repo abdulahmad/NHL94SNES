@@ -1,6 +1,6 @@
 ; The game setup screen: up and down pick a line, left and right change it, Start goes on
 setoptions:							; called from Opening2
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	lda.w #$0001					;matchup photos on
 	sta.l matchupphotos
 	lda.w #$0000					;stats off

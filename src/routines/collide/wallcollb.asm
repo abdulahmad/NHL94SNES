@@ -79,7 +79,7 @@ wallcollb_out:						; puck out of play
 	ldx.w #puckscnum				; X = the puck again
 	stx.b a3
 .2:									; end the penalty shot
-	jsl.l EndPenaltyShot			; clear breakaway and the one-timer below
+	jsl.l EndPenaltyShotPlay			; clear breakaway and the one-timer below
 	stz.w breakaway
 	stz.w onetimer
 	rtl								; return

@@ -96,17 +96,17 @@ UpdateScoutingDisplay_para:			; print from the current position
 	and.w #$00FF
 	cmp.w #$0072					; 'r': home arena
 	bne .t3
-	jmp.w ScoutHomeArena
+	jmp.w GetTeamArena_home
 
 .t3:								; test the code for 'v'
 	cmp.w #$0076					; 'v': visitor city
 	bne .t1x
-	jmp.w ScoutVisCity
+	jmp.w GetTeamCity_vis
 
 .t1x:								; test the code for 'h'
 	cmp.w #$0068					; 'h': home city
 	bne .t2
-	jmp.w ScoutHomeCity
+	jmp.w GetTeamCity_home
 
 .t2:								; test the code for 'V'
 	cmp.w #$0056					; 'V': visitor name
@@ -121,12 +121,12 @@ UpdateScoutingDisplay_para:			; print from the current position
 .t5:								; test the code for 'm'
 	cmp.w #$006D					; 'm': visitor nickname
 	bne .t1x2
-	jmp.w ScoutVisNick
+	jmp.w GetTeamNickname_vis
 
 .t1x2:								; test the code for 'n'
 	cmp.w #$006E					; 'n': home nickname
 	bne .t2x
-	jmp.w ScoutHomeNick
+	jmp.w GetTeamNickname_home
 
 .t2x:								; test the code for 't'
 	cmp.w #$0074					; 't': hot team

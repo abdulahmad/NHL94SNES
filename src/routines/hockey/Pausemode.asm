@@ -17,7 +17,7 @@ Pausemode:							; called from Gameloop, PlayShootout
 	pha
 	lda.w sflags					; and the flags
 	pha
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	jsl.l SetHor					; switches to the horizontal rink
@@ -58,7 +58,7 @@ Pausemode:							; called from Gameloop, PlayShootout
 	sta.l pausemenuon
 	stz.w pregamepause
 	stz.w PauseUnused
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank
 	jsl.l SoundInit					; reset the sound player

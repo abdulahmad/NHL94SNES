@@ -690,7 +690,7 @@ org $9BB001
 	stz.w textdirtylo				;whole text map
 	lda.w #$03FF					;dirty
 	sta.w textdirtyhi
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l FadeOutSound				; start the sound fade out
 .loopxx:							; loop: if brightness != 0 go to .loopxx, ...
 	lda.w brightness				;wait for black

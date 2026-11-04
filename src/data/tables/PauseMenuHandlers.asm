@@ -1,16 +1,16 @@
 ; A long pointer to the handler of each menu item of PauseMenuItems
 PauseMenuHandlers:
 	dd PauseResume,PauseReplay,PauseGameStats,PauseTeamRoster,PauseEditLines
-	dd PausePlayerStats,PauseScoringSummary,PausePenaltySummary,PausePeriodStats,PauseGoalie
-	dd PauseGoalieMode,PauseDefControl,PausePlayerCards,PauseOtherScores,PauseCrowdLevel
+	dd PausePlayerStats,PauseScoringSummary,PausePenaltySummary,PausePeriodStats,Pausemode_go
+	dd ManualGoalieMenu,PauseDefControl,PausePlayerCards,PauseOtherScores,PauseCrowdLevel
 	dd PauseExitGame,PauseResume,PauseReplay,PauseGameStats,PauseTeamRoster
-	dd PauseEditLines,PauseTimeout,PausePlayerStats,PauseScoringSummary,PausePenaltySummary
-	dd PausePeriodStats,PauseGoalie,PauseGoalieMode,PauseDefControl,PausePlayerCards
+	dd PauseEditLines,TimeoutMenu,PausePlayerStats,PauseScoringSummary,PausePenaltySummary
+	dd PausePeriodStats,Pausemode_go,ManualGoalieMenu,PauseDefControl,PausePlayerCards
 	dd PauseOtherScores,PauseCrowdLevel,PauseExitGame,PauseResume,PauseReplay
 	dd PauseGameStats,PauseTeamRoster,PauseEditLines,PausePlayerStats,PauseScoringSummary
-	dd PausePenaltySummary,PausePeriodStats,PauseGoalie,PauseGoalieMode,PauseDefControl
+	dd PausePenaltySummary,PausePeriodStats,Pausemode_go,ManualGoalieMenu,PauseDefControl
 	dd PausePlayerCards,PauseOtherScores,PauseCrowdLevel,PauseResume,PauseTeamRoster
-	dd PauseEditLines,PauseGoalie,PauseGoalieMode,PauseDefControl,PausePlayerCards
+	dd PauseEditLines,Pausemode_go,ManualGoalieMenu,PauseDefControl,PausePlayerCards
 	dd PauseOtherScores,PauseExitGame,PauseResume,PauseShootoutSetup,PauseTeamRoster
-	dd PauseGoalieMode,PausePlayerCards,PauseExitGame,PauseResume,PauseReplay
-	dd PauseTeamRoster,PauseGoalieMode,PausePlayerCards,PauseExitGame
+	dd ManualGoalieMenu,PausePlayerCards,PauseExitGame,PauseResume,PauseReplay
+	dd PauseTeamRoster,ManualGoalieMenu,PausePlayerCards,PauseExitGame

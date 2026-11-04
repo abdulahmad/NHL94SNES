@@ -5,10 +5,10 @@ PauseReplay:						; called from PauseMenuHandlers
 	bne .t1
 	jmp.w PauseMenuPoll
 
-.t1:								; d1 bit $8080 set: replaymusic = MusicOn, call FadeOut, call FadeOutSo...
+.t1:								; d1 bit $8080 set: replaymusic = MusicOn, call forcefade, call FadeOutSo...
 	lda.w MusicOn
 	sta.w replaymusic
-	jsl.l FadeOut					; fade out: install BrightnessHook as the frame hook
+	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l FadeOutSound				; start the sound fade out
 	jsl.l WaitFadeOut				; wait until the screen is black
 	jsl.l forceblack				; turn the screen black: default interrupt handlers, forced blank

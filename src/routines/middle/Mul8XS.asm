@@ -1,5 +1,5 @@
 ; A * X, 8 by 8 bits, X signed, into A
-Mul8XS:								; called from FillPlayerStatsPage, burst, dopass, doplayeracc, doshot a...
+Mul8XS:								; called from DrawStatsList_rows, burst, dopass, doplayeracc, doshot a...
 	phy
 Mul8XS_x:							; called from Mul8S
 	cpx.w #$0000

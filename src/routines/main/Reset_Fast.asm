@@ -1,5 +1,5 @@
 ; Reset in FastROM: clear the PPU and CPU registers, then start the game
-Reset_Fast:							; called from Reset
+Reset_Fast:							; called from Start
 	phk								; data bank = program bank
 	plb
 	sep #$20

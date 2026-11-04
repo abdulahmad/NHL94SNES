@@ -1,6 +1,6 @@
 ; NMI after the hook: the IRQ timers, INIDISP from IniDispShadow, the BG scroll registers and the rest of the
 ; frame registers
-NMI_HookReturn:						; called from NMI_Fast
+NMI_HookReturn:						; called from VBlank
 	rep #$30						;16-bit A and index
 	lda.w IRQVTime					;IRQ vertical timer
 	sta.w VTIMEL					;to VTIMEL
