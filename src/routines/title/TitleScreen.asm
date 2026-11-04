@@ -126,7 +126,7 @@ TitleScreen:						; no input; runs until the title is over (a pad press or the c
 	lda.w #$00FF					; window 3 edge
 	sta.w TitleWH3					; fully open
 	jsr.w TitleBlankSprites			; clear sprites, wait
-	jsr.w TitleStub					; (does nothing)
+	jsr.w TitleScreen_ret			; emptied in 94
 	lda.w #$0001					; BG mode 1
 	sta.w TitleBGMode				; for the top band
 	lda.w #$0036					; sound

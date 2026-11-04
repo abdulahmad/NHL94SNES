@@ -100,3 +100,6 @@ ShootoutWonBy:						; "<team> Wins!" once the shootout is decided
 .3:									;not a decided shootout: AddPenalty2
 	jsl.l AddPenalty2				;not a shootout win: the penalty
 	rtl
+; PlayShootout still calls this; emptied in 94
+PlayShootout_ret:					; emptied in 94
+	rtl
