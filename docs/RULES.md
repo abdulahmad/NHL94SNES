@@ -27,3 +27,4 @@ rule in the same commit as the fix that confirmed it, newest last: `- YYYY-MM-DD
 ## Learned
 - 2026-11-02 names: `SetupPauseScreen` (5 callers) and `DrawTeamBlocks` (14 callers) are not folded into `Pausemode` / `PlayoffScreen` as 94G's locals: they are shared routines in 94S, so they keep their global 93S names. (step C2, jsl callers in src/routines)
 - 2026-11-02 names: call-order matching against 94G (align each shared routine's call list, take the 94S callee where 94G calls a routine 94S lacks) is too noisy to apply: 78 candidates, mostly wrong (`Mul8U` -> `printz`), because 94G calls the print macros where 94S calls its own helpers. Name by reading both bodies, one 94G file per unit. (step C5 trial)
+- 2026-11-04 contributing: CONTRIBUTING.md must not contradict History: lineage lives only in the name history file, never in source comments. (CONTRIBUTING rewrite vs RULES History row)
