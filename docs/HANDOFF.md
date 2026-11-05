@@ -2,11 +2,11 @@
 
 ## Now
 
-- Stage / unit: CONTRIBUTING.md rewrite; added `tools/check_scope.py` (HARNESS scope gate).
-- Branch: `claude/project-thread-ggw7zu`
-- Last check: docs + scope script
-- Next: do not merge to main
-- Open PRs: (this unit)
+- Stage / unit: leftover recut — `ManualGoalieMenu` follows 94G `period94` (folder `period/`). Empty `goalie/` removed.
+- Branch: `cursor/leftover-recut-f6fc`
+- Last check: `python3 tools/check_scope.py` scope OK; `python3 tools/check_comments.py` comment layout OK. No retail ROM in this environment for `./build.sh`.
+- Next: pairing after 94G leftover recut lands
+- Open PRs: this unit
 
 ## Comment pass (done)
 
