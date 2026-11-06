@@ -2,10 +2,10 @@
 
 ## Now
 
-- Stage / unit: asstab slot-index equates (`adefo` … `pfaceoff2`, plus `abreakaway` $10 and `adumpin` $14). Callers use the names.
-- Branch: `cursor/94s-asstab-equates-4dc5`
-- Last check: `./build.sh` MATCH; `python3 tools/check_scope.py` scope OK; `python3 tools/check_comments.py` on unit files (pre-existing Goal/clockcont_0/doinput column-40 comments unchanged)
-- Next: pairing / report regen after merge
+- Stage / unit: asstab slot $00 named `anull` (95PC "null" / `rtss`). Shared 92G `a*`/`p*` names kept; `abreakaway` $10; `adumpin` $14 confirmed dump-in.
+- Branch: `cursor/asstab-anull-063b`
+- Last check: `./build.sh` MATCH; `python3 tools/check_scope.py` scope OK; `python3 tools/check_comments.py` on unit files comment layout OK
+- Next: merge when MATCH, then report regen
 - Open PRs: this unit
 
 ## Comment pass (done)
