@@ -1,6 +1,8 @@
 asstab:								;The assignment routines that updateplayers calls, by
 									;assignment number. Goalie is slot $07. Extra slots
 									;abreakaway ($10) and adumpin ($14) sit in this table.
+anull	=	$00						;empty assignment (rtss)
+	assert (pc()-asstab)/4 == anull
 	dd rtss
 
 adefo	=	$01						;defensive player on offense (assdefo)
