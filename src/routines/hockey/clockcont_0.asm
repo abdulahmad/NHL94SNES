@@ -7,7 +7,7 @@
 clockcont_0:						; period over: end of period scene, then the period or game over message
 	ldx.w #puckscnum				; the puck
 	stx.b a3
-	lda.w #$0018					; assignment $18
+	lda.w #pnorm					; assignment $18
 	sta.b d0
 	jsl.l assinsert					; give it to that object
 	lda.w #$0001					; stream sound effect 1
@@ -19,7 +19,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	jmp.w .8						; first or second period: no celebration
 
 .t1:								; third period or overtime: celebrate with assignment 8
-	lda.w #$0008
+	lda.w #ascore
 	sta.b d0
 	ldx.w #$0000					; start with team 0 players
 	stx.b a3
@@ -61,7 +61,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	cmp.w #$0000
 	beq .4							; play mode 0: no cup scene
 	inc.b p0						; p0 = 1: also show the extra message
-	lda.w #$0009					; all players get assignment 9
+	lda.w #astanley					; all players get assignment 9
 	sta.b d0
 	lda.w #$000B					; 12 players
 	sta.b d2
@@ -89,7 +89,7 @@ clockcont_0:						; period over: end of period scene, then the period or game ov
 	beq .6							; no player: skip
 	bmi .6							; off ice (negative): skip
 	jsl.l assinsert					; give the assignment
-	lda.w #$0008					; the rest get assignment 8
+	lda.w #ascore					; the rest get assignment 8
 	sta.b d0
 .6:									; next
 	inx								; next word

@@ -30,6 +30,6 @@ CompShoot:							; computer player X shoots
 	stz.w temp2,x					; temp2 = 0
 	lda.b d1
 	sta.w temp2b,x					; temp2b = swing time
-	lda.w #$0013					; assignment $13: assshoot
+	lda.w #ashoot					; assignment $13: assshoot
 	sta.b d0
 	jmp.w assreplace				; replace the assignment with d0

@@ -16,7 +16,7 @@ check4bench:						; check whether a line change wants this player off
 	cmp.w pnum,x					; same roster player as now?
 	beq .t2							; yes: just a position change
 	lda.w asscur,x					; his current assignment
-	cmp.w #$000C					; already going to the bench (assignment $0C)?
+	cmp.w #abench					; already going to the bench (assignment $0C)?
 	beq .t1							; yes: leave him
 	cpx.w puckc						; the puck carrier stays
 	beq .t1							; puck carrier stays
@@ -28,7 +28,7 @@ check4bench:						; check whether a line change wants this player off
 	ora.w #pf2unav					; set pf2unav ($1000)
 	sta.w pflags,x
 	stz.w temp1,x					; clear temp1
-	lda.w #$000C					; bench assignment
+	lda.w #abench					; bench assignment
 	sta.b d0						; d0 = $0C
 	jml.l assreplace				; replace the assignment with d0
 

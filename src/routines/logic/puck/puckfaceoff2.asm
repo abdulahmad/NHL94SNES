@@ -229,7 +229,7 @@ puckfaceoff2:						; called from asstab
 	sta.b d3						;d3 = shooter
 	plx
 .2xxx:								; d0 = $0016, if d1 != $0004 go to .4x, ...
-	lda.w #$0016					;assignment $16: wait for the drop
+	lda.w #afaceoff					;assignment $16: wait for the drop
 	sta.b d0
 	lda.b d1						; centers take the faceoff
 	cmp.w #$0004
@@ -246,7 +246,7 @@ puckfaceoff2:						; called from asstab
 	sta.w tmtouch1,y				;only he has touched
 	lda.w #$0004
 	sta.w tmflags,y					;faceoff flag
-	lda.w #$0017					;assignment $17: take the faceoff
+	lda.w #afaceoffpl				;assignment $17: take the faceoff
 	sta.b d0
 .4x:								; call assinsert
 	jsl.l assinsert					;insert it

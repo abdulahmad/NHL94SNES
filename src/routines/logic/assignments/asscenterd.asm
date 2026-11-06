@@ -5,7 +5,7 @@ asscenterd:							; X = center; asstab entry; teammate has puck: assignment 6
 	lda.w pfteam,x
 	cmp.w pfteam,y
 	bne .4
-	lda.w #$0006
+	lda.w #acentero
 	sta.b d0
 	jmp.w assreplace
 .1:									; playerpad,x >= 0: return

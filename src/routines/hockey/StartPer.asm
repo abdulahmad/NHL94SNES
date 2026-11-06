@@ -46,7 +46,7 @@ StartPer:							; called from PeriodOver, PlayShootout, StartGame_go
 	lda.w #$0000
 	sta.l fox
 	sta.l foy
-	lda.w #$001B
+	lda.w #pfaceoff
 	sta.b d0
 	jsl.l assreplace
 	jsl.l ClearTextMap				; fill the text map with the blank tile

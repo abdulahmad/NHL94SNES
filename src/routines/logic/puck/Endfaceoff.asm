@@ -142,7 +142,7 @@ Endfaceoff:							; called from puckfaceoff2 when the puck drops
 	sta.w puckvz
 	stz.w puckz
 	stz.w pfnc,x
-	lda.w #$0018
+	lda.w #pnorm
 	sta.b d0
 	jml.l assreplace
 .13:								; subroutine: d0 = $0006

@@ -17,7 +17,7 @@ SetupPenaltyShot:					; called from puckfaceoff2
 	lda.w #$0000					;home defends
 	sta.b d4						;home defends
 .1:									;reassign every player
-	lda.w #$0010					;assignment 16
+	lda.w #abreakaway				;assignment 16
 	sta.b d0						;d0 = 16
 	jsl.l .4						;reassign 6 players
 	jsl.l .4

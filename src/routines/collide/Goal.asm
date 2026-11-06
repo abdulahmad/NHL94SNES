@@ -269,7 +269,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 .11:								; penalty goal handling, redraw the score
 	jsl.l PenGoalStuff				; handles the penalties after a goal
 	jsl.l printscores1				; draw the scoreboard: the period and score boxes on the vertical rink
-	lda.w #$0008					;assignment 8: celebrate
+	lda.w #ascore					;assignment 8: celebrate
 	sta.b d0
 	jsl.l .t1xxxx					; d0 = 8: give team a2's skaters assignment 8 (routine below)
 	lda.b a2						;visitors scored?
@@ -303,7 +303,7 @@ Goal:								; the puck is in the net: score, log, scoreboard, celebration
 	sta.w puckcross+pcframes
 	sta.w puckcross+pcsize+pcframes
 	sta.w pfnc+puckscnum			;puck collides with no one
-	lda.w #$001A					;assignment $1A: in the net
+	lda.w #pnothing					;assignment $1A: in the net
 	sta.b d0
 	jsl.l assreplace				;for the puck
 	inx								; siren sprite animation

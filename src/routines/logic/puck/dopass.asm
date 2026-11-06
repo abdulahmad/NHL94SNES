@@ -190,7 +190,7 @@ dopass_count:						; called from dopass
 	lda.b a0						;receiver
 	sta.w passReceiverPlayerNum		;pass receiver
 	ldx.b a0
-	lda.w #$0015					;assignment $15: take the pass
+	lda.w #apassrec					;assignment $15: take the pass
 	sta.b d0
 	jsl.l assinsert					; give player X assignment d0 on top of the current one
 	ldx.b a3						;passer

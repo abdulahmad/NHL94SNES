@@ -8,7 +8,7 @@ asswingd:							; assignment: wing on defense
 	lda.w pfteam,x
 	cmp.w pfteam,y
 	bne .8							; other team has it: defend
-	lda.w #$0004					; assignment 4: asswingo
+	lda.w #awingo					; assignment 4: asswingo
 	sta.b d0
 	jmp.w assreplace				; replace the assignment with d0
 .1:									; return

@@ -8,7 +8,7 @@ assdefd:							; assignment: defenseman on defense
 	lda.w pfteam,x
 	cmp.w pfteam,y
 	bne .16							; other team has the puck: think about it
-	lda.w #$0001					; assignment 1: assdefo
+	lda.w #adefo					; assignment 1: assdefo
 	sta.b d0
 	jmp.w assreplace				; replace the assignment with d0
 .1:									; return

@@ -1038,7 +1038,7 @@ assgoalie:							; called from assnearest, asstab
 	lda.w tmnear,y					;other team's nearest
 	cmp.w #$0132					;within $132?
 	bcc .t1xxxxxxxxxxxxxxx			;opponent close: stay
-	lda.w #$000F					;assignment 15
+	lda.w #agoalietopuck			;assignment 15
 	sta.b d0
 	jmp.w assinsert					;clear the puck from the zone
 

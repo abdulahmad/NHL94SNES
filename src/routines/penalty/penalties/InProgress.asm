@@ -228,7 +228,7 @@ InProgress:							; sends the last PenBuf entry to the box
 	sta.b a0
 	pla
 	sta.b a0+2
-	lda.w #$000D					; assignment 13: the player goes to the box
+	lda.w #apenalty					; assignment 13: the player goes to the box
 	sta.b d0
 	jsl.l assreplace				; replace his assignment
 	stx.b xsave						; restore the saved registers
@@ -272,7 +272,7 @@ InProgress_exit:					; the penalty list is empty: end the penalty mode
 	trb.w gmode
 	ldx.w #puckscnum				; the puck
 	stx.b a3
-	lda.w #$001B					; assignment 27: puck faceoff
+	lda.w #pfaceoff					; assignment 27: puck faceoff
 	sta.b d0
 	jsl.l assreplace				; replace the assignment
 ; InProgress: InProgress_ap for both teams (not in a shootout), restore the registers

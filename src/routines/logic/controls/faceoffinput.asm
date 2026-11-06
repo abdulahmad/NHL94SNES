@@ -5,7 +5,7 @@
 ; Called from doinput.
 faceoffinput:						; pad input for a player taking a face off
 	lda.w asscur,x					; assignment running
-	cmp.w #$0017					; $17 = face off
+	cmp.w #afaceoffpl				; $17 = face off
 	bne .t2							; other assignment: leave
 	lda.w #fodir1>>16				; direction store of the home side
 	sta.b a0+2
