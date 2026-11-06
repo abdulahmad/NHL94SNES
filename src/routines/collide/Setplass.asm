@@ -15,5 +15,5 @@ Setplass:							; called from assbench, check4bench, forcepldata, releasepl
 
 .t1:								; return
 	rtl
-.1:									; db $07,$02,$02,$03,$05,$03,$05
-	db $07,$02,$02,$03,$05,$03,$05
+.1:									; agoalie, two D, W, C, W, C
+	db agoalie,adefd,adefd,awingd,acenterd,awingd,acenterd

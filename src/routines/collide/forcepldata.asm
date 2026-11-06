@@ -42,7 +42,7 @@ forcepldata:						; called from StartHL2, puckfaceoff2
 	lda.w position,x
 	cmp.w #$0004					; center
 	bne .notnear
-	lda.w #$0012
+	lda.w #anearest
 	sta.b d0
 	jsl.l assinsert					; insert assignment d0
 .notnear:							; not near the bench: the player number

@@ -33,7 +33,7 @@ org $9ED002
 	cpx.w puckc						; puck carrier?
 	beq .t4							; carrier: turn one step
 	lda.w asscur,x					; assignment of the goalie
-	cmp.w #$000C					; assignment $0C: turn one step
+	cmp.w #abench					; assignment $0C: turn one step
 	beq .t4
 	lda.w Ypos,x					; distance from the middle (abs y)
 	bit.w #$8000

@@ -174,7 +174,7 @@ doinput:							; pad input for player X
 	jml.l ShotMode					; shot input
 
 .t3:								; d0 = $0014, go to assinsert
-	lda.w #$0014					; assignment $14
+	lda.w #adumpin					; assignment $14
 	sta.b d0
 	jml.l assinsert					; give it to X
 

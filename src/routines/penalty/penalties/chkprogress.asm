@@ -62,7 +62,7 @@ chkprogress:						; called from PenaltyManager
 	tsb.w puckc
 	ldx.w #puckscnum
 	stx.b a3
-	lda.w #$001A
+	lda.w #pnothing
 	sta.b d0
 	jsl.l assinsert					; give player X assignment d0 on top of the current one
 	ldx.b a3

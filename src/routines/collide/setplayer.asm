@@ -23,7 +23,7 @@ setplayer:							; put roster player d3 on the ice as object X
 	sta.w pnum,x					; pnum = roster number
 	asl a
 	sta.b d3						; d3 = number times 2 (word index)
-	lda.w #$000B					; d0 = assignment 11 (leaves the penalty box)
+	lda.w #aepen					; d0 = assignment 11 (leaves the penalty box)
 	sta.b d0
 	lda.b a0
 	beq .idx						; home: no team offset
@@ -41,7 +41,7 @@ setplayer:							; put roster player d3 on the ice as object X
 	sta.b r3
 	lda.b d1
 	bpl .da							; box time: insert the assignment
-	lda.w #$000A					; negative state: d0 = assignment 10 (leaves the bench)
+	lda.w #aeben					; negative state: d0 = assignment 10 (leaves the bench)
 	sta.b d0
 	lda.b d1
 	cmp.w #TMPDBENCH

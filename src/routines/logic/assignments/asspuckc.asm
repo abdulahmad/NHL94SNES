@@ -52,7 +52,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 .4:									; if plus go to .t1x, ...
 	cmp.w #$0090
 	bpl .t1x
-	lda.w #$0010
+	lda.w #abreakaway
 	sta.b d0
 	jsl.l assreplace
 	bra .10
@@ -61,7 +61,7 @@ asspuckc:							; X = puck carrier; asstab entry, others and pad players exit
 	jsl.l chk4lc
 	jsl.l chk4shot					; A computer player looks for a shot
 	lda.w asscur,x
-	cmp.w #$0011
+	cmp.w #apuckc
 	bne .3
 	jsl.l chk4pass					; pass
 .3:									; d0 = $0006 + temp3,x, a0 = asspuckc_postab, if sflags $8000 clear go...

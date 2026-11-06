@@ -10,7 +10,7 @@ assdefo:							; assignment: defenseman on offense
 	lda.w pfteam,x
 	cmp.w pfteam,y					; same team has it: keep holding the line
 	beq .11
-	lda.w #$0002					; other team has the puck: assignment 2 (assdefd)
+	lda.w #adefd					; other team has the puck: assignment 2 (assdefd)
 	sta.b d0
 	jmp.w assreplace				; replace the assignment with d0
 .1:									; return
@@ -19,7 +19,7 @@ assdefo:							; assignment: defenseman on offense
 .t1:								; unreferenced label
 	jmp.w donothing					; do nothing
 .2:									; this player carries the puck
-	lda.w #$0011					; assignment $11 (asspuckc)
+	lda.w #apuckc					; assignment $11 (asspuckc)
 	sta.b d0
 	jmp.w assinsert					; insert it in front of this assignment
 .11:								; clock stopped? (gmclock nonzero: do nothing)

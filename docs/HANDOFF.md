@@ -2,10 +2,10 @@
 
 ## Now
 
-- Stage / unit: leftover recut — `ManualGoalieMenu` follows 94G `period94` (folder `period/`). Empty `goalie/` removed.
-- Branch: `cursor/leftover-recut-f6fc`
-- Last check: `python3 tools/check_scope.py` scope OK; `python3 tools/check_comments.py` comment layout OK. No retail ROM in this environment for `./build.sh`.
-- Next: pairing after 94G leftover recut lands
+- Stage / unit: asstab slot-index equates (`adefo` … `pfaceoff2`, plus `abreakaway` $10 and `adumpin` $14). Callers use the names.
+- Branch: `cursor/94s-asstab-equates-4dc5`
+- Last check: `./build.sh` MATCH; `python3 tools/check_scope.py` scope OK; `python3 tools/check_comments.py` on unit files (pre-existing Goal/clockcont_0/doinput column-40 comments unchanged)
+- Next: pairing / report regen after merge
 - Open PRs: this unit
 
 ## Comment pass (done)

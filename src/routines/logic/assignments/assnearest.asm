@@ -15,7 +15,7 @@ assnearest:							; X = player; asstab entry
 	beq .t2							;yes: goalie assignment
 	cpx.w puckc						;carrying the puck?
 	bne .t3							;no
-	lda.w #$0011					;assignment $11: carry it
+	lda.w #apuckc					;assignment $11: carry it
 	sta.b d0
 	lda.w playerpad,x				;pad player?
 	bpl .t1							;yes: the pad drives him
@@ -71,13 +71,13 @@ assnearest:							; X = player; asstab entry
 	lda.w position,y				;goalie?
 	beq .3							;yes
 	lda.w asscur,y					;his assignment
-	cmp.w #$0015					;taking a pass?
+	cmp.w #apassrec					;taking a pass?
 	beq .3							;yes: leave him
 	ldx.b a1
 	lda.w pflags,x					;his flags
 	and.w #(~pfdoff&$FFFF)			;clear bit 0
 	sta.w pflags,x
-	lda.w #$0012					;assignment $12: support
+	lda.w #anearest					;assignment $12: support
 	sta.b d0
 	jsl.l assinsert					;give it to him
 	ldx.b curobj

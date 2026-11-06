@@ -7,7 +7,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 	lda.w pfteam,x
 	cmp.w pfteam,y
 	beq .7
-	lda.w #$0005
+	lda.w #acenterd
 	sta.b d0
 	jmp.w assreplace
 .1:									; playerpad,x >= 0: return
@@ -15,7 +15,7 @@ asscentero:							; X = center; asstab entry, skates to a spot via skateto
 .2:									; gmclock != 0: go to donothing
 	jmp.w donothing					; computer player stands still
 .3:									; d0 = $0011, go to assinsert
-	lda.w #$0011
+	lda.w #apuckc
 	sta.b d0
 	jmp.w assinsert					; give player X assignment d0 on top of the current one
 .7:									; if gmclock != 0 go to .2, ...

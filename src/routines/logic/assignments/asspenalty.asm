@@ -129,7 +129,7 @@ asspenalty:							; assignment: skate to the penalty box
 	lda.w pflags,x					; player flags
 	and.w #(~pf2pen&$FFFF)			; clear bit $4000 (pf2pen)
 	sta.w pflags,x
-	lda.w #$000E					; assignment $0E: assdopen
+	lda.w #adopen					; assignment $0E: assdopen
 	sta.b d0
 	jml.l assreplace				; replace the assignment with d0
 .8:									; return

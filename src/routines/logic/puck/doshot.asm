@@ -245,7 +245,7 @@ doshot:								; called from ShotMode, assbreakaway, asspassrec
 .2xx:								; if PenShotActive = 0 go to .rtl, ...
 	lda.w PenShotActive				;penalty shot?
 	beq .rtl						;no
-	lda.w #$0012					;assignment $12
+	lda.w #anearest					;assignment $12
 	sta.b d0
 	jsl.l assreplace				;after the shot
 .rtl:								; return

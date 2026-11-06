@@ -233,7 +233,7 @@ puckfaceoff:						; called from asstab
 	inc a							;visitors
 	sta.b a1
 	jsl.l .1						;computer lines
-	lda.w #$001C					;assignment $1C
+	lda.w #pfaceoff2				;assignment $1C
 	sta.b d0						;d0
 	ldx.b a3						;this player
 	jml.l assreplace				;replace the assignment
