@@ -6,18 +6,18 @@
 
 ;scratch registers (SNES port artifacts: 68k registers in direct page, scratch, math operands, jml trampoline)
 ; 65816 scratch registers in direct page
-r0		=	$00
-r1		=	$04
-r2		=	$08
+r0		=	$00						; math result (divides: the quotient)
+r1		=	$04						; math operand (divides: the divisor, 4 bytes)
+r2		=	$08						; math result (multiplies) and dividend (divides), 4 bytes
 p0		=	$0C						; long pointer; p0+2 is the bank
 p1		=	$10						; long pointer; p1+2 is the bank
-r3		=	$14
-r4		=	$18
-r5		=	$1C
-r6		=	$20
-r7		=	$24
-r8		=	$28
-r9		=	$2C
+r3		=	$14						; work word (the pad waits keep their button mask here)
+r4		=	$18						; work word / long scratch register
+r5		=	$1C						; work word / long scratch register
+r6		=	$20						; work word / long scratch register
+r7		=	$24						; work word / long scratch register
+r8		=	$28						; work word / long scratch register
+r9		=	$2C						; work word / long scratch register
 
 ; multiply operands
 MulCand				=	$3E			;Multiplicand of the software multiply (taken when Mode7InUse bit 6 is
@@ -38,13 +38,13 @@ a2		=	$91						; team index, 0 = home
 a3		=	$95						; long pointer; a3+2 is the bank
 a4			=	$99					; long pointer; a4+2 is the bank
 a5			=	$9D					; long pointer (the next of the 4-byte a registers); a5+2 is the bank
-d0		=	$A5
+d0		=	$A5						; work register (4 bytes: d0 and d0+2)
 d1		=	$A9						; d1+2 is the high word
-d2		=	$AD
-d3			=	$B1
-d4			=	$B5
-d5			=	$B9
-d6			=	$BD
+d2		=	$AD						; work register (4 bytes)
+d3			=	$B1					; work register (4 bytes)
+d4			=	$B5					; work register (4 bytes)
+d5			=	$B9					; work register (4 bytes)
+d6			=	$BD					; work register (4 bytes)
 d7		=	$C1						; frames elapsed, added into speeds
 tmp0	=	$C5						; scratch word; tmp0+1 is the next byte
 tmp1	=	$C7						; scratch word
@@ -350,19 +350,19 @@ ssflags				=	2			;byte 2 + skater difference (goal type); bit 7 = away team scor
 ssscorer			=	3			;byte scorer
 ssassist1			=	4			;byte first assist (negative none)
 ssassist2			=	5			;byte second assist (negative none)
-sssize				=	6
+sssize				=	6			; size of a scoring summary entry in bytes
 pstime				=	0			;PenSum entry: word period / time
 pspen				=	3			;byte penalty number (93G has psplayer here)
 psplayer			=	2			;byte penalized player; bit 7 = away team (93G has pspen here)
-pssize				=	4
+pssize				=	4			; size of a PenSum entry in bytes
 pbpen				=	0			;PenBuf entry (2 bytes): penalty number (0 = free)
 pbscnum				=	1			;object of the player
 pcx					=	0			;puckcross entry (4 bytes; entry 0 top, 1 bottom): word x
 pcframes			=	2			;word frames
-pcsize				=	4
+pcsize				=	4			; size of a puckcross entry in bytes
 foframe				=	0			;fofdata2, fofdata: 4 bytes per big faceoff sprite (centers, ref): frame
 foattr				=	2			;word attribute (bit 11 x flip)
-fosize				=	4
+fosize				=	4			; size of a faceoff sprite entry in bytes
 pldnum				=	0			;.pld player ratings, 8 bytes after the name (92 setplayer field names):
 									;jersey number -> rostnum
 pldweight			=	1			;high nibble weight, low nibble leg power legstr
@@ -372,7 +372,7 @@ pldcheck			=	4			;high nibble checking, bit 0 handed, bits 1-3 fighting
 pldstick			=	5			;high nibble stickhandling stickhand, low nibble shot accuracy
 pldendur			=	6			;high nibble endurance, low nibble shoot / pass odds spodds
 pldpass				=	7			;high nibble passing passacc, low nibble aggression aggress
-pldsize				=	8
+pldsize				=	8			; size of the player rating block in bytes
 
 ;video: vram layout and tile bases
 BigFontchars	=	$7E35AE			;setupice sets it to framercset+4 ahead of the BigFontTiles; printbig adds
@@ -555,9 +555,9 @@ oldframe	=	$0E23				; frame last drawn (setsortcords)
 Ypos				=	$0DB7		; y position (integer part) of each object
 Yfrac		=	$0DD9				; fraction of Ypos
 OldXpos		=	$0E43				; Xpos before this frame's move
-OldXfrac	=	$0E63
-OldYpos		=	$0E83
-OldYfrac	=	$0EA3
+OldXfrac	=	$0E63				; Xfrac before this frame's move (updateplayers)
+OldYpos		=	$0E83				; per object: the Y position of the previous frame
+OldYfrac	=	$0EA3				; Yfrac before this frame's move (updateplayers)
 rosxoff		=	OldXpos				; roster screen: sprite x offset from Xpos (slides -40..+40)
 Xvel		=	$0EC3				; x speed (puckvx is Xvel+puckscnum)
 Yvel		=	$0EE3				; y speed
@@ -583,11 +583,11 @@ botgoalie		=	$0B9F			;updateplayers: the goalie with Ypos < 0 (bottom goal end);
 									;the net at y -$108; topgoalie+2 in ...
 GoalieUnused	=	$0BC9			; assgoalietopuck clears it when the assignment starts
 temp1		=	$1003				; assignment scratch, per object
-temp2		=	$1023
-temp2b		=	$10A3
-temp3		=	$1043
-temp4		=	$1063
-temp5		=	$1083
+temp2		=	$1023				; per object: scratch word of the assignment routines
+temp2b		=	$10A3				; per object: scratch word of the assignment routines
+temp3		=	$1043				; per object: scratch word of the assignment routines
+temp4		=	$1063				; per object: scratch word of the assignment routines
+temp5		=	$1083				; per object: scratch word of the assignment routines
 radiusx		=	$10C3				; collision width (defaultsprites_0)
 radiusy		=	$10E3				; collision height
 Wallcos				=	$1103		; per object: cos of the angle of the last wall collision
@@ -627,19 +627,19 @@ pf2npc		=	$8000				; no player collision (94G pf2npc, pflags2 bit 5)
 pf2inj		=	$0004				; injured
 pnum		=	$12A3				; player's team location number (low byte)
 ; player attributes, stored by setplayer in the 93S order
-weight		=	$12C3
-legstr		=	$12E3
-legspd		=	$1303
+weight		=	$12C3				; per object: the player's weight rating (setplayer; checkcx)
+legstr		=	$12E3				; per object: the player's leg strength rating
+legspd		=	$1303				; per object: the player's speed rating (the PlayerAccDir routines)
 burstspeed		=	$D7				;Speed of the burst: energy*$233 >> 16 (Mul16U high word $0A / sta $D7),
 									;multiplied by the dirtab ...
-aioff		=	$1323
-aidef		=	$1343
-shotspd		=	$1363
-shotacc		=	$1383
+aioff		=	$1323				; per object: the player's offensive rating
+aidef		=	$1343				; per object: the player's defensive rating
+shotspd		=	$1363				; per object: the player's shot power rating (setplayer; doshot)
+shotacc		=	$1383				; per object: the player's shot accuracy rating
 passacc		=	$13A3				; passacc (goalies: glove save right)
-rostnum		=	$13C3
+rostnum		=	$13C3				; per object: the player's roster number
 spodds		=	$13E3				; shot / pass odds
-stickhand	=	$1403
+stickhand	=	$1403				; per object: the player's stick hand
 endurance	=	$1423				; endurance (goalies: stick save right)
 aggress		=	$1443				; aggression: penalty odds (goalies: glove save left)
 GGSleft		=	aggress				; goalie glove save left (92 name), puckgoalie
@@ -1019,31 +1019,31 @@ teambit				=	$1EB3		;InitializeGameStructures: 1 << (team & $F), tested and ORed
 
 ;penalties and ref
 PenBuf				=	$15DE		; up to 32 penalties: (penalty number, object) word pairs, 0 = free
-PenEOP			=	$02
-PenEOG			=	$04
-PenOOP			=	$06
-PenGhold		=	$08
-PenWhistle		=	$0A
-PenIcing		=	$0C
-PenGoal			=	$0E
-PenOffsides		=	$12
-PenRoughing2	=	$14
-PenNoText2		=	$16
-PenNoText		=	$10
-PenCharging		=	$18
-PenSlashing		=	$1A
-PenRoughing		=	$1C
-PenCrossChk		=	$1E
-PenHooking		=	$20
-PenTripping		=	$22
-PenShot			=	$24
-PenInterference	=	$26
-PenHolding		=	$28
-PenFighting		=	$2A
-PenFighting2	=	$2C
-PenInst			=	$2E
-PenDelay		=	$30
-PenNoText3		=	$32
+PenEOP			=	$02				; period over
+PenEOG			=	$04				; game over
+PenOOP			=	$06				; out of play: puck too long without a touch, over the glass
+PenGhold		=	$08				; goalie held the puck
+PenWhistle		=	$0A				; whistle
+PenIcing		=	$0C				; icing
+PenGoal			=	$0E				; goal
+PenOffsides		=	$12				; offside
+PenRoughing2	=	$14				; roughing, with slow down time $A
+PenNoText2		=	$16				; penalty with no text (variant 2)
+PenNoText		=	$10				; penalty with no text
+PenCharging		=	$18				; charging
+PenSlashing		=	$1A				; slashing
+PenRoughing		=	$1C				; roughing
+PenCrossChk		=	$1E				; cross checking
+PenHooking		=	$20				; hooking
+PenTripping		=	$22				; tripping
+PenShot			=	$24				; penalty shot
+PenInterference	=	$26				; interference
+PenHolding		=	$28				; holding
+PenFighting		=	$2A				; fighting
+PenFighting2	=	$2C				; fighting (variant 2)
+PenInst			=	$2E				; instigator
+PenDelay		=	$30				; delay of game
+PenNoText3		=	$32				; penalty with no text (variant 3), extra message
 PenCntDwn	=	$1620				; penalty/fight count down (negative = fight over)
 Penaltytimer	=	$1622			; frames to the next penalty clock second (updatepentime)
 PBnum		=	$1624				; players in the penalty boxes: home*16 + visitors
