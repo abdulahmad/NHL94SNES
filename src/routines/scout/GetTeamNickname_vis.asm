@@ -1,14 +1,14 @@
 ; Script code %m: the visitors nickname (the third team String)
-GetTeamNickname_vis:						; Script code %m entry
+GetTeamNickname_vis:				; Script code %m entry
 	lda.w tmdata+2					; a1 = visitors team data
 	sta.b a1
 	bra GetTeamNickname				; share the nickname lookup
 
 ; Script code %n: the home nickname (the third team String)
-GetTeamNickname_home:						; Script code %n entry
+GetTeamNickname_home:				; Script code %n entry
 	lda.w tmdata					; a1 = home team data
 	sta.b a1
-GetTeamNickname:						; shared by the nickname codes: a1 = team data
+GetTeamNickname:					; shared by the nickname codes: a1 = team data
 	lda.w #TeamList>>16				; bank of the team strings
 	sta.b a1+2
 	ldy.w #$0004					; y = offset of the string table

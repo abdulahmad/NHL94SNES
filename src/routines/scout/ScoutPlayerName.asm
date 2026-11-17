@@ -4,7 +4,7 @@ ScoutPlayerName:					; A = nothing, d0 = player, a2 = team (0 home, 2 visitors),
 	phx								; save the column
 	lda.b a0						; save a0
 	pha
-	jsl.l GetPlayerNamePointer			; a0 = pointer to the player record
+	jsl.l GetPlayerNamePointer		; a0 = pointer to the player record
 	lda.b a0+2
 	sta.b a1+2						; a1 = the record (its name string)
 	lda.b a0

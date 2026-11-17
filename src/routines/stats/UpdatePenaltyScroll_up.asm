@@ -1,5 +1,5 @@
 ; Scroll the penalty summary up one page.
-UpdatePenaltyScroll_up:					; called from PenaltySummaryLoop
+UpdatePenaltyScroll_up:				; called from PenaltySummaryLoop
 	lda.w listtop
 	dec a
 	bmi PenaltySummaryWait

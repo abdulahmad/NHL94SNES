@@ -7,5 +7,5 @@ PauseOtherScores:					; called from PauseMenuHandlers
 
 .t1:								; d1 bit $8080 set: call ShowScores, call ExitStatsScreen, go to PauseS...
 	jsl.l ShowScores				; other scores screen
-	jsl.l ExitStatsScreen				; after a pause screen: unpack the rink map, tiles and palettes again
+	jsl.l ExitStatsScreen			; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

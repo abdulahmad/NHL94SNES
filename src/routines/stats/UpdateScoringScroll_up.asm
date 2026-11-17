@@ -1,5 +1,5 @@
 ; Scroll the scoring summary up one page.
-UpdateScoringScroll_up:					; called from ScoringSummaryLoop
+UpdateScoringScroll_up:				; called from ScoringSummaryLoop
 	lda.w listtop
 	dec a
 	bmi ScoringSummaryWait

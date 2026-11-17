@@ -7,5 +7,5 @@ PausePeriodStats:					; called from PauseMenuHandlers
 
 .t1:								; d1 bit $8080 set: call PeriodStatsScreen, call ExitStatsScreen, go to...
 	jsl.l PeriodStatsScreen			; period stats for both teams
-	jsl.l ExitStatsScreen				; after a pause screen: unpack the rink map, tiles and palettes again
+	jsl.l ExitStatsScreen			; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

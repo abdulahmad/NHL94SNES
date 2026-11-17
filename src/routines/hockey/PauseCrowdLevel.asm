@@ -7,5 +7,5 @@ PauseCrowdLevel:					; called from PauseMenuHandlers
 
 .t1:								; d1 bit $8080 set: call CrowdMeterScreen, call ExitStatsScreen, go to...
 	jsl.l CrowdMeterScreen			; crowd meter screen
-	jsl.l ExitStatsScreen				; after a pause screen: unpack the rink map, tiles and palettes again
+	jsl.l ExitStatsScreen			; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

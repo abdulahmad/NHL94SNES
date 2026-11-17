@@ -1,5 +1,5 @@
 ; Scroll the scoring summary down one page.
-UpdateScoringScroll_down:					; called from ScoringSummaryLoop
+UpdateScoringScroll_down:			; called from ScoringSummaryLoop
 	lda.w #$0006
 	sta.w listrows
 	jsr.w DrawScoringPage			; draw the visible scoring rows, or No Scoring when the list is empty

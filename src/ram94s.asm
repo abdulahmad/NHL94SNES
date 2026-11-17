@@ -469,7 +469,7 @@ MapVRAM				=	$079C		;VRAM word address of the screen map:
 MapScreenStep		=	$079E		;MapToVRAM/MapPartToVRAM add MapScreenStep to the VRAM address after row
 									;31 (to the next 32-row screen); no writer ...
 RemapOut		=	$0A0A			; sixteen words: the tile remap is building
-reloadtime		=	$0CC7			;StartPer clears it, ExitStatsScreen adds 60 each time it reloads the rink;
+reloadtime		=	$0CC7			;StartPer clears it, ExitStatsScreen adds 60 each time it reloads the...
 									;never read.
 logosprbuf		=	$7F7800			;team logo sprites, unpacked by LoadScoutingScreen, LoadPlayerCardScreen,
 									;SetupScreen and DrawMatchupPictures; DrawLogoSprite draws from here
@@ -497,13 +497,13 @@ CC_Font1Pal3	=	$CF				; font 1, palette 3
 CC_Font1Pri		=	$BF				; font 1, priority set
 CC_Font1Pal1Pri	=	$AF				; font 1, palette 1, priority set
 CC_Font1Pal2Pri	=	$9F				; font 1, palette 2, priority set
-charofs			=	$7E35AA			;Tile offset added to text map words: setupice / ExitStatsScreen set $FF00,
+charofs			=	$7E35AA			;Tile offset added to text map words: setupice / ExitStatsScreen set...
 									;PlayoffScreen 0; PushRef, EASNLogo, ...
 charofs2		=	$7E35AC			;Second tile offset, cleared with charofs by the screen setups
 									;(SetupScreen, LoadScoutingScreen, setupice) ...
 textmap			=	$7E37F4			; the text map
 textmap2			=	$7E3FF4		; the second text map (ClearTextMap2, SendTextMap2)
-textsave		=	$7E4F7E		; Pausemode saves textmap here ($800 bytes, up to replaystart), copies it back on exit (93S textsave)
+textsave		=	$7E4F7E			; Pausemode saves textmap here ($800 bytes), restored on exit
 bigtextbuf		=	$7E4EF4			;RenderBigText ORs the letter pixels in here, PlayerSelect clears $290
 									;bytes, SendBigText / PlayoffScreen ...
 screenmap		=	$7EA670			;PlayoffScreen map buffer (+0 width $80, +2 height $20, words from +6:
@@ -819,10 +819,10 @@ PadRaw2				=	PadRaw1+2	; controller 2 buttons
 PadRaw3				=	PadRaw1+4	; controller 3 buttons (Multitap / Multi5)
 PadRaw4				=	PadRaw1+6	; controller 4 buttons
 PadRaw5				=	PadRaw1+8	; controller 5 buttons (Multi5)
-padlast1				=	$0A9A		; 5 words: each pad's buttons at the last ReadPads (93S padlast1)
+padlast1				=	$0A9A	; 5 words: each pad's buttons at the last ReadPads (93S padlast1)
 paddir				=	$0AA4		; 5 words: each pad's direction (PadDirection of the dpad bits)
 padchange			=	$0AAE		; 5 words: each pad's buttons that changed at the last ReadPads
-padnew1				=	$0AB8		; 5 words: each pad's buttons newly pressed at the last ReadPads (93S padnew1)
+padnew1				=	$0AB8		; 5 words: each pad's buttons newly pressed at the last ReadPads (93S...
 padchangeany	=	$0AC2			;ReadPads: OR of the five padchange words; ReadAnyPad returns it in d1;
 									;SaveRegsStartHL2 clears it.
 padinputdone	=	$0ADD			;updateplayers: 5 words (pad*2) cleared each frame, set to 1 when the
@@ -1353,7 +1353,7 @@ IsBreakaway		=	$1638			; 1 while the puck carrier has a breakaway (CheckBreakawa
 breakaway			=	$1E8B		;Breakaway in progress (CheckBreakaway result IsBreakaway):
 									;StartBreakaway, PenShotChk, doshot set it; Goal ...
 PenShotActive	=	$163A			; 1 during a penalty shot (SetupPenaltyShot .. puckfaceoff2)
-penshot				=	$1E9B		;Penalty shot pending / under way: StartPenaltyShot sets 1, EndPenaltyShotPlay
+penshot				=	$1E9B		;Penalty shot pending / under way: StartPenaltyShot sets 1...
 									;and StartGame clear; Goal, ...
 penshotlive			=	$1E9D		;Set 1 by SetupPenaltyShot when the shot starts, cleared by puckfaceoff
 									;(.9) and StartGame; ...

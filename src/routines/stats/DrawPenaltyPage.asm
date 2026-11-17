@@ -1,5 +1,5 @@
 ; Draw the visible penalty rows, or No Penalties when the list is empty.
-DrawPenaltyPage:					; called from UpdatePenaltyScroll_down, UpdatePenaltyScroll_up, PenaltySummaryScreen
+DrawPenaltyPage:					; called from UpdatePenaltyScroll_down, UpdatePenaltyScroll_up...
 	lda.w listend
 	cmp.w #$0000
 	beq .t1

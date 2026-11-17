@@ -1,6 +1,6 @@
 ; Line editor: the EditLinesLabel title sprites, the team name and picture; the background first when
 ; drawlinesback is set
-DrawTeamScreen_title:					; called from DrawEditLinesTop, PrintLinePlayers
+DrawTeamScreen_title:				; called from DrawEditLinesTop, PrintLinePlayers
 	lda.l drawlinesback
 	beq .1
 	jsr.w DrawTeamScreen			; redraw the line editor background: clear the top, the frame
