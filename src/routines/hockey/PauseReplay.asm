@@ -5,7 +5,7 @@ PauseReplay:						; called from PauseMenuHandlers
 	bne .t1
 	jmp.w PauseMenuPoll
 
-.t1:								; d1 bit $8080 set: replaymusic = MusicOn, call forcefade, call FadeOutSo...
+.t1:								; d1 bit $8080 set: replaymusic = MusicOn, call forcefade, call...
 	lda.w MusicOn
 	sta.w replaymusic
 	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook

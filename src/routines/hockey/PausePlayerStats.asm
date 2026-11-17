@@ -7,5 +7,5 @@ PausePlayerStats:					; called from PauseMenuHandlers
 
 .t1:								; d1 bit $8080 set: call PlayerStatsScreen, call ExitStatsScreen, go to...
 	jsl.l PlayerStatsScreen			; player stats for the team in a2
-	jsl.l ExitStatsScreen				; after a pause screen: unpack the rink map, tiles and palettes again
+	jsl.l ExitStatsScreen			; after a pause screen: unpack the rink map, tiles and palettes again
 	jmp.w PauseSubmenuDone

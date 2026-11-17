@@ -1,6 +1,6 @@
 ; Crowd_Noise_meter into CurCrowdMeter; 110 dB or more sets CrowdLoud, and falling under 105 dB then calls
 ; LowerHotColdTable and clears it
-Crowd_Noise:					; called from Gameloop
+Crowd_Noise:						; called from Gameloop
 	lda.b d0
 	pha
 	jsl.l Crowd_Noise_meter			; d0 = the crowd meter: Sroot + 65, at most 128

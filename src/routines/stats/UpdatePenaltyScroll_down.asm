@@ -1,5 +1,5 @@
 ; Scroll the penalty summary down one page.
-UpdatePenaltyScroll_down:					; called from PenaltySummaryLoop
+UpdatePenaltyScroll_down:			; called from PenaltySummaryLoop
 	lda.w #$0006
 	sta.w listrows
 	jsr.w DrawPenaltyPage			; draw the visible penalty rows, or No Penalties when the list is empty

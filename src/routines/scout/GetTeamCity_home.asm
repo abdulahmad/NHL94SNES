@@ -1,5 +1,5 @@
 ; Script code %h: the home city (the first team String)
-GetTeamCity_home:						; Script code %h entry
+GetTeamCity_home:					; Script code %h entry
 	lda.w tmdata					; a1 = home team data
 	sta.b a1
 GetTeamCity:						; shared by the city codes: a1 = team data

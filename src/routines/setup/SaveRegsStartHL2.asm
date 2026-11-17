@@ -70,7 +70,7 @@ StartHL2:							; entry point, no direct callers found
 	beq .t1x
 	jmp.w .14						;yes: skip the highlight
 
-.t1x:								; d3 bits $1000 clear: padchangeany = 0, call forcefade, call WaitFadeOut...
+.t1x:								; d3 bits $1000 clear: padchangeany = 0, call forcefade, call...
 	stz.w padchangeany
 	jsl.l forcefade					; fade out: install BrightnessHook as the frame hook
 	jsl.l WaitFadeOut				; wait until the screen is black
