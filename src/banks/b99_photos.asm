@@ -1,63 +1,63 @@
 ; Bank $99: player photos, songs and a centre-ice logo. Files in ROM order.
 
 org $998000
-incsrc "../data/gfx/Card090.asm"
-incsrc "../data/gfx/Card091.asm"
-incsrc "../data/gfx/Card092.asm"
-incsrc "../data/gfx/Card093.asm"
-incsrc "../data/gfx/Card094.asm"
-incsrc "../data/gfx/Card095.asm"
-incsrc "../data/gfx/Card096.asm"
-incsrc "../data/gfx/Card097.asm"
-incsrc "../data/gfx/Card098.asm"
-incsrc "../data/gfx/Card099.asm"
-incsrc "../data/gfx/Card100.asm"
-incsrc "../data/gfx/Card101.asm"
+%Card090()
+%Card091()
+%Card092()
+%Card093()
+%Card094()
+%Card095()
+%Card096()
+%Card097()
+%Card098()
+%Card099()
+%Card100()
+%Card101()
 incsrc "../data/sound/SongHereWeGo.asm"
 incsrc "../data/sound/SongCavalryCharge.asm"
-incsrc "../data/gfx/Card102.asm"
-incsrc "../data/gfx/Card103.asm"
-incsrc "../data/gfx/Card104.asm"
-incsrc "../data/gfx/Card105.asm"
-incsrc "../data/gfx/Card106.asm"
-incsrc "../data/gfx/Card107.asm"
-incsrc "../data/gfx/Card108.asm"
-incsrc "../data/gfx/Card109.asm"
-incsrc "../data/gfx/Card110.asm"
-incsrc "../data/gfx/Card111.asm"
-incsrc "../data/gfx/Card112.asm"
+%Card102()
+%Card103()
+%Card104()
+%Card105()
+%Card106()
+%Card107()
+%Card108()
+%Card109()
+%Card110()
+%Card111()
+%Card112()
 incsrc "../data/gfx/PlayoffBracketMap.asm"
-incsrc "../data/gfx/Card113.asm"
+%Card113()
 incsrc "../data/sound/SongBrassBonanza.asm"
-incsrc "../data/gfx/Card114.asm"
-incsrc "../data/gfx/Card115.asm"
-incsrc "../data/gfx/Card116.asm"
-incsrc "../data/gfx/Card117.asm"
+%Card114()
+%Card115()
+%Card116()
+%Card117()
 incsrc "../data/gfx/NoPicGoalie.asm"
 incsrc "../data/sound/SongQuickBuildup.asm"
 incsrc "../data/sound/SongLetsGoAlt.asm"
-incsrc "../data/gfx/Card118.asm"
+%Card118()
 incsrc "../data/sound/SongGypsySpainG.asm"
-incsrc "../data/gfx/Card119.asm"
-incsrc "../data/gfx/Card120.asm"
-incsrc "../data/gfx/Card121.asm"
+%Card119()
+%Card120()
+%Card121()
 incsrc "../data/sound/SongMexicanHatDance.asm"
-incsrc "../data/gfx/Card122.asm"
-incsrc "../data/gfx/Card123.asm"
-incsrc "../data/gfx/Card124.asm"
-incsrc "../data/gfx/Card125.asm"
+%Card122()
+%Card123()
+%Card124()
+%Card125()
 incsrc "../data/gfx/NoPicSkater1.asm"
-incsrc "../data/gfx/Card126.asm"
-incsrc "../data/gfx/Card127.asm"
-incsrc "../data/gfx/Card128.asm"
-incsrc "../data/gfx/Card129.asm"
-incsrc "../data/gfx/Card130.asm"
-incsrc "../data/gfx/Card131.asm"
-incsrc "../data/gfx/Card132.asm"
-incsrc "../data/gfx/Card133.asm"
-incsrc "../data/gfx/Card134.asm"
-incsrc "../data/gfx/Card135.asm"
-incsrc "../data/gfx/Card136.asm"
-incsrc "../data/gfx/Card137.asm"
-incsrc "../data/gfx/Card138.asm"
+%Card126()
+%Card127()
+%Card128()
+%Card129()
+%Card130()
+%Card131()
+%Card132()
+%Card133()
+%Card134()
+%Card135()
+%Card136()
+%Card137()
+%Card138()
 incsrc "../data/gfx/CenterIceTilesOTW.asm"

@@ -2,4 +2,4 @@
 
 org $8C8000
 incsrc "../data/gfx/SpriteFrames8C.asm"
-incsrc "../data/gfx/Card001.asm"
+%Card001()

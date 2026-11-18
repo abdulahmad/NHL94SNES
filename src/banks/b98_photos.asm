@@ -1,59 +1,59 @@
 ; Bank $98: player photos, songs and a centre-ice logo. Files in ROM order.
 
 org $988000
-incsrc "../data/gfx/Card039.asm"
-incsrc "../data/gfx/Card040.asm"
-incsrc "../data/gfx/Card041.asm"
-incsrc "../data/gfx/Card042.asm"
-incsrc "../data/gfx/Card043.asm"
-incsrc "../data/gfx/Card044.asm"
-incsrc "../data/gfx/Card045.asm"
+%Card039()
+%Card040()
+%Card041()
+%Card042()
+%Card043()
+%Card044()
+%Card045()
 incsrc "../data/sound/SongOMalleysSteps.asm"
-incsrc "../data/gfx/Card046.asm"
-incsrc "../data/gfx/Card047.asm"
-incsrc "../data/gfx/Card048.asm"
-incsrc "../data/gfx/Card049.asm"
+%Card046()
+%Card047()
+%Card048()
+%Card049()
 incsrc "../data/sound/SongHalteLa.asm"
-incsrc "../data/gfx/Card050.asm"
-incsrc "../data/gfx/Card051.asm"
-incsrc "../data/gfx/Card052.asm"
-incsrc "../data/gfx/Card053.asm"
-incsrc "../data/gfx/Card054.asm"
-incsrc "../data/gfx/Card055.asm"
-incsrc "../data/gfx/Card056.asm"
-incsrc "../data/gfx/Card057.asm"
-incsrc "../data/gfx/Card058.asm"
-incsrc "../data/gfx/Card059.asm"
-incsrc "../data/gfx/Card060.asm"
-incsrc "../data/gfx/Card061.asm"
-incsrc "../data/gfx/Card062.asm"
-incsrc "../data/gfx/Card063.asm"
-incsrc "../data/gfx/Card064.asm"
-incsrc "../data/gfx/Card065.asm"
-incsrc "../data/gfx/Card066.asm"
-incsrc "../data/gfx/Card067.asm"
+%Card050()
+%Card051()
+%Card052()
+%Card053()
+%Card054()
+%Card055()
+%Card056()
+%Card057()
+%Card058()
+%Card059()
+%Card060()
+%Card061()
+%Card062()
+%Card063()
+%Card064()
+%Card065()
+%Card066()
+%Card067()
 incsrc "../data/sound/SongTarantella.asm"
-incsrc "../data/gfx/Card068.asm"
-incsrc "../data/gfx/Card069.asm"
-incsrc "../data/gfx/Card070.asm"
-incsrc "../data/gfx/Card071.asm"
-incsrc "../data/gfx/Card072.asm"
-incsrc "../data/gfx/Card073.asm"
-incsrc "../data/gfx/Card074.asm"
-incsrc "../data/gfx/Card075.asm"
-incsrc "../data/gfx/Card076.asm"
+%Card068()
+%Card069()
+%Card070()
+%Card071()
+%Card072()
+%Card073()
+%Card074()
+%Card075()
+%Card076()
 incsrc "../data/sound/SongOMalleysStepsF.asm"
-incsrc "../data/gfx/Card077.asm"
-incsrc "../data/gfx/Card078.asm"
-incsrc "../data/gfx/Card079.asm"
-incsrc "../data/gfx/Card080.asm"
-incsrc "../data/gfx/Card081.asm"
-incsrc "../data/gfx/Card082.asm"
-incsrc "../data/gfx/Card083.asm"
-incsrc "../data/gfx/Card084.asm"
-incsrc "../data/gfx/Card085.asm"
-incsrc "../data/gfx/Card086.asm"
-incsrc "../data/gfx/Card087.asm"
-incsrc "../data/gfx/Card088.asm"
-incsrc "../data/gfx/Card089.asm"
+%Card077()
+%Card078()
+%Card079()
+%Card080()
+%Card081()
+%Card082()
+%Card083()
+%Card084()
+%Card085()
+%Card086()
+%Card087()
+%Card088()
+%Card089()
 incsrc "../data/gfx/CenterIceTilesNYI.asm"

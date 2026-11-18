@@ -6,49 +6,49 @@ incsrc "../data/sound/SamplePuckBody.asm"
 incsrc "../data/sound/SongHavaNagila.asm"
 incsrc "../data/text/PregameText.asm"
 incsrc "../data/sound/SongRallyTime.asm"
-incsrc "../data/gfx/Card004.asm"
+%Card004()
 incsrc "../data/sound/SongOMalleysStepsFast.asm"
-incsrc "../data/gfx/Card005.asm"
+%Card005()
 incsrc "../data/sound/SongBuildupOMalleys.asm"
-incsrc "../data/gfx/Card006.asm"
-incsrc "../data/gfx/Card007.asm"
-incsrc "../data/gfx/Card008.asm"
-incsrc "../data/gfx/Card009.asm"
-incsrc "../data/gfx/Card010.asm"
-incsrc "../data/gfx/Card011.asm"
-incsrc "../data/gfx/Card012.asm"
-incsrc "../data/gfx/Card013.asm"
-incsrc "../data/gfx/Card014.asm"
-incsrc "../data/gfx/Card015.asm"
-incsrc "../data/gfx/Card016.asm"
+%Card006()
+%Card007()
+%Card008()
+%Card009()
+%Card010()
+%Card011()
+%Card012()
+%Card013()
+%Card014()
+%Card015()
+%Card016()
 incsrc "../data/sound/SongHereWeGoF.asm"
 incsrc "../data/sound/SongBuildupF.asm"
-incsrc "../data/gfx/Card017.asm"
-incsrc "../data/gfx/Card018.asm"
-incsrc "../data/gfx/Card019.asm"
-incsrc "../data/gfx/Card020.asm"
-incsrc "../data/gfx/Card021.asm"
-incsrc "../data/gfx/Card022.asm"
-incsrc "../data/gfx/Card023.asm"
+%Card017()
+%Card018()
+%Card019()
+%Card020()
+%Card021()
+%Card022()
+%Card023()
 incsrc "../data/sound/SongBuildupChargeF.asm"
-incsrc "../data/gfx/Card024.asm"
-incsrc "../data/gfx/Card025.asm"
-incsrc "../data/gfx/Card026.asm"
-incsrc "../data/gfx/Card027.asm"
-incsrc "../data/gfx/Card028.asm"
+%Card024()
+%Card025()
+%Card026()
+%Card027()
+%Card028()
 incsrc "../data/sound/SongKalinka.asm"
-incsrc "../data/gfx/Card029.asm"
-incsrc "../data/gfx/Card030.asm"
+%Card029()
+%Card030()
 incsrc "../data/sound/SongLetsGoClapsShort.asm"
-incsrc "../data/gfx/Card031.asm"
+%Card031()
 incsrc "../data/sound/SongWilliamTell.asm"
-incsrc "../data/gfx/Card032.asm"
-incsrc "../data/gfx/Card033.asm"
-incsrc "../data/gfx/Card034.asm"
-incsrc "../data/gfx/Card035.asm"
-incsrc "../data/gfx/Card036.asm"
+%Card032()
+%Card033()
+%Card034()
+%Card035()
+%Card036()
 incsrc "../data/sound/SongSaintsGoMarchingIn.asm"
-incsrc "../data/gfx/Card037.asm"
-incsrc "../data/gfx/Card038.asm"
+%Card037()
+%Card038()
 incsrc "../data/sound/SongBuildupC.asm"
 incsrc "../data/gfx/CenterIceTilesTB.asm"
