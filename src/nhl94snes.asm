@@ -7,6 +7,7 @@ lorom
 incsrc "inc/snes_regs.asm"
 incsrc "ram94s.asm"
 incsrc "macros/snes94.mac"
+incsrc "data/gfx/cards94s.asm"
 
 incsrc "banks/b80_engine_sound.asm"
 incsrc "banks/b81_rink_logos.asm"

@@ -33,4 +33,4 @@ incsrc "../data/gfx/RefsMap.asm"
 incsrc "../data/sound/SongLaRaspa.asm"
 incsrc "../data/sound/SongLetsGoRallyTime.asm"
 incsrc "../data/sound/SongLetsGoC.asm"
-incsrc "../data/gfx/Card003.asm"
+%Card003()

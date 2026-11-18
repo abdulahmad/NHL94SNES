@@ -2,28 +2,28 @@
 
 org $9A8000
 incsrc "../data/sound/SamplePlayoffOrgan.asm"
-incsrc "../data/gfx/Card139.asm"
-incsrc "../data/gfx/Card140.asm"
-incsrc "../data/gfx/Card141.asm"
-incsrc "../data/gfx/Card142.asm"
-incsrc "../data/gfx/Card143.asm"
-incsrc "../data/gfx/Card144.asm"
-incsrc "../data/gfx/Card145.asm"
-incsrc "../data/gfx/Card146.asm"
-incsrc "../data/gfx/Card147.asm"
-incsrc "../data/gfx/Card148.asm"
-incsrc "../data/gfx/Card149.asm"
+%Card139()
+%Card140()
+%Card141()
+%Card142()
+%Card143()
+%Card144()
+%Card145()
+%Card146()
+%Card147()
+%Card148()
+%Card149()
 incsrc "../data/sound/SongOMalleysStepsG.asm"
 incsrc "../data/sound/SongOMalleysStepsSlow.asm"
-incsrc "../data/gfx/Card150.asm"
+%Card150()
 incsrc "../data/sound/SongOMalleysStepsC.asm"
-incsrc "../data/gfx/Card151.asm"
-incsrc "../data/gfx/Card152.asm"
+%Card151()
+%Card152()
 incsrc "../data/sound/SongGypsySpainE.asm"
-incsrc "../data/gfx/Card153.asm"
-incsrc "../data/gfx/Card154.asm"
-incsrc "../data/gfx/Card155.asm"
-incsrc "../data/gfx/Card156.asm"
+%Card153()
+%Card154()
+%Card155()
+%Card156()
 incsrc "../data/sound/SongChargeSlow.asm"
 incsrc "../data/gfx/CenterIceTilesCHI.asm"
 incsrc "../data/sound/SongGoTeamGoEFlat.asm"
