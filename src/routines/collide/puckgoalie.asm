@@ -191,14 +191,14 @@ puckgoalie:							; called from checkpuckcoll_ccx
 .8:									; go to .6
 	jmp.w .6
 .9:									; xba, and #$FF00, asl a, ...
-	lda.w #$0002					; catch speed limit = random((2+shotspd)*512) + $C00
+	lda.w #$0002					; catch speed limit = random((2+shotspd)*512) + $2000
 	clc
 	adc.w shotspd,y					; plus the shot speed
 	xba
 	and.w #$FF00
 	asl a
 	jsl.l randomd0A					; random number 0 to A-1
-	adc.w #$2000
+	adc.w #$2000					; plus $2000 (93S used $C00)
 	sta.b d0
 	cmp.w puckvx
 	bmi .8
