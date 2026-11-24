@@ -2,11 +2,10 @@
 
 ## Now
 
-- Stage / unit: asstab slot $00 named `anull` (95PC "null" / `rtss`). Shared 92G `a*`/`p*` names kept; `abreakaway` $10; `adumpin` $14 confirmed dump-in.
-- Branch: `cursor/asstab-anull-063b`
-- Last check: `./build.sh` MATCH; `python3 tools/check_scope.py` scope OK; `python3 tools/check_comments.py` on unit files comment layout OK
-- Next: merge when MATCH, then report regen
-- Open PRs: this unit
+- Stage / unit: none open. The last unit (asstab slot $00 named `anull`) is merged on `main` (#389).
+- Branch: none. New work is a short branch off the current `main` and one PR into `main`.
+- Last check: `./build.sh` MATCH
+- Next: not set; see `TODO.md`.
 
 ## Comment pass (done)
 

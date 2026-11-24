@@ -13,14 +13,14 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how changes are made (names, comments
 - McMarkis has done a cleanup pass.
 - Remaining: aligning it with the 93 Genesis, 94 Genesis and 93 SNES cleanups, extracting all the data, naming data properly, and labeling music, frame lists and animations.
 
-**AI agent: start with [START_HERE.md](START_HERE.md).**
+**AI agent: start with [AGENTS.md](AGENTS.md).**
 
 Reverse engineered source of NHL '94 for the Super Nintendo, assembled with asar 1.91. The full build is byte-identical to the retail ROM
 (SHA-1 `10dcd21be9c5542e82b0b94473bf5ff569b36cf5`, 1048576 bytes, LoROM FastROM, header title `NHL '94`, version 1.0).
 The ROM is not included: put your own dump in the repository's root folder (`nhl94retail.sfc` is the usual name, but any name works: the build finds the ROM by its SHA-1 and size; `.sfc`, `.smc` and `.bin` files there are gitignored); the build tells you if it is missing or the wrong one.
 
-Status: bootstrap. The ROM is split into 256 segments of 4 KB (`src/bankXX_YYYY.asm`), each still an incbin of its ROM bytes,
-ready for segment agents to disassemble one at a time (`SEGMENT_AGENT.md` is the queue, `PROMPT.md` the per-segment prompt).
+Status: the whole ROM is source (no incbin segments left). The segment queue is finished; it is kept in
+`docs/archive/SEGMENT_AGENT.md`. Remaining work is in `docs/HANDOFF.md` and `TODO.md`.
 
 ## Lineage
 
@@ -37,7 +37,11 @@ from it; the Vault is released into the public domain (Unlicense).
 
 ## Layout
 
-- `src/nhl94snes.asm` includes the segments in ROM order. Each `src/bankXX_YYYY.asm` has one `org`.
+- `src/nhl94snes.asm` includes the bank files `src/banks/b80_engine_sound.asm` through `b9F_flow_hud.asm` in ROM order. Each bank
+  file is one `org` (a later `org` only where the PC skips) and `incsrc` lines in ROM order.
+- `src/routines/<module>/<Name>.asm` one routine per file. A 93S name uses that 93S folder, shootout code is in `src/routines/shootout/`,
+  SNES-only engine code goes in the 93S folder for its job (`video`, `sound`, `decompress`, `middle`, `main`). The internal header is
+  `src/header/snes_header.asm`.
 - `src/data/gfx/`, `src/data/sound/` the binary assets the banks `incbin` (extracted to `Extracted/data/gfx/`, with
   `gfx/Pals/` and `gfx/PlayerCards/`, and `Extracted/data/sound/`), `src/data/text/` the text tables the banks `incsrc`,
   `src/data/teamdata94s.asm` the team database (see `src/data/README.md`).
@@ -52,6 +56,12 @@ from it; the Vault is released into the public domain (Unlicense).
 ## Build
 
 `npm run build:retail` (the first build installs asar 1.91 into `tools/bin` by itself, with `tools/setup.sh` or `tools\setup.ps1`; you can run those first) (or `node tools/build.js`; `./build.sh` and `build.ps1` run the same). Needs Node.js and asar 1.91. It prints one line per step and ends with MATCH; the ROM is `output/retail/nhl94snes.sfc`. `npm run clean` deletes `output/` and `Extracted/`.
+
+`sh tools/verify_all.sh` is the clean check: it deletes the old output, builds and checks every segment; it must print MATCH before
+every commit. On a fresh clone, if the build is not MATCH, stop and report the output. Python 3 is needed for the prebuild check, the
+asset extractor and the quick-pass tool.
+
+Outside contributors: fork the repo, work on a branch in your fork (every commit must build to MATCH) and open a PR against `main`.
 
 ## AI assistance
 
