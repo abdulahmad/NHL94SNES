@@ -627,9 +627,9 @@ assgoalie:							; called from assnearest, asstab
 	jmp.w .43						;skate
 
 .t1xxxxxxxxxx:						;computer goalie: save when near
-	ldy.w #$0002					;y word
+	ldy.w #pcframes					;frames til crossing
 	lda.b [a0],y
-	cmp.w #$0023					;target y
+	cmp.w #$0023					;frames < $23 (so <= $22, as 93G)
 	bcc .t2xxxx						;near the net?
 	jmp.w .44						;far: skate there
 
@@ -639,8 +639,8 @@ assgoalie:							; called from assnearest, asstab
 	bmi .t1xxxxxxxxxxx				;wide of the crease
 	cmp.w #$0019					;right of the crease?
 	bpl .t1xxxxxxxxxxx				;wide of the crease
-	lda.b [a0],y					;target y
-	cmp.w #$0013					;within $13?
+	lda.b [a0],y					;frames til crossing
+	cmp.w #$0013					;frames < $13: start the save
 	bcs .1xxxxxxxxxxxxxxx			;not in the crease: skate
 	lda.w pucky						;puck y
 	cmp.w #$FEF7					;beyond the bottom goal line?
@@ -813,8 +813,8 @@ assgoalie:							; called from assnearest, asstab
 	clc
 	adc.w #$0004					;plus 4
 	sta.b d0						;low save
-	ldy.w #$0002					; more than 8 frames, facing up/down, puck carried: stack (-2)
-	lda.b [a0],y					;target y
+	ldy.w #pcframes					; more than 8 frames, facing up/down, puck carried: stack (-2)
+	lda.b [a0],y					;frames til crossing
 	cmp.w #$0009					;far enough?
 	bcc .42							;close: keep
 	lda.w facedir,x
