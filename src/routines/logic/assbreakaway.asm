@@ -126,11 +126,11 @@ assbreakaway:						; X = puck carrier; others and non-pad players exit (asstab $
 	jsl.l vtoa						;direction to the goal
 	jsl.l Findhittype				;swing type
 	beq .t1xxx						;forehand?
-	lda.w #SPAonetimerb				;one timer backhand
+	lda.w #SPAonetimeb				;one timer backhand
 	bra .7							;set it
 
 .t1xxx:								;forehand swing
-	lda.w #SPAonetimerf				;one timer forehand
+	lda.w #SPAonetimef				;one timer forehand
 .7:									;start the shot animation
 	jsl.l SetSPAFromA				;start it
 	jsl.l updateanim				;step it

@@ -207,13 +207,13 @@ dopass_count:						; called from dopass
 
 .t1:								; attribute,y bits $0800 clear: falls through
 	lda.w facedir,y					;his facing
-.2:									; and #$0007, asl a, frame,y = SPAonetimerf&$FF0000,x, ...
+.2:									; and #$0007, asl a, frame,y = SPAonetimef&$FF0000,x, ...
 	and.w #$0007					;mod 8
 	asl a							;word index
 	tax
-	lda.l SPAonetimerf,x			;one-timer animation
+	lda.l SPAonetimef,x			;one-timer animation
 	tax
-	lda.l SPAonetimerf&$FF0000,x	;first frame
+	lda.l SPAonetimef&$FF0000,x	;first frame
 	ldx.b a3
 	ldy.b a0
 	sta.w frame,y					;use it for the hot spot

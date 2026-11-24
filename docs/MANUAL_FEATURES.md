@@ -8,7 +8,7 @@ PDF p.N. Written 2026-11-24.
 | Shootout (p.5) | `ShootoutWonBy`, `ShootoutShooters` (src/routines/shootout/) |
 | New Playoffs, one win a round (p.5) | not confirmed in code |
 | Goalie control, press X (p.3) | `GoalieOptionText` (src/data/text/), `assgoalie` |
-| One-timers (p.3) | `SPAonetimerf` (src/data/frames94s.asm), used in `dopass` |
+| One-timers (p.3) | `SPAonetimef` (src/data/frames94s.asm), used in `dopass` |
 | Super Multitap (p.8) | `Multi5Init`, `Multi5ConnectCheck` (src/routines/middle/) |
 | Penalty shots (p.9) | `PenShotChk` (src/routines/penalty/) |
 
