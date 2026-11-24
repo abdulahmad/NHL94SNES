@@ -67,6 +67,9 @@ DMAlistend			=	$3C			;(93S DMAlistend) Write index of the DMAList ring: QueueVRA
 DMABudget			=	$3E			;VBlank sets $16D3 each NMI; NMI_HookReturn subtracts the CGRAM DMA
 									;(len+$48) and per queue ...
 DMAList				=	$0100		; (93S DMAList, 7-byte list) Ring of 128 8-byte VRAM transfer entries: ...
+dmalen				=	4			; DMAList entry: length (93S name; 93S's 7-byte entry has it at 3)
+dmavram				=	6			; DMAList entry: VRAM address (93S name; at 5 in 93S). Word-write entries
+								; use +4 and +6 as their two data words instead (NMI_HookReturn)
 FrameCount			=	$0764		;NMI_SendOAM inc FrameCount each NMI (unless FrameCountHold); WaitFrame
 									;waits for it to change; Reset_Fast clears it; ...
 FrameCountHold		=	$0787		;NMI_SendOAM: lda FrameCountHold bne skips inc FrameCount; no writer in

@@ -62,14 +62,14 @@ NMI_HookReturn:						; called from VBlank
 	sec								;minus
 	sbc.w #$0066					;minus the set-up cost of a DMA
 	bcc .5							;not enough budget: stop
-	sbc.w DMAList+4,x				;minus the length
+	sbc.w DMAList+dmalen,x			;minus the length
 	bcc .5							;not enough budget: stop
 	sta.b DMABudget					;new budget
 	lda.w DMAList+2,x				;source middle and bank bytes
 	sta.w A1T0H						;to DMA 0 source
-	lda.w DMAList+4,x				;length
+	lda.w DMAList+dmalen,x			;length
 	sta.w DAS0L						;to DMA 0 count
-	lda.w DMAList+6,x				;VRAM address
+	lda.w DMAList+dmavram,x			;VRAM address
 	sta.w VMADDL					;to VMADDL
 	txa								;A = queue position
 	clc								;plus the entry size
@@ -127,14 +127,14 @@ NMI_HookReturn:						; called from VBlank
 	sec								;minus
 	sbc.w #$0078					;minus the set-up cost of a fill
 	bcc .5							;not enough budget: stop
-	sbc.w DMAList+4,x				;minus the length
+	sbc.w DMAList+dmalen,x			;minus the length
 	bcc .5							;not enough budget: stop
 	sta.b DMABudget					;new budget
 	lda.w DMAList+2,x				;source middle and bank bytes
 	sta.w A1T0H						;to DMA 0 source
-	lda.w DMAList+4,x				;length
+	lda.w DMAList+dmalen,x			;length
 	sta.w DAS0L						;to DMA 0 count
-	lda.w DMAList+6,x				;VRAM address
+	lda.w DMAList+dmavram,x			;VRAM address
 	sta.w VMADDL					;to VMADDL
 	txa								;A = queue position
 	clc								;plus the entry size
@@ -161,14 +161,14 @@ NMI_HookReturn:						; called from VBlank
 	sec								;minus
 	sbc.w #$0079					;minus the set-up cost of a fill
 	bcc .5							;not enough budget: stop
-	sbc.w DMAList+4,x				;minus the length
+	sbc.w DMAList+dmalen,x			;minus the length
 	bcc .5							;not enough budget: stop
 	sta.b DMABudget					;new budget
 	lda.w DMAList+2,x				;source middle and bank bytes
 	sta.w A1T0H						;to DMA 0 source
-	lda.w DMAList+4,x				;length
+	lda.w DMAList+dmalen,x			;length
 	sta.w DAS0L						;to DMA 0 count
-	lda.w DMAList+6,x				;VRAM address
+	lda.w DMAList+dmavram,x			;VRAM address
 	sta.w VMADDL					;to VMADDL
 	txa								;A = queue position
 	clc								;plus the entry size
@@ -193,14 +193,14 @@ NMI_HookReturn:						; called from VBlank
 	sec								;minus
 	sbc.w #$007D					;minus the set-up cost of a copy
 	bcc .8							;not enough budget: stop
-	sbc.w DMAList+4,x				;minus the length
+	sbc.w DMAList+dmalen,x			;minus the length
 	bcc .8							;not enough budget: stop
 	sta.b DMABudget					;new budget
 	lda.w DMAList+2,x				;source middle and bank bytes
 	sta.w A1T0H						;to DMA 0 source
-	lda.w DMAList+4,x				;length
+	lda.w DMAList+dmalen,x			;length
 	sta.w DAS0L						;to DMA 0 count
-	lda.w DMAList+6,x				;VRAM address
+	lda.w DMAList+dmavram,x			;VRAM address
 	sta.w VMADDL					;to VMADDL
 	txa								;A = queue position
 	clc								;plus the entry size
@@ -226,14 +226,14 @@ NMI_HookReturn:						; called from VBlank
 	sec								;minus
 	sbc.w #$007D					;minus the set-up cost of a copy
 	bcc .8							;not enough budget: stop
-	sbc.w DMAList+4,x				;minus the length
+	sbc.w DMAList+dmalen,x			;minus the length
 	bcc .8							;not enough budget: stop
 	sta.b DMABudget					;new budget
 	lda.w DMAList+2,x				;source middle and bank bytes
 	sta.w A1T0H						;to DMA 0 source
-	lda.w DMAList+4,x				;length
+	lda.w DMAList+dmalen,x			;length
 	sta.w DAS0L						;to DMA 0 count
-	lda.w DMAList+6,x				;VRAM address
+	lda.w DMAList+dmavram,x			;VRAM address
 	sta.w VMADDL					;to VMADDL
 	txa								;A = queue position
 	clc								;plus the entry size

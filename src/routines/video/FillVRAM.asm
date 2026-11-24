@@ -41,14 +41,14 @@ FillVRAM:							; fill VRAM with a word
 	bcc .1x
 	lda.w #$1000
 .1x:								; piece size into the entry, then its VRAM address
-	sta.w DMAList+4,x
+	sta.w DMAList+dmalen,x
 	lsr a
 	pha
 	tya
-	sta.w DMAList+6,x
+	sta.w DMAList+dmavram,x
 	pla
 	clc
-	adc.w DMAList+6,x
+	adc.w DMAList+dmavram,x
 	tay
 	lda.w #$0016					; entry source address $0016, bank 0, type 9
 	sta.w DMAList+1,x

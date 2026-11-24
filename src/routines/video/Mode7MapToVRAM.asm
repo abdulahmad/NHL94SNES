@@ -63,16 +63,16 @@ Mode7MapToVRAM:						; called from LoadTitleLogo, TitleScreen
 .3:									; p0 = X
 	stx.b p0
 	ldx.b DMAlistend
-.loopx:								; loop: DMAList+1,x = p0, p0 = p0 + r4, DMAList+4,x = r4, ...
+.loopx:								; loop: DMAList+1,x = p0, p0 = p0 + r4, DMAList+dmalen,x = r4, ...
 	lda.b p0
 	sta.w DMAList+1,x
 	clc
 	adc.b r4
 	sta.b p0
 	lda.b r4
-	sta.w DMAList+4,x
+	sta.w DMAList+dmalen,x
 	tya
-	sta.w DMAList+6,x
+	sta.w DMAList+dmavram,x
 	clc
 	adc.w #$0080
 	tay
