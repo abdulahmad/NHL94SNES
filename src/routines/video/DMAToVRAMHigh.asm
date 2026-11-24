@@ -29,14 +29,14 @@ DMAToVRAMHigh:						; called from LoadTitleLogo, TitleScreen
 	cmp.w #$1001
 	bcc .1
 	lda.w #$1000
-.1:									; DMAList+4,x = A, DMAList+6,x = Y, DMAList+1,x = p0, ...
-	sta.w DMAList+4,x
+.1:									; DMAList+dmalen,x = A, DMAList+dmavram,x = Y, DMAList+1,x = p0, ...
+	sta.w DMAList+dmalen,x
 	pha
 	tya
-	sta.w DMAList+6,x
+	sta.w DMAList+dmavram,x
 	pla
 	clc
-	adc.w DMAList+6,x
+	adc.w DMAList+dmavram,x
 	tay
 	lda.b p0
 	sta.w DMAList+1,x

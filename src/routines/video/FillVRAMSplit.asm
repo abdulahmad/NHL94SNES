@@ -55,9 +55,9 @@ FillVRAMSplit:						; fill VRAM with the low bytes, then the high bytes
 	lda.w #$1000
 .1:									; piece size = min(remaining, $1000)
 	pha
-	sta.w DMAList+4,x
+	sta.w DMAList+dmalen,x
 	tya
-	sta.w DMAList+6,x
+	sta.w DMAList+dmavram,x
 	lda.w #$0016
 	sta.w DMAList+1,x
 	sep #$20
@@ -71,13 +71,13 @@ FillVRAMSplit:						; fill VRAM with the low bytes, then the high bytes
 	and.w #$03FF
 	tax
 	pla
-	sta.w DMAList+4,x
+	sta.w DMAList+dmalen,x
 	pha
 	tya
-	sta.w DMAList+6,x
+	sta.w DMAList+dmavram,x
 	pla
 	clc
-	adc.w DMAList+6,x
+	adc.w DMAList+dmavram,x
 	tay
 	lda.w #$0017
 	sta.w DMAList+1,x
