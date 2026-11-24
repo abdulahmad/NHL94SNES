@@ -122,7 +122,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	lda.b r1+2
 	sta.w DMAList+2,x				;source and bank
 	lda.w sprox						;size
-	sta.w DMAList+4,x
+	sta.w DMAList+dmalen,x
 	clc
 	adc.b r1+1						;advance the source
 	sta.b r1+1						;for the second DMA
@@ -162,7 +162,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	asl a
 	adc.w SpriteVRAM				;plus the sprite VRAM base
 	sta.b r2+2
-	sta.w DMAList+6,x				;DMA destination
+	sta.w DMAList+dmavram,x			;DMA destination
 	txa								; next ring entry
 	clc
 	adc.w #$0008
@@ -173,7 +173,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	lda.b r1+2
 	sta.w DMAList+2,x				;source and bank
 	lda.w sproy
-	sta.w DMAList+4,x				;size
+	sta.w DMAList+dmalen,x			;size
 	bne .t1x						;second part?
 	stx.b DMAlistend				;no: close the queue
 	plb
@@ -187,7 +187,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 .t1x:								; queue the second DMA, VRAM address + $100 words
 	lda.b r2+2
 	ora.w #$0100					;next tile row
-	sta.w DMAList+6,x				;destination
+	sta.w DMAList+dmavram,x			;destination
 	txa
 	clc
 	adc.w #$0008
@@ -293,7 +293,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	lda.b r1+2						;source and bank
 	sta.w DMAList+2,x
 	lda.w sprox						;size
-	sta.w DMAList+4,x
+	sta.w DMAList+dmalen,x
 	clc
 	adc.b r1+1						;advance the source
 	sta.b r1+1						;for the second DMA
@@ -331,7 +331,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	asl a
 	adc.w SpriteVRAM				;plus the sprite VRAM base
 	sta.b r2+2
-	sta.w DMAList+6,x				;DMA destination
+	sta.w DMAList+dmavram,x			;DMA destination
 	txa								; next ring entry
 	clc
 	adc.w #$0008					;plus 8
@@ -354,14 +354,14 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	lda.b r1+2						;source and bank
 	sta.w DMAList+2,x
 	tya
-	sta.w DMAList+4,x				;size
+	sta.w DMAList+dmalen,x			;size
 	lda.w sprox						;first part size
 	lsr a							;/2 words
 	and.w #$FF00					;whole rows
 	ora.w #$0100					;plus the next row
 	clc
 	adc.b r2+2						;plus the start
-	sta.w DMAList+6,x				;destination
+	sta.w DMAList+dmavram,x			;destination
 	txa
 	clc
 	adc.w #$0008					;plus 8
@@ -435,7 +435,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	lda.b r1+2
 	sta.w DMAList+2,x				;source and bank
 	lda.w sprox
-	sta.w DMAList+4,x				;size
+	sta.w DMAList+dmalen,x			;size
 	ldy.w DrawFrameNum
 	sep #$20
 	lda.w FrameCacheCount			;entry number
@@ -462,7 +462,7 @@ LoadFrameTiles:						;allocate VRAM for the frame at [p0], queue the DMA of its 
 	asl a
 	asl a
 	adc.w SpriteVRAM
-	sta.w DMAList+6,x				; VRAM address = (tile run + SpriteBlockTiles) * 16 + SpriteVRAM
+	sta.w DMAList+dmavram,x			; VRAM address = (tile run + SpriteBlockTiles) * 16 + SpriteVRAM
 	txa
 	clc
 	adc.w #$0008					;plus 8

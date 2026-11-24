@@ -7,12 +7,12 @@ QueueVRAMDMA:						; called from DMAToVRAM, MapPartToVRAM, MapToVRAM
 	cmp.w #$1000
 	bcc .1
 	lda.w #$1000
-.1:									; DMAList+4,x = A, lsr a, r3+2 = A, ...
-	sta.w DMAList+4,x
+.1:									; DMAList+dmalen,x = A, lsr a, r3+2 = A, ...
+	sta.w DMAList+dmalen,x
 	lsr a
 	sta.b r3+2
 	tya
-	sta.w DMAList+6,x
+	sta.w DMAList+dmavram,x
 	clc
 	adc.b r3+2
 	tay
