@@ -404,7 +404,7 @@ SPAshotb:
 .d5:	dw SPFswing+33,4,SPFswing+34,4,SPFswing+35,4,SPFswing+35,4,SPFswing+34,0,SPFswing+33,0,SPFswing+32,0,SPFswing+31,-20
 .d6:	dw SPFswing+39,4,SPFswing+40,4,SPFswing+41,4,SPFswing+41,4,SPFswing+40,0,SPFswing+39,0,SPFswing+38,0,SPFswing+37,-20
 .d7:	dw SPFswing+45,4,SPFswing+46,4,SPFswing+47,4,SPFswing+47,4,SPFswing+46,0,SPFswing+45,0,SPFswing+44,0,SPFswing+43,-20
-SPAonetimerf:
+SPAonetimef:
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFswing+1,55,SPFswing+2,2,SPFswing+3,2,SPFswing+4,2,SPFswing+5,-20
@@ -415,7 +415,7 @@ SPAonetimerf:
 .d5:	dw SPFswing+31,55,SPFswing+32,2,SPFswing+33,2,SPFswing+34,2,SPFswing+35,-20
 .d6:	dw SPFswing+37,55,SPFswing+38,2,SPFswing+39,2,SPFswing+40,2,SPFswing+41,-20
 .d7:	dw SPFswing+43,55,SPFswing+44,2,SPFswing+45,2,SPFswing+46,2,SPFswing+47,-20
-SPAonetimerb:
+SPAonetimeb:
 	dw .d0,.d1,.d2,.d3,.d4,.d5,.d6,.d7
 	dw 0
 .d0:	dw SPFswing+5,55,SPFswing+4,2,SPFswing+3,2,SPFswing+2,2,SPFswing+1,-20

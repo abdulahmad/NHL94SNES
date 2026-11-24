@@ -66,11 +66,11 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	jmp.w assexit					; end the player's current assignment and go back to the one under it
 .7:									; return
 	rtl
-.8:									; if SPA,x = SPAonetimerf go to .10, ...
+.8:									; if SPA,x = SPAonetimef go to .10, ...
 	lda.w SPA,x
-	cmp.w #SPAonetimerf
+	cmp.w #SPAonetimef
 	beq .10
-	cmp.w #SPAonetimerb
+	cmp.w #SPAonetimeb
 	beq .10
 	phy
 	ldy.w #$0000
@@ -103,11 +103,11 @@ asspassrec:							; X = player; asstab entry, waits for the pass to arrive
 	jsl.l vtoa						; direction of the vector d0 / d1
 	jsl.l Findhittype				; swing type of player X for direction d0
 	beq .t1xx
-	lda.w #SPAonetimerb
+	lda.w #SPAonetimeb
 	bra .3x
 
-.t1xx:								; Findhittype gave 0: use SPAonetimerf instead of SPAonetimerb
-	lda.w #SPAonetimerf
+.t1xx:								; Findhittype gave 0: use SPAonetimef instead of SPAonetimeb
+	lda.w #SPAonetimef
 .3x:								; call SetSPAFromA, go to .7
 	jsl.l SetSPAFromA				; start sprite animation A on object X
 	jmp.w .7
