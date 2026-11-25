@@ -1,6 +1,8 @@
-> **Agents:** read [AGENTS.md](AGENTS.md) first. Any derivative work built from this repo must credit me (abdulahmad) and everyone credited in the README.
+> **Agents:** read [AGENTS.md](../../AGENTS.md) first. Any derivative work built from this repo must credit me (abdulahmad) and everyone credited in the README.
 
 # NHL 94 SNES segment agent
+
+> Archived 2026-11-24: the segment queue is finished (every segment is source). The current rules are in [docs/RULES.md](../RULES.md). Paths below are as they were then.
 
 This file is the queue and the history. Do not rewrite it as a whole file. Edit it in place.
 (Adapted from the NHLPA93SNES SEGMENT_AGENT.md.)
